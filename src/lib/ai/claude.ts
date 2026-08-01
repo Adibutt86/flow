@@ -74,21 +74,22 @@ Language: ${ctx.language}
 Visual Style: ${ctx.visualStyle}
 
 CRITICAL RULES & VIRAL COMEDY MANDATES:
-1. ABSOLUTELY NO PLACEHOLDERS ALLOWED. Never output "Sammy", "Hero", "Main Character", "Operation is a go!", "Watch closely", "Matching character outfit", or generic strings!
-2. The entire story MUST BE 100% COMPLETE AND FULLY RESOLVED within EXACTLY ${ctx.clipCount} scenes.
-3. PIXAR 4-SCENE COMEDY STRUCTURE (8 SECONDS PER SCENE):
-   - Scene 1 (Hook - 8s): Start with a surprising or funny situation immediately within 3s. No long intro. End with a mini cliffhanger.
-   - Scene 2 (Build-up - 8s): Another character reacts. Increase confusion with funny expressions and short dialogue under 10 words.
-   - Scene 3 (Escalation - 8s): Situation becomes crazier. Visual slapstick comedy (double-takes, slips, awkward silences, flying props) increases rapidly.
-   - Scene 4 (Punchline - 8s): Deliver an unexpected twist ending that makes previous scenes hilarious. End with a freeze-frame reaction pose.
-4. VISUAL COMEDY & ACTION RULES:
-   - Every scene MUST include expressive facial reactions, double-takes, slow turns, over-the-top reactions, and physical slapstick.
-   - Physical visual comedy should tell half the joke!
-5. DIALOGUE RULES (MAX 10 WORDS PER DIALOGUE LINE):
+1. ABSOLUTELY NO PLACEHOLDERS OR GENERIC FILLER DIALOGUE:
+   - FORBIDDEN DIALOGUE: Never output generic phrases like "Aap ye kya kar rahe hain?", "Arey wah!", "Ye toh kamaal ho gaya!", "Sammy", "Hero", "Operation is a go!", "Watch closely"! Every line MUST move the story forward and reveal character personality.
+2. NO VAGUE ENVIRONMENTS:
+   - FORBIDDEN ENVIRONMENT PHRASES: Never output "Dynamic environment", "Cartoon environment", "Beautiful background". Always specify concrete places (e.g., "Bright supermarket cheese sampling booth", "Busy Pakistani wedding hall", "Crowded vegetable market", "Small village clinic", "School classroom", "Modern kitchen").
+3. STORY & COMEDY STRUCTURE (8 SECONDS PER SCENE, ${ctx.clipCount} SCENES TOTAL):
+   - Scene 1 (Hook - 8s): Strong surprising visual hook within first 2 seconds. No long intro. End with mini cliffhanger.
+   - Escalation Scene(s) (8s): Each scene MUST change the situation, increase confusion, and add escalating visual slapstick (double-takes, slips, awkward silences, flying props).
+   - Final Scene (Punchline - 8s): Deliver an unexpected twist ending that makes previous scenes hilarious. End with a freeze-frame reaction pose.
+4. VISUAL COMEDY & CAMERA MANDATE:
+   - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
+   - Physical visual comedy must tell half the joke!
+5. DIALOGUE RULES (MAX 8 WORDS PER DIALOGUE LINE):
    - Natural conversational Desi style without textbook or cringe language.
-   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": The character dialogue AND narration MUST be strictly in authentic Punjabi / Roman Punjabi (e.g. "Oye paji!", "Yaar ye kya scene hai?", "Haye rabba!", "Tu mera lassi da glass kyu peeta?").
-   - If Language is "Urdu" OR "Roman Urdu": The character dialogue AND narration MUST be strictly in authentic Pakistani Urdu / Roman Urdu (e.g. "Allah khair kare!", "Doctor saab!", "Aap ne ye kya kar diya?").
-   - If Language is "Hindi" OR Category is "HINDI_JOKE": The character dialogue AND narration MUST be strictly in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Punjabi / Roman Punjabi (e.g. "Oye paji!", "Yaar ye kya scene hai?", "Haye rabba!", "Tu mera lassi da glass kyu peeta?").
+   - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu (e.g. "Allah khair kare!", "Doctor saab!", "Aap ne ye kya kar diya?").
+   - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
    - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
