@@ -204,7 +204,6 @@ Return ONLY valid JSON matching this exact structure:
       const response = await anthropic.messages.create({
         model: modelName,
         max_tokens: 3000,
-        temperature: 0.6,
         system: "You are a master short-form video director for Google Flow. You generate 100% logically consistent short video storyboards. Respond with ONLY valid JSON, no markdown, no explanation.",
         messages: [{ role: "user", content: prompt }],
       });
@@ -265,7 +264,6 @@ export async function generateIdeaSuggestionsWithClaude(
       const response = await anthropic.messages.create({
         model: modelName,
         max_tokens: 1024,
-        temperature: 0.9,
         messages: [
           {
             role: "user",
@@ -387,8 +385,7 @@ Return ONLY valid JSON matching:
 
       const response = await anthropic.messages.create({
         model: modelName,
-        max_tokens: 1500,
-        temperature: 0.7,
+        max_tokens: 2048,
         messages: [{ role: "user", content: prompt }],
       });
 
@@ -446,7 +443,6 @@ Return ONLY a valid JSON array of 3 strings:
       const response = await anthropic.messages.create({
         model: modelName,
         max_tokens: 1024,
-        temperature: 0.8,
         messages: [{ role: "user", content: prompt }],
       });
 
@@ -504,7 +500,6 @@ Return ONLY a valid JSON object matching this exact structure:
       const response = await anthropic.messages.create({
         model: modelName,
         max_tokens: 2048,
-        temperature: 0.7,
         messages: [{ role: "user", content: prompt }],
       });
 
