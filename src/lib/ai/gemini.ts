@@ -409,9 +409,16 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
     let sfx = "";
     let camera = "";
 
+    const isPunjabi = ctx.language === "Punjabi" || ctx.category === "PUNJABI_JOKE";
+    const isUrdu = ctx.language === "Urdu" || ctx.language === "Roman Urdu" || ctx.language === "Hindi" || ctx.category === "HINDI_JOKE";
+
     if (isFirst) {
       narration = ctx.setup;
-      dialogue = ctx.mainCharacterSpecies === "Cat"
+      dialogue = isPunjabi
+        ? `"Oye paji! Eh ki ho gaya!"`
+        : isUrdu
+        ? `"Aap ye kya kar rahe hain?"`
+        : ctx.mainCharacterSpecies === "Cat"
         ? `"Ah... magnificent massage, robot. You may continue."`
         : ctx.mainCharacterSpecies === "Dog"
         ? `"Woof woof! Who is that handsome puppy in my mirror?"`
@@ -424,7 +431,11 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
         : "Action-matched SFX cue";
     } else if (isFinal) {
       narration = ctx.punchline;
-      dialogue = ctx.mainCharacterSpecies === "Cat"
+      dialogue = isPunjabi
+        ? `"Oye hoye! Eh toh kamaal ho gaya!"`
+        : isUrdu
+        ? `"Arey wah! Ye toh kamaal ho gaya!"`
+        : ctx.mainCharacterSpecies === "Cat"
         ? `"Whoa! Smooth transition! Respect the boss!"`
         : ctx.mainCharacterSpecies === "Dog"
         ? `"Yip! We can be best friends!"`
@@ -437,7 +448,11 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
         : "Slapstick punchline crash and laughter chime";
     } else {
       narration = ctx.escalation;
-      dialogue = ctx.mainCharacterSpecies === "Cat"
+      dialogue = isPunjabi
+        ? `"Tussi dekho, hun maza aayega!"`
+        : isUrdu
+        ? `"Dekho dekho! Kya hone wala hai!"`
+        : ctx.mainCharacterSpecies === "Cat"
         ? `"Faster, servant! This living room is my empire!"`
         : ctx.mainCharacterSpecies === "Dog"
         ? `"Arf! I do a battle bounce, and he does too!"`
@@ -637,6 +652,11 @@ CRITICAL RULES:
 2. The entire story MUST BE 100% COMPLETE AND FULLY RESOLVED within EXACTLY ${ctx.clipCount} scenes.
 3. Every scene MUST have short dialogue (UNDER 12 WORDS) and time-sliced 8-second video motion breakdown (0-2s, 2-4s, 4-6s, 6-8s).
 4. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
+5. DIALOGUE & NARRATION LANGUAGE MANDATE:
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": The character dialogue AND narration MUST be strictly in authentic Punjabi / Roman Punjabi (e.g. "Oye paji, eh ki ho gaya!", "Tu mera lassi da glass kyu peeta?", "Sardaar ji, dhyan naal!").
+   - If Language is "Urdu" OR "Roman Urdu": The character dialogue AND narration MUST be strictly in authentic Urdu / Roman Urdu (e.g. "Mera khana kahan hai?", "Ye kya ho raha hai?", "Aap ne ye kya kar diya?").
+   - If Language is "Hindi" OR Category is "HINDI_JOKE": The character dialogue AND narration MUST be strictly in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
+   - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 
 Return ONLY valid JSON matching:
 {

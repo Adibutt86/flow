@@ -78,6 +78,11 @@ CRITICAL RULES:
 2. The entire story MUST BE 100% COMPLETE AND FULLY RESOLVED within EXACTLY ${ctx.clipCount} scenes.
 3. Every scene MUST have short dialogue (UNDER 12 WORDS) and time-sliced 8-second video motion breakdown (0-2s, 2-4s, 4-6s, 6-8s).
 4. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
+5. DIALOGUE & NARRATION LANGUAGE MANDATE:
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": The character dialogue AND narration MUST be strictly in authentic Punjabi / Roman Punjabi (e.g. "Oye paji, eh ki ho gaya!", "Tu mera lassi da glass kyu peeta?", "Sardaar ji, dhyan naal!").
+   - If Language is "Urdu" OR "Roman Urdu": The character dialogue AND narration MUST be strictly in authentic Urdu / Roman Urdu (e.g. "Mera khana kahan hai?", "Ye kya ho raha hai?", "Aap ne ye kya kar diya?").
+   - If Language is "Hindi" OR Category is "HINDI_JOKE": The character dialogue AND narration MUST be strictly in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
+   - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 
 Return ONLY valid JSON matching this exact structure:
 {
@@ -354,16 +359,22 @@ export async function regenerateSingleSceneWithClaude(
       try {
         const prompt = `You are a short video director. Regenerate scene #${input.sceneNumber} of ${input.totalScenes} for:
 Idea: "${input.idea}"
+Language: ${input.language}
+Category: ${input.category}
 Character: ${mainChar.name} (${mainChar.appearance})
 Visual Style: ${input.visualStyle}
 ${input.userPromptToRegen ? `User Directive: "${input.userPromptToRegen}"` : ""}
+
+CRITICAL LANGUAGE RULE:
+If Language is "Punjabi" or Category is "PUNJABI_JOKE", dialogue and narration MUST be strictly in Punjabi / Roman Punjabi.
+If Language is "Urdu", "Roman Urdu", "Hindi", or Category is "HINDI_JOKE", dialogue and narration MUST be strictly in Urdu / Roman Urdu / Hindi.
 
 Return ONLY valid JSON matching:
 {
   "sceneNumber": ${input.sceneNumber},
   "duration": 8,
-  "narration": "Narration text",
-  "dialogue": "Short dialogue under 12 words",
+  "narration": "Narration text in specified language",
+  "dialogue": "Short dialogue under 12 words in specified language",
   "imagePrompt": "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${mainChar.name}. (NO TEXT, NO TITLES, CLEAN VISUAL RENDER).",
   "videoPrompt": "During this 8-second clip: 0-2s: Entry. 2-4s: Action. 4-6s: Dialogue. 6-8s: End pose. (NO TEXT OVERLAYS, CLEAN VIDEO).",
   "camera": "Camera angle",
@@ -392,8 +403,20 @@ Return ONLY valid JSON matching:
     }
   }
 
-  const dialogue = isFirst ? `"Ah... magnificent massage, robot!"` : isFinal ? `"Whoa! Respect the boss!"` : `"Faster, servant!"`;
-  const narration = isFirst ? `${mainChar.name} lies back luxuriously as the robot vacuum massages his belly!` : isFinal ? `The robot vacuum bumps furniture, sending ${mainChar.name} sliding into a final boss pose!` : `${mainChar.name} commands the robot vacuum to accelerate!`;
+  const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
+  const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.language === "Hindi" || input.category === "HINDI_JOKE";
+
+  const dialogue = isPunjabi
+    ? (isFirst ? `"Oye paji! Eh ki ho gaya!"` : isFinal ? `"Oye hoye! Eh toh kamaal ho gaya!"` : `"Tussi dekho, hun maza aayega!"`)
+    : isUrdu
+    ? (isFirst ? `"Aap ye kya kar rahe hain?"` : isFinal ? `"Arey wah! Ye toh kamaal ho gaya!"` : `"Dekho dekho! Kya hone wala hai!"`)
+    : (isFirst ? `"Ah... magnificent massage, robot!"` : isFinal ? `"Whoa! Respect the boss!"` : `"Faster, servant!"`);
+
+  const narration = isPunjabi
+    ? (isFirst ? `${mainChar.name} Punjabi style vich scene da aaghaz karda hai.` : isFinal ? `${mainChar.name} zabardast punchline reaction denda hai!` : `${mainChar.name} action nu agay badhata hai!`)
+    : isUrdu
+    ? (isFirst ? `${mainChar.name} kahani ka aaghaz karta hai.` : isFinal ? `${mainChar.name} zabardast final reaction deta hai!` : `${mainChar.name} aage badhta hai!`)
+    : (isFirst ? `${mainChar.name} lies back luxuriously as the robot vacuum massages his belly!` : isFinal ? `The robot vacuum bumps furniture, sending ${mainChar.name} sliding into a final boss pose!` : `${mainChar.name} commands the robot vacuum to accelerate!`);
 
   return {
     sceneNumber: input.sceneNumber,
