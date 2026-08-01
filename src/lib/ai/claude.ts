@@ -135,6 +135,8 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
 7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
+8. VISUAL STYLE MANDATE:
+   - The requested Visual Style (${ctx.visualStyle}) MUST be explicitly written into EVERY single imagePrompt, videoPrompt, and the visualBible description. Do not ignore the chosen style!
 
 Return ONLY valid JSON matching this exact structure:
 {

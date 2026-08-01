@@ -79,6 +79,7 @@ const VISUAL_STYLES = [
   { id: "Watercolor", label: "Watercolor", desc: "Dreamy hand-painted artistic style" },
   { id: "Dark Fantasy", label: "Dark Fantasy", desc: "Ominous gothic high-contrast lighting" },
   { id: "Retro 80s", label: "Retro 80s Synthwave", desc: "80s neon synthwave aesthetic" },
+  { id: "Realistic", label: "Realistic", desc: "True-to-life standard realism" },
 ];
 
 export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWizardProps) {
