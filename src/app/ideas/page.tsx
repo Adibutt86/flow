@@ -55,6 +55,7 @@ export default function IdeasPage() {
   const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
   const [kidsHealth, setKidsHealth] = useState("Healthy & Energetic");
   const [characterSetup, setCharacterSetup] = useState("One Cute Little Girl");
+  const [kidsNationality, setKidsNationality] = useState("Global / Any");
   
   // Custom Idea Optimization
   const [customIdea, setCustomIdea] = useState("");
@@ -116,7 +117,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup }),
+        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup, kidsNationality }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -358,6 +359,26 @@ export default function IdeasPage() {
                   <option value="Two Kids (Siblings)">Two Kids (Siblings)</option>
                   <option value="Two Kids (Friends)">Two Kids (Friends)</option>
                   <option value="Twins">Twins</option>
+                </select>
+              </div>
+
+              {/* Nationality */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Nationality</label>
+                <select
+                  value={kidsNationality}
+                  onChange={(e) => setKidsNationality(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Global / Any">Global / Any</option>
+                  <option value="American">American</option>
+                  <option value="Indian / South Asian">Indian / South Asian</option>
+                  <option value="Pakistani">Pakistani</option>
+                  <option value="East Asian (Japanese/Korean/Chinese)">East Asian</option>
+                  <option value="African">African</option>
+                  <option value="European">European</option>
+                  <option value="Middle Eastern">Middle Eastern</option>
+                  <option value="Latin American">Latin American</option>
                 </select>
               </div>
             </div>

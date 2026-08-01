@@ -4,7 +4,7 @@ import { generateIdeaSuggestionsWithClaude } from "@/lib/ai/claude";
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { category = "FUNNY", language = "English", visualStyle = "3D Cartoon", seed, kidsAge, kidsHealth, characterSetup } = body;
+    const { category = "FUNNY", language = "English", visualStyle = "3D Cartoon", seed, kidsAge, kidsHealth, characterSetup, kidsNationality } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
       category,
@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       kidsAge,
       kidsHealth,
       characterSetup,
+      kidsNationality,
       seed: seed || Date.now(),
     });
 

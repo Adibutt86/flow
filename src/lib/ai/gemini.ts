@@ -121,6 +121,7 @@ export interface SuggestIdeasInput {
   kidsAge?: string;
   kidsHealth?: string;
   characterSetup?: string;
+  kidsNationality?: string;
 }
 
 /**

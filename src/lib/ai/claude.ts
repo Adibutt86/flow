@@ -280,6 +280,7 @@ Visual Style: ${input.visualStyle}
 ${input.category === "CUTE_KIDS" && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
 ${input.category === "CUTE_KIDS" && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
