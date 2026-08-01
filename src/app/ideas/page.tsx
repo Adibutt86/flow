@@ -48,7 +48,7 @@ export default function IdeasPage() {
   const [language, setLanguage] = useState("English");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedIdeas, setGeneratedIdeas] = useState<string[]>([]);
+
 
   // Saved ideas
   const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>(() => {
@@ -85,41 +85,25 @@ export default function IdeasPage() {
       if (!res.ok || !data.success) {
         throw new Error(data.reason || data.error || "Failed to generate ideas");
       }
-      setGeneratedIdeas(data.ideas);
-      showToast(`Generated ${data.ideas.length} ideas!`, "success");
+      
+      const newIdeas: SavedIdea[] = data.ideas.map((text: string) => ({
+        id: Date.now().toString() + Math.random().toString(36).slice(2),
+        text,
+        category,
+        language,
+        visualStyle,
+        createdAt: new Date().toISOString(),
+      }));
+      
+      const updated = [...newIdeas, ...savedIdeas];
+      saveToStorage(updated);
+      
+      showToast(`Generated and saved ${data.ideas.length} ideas!`, "success");
     } catch (e: any) {
       showToast(e.message || "Failed to generate ideas", "error");
     } finally {
       setIsGenerating(false);
     }
-  };
-
-  const handleSaveIdea = (text: string) => {
-    const newIdea: SavedIdea = {
-      id: Date.now().toString() + Math.random().toString(36).slice(2),
-      text,
-      category,
-      language,
-      visualStyle,
-      createdAt: new Date().toISOString(),
-    };
-    const updated = [newIdea, ...savedIdeas];
-    saveToStorage(updated);
-    showToast("Idea saved!", "success");
-  };
-
-  const handleSaveAll = () => {
-    const newIdeas: SavedIdea[] = generatedIdeas.map((text) => ({
-      id: Date.now().toString() + Math.random().toString(36).slice(2),
-      text,
-      category,
-      language,
-      visualStyle,
-      createdAt: new Date().toISOString(),
-    }));
-    const updated = [...newIdeas, ...savedIdeas];
-    saveToStorage(updated);
-    showToast(`Saved ${newIdeas.length} ideas!`, "success");
   };
 
   const handleDeleteIdea = (id: string) => {
@@ -237,56 +221,7 @@ export default function IdeasPage() {
           </button>
         </div>
 
-        {/* Generated Ideas (Unsaved) */}
-        {generatedIdeas.length > 0 && (
-          <div className="glass-card rounded-2xl p-6 border border-indigo-500/30 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-white">
-                Generated Ideas ({generatedIdeas.length})
-              </h2>
-              <button
-                onClick={handleSaveAll}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-200 text-xs font-semibold hover:bg-emerald-900 transition-all cursor-pointer"
-              >
-                Save All
-              </button>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {generatedIdeas.map((idea, idx) => {
-                const ideaId = `gen-${idx}`;
-                return (
-                  <div
-                    key={idx}
-                    className="group p-4 rounded-xl bg-black/40 border border-gray-800 hover:border-indigo-500/40 transition-all space-y-3"
-                  >
-                    <p className="text-sm text-gray-200 leading-relaxed">{idea}</p>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleCopy(idea, ideaId)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-xs text-gray-300 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer"
-                      >
-                        {copiedId === ideaId ? (
-                          <Check className="w-3 h-3 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                        {copiedId === ideaId ? "Copied" : "Copy"}
-                      </button>
-                      <button
-                        onClick={() => handleSaveIdea(idea)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-indigo-950 border border-indigo-500/30 text-xs text-indigo-200 hover:bg-indigo-900 transition-all cursor-pointer"
-                      >
-                        <Sparkles className="w-3 h-3" />
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
 
         {/* Saved Ideas with Pagination */}
         <div className="glass-card rounded-2xl p-6 border border-gray-800 space-y-5">
