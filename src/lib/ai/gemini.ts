@@ -282,44 +282,114 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     };
   }
 
-  // 5. DESI / ROMAN URDU / HINDI / PUNJABI JOKES CONCEPTS
-  if (input.category === "HINDI_JOKE" || input.category === "PUNJABI_JOKE" || lower.includes("chintu") || lower.includes("pappu") || lower.includes("santa") || lower.includes("banta") || lower.includes("dukaan")) {
-    const name = userChar || "Chintu";
-    return {
-      concept: fullConcept,
-      category: input.category,
-      duration: input.duration,
-      clipCount,
-      language: input.language,
-      visualStyle: input.visualStyle,
-      title: `${name} Ka Chatpata Kissa`,
-      mainCharacterName: name,
-      mainCharacterSpecies: "Human",
-      mainCharacterAppearance: "Wholesome 3D animated cartoon boy with short black hair, bright expressive eyes, bright red t-shirt, and blue denim shorts",
-      mainCharacterPersonality: "Mischievous, witty, confident",
-      mainCharacterClothing: "Bright red t-shirt and blue denim shorts",
-      location: "Vibrant neighborhood grocery shop counter",
-      secondaryObjects: ["Shop counter", "Glass snack jars", "Shopkeeper glasses"],
-      setup: `${name} dukaan par ja kar confidence ke saath shopkeeper uncle se mazedar sawal karta hai.`,
-      conflict: `Shopkeeper uncle chashma utaar kar ${name} ko dekhte hain aur ek zabardast counter sawal poochte hain.`,
-      escalation: `${name} bina jhijhak ke pocket se note nikaal kar serious reaction deta hai.`,
-      punchline: `${name} aisa karara final punchline bolta hai ke uncle ka head-thud reaction memorable freeze-frame ban jata hai!`,
-      ending: `Kahani poori tarah complete aur resolved hoti hai!`,
-      requiredKeywords: ["chintu", "dukaan", "shopkeeper"],
-    };
+  // 5. DYNAMIC CONCEPT PARSER - SANTA, BANTA, CHINTU, PAPPU, TOASTER, ANIMALS, KIDS, ETC.
+  let charName = userChar;
+  let charSpecies = "Human";
+  let charAppearance = "";
+  let charClothing = "";
+  let location = "";
+
+  if (lower.includes("santa")) {
+    charName = charName || "Santa";
+    charSpecies = "Human (Punjabi Sardar)";
+    charAppearance = "Lively Punjabi Sardar with a bright yellow turban, neat white beard, friendly twinkling eyes, and vibrant traditional kurta";
+    charClothing = "Vibrant yellow turban and traditional embroidered Punjabi kurta pajama";
+    location = lower.includes("dhaba") ? "Highway Punjabi Dhaba" : lower.includes("hotel") || lower.includes("waiter") || lower.includes("soup") ? "Authentic Punjabi Restaurant & Dining Room" : "Lush green Pind field in Punjab";
+  } else if (lower.includes("banta")) {
+    charName = charName || "Banta";
+    charSpecies = "Human (Punjabi Sardar)";
+    charAppearance = "Energetic 3D animated Punjabi guy with a bright orange turban, short neat beard, and expressive eyes";
+    charClothing = "Bright orange turban and stylish Punjabi kurta";
+    location = lower.includes("dhaba") ? "Highway Punjabi Dhaba" : lower.includes("bike") || lower.includes("bullet") ? "Village courtyard dirt road" : "Punjabi Pind dhaba counter";
+  } else if (lower.includes("chintu")) {
+    charName = charName || "Chintu";
+    charSpecies = "Human (Boy)";
+    charAppearance = "Wholesome 3D animated cartoon boy with short black hair, bright expressive eyes, and mischievous smile";
+    charClothing = "Bright red t-shirt and blue denim shorts";
+    location = "Vibrant neighborhood grocery shop counter";
+  } else if (lower.includes("pappu")) {
+    charName = charName || "Pappu";
+    charSpecies = "Human (Boy)";
+    charAppearance = "Witty 3D animated boy with messy hair, wide inquisitive eyes, and cheeky grin";
+    charClothing = "School uniform shirt and blue trousers";
+    location = lower.includes("teacher") || lower.includes("school") ? "Classroom desk" : "Desi home living room";
+  } else if (lower.includes("dadi")) {
+    charName = charName || "Dadi";
+    charSpecies = "Human (Grandma)";
+    charAppearance = "Cute elderly Punjabi Grandma with silver hair, warm smiling eyes, and golden spectacle glasses";
+    charClothing = "Traditional colorful Punjabi salwar suit and dupatta";
+    location = "Village courtyard terrace under sunny sky";
+  } else if (lower.includes("toaster")) {
+    charName = charName || "Toasty";
+    charSpecies = "Appliance (Toaster)";
+    charAppearance = "Glossy chrome toaster with LED glowing eyes, mini sunglasses, and funny metallic expressions";
+    charClothing = "Mini black sunglasses";
+    location = "Modern kitchen counter";
+  } else if (lower.includes("cat") || lower.includes("barnaby")) {
+    charName = charName || "Sir Barnaby";
+    charSpecies = "Cat";
+    charAppearance = "Chubby ginger tabby cat with velvety fur, big emerald green eyes, and twitching whiskers";
+    charClothing = "Mini formal red tie";
+    location = lower.includes("vacuum") ? "Hardwood floor living room" : "Cozy apartment lounge";
+  } else if (lower.includes("dog") || lower.includes("husky") || lower.includes("pug") || lower.includes("doberman") || lower.includes("puppy")) {
+    charName = charName || (lower.includes("husky") ? "Ghost" : lower.includes("pug") ? "Captain Pug" : lower.includes("doberman") ? "Duke" : "Buster");
+    charSpecies = "Dog";
+    charAppearance = lower.includes("husky") ? "Fluffy white and gray 3D husky with blue eyes" : lower.includes("pug") ? "Cute wrinkly 3D pug" : lower.includes("doberman") ? "Sleek majestic 3D Doberman" : "Golden retriever puppy with shiny golden fur";
+    charClothing = lower.includes("pug") ? "Mini superhero cape" : "Leather puppy collar";
+    location = "Cozy living room rug";
+  } else if (lower.includes("toddler") || lower.includes("dinosaur") || lower.includes("cookie")) {
+    charName = charName || "Leo";
+    charSpecies = "Human (Toddler)";
+    charAppearance = "Chubby 3D cartoon toddler with rosy cheeks, big brown eyes, and fluffy hair";
+    charClothing = "Green dinosaur onesie with tiny spikes";
+    location = "Sunlit 3D kitchen counter";
+  } else if (lower.includes("mom") || lower.includes("tupperware")) {
+    charName = charName || "Mom";
+    charSpecies = "Human";
+    charAppearance = "Expressive 3D cartoon mom with styled brown hair and cheerful smile";
+    charClothing = "Casual home sweater and apron";
+    location = "Kitchen cabinet pantry";
+  } else if (lower.includes("dad") || lower.includes("workout") || lower.includes("remote")) {
+    charName = charName || "Dad";
+    charSpecies = "Human";
+    charAppearance = "Chubby friendly 3D cartoon dad with short brown hair and funny facial expressions";
+    charClothing = lower.includes("workout") ? "Pink sweatband and grey tracksuit" : "Casual polo shirt and jeans";
+    location = lower.includes("workout") ? "Master bedroom" : "Living room couch";
+  } else {
+    charName = charName || "Leo";
+    charSpecies = lower.includes("dragon") ? "Dragon" : lower.includes("robot") ? "Robot" : lower.includes("bear") ? "Bear" : "Human";
+    charAppearance = `Detailed ${input.visualStyle} animated ${charSpecies.toLowerCase()} character with expressive features matching: "${fullConcept}"`;
+    charClothing = `Stylized outfit suited for the scene`;
+    location = `Dynamic 3D ${input.visualStyle} environment setting`;
   }
 
-  // 6. DYNAMIC CONCEPT PARSER FOR ANY OTHER USER CONCEPT (e.g. Dragon, Astronaut, Robot, etc.)
-  const extractedSubject = userChar || (
-    lower.includes("dragon") ? "Ignis the Dragon" :
-    lower.includes("astronaut") ? "Captain Leo" :
-    lower.includes("robot") ? "Bolt the Robot" :
-    lower.includes("bear") ? "Barnaby the Bear" :
-    lower.includes("fox") ? "Felix the Fox" :
-    "Leo"
-  );
+  const cleanTitle = fullConcept.length > 50 ? `${fullConcept.slice(0, 47)}...` : fullConcept;
 
-  const species = lower.includes("dragon") ? "Dragon" : lower.includes("robot") ? "Robot" : lower.includes("bear") ? "Bear" : lower.includes("fox") ? "Fox" : "Human";
+  let setup = "";
+  let conflict = "";
+  let escalation = "";
+  let punchline = "";
+  let ending = "";
+
+  if (input.category === "PUNJABI_JOKE" || lower.includes("santa") || lower.includes("banta")) {
+    setup = `${charName} confidence ke saath scene vich entry lenda hai.`;
+    conflict = `${charName} doosre character nu mazedar Punjabi dialog kehnda hai: "${fullConcept}".`;
+    escalation = `Doosra character dang reh jata hai aur ek hilarious counter-reaction denda hai!`;
+    punchline = `${charName} final Punjabi punchline dialog bolta hai!`;
+    ending = `Scene zabardast Punjabi comedy freeze-frame reaction par finish hunda hai!`;
+  } else if (input.category === "HINDI_JOKE" || lower.includes("chintu") || lower.includes("pappu")) {
+    setup = `${charName} dukaan ya ghar par confidence ke saath bolta hai.`;
+    conflict = `${charName} kehta hai: "${fullConcept}".`;
+    escalation = `Samne wala character surprise ho kar gusse se dekhta hai!`;
+    punchline = `${charName} karara punchline bolta hai!`;
+    ending = `Kahani ek hilarious reaction ke saath complete hoti hai!`;
+  } else {
+    setup = `${charName} initiates action in ${location}.`;
+    conflict = `${charName} executes: "${fullConcept}".`;
+    escalation = `The situation escalates with energetic momentum.`;
+    punchline = `${charName} delivers a hilarious visual comedy punchline!`;
+    ending = `The scene resolves with a memorable final pose.`;
+  }
 
   return {
     concept: fullConcept,
@@ -328,20 +398,20 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     clipCount,
     language: input.language,
     visualStyle: input.visualStyle,
-    title: `${extractedSubject}: ${fullConcept}`,
-    mainCharacterName: extractedSubject,
-    mainCharacterSpecies: species,
-    mainCharacterAppearance: `Detailed ${input.visualStyle} animated ${species.toLowerCase()} character with expressive eyes and distinct features matching: "${fullConcept}"`,
-    mainCharacterPersonality: "Determined, expressive, highly energetic",
-    mainCharacterClothing: `Distinct ${species.toLowerCase()} outfit suited for ${fullConcept}`,
-    location: `Detailed ${input.visualStyle} environment backdrop for ${fullConcept}`,
-    secondaryObjects: ["Key story environment props"],
-    setup: `${extractedSubject} enters the scene to launch: "${fullConcept}"`,
-    conflict: `An unexpected challenge escalates the situation into high comedic tension.`,
-    escalation: `Action peaks as ${extractedSubject} scrambles to execute the plan.`,
-    punchline: `The story delivers a visual comedy punchline as ${fullConcept} reaches its hilarious peak!`,
-    ending: `The story reaches a 100% complete and satisfying resolution.`,
-    requiredKeywords: fullConcept.toLowerCase().split(" ").filter(w => w.length > 4),
+    title: cleanTitle,
+    mainCharacterName: charName,
+    mainCharacterSpecies: charSpecies,
+    mainCharacterAppearance: charAppearance,
+    mainCharacterPersonality: "Energetic, expressive, witty",
+    mainCharacterClothing: charClothing,
+    location,
+    secondaryObjects: ["Key environment props"],
+    setup,
+    conflict,
+    escalation,
+    punchline,
+    ending,
+    requiredKeywords: fullConcept.toLowerCase().split(" ").filter((w) => w.length > 3),
   };
 }
 
