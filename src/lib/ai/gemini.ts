@@ -118,6 +118,8 @@ export interface SuggestIdeasInput {
   language: string;
   visualStyle: string;
   seed?: number;
+  kidsAge?: string;
+  kidsHealth?: string;
 }
 
 /**

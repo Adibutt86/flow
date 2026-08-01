@@ -51,6 +51,10 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState("3D Cartoon");
   const [isGenerating, setIsGenerating] = useState(false);
   
+  // Cute Kids specific options
+  const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
+  const [kidsHealth, setKidsHealth] = useState("Healthy & Energetic");
+  
   // Custom Idea Optimization
   const [customIdea, setCustomIdea] = useState("");
   const [isOptimizing, setIsOptimizing] = useState(false);
@@ -111,7 +115,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle }),
+        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -308,6 +312,39 @@ export default function IdeasPage() {
               </select>
             </div>
           </div>
+
+          {category === "CUTE_KIDS" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {/* Kids Age */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Characters Age</label>
+                <select
+                  value={kidsAge}
+                  onChange={(e) => setKidsAge(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Baby (0-2 yrs)">Baby (0-2 yrs)</option>
+                  <option value="Toddler (2-4 yrs)">Toddler (2-4 yrs)</option>
+                  <option value="Child (5-8 yrs)">Child (5-8 yrs)</option>
+                  <option value="Pre-teen (9-12 yrs)">Pre-teen (9-12 yrs)</option>
+                </select>
+              </div>
+
+              {/* Kids Health */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Kids Health</label>
+                <select
+                  value={kidsHealth}
+                  onChange={(e) => setKidsHealth(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Healthy & Energetic">Healthy & Energetic</option>
+                  <option value="Chubby & Cute">Chubby & Cute</option>
+                  <option value="Fragile & Sweet">Fragile & Sweet</option>
+                </select>
+              </div>
+            </div>
+          )}
 
           <button
             onClick={handleGenerate}

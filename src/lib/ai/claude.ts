@@ -277,6 +277,8 @@ Pacing: ${categoryConfig.pacing}
 Hook Style: ${categoryConfig.hookStyle}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
+${input.category === "CUTE_KIDS" && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
