@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { regenerateSingleSceneWithClaude } from "@/lib/ai/claude";
+import type { Scene, Character } from "@prisma/client";
 
 export async function POST(
   request: Request,
@@ -35,10 +36,10 @@ export async function POST(
     }
 
     const { project } = scene;
-    const prevScene = project.scenes.find((s) => s.sceneNumber === scene.sceneNumber - 1);
-    const nextScene = project.scenes.find((s) => s.sceneNumber === scene.sceneNumber + 1);
+    const prevScene = project.scenes.find((s: Scene) => s.sceneNumber === scene.sceneNumber - 1);
+    const nextScene = project.scenes.find((s: Scene) => s.sceneNumber === scene.sceneNumber + 1);
 
-    const charactersSummary = project.characters.map((c) => ({
+    const charactersSummary = project.characters.map((c: Character) => ({
       name: c.name,
       appearance: c.appearance,
       clothing: c.clothing,
