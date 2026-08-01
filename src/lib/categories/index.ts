@@ -229,6 +229,64 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Focus on 35mm/50mm lens optics, shallow depth of field (bokeh), cinematic color grading, volumetric mist, and precise key lighting.",
   },
 
+  CUTE_KIDS: {
+    id: "CUTE_KIDS",
+    name: "Cute Kids Videos",
+    badge: "Wholesome & Adorable",
+    iconName: "Baby",
+    description: "Adorable and funny short videos featuring children interacting in heartwarming or silly situations.",
+    storytellingRules: [
+      "Feature either one cute little girl or a duo of kids (boy/girl, siblings, friends) as main characters",
+      "Focus on innocent humor, curiosity, or adorable misunderstandings",
+      "Highlight highly expressive, wholesome reactions (giggles, confused looks, big smiles)",
+      "Keep interactions sweet, family-friendly, and viral-friendly",
+      "End with a heartwarming, laugh-out-loud, or incredibly cute resolution"
+    ],
+    tone: "Wholesome, sweet, innocent, playful, heartwarming",
+    pacing: "Light and bouncy, allowing time to show facial expressions",
+    hookStyle: "An adorable question, a funny observation, or a cute attempt at doing something 'grown up'",
+    endingStyle: "A sweet hug, a funny toddler logic conclusion, or a big adorable smile",
+    characterStyle: "Cute little girl or two kids with expressive faces and playful outfits",
+    visualStyleSuggestions: [
+      "3D Cartoon",
+      "Pixar Style",
+      "Watercolor",
+      "Cinematic Lighting (Soft)"
+    ],
+    dialogueStyle: "Cute toddler-speak, innocent questions, and bubbly exclamations",
+    promptInstructions:
+      "Emphasize large expressive eyes, soft lighting, vibrant pastel colors, adorable oversized clothing, and heartwarming physical comedy.",
+  },
+
+  CATS_DANCING: {
+    id: "CATS_DANCING",
+    name: "Cats Dancing",
+    badge: "Viral Trend",
+    iconName: "Music",
+    description: "Hilarious and energetic videos of cats performing trending dance styles with cute costumes and accessories.",
+    storytellingRules: [
+      "Select a unique dance style (hip-hop, breakdance, salsa, bhangra, K-pop, Bollywood, robot, shuffle, moonwalk, ballet, etc.)",
+      "Give the cat a distinct persona (e.g., cool street cat, elegant ballet kitty, swag hip-hop kitten)",
+      "Include entertaining costumes or accessories matching the dance style (sunglasses, tutus, gold chains, tiny hats)",
+      "Feature hilarious and surprisingly coordinated feline dance moves",
+      "Set the performance in a lively, colorful, and engaging environment"
+    ],
+    tone: "Energetic, hilarious, trendy, upbeat, surprisingly cool",
+    pacing: "Fast, rhythmic, synchronized with an imagined upbeat viral audio track",
+    hookStyle: "A cat dramatically putting on an accessory (like sunglasses) or striking an unexpected opening pose",
+    endingStyle: "A flawless finishing pose, a mic-drop moment, or a funny tired meow",
+    characterStyle: "Highly energetic cats (male or female, varying ages from kittens to cool older cats) with swagger",
+    visualStyleSuggestions: [
+      "3D Cartoon",
+      "Pixar Style",
+      "Neon Cyberpunk",
+      "Anime"
+    ],
+    dialogueStyle: "Mostly rhythmic action-matched SFX, meows, or silent swagger (minimal actual dialogue)",
+    promptInstructions:
+      "Emphasize dynamic motion blur, neon/stage lighting, hilarious cat facial expressions of intense focus, detailed tiny costumes, and rhythmic action cues.",
+  },
+
   CUSTOM: {
     id: "CUSTOM",
     name: "Custom Rules",

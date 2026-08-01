@@ -7,6 +7,8 @@ export type CategoryId =
   | "FUNNY_ANIMALS"
   | "ABSTRACT"
   | "CINEMATIC"
+  | "CUTE_KIDS"
+  | "CATS_DANCING"
   | "CUSTOM";
 
 export interface CategoryConfig {
