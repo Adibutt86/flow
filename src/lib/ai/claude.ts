@@ -179,16 +179,41 @@ export async function generateIdeaSuggestionsWithClaude(
         const response = await anthropic.messages.create({
           model: modelName,
           max_tokens: 2048,
-          temperature: 0.9,
+          temperature: 0.95,
           messages: [
             {
               role: "user",
-              content: `Generate EXACTLY 10 distinct, highly creative, family-friendly viral video concept ideas for short video creation.
+              content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
+Generate EXACTLY 10 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
+
 Category: ${categoryConfig.name} (${input.category})
+Badge: ${categoryConfig.badge}
+Description: ${categoryConfig.description}
+Tone: ${categoryConfig.tone}
+Pacing: ${categoryConfig.pacing}
+Hook Style: ${categoryConfig.hookStyle}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
 
-Return ONLY a valid JSON array of 10 strings:
+STRICT CATEGORY & LANGUAGE GUIDELINES:
+1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
+   - ALL 10 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi (e.g., "Santa Banta se kehta hai: 'Oye Hoye! Tu dhaba par kya kar raha hai?'", "Papaji Jatt se kehte hain...", "Inspector ne Banta se poochha...").
+   - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
+   - Do NOT write generic English animal stories.
+
+2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
+   - ALL 10 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu (e.g., "Chintu dukaan par ja kar kehta hai...", "Pappu teacher se poochhta hai...").
+
+3. If Category is "HORROR":
+   - ALL 10 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
+
+4. If Category is "FUNNY_ANIMALS":
+   - ALL 10 ideas MUST feature hilarious pets/animals in absurd human situations.
+
+5. If Category is "KIDS_FUNNY":
+   - ALL 10 ideas MUST be cute, whimsical Pixar/Disney style child & pet physical comedy.
+
+Return ONLY a valid JSON array of 10 distinct strings:
 [
   "Idea 1...",
   "Idea 2...",
@@ -217,13 +242,93 @@ Return ONLY a valid JSON array of 10 strings:
     }
   }
 
+  // Category-specific Fallback Ideas
+  if (input.category === "PUNJABI_JOKE" || input.language === "Punjabi") {
+    return [
+      "Santa Banta se kehta hai: 'Oye Banta, tu dhaba par chal kar lassi pyeyega ya bullet par stunt karega?'",
+      "Papaji ne Santa se poochha: 'Tu exam vich fail kyu ho gaya?' Santa bola: 'Papaji, paper hi out of syllabus si!'",
+      "Banta petrol pump par ja kar kehta hai: 'Oye paji, 50 rupaye ka petrol car vich pa do aur 10 rupaye da hawai jahaj vich!'",
+      "Jatt apne dost se kehta hai: 'Oye, tera doggy English bol sakta hai?' Dost bola: 'Paji, wo sirf bhonkte hue Punjabi accent use karta hai!'",
+      "Santa hospital vich doctor se kehta hai: 'Doctor saab, mainu neend vich Punjabi gaane sunai dete hain!'",
+      "Inspector Banta se kehta hai: 'Tu red light kyu todi?' Banta bola: 'Sardaar ji, gaadi di brake hi Punjabi dance kar rahi si!'",
+      "Papaji ne Banta nu keha: 'Tu roz subah late kyu uthta hai?' Banta bola: 'Papaji, sapne vich tractor chala raha si!'",
+      "Santa dukaan par ja kar kehta hai: 'Paji, mobile da aisa cover dikhao jo girne par bhangra kare!'",
+      "Banta dosti vich kehta hai: 'Oye, agar rab mainu superman bana de, toh main sabse pehle Pind vich samosay vandanga!'",
+      "Santa hotel vich waiter se kehta hai: 'Oye, soup vich makhhi hai!' Waiter bola: 'Paji, wo bhi garma garam Punjabi rasmalai samajh kar aayi hai!'"
+    ];
+  }
+
+  if (input.category === "HINDI_JOKE" || input.language === "Hindi" || input.language === "Urdu") {
+    return [
+      "Chintu dukaan par ja kar kehta hai: 'Uncle, 10 rupaye ka discount do!' Shopkeeper bola: 'Pehle 10 rupaye to do!'",
+      "Pappu teacher se kehta hai: 'Sir, agar main homework na karoon toh aap gussa karoge?' Teacher: 'Haan!' Pappu: 'Toh main nahi kar raha!'",
+      "Dadi Chintu se kehti hain: 'Beta, mobile chhodo aur thoda dhyan lagao!' Chintu: 'Dadi, dhyan hi toh mobile par laga raha hoon!'",
+      "Inspector Pappu se kehta hai: 'Tumne chori kyu ki?' Pappu: 'Sir, board par likha tha — Please Take What You Need!'",
+      "Chintu doctor se kehta hai: 'Doctor saab, mujhe bhoolne ki bimari hai!' Doctor: 'Kab se?' Chintu: 'Kya kab se?'",
+      "Boss Pappu se: 'Tum late kyu aaye?' Pappu: 'Sir, raste mein sign board par likha tha — Drive Slowly!'",
+      "Pappu friend se kehta hai: 'Bhai, mera dimag computer jaisa hai!' Friend: 'Achha? Kaise?' Pappu: 'Virus aa gaya hai!'",
+      "Chintu dukaan par ja kar kehta hai: 'Uncle, ek aisa sabun do jo bina pani ke naha de!'",
+      "Pappu hotel mein waiter se kehta hai: 'Bhai, yeh bill hai ya mere college ki fees?'",
+      "Dadi Pappu se: 'Beta, tujhe bada ho kar kya banna hai?' Pappu: 'Dadi, bas TV ka remote control banna hai!'"
+    ];
+  }
+
+  if (input.category === "HORROR") {
+    return [
+      "A girl looks into a antique vanity mirror late at night and her reflection blinks 3 seconds after she does.",
+      "A night security guard walks down a pitch-black hospital hallway when a wheel chair rolls toward him with fresh wet footprints appearing on the floor.",
+      "A boy hears his mother calling him down for dinner from the kitchen, but her voice whispers from under his bed: 'Don't go down, I heard it too.'",
+      "An old grandfather clock stops ticking at midnight, and every portrait painting in the dimly lit hallway turns to face the front door.",
+      "A photographer develops vintage Polaroid photos, discovering a shadowy silhouette standing closer to the camera in every consecutive frame.",
+      "A lonely hiker pitches a tent in foggy woods and watches two giant glowing eyes illuminate right against the thin nylon tent fabric.",
+      "A man receives a video doorbell notification on his phone at 3 AM showing himself sleeping inside his locked bedroom from above.",
+      "A wooden rocking chair in a dark attic begins rocking frantically by itself while a child's faint laughter echoes behind the wall.",
+      "A subway train enters a dark tunnel, and when the interior lights flicker back on, all passengers have swapped faces.",
+      "A lone driver on a deserted highway looks in his rearview mirror and sees a pale figure sitting silently in the backseat."
+    ];
+  }
+
+  if (input.category === "FUNNY_ANIMALS") {
+    return [
+      "A fat orange cat acts like a mafia boss while getting massaged by a tiny robot vacuum cleaner.",
+      "A dramatic husky acts completely exhausted after walking just two feet towards his food bowl.",
+      "A cat wearing a tiny business suit tries to conduct an urgent board meeting with three confused golden retrievers.",
+      "A sneaky raccoon tries to covertly steal a glossy red apple from a picnic table without making a sound.",
+      "A French bulldog tries to do yoga poses alongside his owner on a yoga mat with hilarious clumsy rolls.",
+      "A parrot repeatedly mimics the door chime sound every time the cat tries to take a quiet afternoon nap.",
+      "A golden retriever tries to fit a gigantic wooden stick through a narrow park door with extreme determination.",
+      "A cat inspects a cucumber placed behind it and does a rocket high jump into the air.",
+      "A monkey wearing sunglasses tries to steal a tourist's camera and ends up taking a viral front selfie.",
+      "A puppy gets super confused seeing his own reflection in a full-length mirror and does a cute battle bounce."
+    ];
+  }
+
+  if (input.category === "KIDS_FUNNY") {
+    return [
+      "A chubby toddler in a dinosaur onesie tries to tiptoe stealthily toward the cookie jar on the high kitchen counter.",
+      "A playful puppy gets tangled in a massive roll of colorful toilet paper and rolls across the living room like a cute snowball.",
+      "A mischievous kid tries to build a giant fortress out of sofa cushions, but one sneeze collapses the entire castle delightfully.",
+      "A little girl tries to feed her giant teddy bear broccoli, making hilarious dramatic eating noises for the toy.",
+      "A toddler wears his dad's oversized shoes and wobbles around the living room like a clumsy penguin.",
+      "A cute kitten tries to catch a floating soap bubble and does a dramatic mid-air belly flop on a plush rug.",
+      "A boy attempts to blow a huge bubble gum bubble that grows larger than his head until it pops all over his face.",
+      "A little kid tries to slide down a wooden hallway in fluffy socks, gliding like an Olympic figure skater before soft cushion landing.",
+      "A toddler tries to mimic his dad's morning workout with a tiny plastic dumbbell, making intense superhero grunts.",
+      "A baby panda cub rolls down a gentle grassy hill, accidentally knocking over a stack of bamboo toys."
+    ];
+  }
+
   return [
     "A fat orange cat acts like a mafia boss while getting massaged by a tiny robot vacuum cleaner.",
     "A pirate penguin tries to steal a giant birthday cake from the ship kitchen.",
-    "Chintu dukaan par ja kar aisa mazedar sawal poochta hai ke shopkeeper dang reh jata hai.",
+    "Santa Banta se kehta hai: 'Oye Banta, tu dhaba par chal kar lassi pyeyega ya bullet par stunt karega?'",
     "A sneaky raccoon tries to snatch a glossy red apple from a picnic table.",
     "A cute golden retriever puppy discovers its reflection in a full-length mirror.",
     "A dramatic husky acts completely exhausted after walking two steps toward his food bowl.",
+    "A night security guard watches a dark hallway where shadows dance on the wall.",
+    "A chubby toddler in a dinosaur onesie tries to reach the high cookie jar.",
+    "A futuristic robot attempts to bake a birthday cake and accidentally creates a floating jelly sculpture.",
+    "An eccentric inventor accidentally turns his toaster into a rocket engine."
   ];
 }
 

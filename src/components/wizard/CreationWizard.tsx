@@ -230,6 +230,11 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                       key={catKey}
                       onClick={() => {
                         setCategory(catKey);
+                        if (catKey === "PUNJABI_JOKE") {
+                          setLanguage("Punjabi");
+                        } else if (catKey === "HINDI_JOKE") {
+                          setLanguage("Hindi");
+                        }
                         setSuggestedIdeas([]);
                       }}
                       className={`flex flex-col text-left p-4 rounded-xl transition-all cursor-pointer border ${
