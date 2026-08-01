@@ -134,12 +134,13 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
-7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
+7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)." (UNLESS Category is "CARBOX")
 8. VISUAL STYLE MANDATE:
    - The requested Visual Style (${ctx.visualStyle}) MUST be explicitly written into EVERY single imagePrompt, videoPrompt, and the visualBible description. Do not ignore the chosen style!
 9. CARBOX SPECIFIC RULES (If Category is "CARBOX"):
    - ALL scenes MUST be completely SILENT of human voices. Do NOT include ANY dialogue. Set the dialogue field to an empty string or "(No dialogue)".
    - The sfx field MUST ONLY include realistic car unpacking and reveal sound effects (e.g., crisp plastic peeling, satisfying box sliding, sharp clicks, subtle metallic clinks). No goofy or cartoonish sounds.
+   - Do NOT add characters, animals, or use the "CHARACTER CONSISTENCY LOCK" prefix in the imagePrompt. Focus entirely on the vehicle and the unboxing process.
 
 Return ONLY valid JSON matching this exact structure:
 {
@@ -185,7 +186,7 @@ Return ONLY valid JSON matching this exact structure:
       "duration": 8,
       "narration": "Narration text matching concept",
       "dialogue": "Short dialogue under 12 words",
-      "imagePrompt": "CHARACTER CONSISTENCY LOCK: [Details]. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)",
+      "imagePrompt": "If CARBOX: [Vehicle details]. Otherwise: CHARACTER CONSISTENCY LOCK: [Details]. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)",
       "videoPrompt": "During this 8-second clip: 0-2s: [Entry]. 2-4s: [Action]. 4-6s: [Dialogue]. 6-8s: [Ending state]. (NO TEXT OVERLAYS, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN FULL FRAME VIDEO)",
       "camera": "Camera shot",
       "motion": "Time-sliced motion",
