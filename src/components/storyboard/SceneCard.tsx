@@ -116,6 +116,39 @@ ${scene.music || "Playful bouncy comedy score"}
     triggerCopy("package", flowPackage, `Scene #${scene.sceneNumber} Flow Package`);
   };
 
+  const handleCopyWithoutImage = () => {
+    const flowPackage = `
+========================================
+GOOGLE FLOW SCENE PACKAGE - SCENE #${scene.sceneNumber} OF ${totalScenes}
+Duration: 8 Seconds
+========================================
+
+VIDEO MOTION PROMPT
+${scene.videoPrompt}
+
+DIALOGUE
+${scene.dialogue || scene.narration || "N/A"}
+
+CAMERA
+${scene.camera}
+
+MOTION
+${scene.motion}
+
+LIGHTING
+${scene.lighting}
+
+SFX
+${scene.sfx || "Action-matched SFX cue"}
+
+MUSIC
+${scene.music || "Playful bouncy comedy score"}
+========================================
+`.trim();
+
+    triggerCopy("packageNoImage", flowPackage, `Scene #${scene.sceneNumber} Flow Package (No Image)`);
+  };
+
   const handleSaveEdits = async () => {
     try {
       await onUpdateScene(scene.id, {
@@ -178,6 +211,18 @@ ${scene.music || "Playful bouncy comedy score"}
               <PackageCheck className="w-3.5 h-3.5" />
             )}
             <span>{copiedKey === "package" ? "Package Copied!" : "Copy Full Scene Package"}</span>
+          </button>
+
+          <button
+            onClick={handleCopyWithoutImage}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950 border border-indigo-500/50 text-indigo-200 text-xs font-semibold shadow-md hover:bg-indigo-900 transition-all cursor-pointer"
+          >
+            {copiedKey === "packageNoImage" ? (
+              <Check className="w-3.5 h-3.5 text-emerald-300" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
+            <span>{copiedKey === "packageNoImage" ? "Copied!" : "Copy w/o Image"}</span>
           </button>
 
           <button
