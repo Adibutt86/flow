@@ -257,7 +257,7 @@ export async function generateIdeaSuggestionsWithClaude(
   const categoryConfig = getCategoryConfig(input.category);
   let lastError: any = null;
 
-  for (const modelName of ["claude-opus-4-8"]) {
+  for (const modelName of ["claude-sonnet-4-6"]) {
     try {
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
@@ -498,7 +498,7 @@ Return ONLY a valid JSON object matching this exact structure:
   ]
 }`;
 
-  for (const modelName of ["claude-opus-4-8"]) {
+  for (const modelName of ["claude-sonnet-4-6"]) {
     try {
       const response = await anthropic.messages.create({
         model: modelName,
