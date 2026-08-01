@@ -30,6 +30,7 @@ import {
   Sparkle,
   RefreshCw,
   Bot,
+  Smile,
 } from "lucide-react";
 
 interface CreationWizardProps {
@@ -47,6 +48,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   Eye: <Eye className="w-5 h-5" />,
   Film: <Film className="w-5 h-5" />,
   Sliders: <Sliders className="w-5 h-5" />,
+  Smile: <Smile className="w-5 h-5" />,
 };
 
 const DURATION_OPTIONS = [
@@ -63,6 +65,7 @@ const DURATION_OPTIONS = [
 const LANGUAGES = [
   { id: "English", label: "English", desc: "Standard English narration & dialogue" },
   { id: "Hindi", label: "Hindi (Roman Urdu Script)", desc: "Desi conversational Hindi in Roman Urdu script" },
+  { id: "Punjabi", label: "Punjabi", desc: "Conversational Punjabi jokes & Pind banter" },
   { id: "Urdu", label: "Urdu (Roman Urdu)", desc: "Authentic Urdu storytelling in Roman Urdu" },
   { id: "Roman Urdu", label: "Roman Urdu", desc: "Pakistani conversational Roman Urdu style" },
 ];

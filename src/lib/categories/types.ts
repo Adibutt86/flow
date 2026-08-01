@@ -2,6 +2,7 @@ export type CategoryId =
   | "HORROR"
   | "FUNNY"
   | "HINDI_JOKE"
+  | "PUNJABI_JOKE"
   | "KIDS_FUNNY"
   | "FUNNY_ANIMALS"
   | "ABSTRACT"

@@ -87,6 +87,34 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Maintain vibrant Indian environments, rich colorful clothing, dynamic camera push-ins for punchline reactions, and crisp lighting.",
   },
 
+  PUNJABI_JOKE: {
+    id: "PUNJABI_JOKE",
+    name: "Punjabi Joke / Chutkule",
+    badge: "Punjabi Desi Humor",
+    iconName: "Smile",
+    description: "Hilarious Punjabi banter, Santa-Banta comedy, authentic Pind & city humor, and epic Punjabi comebacks.",
+    storytellingRules: [
+      "Authentic Punjabi conversational dialogue (Short Punjabi phrases like 'Oye Hoye!', 'Kyu Tussi!', 'Dhyan Naal')",
+      "Relatable Punjabi Pind (village), dhaba, or city family setup",
+      "Witty Punjabi misunderstanding or iconic Santa-Banta style logic",
+      "Exaggerated Punjabi body language, turban/kurta details, and comedy expressions",
+      "Instant funny Punjabi punchline with shocked double-take reactions",
+    ],
+    tone: "Lively, energetic, Punjabi Desi, viral comedy",
+    pacing: "Fast-paced Punjabi banter building to an absurd punchline",
+    hookStyle: "Friendly Punjabi argument or funny dhaba conversation starting up",
+    endingStyle: "High-impact Punjabi laugh reaction, facepalm, or hilarious loud retort",
+    characterStyle: "Classic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector)",
+    visualStyleSuggestions: [
+      "3D Punjabi Cartoon",
+      "Colorful 3D Village Render",
+      "Bollywood Punjabi Comedy",
+    ],
+    dialogueStyle: "Conversational Punjabi with funny slang, catchy lines, and expressive comedic timing",
+    promptInstructions:
+      "Maintain vibrant Punjabi clothing (bright turbans, colorful dupattas, embroidered kurtas), lush green fields/dhaba settings, dynamic camera push-ins for punchline reactions, and warm sunny lighting.",
+  },
+
   KIDS_FUNNY: {
     id: "KIDS_FUNNY",
     name: "Kids Funny",

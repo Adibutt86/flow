@@ -282,8 +282,8 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     };
   }
 
-  // 5. DESI / ROMAN URDU / HINDI JOKES CONCEPTS
-  if (input.category === "HINDI_JOKE" || lower.includes("chintu") || lower.includes("pappu") || lower.includes("dukaan")) {
+  // 5. DESI / ROMAN URDU / HINDI / PUNJABI JOKES CONCEPTS
+  if (input.category === "HINDI_JOKE" || input.category === "PUNJABI_JOKE" || lower.includes("chintu") || lower.includes("pappu") || lower.includes("santa") || lower.includes("banta") || lower.includes("dukaan")) {
     const name = userChar || "Chintu";
     return {
       concept: fullConcept,

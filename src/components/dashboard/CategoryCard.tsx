@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CategoryConfig } from "@/lib/categories/types";
-import { Ghost, Laugh, MessageCircle, Sparkles, Dog, Eye, Film, Sliders, ArrowRight } from "lucide-react";
+import { Ghost, Laugh, MessageCircle, Sparkles, Dog, Eye, Film, Sliders, Smile, ArrowRight } from "lucide-react";
 
 interface CategoryCardProps {
   category: CategoryConfig;
@@ -18,6 +18,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   Eye: <Eye className="w-6 h-6 text-purple-400" />,
   Film: <Film className="w-6 h-6 text-blue-400" />,
   Sliders: <Sliders className="w-6 h-6 text-indigo-400" />,
+  Smile: <Smile className="w-6 h-6 text-yellow-400" />,
 };
 
 export function CategoryCard({ category, onSelect }: CategoryCardProps) {
