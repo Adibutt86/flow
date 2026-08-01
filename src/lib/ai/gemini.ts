@@ -54,8 +54,8 @@ export const VisualBibleSchema = z.object({
 export const SceneSchema = z.object({
   sceneNumber: z.number(),
   duration: z.number(),
-  narration: z.string().min(1, "Narration is required"),
-  dialogue: z.string().min(1, "Dialogue is required"),
+  narration: z.string(),
+  dialogue: z.string(),
   imagePrompt: z.string().min(1, "Image prompt is required"),
   videoPrompt: z.string().min(1, "Video prompt is required"),
   camera: z.string().min(1, "Camera direction is required"),
