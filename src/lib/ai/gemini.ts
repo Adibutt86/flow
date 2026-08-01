@@ -856,7 +856,7 @@ Visual Style: ${input.visualStyle}
 Variation Seed: ${randomSeed}
 
 SAFETY DIRECTIVES:
-1. Do NOT mention numeric minor ages (e.g. "7-year-old", "8-year-old boy"). Use general terms like "playful cartoon character", "mischievous kid character", or Pixar 3D animated character terms.
+1. Do NOT mention numeric minor ages (e.g. "7-year-old", "8-year-old boy"). Use general terms like "playful cartoon character", "mischievous kid character", or high-quality 3D animated character terms.
 2. Ensure all concepts are 100% wholesome, safe, and family-friendly.
 
 CRITICAL LANGUAGE RULE:

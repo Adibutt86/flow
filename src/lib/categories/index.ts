@@ -134,7 +134,7 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     endingStyle: "Giggling character, cute reaction, or heartwarming mess",
     characterStyle: "Big-eyed cute kids, toddlers, or friendly cartoon companions",
     visualStyleSuggestions: [
-      "3D Pixar-style Cartoon",
+      "3D High-Quality Cartoon",
       "Soft Toy Animation",
       "Watercolor Dream",
     ],
@@ -249,7 +249,7 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     characterStyle: "Cute little girl or two kids with expressive faces and playful outfits",
     visualStyleSuggestions: [
       "3D Cartoon",
-      "Pixar Style",
+      "3D Animation",
       "Watercolor",
       "Cinematic Lighting (Soft)"
     ],
@@ -278,7 +278,7 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     characterStyle: "Highly energetic cats (male or female, varying ages from kittens to cool older cats) with swagger",
     visualStyleSuggestions: [
       "3D Cartoon",
-      "Pixar Style",
+      "3D Animation",
       "Neon Cyberpunk",
       "Anime"
     ],

@@ -72,7 +72,7 @@ const LANGUAGES = [
 ];
 
 const VISUAL_STYLES = [
-  { id: "3D Cartoon", label: "3D Cartoon", desc: "Pixar / Disney 3D animation style" },
+  { id: "3D Cartoon", label: "3D Cartoon", desc: "High-quality 3D animation style" },
   { id: "Cinematic 35mm", label: "Cinematic 35mm", desc: "High production value photorealistic film" },
   { id: "Anime", label: "Anime", desc: "Japanese anime animation artwork" },
   { id: "Photorealistic", label: "Photorealistic", desc: "Ultra-detailed real life visuals" },

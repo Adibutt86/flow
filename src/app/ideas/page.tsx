@@ -21,7 +21,7 @@ import { copyToClipboard } from "@/lib/utils";
 const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
 const VISUAL_STYLES = [
   "3D Cartoon",
-  "Pixar Style",
+  "3D Cartoon Style",
   "Anime",
   "Realistic",
   "Watercolor",

@@ -103,6 +103,7 @@ Language: ${ctx.language}
 Visual Style: ${ctx.visualStyle}
 
 CRITICAL RULES & VIRAL COMEDY MANDATES:
+0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
 1. STORY-SPECIFIC DIALOGUE MANDATE (CRITICAL RULE):
    - The dialogue used in every scene MUST come directly from the specific story context or concept.
    - Do NOT invent generic placeholder dialogue or filler phrases like "Aap ye kya kar rahe hain?", "Arey wah!", "Ye toh kamaal ho gaya!", "Watch closely!", "Sammy", "Hero".
@@ -283,6 +284,8 @@ ${input.category === "CUTE_KIDS" && input.characterSetup ? `Character Setup: ${i
 ${input.category === "CUTE_KIDS" && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
+0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
+
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
    - ALL 5 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
@@ -297,7 +300,7 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
    - ALL 5 ideas MUST feature hilarious pets/animals in absurd human situations.
 
 5. If Category is "KIDS_FUNNY":
-   - ALL 5 ideas MUST be cute, whimsical Pixar/Disney style child & pet physical comedy.
+   - ALL 5 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
 
 Return ONLY a valid JSON array of 5 distinct strings:
 [
