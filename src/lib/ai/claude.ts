@@ -137,6 +137,9 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
 8. VISUAL STYLE MANDATE:
    - The requested Visual Style (${ctx.visualStyle}) MUST be explicitly written into EVERY single imagePrompt, videoPrompt, and the visualBible description. Do not ignore the chosen style!
+9. CARBOX SPECIFIC RULES (If Category is "CARBOX"):
+   - ALL scenes MUST be completely SILENT of human voices. Do NOT include ANY dialogue. Set the dialogue field to an empty string or "(No dialogue)".
+   - The sfx field MUST ONLY include realistic car unpacking and reveal sound effects (e.g., crisp plastic peeling, satisfying box sliding, sharp clicks, subtle metallic clinks). No goofy or cartoonish sounds.
 
 Return ONLY valid JSON matching this exact structure:
 {
@@ -268,7 +271,7 @@ export async function generateIdeaSuggestionsWithClaude(
           {
             role: "user",
             content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
-Generate EXACTLY 5 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
+Generate EXACTLY 2 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
 Badge: ${categoryConfig.badge}
@@ -291,33 +294,30 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
 
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
-   - ALL 5 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
+   - ALL 2 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
 
 2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - ALL 5 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
+   - ALL 2 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
 
 3. If Category is "HORROR":
-   - ALL 5 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
+   - ALL 2 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
 
 4. If Category is "FUNNY_ANIMALS":
-   - ALL 5 ideas MUST feature hilarious pets/animals in absurd human situations.
+   - ALL 2 ideas MUST feature hilarious pets/animals in absurd human situations.
 
 5. If Category is "KIDS_FUNNY":
-   - ALL 5 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
+   - ALL 2 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
 
 6. If Category is "CARBOX":
-   - ALL 5 ideas MUST be ultra-realistic, ASMR-style top-down unboxing videos of premium die-cast cars.
+   - ALL 2 ideas MUST be ultra-realistic, ASMR-style top-down unboxing videos of premium die-cast cars.
    - You MUST incorporate the EXACT requested Car Brand, Color, Packaging, and Background into the description.
    - Describe satisfying peeling, clicking, and unwrapping sounds and textures.
 
-Return ONLY a valid JSON array of 5 distinct strings:
+Return ONLY a valid JSON array of 2 distinct strings:
 [
   "Idea 1...",
-  "Idea 2...",
-  "Idea 3...",
-  "Idea 4...",
-  "Idea 5..."
+  "Idea 2..."
 ]`,
           },
         ],
