@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Trash2,
+  Heart,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -38,6 +39,7 @@ interface SavedIdea {
   language: string;
   visualStyle: string;
   createdAt: string;
+  isFavorite?: boolean;
 }
 
 export default function IdeasPage() {
@@ -70,7 +72,7 @@ export default function IdeasPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Filter
-  const [filterCategory, setFilterCategory] = useState<CategoryId | "ALL">("ALL");
+  const [filterCategory, setFilterCategory] = useState<CategoryId | "ALL" | "FAVORITES">("ALL");
 
   const saveToStorage = (ideas: SavedIdea[]) => {
     setSavedIdeas(ideas);
@@ -141,6 +143,13 @@ export default function IdeasPage() {
     saveToStorage(updated);
   };
 
+  const handleToggleFavorite = (id: string) => {
+    const updated = savedIdeas.map((i) => 
+      i.id === id ? { ...i, isFavorite: !i.isFavorite } : i
+    );
+    saveToStorage(updated);
+  };
+
   const handleCopy = async (text: string, id: string) => {
     const ok = await copyToClipboard(text);
     if (ok) {
@@ -154,6 +163,8 @@ export default function IdeasPage() {
   const filteredIdeas =
     filterCategory === "ALL"
       ? savedIdeas
+      : filterCategory === "FAVORITES"
+      ? savedIdeas.filter((i) => i.isFavorite)
       : savedIdeas.filter((i) => i.category === filterCategory);
 
   const totalPages = Math.max(1, Math.ceil(filteredIdeas.length / ITEMS_PER_PAGE));
@@ -333,6 +344,17 @@ export default function IdeasPage() {
               >
                 All
               </button>
+              <button
+                onClick={() => { setFilterCategory("FAVORITES"); setCurrentPage(1); }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                  filterCategory === "FAVORITES"
+                    ? "bg-rose-950 border-rose-500/40 text-rose-200"
+                    : "bg-gray-900 border-gray-700 text-gray-400 hover:text-rose-400"
+                }`}
+              >
+                <Heart className="w-3 h-3" />
+                Favorites
+              </button>
               {categoryEntries.map((cat) => (
                 <button
                   key={cat.id}
@@ -378,6 +400,17 @@ export default function IdeasPage() {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      onClick={() => handleToggleFavorite(idea.id)}
+                      className={`p-2 rounded-lg border transition-all cursor-pointer ${
+                        idea.isFavorite 
+                          ? "bg-rose-950/50 border-rose-500/40 text-rose-400 hover:bg-rose-900/50" 
+                          : "bg-gray-900 border-gray-700 text-gray-400 hover:text-rose-400 hover:border-rose-500/40"
+                      }`}
+                      title={idea.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      <Heart className={`w-3.5 h-3.5 ${idea.isFavorite ? "fill-current" : ""}`} />
+                    </button>
                     <button
                       onClick={() => handleCopy(idea.text, idea.id)}
                       className="p-2 rounded-lg bg-gray-900 border border-gray-700 text-gray-400 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer"
