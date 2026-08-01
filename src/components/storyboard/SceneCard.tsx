@@ -79,55 +79,39 @@ export function SceneCard({
   };
 
   const handleCopyPackage = () => {
-    let flowPackage = "";
-    if (scene.sceneNumber === 1) {
-      flowPackage = `
-========================================
-GOOGLE FLOW SCENE PACKAGE - SCENE #1 OF ${totalScenes}
-Duration: 8 Seconds (Initial Flow Clip)
-========================================
-
-STEP 1: STARTING FRAME IMAGE PROMPT:
-${scene.imagePrompt}
-
-STEP 2: 8-SECOND VIDEO MOTION PROMPT:
-${scene.videoPrompt}
-
-NARRATION / DIALOGUE:
-${scene.narration || scene.dialogue || "N/A"}
-
-CAMERA: ${scene.camera}
-MOTION: ${scene.motion}
-LIGHTING: ${scene.lighting}
-SFX: ${scene.sfx || "N/A"}
-MUSIC: ${scene.music || "N/A"}
-========================================
-`.trim();
-    } else {
-      flowPackage = `
+    const flowPackage = `
 ========================================
 GOOGLE FLOW SCENE PACKAGE - SCENE #${scene.sceneNumber} OF ${totalScenes}
-Duration: 8 Seconds (Continues from Scene #${scene.sceneNumber - 1} frame)
+Duration: 8 Seconds
 ========================================
 
-8-SECOND VIDEO MOTION PROMPT (Attach end frame of Scene #${scene.sceneNumber - 1} in Google Flow):
+STEP 1:
+STARTING FRAME IMAGE PROMPT
+${scene.imagePrompt}
+
+STEP 2:
+VIDEO MOTION PROMPT
 ${scene.videoPrompt}
 
-NARRATION / DIALOGUE:
-${scene.narration || scene.dialogue || "N/A"}
+DIALOGUE
+${scene.dialogue || scene.narration || "N/A"}
 
-CAMERA: ${scene.camera}
-MOTION: ${scene.motion}
-LIGHTING: ${scene.lighting}
-SFX: ${scene.sfx || "N/A"}
-MUSIC: ${scene.music || "N/A"}
+CAMERA
+${scene.camera}
 
-CONTINUITY:
-Prev: ${scene.previousSceneState || "N/A"}
-Next: ${scene.nextSceneState || "N/A"}
+MOTION
+${scene.motion}
+
+LIGHTING
+${scene.lighting}
+
+SFX
+${scene.sfx || "Action-matched SFX cue"}
+
+MUSIC
+${scene.music || "Playful bouncy comedy score"}
 ========================================
 `.trim();
-    }
 
     triggerCopy("package", flowPackage, `Scene #${scene.sceneNumber} Flow Package`);
   };

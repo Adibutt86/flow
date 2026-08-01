@@ -76,7 +76,11 @@ Visual Style: ${ctx.visualStyle}
 CRITICAL RULES:
 1. ABSOLUTELY NO PLACEHOLDERS ALLOWED. Never output "Sammy", "Hero", "Main Character", "Operation is a go!", "Watch closely", "Matching character outfit", or generic strings!
 2. The entire story MUST BE 100% COMPLETE AND FULLY RESOLVED within EXACTLY ${ctx.clipCount} scenes.
-3. Every scene MUST have short dialogue (UNDER 12 WORDS) and time-sliced 8-second video motion breakdown (0-2s, 2-4s, 4-6s, 6-8s).
+3. PIXAR 4-SCENE COMEDY STRUCTURE (8 SECONDS PER SCENE):
+   - Scene 1 (Hook - 8s): Start with a surprising or funny situation immediately. No long intro. Make viewers curious. End with a mini cliffhanger.
+   - Scene 2 (Build-up - 8s): Another character reacts. Increase confusion with funny expressions and short dialogue under 12 words.
+   - Scene 3 (Escalation - 8s): Situation becomes crazier. Visual slapstick comedy increases rapidly.
+   - Scene 4 (Punchline - 8s): Deliver an unexpected twist ending that makes previous scenes hilarious. End with a freeze-frame reaction pose.
 4. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
 5. DIALOGUE & NARRATION LANGUAGE MANDATE:
    - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": The character dialogue AND narration MUST be strictly in authentic Punjabi / Roman Punjabi (e.g. "Oye paji, eh ki ho gaya!", "Tu mera lassi da glass kyu peeta?", "Sardaar ji, dhyan naal!").
