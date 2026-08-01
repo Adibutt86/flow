@@ -48,8 +48,12 @@ export default function IdeasPage() {
   const [language, setLanguage] = useState("English");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon");
   const [isGenerating, setIsGenerating] = useState(false);
-
-
+  
+  // Custom Idea Optimization
+  const [customIdea, setCustomIdea] = useState("");
+  const [isOptimizing, setIsOptimizing] = useState(false);
+  const [optimizedData, setOptimizedData] = useState<{title: string, scenes: {sceneNumber: number, content: string}[]} | null>(null);
+  const [activeSceneTab, setActiveSceneTab] = useState(1);
   // Saved ideas
   const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>(() => {
     if (typeof window !== "undefined") {
@@ -71,6 +75,32 @@ export default function IdeasPage() {
   const saveToStorage = (ideas: SavedIdea[]) => {
     setSavedIdeas(ideas);
     localStorage.setItem("flow-saved-ideas", JSON.stringify(ideas));
+  };
+
+  const handleOptimize = async () => {
+    if (!customIdea.trim()) {
+      showToast("Please enter a custom idea first", "error");
+      return;
+    }
+    setIsOptimizing(true);
+    try {
+      const res = await fetch("/api/optimize-idea", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rawIdea: customIdea }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to optimize idea");
+      }
+      setOptimizedData(data.optimized);
+      setActiveSceneTab(1);
+      showToast("Idea optimized successfully!", "success");
+    } catch (e: any) {
+      showToast(e.message || "Failed to optimize idea", "error");
+    } finally {
+      setIsOptimizing(false);
+    }
   };
 
   const handleGenerate = async () => {
@@ -148,6 +178,67 @@ export default function IdeasPage() {
           <p className="text-sm text-gray-400">
             Generate story ideas with Claude AI, save them, and copy-paste into the video creator.
           </p>
+        </div>
+
+        {/* Custom Idea Optimizer */}
+        <div className="glass-card rounded-2xl p-6 border border-gray-800 space-y-5">
+          <h2 className="text-base font-bold text-white flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            Optimize Custom Idea (e.g. from ChatGPT)
+          </h2>
+          
+          <div className="space-y-3">
+            <textarea
+              value={customIdea}
+              onChange={(e) => setCustomIdea(e.target.value)}
+              placeholder="Paste your raw story idea here..."
+              className="w-full h-32 px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+            />
+            <button
+              onClick={handleOptimize}
+              disabled={isOptimizing || !customIdea.trim()}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+            >
+              {isOptimizing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {isOptimizing ? "Optimizing & Splitting into Scenes..." : "Rewrite & Optimize into Video Script"}
+            </button>
+          </div>
+
+          {optimizedData && (
+            <div className="mt-6 space-y-4 pt-6 border-t border-gray-800">
+              <h3 className="text-lg font-bold text-emerald-400">
+                {optimizedData.title}
+              </h3>
+              
+              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                {optimizedData.scenes.map((scene) => (
+                  <button
+                    key={scene.sceneNumber}
+                    onClick={() => setActiveSceneTab(scene.sceneNumber)}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      activeSceneTab === scene.sceneNumber
+                        ? "bg-emerald-500 text-white shadow-md"
+                        : "bg-gray-900 text-gray-400 hover:text-white hover:bg-gray-800"
+                    }`}
+                  >
+                    Scene {scene.sceneNumber}
+                  </button>
+                ))}
+              </div>
+
+              <div className="p-4 rounded-xl bg-black/40 border border-gray-800 text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
+                {optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content}
+              </div>
+              
+              <button
+                onClick={() => handleCopy(optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content || "", "opt-scene")}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-xs text-gray-300 hover:text-white hover:border-emerald-500/40 transition-all cursor-pointer"
+              >
+                {copiedId === "opt-scene" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedId === "opt-scene" ? "Copied Scene Content!" : "Copy Scene Content"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Generation Controls */}

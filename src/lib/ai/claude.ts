@@ -259,7 +259,7 @@ export async function generateIdeaSuggestionsWithClaude(
   const categoryConfig = getCategoryConfig(input.category);
   let lastError: any = null;
 
-  for (const modelName of ["claude-haiku-4-5", ...CLAUDE_MODELS]) {
+  for (const modelName of ["claude-opus-4-8"]) {
     try {
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
@@ -471,4 +471,53 @@ Return ONLY a valid JSON array of 3 strings:
     stage: "Variations Generator",
     reason: lastError?.message || `AI model failed to generate variations for type '${input.type}'.`,
   });
+}
+
+export async function optimizeIdeaWithClaude(rawIdea: string) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw new Error("Anthropic API key is not configured.");
+  
+  const anthropic = new Anthropic({ apiKey });
+
+  const prompt = `You are an expert AI video scriptwriter for short-form clips.
+Take the following raw story idea and rewrite it into a highly engaging, viral video-friendly script.
+Based on the amount of dialogue and action, break it down into an appropriate number of 8-second scenes. Keep the dialogue punchy.
+
+Raw Idea:
+"""
+${rawIdea}
+"""
+
+Return ONLY a valid JSON object matching this exact structure:
+{
+  "title": "A catchy title for the optimized script",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "content": "The specific dialogue and action for this 8-second scene..."
+    }
+  ]
+}`;
+
+  for (const modelName of ["claude-opus-4-8"]) {
+    try {
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 2048,
+        temperature: 0.7,
+        messages: [{ role: "user", content: prompt }],
+      });
+
+      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      const cleaned = cleanJsonResponse(text);
+      const data = JSON.parse(cleaned);
+      if (data && data.title && Array.isArray(data.scenes)) {
+        return data;
+      }
+    } catch (e: any) {
+      console.warn(`Claude (${modelName}) optimization error:`, e?.message || e);
+    }
+  }
+
+  throw new Error("Failed to optimize idea. AI returned invalid format or failed.");
 }
