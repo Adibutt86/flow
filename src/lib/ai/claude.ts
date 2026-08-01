@@ -270,7 +270,7 @@ export async function generateIdeaSuggestionsWithClaude(
           {
             role: "user",
             content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
-Generate EXACTLY 10 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
+Generate EXACTLY 5 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
 Badge: ${categoryConfig.badge}
@@ -283,33 +283,28 @@ Visual Style: ${input.visualStyle}
 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
-   - ALL 10 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
+   - ALL 5 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
 
 2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - ALL 10 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
+   - ALL 5 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
 
 3. If Category is "HORROR":
-   - ALL 10 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
+   - ALL 5 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
 
 4. If Category is "FUNNY_ANIMALS":
-   - ALL 10 ideas MUST feature hilarious pets/animals in absurd human situations.
+   - ALL 5 ideas MUST feature hilarious pets/animals in absurd human situations.
 
 5. If Category is "KIDS_FUNNY":
-   - ALL 10 ideas MUST be cute, whimsical Pixar/Disney style child & pet physical comedy.
+   - ALL 5 ideas MUST be cute, whimsical Pixar/Disney style child & pet physical comedy.
 
-Return ONLY a valid JSON array of 10 distinct strings:
+Return ONLY a valid JSON array of 5 distinct strings:
 [
   "Idea 1...",
   "Idea 2...",
   "Idea 3...",
   "Idea 4...",
-  "Idea 5...",
-  "Idea 6...",
-  "Idea 7...",
-  "Idea 8...",
-  "Idea 9...",
-  "Idea 10..."
+  "Idea 5..."
 ]`,
           },
         ],

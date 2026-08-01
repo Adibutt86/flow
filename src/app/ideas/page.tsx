@@ -217,7 +217,7 @@ export default function IdeasPage() {
             ) : (
               <Sparkles className="w-4 h-4" />
             )}
-            {isGenerating ? "Generating with Claude..." : "✨ Generate 10 Ideas"}
+            {isGenerating ? "Generating with Claude..." : "✨ Generate 5 Ideas"}
           </button>
         </div>
 

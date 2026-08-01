@@ -351,7 +351,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
               <div>
                 <h3 className="text-lg font-semibold text-white mb-1">Story Idea & Visual Style</h3>
                 <p className="text-sm text-gray-400">
-                  Describe your concept or click '✨ AI Suggest 10 Ideas' to generate fresh script ideas using Claude API.
+                  Describe your concept or open the Ideas Page to generate 5 fresh script ideas using Claude API.
                 </p>
               </div>
 
