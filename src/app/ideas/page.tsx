@@ -57,6 +57,12 @@ export default function IdeasPage() {
   const [characterSetup, setCharacterSetup] = useState("One Cute Little Girl");
   const [kidsNationality, setKidsNationality] = useState("Global / Any");
   
+  // Carbox specific options
+  const [carboxBrand, setCarboxBrand] = useState("Premium BMW");
+  const [carboxColor, setCarboxColor] = useState("Glossy Black");
+  const [carboxPackaging, setCarboxPackaging] = useState("Elegant Retail Box");
+  const [carboxBackground, setCarboxBackground] = useState("Clean White Studio Tabletop");
+  
   // Custom Idea Optimization
   const [customIdea, setCustomIdea] = useState("");
   const [isOptimizing, setIsOptimizing] = useState(false);
@@ -117,7 +123,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup, kidsNationality }),
+        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -379,6 +385,75 @@ export default function IdeasPage() {
                   <option value="European">European</option>
                   <option value="Middle Eastern">Middle Eastern</option>
                   <option value="Latin American">Latin American</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          {category === "CARBOX" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {/* Brand */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Car Brand / Model</label>
+                <select
+                  value={carboxBrand}
+                  onChange={(e) => setCarboxBrand(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Premium BMW">Premium BMW</option>
+                  <option value="Mercedes Benz">Mercedes Benz</option>
+                  <option value="Porsche 911">Porsche 911</option>
+                  <option value="Ferrari">Ferrari</option>
+                  <option value="Lamborghini">Lamborghini</option>
+                  <option value="JDM Nissan GTR">JDM Nissan GTR</option>
+                  <option value="Classic Muscle Car">Classic Muscle Car</option>
+                </select>
+              </div>
+
+              {/* Color */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Car Color</label>
+                <select
+                  value={carboxColor}
+                  onChange={(e) => setCarboxColor(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Glossy Black">Glossy Black</option>
+                  <option value="Pearl White">Pearl White</option>
+                  <option value="Metallic Red">Metallic Red</option>
+                  <option value="Matte Grey">Matte Grey</option>
+                  <option value="Bright Yellow">Bright Yellow</option>
+                  <option value="Midnight Blue">Midnight Blue</option>
+                </select>
+              </div>
+
+              {/* Packaging */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Packaging Style</label>
+                <select
+                  value={carboxPackaging}
+                  onChange={(e) => setCarboxPackaging(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Elegant Retail Box">Elegant Retail Box</option>
+                  <option value="Vintage Blister Pack">Vintage Blister Pack</option>
+                  <option value="Mystery Blind Box">Mystery Blind Box</option>
+                  <option value="Premium Aluminum Case">Premium Aluminum Case</option>
+                </select>
+              </div>
+
+              {/* Background */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Tabletop Background</label>
+                <select
+                  value={carboxBackground}
+                  onChange={(e) => setCarboxBackground(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Clean White Studio Tabletop">Clean White Studio Tabletop</option>
+                  <option value="Dark Wooden Desk">Dark Wooden Desk</option>
+                  <option value="Carbon Fiber Mat">Carbon Fiber Mat</option>
+                  <option value="Black Marble Surface">Black Marble Surface</option>
                 </select>
               </div>
             </div>

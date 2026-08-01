@@ -9,6 +9,7 @@ export type CategoryId =
   | "CINEMATIC"
   | "CUTE_KIDS"
   | "CATS_DANCING"
+  | "CARBOX"
   | "CUSTOM";
 
 export interface CategoryConfig {

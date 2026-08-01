@@ -122,6 +122,10 @@ export interface SuggestIdeasInput {
   kidsHealth?: string;
   characterSetup?: string;
   kidsNationality?: string;
+  carboxBrand?: string;
+  carboxColor?: string;
+  carboxPackaging?: string;
+  carboxBackground?: string;
 }
 
 /**

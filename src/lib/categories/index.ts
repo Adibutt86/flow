@@ -287,6 +287,35 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Emphasize dynamic motion blur, neon/stage lighting, hilarious cat facial expressions of intense focus, detailed tiny costumes, and rhythmic action cues.",
   },
 
+  CARBOX: {
+    id: "CARBOX",
+    name: "Carbox (ASMR Unboxing)",
+    badge: "Premium ASMR",
+    iconName: "Video",
+    description: "Premium ASMR unboxing of high-end die-cast car models with ultra-realistic macro photography.",
+    storytellingRules: [
+      "Top-down overhead camera on a pristine studio tabletop",
+      "Feature satisfying ASMR sounds (peeling plastic, crisp clicks, rustling)",
+      "Focus on ultra-realistic macro details of the car (grille, wheels, headlights, paint)",
+      "Maintain a luxury commercial product reveal aesthetic",
+      "No text, no logos, no watermarks, vertical 9:16 format"
+    ],
+    tone: "Elegant, premium, satisfying, meticulous, high-end",
+    pacing: "Slow, deliberate, revealing, mesmerizing",
+    hookStyle: "A highly premium packaged box sliding smoothly into the frame",
+    endingStyle: "The unboxed car placed perfectly center stage, doors open, sparkling under studio lights",
+    characterStyle: "Just realistic, elegant human hands performing the unboxing",
+    visualStyleSuggestions: [
+      "Photorealistic",
+      "Cinematic 35mm",
+      "Realistic",
+      "Ultra-detailed Macro"
+    ],
+    dialogueStyle: "Pure ASMR (No dialogue, just crisp, satisfying audio)",
+    promptInstructions:
+      "Emphasize bright softbox studio lighting, shallow depth of field, ultra-realistic textures, satisfying unboxing action, and luxury product showcase vibes.",
+  },
+
   CUSTOM: {
     id: "CUSTOM",
     name: "Custom Rules",
