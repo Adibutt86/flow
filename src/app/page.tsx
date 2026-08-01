@@ -148,6 +148,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 text-center text-xs">
             {[
               { s: 8, c: 1 },
+              { s: 10, c: 1 },
               { s: 16, c: 2 },
               { s: 24, c: 3 },
               { s: 32, c: 4 },

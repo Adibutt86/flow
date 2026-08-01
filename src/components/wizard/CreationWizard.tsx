@@ -53,6 +53,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 const DURATION_OPTIONS = [
   { duration: 8, clips: 1, label: "8 sec", note: "1 Flow clip" },
+  { duration: 10, clips: 1, label: "10 sec", note: "1 Flow clip" },
   { duration: 16, clips: 2, label: "16 sec", note: "2 Flow clips" },
   { duration: 24, clips: 3, label: "24 sec", note: "3 Flow clips" },
   { duration: 32, clips: 4, label: "32 sec", note: "4 Flow clips (Recommended)" },
