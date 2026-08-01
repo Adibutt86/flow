@@ -54,6 +54,7 @@ export default function IdeasPage() {
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
   const [kidsHealth, setKidsHealth] = useState("Healthy & Energetic");
+  const [characterSetup, setCharacterSetup] = useState("One Cute Little Girl");
   
   // Custom Idea Optimization
   const [customIdea, setCustomIdea] = useState("");
@@ -115,7 +116,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth }),
+        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -341,6 +342,22 @@ export default function IdeasPage() {
                   <option value="Healthy & Energetic">Healthy & Energetic</option>
                   <option value="Chubby & Cute">Chubby & Cute</option>
                   <option value="Fragile & Sweet">Fragile & Sweet</option>
+                </select>
+              </div>
+
+              {/* Character Setup */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-400">Character Setup</label>
+                <select
+                  value={characterSetup}
+                  onChange={(e) => setCharacterSetup(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                >
+                  <option value="One Cute Little Girl">One Cute Little Girl</option>
+                  <option value="One Cute Little Boy">One Cute Little Boy</option>
+                  <option value="Two Kids (Siblings)">Two Kids (Siblings)</option>
+                  <option value="Two Kids (Friends)">Two Kids (Friends)</option>
+                  <option value="Twins">Twins</option>
                 </select>
               </div>
             </div>

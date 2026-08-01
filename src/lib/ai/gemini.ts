@@ -120,6 +120,7 @@ export interface SuggestIdeasInput {
   seed?: number;
   kidsAge?: string;
   kidsHealth?: string;
+  characterSetup?: string;
 }
 
 /**
