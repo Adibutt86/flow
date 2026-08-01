@@ -277,7 +277,14 @@ export default function IdeasPage() {
               <label className="text-xs font-semibold text-gray-400">Category</label>
               <select
                 value={category}
-                onChange={(e) => setCategory(e.target.value as CategoryId)}
+                onChange={(e) => {
+                  const cat = e.target.value as CategoryId;
+                  setCategory(cat);
+                  if (cat === "CARBOX") setLanguage("ASMR Unboxing Effects");
+                  else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
+                  else if (cat === "HINDI_JOKE") setLanguage("Hindi");
+                  else if (language === "ASMR Unboxing Effects") setLanguage("English");
+                }}
                 className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
               >
                 {categoryEntries.map((cat) => (
@@ -295,12 +302,17 @@ export default function IdeasPage() {
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                disabled={category === "CARBOX"}
               >
-                {LANGUAGE_OPTIONS.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
+                {category === "CARBOX" ? (
+                  <option value="ASMR Unboxing Effects">ASMR Unboxing Effects</option>
+                ) : (
+                  LANGUAGE_OPTIONS.map((l) => (
+                    <option key={l} value={l}>
+                      {l}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
 
@@ -394,7 +406,7 @@ export default function IdeasPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
               {/* Brand */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-gray-400">Car Brand / Model</label>
+                <label className="text-xs font-semibold text-gray-400">Vehicle Type / Brand / Model</label>
                 <select
                   value={carboxBrand}
                   onChange={(e) => setCarboxBrand(e.target.value)}
@@ -407,12 +419,19 @@ export default function IdeasPage() {
                   <option value="Lamborghini">Lamborghini</option>
                   <option value="JDM Nissan GTR">JDM Nissan GTR</option>
                   <option value="Classic Muscle Car">Classic Muscle Car</option>
+                  <option value="City Bus">City Bus</option>
+                  <option value="Farm Tractor">Farm Tractor</option>
+                  <option value="Heavy Duty Truck">Heavy Duty Truck</option>
+                  <option value="Sports Motorcycle">Sports Motorcycle</option>
+                  <option value="Construction Excavator">Construction Excavator</option>
+                  <option value="Fire Engine (Emergency)">Fire Engine (Emergency)</option>
+                  <option value="Police Cruiser (Emergency)">Police Cruiser (Emergency)</option>
                 </select>
               </div>
 
               {/* Color */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-gray-400">Car Color</label>
+                <label className="text-xs font-semibold text-gray-400">Vehicle Color</label>
                 <select
                   value={carboxColor}
                   onChange={(e) => setCarboxColor(e.target.value)}

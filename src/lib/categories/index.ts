@@ -289,15 +289,16 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
 
   CARBOX: {
     id: "CARBOX",
-    name: "Carbox (ASMR Unboxing)",
+    name: "Car Unboxing",
     badge: "Premium ASMR",
     iconName: "Video",
     description: "Premium ASMR unboxing of high-end die-cast car models with ultra-realistic macro photography.",
     storytellingRules: [
       "Top-down overhead camera on a pristine studio tabletop",
       "Feature satisfying ASMR sounds (peeling plastic, crisp clicks, rustling)",
-      "Focus on ultra-realistic macro details of the car (grille, wheels, headlights, paint)",
+      "Focus ONLY on ultra-realistic macro details of the car (grille, wheels, headlights, paint)",
       "Maintain a luxury commercial product reveal aesthetic",
+      "STRICTLY NO cats, NO animals, and NO unrelated objects. ONLY car unboxing.",
       "No text, no logos, no watermarks, vertical 9:16 format"
     ],
     tone: "Elegant, premium, satisfying, meticulous, high-end",

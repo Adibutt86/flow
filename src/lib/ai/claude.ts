@@ -285,8 +285,8 @@ ${input.category === "CUTE_KIDS" && input.kidsAge ? `Characters Age: ${input.kid
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
 ${input.category === "CUTE_KIDS" && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
-${input.category === "CARBOX" && input.carboxBrand ? `Car Brand / Model: ${input.carboxBrand}` : ""}
-${input.category === "CARBOX" && input.carboxColor ? `Car Color: ${input.carboxColor}` : ""}
+${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
+${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
 ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: ${input.carboxBackground}` : ""}
 
@@ -310,8 +310,8 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
    - ALL 2 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
 
 6. If Category is "CARBOX":
-   - ALL 2 ideas MUST be ultra-realistic, ASMR-style top-down unboxing videos of premium die-cast cars.
-   - You MUST incorporate the EXACT requested Car Brand, Color, Packaging, and Background into the description.
+   - ALL 2 ideas MUST be ultra-realistic, ASMR-style top-down unboxing videos of premium die-cast vehicles.
+   - You MUST incorporate the EXACT requested Vehicle Type/Brand, Color, Packaging, and Background into the description.
    - Describe satisfying peeling, clicking, and unwrapping sounds and textures.
 
 Return ONLY a valid JSON array of 2 distinct strings:

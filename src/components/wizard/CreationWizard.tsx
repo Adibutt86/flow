@@ -321,16 +321,19 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                   Language Support
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {LANGUAGES.map((lang) => {
-                    const isSel = language === lang.id;
+                  {(category === "CARBOX" 
+                    ? [{ id: "ASMR Unboxing Effects", label: "ASMR Unboxing Effects", desc: "No dialogue, only realistic unpacking sounds" }] 
+                    : LANGUAGES
+                  ).map((lang) => {
+                    const isSel = (category === "CARBOX") ? true : language === lang.id;
                     return (
                       <button
                         key={lang.id}
                         onClick={() => {
-                          setLanguage(lang.id);
+                          if (category !== "CARBOX") setLanguage(lang.id);
   
                         }}
-                        className={`p-3 rounded-xl border text-left flex flex-col transition-all cursor-pointer ${
+                        className={`p-3 rounded-xl border text-left flex flex-col transition-all ${category !== "CARBOX" ? "cursor-pointer" : "cursor-default"} ${
                           isSel
                             ? "bg-indigo-950/60 border-indigo-500 text-white"
                             : "bg-gray-900/40 border-gray-800 text-gray-300 hover:border-gray-700"
