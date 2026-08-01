@@ -635,26 +635,8 @@ export function validateStoryboard(ctx: StoryContext, storyboard: GeneratedProje
     }
   }
 
-  // Check 2: Check required concept keywords (soft match - at least 30% must appear)
-  const missingKeywords = [];
-  const fullStoryboardText = JSON.stringify(storyboard).toLowerCase();
-  for (const kw of ctx.requiredKeywords) {
-    if (!fullStoryboardText.includes(kw.toLowerCase())) {
-      missingKeywords.push(kw);
-    }
-  }
-
-  const totalKw = ctx.requiredKeywords.length;
-  const matchedKw = totalKw - missingKeywords.length;
-  const matchRatio = totalKw > 0 ? matchedKw / totalKw : 1;
-
-  if (totalKw > 0 && matchRatio < 0.3) {
-    return {
-      valid: false,
-      reason: `Generated storyboard is off-topic: only ${matchedKw}/${totalKw} concept keywords found (need at least 30%)`,
-      missing: missingKeywords,
-    };
-  }
+  // Check 2: Check required concept keywords (REMOVED as per user request to disable safety net)
+  // The keyword validation check was removed here to prevent "off-topic" errors when AI drastically rewrites the prompt.
 
   // Check 3: Verify total scene count matches clipCount exactly
   if (storyboard.scenes?.length !== ctx.clipCount) {

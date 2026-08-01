@@ -486,17 +486,46 @@ export default function IdeasPage() {
                     >
                       <Heart className={`w-3.5 h-3.5 ${idea.isFavorite ? "fill-current" : ""}`} />
                     </button>
-                    <button
-                      onClick={() => handleCopy(idea.text, idea.id)}
-                      className="p-2 rounded-lg bg-gray-900 border border-gray-700 text-gray-400 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer"
-                      title="Copy to clipboard"
-                    >
-                      {copiedId === idea.id ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
+                    {idea.category === "CUTE_KIDS" ? (
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-900/30 border border-indigo-700/50 text-[10px] font-semibold text-indigo-300 hover:text-white hover:bg-indigo-800/50 transition-all cursor-pointer"
+                          title="Copy Mobile Prompt (9:16)"
+                        >
+                          {copiedId === `${idea.id}-mobile` ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                          9:16 Mobile
+                        </button>
+                        <button
+                          onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-[10px] font-semibold text-gray-400 hover:text-white hover:border-gray-500 transition-all cursor-pointer"
+                          title="Copy Full Prompt (16:9)"
+                        >
+                          {copiedId === `${idea.id}-full` ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                          16:9 Full
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleCopy(idea.text, idea.id)}
+                        className="p-2 rounded-lg bg-gray-900 border border-gray-700 text-gray-400 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer"
+                        title="Copy to clipboard"
+                      >
+                        {copiedId === idea.id ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    )}
                     <button
                       onClick={() => handleDeleteIdea(idea.id)}
                       className="p-2 rounded-lg bg-gray-900 border border-gray-700 text-gray-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer"
