@@ -236,9 +236,15 @@ export async function POST(request: Request) {
         where: { id: project.id },
         data: { status: "ERROR" },
       });
+
+      const details = genError?.details || {};
       return NextResponse.json(
         {
           success: false,
+          stage: details.stage || "AI Generation",
+          scene: details.scene,
+          field: details.field,
+          reason: details.reason || genError.message || "Failed during AI generation",
           error: genError.message || "Failed during AI generation",
           projectId: project.id,
         },
@@ -247,8 +253,16 @@ export async function POST(request: Request) {
     }
   } catch (error: any) {
     console.error("POST /api/projects error:", error);
+    const details = error?.details || {};
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to create project" },
+      {
+        success: false,
+        stage: details.stage || "Project Request",
+        scene: details.scene,
+        field: details.field,
+        reason: details.reason || error.message || "Failed to create project",
+        error: error.message || "Failed to create project",
+      },
       { status: 200 }
     );
   }

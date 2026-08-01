@@ -11,13 +11,13 @@ import {
   generateStoryContext,
   generateFullStoryboardFromPipeline,
   validateStoryboard,
+  ValidationError,
 } from "./gemini";
 import { getCategoryConfig } from "../categories/index";
 
 const CLAUDE_MODELS = [
-  "claude-3-7-sonnet-20250219",
-  "claude-3-5-sonnet-20241022",
-  "claude-3-haiku-20240307",
+  "claude-haiku-4-5",
+  "claude-sonnet-4-6",
 ];
 
 function cleanJsonResponse(text: string): string {
@@ -30,37 +30,67 @@ function cleanJsonResponse(text: string): string {
   return cleaned.trim();
 }
 
-function safeJsonParse<T>(rawText: string, schema: z.ZodSchema<T>): T {
+function safeJsonParse<T>(rawText: string, schema: z.ZodSchema<T>, stageName: string = "AI Generation"): T {
   const cleaned = cleanJsonResponse(rawText);
+  let parsedJson: any;
   try {
-    const parsed = JSON.parse(cleaned);
-    return schema.parse(parsed);
+    parsedJson = JSON.parse(cleaned);
   } catch (err: any) {
     try {
       const repaired = cleaned
         .replace(/,\s*([\]}])/g, "$1")
         .replace(/[\u0000-\u001F]+/g, " ");
-      const parsedRepaired = JSON.parse(repaired);
-      return schema.parse(parsedRepaired);
+      parsedJson = JSON.parse(repaired);
     } catch (repairErr: any) {
-      console.error("Failed to parse Claude output:", rawText);
-      throw new Error(`Invalid structured response from Claude API: ${err.message || err}`);
+      throw new ValidationError({
+        success: false,
+        stage: stageName,
+        reason: `AI output could not be parsed as valid JSON: ${err.message || err}`,
+      });
     }
   }
+
+  const result = schema.safeParse(parsedJson);
+  if (!result.success) {
+    const firstIssue = result.error.issues[0];
+    const fieldPath = firstIssue.path.join(".");
+
+    let sceneNumber: number | undefined;
+    if (firstIssue.path[0] === "scenes" && typeof firstIssue.path[1] === "number") {
+      sceneNumber = parsedJson?.scenes?.[firstIssue.path[1]]?.sceneNumber || (firstIssue.path[1] + 1);
+    }
+
+    const fieldName = firstIssue.path[firstIssue.path.length - 1]?.toString() || fieldPath;
+
+    throw new ValidationError({
+      success: false,
+      stage: stageName,
+      scene: sceneNumber,
+      field: fieldName,
+      reason: `AI did not generate valid '${fieldName}' field: ${firstIssue.message}`,
+    });
+  }
+
+  return result.data;
 }
 
 export async function generateProjectContentWithClaude(
   input: GenerateProjectInput
 ): Promise<GeneratedProjectOutput & { aiUsed: boolean; provider: string; model: string; generationMode: string }> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is not configured. AI storyboards cannot be generated without active model credentials.",
+    });
+  }
+
   const ctx = generateStoryContext(input);
 
   console.log("[CLAUDE INPUT]", input.idea);
 
-  if (apiKey) {
-    const anthropic = new Anthropic({ apiKey });
-
-    const prompt = `You are a master short-form video director for Google Flow.
+  const prompt = `You are a master short-form video director for Google Flow.
 Your task is to generate a 100% LOGICALLY CONSISTENT short video storyboard based STRICTLY on this CURRENT STORY CONTEXT:
 
 STORY CONTEXT (SOURCE OF TRUTH):
@@ -74,8 +104,11 @@ Language: ${ctx.language}
 Visual Style: ${ctx.visualStyle}
 
 CRITICAL RULES & VIRAL COMEDY MANDATES:
-1. ABSOLUTELY NO PLACEHOLDERS OR GENERIC FILLER DIALOGUE:
-   - FORBIDDEN DIALOGUE: Never output generic phrases like "Aap ye kya kar rahe hain?", "Arey wah!", "Ye toh kamaal ho gaya!", "Sammy", "Hero", "Operation is a go!", "Watch closely"! Every line MUST move the story forward and reveal character personality.
+1. STORY-SPECIFIC DIALOGUE MANDATE (CRITICAL RULE):
+   - The dialogue used in every scene MUST come directly from the specific story context or concept.
+   - Do NOT invent generic placeholder dialogue or filler phrases like "Aap ye kya kar rahe hain?", "Arey wah!", "Ye toh kamaal ho gaya!", "Watch closely!", "Sammy", "Hero".
+   - Every spoken line MUST either: (1) be taken directly from the story, OR (2) add meaningful specific context that advances the joke.
+   - TEST: If a dialogue line could fit multiple unrelated stories, it is TOO GENERIC and is FORBIDDEN. It must belong strictly to this specific story!
 2. NO VAGUE ENVIRONMENTS:
    - FORBIDDEN ENVIRONMENT PHRASES: Never output "Dynamic environment", "Cartoon environment", "Beautiful background". Always specify concrete places (e.g., "Bright supermarket cheese sampling booth", "Busy Pakistani wedding hall", "Crowded vegetable market", "Small village clinic", "School classroom", "Modern kitchen").
 3. STORY & COMEDY STRUCTURE (8 SECONDS PER SCENE, ${ctx.clipCount} SCENES TOTAL):
@@ -87,9 +120,9 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - Physical visual comedy must tell half the joke!
 5. DIALOGUE RULES (MAX 8 WORDS PER DIALOGUE LINE):
    - Natural conversational Desi style without textbook or cringe language.
-   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Punjabi / Roman Punjabi (e.g. "Oye paji!", "Yaar ye kya scene hai?", "Haye rabba!", "Tu mera lassi da glass kyu peeta?").
-   - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu (e.g. "Allah khair kare!", "Doctor saab!", "Aap ne ye kya kar diya?").
-   - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Punjabi / Roman Punjabi.
+   - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
+   - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.
    - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
@@ -106,17 +139,26 @@ Return ONLY valid JSON matching this exact structure:
       "name": "${ctx.mainCharacterName}",
       "role": "Main Character",
       "age": "Animated Character",
+      "gender": "Male or Female",
       "appearance": "${ctx.mainCharacterAppearance}",
       "clothing": "${ctx.mainCharacterClothing}",
+      "face": "Facial description",
+      "hair": "Hair description",
+      "eyes": "Eye description",
+      "skinTone": "Skin tone",
+      "bodyType": "Body type",
+      "accessories": "Accessories",
       "personality": "${ctx.mainCharacterPersonality}",
-      "referencePrompt": "Master reference sheet prompt. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN STUDIO BACKGROUND)."
+      "expressions": "Expressions",
+      "typicalPoses": "Poses",
+      "referencePrompt": "Master character reference image prompt"
     }
   ],
   "visualBible": {
     "style": "${ctx.visualStyle}",
-    "lighting": "Warm key light",
-    "colorPalette": "Vibrant",
-    "cameraStyle": "Dynamic lens",
+    "lighting": "Lighting setup",
+    "colorPalette": "Color palette",
+    "cameraStyle": "Camera style",
     "lens": "35mm cinematic lens",
     "environment": "${ctx.location}",
     "atmosphere": "Engaging",
@@ -144,62 +186,80 @@ Return ONLY valid JSON matching this exact structure:
   ]
 }`;
 
-    for (const modelName of CLAUDE_MODELS) {
-      try {
-        const response = await anthropic.messages.create({
-          model: modelName,
-          max_tokens: 4096,
-          temperature: 0.7,
-          messages: [{ role: "user", content: prompt }],
-        });
+  let lastError: any = null;
 
-        const responseText = response.content[0].type === "text" ? response.content[0].text : "";
-        const parsed = safeJsonParse(responseText, ProjectStoryOutputSchema);
-        const val = validateStoryboard(ctx, parsed);
-        if (val.valid) {
-          return {
-            ...parsed,
-            aiUsed: true,
-            provider: "Claude (Anthropic)",
-            model: modelName,
-            generationMode: "FULL_AI",
-          };
-        }
-        console.warn(`Claude (${modelName}) output failed validation, trying next model:`, val.reason);
-      } catch (error: any) {
-        console.warn(`Claude (${modelName}) API call / parse error, trying next model:`, error?.message || error);
+  for (const modelName of CLAUDE_MODELS) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 3000,
+        temperature: 0.6,
+        system: "You are a master short-form video director for Google Flow. You generate 100% logically consistent short video storyboards. Respond with ONLY valid JSON, no markdown, no explanation.",
+        messages: [{ role: "user", content: prompt }],
+      });
+
+      const responseText = response.content[0].type === "text" ? response.content[0].text : "";
+      const parsed = safeJsonParse(responseText, ProjectStoryOutputSchema, "Project Story Generator");
+      const val = validateStoryboard(ctx, parsed);
+      if (val.valid) {
+        return {
+          ...parsed,
+          aiUsed: true,
+          provider: "Claude (Anthropic)",
+          model: modelName,
+          generationMode: "FULL_AI",
+        };
       }
+      console.warn(`Claude (${modelName}) output failed validation:`, val.reason);
+      lastError = new ValidationError({
+        success: false,
+        stage: "Storyboard Validator",
+        reason: val.reason || "Generated storyboard failed story quality validation checks.",
+      });
+    } catch (error: any) {
+      console.warn(`Claude (${modelName}) API call / parse error:`, error?.message || error);
+      lastError = error;
     }
   }
 
-  const fallback = generateFullStoryboardFromPipeline(input);
-  return {
-    ...fallback,
-    aiUsed: false,
-    provider: "Local Engine",
-    model: "Pipeline Engine",
-    generationMode: "PIPELINE_HYBRID",
-  };
+  if (lastError instanceof ValidationError) {
+    throw lastError;
+  }
+
+  throw new ValidationError({
+    success: false,
+    stage: "Project Story Generator",
+    reason: lastError?.message || "AI model failed to generate a valid storyboard after model retries.",
+  });
 }
 
 export async function generateIdeaSuggestionsWithClaude(
   input: SuggestIdeasInput
 ): Promise<string[]> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  const categoryConfig = getCategoryConfig(input.category);
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is missing. Cannot generate idea suggestions without model credentials.",
+    });
+  }
 
-  if (apiKey) {
-    const anthropic = new Anthropic({ apiKey });
-    for (const modelName of CLAUDE_MODELS) {
-      try {
-        const response = await anthropic.messages.create({
-          model: modelName,
-          max_tokens: 2048,
-          temperature: 0.95,
-          messages: [
-            {
-              role: "user",
-              content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
+  const categoryConfig = getCategoryConfig(input.category);
+  let lastError: any = null;
+
+  for (const modelName of ["claude-haiku-4-5", ...CLAUDE_MODELS]) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 1024,
+        temperature: 0.9,
+        messages: [
+          {
+            role: "user",
+            content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
 Generate EXACTLY 10 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
@@ -213,12 +273,11 @@ Visual Style: ${input.visualStyle}
 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
-   - ALL 10 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi (e.g., "Santa Banta se kehta hai: 'Oye Hoye! Tu dhaba par kya kar raha hai?'", "Papaji Jatt se kehte hain...", "Inspector ne Banta se poochha...").
+   - ALL 10 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
-   - Do NOT write generic English animal stories.
 
 2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - ALL 10 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu (e.g., "Chintu dukaan par ja kar kehta hai...", "Pappu teacher se poochhta hai...").
+   - ALL 10 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
 
 3. If Category is "HORROR":
    - ALL 10 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
@@ -242,127 +301,41 @@ Return ONLY a valid JSON array of 10 distinct strings:
   "Idea 9...",
   "Idea 10..."
 ]`,
-            },
-          ],
-        });
+          },
+        ],
+      });
 
-        const text = response.content[0].type === "text" ? response.content[0].text : "";
-        const cleaned = cleanJsonResponse(text);
-        const array = JSON.parse(cleaned);
-        if (Array.isArray(array) && array.length > 0) {
-          return array.map(String);
-        }
-      } catch (err) {
-        console.warn(`Claude (${modelName}) idea suggestion error, trying next model:`, err);
+      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      const cleaned = cleanJsonResponse(text);
+      const array = JSON.parse(cleaned);
+      if (Array.isArray(array) && array.length > 0) {
+        return array.map(String);
       }
+    } catch (err: any) {
+      console.warn(`Claude (${modelName}) idea suggestion error:`, err?.message || err);
+      lastError = err;
     }
   }
 
-  // Category-specific Fallback Ideas
-  if (input.category === "PUNJABI_JOKE" || input.language === "Punjabi") {
-    return [
-      "Santa voice-controls his 1980 vintage tractor in a green Pind field: 'Oye Siri! Start the tractor and play Bhangra!'",
-      "Banta opens an English Dhaba and translates 'Sarson Ka Saag' as 'Mustard Green Power Paste' for a confused tourist.",
-      "Santa argues with GPS on a dirt road: 'Oye Madam! Khet vich kyu mor rahi hai? Aage ganna laga hai!'",
-      "Banta jumps with full body weight on a Royal Enfield kickstarter 5 times before it launches him onto a soft hay bale.",
-      "Dadi attaches a solar panel to her traditional wooden charkha spinning wheel to spin cotton at 1000 RPM.",
-      "Santa Banta se kehta hai: 'Oye Banta, tu dhaba par chal kar lassi pyeyega ya bullet par stunt karega?'",
-      "Papaji ne Santa se poochha: 'Tu exam vich fail kyu ho gaya?' Santa bola: 'Papaji, paper hi out of syllabus si!'",
-      "Banta petrol pump par ja kar kehta hai: 'Oye paji, 50 rupaye ka petrol car vich pa do aur 10 rupaye da hawai jahaj vich!'",
-      "Santa hospital vich doctor se kehta hai: 'Doctor saab, mainu neend vich Punjabi gaane sunai dete hain!'",
-      "Inspector Banta se kehta hai: 'Tu red light kyu todi?' Banta bola: 'Sardaar ji, gaadi di brake hi Punjabi dance kar rahi si!'"
-    ];
-  }
-
-  if (input.category === "HINDI_JOKE" || input.language === "Hindi" || input.language === "Urdu" || input.language === "Roman Urdu") {
-    return [
-      "Chintu dukaan par ja kar kehta hai: 'Uncle, 10 rupaye ka discount do!' Shopkeeper bola: 'Pehle 10 rupaye to do!'",
-      "Pappu teacher se kehta hai: 'Sir, agar main homework na karoon toh aap gussa karoge?' Teacher: 'Haan!' Pappu: 'Toh main nahi kar raha!'",
-      "Dadi Chintu se kehti hain: 'Beta, mobile chhodo aur thoda dhyan lagao!' Chintu: 'Dadi, dhyan hi toh mobile par laga raha hoon!'",
-      "Inspector Pappu se kehta hai: 'Tumne chori kyu ki?' Pappu: 'Sir, board par likha tha — Please Take What You Need!'",
-      "Chintu doctor se kehta hai: 'Doctor saab, mujhe bhoolne ki bimari hai!' Doctor: 'Kab se?' Chintu: 'Kya kab se?'",
-      "Mom opens the kitchen cabinet causing 40 plastic containers to avalanche out while looking for one missing green lid.",
-      "Dad is sleeping snoring on the couch holding the TV remote, but his eye instantly snaps open the moment the channel is changed.",
-      "An uncle thumps three watermelons like a dholak drum set before proudly walking away with one tiny lemon.",
-      "A kid wears 3 different hats and fake mustaches to revisit the supermarket free cheese sample booth 4 times.",
-      "A student in the back row launches a paper airplane across the classroom right into the teacher's submission tray."
-    ];
-  }
-
-  if (input.category === "HORROR") {
-    return [
-      "A girl looks into an antique vanity mirror late at night and her reflection blinks 3 seconds after she does.",
-      "A night security guard walks down a pitch-black hospital hallway when a wheelchair rolls toward him with fresh wet footprints appearing on the floor.",
-      "A boy hears his mother calling him down for dinner from the kitchen, but her voice whispers from under his bed: 'Don't go down, I heard it too.'",
-      "An old grandfather clock stops ticking at midnight, and every portrait painting in the dimly lit hallway turns to face the front door.",
-      "A photographer develops vintage Polaroid photos, discovering a shadowy silhouette standing closer to the camera in every consecutive frame.",
-      "A lonely hiker pitches a tent in foggy woods and watches two giant glowing eyes illuminate right against the thin nylon tent fabric.",
-      "A man receives a video doorbell notification on his phone at 3 AM showing himself sleeping inside his locked bedroom from above.",
-      "A wooden rocking chair in a dark attic begins rocking frantically by itself while a child's faint laughter echoes behind the wall.",
-      "A subway train enters a dark tunnel, and when the interior lights flicker back on, all passengers have swapped faces.",
-      "A lone driver on a deserted highway looks in his rearview mirror and sees a pale figure sitting silently in the backseat."
-    ];
-  }
-
-  if (input.category === "FUNNY_ANIMALS") {
-    return [
-      "Sir Barnaby the fat ginger cat wearing a mini red tie inspects a robot vacuum cleaner before riding it like a king.",
-      "A dramatic husky takes 3 steps toward his food bowl, gasps dramatically, and flops onto his side like he walked 100 miles.",
-      "A sneaky black cat in a spy harness rappels down from the ceiling on a black thread to steal a single french fry.",
-      "A clever parrot blurts out the owner's secret Wi-Fi password out the balcony window to the entire neighborhood.",
-      "A giant gentle Doberman drops a squeaky yellow tennis ball at a burglar's feet and forces him to play fetch.",
-      "An otter floats on its back in a sparkling river, pulls out a smooth glowing pebble from its pocket, and shows it off proudly.",
-      "A French bulldog tries to do yoga poses alongside his owner on a yoga mat with hilarious clumsy rolls.",
-      "A cat wearing a tiny business suit conducts an urgent board meeting with three confused golden retrievers.",
-      "A golden retriever tries to fit a gigantic wooden stick through a narrow park door with extreme determination.",
-      "A puppy gets super confused seeing his own reflection in a full-length mirror and does a cute battle bounce."
-    ];
-  }
-
-  if (input.category === "KIDS_FUNNY") {
-    return [
-      "A toddler in a green dinosaur onesie uses a wooden spoon catapult and a flour bag to launch toward the high cookie jar.",
-      "A 2-year-old in a T-Rex onesie stomps up to a sleeping bulldog and lets out a tiny squeak-roar.",
-      "A mischievous kid builds a giant fortress out of sofa cushions, but one tiny sneeze collapses the entire castle delightfully.",
-      "A toddler wears his dad's oversized dress shoes and wobbles around the living room like a clumsy penguin.",
-      "A playful puppy gets tangled in a massive roll of colorful toilet paper and rolls across the living room like a snowball.",
-      "A little girl tries to feed her giant teddy bear broccoli, making hilarious dramatic eating noises for the toy.",
-      "A cute kitten tries to catch a floating soap bubble and does a dramatic mid-air belly flop on a plush rug.",
-      "A boy attempts to blow a huge bubble gum bubble that grows larger than his head until it pops all over his face.",
-      "A little kid tries to slide down a wooden hallway in fluffy socks, gliding like an Olympic skater into soft cushions.",
-      "A baby panda cub rolls down a gentle grassy hill, accidentally knocking over a stack of bamboo toys."
-    ];
-  }
-
-  if (input.category === "ABSTRACT") {
-    return [
-      "A chrome toaster puts on sunglasses and launches golden glowing neon bagels into the air like fireworks.",
-      "A man reaches into a bathroom mirror for coffee; his reflection reaches out and hands him a fresh hot doughnut instead.",
-      "A spilled bowl of cereal and milk automatically rewinds in mid-air, assembling perfectly back into the box.",
-      "A pug in a red cape does a dramatic superhero slow-mo landing soft onto a dog bed and falls asleep instantly.",
-      "Surreal glass spheres morph into liquid neon ripples in sync with rhythmic audio beats.",
-      "A glowing holographic cat walks across a futuristic neon city rooftop in floating gravity-defying steps."
-    ];
-  }
-
-  return [
-    "A toddler in a green dinosaur onesie uses a wooden spoon catapult to launch toward the high cookie jar.",
-    "Sir Barnaby the fat ginger cat wearing a mini red tie inspects a robot vacuum cleaner before riding it like a king.",
-    "Santa voice-controls his 1980 vintage tractor in a green Pind field: 'Oye Siri! Start the tractor and play Bhangra!'",
-    "Dad wakes up at 5 AM wearing a pink sweatband, lifts a tiny 2kg dumbbell, and instantly collapses back asleep.",
-    "Mom opens the kitchen cabinet causing 40 plastic containers to avalanche out while looking for one green lid.",
-    "A character pulls a slice of pizza and the cheese stretches out the window and hitches onto a passing bus.",
-    "An uncle pushes a grocery cart down a shiny aisle and executes a perfect 360-degree drift into cereal.",
-    "A sneaky black cat in a spy harness rappels from the ceiling to steal a single french fry.",
-    "A man reaches into a bathroom mirror for coffee; his reflection reaches out and hands him a fresh hot doughnut.",
-    "A giant gentle Doberman drops a squeaky yellow tennis ball at an intruder's feet and forces him to play fetch."
-  ];
+  throw new ValidationError({
+    success: false,
+    stage: "Idea Suggestion Generator",
+    reason: lastError?.message || "AI model failed to generate idea suggestions.",
+  });
 }
 
 export async function regenerateSingleSceneWithClaude(
   input: SingleSceneRegenInput
 ): Promise<z.infer<typeof SceneSchema>> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is missing. Cannot regenerate scene without active model credentials.",
+    });
+  }
+
   const ctx = generateStoryContext({
     category: input.category,
     duration: input.totalScenes * 8,
@@ -372,14 +345,12 @@ export async function regenerateSingleSceneWithClaude(
   });
 
   const mainChar = input.characters[0] || { name: ctx.mainCharacterName, appearance: ctx.mainCharacterAppearance };
-  const isFirst = input.sceneNumber === 1;
-  const isFinal = input.sceneNumber === input.totalScenes;
+  let lastError: any = null;
 
-  if (apiKey) {
-    const anthropic = new Anthropic({ apiKey });
-    for (const modelName of CLAUDE_MODELS) {
-      try {
-        const prompt = `You are a short video director. Regenerate scene #${input.sceneNumber} of ${input.totalScenes} for:
+  for (const modelName of CLAUDE_MODELS) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const prompt = `You are a short video director. Regenerate scene #${input.sceneNumber} of ${input.totalScenes} for:
 Idea: "${input.idea}"
 Language: ${input.language}
 Category: ${input.category}
@@ -409,64 +380,52 @@ Return ONLY valid JSON matching:
   "nextSceneState": "${input.nextSceneState || ""}"
 }`;
 
-        const response = await anthropic.messages.create({
-          model: modelName,
-          max_tokens: 1500,
-          temperature: 0.7,
-          messages: [{ role: "user", content: prompt }],
-        });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 1500,
+        temperature: 0.7,
+        messages: [{ role: "user", content: prompt }],
+      });
 
-        const responseText = response.content[0].type === "text" ? response.content[0].text : "";
-        const parsed = safeJsonParse(responseText, SceneSchema);
-        return parsed;
-      } catch (err) {
-        console.warn(`Claude (${modelName}) scene regeneration fallback:`, err);
-      }
+      const responseText = response.content[0].type === "text" ? response.content[0].text : "";
+      const parsed = safeJsonParse(responseText, SceneSchema, "Single Scene Generator");
+      return parsed;
+    } catch (err: any) {
+      console.warn(`Claude (${modelName}) scene regeneration error:`, err?.message || err);
+      lastError = err;
     }
   }
 
-  const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
-  const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.language === "Hindi" || input.category === "HINDI_JOKE";
+  if (lastError instanceof ValidationError) {
+    throw lastError;
+  }
 
-  const dialogue = isPunjabi
-    ? (isFirst ? `"Oye paji! Eh ki ho gaya!"` : isFinal ? `"Oye hoye! Eh toh kamaal ho gaya!"` : `"Tussi dekho, hun maza aayega!"`)
-    : isUrdu
-    ? (isFirst ? `"Aap ye kya kar rahe hain?"` : isFinal ? `"Arey wah! Ye toh kamaal ho gaya!"` : `"Dekho dekho! Kya hone wala hai!"`)
-    : (isFirst ? `"Ah... magnificent massage, robot!"` : isFinal ? `"Whoa! Respect the boss!"` : `"Faster, servant!"`);
-
-  const narration = isPunjabi
-    ? (isFirst ? `${mainChar.name} Punjabi style vich scene da aaghaz karda hai.` : isFinal ? `${mainChar.name} zabardast punchline reaction denda hai!` : `${mainChar.name} action nu agay badhata hai!`)
-    : isUrdu
-    ? (isFirst ? `${mainChar.name} kahani ka aaghaz karta hai.` : isFinal ? `${mainChar.name} zabardast final reaction deta hai!` : `${mainChar.name} aage badhta hai!`)
-    : (isFirst ? `${mainChar.name} lies back luxuriously as the robot vacuum massages his belly!` : isFinal ? `The robot vacuum bumps furniture, sending ${mainChar.name} sliding into a final boss pose!` : `${mainChar.name} commands the robot vacuum to accelerate!`);
-
-  return {
-    sceneNumber: input.sceneNumber,
-    duration: 8,
-    narration,
-    dialogue,
-    imagePrompt: `CHARACTER CONSISTENCY LOCK: Maintain exact features of ${mainChar.name} (${mainChar.appearance}). Vertical 9:16, 35mm lens. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER).`,
-    videoPrompt: `During this 8-second clip: 0-2s: ${mainChar.name} in ${ctx.location}. 2-4s: Action escalates. 4-6s: Speaks lip-sync: ${dialogue}. 6-8s: ${isFinal ? "Final visual punchline freeze frame." : "Holds pose for next scene."} (NO TEXT OVERLAYS, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN FULL FRAME VIDEO).`,
-    camera: "Dynamic tracking 35mm lens",
-    motion: `${mainChar.name} performing time-sliced motion`,
-    lighting: "Soft volumetric key light",
-    sfx: "Robot vacuum hum and floor slide thud",
-    music: "Background soundtrack",
-    continuityNotes: `Continuous transition for scene #${input.sceneNumber}`,
-    previousSceneState: input.previousSceneState || "",
-    nextSceneState: input.nextSceneState || "",
-  };
+  throw new ValidationError({
+    success: false,
+    stage: "Single Scene Generator",
+    scene: input.sceneNumber,
+    reason: lastError?.message || `AI model failed to regenerate scene #${input.sceneNumber}.`,
+  });
 }
 
 export async function generateVariationsWithClaude(
   input: GenerateVariationsInput
 ): Promise<string[]> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (apiKey) {
-    const anthropic = new Anthropic({ apiKey });
-    for (const modelName of CLAUDE_MODELS) {
-      try {
-        const prompt = `Generate 3 distinct creative variations for the '${input.type}' of a short video concept.
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is missing. Cannot generate variations without model credentials.",
+    });
+  }
+
+  let lastError: any = null;
+
+  for (const modelName of CLAUDE_MODELS) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const prompt = `Generate 3 distinct creative variations for the '${input.type}' of a short video concept.
 
 Category: ${input.category}
 Idea: "${input.idea}"
@@ -479,26 +438,32 @@ Return ONLY a valid JSON array of 3 strings:
   "Variation 3 option..."
 ]`;
 
-        const response = await anthropic.messages.create({
-          model: modelName,
-          max_tokens: 1024,
-          temperature: 0.8,
-          messages: [{ role: "user", content: prompt }],
-        });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 1024,
+        temperature: 0.8,
+        messages: [{ role: "user", content: prompt }],
+      });
 
-        const text = response.content[0].type === "text" ? response.content[0].text : "";
-        const cleaned = cleanJsonResponse(text);
-        const array = JSON.parse(cleaned);
-        if (Array.isArray(array)) return array.map(String);
-      } catch (e) {
-        // fallback
+      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      const cleaned = cleanJsonResponse(text);
+      const array = JSON.parse(cleaned);
+      if (Array.isArray(array) && array.length > 0) {
+        return array.map(String);
       }
+    } catch (e: any) {
+      console.warn(`Claude (${modelName}) variation generation error:`, e?.message || e);
+      lastError = e;
     }
   }
 
-  return [
-    `Option A: High-stakes opening for ${input.idea}`,
-    `Option B: Unexpected comedic twist on ${input.idea}`,
-    `Option C: Atmospheric slow-burn reveal for ${input.idea}`,
-  ];
+  if (lastError instanceof ValidationError) {
+    throw lastError;
+  }
+
+  throw new ValidationError({
+    success: false,
+    stage: "Variations Generator",
+    reason: lastError?.message || `AI model failed to generate variations for type '${input.type}'.`,
+  });
 }

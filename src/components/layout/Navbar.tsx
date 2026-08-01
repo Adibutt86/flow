@@ -42,6 +42,14 @@ export function Navbar({ onOpenWizard }: NavbarProps) {
             <span>Projects</span>
           </Link>
 
+          <Link
+            href="/ideas"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors"
+          >
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>Ideas</span>
+          </Link>
+
           <a
             href="#google-flow-info"
             className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors"

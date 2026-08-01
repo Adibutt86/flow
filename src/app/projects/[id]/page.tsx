@@ -4,8 +4,7 @@ import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
-import { CharacterBibleView } from "@/components/storyboard/CharacterBibleView";
-import { VisualBibleView } from "@/components/storyboard/VisualBibleView";
+
 import { SceneCard, SceneData } from "@/components/storyboard/SceneCard";
 import { VariationsModal } from "@/components/storyboard/VariationsModal";
 import { CreationWizard } from "@/components/wizard/CreationWizard";
@@ -17,8 +16,6 @@ import {
   ArrowLeft,
   Wand2,
   Film,
-  UserCheck,
-  Palette,
   PackageCheck,
   Sparkles,
   Clock,
@@ -42,7 +39,7 @@ export default function ProjectEditorPage({
 
   const [project, setProject] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"storyboard" | "characters" | "visual" | "export">("storyboard");
+  const [activeTab, setActiveTab] = useState<"storyboard" | "export">("storyboard");
   const [variationsOpen, setVariationsOpen] = useState(false);
   const [wizardOpen, setWizardOpen] = useState(false);
   const [isRegeneratingAll, setIsRegeneratingAll] = useState(false);
@@ -361,8 +358,6 @@ export default function ProjectEditorPage({
         <div className="flex border-b border-gray-800 space-x-2">
           {[
             { id: "storyboard", label: `Storyboard (${project.scenes?.length || 0} Clips)`, icon: Film },
-            { id: "characters", label: `Character Bible (${project.characters?.length || 0})`, icon: UserCheck },
-            { id: "visual", label: "Visual Bible", icon: Palette },
             { id: "export", label: "Flow Export Package", icon: PackageCheck },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -410,21 +405,7 @@ export default function ProjectEditorPage({
           </div>
         )}
 
-        {/* TAB 2: CHARACTER BIBLE */}
-        {activeTab === "characters" && (
-          <CharacterBibleView
-            characters={project.characters || []}
-            onToggleLock={handleToggleCharacterLock}
-          />
-        )}
 
-        {/* TAB 3: VISUAL BIBLE */}
-        {activeTab === "visual" && (
-          <VisualBibleView
-            visualBible={project.visualBible}
-            fallbackStyle={project.visualStyle}
-          />
-        )}
 
         {/* TAB 4: EXPORT PACKAGE */}
         {activeTab === "export" && (

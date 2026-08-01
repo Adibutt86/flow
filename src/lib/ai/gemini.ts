@@ -2,64 +2,80 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { getCategoryConfig } from "../categories/index";
 
-// Zod schemas for validation
+export class ValidationError extends Error {
+  public details: {
+    success: false;
+    stage: string;
+    scene?: number;
+    field?: string;
+    reason: string;
+  };
+
+  constructor(details: { success: false; stage: string; scene?: number; field?: string; reason: string }) {
+    super(details.reason);
+    this.name = "ValidationError";
+    this.details = details;
+  }
+}
+
+// Zod schemas for strict validation (NO DEFAULTS / NO FALLBACK PLACEHOLDERS)
 export const CharacterSchema = z.object({
-  name: z.string(),
-  role: z.string().default("Main Character"),
-  age: z.string().optional().default("N/A"),
-  gender: z.string().optional().default("N/A"),
-  appearance: z.string(),
-  face: z.string().optional().default("Expressive facial structure"),
-  hair: z.string().optional().default("Detailed hair"),
-  eyes: z.string().optional().default("Clear expressive eyes"),
-  skinTone: z.string().optional().default("Natural tone"),
-  bodyType: z.string().optional().default("Proportional build"),
-  clothing: z.string(),
-  accessories: z.string().optional().default("None"),
-  personality: z.string(),
-  expressions: z.string().optional().default("Dynamic expressions"),
-  typicalPoses: z.string().optional().default("Natural action poses"),
-  referencePrompt: z.string(),
+  name: z.string().min(1, "Character name is required"),
+  role: z.string().min(1, "Character role is required"),
+  age: z.string().min(1, "Character age is required"),
+  gender: z.string().min(1, "Character gender is required"),
+  appearance: z.string().min(1, "Character appearance is required"),
+  face: z.string().min(1, "Character face description is required"),
+  hair: z.string().min(1, "Character hair description is required"),
+  eyes: z.string().min(1, "Character eyes description is required"),
+  skinTone: z.string().min(1, "Character skin tone is required"),
+  bodyType: z.string().min(1, "Character body type is required"),
+  clothing: z.string().min(1, "Character clothing description is required"),
+  accessories: z.string().min(1, "Character accessories field is required"),
+  personality: z.string().min(1, "Character personality is required"),
+  expressions: z.string().min(1, "Character expressions description is required"),
+  typicalPoses: z.string().min(1, "Character typical poses description is required"),
+  referencePrompt: z.string().min(1, "Character reference prompt is required"),
 });
 
 export const VisualBibleSchema = z.object({
-  style: z.string(),
-  lighting: z.string(),
-  colorPalette: z.string(),
-  cameraStyle: z.string(),
-  lens: z.string().default("35mm cinematic lens"),
-  environment: z.string(),
-  atmosphere: z.string(),
-  texture: z.string().default("Clean rendered details"),
-  renderingStyle: z.string().default("3D Rendered"),
-  aspectRatio: z.string().default("9:16"),
+  style: z.string().min(1, "Visual style is required"),
+  lighting: z.string().min(1, "Lighting description is required"),
+  colorPalette: z.string().min(1, "Color palette is required"),
+  cameraStyle: z.string().min(1, "Camera style is required"),
+  lens: z.string().min(1, "Camera lens is required"),
+  environment: z.string().min(1, "Environment description is required"),
+  atmosphere: z.string().min(1, "Atmosphere description is required"),
+  texture: z.string().min(1, "Texture description is required"),
+  renderingStyle: z.string().min(1, "Rendering style is required"),
+  aspectRatio: z.string().min(1, "Aspect ratio is required"),
 });
 
 export const SceneSchema = z.object({
   sceneNumber: z.number(),
-  duration: z.number().default(8),
-  narration: z.string().optional().default(""),
-  dialogue: z.string().optional().default(""),
-  imagePrompt: z.string(),
-  videoPrompt: z.string(),
-  camera: z.string(),
-  motion: z.string(),
-  lighting: z.string(),
-  sfx: z.string().optional().default("None"),
-  music: z.string().optional().default("Upbeat background score"),
-  continuityNotes: z.string().optional().default(""),
-  previousSceneState: z.string().optional().default(""),
-  nextSceneState: z.string().optional().default(""),
+  duration: z.number(),
+  narration: z.string().min(1, "Narration is required"),
+  dialogue: z.string().min(1, "Dialogue is required"),
+  imagePrompt: z.string().min(1, "Image prompt is required"),
+  videoPrompt: z.string().min(1, "Video prompt is required"),
+  camera: z.string().min(1, "Camera direction is required"),
+  motion: z.string().min(1, "Motion direction is required"),
+  lighting: z.string().min(1, "Lighting state is required"),
+  sfx: z.string().min(1, "SFX cue is required"),
+  music: z.string().min(1, "Music cue is required"),
+  continuityNotes: z.string().min(1, "Continuity notes are required"),
+  previousSceneState: z.string().min(1, "Previous scene state is required"),
+  nextSceneState: z.string().min(1, "Next scene state is required"),
 });
 
 export const ProjectStoryOutputSchema = z.object({
-  title: z.string(),
-  hook: z.string(),
-  summary: z.string(),
-  ending: z.string(),
-  characters: z.array(CharacterSchema),
+  title: z.string().min(1, "Title is required"),
+  hook: z.string().min(1, "Hook is required"),
+  summary: z.string().min(1, "Summary is required"),
+  ending: z.string().min(1, "Ending is required"),
+  characters: z.array(CharacterSchema).min(1, "At least one character is required"),
   visualBible: VisualBibleSchema,
-  scenes: z.array(SceneSchema),
+  scenes: z.array(SceneSchema).min(1, "Scenes array is required"),
 });
 
 export type GeneratedProjectOutput = z.infer<typeof ProjectStoryOutputSchema>;
@@ -615,7 +631,7 @@ export function validateStoryboard(ctx: StoryContext, storyboard: GeneratedProje
     }
   }
 
-  // Check 2: Check required concept keywords
+  // Check 2: Check required concept keywords (soft match - at least 30% must appear)
   const missingKeywords = [];
   const fullStoryboardText = JSON.stringify(storyboard).toLowerCase();
   for (const kw of ctx.requiredKeywords) {
@@ -624,10 +640,14 @@ export function validateStoryboard(ctx: StoryContext, storyboard: GeneratedProje
     }
   }
 
-  if (missingKeywords.length > 0 && ctx.requiredKeywords.length > 0) {
+  const totalKw = ctx.requiredKeywords.length;
+  const matchedKw = totalKw - missingKeywords.length;
+  const matchRatio = totalKw > 0 ? matchedKw / totalKw : 1;
+
+  if (totalKw > 0 && matchRatio < 0.3) {
     return {
       valid: false,
-      reason: "Generated storyboard missing required concept semantic keywords",
+      reason: `Generated storyboard is off-topic: only ${matchedKw}/${totalKw} concept keywords found (need at least 30%)`,
       missing: missingKeywords,
     };
   }

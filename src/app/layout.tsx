@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
 
+import { PasswordProtector } from "@/components/layout/PasswordProtector";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,7 +32,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-[#090b10] text-gray-100">
-        <ToastProvider>{children}</ToastProvider>
+        <PasswordProtector>
+          <ToastProvider>{children}</ToastProvider>
+        </PasswordProtector>
       </body>
     </html>
   );

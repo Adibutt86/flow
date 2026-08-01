@@ -122,3 +122,9 @@ model Generation {
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
+
+model SystemSetting {
+  id            String   @id @default("default")
+  selectedModel String   @default("claude-3-7-sonnet-20250219")
+  updatedAt     DateTime @updatedAt
+}

@@ -95,9 +95,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
   const [customInstructions, setCustomInstructions] = useState<string>("");
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
-  // AI Idea Generation states (10 ideas)
-  const [isSuggestingIdeas, setIsSuggestingIdeas] = useState<boolean>(false);
-  const [suggestedIdeas, setSuggestedIdeas] = useState<string[]>([]);
+
 
   // Storyboard Generation states
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -107,33 +105,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
 
   const currentCategoryConfig = CATEGORIES[category] || CATEGORIES.FUNNY;
 
-  const handleSuggestIdeas = async () => {
-    setIsSuggestingIdeas(true);
-    try {
-      const res = await fetch("/api/suggest-ideas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          language,
-          visualStyle,
-          seed: Math.floor(Math.random() * 1000000) + Date.now(),
-        }),
-      });
 
-      const data = await res.json().catch(() => ({ success: false }));
-      if (res.ok && data.success && data.ideas?.length > 0) {
-        setSuggestedIdeas(data.ideas);
-        showToast("Generated 10 fresh ideas using Claude API!", "info");
-      } else {
-        throw new Error("Could not fetch idea suggestions");
-      }
-    } catch (e: any) {
-      showToast("Failed to fetch AI idea suggestions.", "error");
-    } finally {
-      setIsSuggestingIdeas(false);
-    }
-  };
 
   const handleGenerate = async () => {
     if (!idea.trim()) {
@@ -235,7 +207,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                         } else if (catKey === "HINDI_JOKE") {
                           setLanguage("Hindi");
                         }
-                        setSuggestedIdeas([]);
+
                       }}
                       className={`flex flex-col text-left p-4 rounded-xl transition-all cursor-pointer border ${
                         isSelected
@@ -354,7 +326,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                         key={lang.id}
                         onClick={() => {
                           setLanguage(lang.id);
-                          setSuggestedIdeas([]);
+  
                         }}
                         className={`p-3 rounded-xl border text-left flex flex-col transition-all cursor-pointer ${
                           isSel
@@ -389,74 +361,23 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                     <Lightbulb className="w-4 h-4 text-amber-400" />
                     Video Core Idea / Concept *
                   </label>
-
-                  <button
-                    type="button"
-                    onClick={handleSuggestIdeas}
-                    disabled={isSuggestingIdeas}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950 hover:bg-amber-900 border border-amber-500/40 text-amber-200 text-xs font-semibold shadow-md transition-all cursor-pointer disabled:opacity-50"
+                  <a
+                    href="/ideas"
+                    target="_blank"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950 hover:bg-amber-900 border border-amber-500/40 text-amber-200 text-xs font-semibold shadow-md transition-all cursor-pointer"
                   >
-                    {isSuggestingIdeas ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
-                    ) : (
-                      <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
-                    )}
-                    <span>
-                      {isSuggestingIdeas
-                        ? "Generating 10 Ideas..."
-                        : suggestedIdeas.length > 0
-                        ? "🔄 Get 10 New Ideas"
-                        : "✨ Suggest 10 Ideas (Claude)"}
-                    </span>
-                  </button>
+                    <Sparkle className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Open Ideas Page</span>
+                  </a>
                 </div>
 
                 <textarea
                   value={idea}
                   onChange={(e) => setIdea(e.target.value)}
-                  placeholder={`Describe your story idea for ${currentCategoryConfig.name}... (e.g. A fat orange cat acts like a mafia boss getting massaged by a robot vacuum cleaner)`}
+                  placeholder={`Paste your idea here or describe your story concept for ${currentCategoryConfig.name}...`}
                   rows={4}
                   className="w-full p-4 rounded-xl glass-input text-sm resize-none"
                 />
-
-                {/* AI 10 Suggested Ideas Container */}
-                {suggestedIdeas.length > 0 && (
-                  <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs font-semibold text-indigo-300 flex items-center gap-1.5">
-                        <Sparkle className="w-3.5 h-3.5 text-amber-400" />
-                        10 AI Ideas from Claude API for {currentCategoryConfig.name}:
-                      </div>
-                      <StorySourceBadge provider="Claude (Anthropic)" aiUsed={true} />
-                    </div>
-
-                    <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-                      {suggestedIdeas.map((sug, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => {
-                            setIdea(sug);
-                            showToast("AI Idea applied!", "success");
-                          }}
-                          className={`w-full text-left p-3 rounded-lg border transition-all flex items-start justify-between gap-2.5 cursor-pointer ${
-                            idea === sug
-                              ? "bg-indigo-900/80 border-indigo-500 text-white shadow-md ring-1 ring-indigo-400"
-                              : "bg-black/40 hover:bg-indigo-900/50 border-gray-800 hover:border-indigo-500/50 text-gray-200 hover:text-white"
-                          }`}
-                        >
-                          <div className="flex items-start gap-2.5">
-                            <span className="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0 text-[10px] mt-0.5">
-                              {idx + 1}
-                            </span>
-                            <span className="leading-relaxed text-xs font-medium">{sug}</span>
-                          </div>
-                          <StorySourceBadge provider="Claude (Anthropic)" aiUsed={true} />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Visual Style Grid */}
