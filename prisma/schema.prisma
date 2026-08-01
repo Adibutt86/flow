@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String?   @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
+}
+
+model Project {
+  id                 String        @id @default(uuid())
+  title              String
+  category           String
+  idea               String
+  language           String        @default("English")
+  visualStyle        String        @default("3D Cartoon")
+  duration           Int           @default(32) // in seconds (8, 16, 24, 32, 40, 48, 56, 64)
+  clipCount          Int           @default(4)  // duration / 8
+  status             String        @default("DRAFT") // DRAFT, GENERATING, COMPLETED, ERROR
+  hook               String?
+  summary            String?
+  ending             String?
+  customInstructions String?
+  storySource        String?       @default("custom") // library, ai, library_ai, custom
+  aiUsed             Boolean       @default(false)
+  provider           String?       // Google Gemini, Local Engine
+  model              String?       // gemini-2.0-flash, Pipeline Engine
+  generationMode     String?       // FULL_AI, PIPELINE_HYBRID, LIBRARY_PRESET
+  userId             String?
+  user               User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  characters         Character[]
+  visualBible        VisualBible?
+  scenes             Scene[]
+  generations        Generation[]
+}
+
+model Character {
+  id              String   @id @default(uuid())
+  projectId       String
+  name            String
+  role            String   @default("Main Character")
+  age             String?
+  gender          String?
+  appearance      String
+  face            String?
+  hair            String?
+  eyes            String?
+  skinTone        String?
+  bodyType        String?
+  clothing        String
+  accessories     String?
+  personality     String
+  expressions     String?
+  typicalPoses    String?
+  referencePrompt String   // Prompt for master reference image (front, 3/4, side, full body)
+  locked          Boolean  @default(true)
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model VisualBible {
+  id             String   @id @default(uuid())
+  projectId      String   @unique
+  style          String
+  lighting       String
+  colorPalette   String
+  cameraStyle    String
+  lens           String   @default("35mm cinematic lens")
+  environment    String
+  atmosphere     String
+  texture        String   @default("Clean rendered details")
+  renderingStyle String   @default("3D Rendered")
+  aspectRatio    String   @default("9:16")
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Scene {
+  id                 String   @id @default(uuid())
+  projectId          String
+  sceneNumber        Int
+  duration           Int      @default(8) // Always 8 seconds for Google Flow
+  narration          String?
+  dialogue           String?
+  imagePrompt        String
+  videoPrompt        String
+  camera             String
+  motion             String
+  lighting           String
+  sfx                String?
+  music              String?
+  continuityNotes    String?
+  previousSceneState String?
+  nextSceneState     String?
+  status             String   @default("GENERATED")
+  project            Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([projectId, sceneNumber])
+}
+
+model Generation {
+  id        String   @id @default(uuid())
+  projectId String
+  type      String   // STORY, VARIATION, SCENE_REGEN, etc.
+  prompt    String
+  response  String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
