@@ -811,28 +811,104 @@ Return ONLY a valid JSON array of 10 distinct strings:
     }
   }
 
+  // Category-specific Fallback Ideas
+  if (input.category === "PUNJABI_JOKE" || input.language === "Punjabi") {
+    return [
+      "Santa voice-controls his 1980 vintage tractor in a green Pind field: 'Oye Siri! Start the tractor and play Bhangra!'",
+      "Banta opens an English Dhaba and translates 'Sarson Ka Saag' as 'Mustard Green Power Paste' for a confused tourist.",
+      "Santa argues with GPS on a dirt road: 'Oye Madam! Khet vich kyu mor rahi hai? Aage ganna laga hai!'",
+      "Banta jumps with full body weight on a Royal Enfield kickstarter 5 times before it launches him onto a soft hay bale.",
+      "Dadi attaches a solar panel to her traditional wooden charkha spinning wheel to spin cotton at 1000 RPM.",
+      "Santa Banta se kehta hai: 'Oye Banta, tu dhaba par chal kar lassi pyeyega ya bullet par stunt karega?'",
+      "Papaji ne Santa se poochha: 'Tu exam vich fail kyu ho gaya?' Santa bola: 'Papaji, paper hi out of syllabus si!'",
+      "Banta petrol pump par ja kar kehta hai: 'Oye paji, 50 rupaye ka petrol car vich pa do aur 10 rupaye da hawai jahaj vich!'",
+      "Santa hospital vich doctor se kehta hai: 'Doctor saab, mainu neend vich Punjabi gaane sunai dete hain!'",
+      "Inspector Banta se kehta hai: 'Tu red light kyu todi?' Banta bola: 'Sardaar ji, gaadi di brake hi Punjabi dance kar rahi si!'"
+    ];
+  }
+
+  if (input.category === "HINDI_JOKE" || input.language === "Hindi" || input.language === "Urdu" || input.language === "Roman Urdu") {
+    return [
+      "Chintu dukaan par ja kar kehta hai: 'Uncle, 10 rupaye ka discount do!' Shopkeeper bola: 'Pehle 10 rupaye to do!'",
+      "Pappu teacher se kehta hai: 'Sir, agar main homework na karoon toh aap gussa karoge?' Teacher: 'Haan!' Pappu: 'Toh main nahi kar raha!'",
+      "Dadi Chintu se kehti hain: 'Beta, mobile chhodo aur thoda dhyan lagao!' Chintu: 'Dadi, dhyan hi toh mobile par laga raha hoon!'",
+      "Inspector Pappu se kehta hai: 'Tumne chori kyu ki?' Pappu: 'Sir, board par likha tha — Please Take What You Need!'",
+      "Chintu doctor se kehta hai: 'Doctor saab, mujhe bhoolne ki bimari hai!' Doctor: 'Kab se?' Chintu: 'Kya kab se?'",
+      "Mom opens the kitchen cabinet causing 40 plastic containers to avalanche out while looking for one missing green lid.",
+      "Dad is sleeping snoring on the couch holding the TV remote, but his eye instantly snaps open the moment the channel is changed.",
+      "An uncle thumps three watermelons like a dholak drum set before proudly walking away with one tiny lemon.",
+      "A kid wears 3 different hats and fake mustaches to revisit the supermarket free cheese sample booth 4 times.",
+      "A student in the back row launches a paper airplane across the classroom right into the teacher's submission tray."
+    ];
+  }
+
+  if (input.category === "HORROR") {
+    return [
+      "A girl looks into an antique vanity mirror late at night and her reflection blinks 3 seconds after she does.",
+      "A night security guard walks down a pitch-black hospital hallway when a wheelchair rolls toward him with fresh wet footprints appearing on the floor.",
+      "A boy hears his mother calling him down for dinner from the kitchen, but her voice whispers from under his bed: 'Don't go down, I heard it too.'",
+      "An old grandfather clock stops ticking at midnight, and every portrait painting in the dimly lit hallway turns to face the front door.",
+      "A photographer develops vintage Polaroid photos, discovering a shadowy silhouette standing closer to the camera in every consecutive frame.",
+      "A lonely hiker pitches a tent in foggy woods and watches two giant glowing eyes illuminate right against the thin nylon tent fabric.",
+      "A man receives a video doorbell notification on his phone at 3 AM showing himself sleeping inside his locked bedroom from above.",
+      "A wooden rocking chair in a dark attic begins rocking frantically by itself while a child's faint laughter echoes behind the wall.",
+      "A subway train enters a dark tunnel, and when the interior lights flicker back on, all passengers have swapped faces.",
+      "A lone driver on a deserted highway looks in his rearview mirror and sees a pale figure sitting silently in the backseat."
+    ];
+  }
+
   if (input.category === "FUNNY_ANIMALS") {
     return [
-      "A fat orange cat acts like a mafia boss while getting massaged by a tiny robot vacuum cleaner.",
-      "A cat wearing a tiny business suit tries to conduct an urgent board meeting with three confused golden retrievers.",
-      "A dramatic husky acts completely exhausted after walking just two feet towards his food bowl.",
-      "A sneaky raccoon tries to covertly steal a glossy red apple from a picnic table without making a sound.",
+      "Sir Barnaby the fat ginger cat wearing a mini red tie inspects a robot vacuum cleaner before riding it like a king.",
+      "A dramatic husky takes 3 steps toward his food bowl, gasps dramatically, and flops onto his side like he walked 100 miles.",
+      "A sneaky black cat in a spy harness rappels down from the ceiling on a black thread to steal a single french fry.",
+      "A clever parrot blurts out the owner's secret Wi-Fi password out the balcony window to the entire neighborhood.",
+      "A giant gentle Doberman drops a squeaky yellow tennis ball at a burglar's feet and forces him to play fetch.",
+      "An otter floats on its back in a sparkling river, pulls out a smooth glowing pebble from its pocket, and shows it off proudly.",
       "A French bulldog tries to do yoga poses alongside his owner on a yoga mat with hilarious clumsy rolls.",
-      "A parrot repeatedly mimics the door chime sound every time the cat tries to take a quiet afternoon nap.",
+      "A cat wearing a tiny business suit conducts an urgent board meeting with three confused golden retrievers.",
       "A golden retriever tries to fit a gigantic wooden stick through a narrow park door with extreme determination.",
-      "A cat inspects a cucumber placed behind it and does a rocket high jump into the air.",
-      "A monkey wearing sunglasses tries to steal a tourist's camera and ends up taking a viral front selfie.",
-      "A puppy gets super confused seeing his own reflection in a full-length mirror and does a cute battle bounce.",
+      "A puppy gets super confused seeing his own reflection in a full-length mirror and does a cute battle bounce."
+    ];
+  }
+
+  if (input.category === "KIDS_FUNNY") {
+    return [
+      "A toddler in a green dinosaur onesie uses a wooden spoon catapult and a flour bag to launch toward the high cookie jar.",
+      "A 2-year-old in a T-Rex onesie stomps up to a sleeping bulldog and lets out a tiny squeak-roar.",
+      "A mischievous kid builds a giant fortress out of sofa cushions, but one tiny sneeze collapses the entire castle delightfully.",
+      "A toddler wears his dad's oversized dress shoes and wobbles around the living room like a clumsy penguin.",
+      "A playful puppy gets tangled in a massive roll of colorful toilet paper and rolls across the living room like a snowball.",
+      "A little girl tries to feed her giant teddy bear broccoli, making hilarious dramatic eating noises for the toy.",
+      "A cute kitten tries to catch a floating soap bubble and does a dramatic mid-air belly flop on a plush rug.",
+      "A boy attempts to blow a huge bubble gum bubble that grows larger than his head until it pops all over his face.",
+      "A little kid tries to slide down a wooden hallway in fluffy socks, gliding like an Olympic skater into soft cushions.",
+      "A baby panda cub rolls down a gentle grassy hill, accidentally knocking over a stack of bamboo toys."
+    ];
+  }
+
+  if (input.category === "ABSTRACT") {
+    return [
+      "A chrome toaster puts on sunglasses and launches golden glowing neon bagels into the air like fireworks.",
+      "A man reaches into a bathroom mirror for coffee; his reflection reaches out and hands him a fresh hot doughnut instead.",
+      "A spilled bowl of cereal and milk automatically rewinds in mid-air, assembling perfectly back into the box.",
+      "A pug in a red cape does a dramatic superhero slow-mo landing soft onto a dog bed and falls asleep instantly.",
+      "Surreal glass spheres morph into liquid neon ripples in sync with rhythmic audio beats.",
+      "A glowing holographic cat walks across a futuristic neon city rooftop in floating gravity-defying steps."
     ];
   }
 
   return [
-    `A fat orange cat acts like a mafia boss while getting massaged by a tiny robot vacuum cleaner.`,
-    `A pirate penguin tries to steal a giant birthday cake from the ship kitchen.`,
-    `Chintu dukaan par ja kar aisa mazedar sawal poochta hai ke shopkeeper dang reh jata hai.`,
-    `A sneaky raccoon tries to snatch a glossy red apple from a picnic table.`,
-    `A cute golden retriever puppy discovers its reflection in a full-length mirror.`,
-    `A dramatic husky acts completely exhausted after walking two steps toward his food bowl.`,
+    "A toddler in a green dinosaur onesie uses a wooden spoon catapult to launch toward the high cookie jar.",
+    "Sir Barnaby the fat ginger cat wearing a mini red tie inspects a robot vacuum cleaner before riding it like a king.",
+    "Santa voice-controls his 1980 vintage tractor in a green Pind field: 'Oye Siri! Start the tractor and play Bhangra!'",
+    "Dad wakes up at 5 AM wearing a pink sweatband, lifts a tiny 2kg dumbbell, and instantly collapses back asleep.",
+    "Mom opens the kitchen cabinet causing 40 plastic containers to avalanche out while looking for one green lid.",
+    "A character pulls a slice of pizza and the cheese stretches out the window and hitches onto a passing bus.",
+    "An uncle pushes a grocery cart down a shiny aisle and executes a perfect 360-degree drift into cereal.",
+    "A sneaky black cat in a spy harness rappels from the ceiling to steal a single french fry.",
+    "A man reaches into a bathroom mirror for coffee; his reflection reaches out and hands him a fresh hot doughnut.",
+    "A giant gentle Doberman drops a squeaky yellow tennis ball at an intruder's feet and forces him to play fetch."
   ];
 }
 
