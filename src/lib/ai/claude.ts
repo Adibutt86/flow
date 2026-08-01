@@ -16,8 +16,7 @@ import {
 import { getCategoryConfig } from "../categories/index";
 
 const CLAUDE_MODELS = [
-  "claude-haiku-4-5",
-  "claude-sonnet-4-6",
+  "claude-3-haiku-20240307"
 ];
 
 function cleanJsonResponse(text: string): string {
