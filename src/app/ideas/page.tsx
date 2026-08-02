@@ -17,6 +17,7 @@ import {
   Heart,
   FileVideo,
   Edit3,
+  Search,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -95,31 +96,29 @@ export default function IdeasPage() {
   const [editingFileNameText, setEditingFileNameText] = useState("");
 
   const getFallbackFileName = (idea: SavedIdea) => {
-    if (idea.videoFileName) return idea.videoFileName;
+    let name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
+    if (name) return name;
     const cleanId = idea.id.slice(-4).toLowerCase();
     if (idea.category === "CARBOX") {
-      const textClean = idea.text.toLowerCase().replace(/[^a-z0-9\s]/g, "").split(/\s+/).filter(Boolean);
-      const key = textClean.slice(0, 3).join("_") || "unboxing";
-      return `carbox_${key}_${cleanId}.mp4`;
+      const words = idea.text.toLowerCase().replace(/[^a-z0-9\s]/g, "").split(/\s+/).filter(Boolean);
+      const vehicleKey = words.slice(0, 2).join("_") || "vehicle";
+      return `carbox_${vehicleKey}_${cleanId}`;
     }
-    return `${idea.category.toLowerCase()}_clip_${cleanId}.mp4`;
+    return `${idea.category.toLowerCase()}_${cleanId}`;
   };
 
   const handleSaveFileName = (id: string) => {
-    let formatted = editingFileNameText.trim();
+    let formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
     if (!formatted) {
       setEditingFileNameId(null);
       return;
-    }
-    if (!formatted.endsWith(".mp4")) {
-      formatted += ".mp4";
     }
     const updated = savedIdeas.map((i) =>
       i.id === id ? { ...i, videoFileName: formatted } : i
     );
     saveToStorage(updated);
     setEditingFileNameId(null);
-    showToast(`Video filename saved as "${formatted}"`, "success");
+    showToast(`Video name saved as "${formatted}"`, "success");
   };
 
   const saveToStorage = (ideas: SavedIdea[]) => {
@@ -168,12 +167,11 @@ export default function IdeasPage() {
       
       const newIdeas: SavedIdea[] = data.ideas.map((text: string) => {
         const id = Date.now().toString() + Math.random().toString(36).slice(2);
-        const cleanBrand = carboxBrand.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_");
-        const cleanColor = carboxColor.toLowerCase().replace(/[^a-z0-9]/g, "_");
+        const cleanBrand = carboxBrand.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").slice(0, 12);
         const cleanId = id.slice(-4);
         const videoFileName = category === "CARBOX" 
-          ? `carbox_${cleanBrand}_${cleanColor}_${cleanId}.mp4`
-          : `${category.toLowerCase()}_video_${cleanId}.mp4`;
+          ? `carbox_${cleanBrand}_${cleanId}`
+          : `${category.toLowerCase()}_${cleanId}`;
         return {
           id,
           text,
@@ -217,13 +215,27 @@ export default function IdeasPage() {
     }
   };
 
-  // Filtered & paginated saved ideas
-  const filteredIdeas =
-    filterCategory === "ALL"
-      ? savedIdeas
-      : filterCategory === "FAVORITES"
-      ? savedIdeas.filter((i) => i.isFavorite)
-      : savedIdeas.filter((i) => i.category === filterCategory);
+  // Search Query state
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filtered & paginated saved ideas (matches category filter AND video filename/prompt search)
+  const filteredIdeas = savedIdeas.filter((idea) => {
+    const matchesCategory =
+      filterCategory === "ALL"
+        ? true
+        : filterCategory === "FAVORITES"
+        ? idea.isFavorite
+        : idea.category === filterCategory;
+
+    if (!matchesCategory) return false;
+    if (!searchQuery.trim()) return true;
+
+    const q = searchQuery.trim().toLowerCase();
+    const fileName = getFallbackFileName(idea).toLowerCase();
+    const textContent = idea.text.toLowerCase();
+
+    return fileName.includes(q) || textContent.includes(q);
+  });
 
   const totalPages = Math.max(1, Math.ceil(filteredIdeas.length / ITEMS_PER_PAGE));
   const paginatedIdeas = filteredIdeas.slice(
@@ -634,8 +646,32 @@ export default function IdeasPage() {
               Saved Ideas ({filteredIdeas.length})
             </h2>
 
-            {/* Category Filter */}
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Search by Video File Name or Keyword */}
+            <div className="relative w-full sm:w-72">
+              <Search className="w-4 h-4 text-indigo-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                placeholder="Search by file name (e.g. carbox_bmw)..."
+                className="w-full pl-9 pr-8 py-2 rounded-xl bg-black/60 border border-indigo-500/40 text-xs text-indigo-100 placeholder-gray-500 focus:outline-none focus:border-indigo-400 transition-colors shadow-inner font-mono"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs font-bold"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Category Filter */}
+          <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => { setFilterCategory("ALL"); setCurrentPage(1); }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
@@ -671,7 +707,6 @@ export default function IdeasPage() {
                 </button>
               ))}
             </div>
-          </div>
 
           {paginatedIdeas.length === 0 ? (
             <div className="text-center py-12 text-gray-500 text-sm">
@@ -712,7 +747,7 @@ export default function IdeasPage() {
                               if (e.key === "Escape") setEditingFileNameId(null);
                             }}
                             className="bg-transparent text-indigo-200 text-xs font-mono focus:outline-none w-52"
-                            placeholder="my_video_name.mp4"
+                            placeholder="carbox_bmw_01"
                             autoFocus
                           />
                           <button
