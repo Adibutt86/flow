@@ -166,6 +166,62 @@ function cleanJsonResponse(text: string): string {
   return cleaned.trim();
 }
 
+function repairJsonString(rawText: string): string {
+  let str = cleanJsonResponse(rawText);
+
+  str = str.replace(/,\s*([\]}])/g, "$1");
+  str = str.replace(/[\u0000-\u001F]+/g, " ");
+
+  try {
+    JSON.parse(str);
+    return str;
+  } catch (e) {
+    // Continue to repair logic
+  }
+
+  let inString = false;
+  let isEscaped = false;
+  const stack: string[] = [];
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    if (isEscaped) {
+      isEscaped = false;
+      continue;
+    }
+    if (char === "\\") {
+      isEscaped = true;
+      continue;
+    }
+    if (char === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (!inString) {
+      if (char === "{" || char === "[") {
+        stack.push(char);
+      } else if (char === "}") {
+        if (stack.length > 0 && stack[stack.length - 1] === "{") stack.pop();
+      } else if (char === "]") {
+        if (stack.length > 0 && stack[stack.length - 1] === "[") stack.pop();
+      }
+    }
+  }
+
+  if (inString) {
+    str += '"';
+  }
+
+  while (stack.length > 0) {
+    const openChar = stack.pop();
+    if (openChar === "{") str += "}";
+    else if (openChar === "[") str += "]";
+  }
+
+  str = str.replace(/,\s*([\]}])/g, "$1");
+  return str;
+}
+
 function safeJsonParse<T>(rawText: string, schema: z.ZodSchema<T>): T {
   const cleaned = cleanJsonResponse(rawText);
   try {
@@ -173,9 +229,7 @@ function safeJsonParse<T>(rawText: string, schema: z.ZodSchema<T>): T {
     return schema.parse(parsed);
   } catch (err: any) {
     try {
-      const repaired = cleaned
-        .replace(/,\s*([\]}])/g, "$1")
-        .replace(/[\u0000-\u001F]+/g, " ");
+      const repaired = repairJsonString(cleaned);
       const parsedRepaired = JSON.parse(repaired);
       return schema.parse(parsedRepaired);
     } catch (repairErr: any) {
