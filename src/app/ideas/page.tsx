@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Trash2,
   Heart,
+  FileVideo,
+  Edit3,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -40,6 +42,7 @@ interface SavedIdea {
   visualStyle: string;
   createdAt: string;
   isFavorite?: boolean;
+  videoFileName?: string;
 }
 
 export default function IdeasPage() {
@@ -87,6 +90,38 @@ export default function IdeasPage() {
   // Filter
   const [filterCategory, setFilterCategory] = useState<CategoryId | "ALL" | "FAVORITES">("ALL");
 
+  // Editable Filename state
+  const [editingFileNameId, setEditingFileNameId] = useState<string | null>(null);
+  const [editingFileNameText, setEditingFileNameText] = useState("");
+
+  const getFallbackFileName = (idea: SavedIdea) => {
+    if (idea.videoFileName) return idea.videoFileName;
+    const cleanId = idea.id.slice(-4).toLowerCase();
+    if (idea.category === "CARBOX") {
+      const textClean = idea.text.toLowerCase().replace(/[^a-z0-9\s]/g, "").split(/\s+/).filter(Boolean);
+      const key = textClean.slice(0, 3).join("_") || "unboxing";
+      return `carbox_${key}_${cleanId}.mp4`;
+    }
+    return `${idea.category.toLowerCase()}_clip_${cleanId}.mp4`;
+  };
+
+  const handleSaveFileName = (id: string) => {
+    let formatted = editingFileNameText.trim();
+    if (!formatted) {
+      setEditingFileNameId(null);
+      return;
+    }
+    if (!formatted.endsWith(".mp4")) {
+      formatted += ".mp4";
+    }
+    const updated = savedIdeas.map((i) =>
+      i.id === id ? { ...i, videoFileName: formatted } : i
+    );
+    saveToStorage(updated);
+    setEditingFileNameId(null);
+    showToast(`Video filename saved as "${formatted}"`, "success");
+  };
+
   const saveToStorage = (ideas: SavedIdea[]) => {
     setSavedIdeas(ideas);
     localStorage.setItem("flow-saved-ideas", JSON.stringify(ideas));
@@ -131,14 +166,24 @@ export default function IdeasPage() {
         throw new Error(data.reason || data.error || "Failed to generate ideas");
       }
       
-      const newIdeas: SavedIdea[] = data.ideas.map((text: string) => ({
-        id: Date.now().toString() + Math.random().toString(36).slice(2),
-        text,
-        category,
-        language,
-        visualStyle,
-        createdAt: new Date().toISOString(),
-      }));
+      const newIdeas: SavedIdea[] = data.ideas.map((text: string) => {
+        const id = Date.now().toString() + Math.random().toString(36).slice(2);
+        const cleanBrand = carboxBrand.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_");
+        const cleanColor = carboxColor.toLowerCase().replace(/[^a-z0-9]/g, "_");
+        const cleanId = id.slice(-4);
+        const videoFileName = category === "CARBOX" 
+          ? `carbox_${cleanBrand}_${cleanColor}_${cleanId}.mp4`
+          : `${category.toLowerCase()}_video_${cleanId}.mp4`;
+        return {
+          id,
+          text,
+          category,
+          language,
+          visualStyle,
+          createdAt: new Date().toISOString(),
+          videoFileName,
+        };
+      });
       
       const updated = [...newIdeas, ...savedIdeas];
       saveToStorage(updated);
@@ -653,6 +698,60 @@ export default function IdeasPage() {
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30">
                         {idea.visualStyle}
                       </span>
+
+                      {/* Unique Video Filename Badge & Inline Editor */}
+                      {editingFileNameId === idea.id ? (
+                        <div className="flex items-center gap-1 bg-black/80 border border-indigo-500 rounded-lg px-2 py-0.5 text-xs shadow-md">
+                          <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                          <input
+                            type="text"
+                            value={editingFileNameText}
+                            onChange={(e) => setEditingFileNameText(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleSaveFileName(idea.id);
+                              if (e.key === "Escape") setEditingFileNameId(null);
+                            }}
+                            className="bg-transparent text-indigo-200 text-xs font-mono focus:outline-none w-52"
+                            placeholder="my_video_name.mp4"
+                            autoFocus
+                          />
+                          <button
+                            onClick={() => handleSaveFileName(idea.id)}
+                            className="text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded px-2 py-0.5 transition-colors cursor-pointer"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5 bg-indigo-950/40 border border-indigo-500/30 rounded-lg px-2.5 py-0.5 text-xs text-indigo-200">
+                          <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                          <span className="font-mono text-[11px] text-indigo-300 font-semibold select-all">
+                            {getFallbackFileName(idea)}
+                          </span>
+                          <button
+                            onClick={() => {
+                              setEditingFileNameId(idea.id);
+                              setEditingFileNameText(getFallbackFileName(idea));
+                            }}
+                            className="text-gray-400 hover:text-indigo-300 p-0.5 transition-colors cursor-pointer"
+                            title="Edit Video Filename"
+                          >
+                            <Edit3 className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => handleCopy(getFallbackFileName(idea), `${idea.id}-filename`)}
+                            className="flex items-center gap-1 text-[10px] font-semibold text-gray-300 hover:text-white transition-colors border-l border-indigo-500/30 pl-1.5 ml-0.5 cursor-pointer"
+                            title="Copy Filename to send to friend"
+                          >
+                            {copiedId === `${idea.id}-filename` ? (
+                              <Check className="w-3 h-3 text-emerald-400" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-indigo-400" />
+                            )}
+                            Copy Name
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
