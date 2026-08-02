@@ -425,26 +425,46 @@ export default function IdeasPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
               {/* Brand */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-gray-400">Vehicle Type / Brand / Model</label>
+                <label className="text-xs font-semibold text-gray-400">Vehicle Type / Category / Brand / Model</label>
                 <select
                   value={carboxBrand}
                   onChange={(e) => setCarboxBrand(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
+                  <option value="Hypercar">Hypercar</option>
+                  <option value="Supercar">Supercar</option>
+                  <option value="Sports Car">Sports Car</option>
+                  <option value="Luxury Sedan">Luxury Sedan</option>
+                  <option value="Muscle Car">Muscle Car</option>
+                  <option value="Classic Car">Classic Car</option>
+                  <option value="Rally Car">Rally Car</option>
+                  <option value="Formula Race Car">Formula Race Car</option>
+                  <option value="Drift Car">Drift Car</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Pickup Truck">Pickup Truck</option>
+                  <option value="Heavy Duty Truck">Heavy Duty Truck</option>
+                  <option value="Monster Truck">Monster Truck</option>
+                  <option value="Electric Vehicle">Electric Vehicle</option>
+                  <option value="Police Car (Emergency)">Police Car (Emergency)</option>
+                  <option value="Ambulance (Emergency)">Ambulance (Emergency)</option>
+                  <option value="Fire Truck (Emergency)">Fire Truck (Emergency)</option>
+                  <option value="City Bus">City Bus</option>
+                  <option value="School Bus">School Bus</option>
+                  <option value="Motorcycle">Motorcycle</option>
+                  <option value="Sport Bike">Sport Bike</option>
+                  <option value="Cruiser Bike">Cruiser Bike</option>
+                  <option value="Adventure Bike">Adventure Bike</option>
+                  <option value="Dirt Bike">Dirt Bike</option>
+                  <option value="Scooter">Scooter</option>
+                  <option value="ATV / Quad Bike">ATV / Quad Bike</option>
+                  <option value="Farm Tractor">Farm Tractor</option>
+                  <option value="Construction Excavator">Construction Excavator</option>
                   <option value="Premium BMW">Premium BMW</option>
                   <option value="Mercedes Benz">Mercedes Benz</option>
                   <option value="Porsche 911">Porsche 911</option>
                   <option value="Ferrari">Ferrari</option>
                   <option value="Lamborghini">Lamborghini</option>
                   <option value="JDM Nissan GTR">JDM Nissan GTR</option>
-                  <option value="Classic Muscle Car">Classic Muscle Car</option>
-                  <option value="City Bus">City Bus</option>
-                  <option value="Farm Tractor">Farm Tractor</option>
-                  <option value="Heavy Duty Truck">Heavy Duty Truck</option>
-                  <option value="Sports Motorcycle">Sports Motorcycle</option>
-                  <option value="Construction Excavator">Construction Excavator</option>
-                  <option value="Fire Engine (Emergency)">Fire Engine (Emergency)</option>
-                  <option value="Police Cruiser (Emergency)">Police Cruiser (Emergency)</option>
                 </select>
               </div>
 
@@ -456,12 +476,31 @@ export default function IdeasPage() {
                   onChange={(e) => setCarboxColor(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <option value="Glossy Black">Glossy Black</option>
                   <option value="Pearl White">Pearl White</option>
-                  <option value="Metallic Red">Metallic Red</option>
-                  <option value="Matte Grey">Matte Grey</option>
+                  <option value="Gloss Black">Gloss Black</option>
+                  <option value="Matte Black">Matte Black</option>
+                  <option value="Metallic Silver">Metallic Silver</option>
+                  <option value="Gunmetal Gray">Gunmetal Gray</option>
+                  <option value="Racing Red">Racing Red</option>
+                  <option value="Crimson Red">Crimson Red</option>
+                  <option value="Electric Blue">Electric Blue</option>
+                  <option value="Navy Blue">Navy Blue</option>
+                  <option value="Emerald Green">Emerald Green</option>
+                  <option value="British Racing Green">British Racing Green</option>
+                  <option value="Sunset Orange">Sunset Orange</option>
                   <option value="Bright Yellow">Bright Yellow</option>
-                  <option value="Midnight Blue">Midnight Blue</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Rose Gold">Rose Gold</option>
+                  <option value="Copper">Copper</option>
+                  <option value="Purple">Purple</option>
+                  <option value="Pink">Pink</option>
+                  <option value="Matte Olive">Matte Olive</option>
+                  <option value="Desert Sand">Desert Sand</option>
+                  <option value="Carbon Fiber">Carbon Fiber</option>
+                  <option value="Chrome">Chrome</option>
+                  <option value="Color-shifting Chameleon">Color-shifting Chameleon</option>
+                  <option value="Neon Gradient">Neon Gradient</option>
+                  <option value="Custom Livery">Custom Livery</option>
                 </select>
               </div>
 
@@ -473,10 +512,24 @@ export default function IdeasPage() {
                   onChange={(e) => setCarboxPackaging(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
+                  <option value="Premium Aluminum Case">Premium Aluminum Case</option>
+                  <option value="Luxury Wooden Crate">Luxury Wooden Crate</option>
+                  <option value="Carbon Fiber Case">Carbon Fiber Case</option>
+                  <option value="Tempered Glass Display Box">Tempered Glass Display Box</option>
+                  <option value="Acrylic Display Case">Acrylic Display Case</option>
+                  <option value="Flight Case">Flight Case</option>
+                  <option value="Magnetic Gift Box">Magnetic Gift Box</option>
+                  <option value="Velvet Collector's Box">Velvet Collector's Box</option>
+                  <option value="Transparent Showcase Box">Transparent Showcase Box</option>
+                  <option value="Industrial Metal Crate">Industrial Metal Crate</option>
+                  <option value="Futuristic Capsule">Futuristic Capsule</option>
+                  <option value="Titanium Case">Titanium Case</option>
+                  <option value="Military Supply Crate">Military Supply Crate</option>
+                  <option value="Premium Leather Case">Premium Leather Case</option>
+                  <option value="Luxury Suitcase">Luxury Suitcase</option>
+                  <option value="Sci-Fi Energy Container">Sci-Fi Energy Container</option>
                   <option value="Elegant Retail Box">Elegant Retail Box</option>
                   <option value="Vintage Blister Pack">Vintage Blister Pack</option>
-                  <option value="Mystery Blind Box">Mystery Blind Box</option>
-                  <option value="Premium Aluminum Case">Premium Aluminum Case</option>
                 </select>
               </div>
 
@@ -488,10 +541,26 @@ export default function IdeasPage() {
                   onChange={(e) => setCarboxBackground(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <option value="Clean White Studio Tabletop">Clean White Studio Tabletop</option>
-                  <option value="Dark Wooden Desk">Dark Wooden Desk</option>
+                  <option value="Matte Black Studio">Matte Black Studio</option>
+                  <option value="White Marble">White Marble</option>
+                  <option value="Black Marble">Black Marble</option>
                   <option value="Carbon Fiber Mat">Carbon Fiber Mat</option>
-                  <option value="Black Marble Surface">Black Marble Surface</option>
+                  <option value="Brushed Aluminum">Brushed Aluminum</option>
+                  <option value="Dark Walnut Wood">Dark Walnut Wood</option>
+                  <option value="Oak Wood">Oak Wood</option>
+                  <option value="Concrete">Concrete</option>
+                  <option value="Glass Surface">Glass Surface</option>
+                  <option value="Acrylic">Acrylic</option>
+                  <option value="Leather Surface">Leather Surface</option>
+                  <option value="Granite">Granite</option>
+                  <option value="Slate Stone">Slate Stone</option>
+                  <option value="Premium Fabric">Premium Fabric</option>
+                  <option value="Neon Cyberpunk Table">Neon Cyberpunk Table</option>
+                  <option value="Mirror Surface">Mirror Surface</option>
+                  <option value="Racing Garage Workbench">Racing Garage Workbench</option>
+                  <option value="Luxury Showroom Floor">Luxury Showroom Floor</option>
+                  <option value="Industrial Steel Platform">Industrial Steel Platform</option>
+                  <option value="Clean White Studio Tabletop">Clean White Studio Tabletop</option>
                 </select>
               </div>
             </div>

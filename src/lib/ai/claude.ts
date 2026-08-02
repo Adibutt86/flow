@@ -330,8 +330,8 @@ export async function generateIdeaSuggestionsWithClaude(
         messages: [
           {
             role: "user",
-            content: `You are an expert AI video scriptwriter and cinematic video prompt writer for short-form video models (Google Flow, VEO, Sora, Runway Gen-3).
-Generate EXACTLY 1 highly creative, family-friendly viral video concept idea strictly tailored to the chosen Category, Language, and Visual Style below.
+            content: `You are an expert cinematic AI video prompt writer specializing in luxury product reveals and ASMR unboxing for short-form video models (Google Flow, VEO, Sora, Runway Gen-3).
+Generate EXACTLY 1 highly creative, production-ready video concept idea strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
 Badge: ${categoryConfig.badge}
@@ -373,16 +373,19 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 6. If Category is "CARBOX":
    - The idea MUST be an ultra-realistic, ASMR-style unboxing video of premium die-cast vehicles.
    - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
-   - Describe satisfying peeling, clicking, and unwrapping sounds and textures with no human dialogue or spoken narration.
+   - Describe satisfying peeling, clicking, and unwrapping sounds and textures with NO human dialogue or spoken narration.
 
-7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds):
+7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds or Category is "CARBOX"):
    - The idea MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
-   - Pace MUST be fast, energetic, and cinematic.
-   - MUST begin with an extreme close-up macro shot of the sealed box and the vehicle being unboxed.
-   - MUST reveal the car or bike through a sequence of satisfying unboxing shots using dynamic camera movements (push-ins, 360-orbit, tracking, tilt, whip pans, and smooth transitions).
-   - MUST gradually reveal more of the vehicle while highlighting premium materials, specular reflections, and fine details.
-   - MUST end with a dramatic full-frame hero shot of the complete vehicle.
-   - MUST include realistic lighting, reflections, depth of field, and high-end product cinematography.
+   - Pace MUST be fast, energetic, and premium.
+   - Style: Ultra-realistic, cinematic, photorealistic, luxury product commercial, macro ASMR.
+   - SCENE FLOW MANDATE:
+     1. Start with an extreme macro close-up of the premium package (${input.carboxPackaging || "Sealed Box"}).
+     2. Show a satisfying luxury unboxing sequence with realistic ASMR sound cues.
+     3. Gradually reveal the vehicle (${input.carboxBrand || "Vehicle"} in ${input.carboxColor || "Glossy Finish"}) using multiple cinematic angles.
+     4. Showcase premium details with dramatic lighting, specular highlights, and reflections.
+     5. End with a powerful full-frame hero shot of the complete vehicle on the ${input.carboxBackground || "Studio Tabletop"}.
+   - CINEMATIC EFFECTS: Integrate dynamic push-in/pull-out shots, 360-orbit camera, tracking shots, dolly zoom, whip pan transitions, slow-motion highlights, speed ramps, rack focus, depth of field, HDR lighting, studio reflections, metallic sparkle, light rays, volumetric lighting, and soft shadows.
 
 Return ONLY a valid JSON array of 1 string:
 [
