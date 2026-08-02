@@ -143,7 +143,7 @@ export default function IdeasPage() {
       const updated = [...newIdeas, ...savedIdeas];
       saveToStorage(updated);
       
-      showToast(`Generated and saved ${data.ideas.length} ideas!`, "success");
+      showToast(`Generated and saved ${data.ideas.length} idea!`, "success");
     } catch (e: any) {
       showToast(e.message || "Failed to generate ideas", "error");
     } finally {
@@ -507,7 +507,7 @@ export default function IdeasPage() {
             ) : (
               <Sparkles className="w-4 h-4" />
             )}
-            {isGenerating ? "Generating with Claude..." : "✨ Generate 2 Ideas"}
+            {isGenerating ? "Generating with Claude..." : "✨ Generate 1 Idea"}
           </button>
         </div>
 

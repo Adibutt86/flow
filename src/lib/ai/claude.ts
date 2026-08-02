@@ -331,7 +331,7 @@ export async function generateIdeaSuggestionsWithClaude(
           {
             role: "user",
             content: `You are an expert AI video scriptwriter and cinematic video prompt writer for short-form video models (Google Flow, VEO, Sora, Runway Gen-3).
-Generate EXACTLY 2 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
+Generate EXACTLY 1 highly creative, family-friendly viral video concept idea strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
 Badge: ${categoryConfig.badge}
@@ -355,28 +355,28 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
 
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
-   - ALL 2 ideas MUST be funny Punjabi jokes/chutkule written in Roman Punjabi.
+   - The idea MUST be a funny Punjabi joke/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
 
 2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - ALL 2 ideas MUST be funny Desi jokes written in Roman Hindi/Urdu.
+   - The idea MUST be a funny Desi joke written in Roman Hindi/Urdu.
 
 3. If Category is "HORROR":
-   - ALL 2 ideas MUST be terrifying eerie horror tales with creepy visual hooks and dark twists.
+   - The idea MUST be a terrifying eerie horror tale with creepy visual hooks and dark twists.
 
 4. If Category is "FUNNY_ANIMALS":
-   - ALL 2 ideas MUST feature hilarious pets/animals in absurd human situations.
+   - The idea MUST feature hilarious pets/animals in absurd human situations.
 
 5. If Category is "KIDS_FUNNY":
-   - ALL 2 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
+   - The idea MUST be cute, whimsical 3D animated style child & pet physical comedy.
 
 6. If Category is "CARBOX":
-   - ALL 2 ideas MUST be ultra-realistic, ASMR-style unboxing videos of premium die-cast vehicles.
+   - The idea MUST be an ultra-realistic, ASMR-style unboxing video of premium die-cast vehicles.
    - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
    - Describe satisfying peeling, clicking, and unwrapping sounds and textures with no human dialogue or spoken narration.
 
 7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds):
-   - ALL 2 ideas MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
+   - The idea MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
    - Pace MUST be fast, energetic, and cinematic.
    - MUST begin with an extreme close-up macro shot of the sealed box and the vehicle being unboxed.
    - MUST reveal the car or bike through a sequence of satisfying unboxing shots using dynamic camera movements (push-ins, 360-orbit, tracking, tilt, whip pans, and smooth transitions).
@@ -384,10 +384,9 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
    - MUST end with a dramatic full-frame hero shot of the complete vehicle.
    - MUST include realistic lighting, reflections, depth of field, and high-end product cinematography.
 
-Return ONLY a valid JSON array of 2 distinct strings:
+Return ONLY a valid JSON array of 1 string:
 [
-  "Idea 1...",
-  "Idea 2..."
+  "Idea 1..."
 ]`,
           },
         ],
