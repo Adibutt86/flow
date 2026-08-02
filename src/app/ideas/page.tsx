@@ -49,6 +49,7 @@ export default function IdeasPage() {
   const [category, setCategory] = useState<CategoryId>("FUNNY");
   const [language, setLanguage] = useState("English");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon");
+  const [videoDuration, setVideoDuration] = useState<number>(8);
   const [isGenerating, setIsGenerating] = useState(false);
   
   // Cute Kids specific options
@@ -123,7 +124,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
+        body: JSON.stringify({ category, language, visualStyle, videoDuration, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -271,7 +272,7 @@ export default function IdeasPage() {
             Generate New Ideas
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Category */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-gray-400">Category</label>
@@ -332,6 +333,21 @@ export default function IdeasPage() {
                     {s}
                   </option>
                 ))}
+              </select>
+            </div>
+
+            {/* Video Prompt Format Option */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-indigo-300 flex items-center gap-1">
+                Video Prompt Duration
+              </label>
+              <select
+                value={videoDuration}
+                onChange={(e) => setVideoDuration(Number(e.target.value))}
+                className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-indigo-500/50 text-sm text-white focus:outline-none focus:border-indigo-400 transition-colors"
+              >
+                <option value={8}>8 Sec Story Clip Format</option>
+                <option value={10}>⚡ 10 Sec Fast & Energetic Cinematic Video Prompt</option>
               </select>
             </div>
           </div>

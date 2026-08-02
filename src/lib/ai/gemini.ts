@@ -117,6 +117,7 @@ export interface SuggestIdeasInput {
   category: string;
   language: string;
   visualStyle: string;
+  videoDuration?: number;
   seed?: number;
   kidsAge?: string;
   kidsHealth?: string;

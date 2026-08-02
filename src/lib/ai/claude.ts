@@ -330,7 +330,7 @@ export async function generateIdeaSuggestionsWithClaude(
         messages: [
           {
             role: "user",
-            content: `You are an expert AI video scriptwriter for short 8-second video clips (Google Flow / VEO format).
+            content: `You are an expert AI video scriptwriter and cinematic video prompt writer for short-form video models (Google Flow, VEO, Sora, Runway Gen-3).
 Generate EXACTLY 2 distinct, highly creative, family-friendly viral video concept ideas strictly tailored to the chosen Category, Language, and Visual Style below.
 
 Category: ${categoryConfig.name} (${input.category})
@@ -341,6 +341,7 @@ Pacing: ${categoryConfig.pacing}
 Hook Style: ${categoryConfig.hookStyle}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
+${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
 ${input.category === "CUTE_KIDS" && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
@@ -370,9 +371,18 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
    - ALL 2 ideas MUST be cute, whimsical 3D animated style child & pet physical comedy.
 
 6. If Category is "CARBOX":
-   - ALL 2 ideas MUST be ultra-realistic, ASMR-style top-down unboxing videos of premium die-cast vehicles.
-   - You MUST incorporate the EXACT requested Vehicle Type/Brand, Color, Packaging, and Background into the description.
-   - Describe satisfying peeling, clicking, and unwrapping sounds and textures.
+   - ALL 2 ideas MUST be ultra-realistic, ASMR-style unboxing videos of premium die-cast vehicles.
+   - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
+   - Describe satisfying peeling, clicking, and unwrapping sounds and textures with no human dialogue or spoken narration.
+
+7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds):
+   - ALL 2 ideas MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
+   - Pace MUST be fast, energetic, and cinematic.
+   - MUST begin with an extreme close-up macro shot of the sealed box and the vehicle being unboxed.
+   - MUST reveal the car or bike through a sequence of satisfying unboxing shots using dynamic camera movements (push-ins, 360-orbit, tracking, tilt, whip pans, and smooth transitions).
+   - MUST gradually reveal more of the vehicle while highlighting premium materials, specular reflections, and fine details.
+   - MUST end with a dramatic full-frame hero shot of the complete vehicle.
+   - MUST include realistic lighting, reflections, depth of field, and high-end product cinematography.
 
 Return ONLY a valid JSON array of 2 distinct strings:
 [
