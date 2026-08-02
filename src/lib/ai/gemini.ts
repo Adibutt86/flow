@@ -195,8 +195,35 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
   const clipCount = Math.max(1, Math.floor(input.duration / 8));
   const userChar = input.userCharacters ? input.userCharacters.split(" ")[0].replace(/[^a-zA-Z]/g, "") : null;
 
+  // 0. CATEGORY IS CARBOX OR CONCEPT IS CAR UNBOXING (STRICT NO ANIMALS, NO DIALOGUE, ONLY VEHICLE UNBOXING)
+  if (input.category === "CARBOX" || lower.includes("unboxing") || lower.includes("carbox") || lower.includes("die-cast") || lower.includes("diecast")) {
+    const vehicleName = userChar || (lower.includes("bus") ? "Sleek Metallic Red Die-Cast City Bus" : lower.includes("car") ? "Die-Cast Model Supercar" : "Metallic Model Vehicle");
+    return {
+      concept: fullConcept,
+      category: "CARBOX",
+      duration: input.duration,
+      clipCount,
+      language: "ASMR Unboxing Effects",
+      visualStyle: input.visualStyle || "Realistic",
+      title: `${vehicleName} ASMR Unboxing`,
+      mainCharacterName: vehicleName,
+      mainCharacterSpecies: "Die-Cast Model Vehicle",
+      mainCharacterAppearance: `Pristine, ultra-detailed ${vehicleName} with metallic glossy finish, chrome headlights, realistic grille, rubber tires, and luxury studio lighting reflections`,
+      mainCharacterPersonality: "Gleaming, pristine, luxury die-cast collector model",
+      mainCharacterClothing: "N/A",
+      location: "Luxury studio tabletop with dark carbon fiber mat under soft warm studio spotlights",
+      secondaryObjects: ["Matte black retail box", "Translucent tissue wrap", "Pearl-white foam padding", "Studio lighting"],
+      setup: `Pristine retail box wrapped in matte black paper glides smoothly onto dark carbon fiber mat under studio lighting.`,
+      conflict: `Manicured fingers gently peel translucent tissue wrap with crisp ASMR paper crinkle sounds.`,
+      escalation: `Box lid opens with a gentle magnetic click, revealing dense pearl-white foam padding protecting the gleaming ${vehicleName}.`,
+      punchline: `Camera pushes into extreme macro close-up of the ${vehicleName}'s chrome grille and headlights, gleaming under warm studio spotlights.`,
+      ending: `The pristine ${vehicleName} sits prominently displayed on the carbon fiber mat, sparkling under warm studio lighting in full 9:16 vertical glory.`,
+      requiredKeywords: ["unboxing", "box", "foam", "bus", "car", "die-cast"],
+    };
+  }
+
   // 1. CONCEPT HAS CAT / MAFIA CAT / ROBOT VACUUM
-  if (lower.includes("cat") || lower.includes("kitten") || lower.includes("feline") || lower.includes("vacuum") || lower.includes("meow")) {
+  if (input.category !== "CARBOX" && (lower.includes("cat") || lower.includes("kitten") || lower.includes("feline") || lower.includes("vacuum") || lower.includes("meow"))) {
     const isOrange = lower.includes("orange") || lower.includes("fat") || lower.includes("mafia");
     const name = userChar || (isOrange ? "Don Vito" : "Whiskers");
     return {
@@ -225,8 +252,8 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     };
   }
 
-  // 2. CONCEPT HAS DOG / PUPPY / RETRIEVER / HUSKY / MIRROR
-  if (lower.includes("dog") || lower.includes("puppy") || lower.includes("retriever") || lower.includes("husky") || lower.includes("bulldog") || lower.includes("mirror")) {
+  // 2. CONCEPT HAS DOG / PUPPY / RETRIEVER / HUSKY / BULLDOG
+  if (input.category !== "CARBOX" && (lower.includes("dog") || lower.includes("puppy") || lower.includes("retriever") || lower.includes("husky") || lower.includes("bulldog"))) {
     const name = userChar || (lower.includes("husky") ? "Duke" : "Buster");
     return {
       concept: fullConcept,
@@ -450,6 +477,29 @@ export function generateStoryContext(input: GenerateProjectInput): StoryContext 
  * STEP 2: PIPELINE - generateCharacterBible(storyContext)
  */
 export function generateCharacterBible(ctx: StoryContext) {
+  if (ctx.category === "CARBOX") {
+    return [
+      {
+        name: ctx.mainCharacterName,
+        role: "Featured Model Vehicle",
+        age: "N/A",
+        gender: "N/A",
+        appearance: ctx.mainCharacterAppearance,
+        face: "N/A",
+        hair: "N/A",
+        eyes: "N/A",
+        skinTone: "N/A",
+        bodyType: "N/A",
+        clothing: "N/A",
+        accessories: "Pristine retail box & translucent tissue wrap",
+        personality: ctx.mainCharacterPersonality,
+        expressions: "N/A",
+        typicalPoses: "Top-down tabletop placement, macro close-up angles",
+        referencePrompt: `Ultra-realistic macro product photography reference of ${ctx.mainCharacterName}: pristine metallic finish, chrome detailing, carbon fiber background, studio lighting. (NO HUMANS, NO ANIMALS, NO TEXT, NO LOGOS, CLEAN VISUAL RENDER).`,
+      },
+    ];
+  }
+
   return [
     {
       name: ctx.mainCharacterName,
@@ -505,6 +555,41 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
 
     const isPunjabi = ctx.language === "Punjabi" || ctx.category === "PUNJABI_JOKE";
     const isUrdu = ctx.language === "Urdu" || ctx.language === "Roman Urdu" || ctx.language === "Hindi" || ctx.category === "HINDI_JOKE";
+
+    if (ctx.category === "CARBOX") {
+      narration = isFirst
+        ? `Sleek luxury box glides onto carbon fiber mat under studio lighting as translucent tissue wrap is gently peeled with crisp ASMR crinkle sounds.`
+        : isFinal
+        ? `Camera pushes into extreme macro close-up of the pristine ${ctx.mainCharacterName}, chrome detailing gleaming under warm studio spotlights.`
+        : `Box lid lifts with satisfying magnetic click, revealing pearl-white foam padding protecting the gleaming ${ctx.mainCharacterName}.`;
+      dialogue = "";
+      sfx = "Crisp tissue crinkle, satisfying box slide whisper, sharp magnetic lid click, subtle metallic clink";
+      camera = isFirst ? "Top-down macro shot" : isFinal ? "Extreme macro close-up push-in" : "Medium overhead tracking shot";
+
+      const motion0to2 = `0-2s: Packaging glides smoothly into frame on carbon fiber mat.`;
+      const motion2to4 = `2-4s: Manicured fingers smoothly peel tissue wrap with audible crinkle.`;
+      const motion4to6 = `4-6s: Box lid lifts with satisfying magnetic click revealing foam padding.`;
+      const motion6to8 = `6-8s: Camera pushes in to macro close-up of metallic reflections on vehicle.`;
+      const fullTimeSlicedMotion = `During this 8-second clip: ${motion0to2} ${motion2to4} ${motion4to6} ${motion6to8}`;
+
+      scenes.push({
+        sceneNumber: p.sceneNumber,
+        duration: 8,
+        narration,
+        dialogue: "",
+        imagePrompt: `Ultra-realistic ASMR unboxing scene: ${ctx.mainCharacterName} on deep carbon fiber mat. Manicured hands peeling translucent tissue wrap, box lid open revealing pearl-white foam padding and metallic detailing gleaming under warm studio lighting. Top-down macro shot. Realistic photographic style. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)`,
+        videoPrompt: `${fullTimeSlicedMotion} (NO TEXT OVERLAYS, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN FULL FRAME VIDEO).`,
+        camera,
+        motion: "Deliberate unboxing motion with smooth macro camera tracking",
+        lighting: "Warm studio softbox key light with specular reflections",
+        sfx,
+        music: "Minimalist ambient electronic soundtrack with subtle warm pad tones",
+        continuityNotes: `Scene ${p.sceneNumber} of ${ctx.clipCount} (CARBOX ASMR Unboxing)`,
+        previousSceneState: isFirst ? "Empty studio tabletop on carbon fiber mat" : `Unboxing stage ${p.sceneNumber - 1} complete`,
+        nextSceneState: isFinal ? "Pristine vehicle displayed on carbon fiber mat" : `Transitioning to unboxing step ${p.sceneNumber + 1}`,
+      });
+      continue;
+    }
 
     if (isFirst) {
       narration = ctx.setup;
@@ -594,6 +679,29 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
  * HARD REJECTION ENGINE: Rejects invalid storyboards containing generic placeholders or stale characters.
  */
 export function validateStoryboard(ctx: StoryContext, storyboard: GeneratedProjectOutput): { valid: boolean; reason?: string; missing?: string[] } {
+  if (ctx.category === "CARBOX") {
+    const forbiddenAnimals = ["dog", "puppy", "retriever", "cat", "kitten", "buster", "pet"];
+    for (const c of storyboard.characters || []) {
+      const text = (c.name + " " + c.appearance + " " + c.role).toLowerCase();
+      for (const animal of forbiddenAnimals) {
+        if (text.includes(animal)) {
+          return { valid: false, reason: `CARBOX category forbids animals/pets! Found forbidden animal character "${c.name}". ONLY vehicle unboxing allowed.` };
+        }
+      }
+    }
+    for (const s of storyboard.scenes || []) {
+      const sceneText = (s.narration + " " + s.dialogue + " " + s.imagePrompt + " " + s.videoPrompt).toLowerCase();
+      for (const animal of forbiddenAnimals) {
+        if (sceneText.includes(animal)) {
+          return { valid: false, reason: `CARBOX category forbids animals/pets in scenes! Found forbidden animal reference "${animal}" in Scene #${s.sceneNumber}.` };
+        }
+      }
+      if (s.dialogue.trim() !== "" && s.dialogue.trim() !== "(No dialogue)") {
+        s.dialogue = "";
+      }
+    }
+  }
+
   // Check 1: No generic placeholders allowed
   const forbiddenPlaceholders = [
     "sammy",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
@@ -91,11 +91,25 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
   const [category, setCategory] = useState<CategoryId>(initialCategory || "FUNNY");
   const [duration, setDuration] = useState<number>(32);
   const [idea, setIdea] = useState<string>("");
-  const [language, setLanguage] = useState<string>("English");
-  const [visualStyle, setVisualStyle] = useState<string>("3D Cartoon");
+  const [language, setLanguage] = useState<string>(initialCategory === "CARBOX" ? "ASMR Unboxing Effects" : "English");
+  const [visualStyle, setVisualStyle] = useState<string>(initialCategory === "CARBOX" ? "Realistic" : "3D Cartoon");
   const [userCharacters, setUserCharacters] = useState<string>("");
   const [customInstructions, setCustomInstructions] = useState<string>("");
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialCategory) {
+      setCategory(initialCategory);
+      if (initialCategory === "CARBOX") {
+        setLanguage("ASMR Unboxing Effects");
+        setVisualStyle("Realistic");
+      } else if (initialCategory === "PUNJABI_JOKE") {
+        setLanguage("Punjabi");
+      } else if (initialCategory === "HINDI_JOKE") {
+        setLanguage("Hindi");
+      }
+    }
+  }, [initialCategory]);
 
 
 
@@ -204,12 +218,14 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                       key={catKey}
                       onClick={() => {
                         setCategory(catKey);
-                        if (catKey === "PUNJABI_JOKE") {
+                        if (catKey === "CARBOX") {
+                          setLanguage("ASMR Unboxing Effects");
+                          setVisualStyle("Realistic");
+                        } else if (catKey === "PUNJABI_JOKE") {
                           setLanguage("Punjabi");
                         } else if (catKey === "HINDI_JOKE") {
                           setLanguage("Hindi");
                         }
-
                       }}
                       className={`flex flex-col text-left p-4 rounded-xl transition-all cursor-pointer border ${
                         isSelected

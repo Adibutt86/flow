@@ -135,12 +135,12 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
 7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)." (UNLESS Category is "CARBOX")
-8. VISUAL STYLE MANDATE:
-   - The requested Visual Style (${ctx.visualStyle}) MUST be explicitly written into EVERY single imagePrompt, videoPrompt, and the visualBible description. Do not ignore the chosen style!
 9. CARBOX SPECIFIC RULES (If Category is "CARBOX"):
-   - ALL scenes MUST be completely SILENT of human voices. Do NOT include ANY dialogue. Set the dialogue field to an empty string or "(No dialogue)".
+   - ALL scenes MUST be completely SILENT of human voices. Do NOT include ANY dialogue. Set the dialogue field to an empty string ("").
    - The sfx field MUST ONLY include realistic car unpacking and reveal sound effects (e.g., crisp plastic peeling, satisfying box sliding, sharp clicks, subtle metallic clinks). No goofy or cartoonish sounds.
-   - Do NOT add characters, animals, or use the "CHARACTER CONSISTENCY LOCK" prefix in the imagePrompt. Focus entirely on the vehicle and the unboxing process.
+   - STRICTLY NO dogs, cats, pets, animals, or secondary human characters (other than manicured hands performing unboxing actions).
+   - The vehicle selected MUST be the ONLY focus/character across ALL scenes in the entire video script.
+   - Do NOT use the "CHARACTER CONSISTENCY LOCK" prefix in the imagePrompt when Category is "CARBOX". Start imagePrompt directly with "Ultra-realistic ASMR unboxing scene:".
 
 Return ONLY valid JSON matching this exact structure:
 {
@@ -366,6 +366,8 @@ export async function regenerateSingleSceneWithClaude(
   const mainChar = input.characters[0] || { name: ctx.mainCharacterName, appearance: ctx.mainCharacterAppearance };
   let lastError: any = null;
 
+  const isCarbox = input.category === "CARBOX";
+
   for (const modelName of CLAUDE_MODELS) {
     try {
       const anthropic = new Anthropic({ apiKey });
@@ -377,7 +379,8 @@ Character: ${mainChar.name} (${mainChar.appearance})
 Visual Style: ${input.visualStyle}
 ${input.userPromptToRegen ? `User Directive: "${input.userPromptToRegen}"` : ""}
 
-CRITICAL LANGUAGE RULE:
+CRITICAL RULES:
+${isCarbox ? `CARBOX MANDATE: STRICTLY NO ANIMALS, NO DOGS, NO CATS, NO PETS. Car selected is the ONLY character/focus across ALL scenes. Dialogue MUST be empty string (""). Focus strictly on ASMR car unboxing and macro product photography.` : ""}
 If Language is "Punjabi" or Category is "PUNJABI_JOKE", dialogue and narration MUST be strictly in Punjabi / Roman Punjabi.
 If Language is "Urdu", "Roman Urdu", "Hindi", or Category is "HINDI_JOKE", dialogue and narration MUST be strictly in Urdu / Roman Urdu / Hindi.
 
@@ -385,10 +388,10 @@ Return ONLY valid JSON matching:
 {
   "sceneNumber": ${input.sceneNumber},
   "duration": 8,
-  "narration": "Narration text in specified language",
-  "dialogue": "Short dialogue under 12 words in specified language",
-  "imagePrompt": "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${mainChar.name}. (NO TEXT, NO TITLES, CLEAN VISUAL RENDER).",
-  "videoPrompt": "During this 8-second clip: 0-2s: Entry. 2-4s: Action. 4-6s: Dialogue. 6-8s: End pose. (NO TEXT OVERLAYS, CLEAN VIDEO).",
+  "narration": "Narration text",
+  "dialogue": ${isCarbox ? `""` : `"Short dialogue under 12 words"`},
+  "imagePrompt": ${isCarbox ? `"Ultra-realistic ASMR unboxing scene: [Vehicle details]. Top-down macro shot. Realistic photographic style. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)"` : `"CHARACTER CONSISTENCY LOCK: Maintain exact features of ${mainChar.name}. (NO TEXT, NO TITLES, CLEAN VISUAL RENDER)."`},
+  "videoPrompt": "During this 8-second clip: 0-2s: Entry. 2-4s: Action. 4-6s: Action. 6-8s: End pose. (NO TEXT OVERLAYS, CLEAN VIDEO).",
   "camera": "Camera angle",
   "motion": "Character motion",
   "lighting": "Lighting",

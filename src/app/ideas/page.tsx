@@ -280,7 +280,10 @@ export default function IdeasPage() {
                 onChange={(e) => {
                   const cat = e.target.value as CategoryId;
                   setCategory(cat);
-                  if (cat === "CARBOX") setLanguage("ASMR Unboxing Effects");
+                  if (cat === "CARBOX") {
+                    setLanguage("ASMR Unboxing Effects");
+                    setVisualStyle("Realistic");
+                  }
                   else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
                   else if (cat === "HINDI_JOKE") setLanguage("Hindi");
                   else if (language === "ASMR Unboxing Effects") setLanguage("English");
