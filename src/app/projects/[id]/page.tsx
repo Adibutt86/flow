@@ -194,7 +194,7 @@ export default function ProjectEditorPage({
       text += `--- 8-SECOND SCENE CLIPS ---\n`;
       project.scenes.forEach((s: any) => {
         text += `SCENE #${s.sceneNumber} (8 SECONDS)\n`;
-        text += `Narration: ${s.narration || s.dialogue || "N/A"}\n`;
+        text += `Audio & Spoken Voice: ${s.narration || s.dialogue || "Pure ASMR Audio (No Spoken Dialogue or Narration)"}\n`;
         text += `IMAGE PROMPT:\n${s.imagePrompt}\n`;
         text += `VIDEO PROMPT (8-SEC MOTION):\n${s.videoPrompt}\n`;
         text += `Camera: ${s.camera} | Motion: ${s.motion} | SFX: ${s.sfx || "None"}\n`;

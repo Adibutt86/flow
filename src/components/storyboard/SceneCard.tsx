@@ -93,8 +93,8 @@ STEP 2:
 VIDEO MOTION PROMPT
 ${scene.videoPrompt}
 
-DIALOGUE
-${scene.dialogue || scene.narration || "N/A"}
+AUDIO & DIALOGUE
+${scene.dialogue || scene.narration || "Pure ASMR Audio (No Spoken Dialogue or Narration)"}
 
 CAMERA
 ${scene.camera}
@@ -106,10 +106,10 @@ LIGHTING
 ${scene.lighting}
 
 SFX
-${scene.sfx || "Action-matched SFX cue"}
+${scene.sfx || "Satisfying ASMR unboxing sound effects"}
 
 MUSIC
-${scene.music || "Playful bouncy comedy score"}
+${scene.music || "Minimalist ambient electronic soundtrack"}
 ========================================
 `.trim();
 
@@ -126,8 +126,8 @@ Duration: 8 Seconds
 VIDEO MOTION PROMPT
 ${scene.videoPrompt}
 
-DIALOGUE
-${scene.dialogue || scene.narration || "N/A"}
+AUDIO & DIALOGUE
+${scene.dialogue || scene.narration || "Pure ASMR Audio (No Spoken Dialogue or Narration)"}
 
 CAMERA
 ${scene.camera}
@@ -139,10 +139,10 @@ LIGHTING
 ${scene.lighting}
 
 SFX
-${scene.sfx || "Action-matched SFX cue"}
+${scene.sfx || "Satisfying ASMR unboxing sound effects"}
 
 MUSIC
-${scene.music || "Playful bouncy comedy score"}
+${scene.music || "Minimalist ambient electronic soundtrack"}
 ========================================
 `.trim();
 
@@ -353,7 +353,7 @@ ${scene.music || "Playful bouncy comedy score"}
       ) : (
         <div className="space-y-5">
           {/* Narration / Spoken Dialogue */}
-          {(scene.narration || scene.dialogue) && (
+          {(scene.narration || scene.dialogue) ? (
             <div className="p-4 rounded-xl bg-gray-900/70 border border-gray-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-gray-300 flex items-center gap-1.5">
@@ -381,6 +381,14 @@ ${scene.music || "Playful bouncy comedy score"}
               <p className="text-sm font-medium text-white italic">
                 "{scene.narration || scene.dialogue}"
               </p>
+            </div>
+          ) : (
+            <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-500/20 text-xs text-indigo-200 flex items-center justify-between">
+              <span className="flex items-center gap-2 font-medium">
+                <Sparkles className="w-4 h-4 text-indigo-400" />
+                Pure ASMR Audio — No Spoken Dialogue or Narration
+              </span>
+              <span className="text-[11px] text-indigo-300/70 font-mono">SILENT VOICE</span>
             </div>
           )}
 

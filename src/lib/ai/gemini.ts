@@ -611,11 +611,7 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
     const isUrdu = ctx.language === "Urdu" || ctx.language === "Roman Urdu" || ctx.language === "Hindi" || ctx.category === "HINDI_JOKE";
 
     if (ctx.category === "CARBOX") {
-      narration = isFirst
-        ? `Sleek luxury box glides onto carbon fiber mat under studio lighting as translucent tissue wrap is gently peeled with crisp ASMR crinkle sounds.`
-        : isFinal
-        ? `Camera pushes into extreme macro close-up of the pristine ${ctx.mainCharacterName}, chrome detailing gleaming under warm studio spotlights.`
-        : `Box lid lifts with satisfying magnetic click, revealing pearl-white foam padding protecting the gleaming ${ctx.mainCharacterName}.`;
+      narration = "";
       dialogue = "";
       sfx = "Crisp tissue crinkle, satisfying box slide whisper, sharp magnetic lid click, subtle metallic clink";
       camera = isFirst ? "Top-down macro shot" : isFinal ? "Extreme macro close-up push-in" : "Medium overhead tracking shot";
@@ -750,9 +746,8 @@ export function validateStoryboard(ctx: StoryContext, storyboard: GeneratedProje
           return { valid: false, reason: `CARBOX category forbids animals/pets in scenes! Found forbidden animal reference "${animal}" in Scene #${s.sceneNumber}.` };
         }
       }
-      if (s.dialogue.trim() !== "" && s.dialogue.trim() !== "(No dialogue)") {
-        s.dialogue = "";
-      }
+      s.narration = "";
+      s.dialogue = "";
     }
   }
 
