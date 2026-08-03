@@ -347,19 +347,17 @@ export async function generateIdeaSuggestionsWithClaude(
         messages: [
           {
             role: "user",
-            content: `You are an expert cinematic AI video prompt writer specializing in luxury product reveals and ASMR unboxing for short-form video models (Google Flow, VEO, Sora, Runway Gen-3).
-Generate EXACTLY 1 highly creative, production-ready video concept idea strictly tailored to the chosen Category, Language, and Visual Style below.
+            content: `You are an expert cinematic AI video prompt writer specializing in viral short-form video prompts (Google Flow, VEO, Sora, Runway Gen-3).
+Generate EXACTLY 1 highly creative, production-ready video concept idea strictly formatted as a complete detailed video prompt.
 
 Category: ${categoryConfig.name} (${input.category})
 Badge: ${categoryConfig.badge}
 Description: ${categoryConfig.description}
 Tone: ${categoryConfig.tone}
-Pacing: ${categoryConfig.pacing}
-Hook Style: ${categoryConfig.hookStyle}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
 ${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
-${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : "Dialogue Mandate: Automatically generate authentic, hilarious Urdu / Roman Urdu dialogue with funny Desi timing, emotional expressions, and comic punchlines unless Category is CARBOX."}
+${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."}
 ${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
 ${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
 ${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
@@ -369,55 +367,16 @@ ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.car
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
 ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: ${input.carboxBackground}` : ""}
 
-STRICT CATEGORY & LANGUAGE GUIDELINES:
-0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
+STRICT 9:16 PROMPT FORMAT MANDATE:
+The generated prompt string MUST follow this EXACT structure:
 
-0.1 CLEAN VIDEO MANDATE: Do NOT add any text, logos, banners, watermarks, captions, labels, subtitles, end cards, or UI overlays to the video prompt. The video must remain completely clean and unobstructed. The ONLY exception is car videos (Category: CARBOX), where vehicle branding or model-specific graphics are allowed if explicitly required by the prompt.
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
 
-0.2 ENGLISH LANGUAGE MANDATE: If Language is "English", all generated video concepts, scene descriptions, and spoken dialogue MUST be written strictly in 100% standard, clear English. Do NOT include any Urdu, Hindi, or Punjabi words unless explicitly provided in custom dialogue.
+10-second ${input.visualStyle || "high-quality 3D cartoon animation"}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action & dialogue]. ESCALATION (3-7s): [Camera movement & dialogue/action escalation]. PUNCHLINE (7-10s): [Hilarious physical gag/punchline ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
 
-1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
-   - The idea MUST be a funny Punjabi joke/chutkule written in Roman Punjabi.
-   - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
-
-2. If Language is "English":
-   - The idea, script, and spoken dialogue MUST be written strictly in standard, natural English.
-   - ${input.customDialogue ? `MUST strictly include the custom spoken dialogue: "${input.customDialogue}"` : "MUST automatically include a short, natural English dialogue punchline under 10 words."}
-
-3. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - The idea MUST be a funny Desi joke written in authentic Roman Urdu / Desi Hindi.
-   - ${input.customDialogue ? `MUST strictly include the custom spoken dialogue: "${input.customDialogue}"` : "MUST automatically include a short, hilarious, natural Urdu dialogue punchline under 10 words."}
-
-4. If Category is "HORROR":
-   - The idea MUST be a terrifying eerie horror tale with creepy visual hooks and dark twists.
-
-5. If Category is "FUNNY_ANIMALS":
-   - The idea MUST feature hilarious pets/animals in absurd human situations.
-
-6. If Category is "KIDS_FUNNY" or "CUTE_KIDS":
-   - The idea MUST be cute, whimsical 3D animated style child physical comedy.
-   - ${input.customDialogue ? `MUST incorporate spoken dialogue: "${input.customDialogue}"` : input.language === "English" ? "MUST include a funny short English line spoken by the child character with expressive facial gags." : "MUST include a funny short Urdu line spoken by the child character with expressive facial gags."}
-
-7. If Category is "CARBOX":
-   - The idea MUST be an ultra-realistic, ASMR-style unboxing video of premium die-cast vehicles.
-   - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
-   - Describe satisfying peeling, clicking, and unwrapping sounds and textures with NO human dialogue or spoken narration.
-
-7. 10-SECOND SCRIPT OPTIMIZATION (When Video Duration is 10 Seconds):
-   - Optimize specifically for a fast-paced, highly engaging 10-second clip easily renderable by AI video models.
-   - Keep actions concise with clear visual gags, exaggerated expressions, and minimal visual clutter.
-   - Ensure dialogue fits naturally within the 10-second duration without requiring narration.
-   - Produce a strong opening hook (0-3s), clear comedic escalation (3-7s), and satisfying punchline ending (7-10s).
-
-8. CRITICAL 10-SECOND CINEMATIC CARBOX PROMPT MANDATE (Only If Category is "CARBOX"):
-   - The idea MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
-   - Pace MUST be smooth, elegant, and controlled with minimal camera motion for AI rendering stability.
-   - Style: Ultra-realistic, cinematic, photorealistic, luxury product commercial, macro ASMR.
-   - CAMERA MOTION: Use slow, smooth dolly tracking, gentle micro push-ins, slow orbital sweeps, or steady static hero framing. STRICTLY AVOID rapid camera movements, fast pans, aggressive zooming, handheld camera shake, or whip pans. Keep vehicle clearly visible and stably framed throughout.
-
-Return ONLY a valid JSON array of 1 string:
+Return ONLY a valid JSON array of 1 string containing the full prompt:
 [
-  "Idea 1..."
+  "[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\\n\\n10-second high-quality 3D cartoon animation..."
 ]`,
           },
         ],
@@ -464,25 +423,21 @@ Return ONLY a valid JSON array of 1 string:
     }
   }
 
-  // Category-specific fallback if API encounters errors
+  // Category-specific fallback with complete 9:16 format header and HOOK/ESCALATION/PUNCHLINE breakdown
   if (input.category === "PUNJABI_JOKE" || input.language === "Punjabi") {
     return [
-      "Santa voice-controls his vintage tractor in a green Pind field: 'Oye Siri! Start the tractor and play Bhangra!'",
-      "Banta opens an English Dhaba and translates 'Sarson Ka Saag' as 'Mustard Green Power Paste' for a confused tourist.",
-      "Santa argues with GPS on a dirt road: 'Oye Madam! Khet vich kyu mor rahi hai? Aage ganna laga hai!'",
+      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, vibrant green Punjab village field setting with bright sunny morning light. A funny 3D character in traditional turban and kurta sits on a wooden charpai with a cup of chai. HOOK (0-3s): He taps his smartphone screen confusedly and shouts in Roman Punjabi — 'Oye Siri! Khet vich paani la de te Bhangra play kar!' ESCALATION (3-7s): Camera zooms in as his phone responds in a robotic voice, causing him to dramatically spill his tea in mid-air with wide shocked eyes. PUNCHLINE (7-10s): He jumps off the charpai doing a hilarious clumsy Bhangra step as his tractor horn honks by itself — freeze frame on his funny face, high-energy Punjabi dhol music playing. No text, no logos, no overlays.`
     ];
   }
 
   if (input.category === "HINDI_JOKE" || input.language === "Hindi" || input.language === "Urdu" || input.language === "Roman Urdu") {
     return [
-      "ابو: 'چپس کہاں گئے؟' بچہ: 'تحقیقات جاری ہیں!' (Desi family kitchen comedy)",
-      "Pappu teacher se kehta hai: 'Sir, agar main homework na karoon toh aap gussa karoge?' Teacher: 'Haan!' Pappu: 'Toh main nahi kar raha!'",
-      "Chintu dukaan par ja kar kehta hai: 'Uncle, 10 rupaye ka discount do!' Shopkeeper bola: 'Pehle 10 rupaye to do!'",
+      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, cozy warm living room setting with soft golden lighting. A super adorable toddler girl (2-3 years old) wearing a fluffy pastel pink pajama onesie sits on a soft carpet holding a toy. HOOK (0-3s): The little girl leans in with wide sparkling eyes and asks in an innocent squeaky Urdu voice — 'ابو... چپس کہاں گئے؟' tilting her head with adorable seriousness. ESCALATION (3-7s): Camera slowly pushes in as she dramatically points at the empty plate with a big gasp — 'تحقیقات جاری ہیں!' PUNCHLINE (7-10s): The little girl bursts into a contagious giggling fit, falling sideways onto the cushion — freeze frame on her giggling face. Soft bouncy background music, light xylophone melody. No text, no logos, no overlays.`
     ];
   }
 
   return [
-    `A high-energy, viral 10-second ${input.visualStyle} video featuring dynamic action, expressive character reactions, and authentic ${input.language} dialogue tailored for ${categoryConfig.name}.`,
+    `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, vibrant cinematic environment with warm studio lighting. A cute expressive character in stylish casual attire. HOOK (0-3s): Character steps into frame with wide excited eyes, delivering a quick opening line. ESCALATION (3-7s): Dynamic camera push-in highlighting exaggerated facial expressions and funny physical reactions. PUNCHLINE (7-10s): Hilarious comedic resolution ending on a heartwarming freeze frame with energetic background music. No text, no logos, no overlays.`
   ];
 }
 
