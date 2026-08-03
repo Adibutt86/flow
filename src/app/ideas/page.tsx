@@ -150,26 +150,130 @@ const KIDS_HEALTH_GROUPS = [
 
 const KIDS_HEALTH_OPTIONS = KIDS_HEALTH_GROUPS.flatMap((g) => g.options);
 
-const CHARACTER_SETUP_OPTIONS = [
-  "One Cute Little Girl",
-  "One Cute Little Boy",
-  "Two Kids (Siblings)",
-  "Two Kids (Friends)",
-  "Twins",
-  "One Girl & One Boy",
-  "Two Little Girls",
-  "Two Little Boys",
-  "Brother & Sister",
-  "Best Friends",
-  "Three Happy Kids",
-  "Happy Family",
-  "Child & Mom",
-  "Child & Dad",
-  "Child & Doctor",
-  "Child & Teacher",
-  "Child & Friendly Robot",
-  "Child & Teddy Bear",
+const CHARACTER_SETUP_GROUPS = [
+  {
+    category: "Girl Characters",
+    options: [
+      "One Cute Little Girl",
+      "Smiling Little Girl",
+      "Happy Little Girl",
+      "Curious Little Girl",
+      "Shy Little Girl",
+      "Playful Little Girl",
+      "Cheerful Little Girl",
+      "Energetic Little Girl",
+      "Laughing Little Girl",
+      "Sleeping Little Girl",
+      "Reading Little Girl",
+      "Drawing Little Girl",
+      "Singing Little Girl",
+      "Dancing Little Girl",
+      "Little Girl with Glasses",
+      "Little Girl with Curly Hair",
+      "Little Girl with Ponytail",
+      "Little Girl with Braids",
+      "Little Girl in School Uniform",
+      "Little Girl in Princess Dress",
+      "Little Girl in Sports Outfit",
+      "Little Girl in Raincoat",
+      "Little Girl in Winter Clothes",
+      "Little Girl in Pajamas",
+      "Little Girl Wearing a Backpack",
+      "Little Girl Holding a Toy",
+      "Little Girl Holding a Balloon",
+      "Little Girl Holding a Teddy Bear",
+      "Little Girl Eating Fruit",
+      "Little Girl Brushing Teeth",
+      "Toddler Girl",
+      "Preschool Girl",
+      "Kindergarten Girl",
+      "School-Age Girl",
+      "Confident Little Girl",
+      "Adventurous Little Girl",
+      "Thoughtful Little Girl",
+      "Funny Little Girl",
+      "Creative Little Girl",
+      "Little Girl Scientist",
+      "Little Girl Chef",
+      "Little Girl Artist",
+      "Little Girl Explorer",
+      "Little Girl Gardener",
+      "Little Girl Musician",
+    ],
+  },
+  {
+    category: "Boy Characters",
+    options: [
+      "One Cute Little Boy",
+      "Smiling Little Boy",
+      "Happy Little Boy",
+      "Curious Little Boy",
+      "Shy Little Boy",
+      "Playful Little Boy",
+      "Cheerful Little Boy",
+      "Energetic Little Boy",
+      "Laughing Little Boy",
+      "Sleeping Little Boy",
+      "Reading Little Boy",
+      "Drawing Little Boy",
+      "Singing Little Boy",
+      "Dancing Little Boy",
+      "Little Boy with Glasses",
+      "Little Boy with Curly Hair",
+      "Little Boy with Spiky Hair",
+      "Little Boy in School Uniform",
+      "Little Boy in Superhero Costume",
+      "Little Boy in Sports Outfit",
+      "Little Boy in Raincoat",
+      "Little Boy in Winter Clothes",
+      "Little Boy in Pajamas",
+      "Little Boy Wearing a Backpack",
+      "Little Boy Holding a Toy",
+      "Little Boy Holding a Balloon",
+      "Little Boy Holding a Teddy Bear",
+      "Little Boy Eating Fruit",
+      "Little Boy Brushing Teeth",
+      "Toddler Boy",
+      "Preschool Boy",
+      "Kindergarten Boy",
+      "School-Age Boy",
+      "Confident Little Boy",
+      "Adventurous Little Boy",
+      "Thoughtful Little Boy",
+      "Funny Little Boy",
+      "Creative Little Boy",
+      "Little Boy Scientist",
+      "Little Boy Chef",
+      "Little Boy Artist",
+      "Little Boy Explorer",
+      "Little Boy Gardener",
+      "Little Boy Musician",
+    ],
+  },
+  {
+    category: "Multiple Characters",
+    options: [
+      "Two Little Girls",
+      "Two Little Boys",
+      "One Girl & One Boy",
+      "Brother & Sister",
+      "Two Kids (Siblings)",
+      "Two Kids (Friends)",
+      "Twins",
+      "Three Happy Kids",
+      "Best Friends",
+      "Happy Family",
+      "Child & Mom",
+      "Child & Dad",
+      "Child & Doctor",
+      "Child & Teacher",
+      "Child & Friendly Robot",
+      "Child & Teddy Bear",
+    ],
+  },
 ];
+
+const CHARACTER_SETUP_OPTIONS = CHARACTER_SETUP_GROUPS.flatMap((g) => g.options);
 
 const AI_MODEL_OPTIONS = [
   { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
@@ -1012,10 +1116,14 @@ export default function IdeasPage() {
                   onChange={(e) => setCharacterSetup(e.target.value)}
                   className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition-all font-medium cursor-pointer"
                 >
-                  {CHARACTER_SETUP_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt} className="bg-slate-900 text-white">
-                      {opt}
-                    </option>
+                  {CHARACTER_SETUP_GROUPS.map((group) => (
+                    <optgroup key={group.category} label={group.category} className="bg-slate-900 text-indigo-300 font-bold">
+                      {group.options.map((opt) => (
+                        <option key={opt} value={opt} className="bg-black text-white font-normal">
+                          {opt}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
               </div>
