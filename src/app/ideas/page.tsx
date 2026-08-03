@@ -71,23 +71,84 @@ const KIDS_AGE_OPTIONS = [
   "Family (All Ages)",
 ];
 
-const KIDS_HEALTH_OPTIONS = [
-  "Cheerful & Energetic",
-  "Cute & Playful",
-  "Happy Explorer",
-  "Tiny Athlete",
-  "Healthy & Active",
-  "Colorful Casual",
-  "Storybook Princess (everyday, not fancy)",
-  "Nature Lover",
-  "Little Dancer",
-  "Sunshine Smile",
-  "Mini Gardener",
-  "Rainbow Adventure",
-  "Cozy Homewear",
-  "Soft Pastel Style",
-  "Sporty Toddler",
+const KIDS_HEALTH_GROUPS = [
+  {
+    category: "Kids Health & Fitness",
+    options: [
+      "Happy Chubby Kid",
+      "Cute Chubby Boy",
+      "Cute Chubby Girl",
+      "Healthy Lifestyle",
+      "Healthy Eating",
+      "Fun Exercise",
+      "Active Play",
+      "Morning Workout",
+      "Dance Challenge",
+      "Fruit Time",
+      "Veggie Challenge",
+      "Water Break",
+      "Family Fitness",
+      "Playground Fun",
+      "Jump Rope Challenge",
+      "Mini Sports Star",
+      "Stretch & Smile",
+      "Feel Strong",
+      "Happy & Healthy",
+      "Kids Fitness",
+      "Tiny Athlete",
+      "Energy Boost",
+      "Healthy & Active",
+      "Healthy Habits",
+    ],
+  },
+  {
+    category: "Vibes & Moods",
+    options: [
+      "Cheerful & Energetic",
+      "Cute & Playful",
+      "Happy Explorer",
+      "Sunshine Smile",
+      "Rainbow Adventure",
+      "Confidence Boost",
+      "Big Smiles",
+      "Positive Energy",
+      "Self-Love",
+      "Before School Routine",
+      "Weekend Fun",
+    ],
+  },
+  {
+    category: "Everyday Styles & Outfits",
+    options: [
+      "Colorful Casual",
+      "Storybook Princess (everyday, not fancy)",
+      "Nature Lover",
+      "Little Dancer",
+      "Mini Gardener",
+      "Cozy Homewear",
+      "Soft Pastel Style",
+      "Sporty Toddler",
+    ],
+  },
+  {
+    category: "ASMR & Sensory",
+    options: [
+      "Satisfying Sounds",
+      "Soft Whisper",
+      "Crunchy Food",
+    ],
+  },
+  {
+    category: "Comedy & Fun",
+    options: [
+      "Silly Kid",
+      "Funny Teacher",
+      "Dad Jokes",
+    ],
+  },
 ];
+
+const KIDS_HEALTH_OPTIONS = KIDS_HEALTH_GROUPS.flatMap((g) => g.options);
 
 const CHARACTER_SETUP_OPTIONS = [
   "One Cute Little Girl",
@@ -886,10 +947,14 @@ export default function IdeasPage() {
                   onChange={(e) => setKidsHealth(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  {KIDS_HEALTH_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
+                  {KIDS_HEALTH_GROUPS.map((group) => (
+                    <optgroup key={group.category} label={group.category} className="bg-gray-900 text-indigo-300 font-semibold">
+                      {group.options.map((opt) => (
+                        <option key={opt} value={opt} className="bg-black text-white font-normal">
+                          {opt}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
               </div>
