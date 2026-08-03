@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useToast } from "@/components/ui/Toast";
 import { CATEGORIES } from "@/lib/categories";
@@ -18,6 +18,8 @@ import {
   FileVideo,
   Edit3,
   Search,
+  RotateCcw,
+  ArrowUpDown,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -85,15 +87,51 @@ interface SavedIdea {
   videoFileName?: string;
 }
 
+interface IdeasPageSettings {
+  category?: CategoryId;
+  language?: string;
+  visualStyle?: string;
+  videoDuration?: number;
+  customDialogue?: string;
+  kidsAge?: string;
+  kidsHealth?: string;
+  characterSetup?: string;
+  kidsNationality?: string;
+  carboxBrand?: string;
+  carboxColor?: string;
+  carboxPackaging?: string;
+  carboxBackground?: string;
+  customIdea?: string;
+  filterCategory?: CategoryId | "ALL" | "FAVORITES";
+  searchQuery?: string;
+  sortBy?: "NEWEST" | "OLDEST" | "FAVORITES_FIRST";
+  currentPage?: number;
+}
+
 export default function IdeasPage() {
   const { showToast } = useToast();
 
+  // Load saved settings from localStorage on initial render
+  const getInitialSettings = (): IdeasPageSettings => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("flow-ideas-page-settings");
+        if (stored) return JSON.parse(stored);
+      } catch (e) {
+        console.error("Error reading ideas page settings from localStorage", e);
+      }
+    }
+    return {};
+  };
+
+  const initialSettings = getInitialSettings();
+
   // Generation controls
-  const [category, setCategory] = useState<CategoryId>("FUNNY");
-  const [language, setLanguage] = useState("Urdu");
-  const [visualStyle, setVisualStyle] = useState("3D Cartoon Style");
-  const [videoDuration, setVideoDuration] = useState<number>(8);
-  const [customDialogue, setCustomDialogue] = useState("");
+  const [category, setCategory] = useState<CategoryId>(initialSettings.category || "FUNNY");
+  const [language, setLanguage] = useState(initialSettings.language || "Urdu");
+  const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
+  const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 8);
+  const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 
@@ -121,24 +159,25 @@ export default function IdeasPage() {
   };
   
   // Cute Kids specific options
-  const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
-  const [kidsHealth, setKidsHealth] = useState("Cheerful & Energetic");
-  const [characterSetup, setCharacterSetup] = useState("One Cute Little Girl");
-  const [kidsNationality, setKidsNationality] = useState("Global / Any");
+  const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
+  const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Cheerful & Energetic");
+  const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "One Cute Little Girl");
+  const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
   
   const isRtl = language === "Urdu" || language === "Punjabi";
   
   // Carbox specific options
-  const [carboxBrand, setCarboxBrand] = useState("Premium BMW");
-  const [carboxColor, setCarboxColor] = useState("Glossy Black");
-  const [carboxPackaging, setCarboxPackaging] = useState("Elegant Retail Box");
-  const [carboxBackground, setCarboxBackground] = useState("Clean White Studio Tabletop");
+  const [carboxBrand, setCarboxBrand] = useState(initialSettings.carboxBrand || "Premium BMW");
+  const [carboxColor, setCarboxColor] = useState(initialSettings.carboxColor || "Glossy Black");
+  const [carboxPackaging, setCarboxPackaging] = useState(initialSettings.carboxPackaging || "Elegant Retail Box");
+  const [carboxBackground, setCarboxBackground] = useState(initialSettings.carboxBackground || "Clean White Studio Tabletop");
   
   // Custom Idea Optimization
-  const [customIdea, setCustomIdea] = useState("");
+  const [customIdea, setCustomIdea] = useState(initialSettings.customIdea || "");
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [optimizedData, setOptimizedData] = useState<{title: string, scenes: {sceneNumber: number, content: string}[]} | null>(null);
   const [activeSceneTab, setActiveSceneTab] = useState(1);
+
   // Saved ideas
   const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>(() => {
     if (typeof window !== "undefined") {
@@ -148,14 +187,85 @@ export default function IdeasPage() {
     return [];
   });
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
+  // Pagination & Filters
+  const [currentPage, setCurrentPage] = useState<number>(initialSettings.currentPage || 1);
+  const [filterCategory, setFilterCategory] = useState<CategoryId | "ALL" | "FAVORITES">(initialSettings.filterCategory || "ALL");
+  const [searchQuery, setSearchQuery] = useState<string>(initialSettings.searchQuery || "");
+  const [sortBy, setSortBy] = useState<"NEWEST" | "OLDEST" | "FAVORITES_FIRST">(initialSettings.sortBy || "NEWEST");
+
+  // Save all settings to localStorage whenever any setting changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const settings: IdeasPageSettings = {
+        category,
+        language,
+        visualStyle,
+        videoDuration,
+        customDialogue,
+        kidsAge,
+        kidsHealth,
+        characterSetup,
+        kidsNationality,
+        carboxBrand,
+        carboxColor,
+        carboxPackaging,
+        carboxBackground,
+        customIdea,
+        filterCategory,
+        searchQuery,
+        sortBy,
+        currentPage,
+      };
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+    }
+  }, [
+    category,
+    language,
+    visualStyle,
+    videoDuration,
+    customDialogue,
+    kidsAge,
+    kidsHealth,
+    characterSetup,
+    kidsNationality,
+    carboxBrand,
+    carboxColor,
+    carboxPackaging,
+    carboxBackground,
+    customIdea,
+    filterCategory,
+    searchQuery,
+    sortBy,
+    currentPage,
+  ]);
+
+  const handleResetSettings = () => {
+    setCategory("FUNNY");
+    setLanguage("Urdu");
+    setVisualStyle("3D Cartoon Style");
+    setVideoDuration(8);
+    setCustomDialogue("");
+    setKidsAge("Toddler (2-4 yrs)");
+    setKidsHealth("Cheerful & Energetic");
+    setCharacterSetup("One Cute Little Girl");
+    setKidsNationality("Global / Any");
+    setCarboxBrand("Premium BMW");
+    setCarboxColor("Glossy Black");
+    setCarboxPackaging("Elegant Retail Box");
+    setCarboxBackground("Clean White Studio Tabletop");
+    setCustomIdea("");
+    setFilterCategory("ALL");
+    setSearchQuery("");
+    setSortBy("NEWEST");
+    setCurrentPage(1);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("flow-ideas-page-settings");
+    }
+    showToast("Reset search, filters, & options to default!", "info");
+  };
 
   // Copied state tracking
   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  // Filter
-  const [filterCategory, setFilterCategory] = useState<CategoryId | "ALL" | "FAVORITES">("ALL");
 
   // Editable Filename state
   const [editingFileNameId, setEditingFileNameId] = useState<string | null>(null);
@@ -281,10 +391,8 @@ export default function IdeasPage() {
     }
   };
 
-  // Search Query state
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Filtered & paginated saved ideas (matches category filter AND video filename/prompt search)
+  // Search Query state & sorting
+  // Filtered saved ideas
   const filteredIdeas = savedIdeas.filter((idea) => {
     const matchesCategory =
       filterCategory === "ALL"
@@ -303,8 +411,22 @@ export default function IdeasPage() {
     return fileName.includes(q) || textContent.includes(q);
   });
 
-  const totalPages = Math.max(1, Math.ceil(filteredIdeas.length / ITEMS_PER_PAGE));
-  const paginatedIdeas = filteredIdeas.slice(
+  // Sorted saved ideas
+  const sortedIdeas = [...filteredIdeas].sort((a, b) => {
+    if (sortBy === "OLDEST") {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    }
+    if (sortBy === "FAVORITES_FIRST") {
+      if (a.isFavorite && !b.isFavorite) return -1;
+      if (!a.isFavorite && b.isFavorite) return 1;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+    // Default NEWEST
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sortedIdeas.length / ITEMS_PER_PAGE));
+  const paginatedIdeas = sortedIdeas.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -793,27 +915,56 @@ export default function IdeasPage() {
               Saved Ideas ({filteredIdeas.length})
             </h2>
 
-            {/* Search by Video File Name or Keyword */}
-            <div className="relative w-full sm:w-72">
-              <Search className="w-4 h-4 text-indigo-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                placeholder="Search by file name (e.g. carbox_bmw)..."
-                className="w-full pl-9 pr-8 py-2 rounded-xl bg-black/60 border border-indigo-500/40 text-xs text-indigo-100 placeholder-gray-500 focus:outline-none focus:border-indigo-400 transition-colors shadow-inner font-mono"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs font-bold"
+            <div className="flex items-center gap-3 flex-wrap w-full sm:w-auto justify-end">
+              {/* Search by Video File Name or Keyword */}
+              <div className="relative w-full sm:w-64">
+                <Search className="w-4 h-4 text-indigo-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search by file name..."
+                  className="w-full pl-9 pr-8 py-2 rounded-xl bg-black/60 border border-indigo-500/40 text-xs text-indigo-100 placeholder-gray-500 focus:outline-none focus:border-indigo-400 transition-colors shadow-inner font-mono"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs font-bold"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Sort By Dropdown */}
+              <div className="flex items-center gap-1.5 bg-black/50 border border-gray-700 px-3 py-1.5 rounded-xl text-xs text-gray-300">
+                <ArrowUpDown className="w-3.5 h-3.5 text-indigo-400" />
+                <select
+                  value={sortBy}
+                  onChange={(e) => {
+                    setSortBy(e.target.value as any);
+                    setCurrentPage(1);
+                  }}
+                  className="bg-transparent text-xs text-white focus:outline-none cursor-pointer"
                 >
-                  ✕
-                </button>
-              )}
+                  <option value="NEWEST" className="bg-gray-900">Newest First</option>
+                  <option value="OLDEST" className="bg-gray-900">Oldest First</option>
+                  <option value="FAVORITES_FIRST" className="bg-gray-900">Favorites First</option>
+                </select>
+              </div>
+
+              {/* Reset Filters & Settings Button */}
+              <button
+                onClick={handleResetSettings}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-700 text-xs font-semibold text-gray-300 hover:text-white transition-all cursor-pointer shadow-sm active:scale-95"
+                title="Reset all search, filter, and generator settings to default"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                <span>Reset Defaults</span>
+              </button>
             </div>
           </div>
 

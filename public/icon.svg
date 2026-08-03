@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090b10" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#311042" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  <rect width="504" height="504" x="4" y="4" rx="124" fill="none" stroke="url(#glowGrad)" stroke-width="8" opacity="0.8" />
+
+  <!-- Flowing Play/Sparkle Shape -->
+  <g filter="url(#glow)">
+    <!-- Lightbulb / Sparkle Center -->
+    <path d="M256 96 C190 96 136 150 136 216 C136 264 164 306 204 326 L204 368 C204 377 211 384 220 384 L292 384 C301 384 308 377 308 368 L308 326 C348 306 376 264 376 216 C376 150 322 96 256 96 Z" fill="url(#glowGrad)" />
+    <!-- Bulb Base -->
+    <rect x="220" y="400" width="72" height="16" rx="8" fill="#e2e8f0" />
+    <rect x="232" y="424" width="48" height="12" rx="6" fill="#94a3b8" />
+    <!-- Filaments / Rays -->
+    <polygon points="256,150 240,210 272,210" fill="#ffffff" opacity="0.9" />
+    <circle cx="256" cy="245" r="16" fill="#ffffff" opacity="0.9" />
+  </g>
+  
+  <!-- Outer Sparkles -->
+  <path d="M400 120 L408 144 L432 152 L408 160 L400 184 L392 160 L368 152 L392 144 Z" fill="url(#sparkGrad)" />
+  <path d="M112 360 L118 378 L136 384 L118 390 L112 408 L106 390 L88 384 L106 378 Z" fill="url(#sparkGrad)" />
+</svg>

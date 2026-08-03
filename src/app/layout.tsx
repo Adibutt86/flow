@@ -19,6 +19,14 @@ export const metadata: Metadata = {
   title: "AI Short Studio - AI Short Video Storyboard & Prompt Studio for Google Flow",
   description:
     "Create characters, stories, 8-second scenes, character reference image prompts, visual bibles, and video prompts optimized for Google Flow.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
