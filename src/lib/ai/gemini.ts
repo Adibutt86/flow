@@ -168,7 +168,7 @@ function cleanJsonResponse(text: string): string {
   return cleaned.trim();
 }
 
-function repairJsonString(rawText: string): string {
+export function repairJsonString(rawText: string): string {
   let str = cleanJsonResponse(rawText);
 
   str = str.replace(/,\s*([\]}])/g, "$1");

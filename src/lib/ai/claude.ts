@@ -327,12 +327,12 @@ export async function generateIdeaSuggestionsWithClaude(
   const categoryConfig = getCategoryConfig(input.category);
   let lastError: any = null;
 
-  for (const modelName of ["claude-sonnet-4-6"]) {
+  for (const modelName of ["claude-3-7-sonnet-20250219", "claude-3-5-sonnet-20241022", "claude-sonnet-4-6"]) {
     try {
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
         model: modelName,
-        max_tokens: 1024,
+        max_tokens: 4096,
         messages: [
           {
             role: "user",
@@ -406,9 +406,38 @@ Return ONLY a valid JSON array of 1 string:
 
       const text = response.content[0].type === "text" ? response.content[0].text : "";
       const cleaned = cleanJsonResponse(text);
-      const array = JSON.parse(cleaned);
-      if (Array.isArray(array) && array.length > 0) {
-        return array.map(String);
+      
+      let resultArr: string[] = [];
+      try {
+        const parsed = JSON.parse(cleaned);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          resultArr = parsed.map(String);
+        } else if (typeof parsed === "string") {
+          resultArr = [parsed];
+        }
+      } catch (e1) {
+        try {
+          const repaired = repairJsonString(cleaned);
+          const parsedRepaired = JSON.parse(repaired);
+          if (Array.isArray(parsedRepaired) && parsedRepaired.length > 0) {
+            resultArr = parsedRepaired.map(String);
+          }
+        } catch (e2) {
+          if (cleaned.trim().length > 0) {
+            const rawIdea = cleaned
+              .replace(/^\[\s*"/, "")
+              .replace(/"\s*\]$/, "")
+              .replace(/\\"/g, '"')
+              .trim();
+            if (rawIdea) {
+              resultArr = [rawIdea];
+            }
+          }
+        }
+      }
+
+      if (resultArr.length > 0) {
+        return resultArr;
       }
     } catch (err: any) {
       console.warn(`Claude (${modelName}) idea suggestion error:`, err?.message || err);
