@@ -21,6 +21,7 @@ import {
   RotateCcw,
   ArrowUpDown,
   Bookmark,
+  Share2,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -294,6 +295,12 @@ interface SavedIdea {
   isFavorite?: boolean;
   videoFileName?: string;
   aiModel?: string;
+  socialContent?: {
+    title: string;
+    description: string;
+    caption: string;
+    hashtags: string;
+  };
 }
 
 interface IdeasPageSettings {
@@ -558,6 +565,7 @@ export default function IdeasPage() {
   // Editable Filename state
   const [editingFileNameId, setEditingFileNameId] = useState<string | null>(null);
   const [editingFileNameText, setEditingFileNameText] = useState("");
+  const [generatingSocialId, setGeneratingSocialId] = useState<string | null>(null);
 
   const getFallbackFileName = (idea: SavedIdea) => {
     let name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
@@ -677,6 +685,37 @@ export default function IdeasPage() {
       i.id === id ? { ...i, isFavorite: !i.isFavorite } : i
     );
     saveToStorage(updated);
+  };
+
+  const handleGenerateSocial = async (idea: SavedIdea) => {
+    setGeneratingSocialId(idea.id);
+    try {
+      const res = await fetch("/api/generate-social", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ideaText: idea.text,
+          category: idea.category,
+          language: idea.language,
+          visualStyle: idea.visualStyle,
+          aiModel,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to generate social content");
+      }
+
+      const updated = savedIdeas.map((i) =>
+        i.id === idea.id ? { ...i, socialContent: data.social } : i
+      );
+      saveToStorage(updated);
+      showToast("Facebook social content generated!", "success");
+    } catch (e: any) {
+      showToast(e.message || "Failed to generate social content", "error");
+    } finally {
+      setGeneratingSocialId(null);
+    }
   };
 
   const handleCopy = async (text: string, id: string) => {
@@ -1497,10 +1536,113 @@ export default function IdeasPage() {
                         </div>
                       )}
                     </div>
+
+                    {/* Social Media Content Display Box */}
+                    {idea.socialContent && (
+                      <div className="mt-4 p-4 rounded-xl bg-blue-950/20 border border-blue-500/30 space-y-3.5 w-full">
+                        <div className="flex items-center justify-between border-b border-blue-500/20 pb-2">
+                          <div className="flex items-center gap-2 text-xs font-bold text-blue-300 uppercase tracking-wider">
+                            <Share2 className="w-3.5 h-3.5 text-blue-400" />
+                            <span>Facebook Social Content</span>
+                          </div>
+                          <button
+                            onClick={() => handleGenerateSocial(idea)}
+                            disabled={generatingSocialId === idea.id}
+                            className="text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer"
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                            <span>Regenerate Social</span>
+                          </button>
+                        </div>
+
+                        {/* Title Field */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                            <span>📌 Video Title</span>
+                            <button
+                              onClick={() => handleCopy(idea.socialContent!.title, `${idea.id}-social-title`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                            >
+                              {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                              Copy Title
+                            </button>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-white font-medium">
+                            {idea.socialContent.title}
+                          </div>
+                        </div>
+
+                        {/* Description Field */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                            <span>📝 Video Description</span>
+                            <button
+                              onClick={() => handleCopy(idea.socialContent!.description, `${idea.id}-social-desc`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                            >
+                              {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                              Copy Description
+                            </button>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed">
+                            {idea.socialContent.description}
+                          </div>
+                        </div>
+
+                        {/* Facebook Caption Field */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                            <span>💬 Facebook Caption</span>
+                            <button
+                              onClick={() => handleCopy(idea.socialContent!.caption, `${idea.id}-social-caption`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                            >
+                              {copiedId === `${idea.id}-social-caption` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                              Copy Caption
+                            </button>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed whitespace-pre-wrap">
+                            {idea.socialContent.caption}
+                          </div>
+                        </div>
+
+                        {/* Hashtags Field */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                            <span>🏷️ Relevant Hashtags</span>
+                            <button
+                              onClick={() => handleCopy(idea.socialContent!.hashtags, `${idea.id}-social-tags`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                            >
+                              {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                              Copy Hashtags
+                            </button>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-indigo-300 font-mono">
+                            {idea.socialContent.hashtags}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Actions Row */}
                   <div className="flex items-center gap-2 shrink-0 flex-wrap w-full md:w-auto justify-start md:justify-end pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/60">
+                    {/* Generate Social Button */}
+                    <button
+                      onClick={() => handleGenerateSocial(idea)}
+                      disabled={generatingSocialId === idea.id}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                      title="Generate Facebook title, description, caption & hashtags"
+                    >
+                      {generatingSocialId === idea.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                      ) : (
+                        <Share2 className="w-3.5 h-3.5 text-blue-400" />
+                      )}
+                      <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
+                    </button>
+
                     {/* Favorite Toggle Button */}
                     <button
                       onClick={() => handleToggleFavorite(idea.id)}

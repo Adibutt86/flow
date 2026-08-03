@@ -709,3 +709,87 @@ STRICT DIALOGUE STYLE & LANGUAGE RULES:
     reason: "API is not working. Please check your API key or model permissions.",
   });
 }
+
+export const SocialContentSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  caption: z.string().min(1),
+  hashtags: z.string().min(1),
+});
+
+export type SocialContentOutput = z.infer<typeof SocialContentSchema>;
+
+export async function generateSocialContentWithClaude(input: {
+  ideaText: string;
+  category: string;
+  language: string;
+  visualStyle?: string;
+  aiModel?: string;
+}): Promise<SocialContentOutput> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is missing.",
+    });
+  }
+
+  const modelsToTry = Array.from(new Set([
+    ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5-20250929",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-6",
+  ]));
+
+  const prompt = `You are an expert social media manager for viral Facebook video pages.
+Generate platform-ready, high-engagement Facebook content based on the following short video concept.
+
+Video Concept:
+"${input.ideaText}"
+
+Category: ${input.category}
+Language: ${input.language}
+Visual Style: ${input.visualStyle || "Standard 3D"}
+
+CRITICAL RULES:
+1. Match the language requested (${input.language}). If Urdu or Punjabi, write natural text that feels native, energetic, and engaging for Facebook users in that region.
+2. Content must be 100% family-friendly, concise, and optimized for maximum Facebook likes, comments, and shares.
+3. OUTPUT MUST BE VALID JSON ONLY matching this exact structure:
+{
+  "title": "Short, catchy video title for Facebook (max 8-10 words)",
+  "description": "Engaging 2-3 sentence video summary for Facebook Watch / Reels description",
+  "caption": "Post caption with an engaging hook, relatable question to comments, and a clear call to action",
+  "hashtags": "#5-8 relevant hashtags separated by spaces"
+}`;
+
+  for (const modelName of modelsToTry) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 700,
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+      });
+
+      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      if (text) {
+        return safeJsonParse(text, SocialContentSchema, "Social Content Generator");
+      }
+    } catch (err: any) {
+      console.warn(`Claude social content error (${modelName}):`, err?.message || err);
+    }
+  }
+
+  throw new ValidationError({
+    success: false,
+    stage: "Social Content Generator",
+    reason: "API is not working. Please check your API key or model permissions.",
+  });
+}
