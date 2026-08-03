@@ -111,10 +111,10 @@ const CHARACTER_SETUP_OPTIONS = [
 ];
 
 const AI_MODEL_OPTIONS = [
-  { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Best Quality)", badge: "Best Quality" },
-  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Balanced)", badge: "Balanced" },
-  { id: "claude-3-5-haiku-20241022", label: "Claude 3.5 Haiku (Fastest)", badge: "Fastest" },
-  { id: "claude-3-haiku-20240307", label: "Claude 3 Haiku (Lowest Cost)", badge: "Lowest Cost" },
+  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
+  { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
+  { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku (Fastest)", badge: "Fastest" },
+  { id: "claude-opus-4-6", label: "Claude 4.6 Opus (Max Power)", badge: "Max Power" },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -172,12 +172,11 @@ export default function IdeasPage() {
   const initialSettings = getInitialSettings();
 
   const getModelBadgeLabel = (modelId?: string) => {
-    if (!modelId) return "Claude 3.7 Sonnet";
-    if (modelId === "claude-3-7-sonnet-20250219") return "Claude 3.7 Sonnet";
-    if (modelId === "claude-3-5-sonnet-20241022") return "Claude 3.5 Sonnet";
-    if (modelId === "claude-3-5-haiku-20241022") return "Claude 3.5 Haiku";
-    if (modelId === "claude-3-haiku-20240307") return "Claude 3 Haiku";
-    return modelId;
+    if (!modelId || modelId.includes("claude-sonnet-4-6")) return "Claude 4.6 Sonnet";
+    if (modelId === "claude-sonnet-4-5-20250929") return "Claude 4.5 Sonnet";
+    if (modelId === "claude-haiku-4-5-20251001") return "Claude 4.5 Haiku";
+    if (modelId === "claude-opus-4-6") return "Claude 4.6 Opus";
+    return "Claude 4.6 Sonnet";
   };
 
   // Generation controls
@@ -186,7 +185,11 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
-  const [aiModel, setAiModel] = useState<string>(initialSettings.aiModel || "claude-3-7-sonnet-20250219");
+  const [aiModel, setAiModel] = useState<string>(
+    initialSettings.aiModel && ["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(initialSettings.aiModel)
+      ? initialSettings.aiModel
+      : "claude-sonnet-4-6"
+  );
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 

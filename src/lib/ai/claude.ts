@@ -16,9 +16,10 @@ import {
 import { getCategoryConfig } from "../categories/index";
 
 const CLAUDE_MODELS = [
-  "claude-3-7-sonnet-20250219",
-  "claude-3-5-sonnet-20241022",
-  "claude-3-sonnet-20240229",
+  "claude-sonnet-4-6",
+  "claude-sonnet-4-5-20250929",
+  "claude-haiku-4-5-20251001",
+  "claude-opus-4-6",
 ];
 
 function cleanJsonResponse(text: string): string {
@@ -332,10 +333,11 @@ export async function generateIdeaSuggestionsWithClaude(
   let lastError: any = null;
 
   const modelsToTry = Array.from(new Set([
-    ...(input.aiModel ? [input.aiModel] : []),
-    "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-    "claude-3-sonnet-20240229",
+    ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5-20250929",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-6",
   ]));
 
   for (const modelName of modelsToTry) {
@@ -613,10 +615,11 @@ Return ONLY a valid JSON object matching this exact structure:
 }`;
 
   const modelsToTry = Array.from(new Set([
-    ...(aiModel ? [aiModel] : []),
-    "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-    "claude-3-sonnet-20240229",
+    ...(aiModel && CLAUDE_MODELS.includes(aiModel) ? [aiModel] : []),
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5-20250929",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-6",
   ]));
 
   for (const modelName of modelsToTry) {
@@ -664,10 +667,11 @@ export async function generateDialogueSuggestionWithClaude(input: {
   }
 
   const modelsToTry = Array.from(new Set([
-    ...(input.aiModel ? [input.aiModel] : []),
-    "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-    "claude-3-sonnet-20240229",
+    ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5-20250929",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-6",
   ]));
 
   for (const modelName of modelsToTry) {
