@@ -647,18 +647,28 @@ export default function IdeasPage() {
             </div>
           )}
 
-          <button
-            onClick={handleGenerate}
-            disabled={isGenerating}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl gradient-bg-primary text-white font-bold text-sm shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
-          >
-            {isGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
-            {isGenerating ? "Generating with Claude..." : "✨ Generate 1 Idea"}
-          </button>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+            <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300">
+              <span className="text-sm">✨</span>
+              <span>
+                <strong>Clean Video Mandate:</strong> Completely clean & unobstructed video (no text, logos, banners, watermarks, captions, or UI overlays).
+                {category === "CARBOX" && " Model-specific branding permitted for car videos."}
+              </span>
+            </div>
+
+            <button
+              onClick={handleGenerate}
+              disabled={isGenerating}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl gradient-bg-primary text-white font-bold text-sm shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
+            >
+              {isGenerating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Sparkles className="w-4 h-4" />
+              )}
+              {isGenerating ? "Generating with Claude..." : "✨ Generate 1 Idea"}
+            </button>
+          </div>
         </div>
 
 

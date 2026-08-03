@@ -361,6 +361,8 @@ ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: 
 STRICT CATEGORY & LANGUAGE GUIDELINES:
 0. SAFETY RULE: DO NOT use copyrighted brand names like "Pixar", "Disney", or specific copyrighted characters anywhere. Use generic terms like "High-quality 3D animation" or "Cartoon style" instead.
 
+0.1 CLEAN VIDEO MANDATE: Do NOT add any text, logos, banners, watermarks, captions, labels, subtitles, end cards, or UI overlays to the video prompt. The video must remain completely clean and unobstructed. The ONLY exception is car videos (Category: CARBOX), where vehicle branding or model-specific graphics are allowed if explicitly required by the prompt.
+
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
    - The idea MUST be a funny Punjabi joke/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
