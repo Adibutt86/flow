@@ -33,6 +33,45 @@ const VISUAL_STYLES = [
   "Retro 80s",
 ];
 
+const KIDS_HEALTH_OPTIONS = [
+  "Cheerful & Energetic",
+  "Cute & Playful",
+  "Happy Explorer",
+  "Tiny Athlete",
+  "Healthy & Active",
+  "Colorful Casual",
+  "Storybook Princess (everyday, not fancy)",
+  "Nature Lover",
+  "Little Dancer",
+  "Sunshine Smile",
+  "Mini Gardener",
+  "Rainbow Adventure",
+  "Cozy Homewear",
+  "Soft Pastel Style",
+  "Sporty Toddler",
+];
+
+const CHARACTER_SETUP_OPTIONS = [
+  "One Cute Little Girl",
+  "One Cute Little Boy",
+  "Two Kids (Siblings)",
+  "Two Kids (Friends)",
+  "Twins",
+  "One Girl & One Boy",
+  "Two Little Girls",
+  "Two Little Boys",
+  "Brother & Sister",
+  "Best Friends",
+  "Three Happy Kids",
+  "Happy Family",
+  "Child & Mom",
+  "Child & Dad",
+  "Child & Doctor",
+  "Child & Teacher",
+  "Child & Friendly Robot",
+  "Child & Teddy Bear",
+];
+
 const ITEMS_PER_PAGE = 10;
 
 interface SavedIdea {
@@ -83,9 +122,11 @@ export default function IdeasPage() {
   
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
-  const [kidsHealth, setKidsHealth] = useState("Healthy & Energetic");
+  const [kidsHealth, setKidsHealth] = useState("Cheerful & Energetic");
   const [characterSetup, setCharacterSetup] = useState("One Cute Little Girl");
   const [kidsNationality, setKidsNationality] = useState("Global / Any");
+  
+  const isRtl = language === "Urdu" || language === "Punjabi";
   
   // Carbox specific options
   const [carboxBrand, setCarboxBrand] = useState("Premium BMW");
@@ -436,31 +477,65 @@ export default function IdeasPage() {
             {/* Custom Spoken Dialogue Input Box */}
             {category !== "CARBOX" && (
               <div className="space-y-1.5 md:col-span-4">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <label className="text-xs font-semibold text-amber-300 flex items-center gap-1.5">
                     <span>💬 Custom Spoken Dialogue (Optional)</span>
                   </label>
-                  <button
-                    type="button"
-                    onClick={handleSuggestDialogue}
-                    disabled={isSuggestingDialogue}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-medium text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
-                    title="Generate a short, natural dialogue line with AI"
-                  >
-                    {isSuggestingDialogue ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
-                    ) : (
-                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="flex items-center gap-2">
+                    {customDialogue && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(customDialogue, "custom-dialogue-input")}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-xs font-medium text-gray-200 transition-all cursor-pointer active:scale-95"
+                          title="Copy spoken dialogue"
+                        >
+                          {copiedId === "custom-dialogue-input" ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                          <span>{copiedId === "custom-dialogue-input" ? "Copied" : "Copy"}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomDialogue("");
+                            showToast("Cleared dialogue text", "info");
+                          }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-medium text-rose-300 transition-all cursor-pointer active:scale-95"
+                          title="Clear dialogue"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Clear</span>
+                        </button>
+                      </>
                     )}
-                    {isSuggestingDialogue ? "Suggesting..." : "✨ Suggest AI Dialogue"}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={handleSuggestDialogue}
+                      disabled={isSuggestingDialogue}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-medium text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                      title="Generate a short, natural dialogue line with AI"
+                    >
+                      {isSuggestingDialogue ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                      ) : (
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      )}
+                      {isSuggestingDialogue ? "Suggesting..." : "✨ Suggest AI Dialogue"}
+                    </button>
+                  </div>
                 </div>
-                <input
-                  type="text"
+                <textarea
                   value={customDialogue}
                   onChange={(e) => setCustomDialogue(e.target.value)}
+                  dir={isRtl ? "rtl" : "ltr"}
+                  rows={3}
                   placeholder='e.g. "Abey sun! Ye cake mera hai, tu side pe ho ja!" (Or click Suggest AI Dialogue)'
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-amber-500/40 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition-colors"
+                  className={`w-full px-3.5 py-3 rounded-xl bg-black/50 border border-amber-500/40 text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition-colors resize-y ${
+                    isRtl ? "text-right leading-relaxed font-sans" : "text-left"
+                  }`}
                 />
               </div>
             )}
@@ -494,12 +569,11 @@ export default function IdeasPage() {
                   onChange={(e) => setKidsHealth(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <option value="Healthy & Energetic">Healthy & Energetic</option>
-                  <option value="Chubby & Cute">Chubby & Cute</option>
-                  <option value="Slim & Active">Slim & Active</option>
-                  <option value="Athletic & Fit">Athletic & Fit</option>
-                  <option value="Disabled / Wheelchair">Disabled / Wheelchair</option>
-                  <option value="Special Needs / Sensitive">Special Needs / Sensitive</option>
+                  {KIDS_HEALTH_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -511,11 +585,11 @@ export default function IdeasPage() {
                   onChange={(e) => setCharacterSetup(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <option value="One Cute Little Girl">One Cute Little Girl</option>
-                  <option value="One Cute Little Boy">One Cute Little Boy</option>
-                  <option value="Two Kids (Siblings)">Two Kids (Siblings)</option>
-                  <option value="Two Kids (Friends)">Two Kids (Friends)</option>
-                  <option value="Twins">Twins</option>
+                  {CHARACTER_SETUP_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -795,7 +869,14 @@ export default function IdeasPage() {
                   className="group flex items-start justify-between gap-4 p-4 rounded-xl bg-black/30 border border-gray-800 hover:border-gray-700 transition-all"
                 >
                   <div className="flex-1 space-y-2">
-                    <p className="text-sm text-gray-200 leading-relaxed">{idea.text}</p>
+                    <p
+                      dir={idea.language === "Urdu" || idea.language === "Punjabi" ? "rtl" : "ltr"}
+                      className={`text-sm sm:text-base text-gray-200 leading-relaxed ${
+                        idea.language === "Urdu" || idea.language === "Punjabi" ? "text-right font-sans" : "text-left"
+                      }`}
+                    >
+                      {idea.text}
+                    </p>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-500/30">
                         {CATEGORIES[idea.category]?.name || idea.category}

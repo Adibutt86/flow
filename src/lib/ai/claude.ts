@@ -363,25 +363,31 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 
 0.1 CLEAN VIDEO MANDATE: Do NOT add any text, logos, banners, watermarks, captions, labels, subtitles, end cards, or UI overlays to the video prompt. The video must remain completely clean and unobstructed. The ONLY exception is car videos (Category: CARBOX), where vehicle branding or model-specific graphics are allowed if explicitly required by the prompt.
 
+0.2 ENGLISH LANGUAGE MANDATE: If Language is "English", all generated video concepts, scene descriptions, and spoken dialogue MUST be written strictly in 100% standard, clear English. Do NOT include any Urdu, Hindi, or Punjabi words unless explicitly provided in custom dialogue.
+
 1. If Category is "PUNJABI_JOKE" or Language is "Punjabi":
    - The idea MUST be a funny Punjabi joke/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
 
-2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu" (Default Language):
+2. If Language is "English":
+   - The idea, script, and spoken dialogue MUST be written strictly in standard, natural English.
+   - ${input.customDialogue ? `MUST strictly include the custom spoken dialogue: "${input.customDialogue}"` : "MUST automatically include a short, natural English dialogue punchline under 10 words."}
+
+3. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
    - The idea MUST be a funny Desi joke written in authentic Roman Urdu / Desi Hindi.
    - ${input.customDialogue ? `MUST strictly include the custom spoken dialogue: "${input.customDialogue}"` : "MUST automatically include a short, hilarious, natural Urdu dialogue punchline under 10 words."}
 
-3. If Category is "HORROR":
+4. If Category is "HORROR":
    - The idea MUST be a terrifying eerie horror tale with creepy visual hooks and dark twists.
 
-4. If Category is "FUNNY_ANIMALS":
+5. If Category is "FUNNY_ANIMALS":
    - The idea MUST feature hilarious pets/animals in absurd human situations.
 
-5. If Category is "KIDS_FUNNY" or "CUTE_KIDS":
+6. If Category is "KIDS_FUNNY" or "CUTE_KIDS":
    - The idea MUST be cute, whimsical 3D animated style child physical comedy.
-   - ${input.customDialogue ? `MUST incorporate spoken dialogue: "${input.customDialogue}"` : "MUST include a funny short Urdu line spoken by the child character with expressive facial gags."}
+   - ${input.customDialogue ? `MUST incorporate spoken dialogue: "${input.customDialogue}"` : input.language === "English" ? "MUST include a funny short English line spoken by the child character with expressive facial gags." : "MUST include a funny short Urdu line spoken by the child character with expressive facial gags."}
 
-6. If Category is "CARBOX":
+7. If Category is "CARBOX":
    - The idea MUST be an ultra-realistic, ASMR-style unboxing video of premium die-cast vehicles.
    - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
    - Describe satisfying peeling, clicking, and unwrapping sounds and textures with NO human dialogue or spoken narration.
@@ -663,6 +669,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
     });
   }
 
+  const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
   const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
 
@@ -685,7 +692,7 @@ ${input.kidsHealth ? `- Character Vibe: ${input.kidsHealth}` : ""}
 
 STRICT DIALOGUE RULES:
 1. Length: Short and punchy under 10-12 words (must easily fit within a 10-second video duration).
-2. Language: If Language is "${input.language}", write in authentic, expressive ${isPunjabi ? "Roman Punjabi (e.g. 'Oye paji! Eh ki kar ditta!')" : isUrdu ? "Roman Urdu / Desi Hindi (e.g. 'Abey sun! Ye cake mera hai!')" : input.language}.
+2. Language: If Language is "English", write strictly in clear, natural English (e.g. "Hey! Stop right there, that's mine!"). If Language is "${input.language}", write in authentic, expressive ${isEnglish ? "English" : isPunjabi ? "Roman Punjabi (e.g. 'Oye paji! Eh ki kar ditta!')" : isUrdu ? "Roman Urdu / Desi Hindi (e.g. 'Abey sun! Ye cake mera hai!')" : input.language}.
 3. Tone: Matches the category's style, humor, or emotion with great comedic timing.
 4. Output Format: Return ONLY the exact dialogue line inside quotes, with NO explanations, NO character prefixes, and NO bullet points.`,
           },
@@ -702,5 +709,6 @@ STRICT DIALOGUE RULES:
     }
   }
 
+  if (isEnglish) return "Hey, watch out! That cake belongs to me!";
   return isPunjabi ? "Oye paji! Eh ki kar ditta tussi!" : "Abey sun! Ye mera ilaka hai!";
 }
