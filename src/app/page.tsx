@@ -84,7 +84,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
       <Navbar onOpenWizard={() => { setSelectedWizardCat(undefined); setWizardOpen(true); }} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
@@ -249,7 +249,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="border-t border-gray-800/80 bg-[#090b10] py-6 text-center text-xs text-gray-500">
+      <footer className="border-t border-gray-800/80 bg-[#07090e] py-6 text-center text-xs text-gray-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <span className="font-semibold text-gray-400">AI Short Studio</span> • Google Flow Video Prompt & Storyboard Engine

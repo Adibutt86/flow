@@ -32,7 +32,7 @@ export function PasswordProtector({ children }: { children: React.ReactNode }) {
 
   // While checking session storage, show nothing to avoid flicker
   if (isAuthenticated === null) {
-    return <div className="min-h-screen bg-[#090b10]"></div>;
+    return <div className="min-h-screen bg-[#07090e]"></div>;
   }
 
   // If authenticated, render the app
@@ -42,7 +42,7 @@ export function PasswordProtector({ children }: { children: React.ReactNode }) {
 
   // Otherwise, show the password prompt
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#090b10] backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#07090e] backdrop-blur-sm">
       <div className="glass-card w-full max-w-md p-8 rounded-2xl shadow-2xl border border-gray-800">
         <div className="flex flex-col items-center justify-center mb-6">
           <div className="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center mb-4">

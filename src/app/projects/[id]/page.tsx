@@ -212,7 +212,7 @@ export default function ProjectEditorPage({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-gray-100 flex flex-col">
+      <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-12">
           <div className="glass-card rounded-2xl p-8 text-center space-y-3">
@@ -226,7 +226,7 @@ export default function ProjectEditorPage({
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-gray-100 flex flex-col">
+      <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-12">
           <div className="glass-card rounded-2xl p-8 text-center space-y-4 max-w-md">
@@ -247,7 +247,7 @@ export default function ProjectEditorPage({
   const categoryConfig = getCategoryConfig(project.category);
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
       <Navbar onOpenWizard={() => setWizardOpen(true)} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

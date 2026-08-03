@@ -39,7 +39,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#090b10] text-gray-100">
+      <body className="min-h-full flex flex-col bg-[#07090e] text-gray-100">
         <PasswordProtector>
           <ToastProvider>{children}</ToastProvider>
         </PasswordProtector>
