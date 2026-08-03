@@ -614,40 +614,6 @@ Return ONLY a valid JSON array of 3 strings:
 }
 
 export async function optimizeIdeaWithClaude(rawIdea: string, aiModel?: string) {
-  // Gemini option
-  if (aiModel && aiModel.startsWith("gemini")) {
-    const geminiApiKey = process.env.GEMINI_API_KEY;
-    if (geminiApiKey) {
-      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      const promptText = `You are an expert AI video scriptwriter for short-form clips.
-Take the raw story idea below and rewrite it into an engaging script split into 8-second scenes.
-Raw Idea: "${rawIdea}"
-Return ONLY a valid JSON object matching:
-{
-  "title": "Title",
-  "scenes": [
-    { "sceneNumber": 1, "content": "Scene 1 action & dialogue..." }
-  ]
-}`;
-      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
-        try {
-          const res = await ai.models.generateContent({
-            model: gModel,
-            contents: promptText,
-            config: { responseMimeType: "application/json" },
-          });
-          const cleaned = cleanJsonResponse(res.text || "");
-          const data = JSON.parse(cleaned);
-          if (data && data.title && Array.isArray(data.scenes)) {
-            return data;
-          }
-        } catch (gErr) {
-          console.warn(`Gemini optimizer ${gModel} failed:`, gErr);
-        }
-      }
-    }
-  }
-
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("Anthropic API key is not configured.");
   
