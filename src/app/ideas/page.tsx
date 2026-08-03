@@ -66,7 +66,7 @@ export default function IdeasPage() {
   const [carboxBrand, setCarboxBrand] = useState("Premium BMW");
   const [carboxColor, setCarboxColor] = useState("Glossy Black");
   const [carboxPackaging, setCarboxPackaging] = useState("Elegant Retail Box");
-  const [carboxBackground, setCarboxBackground] = useState("Matte Black Studio");
+  const [carboxBackground, setCarboxBackground] = useState("Clean White Studio Tabletop");
   
   // Custom Idea Optimization
   const [customIdea, setCustomIdea] = useState("");
@@ -598,38 +598,26 @@ export default function IdeasPage() {
                   onChange={(e) => setCarboxBackground(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <optgroup label="Studio Commercial (Clean)">
-                    <option value="Matte Black Studio">Matte Black Studio (Default)</option>
-                    <option value="Clean White Studio Tabletop">Clean White Studio Tabletop</option>
-                    <option value="Seamless Dark Gray Cyclorama">Seamless Dark Gray Cyclorama</option>
-                    <option value="High-Key Softbox Studio">High-Key Softbox Studio</option>
-                  </optgroup>
-                  <optgroup label="Luxury & Stone Surfaces">
-                    <option value="Black Marble">Black & Gold Marble</option>
-                    <option value="White Marble">White Carrara Marble</option>
-                    <option value="Brushed Aluminum">Brushed Titanium / Aluminum</option>
-                    <option value="Mirror Surface">Mirror Surface</option>
-                    <option value="Granite">Granite Stone</option>
-                    <option value="Slate Stone">Slate Stone</option>
-                  </optgroup>
-                  <optgroup label="Tech & Carbon Fiber">
-                    <option value="Carbon Fiber Mat">Carbon Fiber Mat</option>
-                    <option value="Glass Surface">Frosted Tempered Glass</option>
-                    <option value="Acrylic">Smoked Acrylic</option>
-                    <option value="Leather Surface">Leather Surface</option>
-                    <option value="Premium Fabric">Premium Fabric</option>
-                  </optgroup>
-                  <optgroup label="Garage & Industrial">
-                    <option value="Racing Garage Workbench">Racing Garage Workbench</option>
-                    <option value="Luxury Showroom Floor">Luxury Showroom Floor</option>
-                    <option value="Industrial Steel Platform">Industrial Steel Platform</option>
-                    <option value="Concrete">Raw Cast Concrete</option>
-                    <option value="Dark Walnut Wood">Dark Walnut Wood</option>
-                    <option value="Oak Wood">Oak Wood</option>
-                  </optgroup>
-                  <optgroup label="Futuristic & Cyberpunk">
-                    <option value="Neon Cyberpunk Table">Neon Cyberpunk Grid</option>
-                  </optgroup>
+                  <option value="Matte Black Studio">Matte Black Studio</option>
+                  <option value="White Marble">White Marble</option>
+                  <option value="Black Marble">Black Marble</option>
+                  <option value="Carbon Fiber Mat">Carbon Fiber Mat</option>
+                  <option value="Brushed Aluminum">Brushed Aluminum</option>
+                  <option value="Dark Walnut Wood">Dark Walnut Wood</option>
+                  <option value="Oak Wood">Oak Wood</option>
+                  <option value="Concrete">Concrete</option>
+                  <option value="Glass Surface">Glass Surface</option>
+                  <option value="Acrylic">Acrylic</option>
+                  <option value="Leather Surface">Leather Surface</option>
+                  <option value="Granite">Granite</option>
+                  <option value="Slate Stone">Slate Stone</option>
+                  <option value="Premium Fabric">Premium Fabric</option>
+                  <option value="Neon Cyberpunk Table">Neon Cyberpunk Table</option>
+                  <option value="Mirror Surface">Mirror Surface</option>
+                  <option value="Racing Garage Workbench">Racing Garage Workbench</option>
+                  <option value="Luxury Showroom Floor">Luxury Showroom Floor</option>
+                  <option value="Industrial Steel Platform">Industrial Steel Platform</option>
+                  <option value="Clean White Studio Tabletop">Clean White Studio Tabletop</option>
                 </select>
               </div>
             </div>
