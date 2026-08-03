@@ -89,30 +89,30 @@ export default function HomePage() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         {/* HERO SECTION */}
-        <section className="relative glass-card rounded-3xl p-8 md:p-12 border border-indigo-500/20 overflow-hidden shadow-2xl">
+        <section className="relative glass-card rounded-3xl p-5 sm:p-8 md:p-12 border border-indigo-500/20 overflow-hidden shadow-2xl">
           <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-indigo-600/15 blur-3xl pointer-events-none animate-glow" />
           <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none animate-glow" />
 
-          <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
-              <Sparkles className="w-4 h-4 text-indigo-400" />
+          <div className="relative z-10 max-w-3xl space-y-5 sm:space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-[11px] sm:text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400 shrink-0" />
               <span>Optimized for Google Flow (8-Second Video Clips)</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
               Create characters, stories, scenes & AI video prompts for{" "}
               <span className="gradient-text">short-form videos.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-300 font-normal leading-relaxed">
+            <p className="text-sm sm:text-lg text-gray-300 font-normal leading-relaxed">
               Transform your raw story idea into production-ready Character Bibles, Visual Bibles, 
               narrations, and exact 8-second visual & motion prompts designed specifically for Google Flow.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
               <button
                 onClick={() => { setSelectedWizardCat(undefined); setWizardOpen(true); }}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-bold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                className="flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-bold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all cursor-pointer hover:scale-[1.02] active:scale-95 w-full sm:w-auto"
               >
                 <Wand2 className="w-5 h-5" />
                 <span>Create New Video Concept</span>
@@ -120,7 +120,7 @@ export default function HomePage() {
 
               <a
                 href="#google-flow-info"
-                className="flex items-center gap-2 px-5 py-3.5 rounded-2xl glass-card border border-gray-700 text-gray-200 hover:text-white text-sm font-semibold transition-all hover:bg-gray-800/80"
+                className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl glass-card border border-gray-700 text-gray-200 hover:text-white text-sm font-semibold transition-all hover:bg-gray-800/80 w-full sm:w-auto"
               >
                 <HelpCircle className="w-4 h-4 text-cyan-400" />
                 <span>Google Flow Constraint Guide</span>
@@ -130,22 +130,22 @@ export default function HomePage() {
         </section>
 
         {/* GOOGLE FLOW CONSTRAINT INFO CARD */}
-        <section id="google-flow-info" className="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-indigo-950/40 to-purple-950/40 border border-cyan-500/30 space-y-3">
+        <section id="google-flow-info" className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-indigo-950/40 to-purple-950/40 border border-cyan-500/30 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-900/50 border border-cyan-500/40 flex items-center justify-center text-cyan-300">
-              <Clock className="w-5 h-5" />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-cyan-900/50 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shrink-0">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
                 Google Flow 8-Second Clips Architecture
               </h3>
-              <p className="text-xs text-cyan-200/80">
-                Google Flow is used for generating 8-second video clips. Select any duration (8s to 64s) and AI Short Studio automatically breaks your video into 8-second clip scenes with continuity locks.
+              <p className="text-[11px] sm:text-xs text-cyan-200/80">
+                Google Flow generates 8-second video clips. Select any duration (8s to 64s) and AI Short Studio automatically breaks your video into 8-second clip scenes with continuity locks.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 text-center text-xs">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-9 gap-2 pt-2 text-center text-xs">
             {[
               { s: 8, c: 1 },
               { s: 10, c: 1 },
@@ -157,9 +157,9 @@ export default function HomePage() {
               { s: 56, c: 7 },
               { s: 64, c: 8 },
             ].map((item) => (
-              <div key={item.s} className="p-2.5 rounded-xl bg-black/40 border border-cyan-900/40">
-                <div className="font-bold text-white text-sm">{item.s}s</div>
-                <div className="text-[10px] text-cyan-400">{item.c} {item.c === 1 ? "clip" : "clips"}</div>
+              <div key={item.s} className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-cyan-900/40">
+                <div className="font-bold text-white text-xs sm:text-sm">{item.s}s</div>
+                <div className="text-[9px] sm:text-[10px] text-cyan-400">{item.c} {item.c === 1 ? "clip" : "clips"}</div>
               </div>
             ))}
           </div>

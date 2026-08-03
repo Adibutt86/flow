@@ -457,22 +457,22 @@ export default function IdeasPage() {
     <div className="min-h-screen bg-[#090b10] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Page Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-extrabold text-white flex items-center gap-3 tracking-tight">
-            <Lightbulb className="w-8 h-8 text-amber-400" />
+        <div className="space-y-1.5 sm:space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5 sm:gap-3 tracking-tight">
+            <Lightbulb className="w-7 h-7 sm:w-8 sm:h-8 text-amber-400 shrink-0" />
             AI Idea Generator
           </h1>
-          <p className="text-sm text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-400">
             Generate story ideas with Claude AI, save them, and copy-paste into the video creator.
           </p>
         </div>
 
         {/* Custom Idea Optimizer */}
-        <div className="glass-card rounded-2xl p-6 border border-gray-800 space-y-5">
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+        <div className="glass-card rounded-2xl p-4 sm:p-6 border border-gray-800 space-y-4 sm:space-y-5">
+          <h2 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
             Optimize Custom Idea (e.g. from ChatGPT)
           </h2>
           
@@ -481,12 +481,12 @@ export default function IdeasPage() {
               value={customIdea}
               onChange={(e) => setCustomIdea(e.target.value)}
               placeholder="Paste your raw story idea here..."
-              className="w-full h-32 px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+              className="w-full h-32 px-3.5 py-3 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
             />
             <button
               onClick={handleOptimize}
               disabled={isOptimizing || !customIdea.trim()}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-500/25 transition-all active:scale-95 cursor-pointer disabled:opacity-50 w-full sm:w-auto"
             >
               {isOptimizing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
               {isOptimizing ? "Optimizing & Splitting into Scenes..." : "Rewrite & Optimize into Video Script"}
@@ -912,7 +912,7 @@ export default function IdeasPage() {
             <button
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl gradient-bg-primary text-white font-bold text-sm shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl gradient-bg-primary text-white font-bold text-sm shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 w-full sm:w-auto"
             >
               {isGenerating ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

@@ -173,17 +173,17 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
   const selectedClipCount = Math.floor(duration / 8);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-4xl glass-card rounded-2xl border border-indigo-500/20 shadow-2xl overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-4xl glass-card rounded-2xl border border-indigo-500/20 shadow-2xl overflow-hidden my-2 sm:my-8">
         {/* Wizard Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-800 bg-[#0d1019]/90">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-bg-primary flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
-              <Wand2 className="w-5 h-5" />
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-800 bg-[#0d1019]/90">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl gradient-bg-primary flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
+              <Wand2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Create Video Script (Claude API)</h2>
-              <p className="text-xs text-gray-400">
+              <h2 className="text-base sm:text-xl font-bold text-white">Create Video Script (Claude API)</h2>
+              <p className="text-[11px] sm:text-xs text-gray-400">
                 Step {step} of 4: {step === 1 ? "Select Category" : step === 2 ? "Duration & Language" : step === 3 ? "Story Idea & Style" : "Review & Generate"}
               </p>
             </div>
@@ -191,14 +191,14 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
           <button
             onClick={onClose}
             disabled={isGenerating}
-            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Wizard Body */}
-        <div className="p-6 md:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6 max-h-[75vh] overflow-y-auto">
           {/* STEP 1: CATEGORY SELECTION */}
           {step === 1 && (
             <div className="space-y-6">
@@ -547,15 +547,15 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
         </div>
 
         {/* Wizard Footer Controls */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-800 bg-[#0d1019]/90">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-t border-gray-800 bg-[#0d1019]/90 gap-2">
           {step > 1 ? (
             <button
               onClick={() => setStep((s) => s - 1)}
               disabled={isGenerating}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-700 text-gray-300 hover:text-white hover:bg-gray-800 text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-gray-700 text-gray-300 hover:text-white hover:bg-gray-800 text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Back</span>
             </button>
           ) : (
             <div />
@@ -570,26 +570,26 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                 }
                 setStep((s) => s + 1);
               }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl gradient-bg-primary text-white text-sm font-medium shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl gradient-bg-primary text-white text-xs sm:text-sm font-medium shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all cursor-pointer"
             >
-              Next Step
-              <ArrowRight className="w-4 h-4" />
+              <span>Next Step</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           ) : (
             <button
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl gradient-bg-primary text-white font-semibold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl gradient-bg-primary text-white font-semibold text-xs sm:text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all cursor-pointer disabled:opacity-50"
             >
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating Video Script...
+                  <span>Generating Script...</span>
                 </>
               ) : (
                 <>
                   <Wand2 className="w-4 h-4" />
-                  Generate Video Script
+                  <span>Generate Video Script</span>
                 </>
               )}
             </button>

@@ -252,7 +252,7 @@ export default function ProjectEditorPage({
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Top Header Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-900 border border-gray-800 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
@@ -260,10 +260,10 @@ export default function ProjectEditorPage({
             <ArrowLeft className="w-4 h-4" /> Back to Projects
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setVariationsOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-950 border border-indigo-500/40 text-indigo-200 text-xs font-semibold shadow-md hover:bg-indigo-900 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-indigo-950 border border-indigo-500/40 text-indigo-200 text-xs font-semibold shadow-md hover:bg-indigo-900 transition-all cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
               <span>Generate Variations</span>
@@ -272,7 +272,7 @@ export default function ProjectEditorPage({
             <button
               onClick={handleRegenerateAll}
               disabled={isRegeneratingAll}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-indigo-500/40 text-gray-200 text-xs font-semibold transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-indigo-500/40 text-gray-200 text-xs font-semibold transition-all cursor-pointer disabled:opacity-50"
             >
               {isRegeneratingAll ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" />
@@ -284,7 +284,7 @@ export default function ProjectEditorPage({
 
             <button
               onClick={handleDelete}
-              className="p-2 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
               title="Delete project"
             >
               <Trash2 className="w-4 h-4" />

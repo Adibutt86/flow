@@ -76,31 +76,31 @@ export function VariationsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-2xl glass-card rounded-2xl border border-indigo-500/30 shadow-2xl overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl glass-card rounded-2xl border border-indigo-500/30 shadow-2xl overflow-hidden my-2 sm:my-8">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-800 bg-[#0d1019]/90">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-bg-primary flex items-center justify-center text-white">
-              <Sparkles className="w-5 h-5" />
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-gray-800 bg-[#0d1019]/90">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl gradient-bg-primary flex items-center justify-center text-white shrink-0">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Generate Creative Variations</h3>
-              <p className="text-xs text-gray-400">
+              <h3 className="text-base sm:text-lg font-bold text-white">Generate Creative Variations</h3>
+              <p className="text-[11px] sm:text-xs text-gray-400">
                 Explore alternative AI hooks, punchlines, endings & story angles.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-gray-400 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg text-gray-400 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
           {/* Tab Selector */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[

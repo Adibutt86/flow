@@ -181,13 +181,13 @@ ${scene.music || "Minimalist ambient electronic soundtrack"}
   return (
     <div className="glass-card rounded-2xl p-6 border border-gray-800 space-y-6 relative overflow-hidden transition-all">
       {/* Header Bar */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-800/80">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl gradient-bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">
+          <div className="w-9 h-9 rounded-xl gradient-bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md shrink-0">
             #{scene.sceneNumber}
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-base font-bold text-white">Scene {scene.sceneNumber}</h3>
               <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/40 tracking-wider">
                 8 SEC FLOW CLIP
@@ -200,7 +200,7 @@ ${scene.music || "Minimalist ambient electronic soundtrack"}
         </div>
 
         {/* Header Action Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleCopyPackage}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl gradient-bg-primary text-white text-xs font-semibold shadow-md hover:opacity-95 transition-all cursor-pointer"
