@@ -128,6 +128,7 @@ export interface SuggestIdeasInput {
   carboxColor?: string;
   carboxPackaging?: string;
   carboxBackground?: string;
+  aiModel?: string;
 }
 
 /**

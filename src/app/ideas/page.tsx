@@ -94,6 +94,14 @@ const CHARACTER_SETUP_OPTIONS = [
   "Child & Teddy Bear",
 ];
 
+const AI_MODEL_OPTIONS = [
+  { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Best Quality)", badge: "Best Quality" },
+  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Balanced)", badge: "Balanced" },
+  { id: "claude-3-5-haiku-20241022", label: "Claude 3.5 Haiku (Fastest)", badge: "Fastest" },
+  { id: "claude-3-haiku-20240307", label: "Claude 3 Haiku (Lowest Cost)", badge: "Lowest Cost" },
+  { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash (Free API)", badge: "Free API" },
+];
+
 const ITEMS_PER_PAGE = 10;
 
 interface SavedIdea {
@@ -126,6 +134,7 @@ interface IdeasPageSettings {
   searchQuery?: string;
   sortBy?: "NEWEST" | "OLDEST" | "FAVORITES_FIRST";
   currentPage?: number;
+  aiModel?: string;
 }
 
 export default function IdeasPage() {
@@ -152,6 +161,7 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 8);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
+  const [aiModel, setAiModel] = useState<string>(initialSettings.aiModel || "claude-3-7-sonnet-20250219");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 
@@ -162,7 +172,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-dialogue", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, customIdea, kidsAge, kidsHealth }),
+        body: JSON.stringify({ category, language, customIdea, kidsAge, kidsHealth, aiModel }),
       });
       const data = await res.json();
       if (data.success && data.dialogue) {
@@ -235,6 +245,7 @@ export default function IdeasPage() {
         searchQuery,
         sortBy,
         currentPage,
+        aiModel,
       };
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
     }
@@ -257,6 +268,7 @@ export default function IdeasPage() {
     searchQuery,
     sortBy,
     currentPage,
+    aiModel,
   ]);
 
   const handleResetSettings = () => {
@@ -278,6 +290,7 @@ export default function IdeasPage() {
     setSearchQuery("");
     setSortBy("NEWEST");
     setCurrentPage(1);
+    setAiModel("claude-3-7-sonnet-20250219");
     if (typeof window !== "undefined") {
       localStorage.removeItem("flow-ideas-page-settings");
     }
@@ -332,7 +345,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/optimize-idea", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rawIdea: customIdea }),
+        body: JSON.stringify({ rawIdea: customIdea, aiModel }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -354,7 +367,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, videoDuration, customDialogue, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
+        body: JSON.stringify({ category, language, visualStyle, videoDuration, customDialogue, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground, aiModel }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -537,7 +550,7 @@ export default function IdeasPage() {
             Generate New Ideas
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Category */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-gray-400">Category</label>
@@ -612,7 +625,25 @@ export default function IdeasPage() {
                 className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-indigo-500/50 text-sm text-white focus:outline-none focus:border-indigo-400 transition-colors"
               >
                 <option value={8}>8 Sec Story Clip Format</option>
-                <option value={10}>⚡ 10 Sec Fast & Energetic Cinematic Video Prompt</option>
+                <option value={10}>⚡ 10 Sec Fast & Energetic Video Prompt</option>
+              </select>
+            </div>
+
+            {/* AI Model Selector */}
+            <div className="space-y-1.5 sm:col-span-2 lg:col-span-1">
+              <label className="text-xs font-semibold text-purple-300 flex items-center gap-1">
+                <span>🤖 AI Model Engine</span>
+              </label>
+              <select
+                value={aiModel}
+                onChange={(e) => setAiModel(e.target.value)}
+                className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-purple-500/50 text-sm text-white focus:outline-none focus:border-purple-400 transition-colors font-medium"
+              >
+                {AI_MODEL_OPTIONS.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.label}
+                  </option>
+                ))}
               </select>
             </div>
 

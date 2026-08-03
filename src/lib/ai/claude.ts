@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import {
   GenerateProjectInput,
@@ -315,6 +316,51 @@ Return ONLY valid JSON matching this exact structure:
 export async function generateIdeaSuggestionsWithClaude(
   input: SuggestIdeasInput
 ): Promise<string[]> {
+  const categoryConfig = getCategoryConfig(input.category);
+
+  // 1. GEMINI MODEL ROUTING (IF SELECTED)
+  if (input.aiModel && input.aiModel.startsWith("gemini")) {
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (geminiApiKey) {
+      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+      const promptText = `You are an expert cinematic AI video prompt writer for short-form video models (Google Flow, VEO, Sora).
+Generate EXACTLY 1 highly creative video concept idea strictly tailored to:
+Category: ${categoryConfig.name} (${input.category})
+Language: ${input.language}
+Visual Style: ${input.visualStyle}
+${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
+${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : ""}
+${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
+
+STRICT LANGUAGE DIRECTIVES:
+${input.language === "English" ? "All generated text, scene ideas, and spoken dialogue MUST be written 100% strictly in standard clear English. NO Hindi/Urdu/Punjabi words." : "Write dialogue in authentic Roman " + input.language}
+
+Return ONLY a valid JSON array of 1 string:
+[ "Idea description..." ]`;
+
+      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
+        try {
+          const res = await ai.models.generateContent({
+            model: gModel,
+            contents: promptText,
+            config: { responseMimeType: "application/json", temperature: 0.95 },
+          });
+          const cleaned = cleanJsonResponse(res.text || "");
+          const parsed = JSON.parse(cleaned);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.map(String);
+          } else if (typeof parsed === "string") {
+            return [parsed];
+          }
+        } catch (gErr) {
+          console.warn(`Gemini model ${gModel} suggestion failed, trying next:`, gErr);
+        }
+      }
+    }
+  }
+
+  // 2. CLAUDE MODEL ROUTING
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new ValidationError({
@@ -324,10 +370,17 @@ export async function generateIdeaSuggestionsWithClaude(
     });
   }
 
-  const categoryConfig = getCategoryConfig(input.category);
   let lastError: any = null;
 
-  for (const modelName of ["claude-3-7-sonnet-20250219", "claude-3-5-sonnet-20241022", "claude-sonnet-4-6"]) {
+  const modelsToTry = Array.from(new Set([
+    ...(input.aiModel && input.aiModel.startsWith("claude") ? [input.aiModel] : []),
+    "claude-3-7-sonnet-20250219",
+    "claude-3-5-sonnet-20241022",
+    "claude-3-5-haiku-20241022",
+    "claude-3-haiku-20240307",
+  ]));
+
+  for (const modelName of modelsToTry) {
     try {
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
@@ -605,7 +658,41 @@ Return ONLY a valid JSON array of 3 strings:
   });
 }
 
-export async function optimizeIdeaWithClaude(rawIdea: string) {
+export async function optimizeIdeaWithClaude(rawIdea: string, aiModel?: string) {
+  // Gemini option
+  if (aiModel && aiModel.startsWith("gemini")) {
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (geminiApiKey) {
+      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+      const promptText = `You are an expert AI video scriptwriter for short-form clips.
+Take the raw story idea below and rewrite it into an engaging script split into 8-second scenes.
+Raw Idea: "${rawIdea}"
+Return ONLY a valid JSON object matching:
+{
+  "title": "Title",
+  "scenes": [
+    { "sceneNumber": 1, "content": "Scene 1 action & dialogue..." }
+  ]
+}`;
+      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
+        try {
+          const res = await ai.models.generateContent({
+            model: gModel,
+            contents: promptText,
+            config: { responseMimeType: "application/json" },
+          });
+          const cleaned = cleanJsonResponse(res.text || "");
+          const data = JSON.parse(cleaned);
+          if (data && data.title && Array.isArray(data.scenes)) {
+            return data;
+          }
+        } catch (gErr) {
+          console.warn(`Gemini optimizer ${gModel} failed:`, gErr);
+        }
+      }
+    }
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("Anthropic API key is not configured.");
   
@@ -631,7 +718,14 @@ Return ONLY a valid JSON object matching this exact structure:
   ]
 }`;
 
-  for (const modelName of ["claude-sonnet-4-6"]) {
+  const modelsToTry = Array.from(new Set([
+    ...(aiModel && aiModel.startsWith("claude") ? [aiModel] : []),
+    "claude-3-7-sonnet-20250219",
+    "claude-3-5-sonnet-20241022",
+    "claude-3-5-haiku-20241022",
+  ]));
+
+  for (const modelName of modelsToTry) {
     try {
       const response = await anthropic.messages.create({
         model: modelName,
@@ -659,7 +753,34 @@ export async function generateDialogueSuggestionWithClaude(input: {
   customIdea?: string;
   kidsAge?: string;
   kidsHealth?: string;
+  aiModel?: string;
 }): Promise<string> {
+  // Gemini Option
+  if (input.aiModel && input.aiModel.startsWith("gemini")) {
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (geminiApiKey) {
+      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+      const promptText = `You are an expert dialogue writer for 10-second viral short video clips.
+Generate ONE short, natural, hilarious dialogue line under 10 words.
+Language: ${input.language}
+Category: ${input.category}
+${input.customIdea ? `Concept: "${input.customIdea}"` : ""}
+Return ONLY the dialogue inside quotes.`;
+      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
+        try {
+          const res = await ai.models.generateContent({
+            model: gModel,
+            contents: promptText,
+          });
+          const text = (res.text || "").trim().replace(/^["']|["']$/g, "").trim();
+          if (text) return text;
+        } catch (gErr) {
+          console.warn(`Gemini dialogue generator (${gModel}) error:`, gErr);
+        }
+      }
+    }
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new ValidationError({
@@ -673,7 +794,14 @@ export async function generateDialogueSuggestionWithClaude(input: {
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
   const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
 
-  for (const modelName of ["claude-3-7-sonnet-20250219", "claude-3-5-sonnet-20241022", "claude-sonnet-4-6"]) {
+  const modelsToTry = Array.from(new Set([
+    ...(input.aiModel && input.aiModel.startsWith("claude") ? [input.aiModel] : []),
+    "claude-3-7-sonnet-20250219",
+    "claude-3-5-sonnet-20241022",
+    "claude-3-5-haiku-20241022",
+  ]));
+
+  for (const modelName of modelsToTry) {
     try {
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
