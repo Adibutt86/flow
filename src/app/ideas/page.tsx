@@ -460,7 +460,7 @@ export default function IdeasPage() {
       
       const newIdeas: SavedIdea[] = data.ideas.map((text: string) => {
         const id = Date.now().toString() + Math.random().toString(36).slice(2);
-        const cleanBrand = carboxBrand.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").slice(0, 12);
+        const cleanBrand = (carboxBrand || "car").toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").slice(0, 12);
         const cleanId = id.slice(-4);
         const videoFileName = category === "CARBOX" 
           ? `carbox_${cleanBrand}_${cleanId}`
