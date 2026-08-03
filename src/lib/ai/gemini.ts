@@ -616,11 +616,11 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
       dialogue = "";
 
       const cameras = [
-        "85mm Macro Prime lens with f/1.4 shallow depth of field, 360-degree orbital rotation tracking shot",
-        "35mm Anamorphic lens, smooth slider push-in sweep transitioning to low-angle hero close-up",
-        "High-speed 120fps slow-motion macro dolly tracking along side air intakes and pristine wheels",
-        "Overhead top-down reveal panning down smoothly to ray-traced reflections on the hood",
-        "Crane height sweep gliding past packaging edge into an extreme macro rack focus shift",
+        "85mm Macro Prime lens with f/1.4 shallow depth of field, slow gentle orbital rotation keeping vehicle centered",
+        "35mm Anamorphic lens, subtle slow dolly-in sweep staying steadily focused on vehicle details",
+        "High-speed 120fps slow-motion micro push-in along side air intakes and pristine rubber tires",
+        "Overhead top-down reveal panning down very slowly to ray-traced reflections on the hood",
+        "Static cinematic hero framing with steady focus and subtle specular light reflections",
       ];
 
       const lightings = [
@@ -669,13 +669,13 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
       const selectedVehicleMotion = vehicleMotions[idx];
       sfx = sfxs[idx];
 
-      const motion0to2 = `0-2s: Premium ${selectedPackaging} enters frame on luxury studio surface.`;
-      const motion2to4 = `2-4s: Manicured fingers smoothly peel protective film and translucent wrap with satisfying ASMR sounds.`;
-      const motion4to6 = `4-6s: Packaging opens with ${selectedReveal}.`;
-      const motion6to8 = `6-8s: Cinematic camera executes ${camera} as ${selectedVehicleMotion}.`;
+      const motion0to2 = `0-2s: Premium ${selectedPackaging} rests stably in frame on luxury studio surface.`;
+      const motion2to4 = `2-4s: Manicured fingers smoothly peel protective film and translucent wrap with deliberate ASMR motion.`;
+      const motion4to6 = `4-6s: Packaging opens smoothly with ${selectedReveal}.`;
+      const motion6to8 = `6-8s: Slow, controlled camera executes ${camera} as ${selectedVehicleMotion}.`;
       const fullTimeSlicedMotion = `During this 8-second clip: ${motion0to2} ${motion2to4} ${motion4to6} ${motion6to8}`;
 
-      const negativeConstraints = "(NO TEXT, NO CAPTIONS, NO TITLES, NO LOGOS, NO WATERMARKS, NO SUBTITLES, NO UI ELEMENTS, NO EXTRA VEHICLES, NO PEOPLE EXCEPT MANICURED HANDS, NO ANIMALS, NO PETS, NO DUPLICATE OBJECTS, NO LOW RESOLUTION, NO ARTIFACTS, NO DEFORMATIONS, NO CROPPED SUBJECT, NO CLUTTER, NO DISTRACTING BACKGROUND)";
+      const negativeConstraints = "(NO TEXT, NO CAPTIONS, NO TITLES, NO LOGOS, NO WATERMARKS, NO SUBTITLES, NO UI ELEMENTS, NO EXTRA VEHICLES, NO PEOPLE EXCEPT MANICURED HANDS, NO ANIMALS, NO PETS, NO DUPLICATE OBJECTS, NO LOW RESOLUTION, NO ARTIFACTS, NO DEFORMATIONS, NO CROPPED SUBJECT, NO CLUTTER, NO DISTRACTING BACKGROUND, NO RAPID CAMERA MOVEMENT, NO EXCESSIVE ZOOMING, NO FAST PANS, NO HANDHELD SHAKE, NO AGGRESSIVE WHIP PANS)";
 
       scenes.push({
         sceneNumber: p.sceneNumber,

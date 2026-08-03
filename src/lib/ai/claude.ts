@@ -198,13 +198,13 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - ALL scenes MUST be completely SILENT of human voices, spoken dialogue, and voiceover narration. Set BOTH dialogue AND narration fields to empty strings ("").
    - STRICTLY NO dogs, cats, pets, animals, or secondary human characters (only manicured hands performing unboxing actions).
    - The vehicle selected MUST be the ONLY focus/character across ALL scenes. NEVER drive the vehicle away, and NEVER add secondary vehicles or background clutter.
-   - CAMERA DIRECTING: Vary camera movements (macro push-in, slow dolly tracking, 360-degree orbital rotation, crane sweep, slider glide, rack focus shift, overhead top-down reveal, 120fps slow-motion feel). STRICTLY NO handheld camera movement or camera shake.
+   - CAMERA DIRECTING: Use slow, smooth, minimal, and highly controlled camera motion for maximum AI rendering stability and visual elegance. Prefer subtle dolly tracking, gentle micro push-ins, slow orbital sweeps, or steady static hero framing. STRICTLY AVOID rapid camera movements, fast pans, aggressive zoom-in/out, handheld camera shake, or whip pan transitions. Keep the vehicle clearly visible and stably framed throughout.
    - LIGHTING & MATERIALS: Emphasize multi-layer metallic paint, ray-traced reflections, volumetric softbox studio lights, edge rim highlights, carbon fiber textures, and shallow depth of field (f/1.4 lens).
    - PACKAGING & REVEAL: Vary packaging (aluminum case, carbon fiber box, luxury wooden crate, acrylic case, magnetic gift box) and reveal mechanics (magnetic snap, sliding drawer, butterfly opening, hydraulic lift, motorized pedestal).
    - VEHICLE MICRO-MOTION: Include subtle realistic movements (wheels slowly rotating to show brake calipers, LED DRLs illuminating, side mirrors unfolding, suspension settling).
    - ASMR SFX: Use rich tactile sounds (crisp tissue crinkle, cardboard friction, magnetic click, metallic clink, foam compression, film peel, carbon fiber touch).
    - Do NOT use the "CHARACTER CONSISTENCY LOCK" prefix in imagePrompt when Category is "CARBOX". Start imagePrompt directly with "Ultra-realistic ASMR unboxing scene:".
-   - MANDATORY NEGATIVE SUFFIX: Every imagePrompt and videoPrompt MUST end with "(NO TEXT, NO CAPTIONS, NO TITLES, NO LOGOS, NO WATERMARKS, NO SUBTITLES, NO UI ELEMENTS, NO EXTRA VEHICLES, NO PEOPLE EXCEPT MANICURED HANDS, NO ANIMALS, NO PETS, NO DUPLICATE OBJECTS, NO LOW RESOLUTION, NO ARTIFACTS, NO DEFORMATIONS, NO CROPPED SUBJECT, NO CLUTTER, NO DISTRACTING BACKGROUND)".
+   - MANDATORY NEGATIVE SUFFIX: Every imagePrompt and videoPrompt MUST end with "(NO TEXT, NO CAPTIONS, NO TITLES, NO LOGOS, NO WATERMARKS, NO SUBTITLES, NO UI ELEMENTS, NO EXTRA VEHICLES, NO PEOPLE EXCEPT MANICURED HANDS, NO ANIMALS, NO PETS, NO DUPLICATE OBJECTS, NO LOW RESOLUTION, NO ARTIFACTS, NO DEFORMATIONS, NO CROPPED SUBJECT, NO CLUTTER, NO DISTRACTING BACKGROUND, NO RAPID CAMERA MOVEMENT, NO EXCESSIVE ZOOMING, NO FAST PANS, NO HANDHELD SHAKE, NO AGGRESSIVE WHIP PANS)".
 
 Return ONLY valid JSON matching this exact structure:
 {
@@ -383,15 +383,15 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 
 7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds or Category is "CARBOX"):
    - The idea MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
-   - Pace MUST be fast, energetic, and premium.
+   - Pace MUST be smooth, elegant, and controlled with minimal camera motion for AI rendering stability.
    - Style: Ultra-realistic, cinematic, photorealistic, luxury product commercial, macro ASMR.
+   - CAMERA MOTION: Use slow, smooth dolly tracking, gentle micro push-ins, slow orbital sweeps, or steady static hero framing. STRICTLY AVOID rapid camera movements, fast pans, aggressive zooming, handheld camera shake, or whip pans. Keep vehicle clearly visible and stably framed throughout.
    - SCENE FLOW MANDATE:
-     1. Start with an extreme macro close-up of the premium package (${input.carboxPackaging || "Sealed Box"}).
+     1. Start with a clean macro framing of the premium package (${input.carboxPackaging || "Sealed Box"}).
      2. Show a satisfying luxury unboxing sequence with realistic ASMR sound cues.
-     3. Gradually reveal the vehicle (${input.carboxBrand || "Vehicle"} in ${input.carboxColor || "Glossy Finish"}) using multiple cinematic angles.
-     4. Showcase premium details with dramatic lighting, specular highlights, and reflections.
-     5. End with a powerful full-frame hero shot of the complete vehicle on the ${input.carboxBackground || "Studio Tabletop"}.
-   - CINEMATIC EFFECTS: Integrate dynamic push-in/pull-out shots, 360-orbit camera, tracking shots, dolly zoom, whip pan transitions, slow-motion highlights, speed ramps, rack focus, depth of field, HDR lighting, studio reflections, metallic sparkle, light rays, volumetric lighting, and soft shadows.
+     3. Gradually reveal the vehicle (${input.carboxBrand || "Vehicle"} in ${input.carboxColor || "Glossy Finish"}) with smooth, controlled camera angles.
+     4. Showcase premium details with dramatic lighting, specular highlights, and ray-traced reflections.
+     5. End with a stable, breathtaking full-frame hero shot of the complete vehicle on the ${input.carboxBackground || "Studio Tabletop"}.
 
 Return ONLY a valid JSON array of 1 string:
 [
