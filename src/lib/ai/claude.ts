@@ -18,7 +18,7 @@ import { getCategoryConfig } from "../categories/index";
 
 const CLAUDE_MODELS = [
   "claude-3-7-sonnet-20250219",
-  "claude-3-5-sonnet-20241022",
+  "claude-3-7-sonnet-latest",
 ];
 
 function cleanJsonResponse(text: string): string {
@@ -373,11 +373,10 @@ Return ONLY a valid JSON array of 1 string:
 
   let lastError: any = null;
 
-  const modelsToTry = Array.from(new Set([
-    ...(input.aiModel && input.aiModel.startsWith("claude") && !input.aiModel.includes("haiku") ? [input.aiModel] : []),
+  const modelsToTry = [
     "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-  ]));
+    "claude-3-7-sonnet-latest",
+  ];
 
   for (const modelName of modelsToTry) {
     try {
@@ -502,6 +501,47 @@ Return ONLY a valid JSON array of 1 string:
     } catch (err: any) {
       console.warn(`Claude (${modelName}) idea suggestion error:`, err?.message || err);
       lastError = err;
+    }
+  }
+
+  // Automatic Gemini Fallback if Claude API calls encounter errors (e.g. 404 model not found)
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (geminiApiKey) {
+    try {
+      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+      const promptText = `You are an expert cinematic AI video prompt writer for short-form video models (Google Flow, VEO, Sora).
+Generate EXACTLY 1 highly creative video concept idea strictly tailored to:
+Category: ${categoryConfig.name} (${input.category})
+Language: ${input.language}
+Visual Style: ${input.visualStyle}
+${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
+${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : ""}
+${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
+
+Return ONLY a valid JSON array of 1 string:
+[ "Idea description..." ]`;
+
+      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
+        try {
+          const res = await ai.models.generateContent({
+            model: gModel,
+            contents: promptText,
+            config: { responseMimeType: "application/json", temperature: 0.95 },
+          });
+          const cleaned = cleanJsonResponse(res.text || "");
+          const parsed = JSON.parse(cleaned);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.map(String);
+          } else if (typeof parsed === "string") {
+            return [parsed];
+          }
+        } catch (gErr) {
+          console.warn(`Gemini fallback model ${gModel} failed:`, gErr);
+        }
+      }
+    } catch (gErr) {
+      console.warn("Gemini fallback attempt failed:", gErr);
     }
   }
 
@@ -717,11 +757,10 @@ Return ONLY a valid JSON object matching this exact structure:
   ]
 }`;
 
-  const modelsToTry = Array.from(new Set([
-    ...(aiModel && aiModel.startsWith("claude") && !aiModel.includes("haiku") ? [aiModel] : []),
+  const modelsToTry = [
     "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-  ]));
+    "claude-3-7-sonnet-latest",
+  ];
 
   for (const modelName of modelsToTry) {
     try {
@@ -799,11 +838,10 @@ Return ONLY the dialogue text with no extra intro/outro text.`;
     });
   }
 
-  const modelsToTry = Array.from(new Set([
-    ...(input.aiModel && input.aiModel.startsWith("claude") && !input.aiModel.includes("haiku") ? [input.aiModel] : []),
+  const modelsToTry = [
     "claude-3-7-sonnet-20250219",
-    "claude-3-5-sonnet-20241022",
-  ]));
+    "claude-3-7-sonnet-latest",
+  ];
 
   for (const modelName of modelsToTry) {
     try {
