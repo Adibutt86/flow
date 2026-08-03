@@ -1452,262 +1452,269 @@ export default function IdeasPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {paginatedIdeas.map((idea) => (
-                <div
-                  key={idea.id}
-                  className="group flex flex-col md:flex-row items-start justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-black/40 border border-slate-800 hover:border-indigo-500/30 transition-all shadow-md hover:shadow-xl"
-                >
-                  <div className="flex-1 space-y-3 w-full">
-                    <p
-                      dir={idea.language === "Urdu" || idea.language === "Punjabi" ? "rtl" : "ltr"}
-                      className={`text-sm sm:text-base text-slate-100 leading-relaxed font-sans select-text ${
-                        idea.language === "Urdu" || idea.language === "Punjabi" ? "text-right" : "text-left"
-                      }`}
-                    >
-                      {idea.text}
-                    </p>
-                    
-                    <div className="flex items-center gap-2 flex-wrap pt-1">
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-500/30">
-                        {CATEGORIES[idea.category]?.name || idea.category}
-                      </span>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30">
-                        {idea.language}
-                      </span>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30">
-                        {idea.visualStyle}
-                      </span>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                        <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
-                        <span>{getModelBadgeLabel(idea.aiModel)}</span>
-                      </span>
-
-                      {/* Unique Video Filename Badge & Inline Editor */}
-                      {editingFileNameId === idea.id ? (
-                        <div className="flex items-center gap-1.5 bg-black border border-indigo-500 rounded-xl px-2.5 py-1 text-xs shadow-md">
-                          <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                          <input
-                            type="text"
-                            value={editingFileNameText}
-                            onChange={(e) => setEditingFileNameText(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") handleSaveFileName(idea.id);
-                              if (e.key === "Escape") setEditingFileNameId(null);
-                            }}
-                            className="bg-transparent text-indigo-200 text-xs font-mono focus:outline-none w-48 sm:w-56"
-                            placeholder="carbox_bmw_01"
-                            autoFocus
-                          />
-                          <button
-                            onClick={() => handleSaveFileName(idea.id)}
-                            className="text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-2.5 py-1 transition-colors cursor-pointer active:scale-95"
-                          >
-                            Save
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1.5 bg-indigo-950/40 border border-indigo-500/30 rounded-xl px-3 py-1 text-xs text-indigo-200">
-                          <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                          <span className="font-mono text-[11px] text-indigo-300 font-semibold select-all">
-                            {getFallbackFileName(idea)}
+              {paginatedIdeas.map((idea) => {
+                const isRtl = idea.language === "Urdu" || idea.language === "Punjabi";
+                return (
+                  <div
+                    key={idea.id}
+                    className="group flex flex-col items-start justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-black/40 border border-slate-800 hover:border-indigo-500/30 transition-all shadow-md hover:shadow-xl w-full"
+                  >
+                    {/* Full Width Prompt Area */}
+                    <div className="w-full space-y-3">
+                      <div
+                        dir={isRtl ? "rtl" : "ltr"}
+                        className={`w-full p-4 rounded-xl bg-black/30 border border-slate-800/80 text-sm sm:text-base text-slate-100 leading-relaxed font-sans select-text ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {idea.text}
+                      </div>
+                      
+                      {/* Badges & Filename Toolbar */}
+                      <div className="flex items-center justify-between gap-2 flex-wrap pt-1 w-full">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+                            {CATEGORIES[idea.category]?.name || idea.category}
                           </span>
-                          <button
-                            onClick={() => {
-                              setEditingFileNameId(idea.id);
-                              setEditingFileNameText(getFallbackFileName(idea));
-                            }}
-                            className="text-slate-400 hover:text-indigo-300 p-0.5 transition-colors cursor-pointer"
-                            title="Edit Video Filename"
-                          >
-                            <Edit3 className="w-3 h-3" />
-                          </button>
-                          <button
-                            onClick={() => handleCopy(getFallbackFileName(idea), `${idea.id}-filename`)}
-                            className="flex items-center gap-1 text-[10px] font-bold text-slate-300 hover:text-white transition-colors border-l border-indigo-500/30 pl-2 ml-1 cursor-pointer"
-                            title="Copy Filename to send to friend"
-                          >
-                            {copiedId === `${idea.id}-filename` ? (
-                              <Check className="w-3 h-3 text-emerald-400" />
-                            ) : (
-                              <Copy className="w-3 h-3 text-indigo-400" />
-                            )}
-                            Copy Name
-                          </button>
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30">
+                            {idea.language}
+                          </span>
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30">
+                            {idea.visualStyle}
+                          </span>
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                            <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
+                            <span>{getModelBadgeLabel(idea.aiModel)}</span>
+                          </span>
+                        </div>
+
+                        {/* Unique Video Filename Badge & Inline Editor */}
+                        {editingFileNameId === idea.id ? (
+                          <div className="flex items-center gap-1.5 bg-black border border-indigo-500 rounded-xl px-2.5 py-1 text-xs shadow-md">
+                            <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                            <input
+                              type="text"
+                              value={editingFileNameText}
+                              onChange={(e) => setEditingFileNameText(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleSaveFileName(idea.id);
+                                if (e.key === "Escape") setEditingFileNameId(null);
+                              }}
+                              className="bg-transparent text-indigo-200 text-xs font-mono focus:outline-none w-48 sm:w-56"
+                              placeholder="carbox_bmw_01"
+                              autoFocus
+                            />
+                            <button
+                              onClick={() => handleSaveFileName(idea.id)}
+                              className="text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-2.5 py-1 transition-colors cursor-pointer active:scale-95"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 bg-indigo-950/40 border border-indigo-500/30 rounded-xl px-3 py-1 text-xs text-indigo-200">
+                            <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                            <span className="font-mono text-[11px] text-indigo-300 font-semibold select-all">
+                              {getFallbackFileName(idea)}
+                            </span>
+                            <button
+                              onClick={() => {
+                                setEditingFileNameId(idea.id);
+                                setEditingFileNameText(getFallbackFileName(idea));
+                              }}
+                              className="text-slate-400 hover:text-indigo-300 p-0.5 transition-colors cursor-pointer"
+                              title="Edit Video Filename"
+                            >
+                              <Edit3 className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => handleCopy(getFallbackFileName(idea), `${idea.id}-filename`)}
+                              className="flex items-center gap-1 text-[10px] font-bold text-slate-300 hover:text-white transition-colors border-l border-indigo-500/30 pl-2 ml-1 cursor-pointer"
+                              title="Copy Filename to send to friend"
+                            >
+                              {copiedId === `${idea.id}-filename` ? (
+                                <Check className="w-3 h-3 text-emerald-400" />
+                              ) : (
+                                <Copy className="w-3 h-3 text-indigo-400" />
+                              )}
+                              Copy Name
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Social Media Content Display Box */}
+                      {idea.socialContent && (
+                        <div className="mt-4 p-4 rounded-xl bg-blue-950/20 border border-blue-500/30 space-y-3.5 w-full">
+                          <div className="flex items-center justify-between border-b border-blue-500/20 pb-2">
+                            <div className="flex items-center gap-2 text-xs font-bold text-blue-300 uppercase tracking-wider">
+                              <Share2 className="w-3.5 h-3.5 text-blue-400" />
+                              <span>Facebook Social Content</span>
+                            </div>
+                            <button
+                              onClick={() => handleGenerateSocial(idea)}
+                              disabled={generatingSocialId === idea.id}
+                              className="text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer"
+                            >
+                              <RotateCcw className="w-3 h-3" />
+                              <span>Regenerate Social</span>
+                            </button>
+                          </div>
+
+                          {/* Title Field */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                              <span>📌 Video Title</span>
+                              <button
+                                onClick={() => handleCopy(idea.socialContent!.title, `${idea.id}-social-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                              >
+                                {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Title
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-white font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                              {idea.socialContent.title}
+                            </div>
+                          </div>
+
+                          {/* Description Field */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                              <span>📝 Video Description</span>
+                              <button
+                                onClick={() => handleCopy(idea.socialContent!.description, `${idea.id}-social-desc`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                              >
+                                {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Description
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>
+                              {idea.socialContent.description}
+                            </div>
+                          </div>
+
+                          {/* Facebook Caption Field */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                              <span>💬 Facebook Caption</span>
+                              <button
+                                onClick={() => handleCopy(idea.socialContent!.caption, `${idea.id}-social-caption`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                              >
+                                {copiedId === `${idea.id}-social-caption` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Caption
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed whitespace-pre-wrap ${isRtl ? "text-right" : "text-left"}`}>
+                              {idea.socialContent.caption}
+                            </div>
+                          </div>
+
+                          {/* Hashtags Field */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                              <span>🏷️ Relevant Hashtags</span>
+                              <button
+                                onClick={() => handleCopy(idea.socialContent!.hashtags, `${idea.id}-social-tags`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                              >
+                                {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Hashtags
+                              </button>
+                            </div>
+                            <div dir="ltr" className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-indigo-300 font-mono">
+                              {idea.socialContent.hashtags}
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Social Media Content Display Box */}
-                    {idea.socialContent && (
-                      <div className="mt-4 p-4 rounded-xl bg-blue-950/20 border border-blue-500/30 space-y-3.5 w-full">
-                        <div className="flex items-center justify-between border-b border-blue-500/20 pb-2">
-                          <div className="flex items-center gap-2 text-xs font-bold text-blue-300 uppercase tracking-wider">
-                            <Share2 className="w-3.5 h-3.5 text-blue-400" />
-                            <span>Facebook Social Content</span>
-                          </div>
-                          <button
-                            onClick={() => handleGenerateSocial(idea)}
-                            disabled={generatingSocialId === idea.id}
-                            className="text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer"
-                          >
-                            <RotateCcw className="w-3 h-3" />
-                            <span>Regenerate Social</span>
-                          </button>
-                        </div>
+                    {/* Actions Row - Full Width Right-Aligned */}
+                    <div className="w-full flex items-center justify-end gap-2 flex-wrap pt-3 border-t border-slate-800/60">
+                      {/* Generate Social Button */}
+                      <button
+                        onClick={() => handleGenerateSocial(idea)}
+                        disabled={generatingSocialId === idea.id}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                        title="Generate Facebook title, description, caption & hashtags"
+                      >
+                        {generatingSocialId === idea.id ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                        ) : (
+                          <Share2 className="w-3.5 h-3.5 text-blue-400" />
+                        )}
+                        <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
+                      </button>
 
-                        {/* Title Field */}
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                            <span>📌 Video Title</span>
-                            <button
-                              onClick={() => handleCopy(idea.socialContent!.title, `${idea.id}-social-title`)}
-                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                            >
-                              {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                              Copy Title
-                            </button>
-                          </div>
-                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-white font-medium">
-                            {idea.socialContent.title}
-                          </div>
-                        </div>
+                      {/* Favorite Toggle Button */}
+                      <button
+                        onClick={() => handleToggleFavorite(idea.id)}
+                        className={`p-2.5 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                          idea.isFavorite 
+                            ? "bg-rose-950/60 border-rose-500/50 text-rose-400 hover:bg-rose-900/60 shadow-md shadow-rose-950/40" 
+                            : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40"
+                        }`}
+                        title={idea.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      >
+                        <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
+                      </button>
 
-                        {/* Description Field */}
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                            <span>📝 Video Description</span>
-                            <button
-                              onClick={() => handleCopy(idea.socialContent!.description, `${idea.id}-social-desc`)}
-                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                            >
-                              {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                              Copy Description
-                            </button>
-                          </div>
-                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed">
-                            {idea.socialContent.description}
-                          </div>
-                        </div>
+                      {/* Simple Copy Prompt Button */}
+                      <button
+                        onClick={() => handleCopy(idea.text, idea.id)}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy exact prompt text"
+                      >
+                        {copiedId === idea.id ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
+                        )}
+                        <span>Copy Prompt</span>
+                      </button>
 
-                        {/* Facebook Caption Field */}
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                            <span>💬 Facebook Caption</span>
-                            <button
-                              onClick={() => handleCopy(idea.socialContent!.caption, `${idea.id}-social-caption`)}
-                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                            >
-                              {copiedId === `${idea.id}-social-caption` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                              Copy Caption
-                            </button>
-                          </div>
-                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed whitespace-pre-wrap">
-                            {idea.socialContent.caption}
-                          </div>
-                        </div>
+                      {/* Mobile & Full Options */}
+                      <button
+                        onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-950/50 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Mobile Prompt (9:16)"
+                      >
+                        {copiedId === `${idea.id}-mobile` ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
+                        )}
+                        <span>9:16 Mobile</span>
+                      </button>
 
-                        {/* Hashtags Field */}
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                            <span>🏷️ Relevant Hashtags</span>
-                            <button
-                              onClick={() => handleCopy(idea.socialContent!.hashtags, `${idea.id}-social-tags`)}
-                              className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                            >
-                              {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                              Copy Hashtags
-                            </button>
-                          </div>
-                          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-indigo-300 font-mono">
-                            {idea.socialContent.hashtags}
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                      <button
+                        onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Full Prompt (16:9)"
+                      >
+                        {copiedId === `${idea.id}-full` ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                        )}
+                        <span>16:9 Full</span>
+                      </button>
+
+                      {/* Delete Button */}
+                      <button
+                        onClick={() => handleDeleteIdea(idea.id)}
+                        className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer active:scale-95"
+                        title="Delete idea"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-
-                  {/* Actions Row */}
-                  <div className="flex items-center gap-2 shrink-0 flex-wrap w-full md:w-auto justify-start md:justify-end pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/60">
-                    {/* Generate Social Button */}
-                    <button
-                      onClick={() => handleGenerateSocial(idea)}
-                      disabled={generatingSocialId === idea.id}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                      title="Generate Facebook title, description, caption & hashtags"
-                    >
-                      {generatingSocialId === idea.id ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
-                      ) : (
-                        <Share2 className="w-3.5 h-3.5 text-blue-400" />
-                      )}
-                      <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
-                    </button>
-
-                    {/* Favorite Toggle Button */}
-                    <button
-                      onClick={() => handleToggleFavorite(idea.id)}
-                      className={`p-2.5 rounded-xl border transition-all cursor-pointer active:scale-95 ${
-                        idea.isFavorite 
-                          ? "bg-rose-950/60 border-rose-500/50 text-rose-400 hover:bg-rose-900/60 shadow-md shadow-rose-950/40" 
-                          : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40"
-                      }`}
-                      title={idea.isFavorite ? "Remove from favorites" : "Add to favorites"}
-                    >
-                      <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
-                    </button>
-
-                    {/* Simple Copy Prompt Button */}
-                    <button
-                      onClick={() => handleCopy(idea.text, idea.id)}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title="Copy exact prompt text"
-                    >
-                      {copiedId === idea.id ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5 text-indigo-400" />
-                      )}
-                      <span>Copy Prompt</span>
-                    </button>
-
-                    {/* Mobile & Full Options */}
-                    <button
-                      onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-950/50 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title="Copy Mobile Prompt (9:16)"
-                    >
-                      {copiedId === `${idea.id}-mobile` ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5 text-indigo-400" />
-                      )}
-                      <span>9:16 Mobile</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title="Copy Full Prompt (16:9)"
-                    >
-                      {copiedId === `${idea.id}-full` ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5 text-slate-400" />
-                      )}
-                      <span>16:9 Full</span>
-                    </button>
-
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => handleDeleteIdea(idea.id)}
-                      className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer active:scale-95"
-                      title="Delete idea"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
