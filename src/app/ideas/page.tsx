@@ -230,7 +230,6 @@ export default function IdeasPage() {
       text: customDialogue.trim(),
       createdAt: new Date().toISOString(),
     };
-    const updated = [newItem, ...saveDialoguesToStorage(savedDialogues)];
     saveDialoguesToStorage([newItem, ...savedDialogues]);
     showToast("Spoken dialogue saved for future reuse!", "success");
   };
