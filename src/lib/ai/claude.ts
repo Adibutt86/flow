@@ -19,7 +19,6 @@ import { getCategoryConfig } from "../categories/index";
 const CLAUDE_MODELS = [
   "claude-3-7-sonnet-20250219",
   "claude-3-5-sonnet-20241022",
-  "claude-3-5-haiku-20241022",
 ];
 
 function cleanJsonResponse(text: string): string {
@@ -375,10 +374,9 @@ Return ONLY a valid JSON array of 1 string:
   let lastError: any = null;
 
   const modelsToTry = Array.from(new Set([
-    ...(input.aiModel && input.aiModel.startsWith("claude") ? [input.aiModel] : []),
+    ...(input.aiModel && input.aiModel.startsWith("claude") && !input.aiModel.includes("haiku") ? [input.aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
-    "claude-3-5-haiku-20241022",
   ]));
 
   for (const modelName of modelsToTry) {
@@ -720,10 +718,9 @@ Return ONLY a valid JSON object matching this exact structure:
 }`;
 
   const modelsToTry = Array.from(new Set([
-    ...(aiModel && aiModel.startsWith("claude") ? [aiModel] : []),
+    ...(aiModel && aiModel.startsWith("claude") && !aiModel.includes("haiku") ? [aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
-    "claude-3-5-haiku-20241022",
   ]));
 
   for (const modelName of modelsToTry) {
@@ -803,10 +800,9 @@ Return ONLY the dialogue text with no extra intro/outro text.`;
   }
 
   const modelsToTry = Array.from(new Set([
-    ...(input.aiModel && input.aiModel.startsWith("claude") ? [input.aiModel] : []),
+    ...(input.aiModel && input.aiModel.startsWith("claude") && !input.aiModel.includes("haiku") ? [input.aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
-    "claude-3-5-haiku-20241022",
   ]));
 
   for (const modelName of modelsToTry) {
