@@ -348,10 +348,11 @@ Hook Style: ${categoryConfig.hookStyle}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
 ${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
-${input.category === "CUTE_KIDS" && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
-${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
-${input.category === "CUTE_KIDS" && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
-${input.category === "CUTE_KIDS" && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : "Dialogue Mandate: Automatically generate authentic, hilarious Urdu / Roman Urdu dialogue with funny Desi timing, emotional expressions, and comic punchlines unless Category is CARBOX."}
+${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
+${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
@@ -364,8 +365,9 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
    - The idea MUST be a funny Punjabi joke/chutkule written in Roman Punjabi.
    - Include authentic Punjabi characters (Santa, Banta, Papaji, Bebe, Jatt, Inspector).
 
-2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu":
-   - The idea MUST be a funny Desi joke written in Roman Hindi/Urdu.
+2. If Category is "HINDI_JOKE" or Language is "Hindi" or "Urdu" or "Roman Urdu" (Default Language):
+   - The idea MUST be a funny Desi joke written in authentic Roman Urdu / Desi Hindi.
+   - ${input.customDialogue ? `MUST strictly include the custom spoken dialogue: "${input.customDialogue}"` : "MUST automatically include a short, hilarious, natural Urdu dialogue punchline under 10 words."}
 
 3. If Category is "HORROR":
    - The idea MUST be a terrifying eerie horror tale with creepy visual hooks and dark twists.
@@ -373,25 +375,26 @@ STRICT CATEGORY & LANGUAGE GUIDELINES:
 4. If Category is "FUNNY_ANIMALS":
    - The idea MUST feature hilarious pets/animals in absurd human situations.
 
-5. If Category is "KIDS_FUNNY":
-   - The idea MUST be cute, whimsical 3D animated style child & pet physical comedy.
+5. If Category is "KIDS_FUNNY" or "CUTE_KIDS":
+   - The idea MUST be cute, whimsical 3D animated style child physical comedy.
+   - ${input.customDialogue ? `MUST incorporate spoken dialogue: "${input.customDialogue}"` : "MUST include a funny short Urdu line spoken by the child character with expressive facial gags."}
 
 6. If Category is "CARBOX":
    - The idea MUST be an ultra-realistic, ASMR-style unboxing video of premium die-cast vehicles.
    - You MUST incorporate the requested Vehicle Type/Brand (${input.carboxBrand || "Car/Bike"}), Color (${input.carboxColor || "Glossy"}), Packaging (${input.carboxPackaging || "Retail Box"}), and Background (${input.carboxBackground || "Studio Tabletop"}).
    - Describe satisfying peeling, clicking, and unwrapping sounds and textures with NO human dialogue or spoken narration.
 
-7. CRITICAL 10-SECOND CINEMATIC PROMPT MANDATE (If Video Duration is 10 Seconds or Category is "CARBOX"):
+7. 10-SECOND SCRIPT OPTIMIZATION (When Video Duration is 10 Seconds):
+   - Optimize specifically for a fast-paced, highly engaging 10-second clip easily renderable by AI video models.
+   - Keep actions concise with clear visual gags, exaggerated expressions, and minimal visual clutter.
+   - Ensure dialogue fits naturally within the 10-second duration without requiring narration.
+   - Produce a strong opening hook (0-3s), clear comedic escalation (3-7s), and satisfying punchline ending (7-10s).
+
+8. CRITICAL 10-SECOND CINEMATIC CARBOX PROMPT MANDATE (Only If Category is "CARBOX"):
    - The idea MUST be written as a complete 10-second AI video prompt as ONE continuous, production-ready paragraph with NO explanations, headings, or bullet points.
    - Pace MUST be smooth, elegant, and controlled with minimal camera motion for AI rendering stability.
    - Style: Ultra-realistic, cinematic, photorealistic, luxury product commercial, macro ASMR.
    - CAMERA MOTION: Use slow, smooth dolly tracking, gentle micro push-ins, slow orbital sweeps, or steady static hero framing. STRICTLY AVOID rapid camera movements, fast pans, aggressive zooming, handheld camera shake, or whip pans. Keep vehicle clearly visible and stably framed throughout.
-   - SCENE FLOW MANDATE:
-     1. Start with a clean macro framing of the premium package (${input.carboxPackaging || "Sealed Box"}).
-     2. Show a satisfying luxury unboxing sequence with realistic ASMR sound cues.
-     3. Gradually reveal the vehicle (${input.carboxBrand || "Vehicle"} in ${input.carboxColor || "Glossy Finish"}) with smooth, controlled camera angles.
-     4. Showcase premium details with dramatic lighting, specular highlights, and ray-traced reflections.
-     5. End with a stable, breathtaking full-frame hero shot of the complete vehicle on the ${input.carboxBackground || "Studio Tabletop"}.
 
 Return ONLY a valid JSON array of 1 string:
 [

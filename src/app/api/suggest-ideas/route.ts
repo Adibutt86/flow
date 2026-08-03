@@ -4,13 +4,14 @@ import { generateIdeaSuggestionsWithClaude } from "@/lib/ai/claude";
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { category = "FUNNY", language = "English", visualStyle = "3D Cartoon", videoDuration = 8, seed, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground } = body;
+    const { category = "FUNNY", language = "Urdu", visualStyle = "3D Cartoon Style", videoDuration = 8, customDialogue, seed, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
       category,
       language,
       visualStyle,
       videoDuration: Number(videoDuration),
+      customDialogue,
       kidsAge,
       kidsHealth,
       characterSetup,

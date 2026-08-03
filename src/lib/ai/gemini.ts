@@ -118,6 +118,7 @@ export interface SuggestIdeasInput {
   language: string;
   visualStyle: string;
   videoDuration?: number;
+  customDialogue?: string;
   seed?: number;
   kidsAge?: string;
   kidsHealth?: string;

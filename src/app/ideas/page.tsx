@@ -51,9 +51,10 @@ export default function IdeasPage() {
 
   // Generation controls
   const [category, setCategory] = useState<CategoryId>("FUNNY");
-  const [language, setLanguage] = useState("English");
-  const [visualStyle, setVisualStyle] = useState("3D Cartoon");
+  const [language, setLanguage] = useState("Urdu");
+  const [visualStyle, setVisualStyle] = useState("3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(8);
+  const [customDialogue, setCustomDialogue] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   
   // Cute Kids specific options
@@ -158,7 +159,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, videoDuration, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
+        body: JSON.stringify({ category, language, visualStyle, videoDuration, customDialogue, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -344,7 +345,7 @@ export default function IdeasPage() {
                   }
                   else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
                   else if (cat === "HINDI_JOKE") setLanguage("Hindi");
-                  else if (language === "ASMR Unboxing Effects") setLanguage("English");
+                  else if (language === "ASMR Unboxing Effects") setLanguage("Urdu");
                 }}
                 className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
               >
@@ -407,6 +408,23 @@ export default function IdeasPage() {
                 <option value={10}>⚡ 10 Sec Fast & Energetic Cinematic Video Prompt</option>
               </select>
             </div>
+
+            {/* Custom Spoken Dialogue Input Box */}
+            {category !== "CARBOX" && (
+              <div className="space-y-1.5 md:col-span-4">
+                <label className="text-xs font-semibold text-amber-300 flex items-center justify-between">
+                  <span>💬 Custom Spoken Dialogue (Optional)</span>
+                  <span className="text-[10px] text-gray-400 font-normal">Default: Auto-generated funny Urdu dialogue</span>
+                </label>
+                <input
+                  type="text"
+                  value={customDialogue}
+                  onChange={(e) => setCustomDialogue(e.target.value)}
+                  placeholder='e.g. "Abey sun! Ye cake mera hai, tu side pe ho ja!"'
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-amber-500/40 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition-colors"
+                />
+              </div>
+            )}
           </div>
 
           {category === "CUTE_KIDS" && (
@@ -422,13 +440,16 @@ export default function IdeasPage() {
                   <option value="Baby (0-2 yrs)">Baby (0-2 yrs)</option>
                   <option value="Toddler (2-4 yrs)">Toddler (2-4 yrs)</option>
                   <option value="Child (5-8 yrs)">Child (5-8 yrs)</option>
-                  <option value="Pre-teen (9-12 yrs)">Pre-teen (9-12 yrs)</option>
+                  <option value="Teenager (13-17 yrs)">Teenager (13-17 yrs)</option>
+                  <option value="Young Adult (18-24 yrs)">Young Adult (18-24 yrs)</option>
+                  <option value="Adult (25-50 yrs)">Adult (25-50 yrs)</option>
+                  <option value="Elderly (60+ yrs)">Elderly (60+ yrs)</option>
                 </select>
               </div>
 
               {/* Kids Health */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-gray-400">Kids Health</label>
+                <label className="text-xs font-semibold text-gray-400">Kids Health / Vibe</label>
                 <select
                   value={kidsHealth}
                   onChange={(e) => setKidsHealth(e.target.value)}
@@ -436,7 +457,10 @@ export default function IdeasPage() {
                 >
                   <option value="Healthy & Energetic">Healthy & Energetic</option>
                   <option value="Chubby & Cute">Chubby & Cute</option>
-                  <option value="Fragile & Sweet">Fragile & Sweet</option>
+                  <option value="Slim & Active">Slim & Active</option>
+                  <option value="Athletic & Fit">Athletic & Fit</option>
+                  <option value="Disabled / Wheelchair">Disabled / Wheelchair</option>
+                  <option value="Special Needs / Sensitive">Special Needs / Sensitive</option>
                 </select>
               </div>
 
