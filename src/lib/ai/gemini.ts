@@ -252,7 +252,7 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
 
   // 0. CATEGORY IS CARBOX OR CONCEPT IS CAR UNBOXING (STRICT NO ANIMALS, NO DIALOGUE, ONLY VEHICLE UNBOXING)
   if (input.category === "CARBOX" || lower.includes("unboxing") || lower.includes("carbox") || lower.includes("die-cast") || lower.includes("diecast")) {
-    const vehicleName = userChar || (lower.includes("bus") ? "Sleek Metallic Red Die-Cast City Bus" : lower.includes("car") ? "Die-Cast Model Supercar" : "Metallic Model Vehicle");
+    const vehicleName = userChar || (lower.includes("bus") ? "Sleek Metallic Red Die-Cast City Bus" : lower.includes("bike") || lower.includes("motorcycle") ? "Die-Cast Sport Motorcycle" : lower.includes("car") ? "Die-Cast Model Supercar" : "Metallic Model Vehicle");
     return {
       concept: fullConcept,
       category: "CARBOX",
@@ -260,20 +260,20 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
       clipCount,
       language: "ASMR Unboxing Effects",
       visualStyle: input.visualStyle || "Realistic",
-      title: `${vehicleName} ASMR Unboxing`,
+      title: `${vehicleName} Luxury ASMR Reveal`,
       mainCharacterName: vehicleName,
       mainCharacterSpecies: "Die-Cast Model Vehicle",
-      mainCharacterAppearance: `Pristine, ultra-detailed ${vehicleName} with metallic glossy finish, chrome headlights, realistic grille, rubber tires, and luxury studio lighting reflections`,
-      mainCharacterPersonality: "Gleaming, pristine, luxury die-cast collector model",
+      mainCharacterAppearance: `Pristine, ultra-detailed 1/18 scale ${vehicleName} with multi-coat glossy paint, ray-traced chrome trim, realistic rubber tires, LED lighting detailing, and studio softbox reflections`,
+      mainCharacterPersonality: "Gleaming, pristine, luxury automotive collector model",
       mainCharacterClothing: "N/A",
-      location: "Luxury studio tabletop with dark carbon fiber mat under soft warm studio spotlights",
-      secondaryObjects: ["Matte black retail box", "Translucent tissue wrap", "Pearl-white foam padding", "Studio lighting"],
-      setup: `Pristine retail box wrapped in matte black paper glides smoothly onto dark carbon fiber mat under studio lighting.`,
-      conflict: `Manicured fingers gently peel translucent tissue wrap with crisp ASMR paper crinkle sounds.`,
-      escalation: `Box lid opens with a gentle magnetic click, revealing dense pearl-white foam padding protecting the gleaming ${vehicleName}.`,
-      punchline: `Camera pushes into extreme macro close-up of the ${vehicleName}'s chrome grille and headlights, gleaming under warm studio spotlights.`,
-      ending: `The pristine ${vehicleName} sits prominently displayed on the carbon fiber mat, sparkling under warm studio lighting in full 9:16 vertical glory.`,
-      requiredKeywords: ["unboxing", "box", "foam", "bus", "car", "die-cast"],
+      location: "Luxury product photography studio tabletop with high-contrast surface under volumetric softbox lights",
+      secondaryObjects: ["Premium aluminum packaging case", "Translucent tissue wrap", "Custom velvet foam padding", "Precision magnetic latches"],
+      setup: `Premium package glides smoothly onto luxury studio tabletop under volumetric softbox key lights.`,
+      conflict: `Manicured fingers delicately peel protective film and translucent wrap with satisfying ASMR paper crinkle sounds.`,
+      escalation: `Precision packaging opens with a magnetic snap, revealing custom velvet foam padding protecting the gleaming ${vehicleName}.`,
+      punchline: `Cinematic 360-degree orbital camera sweep reveals the complete ${vehicleName} as LED DRL lights illuminate under studio spotlights.`,
+      ending: `The pristine ${vehicleName} sits prominently on full hero display, sparkling brilliantly under studio lighting in full vertical commercial quality.`,
+      requiredKeywords: ["unboxing", "box", "foam", "bus", "car", "die-cast", "asmr"],
     };
   }
 
@@ -614,30 +614,84 @@ export function generateScenePrompts(ctx: StoryContext, scenePlan: ReturnType<ty
     if (ctx.category === "CARBOX") {
       narration = "";
       dialogue = "";
-      sfx = "Crisp tissue crinkle, satisfying box slide whisper, sharp magnetic lid click, subtle metallic clink";
-      camera = isFirst ? "Top-down macro shot" : isFinal ? "Extreme macro close-up push-in" : "Medium overhead tracking shot";
 
-      const motion0to2 = `0-2s: Packaging glides smoothly into frame on carbon fiber mat.`;
-      const motion2to4 = `2-4s: Manicured fingers smoothly peel tissue wrap with audible crinkle.`;
-      const motion4to6 = `4-6s: Box lid lifts with satisfying magnetic click revealing foam padding.`;
-      const motion6to8 = `6-8s: Camera pushes in to macro close-up of metallic reflections on vehicle.`;
+      const cameras = [
+        "85mm Macro Prime lens with f/1.4 shallow depth of field, 360-degree orbital rotation tracking shot",
+        "35mm Anamorphic lens, smooth slider push-in sweep transitioning to low-angle hero close-up",
+        "High-speed 120fps slow-motion macro dolly tracking along side air intakes and pristine wheels",
+        "Overhead top-down reveal panning down smoothly to ray-traced reflections on the hood",
+        "Crane height sweep gliding past packaging edge into an extreme macro rack focus shift",
+      ];
+
+      const lightings = [
+        "Volumetric softbox studio key lighting with dual edge rim highlights and specular reflection gleam",
+        "White infinity studio lighting with high-key fill and ray-traced metallic reflections",
+        "Black glossy studio environment with dark ambient reflections and razor-sharp spotlight beam",
+        "Warm commercial showroom spotlights creating multi-layer paint depth and chrome gleam",
+        "Blue neon edge reflections contrasting against multi-coat metallic glossy finish",
+      ];
+
+      const packagings = [
+        "matte black titanium case with precision latches",
+        "carbon fiber presentation box with gold foil trim",
+        "luxury dark wooden collector box with satin lining",
+        "tempered glass display case with magnetic hinges",
+        "acrylic display capsule with custom velvet padding",
+      ];
+
+      const reveals = [
+        "magnetic lid snap release revealing dense pearl-white foam padding",
+        "smooth sliding drawer gliding open with velvet suction whisper",
+        "butterfly opening dual wings swinging open gracefully",
+        "hydraulic lift mechanism elevating vehicle onto display surface",
+        "motorized rotating display pedestal raising model into key lighting",
+      ];
+
+      const vehicleMotions = [
+        "wheels slowly rotate showcasing precision brake calipers and rubber tire treads",
+        "headlights and LED daytime running lights smoothly illuminate under studio spotlights",
+        "tail lamps pulse softly as side mirrors unfold into aerodynamic position",
+        "steering wheel turns slightly as suspension subtly settles onto tabletop",
+        "specular light sweep glides smoothly across pristine mirror-finish paintwork",
+      ];
+
+      const sfxs = [
+        "Crisp tissue paper crinkle, premium cardboard friction, sharp magnetic click, subtle metallic clink",
+        "Velvet foam compression whisper, satin ribbon pull, protective film peel, soft case slide",
+        "Precision metallic snap, smooth velvet drawer slide, hydraulic latch release hiss, ambient acoustic resonance",
+      ];
+
+      const idx = (p.sceneNumber - 1) % 5;
+      camera = cameras[idx];
+      const selectedLighting = lightings[idx];
+      const selectedPackaging = packagings[idx];
+      const selectedReveal = reveals[idx];
+      const selectedVehicleMotion = vehicleMotions[idx];
+      sfx = sfxs[idx];
+
+      const motion0to2 = `0-2s: Premium ${selectedPackaging} enters frame on luxury studio surface.`;
+      const motion2to4 = `2-4s: Manicured fingers smoothly peel protective film and translucent wrap with satisfying ASMR sounds.`;
+      const motion4to6 = `4-6s: Packaging opens with ${selectedReveal}.`;
+      const motion6to8 = `6-8s: Cinematic camera executes ${camera} as ${selectedVehicleMotion}.`;
       const fullTimeSlicedMotion = `During this 8-second clip: ${motion0to2} ${motion2to4} ${motion4to6} ${motion6to8}`;
+
+      const negativeConstraints = "(NO TEXT, NO CAPTIONS, NO TITLES, NO LOGOS, NO WATERMARKS, NO SUBTITLES, NO UI ELEMENTS, NO EXTRA VEHICLES, NO PEOPLE EXCEPT MANICURED HANDS, NO ANIMALS, NO PETS, NO DUPLICATE OBJECTS, NO LOW RESOLUTION, NO ARTIFACTS, NO DEFORMATIONS, NO CROPPED SUBJECT, NO CLUTTER, NO DISTRACTING BACKGROUND)";
 
       scenes.push({
         sceneNumber: p.sceneNumber,
         duration: 8,
         narration,
         dialogue: "",
-        imagePrompt: `Ultra-realistic ASMR unboxing scene: ${ctx.mainCharacterName} on deep carbon fiber mat. Manicured hands peeling translucent tissue wrap, box lid open revealing pearl-white foam padding and metallic detailing gleaming under warm studio lighting. Top-down macro shot. Realistic photographic style. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)`,
-        videoPrompt: `${fullTimeSlicedMotion} (NO TEXT OVERLAYS, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN FULL FRAME VIDEO).`,
+        imagePrompt: `Ultra-realistic ASMR unboxing scene: 1/18 scale ${ctx.mainCharacterName} inside ${selectedPackaging}. Manicured hands unwrapping package, ${selectedReveal}, multi-coat glossy paint gleaming under ${selectedLighting}. ${camera}. Photorealistic luxury commercial product cinematography. ${negativeConstraints}`,
+        videoPrompt: `${fullTimeSlicedMotion} ${negativeConstraints}`,
         camera,
-        motion: "Deliberate unboxing motion with smooth macro camera tracking",
-        lighting: "Warm studio softbox key light with specular reflections",
+        motion: `Smooth macro camera sweep as ${selectedVehicleMotion}`,
+        lighting: selectedLighting,
         sfx,
         music: "Minimalist ambient electronic soundtrack with subtle warm pad tones",
-        continuityNotes: `Scene ${p.sceneNumber} of ${ctx.clipCount} (CARBOX ASMR Unboxing)`,
-        previousSceneState: isFirst ? "Empty studio tabletop on carbon fiber mat" : `Unboxing stage ${p.sceneNumber - 1} complete`,
-        nextSceneState: isFinal ? "Pristine vehicle displayed on carbon fiber mat" : `Transitioning to unboxing step ${p.sceneNumber + 1}`,
+        continuityNotes: `Scene ${p.sceneNumber} of ${ctx.clipCount} (CARBOX Luxury ASMR Reveal)`,
+        previousSceneState: isFirst ? "Empty studio tabletop under volumetric lighting" : `Unboxing stage ${p.sceneNumber - 1} complete`,
+        nextSceneState: isFinal ? `Pristine ${ctx.mainCharacterName} displayed on hero pedestal` : `Transitioning to unboxing step ${p.sceneNumber + 1}`,
       });
       continue;
     }
