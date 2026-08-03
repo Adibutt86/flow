@@ -712,8 +712,6 @@ STRICT DIALOGUE STYLE & LANGUAGE RULES:
 
 export const SocialContentSchema = z.object({
   title: z.string().min(1),
-  description: z.string().min(1),
-  caption: z.string().min(1),
   hashtags: z.string().min(1),
 });
 
@@ -743,8 +741,8 @@ export async function generateSocialContentWithClaude(input: {
     "claude-opus-4-6",
   ]));
 
-  const prompt = `You are an expert social media manager for viral Facebook video pages.
-Generate platform-ready, high-engagement Facebook content based on the following short video concept.
+  const prompt = `You are an expert social media manager for Facebook video pages.
+Generate platform-ready, high-engagement Facebook title and hashtags based on the following short video concept.
 
 Video Concept:
 "${input.ideaText}"
@@ -754,14 +752,13 @@ Language: ${input.language}
 Visual Style: ${input.visualStyle || "Standard 3D"}
 
 CRITICAL RULES:
-1. Match the language requested (${input.language}). If Urdu or Punjabi, write natural text that feels native, energetic, and engaging for Facebook users in that region.
-2. Content must be 100% family-friendly, concise, and optimized for maximum Facebook likes, comments, and shares.
-3. OUTPUT MUST BE VALID JSON ONLY matching this exact structure:
+1. Match the language requested (${input.language}). If Urdu or Punjabi, write natural, catchy Roman or Script text.
+2. Title: A short, catchy, engaging Facebook video title that includes a polite call-to-action asking viewers to Like & Share (e.g., "Awesome Animation! 👍 Like & Share with friends!").
+3. Hashtags: EXACTLY 4 to 5 relevant, high-performing hashtags separated by spaces (DO NOT include more than 5 hashtags).
+4. OUTPUT MUST BE VALID JSON ONLY with this exact structure:
 {
-  "title": "Short, catchy video title for Facebook (max 8-10 words)",
-  "description": "Engaging 2-3 sentence video summary for Facebook Watch / Reels description",
-  "caption": "Post caption with an engaging hook, relatable question to comments, and a clear call to action",
-  "hashtags": "#5-8 relevant hashtags separated by spaces"
+  "title": "Title here - Like & Share!",
+  "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5"
 }`;
 
   for (const modelName of modelsToTry) {

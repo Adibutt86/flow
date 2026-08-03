@@ -297,8 +297,6 @@ interface SavedIdea {
   aiModel?: string;
   socialContent?: {
     title: string;
-    description: string;
-    caption: string;
     hashtags: string;
   };
 }
@@ -1561,10 +1559,10 @@ export default function IdeasPage() {
                             </button>
                           </div>
 
-                          {/* Title Field */}
+                          {/* Title Field (with Like & Share) */}
                           <div className="space-y-1">
                             <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>📌 Video Title</span>
+                              <span>📌 Video Title (Like & Share)</span>
                               <button
                                 onClick={() => handleCopy(idea.socialContent!.title, `${idea.id}-social-title`)}
                                 className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
@@ -1578,44 +1576,10 @@ export default function IdeasPage() {
                             </div>
                           </div>
 
-                          {/* Description Field */}
+                          {/* Hashtags Field (Max 4-5) */}
                           <div className="space-y-1">
                             <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>📝 Video Description</span>
-                              <button
-                                onClick={() => handleCopy(idea.socialContent!.description, `${idea.id}-social-desc`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                              >
-                                {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                                Copy Description
-                              </button>
-                            </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>
-                              {idea.socialContent.description}
-                            </div>
-                          </div>
-
-                          {/* Facebook Caption Field */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>💬 Facebook Caption</span>
-                              <button
-                                onClick={() => handleCopy(idea.socialContent!.caption, `${idea.id}-social-caption`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                              >
-                                {copiedId === `${idea.id}-social-caption` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                                Copy Caption
-                              </button>
-                            </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-slate-200 font-sans leading-relaxed whitespace-pre-wrap ${isRtl ? "text-right" : "text-left"}`}>
-                              {idea.socialContent.caption}
-                            </div>
-                          </div>
-
-                          {/* Hashtags Field */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>🏷️ Relevant Hashtags</span>
+                              <span>🏷️ Hashtags (Max 4-5)</span>
                               <button
                                 onClick={() => handleCopy(idea.socialContent!.hashtags, `${idea.id}-social-tags`)}
                                 className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
