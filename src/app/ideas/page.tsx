@@ -35,6 +35,26 @@ const VISUAL_STYLES = [
   "Retro 80s",
 ];
 
+const KIDS_AGE_OPTIONS = [
+  "Newborn (0-6 mos)",
+  "Infant (6-12 mos)",
+  "Baby (1-2 yrs)",
+  "Early Toddler (1.5-2.5 yrs)",
+  "Toddler (2-4 yrs)",
+  "Little Kids (3-5 yrs)",
+  "Preschooler (4-5 yrs)",
+  "Child (5-8 yrs)",
+  "School Age (6-9 yrs)",
+  "Pre-Teen (9-12 yrs)",
+  "Tween (10-12 yrs)",
+  "Early Teen (13-15 yrs)",
+  "Teenager (13-17 yrs)",
+  "Older Teen (16-18 yrs)",
+  "Young Adult (18-24 yrs)",
+  "Adult & Child Combo (Mixed Ages)",
+  "Family (All Ages)",
+];
+
 const KIDS_HEALTH_OPTIONS = [
   "Cheerful & Energetic",
   "Cute & Playful",
@@ -673,13 +693,11 @@ export default function IdeasPage() {
                   onChange={(e) => setKidsAge(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-black/50 border border-gray-700 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 >
-                  <option value="Baby (0-2 yrs)">Baby (0-2 yrs)</option>
-                  <option value="Toddler (2-4 yrs)">Toddler (2-4 yrs)</option>
-                  <option value="Child (5-8 yrs)">Child (5-8 yrs)</option>
-                  <option value="Teenager (13-17 yrs)">Teenager (13-17 yrs)</option>
-                  <option value="Young Adult (18-24 yrs)">Young Adult (18-24 yrs)</option>
-                  <option value="Adult (25-50 yrs)">Adult (25-50 yrs)</option>
-                  <option value="Elderly (60+ yrs)">Elderly (60+ yrs)</option>
+                  {KIDS_AGE_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
                 </select>
               </div>
 
