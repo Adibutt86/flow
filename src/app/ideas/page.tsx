@@ -113,6 +113,7 @@ interface SavedIdea {
   createdAt: string;
   isFavorite?: boolean;
   videoFileName?: string;
+  aiModel?: string;
 }
 
 interface IdeasPageSettings {
@@ -154,6 +155,16 @@ export default function IdeasPage() {
   };
 
   const initialSettings = getInitialSettings();
+
+  const getModelBadgeLabel = (modelId?: string) => {
+    if (!modelId) return "Claude 3.7 Sonnet";
+    if (modelId === "claude-3-7-sonnet-20250219") return "Claude 3.7 Sonnet";
+    if (modelId === "claude-3-5-sonnet-20241022") return "Claude 3.5 Sonnet";
+    if (modelId === "claude-3-5-haiku-20241022") return "Claude 3.5 Haiku";
+    if (modelId === "claude-3-haiku-20240307") return "Claude 3 Haiku";
+    if (modelId === "gemini-2.5-flash" || modelId.startsWith("gemini")) return "Gemini 2.5 Flash";
+    return modelId;
+  };
 
   // Generation controls
   const [category, setCategory] = useState<CategoryId>(initialSettings.category || "FUNNY");
@@ -351,7 +362,7 @@ export default function IdeasPage() {
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to optimize idea");
       }
-      setOptimizedData(data.optimized);
+      setOptimizedData({ ...data.optimized, modelUsed: aiModel });
       setActiveSceneTab(1);
       showToast("Idea optimized successfully!", "success");
     } catch (e: any) {
@@ -389,6 +400,7 @@ export default function IdeasPage() {
           visualStyle,
           createdAt: new Date().toISOString(),
           videoFileName,
+          aiModel: aiModel || "claude-3-7-sonnet-20250219",
         };
       });
       
@@ -508,9 +520,15 @@ export default function IdeasPage() {
 
           {optimizedData && (
             <div className="mt-6 space-y-4 pt-6 border-t border-gray-800">
-              <h3 className="text-lg font-bold text-emerald-400">
-                {optimizedData.title}
-              </h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-bold text-emerald-400">
+                  {optimizedData.title}
+                </h3>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                  <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
+                  <span>{(optimizedData as any).modelUsed ? getModelBadgeLabel((optimizedData as any).modelUsed) : getModelBadgeLabel(aiModel)}</span>
+                </span>
+              </div>
               
               <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
                 {optimizedData.scenes.map((scene) => (
@@ -1086,6 +1104,10 @@ export default function IdeasPage() {
                       </span>
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30">
                         {idea.visualStyle}
+                      </span>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
+                        <span>{getModelBadgeLabel(idea.aiModel)}</span>
                       </span>
 
                       {/* Unique Video Filename Badge & Inline Editor */}
