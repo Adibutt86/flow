@@ -425,22 +425,11 @@ Return ONLY a valid JSON array of 1 string containing the full prompt:
     }
   }
 
-  // Category-specific fallback with complete 9:16 format header and HOOK/ESCALATION/PUNCHLINE breakdown
-  if (input.category === "PUNJABI_JOKE" || input.language === "Punjabi") {
-    return [
-      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, vibrant green Punjab village field setting with bright sunny morning light. A funny 3D character in traditional turban and kurta sits on a wooden charpai with a cup of chai. HOOK (0-3s): He taps his smartphone screen confusedly and shouts in Roman Punjabi — 'Oye Siri! Khet vich paani la de te Bhangra play kar!' ESCALATION (3-7s): Camera zooms in as his phone responds in a robotic voice, causing him to dramatically spill his tea in mid-air with wide shocked eyes. PUNCHLINE (7-10s): He jumps off the charpai doing a hilarious clumsy Bhangra step as his tractor horn honks by itself — freeze frame on his funny face, high-energy Punjabi dhol music playing. No text, no logos, no overlays.`
-    ];
-  }
-
-  if (input.category === "HINDI_JOKE" || input.language === "Hindi" || input.language === "Urdu" || input.language === "Roman Urdu") {
-    return [
-      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, cozy warm living room setting with soft golden lighting. A super adorable toddler girl (2-3 years old) wearing a fluffy pastel pink pajama onesie sits on a soft carpet holding a toy. HOOK (0-3s): The little girl leans in with wide sparkling eyes and asks in an innocent squeaky Urdu voice — 'ابو... چپس کہاں گئے؟' tilting her head with adorable seriousness. ESCALATION (3-7s): Camera slowly pushes in as she dramatically points at the empty plate with a big gasp — 'تحقیقات جاری ہیں!' PUNCHLINE (7-10s): The little girl bursts into a contagious giggling fit, falling sideways onto the cushion — freeze frame on her giggling face. Soft bouncy background music, light xylophone melody. No text, no logos, no overlays.`
-    ];
-  }
-
-  return [
-    `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n10-second high-quality ${input.visualStyle || "3D cartoon animation"}, vibrant cinematic environment with warm studio lighting. A cute expressive character in stylish casual attire. HOOK (0-3s): Character steps into frame with wide excited eyes, delivering a quick opening line. ESCALATION (3-7s): Dynamic camera push-in highlighting exaggerated facial expressions and funny physical reactions. PUNCHLINE (7-10s): Hilarious comedic resolution ending on a heartwarming freeze frame with energetic background music. No text, no logos, no overlays.`
-  ];
+  throw new ValidationError({
+    success: false,
+    stage: "Idea Suggestion Generator",
+    reason: lastError?.message || "API is not working. Please check your API key or model permissions.",
+  });
 }
 
 export async function regenerateSingleSceneWithClaude(
@@ -714,6 +703,9 @@ STRICT DIALOGUE STYLE & LANGUAGE RULES:
     }
   }
 
-  if (isEnglish) return 'Dad: "Where did the chips go?"\nKid: "Investigation ongoing!"';
-  return isPunjabi ? 'Papaji: "Oye Banta! Eh ki kar ditta!"\nBanta: "Papaji, aape hi ho gaya!"' : 'ابو: "چپس کہاں گئے؟"\nبچہ: "تحقیقات جاری ہیں!"';
+  throw new ValidationError({
+    success: false,
+    stage: "Dialogue Suggestion Generator",
+    reason: "API is not working. Please check your API key or model permissions.",
+  });
 }
