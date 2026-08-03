@@ -112,7 +112,6 @@ const CHARACTER_SETUP_OPTIONS = [
 
 const AI_MODEL_OPTIONS = [
   { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Best Quality)", badge: "Best Quality" },
-  { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash (Free API)", badge: "Free API" },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -170,9 +169,7 @@ export default function IdeasPage() {
   const initialSettings = getInitialSettings();
 
   const getModelBadgeLabel = (modelId?: string) => {
-    if (!modelId || modelId.startsWith("claude")) return "Claude 3.7 Sonnet";
-    if (modelId === "gemini-2.5-flash" || modelId.startsWith("gemini")) return "Gemini 2.5 Flash";
-    return modelId;
+    return "Claude 3.7 Sonnet";
   };
 
   // Generation controls
@@ -181,11 +178,7 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
-  const [aiModel, setAiModel] = useState<string>(
-    initialSettings.aiModel && initialSettings.aiModel.startsWith("gemini")
-      ? "gemini-2.5-flash"
-      : "claude-3-7-sonnet-20250219"
-  );
+  const [aiModel, setAiModel] = useState<string>("claude-3-7-sonnet-20250219");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 

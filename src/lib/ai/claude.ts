@@ -1,5 +1,4 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import {
   GenerateProjectInput,
@@ -319,49 +318,7 @@ export async function generateIdeaSuggestionsWithClaude(
 ): Promise<string[]> {
   const categoryConfig = getCategoryConfig(input.category);
 
-  // 1. GEMINI MODEL ROUTING (IF SELECTED)
-  if (input.aiModel && input.aiModel.startsWith("gemini")) {
-    const geminiApiKey = process.env.GEMINI_API_KEY;
-    if (geminiApiKey) {
-      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      const promptText = `You are an expert cinematic AI video prompt writer for short-form video models (Google Flow, VEO, Sora).
-Generate EXACTLY 1 highly creative video concept idea strictly tailored to:
-Category: ${categoryConfig.name} (${input.category})
-Language: ${input.language}
-Visual Style: ${input.visualStyle}
-${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
-${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : ""}
-${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
-${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
-
-STRICT LANGUAGE DIRECTIVES:
-${input.language === "English" ? "All generated text, scene ideas, and spoken dialogue MUST be written 100% strictly in standard clear English. NO Hindi/Urdu/Punjabi words." : "Write dialogue in authentic Roman " + input.language}
-
-Return ONLY a valid JSON array of 1 string:
-[ "Idea description..." ]`;
-
-      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
-        try {
-          const res = await ai.models.generateContent({
-            model: gModel,
-            contents: promptText,
-            config: { responseMimeType: "application/json", temperature: 0.95 },
-          });
-          const cleaned = cleanJsonResponse(res.text || "");
-          const parsed = JSON.parse(cleaned);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed.map(String);
-          } else if (typeof parsed === "string") {
-            return [parsed];
-          }
-        } catch (gErr) {
-          console.warn(`Gemini model ${gModel} suggestion failed, trying next:`, gErr);
-        }
-      }
-    }
-  }
-
-  // 2. CLAUDE MODEL ROUTING
+  // CLAUDE MODEL ROUTING
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new ValidationError({
@@ -501,47 +458,6 @@ Return ONLY a valid JSON array of 1 string:
     } catch (err: any) {
       console.warn(`Claude (${modelName}) idea suggestion error:`, err?.message || err);
       lastError = err;
-    }
-  }
-
-  // Automatic Gemini Fallback if Claude API calls encounter errors (e.g. 404 model not found)
-  const geminiApiKey = process.env.GEMINI_API_KEY;
-  if (geminiApiKey) {
-    try {
-      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      const promptText = `You are an expert cinematic AI video prompt writer for short-form video models (Google Flow, VEO, Sora).
-Generate EXACTLY 1 highly creative video concept idea strictly tailored to:
-Category: ${categoryConfig.name} (${input.category})
-Language: ${input.language}
-Visual Style: ${input.visualStyle}
-${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
-${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : ""}
-${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
-${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
-
-Return ONLY a valid JSON array of 1 string:
-[ "Idea description..." ]`;
-
-      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
-        try {
-          const res = await ai.models.generateContent({
-            model: gModel,
-            contents: promptText,
-            config: { responseMimeType: "application/json", temperature: 0.95 },
-          });
-          const cleaned = cleanJsonResponse(res.text || "");
-          const parsed = JSON.parse(cleaned);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed.map(String);
-          } else if (typeof parsed === "string") {
-            return [parsed];
-          }
-        } catch (gErr) {
-          console.warn(`Gemini fallback model ${gModel} failed:`, gErr);
-        }
-      }
-    } catch (gErr) {
-      console.warn("Gemini fallback attempt failed:", gErr);
     }
   }
 
@@ -796,38 +712,6 @@ export async function generateDialogueSuggestionWithClaude(input: {
   const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
   const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
-
-  // Gemini Option
-  if (input.aiModel && input.aiModel.startsWith("gemini")) {
-    const geminiApiKey = process.env.GEMINI_API_KEY;
-    if (geminiApiKey) {
-      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      const promptText = `You are an expert comedic/dramatic script dialogue writer for 10-second short video clips.
-Generate a natural, witty dialogue line or short 2-character exchange matching this style:
-- Category: ${input.category}
-- Language: ${input.language}
-${input.customIdea ? `- Concept: "${input.customIdea}"` : ""}
-${input.existingDialogue ? `- Existing Script Context: "${input.existingDialogue}"` : ""}
-${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
-
-STRICT RULE:
-${isEnglish ? "Write strictly in natural English (e.g. Dad: \"Where did the chips go?\" \\n Kid: \"Investigation ongoing!\")." : "Match the exact script style. If Urdu, write in authentic conversational Urdu or Roman Urdu (e.g. ابو: \"چپس کہاں گئے؟\" \\n بچہ: \"تحقیقات جاری ہیں!\")."}
-Return ONLY the dialogue text with no extra intro/outro text.`;
-
-      for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
-        try {
-          const res = await ai.models.generateContent({
-            model: gModel,
-            contents: promptText,
-          });
-          const text = (res.text || "").trim().replace(/^["']|["']$/g, "").trim();
-          if (text) return text;
-        } catch (gErr) {
-          console.warn(`Gemini dialogue generator (${gModel}) error:`, gErr);
-        }
-      }
-    }
-  }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
