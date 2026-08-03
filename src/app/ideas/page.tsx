@@ -112,6 +112,9 @@ const CHARACTER_SETUP_OPTIONS = [
 
 const AI_MODEL_OPTIONS = [
   { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Best Quality)", badge: "Best Quality" },
+  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Balanced)", badge: "Balanced" },
+  { id: "claude-3-5-haiku-20241022", label: "Claude 3.5 Haiku (Fastest)", badge: "Fastest" },
+  { id: "claude-3-haiku-20240307", label: "Claude 3 Haiku (Lowest Cost)", badge: "Lowest Cost" },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -169,7 +172,12 @@ export default function IdeasPage() {
   const initialSettings = getInitialSettings();
 
   const getModelBadgeLabel = (modelId?: string) => {
-    return "Claude 3.7 Sonnet";
+    if (!modelId) return "Claude 3.7 Sonnet";
+    if (modelId === "claude-3-7-sonnet-20250219") return "Claude 3.7 Sonnet";
+    if (modelId === "claude-3-5-sonnet-20241022") return "Claude 3.5 Sonnet";
+    if (modelId === "claude-3-5-haiku-20241022") return "Claude 3.5 Haiku";
+    if (modelId === "claude-3-haiku-20240307") return "Claude 3 Haiku";
+    return modelId;
   };
 
   // Generation controls
@@ -178,7 +186,7 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
-  const [aiModel, setAiModel] = useState<string>("claude-3-7-sonnet-20250219");
+  const [aiModel, setAiModel] = useState<string>(initialSettings.aiModel || "claude-3-7-sonnet-20250219");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 

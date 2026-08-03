@@ -331,11 +331,12 @@ export async function generateIdeaSuggestionsWithClaude(
 
   let lastError: any = null;
 
-  const modelsToTry = [
+  const modelsToTry = Array.from(new Set([
+    ...(input.aiModel ? [input.aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
     "claude-3-sonnet-20240229",
-  ];
+  ]));
 
   for (const modelName of modelsToTry) {
     try {
@@ -656,11 +657,12 @@ Return ONLY a valid JSON object matching this exact structure:
   ]
 }`;
 
-  const modelsToTry = [
+  const modelsToTry = Array.from(new Set([
+    ...(aiModel ? [aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
     "claude-3-sonnet-20240229",
-  ];
+  ]));
 
   for (const modelName of modelsToTry) {
     try {
@@ -706,11 +708,12 @@ export async function generateDialogueSuggestionWithClaude(input: {
     });
   }
 
-  const modelsToTry = [
+  const modelsToTry = Array.from(new Set([
+    ...(input.aiModel ? [input.aiModel] : []),
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
     "claude-3-sonnet-20240229",
-  ];
+  ]));
 
   for (const modelName of modelsToTry) {
     try {
