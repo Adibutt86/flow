@@ -17,7 +17,9 @@ import {
 import { getCategoryConfig } from "../categories/index";
 
 const CLAUDE_MODELS = [
-  "claude-haiku-4-5"
+  "claude-3-7-sonnet-20250219",
+  "claude-3-5-sonnet-20241022",
+  "claude-3-5-haiku-20241022",
 ];
 
 function cleanJsonResponse(text: string): string {
@@ -377,7 +379,6 @@ Return ONLY a valid JSON array of 1 string:
     "claude-3-7-sonnet-20250219",
     "claude-3-5-sonnet-20241022",
     "claude-3-5-haiku-20241022",
-    "claude-3-haiku-20240307",
   ]));
 
   for (const modelName of modelsToTry) {
