@@ -56,6 +56,30 @@ export default function IdeasPage() {
   const [videoDuration, setVideoDuration] = useState<number>(8);
   const [customDialogue, setCustomDialogue] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
+
+  const handleSuggestDialogue = async () => {
+    if (category === "CARBOX") return;
+    setIsSuggestingDialogue(true);
+    try {
+      const res = await fetch("/api/suggest-dialogue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category, language, customIdea, kidsAge, kidsHealth }),
+      });
+      const data = await res.json();
+      if (data.success && data.dialogue) {
+        setCustomDialogue(data.dialogue);
+        showToast("Generated AI dialogue suggestion!", "success");
+      } else {
+        throw new Error(data.error || "Failed to suggest dialogue");
+      }
+    } catch (err: any) {
+      showToast(err?.message || "Failed to suggest dialogue", "error");
+    } finally {
+      setIsSuggestingDialogue(false);
+    }
+  };
   
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState("Toddler (2-4 yrs)");
@@ -412,15 +436,30 @@ export default function IdeasPage() {
             {/* Custom Spoken Dialogue Input Box */}
             {category !== "CARBOX" && (
               <div className="space-y-1.5 md:col-span-4">
-                <label className="text-xs font-semibold text-amber-300 flex items-center justify-between">
-                  <span>💬 Custom Spoken Dialogue (Optional)</span>
-                  <span className="text-[10px] text-gray-400 font-normal">Default: Auto-generated funny Urdu dialogue</span>
-                </label>
+                <div className="flex items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-amber-300 flex items-center gap-1.5">
+                    <span>💬 Custom Spoken Dialogue (Optional)</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleSuggestDialogue}
+                    disabled={isSuggestingDialogue}
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-medium text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                    title="Generate a short, natural dialogue line with AI"
+                  >
+                    {isSuggestingDialogue ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                    ) : (
+                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    )}
+                    {isSuggestingDialogue ? "Suggesting..." : "✨ Suggest AI Dialogue"}
+                  </button>
+                </div>
                 <input
                   type="text"
                   value={customDialogue}
                   onChange={(e) => setCustomDialogue(e.target.value)}
-                  placeholder='e.g. "Abey sun! Ye cake mera hai, tu side pe ho ja!"'
+                  placeholder='e.g. "Abey sun! Ye cake mera hai, tu side pe ho ja!" (Or click Suggest AI Dialogue)'
                   className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-amber-500/40 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition-colors"
                 />
               </div>

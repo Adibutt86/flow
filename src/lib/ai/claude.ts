@@ -646,3 +646,61 @@ Return ONLY a valid JSON object matching this exact structure:
 
   throw new Error("Failed to optimize idea. AI returned invalid format or failed.");
 }
+
+export async function generateDialogueSuggestionWithClaude(input: {
+  category: string;
+  language: string;
+  customIdea?: string;
+  kidsAge?: string;
+  kidsHealth?: string;
+}): Promise<string> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new ValidationError({
+      success: false,
+      stage: "API Configuration",
+      reason: "ANTHROPIC_API_KEY environment variable is missing.",
+    });
+  }
+
+  const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
+  const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
+
+  for (const modelName of ["claude-3-7-sonnet-20250219", "claude-3-5-sonnet-20241022", "claude-sonnet-4-6"]) {
+    try {
+      const anthropic = new Anthropic({ apiKey });
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 256,
+        messages: [
+          {
+            role: "user",
+            content: `You are an expert dialogue writer for 10-second viral short video clips.
+Generate ONE short, natural, hilarious or dramatic dialogue line tailored to:
+- Category: ${input.category}
+- Language: ${input.language}
+${input.customIdea ? `- Video Concept: "${input.customIdea}"` : ""}
+${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
+${input.kidsHealth ? `- Character Vibe: ${input.kidsHealth}` : ""}
+
+STRICT DIALOGUE RULES:
+1. Length: Short and punchy under 10-12 words (must easily fit within a 10-second video duration).
+2. Language: If Language is "${input.language}", write in authentic, expressive ${isPunjabi ? "Roman Punjabi (e.g. 'Oye paji! Eh ki kar ditta!')" : isUrdu ? "Roman Urdu / Desi Hindi (e.g. 'Abey sun! Ye cake mera hai!')" : input.language}.
+3. Tone: Matches the category's style, humor, or emotion with great comedic timing.
+4. Output Format: Return ONLY the exact dialogue line inside quotes, with NO explanations, NO character prefixes, and NO bullet points.`,
+          },
+        ],
+      });
+
+      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      const cleaned = text.trim().replace(/^["']|["']$/g, "").trim();
+      if (cleaned) {
+        return cleaned;
+      }
+    } catch (err: any) {
+      console.warn(`Claude dialogue suggestion error (${modelName}):`, err?.message || err);
+    }
+  }
+
+  return isPunjabi ? "Oye paji! Eh ki kar ditta tussi!" : "Abey sun! Ye mera ilaka hai!";
+}
