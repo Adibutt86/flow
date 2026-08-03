@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useToast } from "@/components/ui/Toast";
 import { CATEGORIES } from "@/lib/categories";
@@ -216,6 +216,9 @@ interface IdeasPageSettings {
 
 export default function IdeasPage() {
   const { showToast } = useToast();
+
+  const savedIdeasSectionRef = useRef<HTMLDivElement>(null);
+  const customIdeaOptimizerRef = useRef<HTMLDivElement>(null);
 
   // Load saved settings from localStorage on initial render
   const getInitialSettings = (): IdeasPageSettings => {
@@ -502,6 +505,9 @@ export default function IdeasPage() {
       setOptimizedData({ ...data.optimized, modelUsed: aiModel });
       setActiveSceneTab(1);
       showToast("Idea optimized successfully!", "success");
+      setTimeout(() => {
+        customIdeaOptimizerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
     } catch (e: any) {
       showToast(e.message || "Failed to optimize idea", "error");
     } finally {
@@ -543,8 +549,13 @@ export default function IdeasPage() {
       
       const updated = [...newIdeas, ...savedIdeas];
       saveToStorage(updated);
+      setFilterCategory("ALL");
+      setCurrentPage(1);
       
       showToast(`Generated and saved ${data.ideas.length} idea!`, "success");
+      setTimeout(() => {
+        savedIdeasSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
     } catch (e: any) {
       showToast(e.message || "Failed to generate ideas", "error");
     } finally {
@@ -654,7 +665,7 @@ export default function IdeasPage() {
         </div>
 
         {/* Custom Idea Optimizer Section */}
-        <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-emerald-500/20 shadow-xl backdrop-blur-xl space-y-5">
+        <div ref={customIdeaOptimizerRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-emerald-500/20 shadow-xl backdrop-blur-xl space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2.5">
               <span className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
@@ -1198,7 +1209,7 @@ export default function IdeasPage() {
         </div>
 
         {/* Saved Ideas Section */}
-        <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-slate-800/80 shadow-xl backdrop-blur-xl space-y-5">
+        <div ref={savedIdeasSectionRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-slate-800/80 shadow-xl backdrop-blur-xl space-y-5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <span>Saved Ideas ({filteredIdeas.length})</span>
