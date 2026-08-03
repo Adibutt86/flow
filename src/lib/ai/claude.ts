@@ -752,21 +752,32 @@ export async function generateDialogueSuggestionWithClaude(input: {
   category: string;
   language: string;
   customIdea?: string;
+  existingDialogue?: string;
   kidsAge?: string;
   kidsHealth?: string;
   aiModel?: string;
 }): Promise<string> {
+  const isEnglish = input.language === "English";
+  const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
+  const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
+
   // Gemini Option
   if (input.aiModel && input.aiModel.startsWith("gemini")) {
     const geminiApiKey = process.env.GEMINI_API_KEY;
     if (geminiApiKey) {
       const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      const promptText = `You are an expert dialogue writer for 10-second viral short video clips.
-Generate ONE short, natural, hilarious dialogue line under 10 words.
-Language: ${input.language}
-Category: ${input.category}
-${input.customIdea ? `Concept: "${input.customIdea}"` : ""}
-Return ONLY the dialogue inside quotes.`;
+      const promptText = `You are an expert comedic/dramatic script dialogue writer for 10-second short video clips.
+Generate a natural, witty dialogue line or short 2-character exchange matching this style:
+- Category: ${input.category}
+- Language: ${input.language}
+${input.customIdea ? `- Concept: "${input.customIdea}"` : ""}
+${input.existingDialogue ? `- Existing Script Context: "${input.existingDialogue}"` : ""}
+${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
+
+STRICT RULE:
+${isEnglish ? "Write strictly in natural English (e.g. Dad: \"Where did the chips go?\" \\n Kid: \"Investigation ongoing!\")." : "Match the exact script style. If Urdu, write in authentic conversational Urdu or Roman Urdu (e.g. ابو: \"چپس کہاں گئے؟\" \\n بچہ: \"تحقیقات جاری ہیں!\")."}
+Return ONLY the dialogue text with no extra intro/outro text.`;
+
       for (const gModel of ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]) {
         try {
           const res = await ai.models.generateContent({
@@ -791,10 +802,6 @@ Return ONLY the dialogue inside quotes.`;
     });
   }
 
-  const isEnglish = input.language === "English";
-  const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
-  const isUrdu = input.language === "Urdu" || input.language === "Roman Urdu" || input.category === "HINDI_JOKE";
-
   const modelsToTry = Array.from(new Set([
     ...(input.aiModel && input.aiModel.startsWith("claude") ? [input.aiModel] : []),
     "claude-3-7-sonnet-20250219",
@@ -811,19 +818,23 @@ Return ONLY the dialogue inside quotes.`;
         messages: [
           {
             role: "user",
-            content: `You are an expert dialogue writer for 10-second viral short video clips.
-Generate ONE short, natural, hilarious or dramatic dialogue line tailored to:
+            content: `You are an expert script dialogue writer for 10-second viral short video clips (Google Flow).
+Generate a natural, witty, highly engaging dialogue line or short 2-character exchange tailored to:
 - Category: ${input.category}
 - Language: ${input.language}
 ${input.customIdea ? `- Video Concept: "${input.customIdea}"` : ""}
+${input.existingDialogue ? `- Current Script Context: "${input.existingDialogue}"` : ""}
 ${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
 ${input.kidsHealth ? `- Character Vibe: ${input.kidsHealth}` : ""}
 
-STRICT DIALOGUE RULES:
-1. Length: Short and punchy under 10-12 words (must easily fit within a 10-second video duration).
-2. Language: If Language is "English", write strictly in clear, natural English (e.g. "Hey! Stop right there, that's mine!"). If Language is "${input.language}", write in authentic, expressive ${isEnglish ? "English" : isPunjabi ? "Roman Punjabi (e.g. 'Oye paji! Eh ki kar ditta!')" : isUrdu ? "Roman Urdu / Desi Hindi (e.g. 'Abey sun! Ye cake mera hai!')" : input.language}.
-3. Tone: Matches the category's style, humor, or emotion with great comedic timing.
-4. Output Format: Return ONLY the exact dialogue line inside quotes, with NO explanations, NO character prefixes, and NO bullet points.`,
+STRICT DIALOGUE STYLE & LANGUAGE RULES:
+1. Match the exact tone, comedic style, and language format of the current script context.
+2. If Language is "English", write strictly in clear, natural English (e.g. Dad: "Where did the chips go?" \\n Kid: "Investigation ongoing!").
+3. If Language is "Urdu" or "Roman Urdu":
+   - Write in authentic, hilarious Urdu script (e.g. ابو: "چپس کہاں گئے؟" \\n بچہ: "تحقیقات جاری ہیں!") or Roman Urdu (e.g. Abu: "Chips kahan gaye?" \\n Bachha: "Taqeeqat jaari hain!").
+4. If Language is "Punjabi", write in authentic Roman Punjabi (e.g. Papaji: "Oye Banta! Eh ki kar ditta!" \\n Banta: "Papaji, aape hi ho gaya!").
+5. Keep it punchy, funny, and realistic for short video clips under 12 words per speaker.
+6. Output Format: Return ONLY the exact dialogue text with NO extra intro/outro explanations or markdown wrapping.`,
           },
         ],
       });
@@ -838,6 +849,6 @@ STRICT DIALOGUE RULES:
     }
   }
 
-  if (isEnglish) return "Hey, watch out! That cake belongs to me!";
-  return isPunjabi ? "Oye paji! Eh ki kar ditta tussi!" : "Abey sun! Ye mera ilaka hai!";
+  if (isEnglish) return 'Dad: "Where did the chips go?"\nKid: "Investigation ongoing!"';
+  return isPunjabi ? 'Papaji: "Oye Banta! Eh ki kar ditta!"\nBanta: "Papaji, aape hi ho gaya!"' : 'ابو: "چپس کہاں گئے؟"\nبچہ: "تحقیقات جاری ہیں!"';
 }

@@ -20,19 +20,35 @@ import {
   Search,
   RotateCcw,
   ArrowUpDown,
+  Bookmark,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
 const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
 const VISUAL_STYLES = [
-  "3D Cartoon",
   "3D Cartoon Style",
-  "Anime",
-  "Realistic",
-  "Watercolor",
-  "Comic Book",
-  "Dark Fantasy",
-  "Retro 80s",
+  "3D Pixar Animation",
+  "3D Disney Animation",
+  "Claymation 3D",
+  "Photorealistic 8K Cinematic",
+  "Realistic ASMR Commercial",
+  "Hyper-Realistic CGI",
+  "Anime (Shonen / Modern)",
+  "Studio Ghibli Anime",
+  "Chibi Anime Style",
+  "Comic Book & Graphic Novel",
+  "Vintage 90s Cartoon",
+  "Retro 80s Synthwave",
+  "Cyberpunk Neon",
+  "Soft Pastel Watercolor",
+  "Oil Painting Masterpiece",
+  "Paper Cutout Art",
+  "Low Poly 3D World",
+  "Isometric 3D Architecture",
+  "Dark Fantasy & Eerie Glow",
+  "Noir Vintage Film",
+  "Vector Flat Art Animation",
+  "Pencil Sketch & Charcoal",
 ];
 
 const KIDS_AGE_OPTIONS = [
@@ -168,7 +184,7 @@ export default function IdeasPage() {
   const [category, setCategory] = useState<CategoryId>(initialSettings.category || "FUNNY");
   const [language, setLanguage] = useState(initialSettings.language || "Urdu");
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
-  const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 8);
+  const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
   const [aiModel, setAiModel] = useState<string>(
     initialSettings.aiModel && initialSettings.aiModel !== "claude-3-haiku-20240307"
@@ -178,6 +194,58 @@ export default function IdeasPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
 
+  // Saved Dialogues
+  interface SavedDialogueItem {
+    id: string;
+    text: string;
+    createdAt: string;
+  }
+
+  const [savedDialogues, setSavedDialogues] = useState<SavedDialogueItem[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("flow-saved-dialogues");
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error("Error reading saved dialogues", e);
+      }
+    }
+    return [];
+  });
+
+  const saveDialoguesToStorage = (dialogues: SavedDialogueItem[]) => {
+    setSavedDialogues(dialogues);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("flow-saved-dialogues", JSON.stringify(dialogues));
+    }
+  };
+
+  const handleSaveDialogue = () => {
+    if (!customDialogue.trim()) {
+      showToast("Please enter or generate a dialogue to save first.", "error");
+      return;
+    }
+    const newItem: SavedDialogueItem = {
+      id: Date.now().toString() + Math.random().toString(36).slice(2, 6),
+      text: customDialogue.trim(),
+      createdAt: new Date().toISOString(),
+    };
+    const updated = [newItem, ...saveDialoguesToStorage(savedDialogues)];
+    saveDialoguesToStorage([newItem, ...savedDialogues]);
+    showToast("Spoken dialogue saved for future reuse!", "success");
+  };
+
+  const handleDeleteSavedDialogue = (id: string) => {
+    const updated = savedDialogues.filter((d) => d.id !== id);
+    saveDialoguesToStorage(updated);
+    showToast("Deleted saved dialogue.", "info");
+  };
+
+  const handleUseSavedDialogue = (text: string) => {
+    setCustomDialogue(text);
+    showToast("Loaded saved dialogue into input field!", "success");
+  };
+
   const handleSuggestDialogue = async () => {
     if (category === "CARBOX") return;
     setIsSuggestingDialogue(true);
@@ -185,7 +253,15 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-dialogue", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, customIdea, kidsAge, kidsHealth, aiModel }),
+        body: JSON.stringify({
+          category,
+          language,
+          customIdea,
+          existingDialogue: customDialogue,
+          kidsAge,
+          kidsHealth,
+          aiModel,
+        }),
       });
       const data = await res.json();
       if (data.success && data.dialogue) {
@@ -288,7 +364,7 @@ export default function IdeasPage() {
     setCategory("FUNNY");
     setLanguage("Urdu");
     setVisualStyle("3D Cartoon Style");
-    setVideoDuration(8);
+    setVideoDuration(10);
     setCustomDialogue("");
     setKidsAge("Toddler (2-4 yrs)");
     setKidsHealth("Cheerful & Energetic");
@@ -679,6 +755,15 @@ export default function IdeasPage() {
                       <>
                         <button
                           type="button"
+                          onClick={handleSaveDialogue}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 border border-indigo-700/50 text-xs font-medium text-indigo-200 transition-all cursor-pointer active:scale-95"
+                          title="Save dialogue for future reuse"
+                        >
+                          <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                          <span>Save</span>
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => handleCopy(customDialogue, "custom-dialogue-input")}
                           className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-xs font-medium text-gray-200 transition-all cursor-pointer active:scale-95"
                           title="Copy spoken dialogue"
@@ -709,7 +794,7 @@ export default function IdeasPage() {
                       onClick={handleSuggestDialogue}
                       disabled={isSuggestingDialogue}
                       className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-medium text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
-                      title="Generate a short, natural dialogue line with AI"
+                      title="Generate a short, natural dialogue line matching current script style"
                     >
                       {isSuggestingDialogue ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
@@ -720,16 +805,59 @@ export default function IdeasPage() {
                     </button>
                   </div>
                 </div>
+
                 <textarea
                   value={customDialogue}
                   onChange={(e) => setCustomDialogue(e.target.value)}
                   dir={isRtl ? "rtl" : "ltr"}
                   rows={3}
-                  placeholder='e.g. "Abey sun! Ye cake mera hai, tu side pe ho ja!" (Or click Suggest AI Dialogue)'
+                  placeholder='e.g. Abu: "Chips kahan gaye?" \n Bachha: "Taqeeqat jaari hain!" (Or click Suggest AI Dialogue)'
                   className={`w-full px-3.5 py-3 rounded-xl bg-black/50 border border-amber-500/40 text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition-colors resize-y ${
                     isRtl ? "text-right leading-relaxed font-sans" : "text-left"
                   }`}
                 />
+
+                {/* Saved Dialogues List */}
+                {savedDialogues.length > 0 && (
+                  <div className="mt-3 p-3.5 rounded-xl bg-black/40 border border-indigo-500/20 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-indigo-300 flex items-center gap-1.5">
+                        <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                        Saved Dialogues ({savedDialogues.length})
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto pt-1">
+                      {savedDialogues.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-900/80 border border-gray-800 text-xs text-gray-200"
+                        >
+                          <span
+                            dir={language === "Urdu" || language === "Punjabi" ? "rtl" : "ltr"}
+                            className="truncate max-w-[200px] sm:max-w-xs font-medium"
+                          >
+                            {item.text}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleUseSavedDialogue(item.text)}
+                            className="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-[10px] transition-all cursor-pointer"
+                          >
+                            Use
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSavedDialogue(item.id)}
+                            className="p-0.5 text-gray-400 hover:text-rose-400 transition-colors cursor-pointer"
+                            title="Delete saved dialogue"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
