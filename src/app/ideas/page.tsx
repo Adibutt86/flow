@@ -26,6 +26,7 @@ import {
   MessageSquare,
   Maximize2,
   Minimize2,
+  X,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -74,6 +75,96 @@ const KIDS_AGE_OPTIONS = [
   "Young Adult (18-24 yrs)",
   "Adult & Child Combo (Mixed Ages)",
   "Family (All Ages)",
+];
+
+const KIDS_AGE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Babies & Toddlers (0-4 yrs)",
+    options: [
+      { value: "Newborn (0-6 mos)", label: "Newborn (0-6 mos)", desc: "Tiny newborn baby, soft blankets, gentle baby coos." },
+      { value: "Infant (6-12 mos)", label: "Infant (6-12 mos)", desc: "Crawling infant, cute giggles, exploring toys." },
+      { value: "Baby (1-2 yrs)", label: "Baby (1-2 yrs)", desc: "Wobbly first steps, adorable babbling, cute chubby cheeks." },
+      { value: "Early Toddler (1.5-2.5 yrs)", label: "Early Toddler (1.5-2.5 yrs)", desc: "Bouncy, curious toddler learning new words." },
+      { value: "Toddler (2-4 yrs)", label: "Toddler (2-4 yrs)", desc: "High-energy, playful toddler full of innocent mischief." },
+    ],
+  },
+  {
+    category: "Little Kids & Preschoolers (3-9 yrs)",
+    options: [
+      { value: "Little Kids (3-5 yrs)", label: "Little Kids (3-5 yrs)", desc: "Playful preschooler with big expressive eyes & innocent humor." },
+      { value: "Preschooler (4-5 yrs)", label: "Preschooler (4-5 yrs)", desc: "Curious kid asking funny 'why' questions." },
+      { value: "Child (5-8 yrs)", label: "Child (5-8 yrs)", desc: "School-age child with playful personality and colorful outfits." },
+      { value: "School Age (6-9 yrs)", label: "School Age (6-9 yrs)", desc: "Smart school kid with backpack and fun story ideas." },
+    ],
+  },
+  {
+    category: "Pre-Teens & Mixed Ages (9+ yrs)",
+    options: [
+      { value: "Pre-Teen (9-12 yrs)", label: "Pre-Teen (9-12 yrs)", desc: "Growing pre-teen with fun hobbies and friends." },
+      { value: "Tween (10-12 yrs)", label: "Tween (10-12 yrs)", desc: "Cool tween with trendy style." },
+      { value: "Teenager (13-17 yrs)", label: "Teenager (13-17 yrs)", desc: "Young teen in casual everyday clothes." },
+      { value: "Adult & Child Combo (Mixed Ages)", label: "Adult & Child Combo", desc: "Heartwarming parent and child interaction." },
+      { value: "Family (All Ages)", label: "Family (All Ages)", desc: "Multi-generational family with kids, parents, and grandparents." },
+    ],
+  },
+];
+
+const CUTE_KIDS_PRESETS = [
+  {
+    icon: "⚡",
+    title: "Desi Pind Toddler",
+    age: "Toddler (2-4 yrs)",
+    location: "Desi Village & Punjabi Pind",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+  },
+  {
+    icon: "💖",
+    title: "Cozy Baby & Mom",
+    age: "Baby (1-2 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Happy & Healthy",
+    vibe: "Cute & Playful",
+    setup: "Girl + Mother",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+  },
+  {
+    icon: "🍦",
+    title: "Toddler Duo Ice Cream",
+    age: "Toddler (2-4 yrs)",
+    location: "Ice Cream Shop",
+    health: "Healthy",
+    vibe: "Silly Kid",
+    setup: "One Girl & One Boy",
+    perScene: "2 Characters",
+    nationality: "Global / Any",
+  },
+  {
+    icon: "🏫",
+    title: "School Friends",
+    age: "Child (5-8 yrs)",
+    location: "Desi Primary School Classroom",
+    health: "Healthy & Active",
+    vibe: "Happy Explorer",
+    setup: "Two Kids (Friends)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+  },
+  {
+    icon: "🎤",
+    title: "Cute Qawwal Duo",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Boy & Girl Qawwal Duo",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+  },
 ];
 
 export interface OptionWithDesc {
@@ -716,30 +807,39 @@ interface CustomSelectProps {
   badgeTitle?: string;
 }
 
-function CustomSelect({ label, value, onChange, groups }: CustomSelectProps) {
+function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  // Lock body scroll when selector modal is open on mobile
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 100);
+    } else {
+      document.body.style.overflow = "";
+      setSearchQuery("");
+      setSelectedCategoryFilter("ALL");
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 50);
-    } else {
-      setSearchQuery("");
-    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
   let selectedOption: OptionWithDesc | undefined;
@@ -752,9 +852,14 @@ function CustomSelect({ label, value, onChange, groups }: CustomSelectProps) {
   }
 
   const selectedLabel = selectedOption ? selectedOption.label : value;
+  const selectedDesc = selectedOption ? selectedOption.desc : "";
 
+  // Filter options by search query & category filter
   const filteredGroups = groups
     .map((group) => {
+      if (selectedCategoryFilter !== "ALL" && group.category !== selectedCategoryFilter) {
+        return { ...group, options: [] };
+      }
       const filteredOptions = group.options.filter((opt) => {
         const q = searchQuery.toLowerCase().trim();
         if (!q) return true;
@@ -771,91 +876,193 @@ function CustomSelect({ label, value, onChange, groups }: CustomSelectProps) {
   const totalFilteredCount = filteredGroups.reduce((acc, g) => acc + g.options.length, 0);
 
   return (
-    <div className={`space-y-1.5 relative ${isOpen ? "z-50" : "z-10"}`} ref={containerRef}>
-      <label className="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
-        <span>{label}</span>
+    <div className="space-y-1.5 w-full">
+      <label className="text-[11px] sm:text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+        <span className="flex items-center gap-1.5">
+          {icon && <span>{icon}</span>}
+          <span>{label}</span>
+        </span>
       </label>
 
-      {/* Trigger Button with fixed h-11 height */}
+      {/* Main Touch-Friendly Field Trigger Card */}
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-11 px-3.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-xs sm:text-sm text-white font-semibold flex items-center justify-between cursor-pointer transition-colors shadow-md text-left touch-manipulation active:scale-[0.99]"
+        onClick={() => setIsOpen(true)}
+        className="w-full p-3 sm:p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-left transition-all shadow-md touch-manipulation active:scale-[0.98] group flex flex-col justify-between gap-1 min-h-[58px]"
       >
-        <span className="truncate pr-2 leading-none">{selectedLabel}</span>
-        <ChevronDown className={`w-4 h-4 text-indigo-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+        <div className="flex items-center justify-between gap-2 w-full">
+          <span className="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition-colors truncate">
+            {selectedLabel}
+          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300">
+              Change
+            </span>
+            <ChevronDown className="w-4 h-4 text-indigo-400 group-hover:translate-y-0.5 transition-transform" />
+          </div>
+        </div>
+        {selectedDesc && (
+          <p className="text-[11px] text-slate-400 truncate w-full font-normal">
+            {selectedDesc}
+          </p>
+        )}
       </button>
 
-      {/* Custom Floating Open Menu with Search */}
+      {/* FULL-SCREEN / BOTTOM-SHEET TOUCH SELECTOR MODAL */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 z-[99999] w-full rounded-2xl bg-[#080b13] border border-indigo-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.85)] max-h-72 sm:max-h-80 overflow-hidden flex flex-col font-sans backdrop-blur-2xl">
-          {/* Search Bar Header */}
-          <div className="p-2 border-b border-indigo-500/20 bg-[#080b12] sticky top-0 z-20 flex items-center gap-2">
-            <Search className="w-3.5 h-3.5 text-indigo-400 shrink-0 ml-1" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`Search ${label.toLowerCase()}...`}
-              className="w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none font-medium py-1"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="text-[10px] text-slate-400 hover:text-white px-1 font-bold cursor-pointer"
-              >
-                ✕
-              </button>
-            )}
-          </div>
+        <div className="fixed inset-0 z-[999999] flex flex-col justify-end sm:justify-center bg-black/80 backdrop-blur-md p-0 sm:p-4 animate-in fade-in duration-200">
+          {/* Backdrop Click */}
+          <div className="absolute inset-0 -z-10" onClick={() => setIsOpen(false)} />
 
-          {/* Filtered Options List */}
-          <div className="overflow-y-auto p-2 space-y-2 overscroll-contain scrollbar-thin scrollbar-thumb-indigo-500/40 max-h-60">
-            {totalFilteredCount === 0 ? (
-              <div className="p-4 text-center text-xs text-slate-400 font-medium">
-                No matching options for &quot;{searchQuery}&quot;
-              </div>
-            ) : (
-              filteredGroups.map((group, groupIdx) => (
-                <div key={groupIdx} className="space-y-1">
-                  <div className="px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-indigo-400 border-b border-indigo-500/20 sticky top-0 bg-[#0b0e17] z-10">
-                    {group.category}
-                  </div>
-                  <div className="space-y-1">
-                    {group.options.map((opt) => {
-                      const isSelected = opt.value === value;
-                      return (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          onClick={() => {
-                            onChange(opt.value);
-                            setIsOpen(false);
-                          }}
-                          className={`w-full text-left px-3 py-2.5 rounded-xl transition-colors flex flex-col cursor-pointer select-none ${
-                            isSelected
-                              ? "bg-indigo-600/30 border border-indigo-500/60 text-white shadow-sm"
-                              : "hover:bg-indigo-950/70 active:bg-indigo-900/50 hover:text-white border border-transparent"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white gap-2">
-                            <span className="leading-tight">{opt.label}</span>
-                            {isSelected && <Check className="w-4 h-4 text-indigo-400 shrink-0" />}
-                          </div>
-                          {opt.desc && (
-                            <p className="text-[11px] text-indigo-200/80 leading-relaxed font-normal mt-0.5">
-                              {opt.desc}
-                            </p>
-                          )}
-                        </button>
-                      );
-                    })}
+          <div
+            ref={containerRef}
+            className="w-full sm:max-w-2xl sm:mx-auto h-[92vh] sm:h-[85vh] max-h-[92vh] rounded-t-3xl sm:rounded-3xl bg-[#080b14] border border-indigo-500/40 shadow-2xl flex flex-col overflow-hidden relative font-sans"
+          >
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b border-indigo-500/20 bg-[#0c101d] sticky top-0 z-30 space-y-3">
+              {/* Mobile handle */}
+              <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto sm:hidden -mt-1 mb-1" />
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl sm:text-2xl">{icon || "✨"}</span>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-white leading-tight">
+                      Select {label}
+                    </h3>
+                    <p className="text-[11px] sm:text-xs text-indigo-300/80 font-medium">
+                      Current: <span className="text-white font-bold">{selectedLabel}</span>
+                    </p>
                   </div>
                 </div>
-              ))
-            )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 sm:p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer active:scale-95 shrink-0"
+                  title="Close option selector"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Search Bar */}
+              <div className="relative flex items-center">
+                <Search className="w-4 h-4 text-indigo-400 absolute left-3.5 pointer-events-none" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={`Search ${label.toLowerCase()} options...`}
+                  className="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-black/70 border border-indigo-500/30 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 font-medium"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 p-1 text-xs text-slate-400 hover:text-white font-bold cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Category Filter Pills (Horizontal Scroll) */}
+              {groups.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar scroll-smooth">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategoryFilter("ALL")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      selectedCategoryFilter === "ALL"
+                        ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/30"
+                        : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+                    }`}
+                  >
+                    All ({groups.reduce((acc, g) => acc + g.options.length, 0)})
+                  </button>
+                  {groups.map((g) => (
+                    <button
+                      key={g.category}
+                      type="button"
+                      onClick={() => setSelectedCategoryFilter(g.category)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                        selectedCategoryFilter === g.category
+                          ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/30"
+                          : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+                      }`}
+                    >
+                      {g.category} ({g.options.length})
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Scrollable Options Area */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-5 overscroll-contain scrollbar-thin scrollbar-thumb-indigo-500/40 pb-36 sm:pb-8">
+              {totalFilteredCount === 0 ? (
+                <div className="p-8 text-center text-sm text-slate-400 font-medium space-y-3">
+                  <p>No matching options for &quot;{searchQuery}&quot;</p>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold"
+                  >
+                    Clear Search
+                  </button>
+                </div>
+              ) : (
+                filteredGroups.map((group, groupIdx) => (
+                  <div key={groupIdx} className="space-y-2.5">
+                    <div className="px-3 py-2 text-xs font-extrabold uppercase tracking-wider text-indigo-400 border-b border-indigo-500/20 sticky top-0 bg-[#080b14]/95 backdrop-blur-md z-10 flex items-center justify-between">
+                      <span>{group.category}</span>
+                      <span className="text-[10px] text-indigo-300/70 font-medium">
+                        {group.options.length} options
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {group.options.map((opt) => {
+                        const isSelected = opt.value === value;
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => {
+                              onChange(opt.value);
+                              setIsOpen(false);
+                            }}
+                            className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all flex flex-col justify-between cursor-pointer select-none touch-manipulation active:scale-[0.98] ${
+                              isSelected
+                                ? "bg-gradient-to-r from-indigo-950/90 to-slate-900/90 border-2 border-indigo-500 text-white shadow-xl shadow-indigo-500/20 ring-1 ring-indigo-500/50"
+                                : "bg-slate-900/60 border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900 text-slate-200"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <span className="text-xs sm:text-sm font-bold text-white leading-tight">
+                                {opt.label}
+                              </span>
+                              {isSelected && (
+                                <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                                  <Check className="w-3.5 h-3.5" />
+                                </div>
+                              )}
+                            </div>
+                            {opt.desc && (
+                              <p className="text-[11px] sm:text-xs text-indigo-200/80 leading-relaxed font-normal mt-1.5">
+                                {opt.desc}
+                              </p>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -1052,6 +1259,17 @@ export default function IdeasPage() {
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
   const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
   const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
+
+  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0]) => {
+    setKidsAge(preset.age);
+    setKidsLocation(preset.location);
+    setKidsHealth(preset.health);
+    setKidsVibe(preset.vibe);
+    setCharacterSetup(preset.setup);
+    setCharactersPerScene(preset.perScene);
+    setKidsNationality(preset.nationality);
+    showToast(`Applied "${preset.title}" preset!`, "success");
+  };
   
   const isRtl = language === "Urdu" || language === "Punjabi";
   
@@ -1785,38 +2003,56 @@ export default function IdeasPage() {
           {/* Cute Kids Options */}
           {category === "CUTE_KIDS" && (
             <div className="p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 space-y-5 shadow-xl relative z-30">
-              <div className="flex items-center justify-between border-b border-indigo-500/20 pb-3">
-                <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
-                  Cute Kids Generator Parameters
-                </span>
-                <span className="text-[10px] text-indigo-300/70 font-semibold px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-500/20 hidden sm:inline">
-                  Interactive Presets & Parameters
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/20 pb-3 gap-2">
+                <div>
+                  <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+                    Cute Kids Generator Parameters (Mobile Optimized)
+                  </span>
+                  <p className="text-[11px] text-slate-400 font-normal mt-0.5">
+                    Tap any option below to open a full-screen, touch-friendly bottom selector for fast navigation on Android.
+                  </p>
+                </div>
+                <span className="text-[10px] text-indigo-300/80 font-semibold px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-500/20 self-start sm:self-auto">
+                  Touch-Friendly Selectors
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {/* 1. Characters Age */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
-                    <span>Characters Age</span>
-                  </label>
-                  <select
-                    value={kidsAge}
-                    onChange={(e) => setKidsAge(e.target.value)}
-                    className="w-full h-11 px-3.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-xs sm:text-sm text-white font-semibold cursor-pointer transition-colors shadow-md"
-                  >
-                    {KIDS_AGE_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-[#0c0f18] text-slate-100 font-medium">
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
+              {/* One-Tap Mobile Presets Bar */}
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
+                <span className="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  One-Tap Mobile Presets
+                </span>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {CUTE_KIDS_PRESETS.map((preset) => (
+                    <button
+                      key={preset.title}
+                      type="button"
+                      onClick={() => applyCuteKidsPreset(preset)}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-500/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation"
+                    >
+                      <span>{preset.icon}</span>
+                      <span>{preset.title}</span>
+                    </button>
+                  ))}
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* 1. Characters Age */}
+                <CustomSelect
+                  label="Characters Age"
+                  icon="👶"
+                  value={kidsAge}
+                  onChange={setKidsAge}
+                  groups={KIDS_AGE_GROUPS}
+                />
 
                 {/* 2. Scene Location */}
                 <CustomSelect
                   label="Scene Location"
+                  icon="📍"
                   value={kidsLocation}
                   onChange={setKidsLocation}
                   groups={KIDS_LOCATION_GROUPS}
@@ -1825,6 +2061,7 @@ export default function IdeasPage() {
                 {/* 3. Kids Health */}
                 <CustomSelect
                   label="Kids Health"
+                  icon="❤️"
                   value={kidsHealth}
                   onChange={setKidsHealth}
                   groups={KIDS_HEALTH_GROUPS}
@@ -1833,6 +2070,7 @@ export default function IdeasPage() {
                 {/* 4. Kids Vibe */}
                 <CustomSelect
                   label="Kids Vibe"
+                  icon="✨"
                   value={kidsVibe}
                   onChange={setKidsVibe}
                   groups={KIDS_VIBE_GROUPS}
@@ -1841,6 +2079,7 @@ export default function IdeasPage() {
                 {/* 5. Character Setup */}
                 <CustomSelect
                   label="Character Setup"
+                  icon="👥"
                   value={characterSetup}
                   onChange={setCharacterSetup}
                   groups={CHARACTER_SETUP_GROUPS}
@@ -1850,6 +2089,7 @@ export default function IdeasPage() {
                 <div className="space-y-1.5">
                   <CustomSelect
                     label="Characters Per Scene"
+                    icon="🔢"
                     value={charactersPerScene}
                     onChange={setCharactersPerScene}
                     groups={CHARACTERS_PER_SCENE_GROUPS}
@@ -1868,6 +2108,7 @@ export default function IdeasPage() {
                 {/* 7. Nationality */}
                 <CustomSelect
                   label="Nationality / Culture"
+                  icon="🌍"
                   value={kidsNationality}
                   onChange={setKidsNationality}
                   groups={KIDS_NATIONALITY_GROUPS}
