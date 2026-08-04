@@ -2657,9 +2657,41 @@ export default function IdeasPage() {
                         </div>
                       </div>
 
+                      {/* Social Media Content — Prominent CTA when not yet generated */}
+                      {!idea.socialContent && (
+                        <div className="mt-4 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-950/50 via-indigo-950/40 to-black/60 shadow-xl overflow-hidden">
+                          <button
+                            onClick={() => handleGenerateSocial(idea)}
+                            disabled={generatingSocialId === idea.id}
+                            className="w-full flex flex-col items-center justify-center gap-3 py-6 px-4 text-center active:scale-[0.98] transition-transform disabled:opacity-60 cursor-pointer"
+                          >
+                            <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-500/50 shadow-lg">
+                              {generatingSocialId === idea.id ? (
+                                <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+                              ) : (
+                                <Share2 className="w-6 h-6 text-blue-400" />
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-sm font-extrabold text-blue-200 tracking-wide">
+                                {generatingSocialId === idea.id ? "Generating Social Assets…" : "📣 Generate Social Media Titles & Assets"}
+                              </p>
+                              <p className="text-[11px] text-blue-400/80 mt-0.5">
+                                YouTube Shorts · Facebook Reels · TikTok · IG · Hashtags · Trending Tags
+                              </p>
+                            </div>
+                            {generatingSocialId !== idea.id && (
+                              <span className="px-5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition-colors">
+                                Tap to Generate
+                              </span>
+                            )}
+                          </button>
+                        </div>
+                      )}
+
                       {/* Social Media Content Display Box */}
                       {idea.socialContent && (
-                        <div className="mt-4 p-4.5 rounded-2xl bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-black/50 border border-blue-500/40 space-y-4 w-full shadow-xl font-sans">
+                        <div className="mt-4 p-4 rounded-2xl bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-black/50 border border-blue-500/40 space-y-4 w-full shadow-xl font-sans">
                           <div className="flex items-center justify-between border-b border-blue-500/20 pb-3 flex-wrap gap-2">
                             <div className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-blue-300 uppercase tracking-wider">
                               <Share2 className="w-4 h-4 text-blue-400" />
