@@ -24,6 +24,8 @@ import {
   Bookmark,
   Share2,
   MessageSquare,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -924,6 +926,7 @@ export default function IdeasPage() {
   const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
+  const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [aiModel, setAiModel] = useState<string>(
     initialSettings.aiModel && ["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(initialSettings.aiModel)
       ? initialSettings.aiModel
@@ -1699,6 +1702,15 @@ export default function IdeasPage() {
                     )}
                     <button
                       type="button"
+                      onClick={() => setIsDialogueExpanded(!isDialogueExpanded)}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                      title={isDialogueExpanded ? "Collapse to normal height" : "Expand field height for large script view"}
+                    >
+                      {isDialogueExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                      <span>{isDialogueExpanded ? "Collapse" : "Expand"}</span>
+                    </button>
+                    <button
+                      type="button"
                       onClick={handleSuggestDialogue}
                       disabled={isSuggestingDialogue}
                       className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm"
@@ -1718,10 +1730,10 @@ export default function IdeasPage() {
                   value={customDialogue}
                   onChange={(e) => setCustomDialogue(e.target.value)}
                   dir={isRtl ? "rtl" : "ltr"}
-                  rows={3}
+                  rows={isDialogueExpanded ? 8 : 4}
                   placeholder='e.g. Abu: "Chips kahan gaye?" \n Bachha: "Taqeeqat jaari hain!" (Or click Suggest AI Dialogue)'
-                  className={`w-full px-4 py-3 rounded-xl bg-black/60 border border-amber-500/40 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all resize-y ${
-                    isRtl ? "text-right leading-relaxed font-sans" : "text-left"
+                  className={`w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner ${
+                    isRtl ? "text-right leading-relaxed tracking-wide font-sans" : "text-left leading-relaxed font-sans"
                   }`}
                 />
 
@@ -2281,7 +2293,7 @@ export default function IdeasPage() {
 
                         <div
                           dir={isRtl ? "rtl" : "ltr"}
-                          className={`p-3 rounded-xl bg-black/70 border border-amber-500/30 text-xs sm:text-sm text-amber-100 font-medium leading-relaxed ${
+                          className={`p-4 rounded-xl bg-black/80 border border-amber-500/40 text-base sm:text-lg font-bold text-amber-100 leading-relaxed tracking-wide ${
                             isRtl ? "text-right" : "text-left"
                           }`}
                         >
@@ -2624,8 +2636,8 @@ export default function IdeasPage() {
                 value={editedScriptText}
                 onChange={(e) => setEditedScriptText(e.target.value)}
                 dir={scriptModalIdea.language === "Urdu" || scriptModalIdea.language === "Punjabi" ? "rtl" : "ltr"}
-                rows={5}
-                className="w-full p-3.5 rounded-xl bg-black/70 border border-indigo-500/30 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all leading-relaxed font-sans"
+                rows={6}
+                className="w-full p-4 rounded-xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/20 transition-all leading-relaxed tracking-wide font-sans overflow-y-auto custom-scrollbar resize-y shadow-inner"
               />
             </div>
 
