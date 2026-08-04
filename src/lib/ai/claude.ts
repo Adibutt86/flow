@@ -368,13 +368,15 @@ ${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
 ${input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
 ${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType}` : ""}
+${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
 ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: ${input.carboxBackground}` : ""}
 ${
   (input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
-  (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue))
+  (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue)) ||
+  (input.seriousDialogueStyle === "Poetic/Shayari")
     ? `
 SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
 1. Setting: Traditional Mushaira Mehfil stage setting with Gao Takiya bolster cushions, brass microphone, and warm ambient lighting.
@@ -659,6 +661,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
   characterSetup?: string;
   charactersPerScene?: string;
   aiModel?: string;
+  seriousDialogueStyle?: string;
 }): Promise<string> {
   const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
@@ -691,7 +694,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
           {
             role: "user",
             content: `You are an expert script dialogue writer for 10-second viral short video clips (Google Flow).
-Generate a natural, witty, highly engaging dialogue line or short 2-character exchange tailored to:
+Generate a natural, witty, or deeply expressive dialogue line tailored to:
 - Category: ${input.category}
 - Language: ${input.language}
 ${input.customIdea ? `- Video Concept: "${input.customIdea}"` : ""}
@@ -702,18 +705,18 @@ ${input.kidsHealth ? `- Character Health: ${input.kidsHealth}` : ""}
 ${input.kidsVibe ? `- Character Vibe: ${input.kidsVibe}` : ""}
 ${input.characterSetup ? `- Character Setup: ${input.characterSetup}` : ""}
 ${input.charactersPerScene ? `- Characters Per Scene: ${input.charactersPerScene}` : ""}
+${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `- Serious Dialogue Style: "${input.seriousDialogueStyle}" (Craft deeply focused ${input.seriousDialogueStyle} speech; avoid slapstick comedic jokes)` : ""}
 
 STRICT DIALOGUE STYLE & LANGUAGE RULES:
-1. Match the exact tone, comedic style, and language format of the current script context.
-2. If Language is "English", write strictly in clear, natural English (e.g. Dad: "Where did the chips go?" \\n Kid: "Investigation ongoing!").
+1. Match the exact tone and language format of the current script context.
+2. If Language is "English", write strictly in clear, natural English.
 3. If Language is "Urdu" or "Roman Urdu":
-   - Write in authentic, hilarious Urdu script (e.g. ابو: "چپس کہاں گئے؟" \\n بچہ: "تحقیقات جاری ہیں!") or Roman Urdu (e.g. Abu: "Chips kahan gaye?" \\n Bachha: "Taqeeqat jaari hain!").
-4. If Language is "Punjabi", write in authentic Roman Punjabi (e.g. Papaji: "Oye Banta! Eh ki kar ditta!" \\n Banta: "Papaji, aape hi ho gaya!").
-5. Keep it punchy, funny, and realistic for short video clips under 12 words per speaker.
-6. SHAYARI / MUSHAIRA MANDATE: If Shayar or Mushaira is requested, write a witty, hilarious, or charming 2-line Shayari (Sher-o-Shayari in Urdu/Hindi script or Roman script). Format the recitation with natural audience reactions in parentheses, e.g.:
+   - Write in authentic Urdu script or Roman Urdu.
+4. If Language is "Punjabi", write in authentic Roman Punjabi.
+5. Keep it punchy, expressive, and realistic for short video clips under 15 words per speaker.
+6. SHAYARI / MUSHAIRA MANDATE: If Shayar or Poetic/Shayari is requested, write a charming 2-line Shayari (Sher-o-Shayari in Urdu/Hindi script or Roman script). Format the recitation with natural audience reactions in parentheses, e.g.:
    Shayar Kid: "Aap ke aane se mehfil mein bahaar aayi hai!"
    Audience: "(Wah Wah! Wah Wah! Irshad!)"
-   Shayar Kid: "Warna hum to samjhe thay ke light chali gayi hai!"
 7. Output Format: Return ONLY the exact dialogue text with NO extra intro/outro explanations or markdown wrapping.`,
           },
         ],

@@ -512,6 +512,59 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+const SERIOUS_DIALOGUE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Default Tone",
+    options: [
+      { value: "None", label: "None (Default)", desc: "Use normal dialogue style (humorous, casual, or standard)." },
+    ],
+  },
+  {
+    category: "Emotional & Heartfelt",
+    options: [
+      { value: "Emotional", label: "Emotional", desc: "Heartfelt, touching, and deeply emotional dialogue." },
+      { value: "Sad", label: "Sad", desc: "Emotional, reflective, and sorrowful conversation." },
+      { value: "Heartbroken", label: "Heartbroken", desc: "Deep emotional pain, betrayal, or sense of loss." },
+    ],
+  },
+  {
+    category: "Motivational & Uplifting",
+    options: [
+      { value: "Motivational", label: "Motivational", desc: "Inspiring, confidence-building, and uplifting speech." },
+      { value: "Inspirational", label: "Inspirational", desc: "Positive messages encouraging hope and perseverance." },
+      { value: "Self-Confidence", label: "Self-Confidence", desc: "Bold, fearless, and empowering statements." },
+      { value: "Success Mindset", label: "Success Mindset", desc: "Focused on ambition, discipline, and achievement." },
+    ],
+  },
+  {
+    category: "Moral & Philosophical",
+    options: [
+      { value: "Life Lesson", label: "Life Lesson", desc: "Dialogue with a meaningful moral or life lesson." },
+      { value: "Wise", label: "Wise", desc: "Mature advice with thoughtful and philosophical insights." },
+      { value: "Reality Check", label: "Reality Check", desc: "Honest, direct, and eye-opening dialogue." },
+      { value: "Islamic Reminder", label: "Islamic Reminder", desc: "Respectful Islamic advice and reminders with an appropriate tone." },
+    ],
+  },
+  {
+    category: "Dramatic & Intense",
+    options: [
+      { value: "Dramatic", label: "Dramatic", desc: "Intense, cinematic, and suspenseful dialogue." },
+      { value: "Angry", label: "Angry", desc: "Strong, frustrated, and powerful expressions." },
+      { value: "Respectful", label: "Respectful", desc: "Calm, polite, and dignified conversation." },
+      { value: "Patriotic", label: "Patriotic", desc: "Dialogue expressing love, pride, and dedication to the country." },
+    ],
+  },
+  {
+    category: "Storytelling & Speech Formats",
+    options: [
+      { value: "Narration Style", label: "Narration Style", desc: "A storytelling voiceover rather than direct conversation." },
+      { value: "Speech Style", label: "Speech Style", desc: "Written like a public speech or motivational address." },
+      { value: "Monologue", label: "Monologue", desc: "The character speaks continuously to themselves or the audience." },
+      { value: "Poetic/Shayari", label: "Poetic/Shayari", desc: "Dialogue written with poetic expressions and shayari." },
+    ],
+  },
+];
+
 const AI_MODEL_OPTIONS = [
   { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
   { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
@@ -533,6 +586,7 @@ interface SavedIdea {
   aiModel?: string;
   customDialogue?: string;
   musicType?: string;
+  seriousDialogueStyle?: string;
   socialContent?: {
     title: string;
     shortsTitle?: string;
@@ -808,6 +862,7 @@ interface IdeasPageSettings {
   currentPage?: number;
   aiModel?: string;
   musicType?: string;
+  seriousDialogueStyle?: string;
 }
 
 export default function IdeasPage() {
@@ -942,6 +997,7 @@ export default function IdeasPage() {
           characterSetup,
           charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
           aiModel,
+          seriousDialogueStyle,
         }),
       });
       const data = await res.json();
@@ -968,6 +1024,7 @@ export default function IdeasPage() {
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
   const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
+  const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
   
   const isRtl = language === "Urdu" || language === "Punjabi";
   
@@ -1026,6 +1083,7 @@ export default function IdeasPage() {
         currentPage,
         aiModel,
         musicType,
+        seriousDialogueStyle,
       };
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
     }
@@ -1054,6 +1112,7 @@ export default function IdeasPage() {
     currentPage,
     aiModel,
     musicType,
+    seriousDialogueStyle,
   ]);
 
   const handleResetSettings = () => {
@@ -1071,6 +1130,7 @@ export default function IdeasPage() {
     setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
     setMusicType("None");
+    setSeriousDialogueStyle("None");
     setCarboxBrand("Premium BMW");
     setCarboxColor("Glossy Black");
     setCarboxPackaging("Elegant Retail Box");
@@ -1180,6 +1240,7 @@ export default function IdeasPage() {
           carboxBackground,
           aiModel,
           musicType,
+          seriousDialogueStyle,
         }),
       });
       const data = await res.json();
@@ -1205,6 +1266,7 @@ export default function IdeasPage() {
           aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
+          seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
         };
       });
       
@@ -1550,6 +1612,18 @@ export default function IdeasPage() {
                 onChange={(val) => setMusicType(val)}
                 groups={MUSIC_TYPE_GROUPS}
                 badgeTitle="Music Style"
+              />
+            </div>
+
+            {/* Serious Dialogue Style Dropdown */}
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <CustomSelect
+                label="Serious Dialogue Style"
+                icon="🎭"
+                value={seriousDialogueStyle}
+                onChange={(val) => setSeriousDialogueStyle(val)}
+                groups={SERIOUS_DIALOGUE_GROUPS}
+                badgeTitle="Dialogue Tone"
               />
             </div>
 
@@ -2068,6 +2142,12 @@ export default function IdeasPage() {
                             <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/80 text-rose-300 border border-rose-500/30 flex items-center gap-1">
                               <span>🎵</span>
                               <span>{idea.musicType}</span>
+                            </span>
+                          )}
+                          {idea.seriousDialogueStyle && (
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
+                              <span>🎭</span>
+                              <span>{idea.seriousDialogueStyle}</span>
                             </span>
                           )}
                         </div>

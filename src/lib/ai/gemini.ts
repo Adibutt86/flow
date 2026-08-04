@@ -133,6 +133,7 @@ export interface SuggestIdeasInput {
   carboxBackground?: string;
   aiModel?: string;
   musicType?: string;
+  seriousDialogueStyle?: string;
 }
 
 /**
