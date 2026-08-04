@@ -1570,7 +1570,7 @@ export default function IdeasPage() {
   ]);
 
   const handleResetSettings = () => {
-    setCategory("FUNNY");
+    setCategory("CUTE_KIDS");
     setLanguage("Urdu");
     setVisualStyle("3D Cartoon Style");
     setVideoDuration(10);
