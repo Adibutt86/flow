@@ -128,3 +128,20 @@ model SystemSetting {
   selectedModel String   @default("claude-3-7-sonnet-20250219")
   updatedAt     DateTime @updatedAt
 }
+
+model Idea {
+  id                   String   @id @default(uuid())
+  text                 String
+  category             String
+  language             String
+  visualStyle          String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  isFavorite           Boolean  @default(false)
+  videoFileName        String?
+  aiModel              String?
+  customDialogue       String?
+  musicType            String?
+  seriousDialogueStyle String?
+  socialContent        String?
+}

@@ -1495,13 +1495,23 @@ export default function IdeasPage() {
   const [activeSceneTab, setActiveSceneTab] = useState(1);
 
   // Saved ideas
-  const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("flow-saved-ideas");
-      return stored ? JSON.parse(stored) : [];
-    }
-    return [];
-  });
+  const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>([]);
+  const [isLoadingIdeas, setIsLoadingIdeas] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/ideas")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setSavedIdeas(data.ideas || []);
+        }
+        setIsLoadingIdeas(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch ideas", err);
+        setIsLoadingIdeas(false);
+      });
+  }, []);
 
   // Pagination & Filters
   const [currentPage, setCurrentPage] = useState<number>(initialSettings.currentPage || 1);
@@ -1621,23 +1631,28 @@ export default function IdeasPage() {
     return `${idea.category.toLowerCase()}_${cleanId}`;
   };
 
-  const handleSaveFileName = (id: string) => {
+  const handleSaveFileName = async (id: string) => {
     let formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
     if (!formatted) {
       setEditingFileNameId(null);
       return;
     }
-    const updated = savedIdeas.map((i) =>
+    
+    setSavedIdeas((prev) => prev.map((i) =>
       i.id === id ? { ...i, videoFileName: formatted } : i
-    );
-    saveToStorage(updated);
+    ));
     setEditingFileNameId(null);
-    showToast(`Video name saved as "${formatted}"`, "success");
-  };
 
-  const saveToStorage = (ideas: SavedIdea[]) => {
-    setSavedIdeas(ideas);
-    localStorage.setItem("flow-saved-ideas", JSON.stringify(ideas));
+    try {
+      await fetch(`/api/ideas/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ videoFileName: formatted })
+      });
+      showToast(`Video name saved as "${formatted}"`, "success");
+    } catch (e) {
+      showToast("Failed to save video name", "error");
+    }
   };
 
   const handleOptimize = async () => {
@@ -1702,30 +1717,36 @@ export default function IdeasPage() {
         throw new Error(data.reason || data.error || "Failed to generate ideas");
       }
       
-      const newIdeas: SavedIdea[] = data.ideas.map((text: string) => {
-        const id = Date.now().toString() + Math.random().toString(36).slice(2);
+      const createdIdeas = await Promise.all(data.ideas.map(async (text: string) => {
+        const tempId = Date.now().toString() + Math.random().toString(36).slice(2);
         const cleanBrand = (carboxBrand || "car").toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").slice(0, 12);
-        const cleanId = id.slice(-4);
+        const cleanId = tempId.slice(-4);
         const videoFileName = category === "CARBOX" 
           ? `carbox_${cleanBrand}_${cleanId}`
           : `${category.toLowerCase()}_${cleanId}`;
-        return {
-          id,
+          
+        const ideaData = {
           text,
           category,
           language,
           visualStyle,
-          createdAt: new Date().toISOString(),
           videoFileName,
           aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
         };
-      });
+        
+        const res = await fetch("/api/ideas", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(ideaData),
+        });
+        const ideaRes = await res.json();
+        return ideaRes.idea;
+      }));
       
-      const updated = [...newIdeas, ...savedIdeas];
-      saveToStorage(updated);
+      setSavedIdeas((prev) => [...createdIdeas, ...prev]);
       setFilterCategory("ALL");
       setCurrentPage(1);
       
@@ -1740,16 +1761,33 @@ export default function IdeasPage() {
     }
   };
 
-  const handleDeleteIdea = (id: string) => {
-    const updated = savedIdeas.filter((i) => i.id !== id);
-    saveToStorage(updated);
+  const handleDeleteIdea = async (id: string) => {
+    setSavedIdeas((prev) => prev.filter((i) => i.id !== id));
+    try {
+      await fetch(`/api/ideas/${id}`, { method: "DELETE" });
+    } catch (e) {
+      showToast("Failed to delete idea", "error");
+    }
   };
 
-  const handleToggleFavorite = (id: string) => {
-    const updated = savedIdeas.map((i) => 
-      i.id === id ? { ...i, isFavorite: !i.isFavorite } : i
-    );
-    saveToStorage(updated);
+  const handleToggleFavorite = async (id: string) => {
+    const idea = savedIdeas.find((i) => i.id === id);
+    if (!idea) return;
+    const newStatus = !idea.isFavorite;
+    
+    setSavedIdeas((prev) => prev.map((i) => 
+      i.id === id ? { ...i, isFavorite: newStatus } : i
+    ));
+
+    try {
+      await fetch(`/api/ideas/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isFavorite: newStatus })
+      });
+    } catch (e) {
+      showToast("Failed to update favorite status", "error");
+    }
   };
 
   const handleGenerateSocial = async (idea: SavedIdea) => {
@@ -1771,10 +1809,16 @@ export default function IdeasPage() {
         throw new Error(data.error || "Failed to generate social content");
       }
 
-      const updated = savedIdeas.map((i) =>
+      setSavedIdeas((prev) => prev.map((i) =>
         i.id === idea.id ? { ...i, socialContent: data.social } : i
-      );
-      saveToStorage(updated);
+      ));
+
+      await fetch(`/api/ideas/${idea.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ socialContent: data.social })
+      });
+
       showToast("Facebook social content generated!", "success");
     } catch (e: any) {
       showToast(e.message || "Failed to generate social content", "error");
@@ -2245,17 +2289,34 @@ export default function IdeasPage() {
                   </button>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {CUTE_KIDS_PRESETS.map((preset) => (
-                    <button
-                      key={preset.title}
-                      type="button"
-                      onClick={() => applyCuteKidsPreset(preset)}
-                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-500/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left"
-                    >
-                      <span className="text-base shrink-0">{preset.icon}</span>
-                      <span className="truncate">{preset.title}</span>
-                    </button>
-                  ))}
+                  {CUTE_KIDS_PRESETS.map((preset) => {
+                    const isActive = 
+                      kidsAge === preset.age &&
+                      kidsLocation === preset.location &&
+                      kidsHealth === preset.health &&
+                      kidsVibe === preset.vibe &&
+                      characterSetup === preset.setup &&
+                      charactersPerScene === preset.perScene &&
+                      kidsNationality === preset.nationality &&
+                      (!preset.musicType || musicType === preset.musicType) &&
+                      (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
+                    
+                    return (
+                      <button
+                        key={preset.title}
+                        type="button"
+                        onClick={() => applyCuteKidsPreset(preset)}
+                        className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                          isActive 
+                            ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
+                            : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
+                        }`}
+                      >
+                        <span className="text-base shrink-0">{preset.icon}</span>
+                        <span className="truncate">{preset.title}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

@@ -1,0 +1,69 @@
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function GET() {
+  try {
+    const ideas = await db.idea.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    
+    // Parse JSON string back to object
+    const parsedIdeas = ideas.map((idea) => ({
+      ...idea,
+      socialContent: idea.socialContent ? JSON.parse(idea.socialContent) : undefined,
+    }));
+    
+    return NextResponse.json({ success: true, ideas: parsedIdeas });
+  } catch (error: any) {
+    console.error("GET /api/ideas error:", error);
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to fetch ideas" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const {
+      text,
+      category,
+      language,
+      visualStyle,
+      aiModel,
+      customDialogue,
+      musicType,
+      seriousDialogueStyle,
+      socialContent,
+    } = body;
+
+    const idea = await db.idea.create({
+      data: {
+        text,
+        category,
+        language,
+        visualStyle,
+        aiModel,
+        customDialogue,
+        musicType,
+        seriousDialogueStyle,
+        socialContent: socialContent ? JSON.stringify(socialContent) : null,
+      },
+    });
+
+    return NextResponse.json({ success: true, idea: {
+      ...idea,
+      socialContent: idea.socialContent ? JSON.parse(idea.socialContent) : undefined
+    } });
+  } catch (error: any) {
+    console.error("POST /api/ideas error:", error);
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to save idea" },
+      { status: 500 }
+    );
+  }
+}
