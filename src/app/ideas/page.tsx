@@ -871,9 +871,15 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 100);
+      // Only auto-focus on non-touch devices (desktop) to avoid:
+      // 1. Android Chrome address bar sliding in (white location bar)
+      // 2. Android autofill / credit card suggestions bar appearing
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      if (!isTouchDevice) {
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
+      }
     } else {
       document.body.style.overflow = "";
       setSearchQuery("");
@@ -1004,7 +1010,12 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
                 <Search className="w-4 h-4 text-indigo-400 absolute left-3.5 pointer-events-none" />
                 <input
                   ref={searchInputRef}
-                  type="text"
+                  type="search"
+                  inputMode="search"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={`Search ${label.toLowerCase()} options...`}
