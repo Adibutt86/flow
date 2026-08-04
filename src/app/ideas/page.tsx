@@ -901,6 +901,55 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
+  // Android hardware BACK BUTTON support:
+  // Push a dummy history state when modal opens so the Android back button
+  // triggers popstate (instead of navigating away), which we use to close modal.
+  useEffect(() => {
+    if (!isOpen) return;
+    history.pushState({ customSelectOpen: true }, "");
+    const handlePopState = () => {
+      setIsOpen(false);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isOpen]);
+
+  // Swipe LEFT or swipe DOWN gesture to close the bottom-sheet modal.
+  // Left swipe = Android back gesture (system-level edge swipe)
+  // Down swipe = natural bottom-sheet dismiss gesture
+  useEffect(() => {
+    if (!isOpen) return;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const dx = touchStartX - e.changedTouches[0].clientX; // positive = swipe left
+      const dy = e.changedTouches[0].clientY - touchStartY; // positive = swipe down
+      const THRESHOLD = 70; // px minimum swipe distance
+      if (dx > THRESHOLD || dy > THRESHOLD) {
+        setIsOpen(false);
+        // Pop the history state we pushed so browser history is clean
+        if (history.state?.customSelectOpen) {
+          history.back();
+        }
+      }
+    };
+
+    document.addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isOpen]);
+
   let selectedOption: OptionWithDesc | undefined;
   for (const g of groups) {
     const found = g.options.find((o) => o.value === value);
