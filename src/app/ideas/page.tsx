@@ -120,6 +120,8 @@ const CUTE_KIDS_PRESETS = [
     setup: "One Cute Little Girl",
     perScene: "2 Characters",
     nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Beats & Bhangra",
+    dialogueStyle: "None",
   },
   {
     icon: "💖",
@@ -131,6 +133,8 @@ const CUTE_KIDS_PRESETS = [
     setup: "Girl + Mother",
     perScene: "2 Characters",
     nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "None",
   },
   {
     icon: "🍦",
@@ -142,6 +146,8 @@ const CUTE_KIDS_PRESETS = [
     setup: "One Girl & One Boy",
     perScene: "2 Characters",
     nationality: "Global / Any",
+    musicType: "Kids Nursery Rhymes",
+    dialogueStyle: "None",
   },
   {
     icon: "🏫",
@@ -153,6 +159,8 @@ const CUTE_KIDS_PRESETS = [
     setup: "Two Kids (Friends)",
     perScene: "2 Characters",
     nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "None",
   },
   {
     icon: "🎤",
@@ -164,6 +172,8 @@ const CUTE_KIDS_PRESETS = [
     setup: "Boy & Girl Qawwal Duo",
     perScene: "2 Characters",
     nationality: "Pakistani Punjabi",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "None",
   },
   {
     icon: "🐮",
@@ -175,6 +185,87 @@ const CUTE_KIDS_PRESETS = [
     setup: "Boy Singer + Calf",
     perScene: "2 Characters",
     nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Beats & Bhangra",
+    dialogueStyle: "None",
+  },
+  // ── NEW PRESETS ──────────────────────────────────────────────────────────────
+  {
+    icon: "🎵",
+    title: "Qawali Night",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Romantic",
+    setup: "Boy Qawwali Group (Qawwal Party)",
+    perScene: "3 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🎤",
+    title: "Shayari Mehfil",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Romantic",
+    setup: "Boy & Girl Shayar Duo",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "👦",
+    title: "Single Boy Dialogue",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Boy",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "Monologue",
+  },
+  {
+    icon: "👧",
+    title: "Single Girl Dialogue",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "Monologue",
+  },
+  {
+    icon: "❤️",
+    title: "Miya Biwi",
+    age: "Young Adult (18-24 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Happy & Healthy",
+    vibe: "Romantic",
+    setup: "Husband & Wife (Miya Biwi)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Lo-Fi Chill & Chillhop",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "👬",
+    title: "Two Friends",
+    age: "Child (5-8 yrs)",
+    location: "Desi Dhaba & Roadside Chai Stall",
+    health: "Healthy & Active",
+    vibe: "Silly Kid",
+    setup: "Two Boy Friends (Best Friends)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Funny Comedy Sound Effects",
+    dialogueStyle: "None",
   },
 ];
 
@@ -521,6 +612,9 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Brother & Sister", label: "Brother & Sister", desc: "Heartwarming sibling brother and sister team." },
       { value: "Two Kids (Siblings)", label: "Two Kids (Siblings)", desc: "Two sibling kids playing together." },
       { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
+      { value: "Two Boy Friends (Best Friends)", label: "Two Boy Friends (Best Friends)", desc: "Two best buddy boys laughing, joking, and hanging out together." },
+      { value: "Two Girl Friends (Best Friends)", label: "Two Girl Friends (Best Friends)", desc: "Two best girl friends sharing secrets and having fun." },
+      { value: "Husband & Wife (Miya Biwi)", label: "Husband & Wife (Miya Biwi) ❤️", desc: "A loving husband and wife couple in everyday Desi home scenarios." },
       { value: "Twins", label: "Twins", desc: "Adorable twin kids." },
       { value: "Three Happy Kids", label: "Three Happy Kids", desc: "Trio group of three happy children." },
       { value: "Best Friends", label: "Best Friends", desc: "Inseparable best friends." },
@@ -1381,7 +1475,9 @@ export default function IdeasPage() {
     setCharacterSetup(preset.setup);
     setCharactersPerScene(preset.perScene);
     setKidsNationality(preset.nationality);
-    showToast(`Applied "${preset.title}" preset!`, "success");
+    if (preset.musicType) setMusicType(preset.musicType);
+    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    showToast(`✅ Applied "${preset.title}" preset!`, "success");
   };
   
   const isRtl = language === "Urdu" || language === "Punjabi";
@@ -2132,21 +2228,32 @@ export default function IdeasPage() {
               </div>
 
               {/* One-Tap Mobile Presets Bar */}
-              <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
-                <span className="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  One-Tap Mobile Presets
-                </span>
-                <div className="flex flex-wrap gap-2 pt-1">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    One-Tap Mobile Presets
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleResetSettings}
+                    title="Reset all settings to default values"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                  >
+                    <RotateCcw className="w-3 h-3 text-amber-400" />
+                    <span>Reset</span>
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {CUTE_KIDS_PRESETS.map((preset) => (
                     <button
                       key={preset.title}
                       type="button"
                       onClick={() => applyCuteKidsPreset(preset)}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-500/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation"
+                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-500/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left"
                     >
-                      <span>{preset.icon}</span>
-                      <span>{preset.title}</span>
+                      <span className="text-base shrink-0">{preset.icon}</span>
+                      <span className="truncate">{preset.title}</span>
                     </button>
                   ))}
                 </div>
