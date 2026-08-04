@@ -574,6 +574,21 @@ function getIdeaTrendingTags(idea: SavedIdea): string {
   return `#TrendingReels #ForyouPage #ShortsViral #${cleanCat} #ViralVideo #RelatableHumor`;
 }
 
+function cleanPromptText(text: string): string {
+  if (!text) return "";
+  return text.replace(/^\[FORMAT:[^\]]+\]\s*/gi, "").trim();
+}
+
+function getPrompt916(text: string): string {
+  const cleaned = cleanPromptText(text);
+  return `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${cleaned}`;
+}
+
+function getPrompt169(text: string): string {
+  const cleaned = cleanPromptText(text);
+  return `[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${cleaned}`;
+}
+
 interface CustomSelectProps {
   label: string;
   icon?: string;
@@ -2275,9 +2290,9 @@ export default function IdeasPage() {
                       </button>
 
                       <button
-                        onClick={() => handleCopy(idea.text, `${idea.id}-action-prompt`)}
+                        onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Full Video Prompt / Concept"
+                        title="Copy Clean Video Prompt (Without Format Tag)"
                       >
                         {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
                         <span>Copy Prompt</span>
@@ -2285,7 +2300,7 @@ export default function IdeasPage() {
 
                       {/* 9:16 Mobile Vertical Aspect Ratio Prompt */}
                       <button
-                        onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
+                        onClick={() => handleCopy(getPrompt916(idea.text), `${idea.id}-mobile`)}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
                         title="Copy 9:16 Mobile Vertical Aspect Ratio Prompt"
                       >
@@ -2299,7 +2314,7 @@ export default function IdeasPage() {
 
                       {/* 16:9 Full Widescreen Aspect Ratio Prompt */}
                       <button
-                        onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
+                        onClick={() => handleCopy(getPrompt169(idea.text), `${idea.id}-full`)}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
                         title="Copy 16:9 Full Widescreen Aspect Ratio Prompt"
                       >
