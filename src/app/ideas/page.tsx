@@ -391,6 +391,11 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Singers, Qawwals & Musical Performers",
     options: [
+      { value: "Boy & Girl Singer Duet", label: "Boy & Girl Singer Duet", desc: "Boy singer and girl singer performing a duet together with dual mics on stage." },
+      { value: "Brother & Sister Singer Duet", label: "Brother & Sister Singer Duet", desc: "Heartwarming brother & sister duo singing a duet performance." },
+      { value: "Boy & Girl Qawwal Duo", label: "Boy & Girl Qawwal Duo", desc: "Boy lead Qawwal and girl lead Qawwal singing Sufi Qawwali together." },
+      { value: "Boy & Girl Shayar Duo", label: "Boy & Girl Shayar Duo", desc: "Boy Shayar and girl Shayar reciting Shayari poetry back and forth in a Mushaira." },
+      { value: "Boy & Girl Folk Singers", label: "Boy & Girl Folk Singers", desc: "Boy and girl singing traditional Desi Folk songs together with Dhol & Tumbi." },
       { value: "Child Folk Singer (Desi Folk)", label: "Child Folk Singer (Desi Folk)", desc: "Cute child singing traditional Folk songs with Ektara, Tumbi or Chimta." },
       { value: "Punjabi Folk Singer (Jugni & Tappa)", label: "Punjabi Folk Singer (Jugni & Tappa)", desc: "Energetic Punjabi Folk singer performing Jugni & Tappa with Dhol beats." },
       { value: "Sindhi / Balochi Folk Singer", label: "Sindhi / Balochi Folk Singer", desc: "Soulful Folk singer performing traditional Sindhi/Balochi heritage tunes." },
