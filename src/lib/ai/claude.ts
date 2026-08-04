@@ -361,13 +361,26 @@ Visual Style: ${input.visualStyle}
 ${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
 ${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."}
 ${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
-${input.kidsHealth ? `Kids Health/Vibe: ${input.kidsHealth}` : ""}
+${input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
+${input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
+${input.kidsVibe ? `Kids Vibe/Mood: ${input.kidsVibe}` : ""}
 ${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
 ${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
 ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: ${input.carboxBackground}` : ""}
+${
+  (input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
+  (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue))
+    ? `
+SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
+1. Setting: Traditional Mushaira Mehfil stage setting with Gao Takiya bolster cushions, brass microphone, and warm ambient lighting.
+2. Audio Soundscape: Live background audience reaction with people saying "Wah Wah! Wah Wah!" and "Irshad!" during pauses in the Shayari poetry recitation.
+3. Audio Balance: Audience "Wah Wah!" reactions must be mixed at a natural, warm background volume so they blend in smoothly without overpowering the main spoken voice.`
+    : ""
+}
 
 STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
@@ -639,7 +652,11 @@ export async function generateDialogueSuggestionWithClaude(input: {
   customIdea?: string;
   existingDialogue?: string;
   kidsAge?: string;
+  kidsLocation?: string;
   kidsHealth?: string;
+  kidsVibe?: string;
+  characterSetup?: string;
+  charactersPerScene?: string;
   aiModel?: string;
 }): Promise<string> {
   const isEnglish = input.language === "English";
@@ -679,7 +696,11 @@ Generate a natural, witty, highly engaging dialogue line or short 2-character ex
 ${input.customIdea ? `- Video Concept: "${input.customIdea}"` : ""}
 ${input.existingDialogue ? `- Current Script Context: "${input.existingDialogue}"` : ""}
 ${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
-${input.kidsHealth ? `- Character Vibe: ${input.kidsHealth}` : ""}
+${input.kidsLocation ? `- Scene Location: ${input.kidsLocation}` : ""}
+${input.kidsHealth ? `- Character Health: ${input.kidsHealth}` : ""}
+${input.kidsVibe ? `- Character Vibe: ${input.kidsVibe}` : ""}
+${input.characterSetup ? `- Character Setup: ${input.characterSetup}` : ""}
+${input.charactersPerScene ? `- Characters Per Scene: ${input.charactersPerScene}` : ""}
 
 STRICT DIALOGUE STYLE & LANGUAGE RULES:
 1. Match the exact tone, comedic style, and language format of the current script context.
@@ -688,7 +709,11 @@ STRICT DIALOGUE STYLE & LANGUAGE RULES:
    - Write in authentic, hilarious Urdu script (e.g. ابو: "چپس کہاں گئے؟" \\n بچہ: "تحقیقات جاری ہیں!") or Roman Urdu (e.g. Abu: "Chips kahan gaye?" \\n Bachha: "Taqeeqat jaari hain!").
 4. If Language is "Punjabi", write in authentic Roman Punjabi (e.g. Papaji: "Oye Banta! Eh ki kar ditta!" \\n Banta: "Papaji, aape hi ho gaya!").
 5. Keep it punchy, funny, and realistic for short video clips under 12 words per speaker.
-6. Output Format: Return ONLY the exact dialogue text with NO extra intro/outro explanations or markdown wrapping.`,
+6. SHAYARI / MUSHAIRA MANDATE: If Shayar or Mushaira is requested, write a witty, hilarious, or charming 2-line Shayari (Sher-o-Shayari in Urdu/Hindi script or Roman script). Format the recitation with natural audience reactions in parentheses, e.g.:
+   Shayar Kid: "Aap ke aane se mehfil mein bahaar aayi hai!"
+   Audience: "(Wah Wah! Wah Wah! Irshad!)"
+   Shayar Kid: "Warna hum to samjhe thay ke light chali gayi hai!"
+7. Output Format: Return ONLY the exact dialogue text with NO extra intro/outro explanations or markdown wrapping.`,
           },
         ],
       });
@@ -712,10 +737,32 @@ STRICT DIALOGUE STYLE & LANGUAGE RULES:
 
 export const SocialContentSchema = z.object({
   title: z.string().min(1),
+  shortsTitle: z.string().optional().default(""),
+  reelsTitle: z.string().optional().default(""),
+  tiktokTitle: z.string().optional().default(""),
+  description: z.string().optional().default(""),
   hashtags: z.string().min(1),
+  trendingTags: z.string().optional().default(""),
 });
 
 export type SocialContentOutput = z.infer<typeof SocialContentSchema>;
+
+export function cleanSocialTitle(title: string): string {
+  if (!title) return "";
+  return title
+    .replace(/Like\s*کریں\s*اور\s*دوستوں\s*کے\s*ساتھ\s*Share\s*ضرور\s*کریں!?\s*❤️?/gi, "")
+    .replace(/Like\s*کریں\s*اور\s*Share\s*کریں!?\s*❤️?/gi, "")
+    .replace(/Like\s*کریں\s*اور\s*شیئر\s*کریں!?\s*❤️?/gi, "")
+    .replace(/Like\s*&\s*Share\s*with\s*friends!?\s*❤️?/gi, "")
+    .replace(/-\s*Like\s*&\s*Share!?/gi, "")
+    .replace(/\|?\s*Like\s*&\s*Share!?/gi, "")
+    .replace(/\(?Like\s*&\s*Share\)?/gi, "")
+    .replace(/Like\s*کریں/gi, "")
+    .replace(/Share\s*ضرور\s*کریں/gi, "")
+    .replace(/Share\s*کریں/gi, "")
+    .replace(/👍\s*Like\s*&\s*Share/gi, "")
+    .trim();
+}
 
 export async function generateSocialContentWithClaude(input: {
   ideaText: string;
@@ -741,8 +788,8 @@ export async function generateSocialContentWithClaude(input: {
     "claude-opus-4-6",
   ]));
 
-  const prompt = `You are an expert social media manager for Facebook video pages.
-Generate platform-ready, high-engagement Facebook title and hashtags based on the following short video concept.
+  const prompt = `You are a world-class viral social media strategist for YouTube Shorts, Facebook Reels, TikTok, and Instagram Reels.
+Generate platform-optimized, emoji-rich titles, video description, and trending tags tailored to the following video concept.
 
 Video Concept:
 "${input.ideaText}"
@@ -751,14 +798,26 @@ Category: ${input.category}
 Language: ${input.language}
 Visual Style: ${input.visualStyle || "Standard 3D"}
 
-CRITICAL RULES:
-1. Match the language requested (${input.language}). If Urdu or Punjabi, write natural, catchy Roman or Script text.
-2. Title: A short, catchy, engaging Facebook video title that includes a polite call-to-action asking viewers to Like & Share (e.g., "Awesome Animation! 👍 Like & Share with friends!").
-3. Hashtags: EXACTLY 4 to 5 relevant, high-performing hashtags separated by spaces (DO NOT include more than 5 hashtags).
-4. OUTPUT MUST BE VALID JSON ONLY with this exact structure:
+CRITICAL INDEPENDENT SOCIAL TITLES & TRENDING TAGS MANDATE:
+1. "title": Universal main title (clean, short, catchy, no call-to-actions).
+2. "shortsTitle": Catchy, emoji-rich YouTube Shorts title with high-curiosity hook (e.g. "Wait for the ending! 😱🔥 #Shorts").
+3. "reelsTitle": Engaging, emotional/humorous Facebook Reels title tailored to viral audiences (e.g. "Chintu Ka Naya Karname! 🤣👇").
+4. "tiktokTitle": Energetic TikTok & Instagram Reels trend title with relatable hook (e.g. "When your toddler takes over... 😭💀").
+5. "description": Short 2-line engaging video caption/description.
+6. "hashtags": EXACTLY 4 to 5 core hashtags (e.g. "#FunnyKids #3DAnimation #Shorts #Viral #DesiComedy").
+7. "trendingTags": 6 to 8 trending viral hashtags and growth suggestions (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyShorts #Relatable #ViralVideo").
+
+STRICT RULE: Match language requested (${input.language}). DO NOT include any "Like & Share" or "Subscribe" CTAs in any title.
+
+OUTPUT MUST BE VALID JSON ONLY with this exact structure:
 {
-  "title": "Title here - Like & Share!",
-  "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5"
+  "title": "Universal Main Video Title",
+  "shortsTitle": "🔴 YouTube Shorts: Title Here 😱🔥",
+  "reelsTitle": "📘 FB Reels: Title Here 🤣😭",
+  "tiktokTitle": "🎵 TikTok / IG: Title Here 💀✨",
+  "description": "Short engaging video description...",
+  "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5",
+  "trendingTags": "#TrendingReels #ForyouPage #Shorts #ViralVideo #DesiHumor #ComedyReels"
 }`;
 
   for (const modelName of modelsToTry) {
@@ -766,7 +825,7 @@ CRITICAL RULES:
       const anthropic = new Anthropic({ apiKey });
       const response = await anthropic.messages.create({
         model: modelName,
-        max_tokens: 700,
+        max_tokens: 900,
         messages: [
           {
             role: "user",
@@ -777,7 +836,12 @@ CRITICAL RULES:
 
       const text = response.content[0].type === "text" ? response.content[0].text : "";
       if (text) {
-        return safeJsonParse(text, SocialContentSchema, "Social Content Generator");
+        const parsed = safeJsonParse(text, SocialContentSchema, "Social Content Generator");
+        parsed.title = cleanSocialTitle(parsed.title);
+        if (parsed.shortsTitle) parsed.shortsTitle = cleanSocialTitle(parsed.shortsTitle);
+        if (parsed.reelsTitle) parsed.reelsTitle = cleanSocialTitle(parsed.reelsTitle);
+        if (parsed.tiktokTitle) parsed.tiktokTitle = cleanSocialTitle(parsed.tiktokTitle);
+        return parsed;
       }
     } catch (err: any) {
       console.warn(`Claude social content error (${modelName}):`, err?.message || err);

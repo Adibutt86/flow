@@ -13,6 +13,7 @@ import {
   Lightbulb,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Trash2,
   Heart,
   FileVideo,
@@ -22,6 +23,7 @@ import {
   ArrowUpDown,
   Bookmark,
   Share2,
+  MessageSquare,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -72,209 +74,401 @@ const KIDS_AGE_OPTIONS = [
   "Family (All Ages)",
 ];
 
-const KIDS_HEALTH_GROUPS = [
+export interface OptionWithDesc {
+  value: string;
+  label: string;
+  desc: string;
+}
+
+export interface OptionGroupWithDesc {
+  category: string;
+  options: OptionWithDesc[];
+}
+
+export function getOptionDescription(groups: OptionGroupWithDesc[], currentValue: string): string {
+  for (const g of groups) {
+    const found = g.options.find((o) => o.value === currentValue);
+    if (found) return found.desc;
+  }
+  return "";
+}
+
+// 1. LOCATION OPTIONS
+const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
-    category: "Kids Health & Fitness",
+    category: "Desi (Indian & Pakistani) Locations",
     options: [
-      "Happy Chubby Kid",
-      "Cute Chubby Boy",
-      "Cute Chubby Girl",
-      "Healthy Lifestyle",
-      "Healthy Eating",
-      "Fun Exercise",
-      "Active Play",
-      "Morning Workout",
-      "Dance Challenge",
-      "Fruit Time",
-      "Veggie Challenge",
-      "Water Break",
-      "Family Fitness",
-      "Playground Fun",
-      "Jump Rope Challenge",
-      "Mini Sports Star",
-      "Stretch & Smile",
-      "Feel Strong",
-      "Happy & Healthy",
-      "Kids Fitness",
-      "Tiny Athlete",
-      "Energy Boost",
-      "Healthy & Active",
-      "Healthy Habits",
+      { value: "Desi Village & Punjabi Pind", label: "Desi Village & Pind (پنڈ / गाँव)", desc: "Authentic rural Desi village with green sugarcane fields, mud houses, and wooden charpai." },
+      { value: "Bustling Desi Bazaar & Street Market", label: "Bustling Desi Bazaar (بازار)", desc: "Vibrant local market with colorful spice stalls, bangles, fruits, and rickshaws." },
+      { value: "Traditional Desi Courtyard & Vehra", label: "Desi Courtyard / Vehra (صحن)", desc: "Traditional open-air house courtyard with charpais, clay pots, and potted plants." },
+      { value: "Desi Dhaba & Roadside Chai Stall", label: "Desi Dhaba & Chai Stall (ڈھابہ)", desc: "Outdoor highway dhaba with wooden charpais, steaming hot chai, and samosas." },
+      { value: "House Rooftop Kite Flying (Kotha)", label: "Desi House Rooftop / Kotha (چھت)", desc: "Sunny house rooftop with colorful kites (Patang), festive reels, and city skyline view." },
+      { value: "Desi Halwai & Sweet Shop", label: "Desi Sweet Shop / Halwai (مٹھائی)", desc: "Bustling mithai shop with hot jalebis, gulab jamuns, and samosa trays." },
+      { value: "Mango & Guava Fruit Orchard", label: "Desi Fruit Orchard / Baagh (باغ)", desc: "Lush green fruit orchard with shady mango and guava trees." },
+      { value: "Desi Primary School Classroom", label: "Desi School Classroom (اسکول)", desc: "Desi school classroom with uniform kids, wooden desks, and green chalkboard." },
+      { value: "Desi Mela & Festival Fairground", label: "Desi Mela / Festival (میلہ)", desc: "Festive carnival ground with colorful lights, toy stalls, and giant Ferris wheel." },
     ],
   },
   {
-    category: "Vibes & Moods",
+    category: "Indoor Settings",
     options: [
-      "Cheerful & Energetic",
-      "Cute & Playful",
-      "Happy Explorer",
-      "Sunshine Smile",
-      "Rainbow Adventure",
-      "Confidence Boost",
-      "Big Smiles",
-      "Positive Energy",
-      "Self-Love",
-      "Before School Routine",
-      "Weekend Fun",
+      { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },
+      { value: "Modern Kitchen", label: "Kitchen & Dining", desc: "Clean kitchen with dining table, breakfast snacks, and fruits." },
+      { value: "Colorful Kids Bedroom", label: "Kids Bedroom / Playroom", desc: "Vibrant bedroom with bed, stuffed animals, and storybooks." },
+      { value: "School Classroom", label: "School Classroom", desc: "Learning environment with tiny desks, colorful charts, and chalkboard." },
+      { value: "Daycare & Nursery", label: "Daycare & Nursery", desc: "Safe activity playroom with soft foam blocks and play mats." },
     ],
   },
   {
-    category: "Everyday Styles & Outfits",
+    category: "Outdoor & Nature",
     options: [
-      "Colorful Casual",
-      "Storybook Princess (everyday, not fancy)",
-      "Nature Lover",
-      "Little Dancer",
-      "Mini Gardener",
-      "Cozy Homewear",
-      "Soft Pastel Style",
-      "Sporty Toddler",
+      { value: "Lush Green Park", label: "Park & Garden", desc: "Lush outdoor green grass, flowers, trees, and sunny sky." },
+      { value: "Sunny Playground", label: "Outdoor Playground", desc: "Fun slides, swings, seesaws, and sandbox." },
+      { value: "Peaceful Village & Countryside", label: "Village & Countryside", desc: "Rustic rural farm with green fields and friendly animals." },
+      { value: "Neighborhood Street", label: "Neighborhood Street", desc: "Clean sunny sidewalk in front of cozy colorful houses." },
+      { value: "Sunny Beach & Ocean", label: "Beach & Seaside", desc: "Sandy ocean beach with gentle waves and sea shells." },
     ],
   },
   {
-    category: "ASMR & Sensory",
+    category: "Shops & Places",
     options: [
-      "Satisfying Sounds",
-      "Soft Whisper",
-      "Crunchy Food",
+      { value: "Ice Cream Shop", label: "Ice Cream Shop", desc: "Colorful sweet parlor with colorful scoops and ice cream cones." },
+      { value: "Magical Toy Store", label: "Toy Store", desc: "Exciting shop filled with shelves of toys, dolls, and robots." },
+      { value: "Supermarket & Grocery Market", label: "Market / Supermarket", desc: "Bustling market aisle with fruit baskets and shopping carts." },
+      { value: "Cozy Restaurant & Cafe", label: "Restaurant & Bakery", desc: "Cozy dining table with treats, cakes, and fruit juices." },
+      { value: "Amusement Park & Carnival", label: "Amusement Park", desc: "Festive fairground with colorful rides and balloons." },
     ],
   },
   {
-    category: "Comedy & Fun",
+    category: "Special & Creative",
     options: [
-      "Silly Kid",
-      "Funny Teacher",
-      "Dad Jokes",
+      { value: "Little Science Lab & Art Studio", label: "Science Lab / Art Studio", desc: "Fun workshop with paints, easels, or bubbly science test tubes." },
+      { value: "Global / Any Location", label: "Any / Flexible Location", desc: "Versatile background adapted automatically to the story concept." },
     ],
   },
 ];
 
-const KIDS_HEALTH_OPTIONS = KIDS_HEALTH_GROUPS.flatMap((g) => g.options);
+// 2. KIDS HEALTH OPTIONS
+const KIDS_HEALTH_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "General Health & Physical Wellness",
+    options: [
+      { value: "Healthy", label: "Healthy", desc: "Energetic, active, cheerful child with vibrant physical wellness." },
+      { value: "Sleepy", label: "Sleepy / Tired", desc: "Tired with slow movements, cute yawning, and soft gestures." },
+      { value: "Happy Chubby Kid", label: "Happy Chubby Kid", desc: "Adorable chubby, joyful child full of sweetness." },
+      { value: "Cute Chubby Boy", label: "Cute Chubby Boy", desc: "Cute chubby male toddler or boy." },
+      { value: "Cute Chubby Girl", label: "Cute Chubby Girl", desc: "Cute chubby female toddler or girl." },
+      { value: "Healthy Lifestyle", label: "Healthy Lifestyle", desc: "Balanced daily routine with wholesome habits." },
+      { value: "Healthy Eating", label: "Healthy Eating", desc: "Enjoying fresh fruits, vegetables, and nutritious food." },
+      { value: "Healthy & Active", label: "Healthy & Active", desc: "Moving around healthily and happily." },
+      { value: "Healthy Habits", label: "Healthy Habits", desc: "Good hygiene, handwashing, and positive routines." },
+      { value: "Happy & Healthy", label: "Happy & Healthy", desc: "Radiant overall wellbeing and vibrant cheer." },
+    ],
+  },
+  {
+    category: "Fitness & Physical Activity",
+    options: [
+      { value: "Fun Exercise", label: "Fun Exercise", desc: "Playful stretches, jumping, and fun workout moves." },
+      { value: "Active Play", label: "Active Play", desc: "High-energy running, chasing, and active outdoor fun." },
+      { value: "Morning Workout", label: "Morning Workout", desc: "Fresh morning stretches and cheerful wake-up routine." },
+      { value: "Dance Challenge", label: "Dance Challenge", desc: "Bouncy, energetic rhythmic dance moves." },
+      { value: "Playground Fun", label: "Playground Fun", desc: "Climbing, sliding, and active playground sports." },
+      { value: "Jump Rope Challenge", label: "Jump Rope Challenge", desc: "Skipping rope with playful focus and determination." },
+      { value: "Mini Sports Star", label: "Mini Sports Star", desc: "Playing with mini basketballs, soccer balls, or bats." },
+      { value: "Stretch & Smile", label: "Stretch & Smile", desc: "Soft physical stretching with a bright smile." },
+      { value: "Feel Strong", label: "Feel Strong", desc: "Flexing mini muscles and feeling empowered." },
+      { value: "Kids Fitness", label: "Kids Fitness", desc: "Youth-friendly fitness exercises and fun movements." },
+      { value: "Tiny Athlete", label: "Tiny Athlete", desc: "Enthusiastic mini sportsman or sportswoman." },
+      { value: "Energy Boost", label: "Energy Boost", desc: "Full of vibrant physical energy and stamina." },
+      { value: "Family Fitness", label: "Family Fitness", desc: "Exercising together with parents and siblings." },
+    ],
+  },
+  {
+    category: "Nutrition & Daily Habits",
+    options: [
+      { value: "Fruit Time", label: "Fruit Time", desc: "Munching on fresh, colorful apples, bananas, and berries." },
+      { value: "Veggie Challenge", label: "Veggie Challenge", desc: "Fun, brave attempts at tasting green vegetables." },
+      { value: "Water Break", label: "Water Break", desc: "Refreshing hydration break during active play." },
+    ],
+  },
+];
 
-const CHARACTER_SETUP_GROUPS = [
+// 3. KIDS VIBE OPTIONS
+const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Mood & Energy",
+    options: [
+      { value: "Cheerful & Energetic", label: "Cheerful & Energetic", desc: "Bright smiles, joyful laughter, and high positive energy." },
+      { value: "Excited", label: "Excited", desc: "Full of energy, enthusiasm, wide-eyed wonder, and eagerness." },
+      { value: "Shy", label: "Shy", desc: "Quiet, hesitant, soft-spoken, bashful, and cute." },
+      { value: "Sleepy & Cozy", label: "Sleepy & Cozy", desc: "Calming, gentle, relaxed mood." },
+      { value: "Cute & Playful", label: "Cute & Playful", desc: "Adorably mischievous and fun-loving spirit." },
+      { value: "Happy Explorer", label: "Happy Explorer", desc: "Curious about surroundings with an adventurous spirit." },
+      { value: "Sunshine Smile", label: "Sunshine Smile", desc: "Radiating warmth, sweetness, and happy expressions." },
+      { value: "Big Smiles", label: "Big Smiles", desc: "Heartwarming, wide beam of pure joy." },
+      { value: "Positive Energy", label: "Positive Energy", desc: "Spreading wholesome optimism and cheerful vibes." },
+      { value: "Confidence Boost", label: "Confidence Boost", desc: "Brave, proud, and self-assured stance." },
+      { value: "Self-Love", label: "Self-Love", desc: "Happy in their own skin and feeling proud." },
+    ],
+  },
+  {
+    category: "Themes & Style Vibes",
+    options: [
+      { value: "Rainbow Adventure", label: "Rainbow Adventure", desc: "Magical, colorful, and imaginative play atmosphere." },
+      { value: "Before School Routine", label: "Before School Routine", desc: "Getting ready for school with books and backpack." },
+      { value: "Weekend Fun", label: "Weekend Fun", desc: "Carefree, relaxed, weekend play atmosphere." },
+      { value: "Silly Kid", label: "Silly Kid / Funny", desc: "Playful funny faces, goofy antics, and slapstick humor." },
+      { value: "Funny Teacher", label: "Funny Teacher Vibe", desc: "Playful classroom roleplay and funny teaching antics." },
+      { value: "Dad Jokes", label: "Dad Jokes Vibe", desc: "Wholesome humor and silly parent-child jokes." },
+    ],
+  },
+  {
+    category: "Outfits & Everyday Styles",
+    options: [
+      { value: "Colorful Casual", label: "Colorful Casual", desc: "Bright, everyday casual kids clothes." },
+      { value: "Storybook Princess (everyday, not fancy)", label: "Storybook Princess", desc: "Sweet everyday princess vibes without fancy gowns." },
+      { value: "Nature Lover", label: "Nature Lover", desc: "Loving animals, flowers, and outdoor exploration." },
+      { value: "Little Dancer", label: "Little Dancer", desc: "Rhythmic, graceful, and dance-loving spirit." },
+      { value: "Mini Gardener", label: "Mini Gardener", desc: "Loving potted plants, mud, and flowers." },
+      { value: "Cozy Homewear", label: "Cozy Homewear", desc: "Comfortable pajamas or soft home clothing." },
+      { value: "Soft Pastel Style", label: "Soft Pastel Style", desc: "Aesthetic pastel colors and gentle lighting." },
+      { value: "Sporty Toddler", label: "Sporty Toddler", desc: "Athletic sneakers and sporty toddler outfit." },
+    ],
+  },
+  {
+    category: "Sensory & ASMR",
+    options: [
+      { value: "Satisfying Sounds", label: "Satisfying Sounds", desc: "Soft sensory ASMR audio cues and gentle focus." },
+      { value: "Soft Whisper", label: "Soft Whisper", desc: "Quiet, gentle, whispering speech." },
+      { value: "Crunchy Food", label: "Crunchy Food", desc: "Satisfying crunching sounds while eating snacks." },
+    ],
+  },
+];
+
+// 4. CHARACTER SETUP GROUPS (EXPANDED WITH PREDEFINED COMBOS)
+const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Predefined Role & Adult Combinations",
+    options: [
+      { value: "Boy + Shopkeeper", label: "Boy + Shopkeeper", desc: "Little boy interacting with a friendly shopkeeper." },
+      { value: "Girl + Shopkeeper", label: "Girl + Shopkeeper", desc: "Little girl interacting with a friendly shopkeeper." },
+      { value: "Boy + Mother", label: "Boy + Mother", desc: "Little boy with his loving mother." },
+      { value: "Girl + Mother", label: "Girl + Mother", desc: "Little girl with her loving mother." },
+      { value: "Boy + Father", label: "Boy + Father", desc: "Little boy with his caring father." },
+      { value: "Girl + Father", label: "Girl + Father", desc: "Little girl with her caring father." },
+      { value: "Boy + Teacher", label: "Boy + Teacher", desc: "Little boy learning from a helpful teacher." },
+      { value: "Girl + Teacher", label: "Girl + Teacher", desc: "Little girl learning from a helpful teacher." },
+      { value: "Boy + Police Officer", label: "Boy + Police Officer", desc: "Little boy talking to a friendly police officer." },
+      { value: "Girl + Police Officer", label: "Girl + Police Officer", desc: "Little girl talking to a friendly police officer." },
+      { value: "Boy + Doctor", label: "Boy + Doctor", desc: "Little boy visiting a gentle doctor." },
+      { value: "Girl + Doctor", label: "Girl + Doctor", desc: "Little girl visiting a gentle doctor." },
+      { value: "Boy + Robot", label: "Boy + Robot", desc: "Little boy playing with a futuristic friendly robot." },
+      { value: "Girl + Robot", label: "Girl + Robot", desc: "Little girl playing with a futuristic friendly robot." },
+      { value: "Boy + Friend", label: "Boy + Friend", desc: "Little boy playing with his best friend." },
+      { value: "Girl + Friend", label: "Girl + Friend", desc: "Little girl playing with her best friend." },
+    ],
+  },
   {
     category: "Girl Characters",
     options: [
-      "One Cute Little Girl",
-      "Smiling Little Girl",
-      "Happy Little Girl",
-      "Curious Little Girl",
-      "Shy Little Girl",
-      "Playful Little Girl",
-      "Cheerful Little Girl",
-      "Energetic Little Girl",
-      "Laughing Little Girl",
-      "Sleeping Little Girl",
-      "Reading Little Girl",
-      "Drawing Little Girl",
-      "Singing Little Girl",
-      "Dancing Little Girl",
-      "Little Girl with Glasses",
-      "Little Girl with Curly Hair",
-      "Little Girl with Ponytail",
-      "Little Girl with Braids",
-      "Little Girl in School Uniform",
-      "Little Girl in Princess Dress",
-      "Little Girl in Sports Outfit",
-      "Little Girl in Raincoat",
-      "Little Girl in Winter Clothes",
-      "Little Girl in Pajamas",
-      "Little Girl Wearing a Backpack",
-      "Little Girl Holding a Toy",
-      "Little Girl Holding a Balloon",
-      "Little Girl Holding a Teddy Bear",
-      "Little Girl Eating Fruit",
-      "Little Girl Brushing Teeth",
-      "Toddler Girl",
-      "Preschool Girl",
-      "Kindergarten Girl",
-      "School-Age Girl",
-      "Confident Little Girl",
-      "Adventurous Little Girl",
-      "Thoughtful Little Girl",
-      "Funny Little Girl",
-      "Creative Little Girl",
-      "Little Girl Scientist",
-      "Little Girl Chef",
-      "Little Girl Artist",
-      "Little Girl Explorer",
-      "Little Girl Gardener",
-      "Little Girl Musician",
+      { value: "One Cute Little Girl", label: "One Cute Little Girl", desc: "Single cute little girl protagonist." },
+      { value: "Smiling Little Girl", label: "Smiling Little Girl", desc: "Bright smiling little girl." },
+      { value: "Happy Little Girl", label: "Happy Little Girl", desc: "Joyful and cheerful little girl." },
+      { value: "Curious Little Girl", label: "Curious Little Girl", desc: "Inquisitive little girl asking questions." },
+      { value: "Shy Little Girl", label: "Shy Little Girl", desc: "Quiet and gentle little girl." },
+      { value: "Playful Little Girl", label: "Playful Little Girl", desc: "Fun-loving playful girl." },
+      { value: "Energetic Little Girl", label: "Energetic Little Girl", desc: "High energy active little girl." },
+      { value: "Laughing Little Girl", label: "Laughing Little Girl", desc: "Giggling and laughing little girl." },
+      { value: "Sleeping Little Girl", label: "Sleeping Little Girl", desc: "Peacefully sleeping little girl." },
+      { value: "Reading Little Girl", label: "Reading Little Girl", desc: "Little girl reading a storybook." },
+      { value: "Drawing Little Girl", label: "Drawing Little Girl", desc: "Little girl drawing with crayons." },
+      { value: "Singing Little Girl", label: "Singing Little Girl", desc: "Little girl singing cheerfully." },
+      { value: "Dancing Little Girl", label: "Dancing Little Girl", desc: "Little girl dancing gracefully." },
+      { value: "Little Girl with Glasses", label: "Little Girl with Glasses", desc: "Cute little girl wearing glasses." },
+      { value: "Little Girl with Curly Hair", label: "Little Girl with Curly Hair", desc: "Little girl with bouncy curly hair." },
+      { value: "Little Girl with Ponytail", label: "Little Girl with Ponytail", desc: "Little girl with high ponytail." },
+      { value: "Little Girl with Braids", label: "Little Girl with Braids", desc: "Little girl with braided hair." },
+      { value: "Little Girl in School Uniform", label: "Little Girl in School Uniform", desc: "Neat school uniform look." },
+      { value: "Little Girl in Princess Dress", label: "Little Girl in Princess Dress", desc: "Cute princess dress outfit." },
+      { value: "Little Girl in Sports Outfit", label: "Little Girl in Sports Outfit", desc: "Sporty outfit and sneakers." },
+      { value: "Little Girl in Raincoat", label: "Little Girl in Raincoat", desc: "Bright yellow raincoat and boots." },
+      { value: "Little Girl in Winter Clothes", label: "Little Girl in Winter Clothes", desc: "Warm beanie and winter coat." },
+      { value: "Little Girl in Pajamas", label: "Little Girl in Pajamas", desc: "Cozy bedtime pajamas." },
+      { value: "Little Girl Wearing a Backpack", label: "Little Girl Wearing a Backpack", desc: "School backpack on shoulders." },
+      { value: "Little Girl Holding a Toy", label: "Little Girl Holding a Toy", desc: "Holding a favorite toy." },
+      { value: "Little Girl Holding a Balloon", label: "Little Girl Holding a Balloon", desc: "Holding a colorful helium balloon." },
+      { value: "Little Girl Holding a Teddy Bear", label: "Little Girl Holding a Teddy Bear", desc: "Hugging a plush teddy bear." },
+      { value: "Little Girl Eating Fruit", label: "Little Girl Eating Fruit", desc: "Eating fresh fruit happily." },
+      { value: "Little Girl Brushing Teeth", label: "Little Girl Brushing Teeth", desc: "Brushing teeth at bathroom sink." },
+      { value: "Toddler Girl", label: "Toddler Girl", desc: "Adorable toddler girl (1.5-3 yrs)." },
+      { value: "Preschool Girl", label: "Preschool Girl", desc: "Preschool girl (3-5 yrs)." },
+      { value: "Kindergarten Girl", label: "Kindergarten Girl", desc: "Kindergarten girl (5-6 yrs)." },
+      { value: "School-Age Girl", label: "School-Age Girl", desc: "School age girl (6-9 yrs)." },
+      { value: "Confident Little Girl", label: "Confident Little Girl", desc: "Brave, proud, and confident." },
+      { value: "Adventurous Little Girl", label: "Adventurous Little Girl", desc: "Bold and adventurous explorer." },
+      { value: "Thoughtful Little Girl", label: "Thoughtful Little Girl", desc: "Deeply thoughtful and observant." },
+      { value: "Funny Little Girl", label: "Funny Little Girl", desc: "Funny facial expressions and jokes." },
+      { value: "Creative Little Girl", label: "Creative Little Girl", desc: "Imaginative and creative spirit." },
+      { value: "Little Girl Scientist", label: "Little Girl Scientist", desc: "Mini scientist with lab goggles." },
+      { value: "Little Girl Chef", label: "Little Girl Chef", desc: "Mini chef with apron and chef hat." },
+      { value: "Little Girl Artist", label: "Little Girl Artist", desc: "Mini artist with paintbrush and palette." },
+      { value: "Little Girl Explorer", label: "Little Girl Explorer", desc: "Little explorer with magnifying glass." },
+      { value: "Little Girl Gardener", label: "Little Girl Gardener", desc: "Gardening with watering can and flowers." },
+      { value: "Little Girl Musician", label: "Little Girl Musician", desc: "Playing toy piano or xylophone." },
     ],
   },
   {
     category: "Boy Characters",
     options: [
-      "One Cute Little Boy",
-      "Smiling Little Boy",
-      "Happy Little Boy",
-      "Curious Little Boy",
-      "Shy Little Boy",
-      "Playful Little Boy",
-      "Cheerful Little Boy",
-      "Energetic Little Boy",
-      "Laughing Little Boy",
-      "Sleeping Little Boy",
-      "Reading Little Boy",
-      "Drawing Little Boy",
-      "Singing Little Boy",
-      "Dancing Little Boy",
-      "Little Boy with Glasses",
-      "Little Boy with Curly Hair",
-      "Little Boy with Spiky Hair",
-      "Little Boy in School Uniform",
-      "Little Boy in Superhero Costume",
-      "Little Boy in Sports Outfit",
-      "Little Boy in Raincoat",
-      "Little Boy in Winter Clothes",
-      "Little Boy in Pajamas",
-      "Little Boy Wearing a Backpack",
-      "Little Boy Holding a Toy",
-      "Little Boy Holding a Balloon",
-      "Little Boy Holding a Teddy Bear",
-      "Little Boy Eating Fruit",
-      "Little Boy Brushing Teeth",
-      "Toddler Boy",
-      "Preschool Boy",
-      "Kindergarten Boy",
-      "School-Age Boy",
-      "Confident Little Boy",
-      "Adventurous Little Boy",
-      "Thoughtful Little Boy",
-      "Funny Little Boy",
-      "Creative Little Boy",
-      "Little Boy Scientist",
-      "Little Boy Chef",
-      "Little Boy Artist",
-      "Little Boy Explorer",
-      "Little Boy Gardener",
-      "Little Boy Musician",
+      { value: "One Cute Little Boy", label: "One Cute Little Boy", desc: "Single cute little boy protagonist." },
+      { value: "Smiling Little Boy", label: "Smiling Little Boy", desc: "Bright smiling little boy." },
+      { value: "Happy Little Boy", label: "Happy Little Boy", desc: "Joyful and cheerful little boy." },
+      { value: "Curious Little Boy", label: "Curious Little Boy", desc: "Inquisitive little boy exploring." },
+      { value: "Shy Little Boy", label: "Shy Little Boy", desc: "Quiet and bashful little boy." },
+      { value: "Playful Little Boy", label: "Playful Little Boy", desc: "Fun-loving playful boy." },
+      { value: "Energetic Little Boy", label: "Energetic Little Boy", desc: "High energy active little boy." },
+      { value: "Laughing Little Boy", label: "Laughing Little Boy", desc: "Giggling and laughing little boy." },
+      { value: "Sleeping Little Boy", label: "Sleeping Little Boy", desc: "Peacefully sleeping little boy." },
+      { value: "Reading Little Boy", label: "Reading Little Boy", desc: "Little boy reading a comic or book." },
+      { value: "Drawing Little Boy", label: "Drawing Little Boy", desc: "Little boy sketching with markers." },
+      { value: "Singing Little Boy", label: "Singing Little Boy", desc: "Little boy singing enthusiastically." },
+      { value: "Dancing Little Boy", label: "Dancing Little Boy", desc: "Little boy doing funny dance moves." },
+      { value: "Little Boy with Glasses", label: "Little Boy with Glasses", desc: "Cute little boy with round glasses." },
+      { value: "Little Boy with Curly Hair", label: "Little Boy with Curly Hair", desc: "Little boy with curly mop hair." },
+      { value: "Little Boy with Spiky Hair", label: "Little Boy with Spiky Hair", desc: "Cool spiky hair style." },
+      { value: "Little Boy in School Uniform", label: "Little Boy in School Uniform", desc: "Neat school uniform look." },
+      { value: "Little Boy in Superhero Costume", label: "Little Boy in Superhero Costume", desc: "Fun superhero cape & costume." },
+      { value: "Little Boy in Sports Outfit", label: "Little Boy in Sports Outfit", desc: "Jersey, shorts, and sneakers." },
+      { value: "Little Boy in Raincoat", label: "Little Boy in Raincoat", desc: "Raincoat and puddle jumping boots." },
+      { value: "Little Boy in Winter Clothes", label: "Little Boy in Winter Clothes", desc: "Heavy winter jacket and scarf." },
+      { value: "Little Boy in Pajamas", label: "Little Boy in Pajamas", desc: "Pajama set with car prints." },
+      { value: "Little Boy Wearing a Backpack", label: "Little Boy Wearing a Backpack", desc: "School bag on back." },
+      { value: "Little Boy Holding a Toy", label: "Little Boy Holding a Toy", desc: "Holding a toy race car." },
+      { value: "Little Boy Holding a Balloon", label: "Little Boy Holding a Balloon", desc: "Holding a big red balloon." },
+      { value: "Little Boy Holding a Teddy Bear", label: "Little Boy Holding a Teddy Bear", desc: "Holding a soft teddy bear." },
+      { value: "Little Boy Eating Fruit", label: "Little Boy Eating Fruit", desc: "Eating juicy watermelon or apple." },
+      { value: "Little Boy Brushing Teeth", label: "Little Boy Brushing Teeth", desc: "Brushing teeth cheerfully." },
+      { value: "Toddler Boy", label: "Toddler Boy", desc: "Adorable toddler boy (1.5-3 yrs)." },
+      { value: "Preschool Boy", label: "Preschool Boy", desc: "Preschool boy (3-5 yrs)." },
+      { value: "Kindergarten Boy", label: "Kindergarten Boy", desc: "Kindergarten boy (5-6 yrs)." },
+      { value: "School-Age Boy", label: "School-Age Boy", desc: "School age boy (6-9 yrs)." },
+      { value: "Confident Little Boy", label: "Confident Little Boy", desc: "Proud, brave, and cheerful." },
+      { value: "Adventurous Little Boy", label: "Adventurous Little Boy", desc: "Bold adventurer exploring." },
+      { value: "Thoughtful Little Boy", label: "Thoughtful Little Boy", desc: "Observant and thoughtful kid." },
+      { value: "Funny Little Boy", label: "Funny Little Boy", desc: "Comedic expressions and laughs." },
+      { value: "Creative Little Boy", label: "Creative Little Boy", desc: "Imaginative builder and creator." },
+      { value: "Little Boy Scientist", label: "Little Boy Scientist", desc: "Mini scientist with beaker & glasses." },
+      { value: "Little Boy Chef", label: "Little Boy Chef", desc: "Mini chef with wooden spoon & hat." },
+      { value: "Little Boy Artist", label: "Little Boy Artist", desc: "Mini painter with easel." },
+      { value: "Little Boy Explorer", label: "Little Boy Explorer", desc: "Little adventurer with safari hat." },
+      { value: "Little Boy Gardener", label: "Little Boy Gardener", desc: "Watering plants in the garden." },
+      { value: "Little Boy Musician", label: "Little Boy Musician", desc: "Playing toy drums or guitar." },
     ],
   },
   {
-    category: "Multiple Characters",
+    category: "Multiple & Duo Characters",
     options: [
-      "Two Little Girls",
-      "Two Little Boys",
-      "One Girl & One Boy",
-      "Brother & Sister",
-      "Two Kids (Siblings)",
-      "Two Kids (Friends)",
-      "Twins",
-      "Three Happy Kids",
-      "Best Friends",
-      "Happy Family",
-      "Child & Mom",
-      "Child & Dad",
-      "Child & Doctor",
-      "Child & Teacher",
-      "Child & Friendly Robot",
-      "Child & Teddy Bear",
+      { value: "Two Little Girls", label: "Two Little Girls", desc: "Duo of two adorable little girls." },
+      { value: "Two Little Boys", label: "Two Little Boys", desc: "Duo of two friendly little boys." },
+      { value: "One Girl & One Boy", label: "One Girl & One Boy", desc: "Classic boy and girl duo." },
+      { value: "Brother & Sister", label: "Brother & Sister", desc: "Heartwarming sibling brother and sister team." },
+      { value: "Two Kids (Siblings)", label: "Two Kids (Siblings)", desc: "Two sibling kids playing together." },
+      { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
+      { value: "Twins", label: "Twins", desc: "Adorable twin kids." },
+      { value: "Three Happy Kids", label: "Three Happy Kids", desc: "Trio group of three happy children." },
+      { value: "Best Friends", label: "Best Friends", desc: "Inseparable best friends." },
+      { value: "Happy Family", label: "Happy Family", desc: "Parents and children together." },
+      { value: "Child & Mom", label: "Child & Mom", desc: "Child with loving mother." },
+      { value: "Child & Dad", label: "Child & Dad", desc: "Child with loving father." },
+      { value: "Child & Shopkeeper", label: "Child & Shopkeeper", desc: "Child interacting with a friendly shopkeeper." },
+      { value: "Boy + Shopkeeper", label: "Boy + Shopkeeper", desc: "Boy buying treats from a shopkeeper." },
+      { value: "Girl + Shopkeeper", label: "Girl + Shopkeeper", desc: "Girl visiting a toy or sweet shopkeeper." },
+      { value: "Child & Doctor", label: "Child & Doctor", desc: "Child visiting a friendly doctor." },
+      { value: "Child & Teacher", label: "Child & Teacher", desc: "Child with school teacher." },
+      { value: "Child & Friendly Robot", label: "Child & Friendly Robot", desc: "Child with a cute companion robot." },
+    ],
+  },
+  {
+    category: "Singers, Qawwals & Musical Performers",
+    options: [
+      { value: "Child Folk Singer (Desi Folk)", label: "Child Folk Singer (Desi Folk)", desc: "Cute child singing traditional Folk songs with Ektara, Tumbi or Chimta." },
+      { value: "Punjabi Folk Singer (Jugni & Tappa)", label: "Punjabi Folk Singer (Jugni & Tappa)", desc: "Energetic Punjabi Folk singer performing Jugni & Tappa with Dhol beats." },
+      { value: "Sindhi / Balochi Folk Singer", label: "Sindhi / Balochi Folk Singer", desc: "Soulful Folk singer performing traditional Sindhi/Balochi heritage tunes." },
+      { value: "Pashtun Folk Singer (with Rubab)", label: "Pashtun Folk Singer (with Rubab)", desc: "Pashtun singer reciting traditional Folk melodies backed by Rubab." },
+      { value: "Rajasthani Folk Singer", label: "Rajasthani Folk Singer", desc: "Traditional Rajasthani Folk singer performing in colorful attire with Khartal." },
+      { value: "Boy Qawwal (Lead Singer)", label: "Boy Qawwal (Lead Singer)", desc: "Young boy in Kurta-Pajama as lead Sufi Qawwali singer clapping & singing." },
+      { value: "Girl Qawwal (Lead Singer)", label: "Girl Qawwal (Lead Singer)", desc: "Young girl lead Qawwali singer performing soulful melodies." },
+      { value: "Boy Qawwali Group (Qawwal Party)", label: "Boy Qawwali Group (Qawwal Party)", desc: "Group of young boys sitting on carpet with Harmonium & Dholak performing Qawwali." },
+      { value: "Child Qawwal & Harmonium Player", label: "Child Qawwal & Harmonium Player", desc: "Child singing Qawwali while playing Harmonium." },
+      { value: "Child Singer (Kid Vocalist)", label: "Child Singer (Kid Vocalist)", desc: "Cute child performing with a microphone on stage." },
+      { value: "Boy Singer & Performer", label: "Boy Singer & Performer", desc: "Energetic boy singer with wireless mic and musical stage lights." },
+      { value: "Girl Singer & Performer", label: "Girl Singer & Performer", desc: "Cute girl singer performing a sweet melody." },
+      { value: "Child & Professional Singer", label: "Child & Professional Singer", desc: "Child singing alongside a famous professional singer." },
+      { value: "Child & Singer Duo", label: "Child & Singer Duo", desc: "Child and singer performing a duet performance." },
+      { value: "Child Naat Khawan / Nasheed Singer", label: "Child Naat Khawan / Nasheed Singer", desc: "Child wearing traditional cap reciting beautiful Naat/Nasheed." },
+      { value: "Child Shayar (Poet) & Singer Duo", label: "Child Shayar (Poet) & Singer Duo", desc: "Child reciting Shayari poetry backed by a melodic Singer." },
+      { value: "Kids Musical Band", label: "Kids Musical Band", desc: "Group of kids with mic, drums, guitar, and keyboard." },
+      { value: "Street Singer Kid", label: "Street Singer Kid", desc: "Talented street kid singer performing in a bustling market." },
+      { value: "Child Classical Singer", label: "Child Classical Singer", desc: "Child singing classical Raga melodies with Harmonium." },
     ],
   },
 ];
 
-const CHARACTER_SETUP_OPTIONS = CHARACTER_SETUP_GROUPS.flatMap((g) => g.options);
+// 5. CHARACTERS PER SCENE OPTIONS
+const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Characters Count Per Scene",
+    options: [
+      { value: "1 Character", label: "1 Character", desc: "Single character focus in every scene." },
+      { value: "2 Characters", label: "2 Characters", desc: "Two characters (duo interaction - Recommended)." },
+      { value: "3 Characters", label: "3 Characters", desc: "Three characters in the scene." },
+      { value: "4 Characters", label: "4 Characters", desc: "Four characters / group family scene." },
+      { value: "Custom", label: "Custom", desc: "Specify custom character count or breakdown." },
+    ],
+  },
+];
+
+// 6. NATIONALITY / CULTURE OPTIONS
+const KIDS_NATIONALITY_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Pakistani Cultural Aesthetics",
+    options: [
+      { value: "Pakistani (General / Desi)", label: "Pakistani (General)", desc: "Traditional Pakistani aesthetic with Shalwar Kameez and cultural charm." },
+      { value: "Pakistani Punjabi", label: "Pakistani Punjabi (پنجابی)", desc: "Vibrant Punjabi Pind culture, colorful Phulkari, and energetic warmth." },
+      { value: "Pakistani Pashtun / Pathan", label: "Pakistani Pashtun / Pathan (پشتون)", desc: "Pashtun cultural attire, traditional Pakol, and hospitality vibes." },
+      { value: "Pakistani Sindhi", label: "Pakistani Sindhi (سندھی)", desc: "Rich Sindhi Ajrak patterns, Ralli embroidery, and Sindhi cap." },
+      { value: "Pakistani Balochi", label: "Pakistani Balochi (بلوچی)", desc: "Traditional Balochi heavy embroidered dresses and turban heritage." },
+      { value: "Pakistani Muhajir / Urdu Speaking", label: "Pakistani Urdu Speaking (اردو)", desc: "Classic urban Pakistani cultural attire with elegant Urdu etiquette." },
+      { value: "Pakistani Kashmiri", label: "Pakistani Kashmiri (کشمیری)", desc: "Kashmiri Pheran, wooden craft aesthetic, and mountain charm." },
+    ],
+  },
+  {
+    category: "Indian & Sikh Cultural Aesthetics",
+    options: [
+      { value: "Indian Punjabi Sikh", label: "Indian Punjabi Sikh (ਪੰਜਾਬੀ ਸਿੱਖ)", desc: "Traditional Sikh attire, colorful Pagri / Turban, and Punjabi cultural pride." },
+      { value: "Indian Punjabi", label: "Indian Punjabi (ਪੰਜਾਬੀ)", desc: "Vibrant Punjabi bhangra outfits, bright suits, and energetic Desi style." },
+      { value: "Indian (General / Desi)", label: "Indian (General)", desc: "Classic Indian cultural representation with colorful festive clothing." },
+      { value: "Indian South Indian", label: "South Indian (Tamil / Telugu / Malayalam / Kannada)", desc: "Traditional Veshti, Kanjeevaram silk, and South Indian heritage." },
+      { value: "Indian North Indian / Hindi Heartband", label: "North Indian (Hindi Belt)", desc: "Traditional Kurta-Pajama, Ghagra, and festive North Indian aesthetic." },
+      { value: "Indian Bengali", label: "Indian Bengali (বাংলা)", desc: "Traditional Bengali Kurta, Panjabi, and cultural artistic charm." },
+      { value: "Indian Gujarati / Rajasthani", label: "Indian Gujarati / Rajasthani", desc: "Colorful Bandhani, mirror-work Bandhej outfits, and festive vibes." },
+    ],
+  },
+  {
+    category: "Other Global Cultures",
+    options: [
+      { value: "Bangladeshi / Bengali", label: "Bangladeshi (বাংলাদেশী)", desc: "Traditional Bangladeshi attire, Lungi, Panjabi, and rivers aesthetic." },
+      { value: "Middle Eastern / Arab", label: "Middle Eastern / Arab (عربي)", desc: "Middle Eastern traditional Kandura, Thobe, and desert heritage." },
+      { value: "Turkish / Central Asian", label: "Turkish & Central Asian", desc: "Eurasian cultural attire, Ottoman heritage, and vibrant embroidery." },
+      { value: "American / Western", label: "American / Western", desc: "Modern Western casual clothing, denim, and international style." },
+      { value: "East Asian (Japanese/Korean/Chinese)", label: "East Asian (Japanese/Korean/Chinese)", desc: "East Asian cultural representation with cute modern or traditional elements." },
+      { value: "African", label: "African Culture", desc: "Vibrant Dashiki, Kitenge patterns, and rich African cultural heritage." },
+      { value: "European", label: "European Culture", desc: "Classic European countryside or urban aesthetic." },
+      { value: "Latin American", label: "Latin American Culture", desc: "Colorful Latin American traditional garments and joyful spirit." },
+      { value: "Global / Any", label: "Global / Any Culture", desc: "Flexible universal representation adapted automatically." },
+    ],
+  },
+];
 
 const AI_MODEL_OPTIONS = [
   { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
@@ -295,10 +489,240 @@ interface SavedIdea {
   isFavorite?: boolean;
   videoFileName?: string;
   aiModel?: string;
+  customDialogue?: string;
   socialContent?: {
     title: string;
+    shortsTitle?: string;
+    reelsTitle?: string;
+    tiktokTitle?: string;
+    description?: string;
     hashtags: string;
+    trendingTags?: string;
   };
+}
+
+function getIdeaDialogue(idea: SavedIdea): string {
+  if (idea.customDialogue && idea.customDialogue.trim()) {
+    return idea.customDialogue.trim();
+  }
+  const text = idea.text || "";
+  const match = text.match(/(?:Dialogue|Spoken Dialogue|Audio Dialogue|Script|Spoken Line|Urdu Dialogue|Punjabi Dialogue):\s*([^\n]+)/i);
+  if (match && match[1]) {
+    return match[1].replace(/^["']|["']$/g, "").trim();
+  }
+  const quoteMatches = text.match(/"([^"]+)"/g);
+  if (quoteMatches && quoteMatches.length > 0) {
+    return quoteMatches.map(q => q.replace(/"/g, "")).join(" | ");
+  }
+  return `Voiceover / Dialogue: "${idea.text.slice(0, 120)}..."`;
+}
+
+function getIdeaDescription(idea: SavedIdea): string {
+  if (idea.socialContent?.description && idea.socialContent.description.trim()) {
+    return idea.socialContent.description.trim();
+  }
+  return `Watch this viral ${CATEGORIES[idea.category]?.name || idea.category} 3D video concept! ${idea.text.slice(0, 160)}...`;
+}
+
+function getIdeaHashtags(idea: SavedIdea): string {
+  if (idea.socialContent?.hashtags && idea.socialContent.hashtags.trim()) {
+    return idea.socialContent.hashtags.trim();
+  }
+  const cleanCat = idea.category.replace(/[^a-zA-Z]/g, "");
+  return `#${cleanCat} #3DAnimation #KidsVideo #Shorts #ViralAnimation`;
+}
+
+function getIdeaTitle(idea: SavedIdea): string {
+  if (idea.socialContent?.title && idea.socialContent.title.trim()) {
+    return idea.socialContent.title.trim();
+  }
+  const cleanCategory = CATEGORIES[idea.category]?.name || idea.category;
+  return `${cleanCategory} - Fun 3D Animated Short`;
+}
+
+function getIdeaShortsTitle(idea: SavedIdea): string {
+  if (idea.socialContent?.shortsTitle && idea.socialContent.shortsTitle.trim()) {
+    return idea.socialContent.shortsTitle.trim();
+  }
+  return `Wait for the end! 😱🔥 ${getIdeaTitle(idea)} #Shorts`;
+}
+
+function getIdeaReelsTitle(idea: SavedIdea): string {
+  if (idea.socialContent?.reelsTitle && idea.socialContent.reelsTitle.trim()) {
+    return idea.socialContent.reelsTitle.trim();
+  }
+  return `Aapka Favourite Part Kaunsa Hai? 🤣👇 ${getIdeaTitle(idea)}`;
+}
+
+function getIdeaTikTokTitle(idea: SavedIdea): string {
+  if (idea.socialContent?.tiktokTitle && idea.socialContent.tiktokTitle.trim()) {
+    return idea.socialContent.tiktokTitle.trim();
+  }
+  return `When this happens... 😭✨ ${getIdeaTitle(idea)} #Viral`;
+}
+
+function getIdeaTrendingTags(idea: SavedIdea): string {
+  if (idea.socialContent?.trendingTags && idea.socialContent.trendingTags.trim()) {
+    return idea.socialContent.trendingTags.trim();
+  }
+  const cleanCat = idea.category.replace(/[^a-zA-Z]/g, "");
+  return `#TrendingReels #ForyouPage #ShortsViral #${cleanCat} #ViralVideo #RelatableHumor`;
+}
+
+interface CustomSelectProps {
+  label: string;
+  icon?: string;
+  value: string;
+  onChange: (value: string) => void;
+  groups: OptionGroupWithDesc[];
+  badgeTitle?: string;
+}
+
+function CustomSelect({ label, value, onChange, groups }: CustomSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    } else {
+      setSearchQuery("");
+    }
+  }, [isOpen]);
+
+  let selectedOption: OptionWithDesc | undefined;
+  for (const g of groups) {
+    const found = g.options.find((o) => o.value === value);
+    if (found) {
+      selectedOption = found;
+      break;
+    }
+  }
+
+  const selectedLabel = selectedOption ? selectedOption.label : value;
+
+  const filteredGroups = groups
+    .map((group) => {
+      const filteredOptions = group.options.filter((opt) => {
+        const q = searchQuery.toLowerCase().trim();
+        if (!q) return true;
+        return (
+          opt.label.toLowerCase().includes(q) ||
+          opt.value.toLowerCase().includes(q) ||
+          (opt.desc && opt.desc.toLowerCase().includes(q))
+        );
+      });
+      return { ...group, options: filteredOptions };
+    })
+    .filter((group) => group.options.length > 0);
+
+  const totalFilteredCount = filteredGroups.reduce((acc, g) => acc + g.options.length, 0);
+
+  return (
+    <div className={`space-y-1.5 relative ${isOpen ? "z-50" : "z-10"}`} ref={containerRef}>
+      <label className="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+        <span>{label}</span>
+      </label>
+
+      {/* Trigger Button with fixed h-11 height */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full h-11 px-3.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-xs sm:text-sm text-white font-semibold flex items-center justify-between cursor-pointer transition-colors shadow-md text-left touch-manipulation active:scale-[0.99]"
+      >
+        <span className="truncate pr-2 leading-none">{selectedLabel}</span>
+        <ChevronDown className={`w-4 h-4 text-indigo-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {/* Custom Floating Open Menu with Search */}
+      {isOpen && (
+        <div className="absolute top-full left-0 right-0 mt-1 z-[99999] w-full rounded-2xl bg-[#080b13] border border-indigo-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.85)] max-h-72 sm:max-h-80 overflow-hidden flex flex-col font-sans backdrop-blur-2xl">
+          {/* Search Bar Header */}
+          <div className="p-2 border-b border-indigo-500/20 bg-[#080b12] sticky top-0 z-20 flex items-center gap-2">
+            <Search className="w-3.5 h-3.5 text-indigo-400 shrink-0 ml-1" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={`Search ${label.toLowerCase()}...`}
+              className="w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none font-medium py-1"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="text-[10px] text-slate-400 hover:text-white px-1 font-bold cursor-pointer"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Filtered Options List */}
+          <div className="overflow-y-auto p-2 space-y-2 overscroll-contain scrollbar-thin scrollbar-thumb-indigo-500/40 max-h-60">
+            {totalFilteredCount === 0 ? (
+              <div className="p-4 text-center text-xs text-slate-400 font-medium">
+                No matching options for &quot;{searchQuery}&quot;
+              </div>
+            ) : (
+              filteredGroups.map((group, groupIdx) => (
+                <div key={groupIdx} className="space-y-1">
+                  <div className="px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-indigo-400 border-b border-indigo-500/20 sticky top-0 bg-[#0b0e17] z-10">
+                    {group.category}
+                  </div>
+                  <div className="space-y-1">
+                    {group.options.map((opt) => {
+                      const isSelected = opt.value === value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => {
+                            onChange(opt.value);
+                            setIsOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2.5 rounded-xl transition-colors flex flex-col cursor-pointer select-none ${
+                            isSelected
+                              ? "bg-indigo-600/30 border border-indigo-500/60 text-white shadow-sm"
+                              : "hover:bg-indigo-950/70 active:bg-indigo-900/50 hover:text-white border border-transparent"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white gap-2">
+                            <span className="leading-tight">{opt.label}</span>
+                            {isSelected && <Check className="w-4 h-4 text-indigo-400 shrink-0" />}
+                          </div>
+                          {opt.desc && (
+                            <p className="text-[11px] text-indigo-200/80 leading-relaxed font-normal mt-0.5">
+                              {opt.desc}
+                            </p>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 interface IdeasPageSettings {
@@ -308,8 +732,12 @@ interface IdeasPageSettings {
   videoDuration?: number;
   customDialogue?: string;
   kidsAge?: string;
+  kidsLocation?: string;
   kidsHealth?: string;
+  kidsVibe?: string;
   characterSetup?: string;
+  charactersPerScene?: string;
+  customCharactersPerScene?: string;
   kidsNationality?: string;
   carboxBrand?: string;
   carboxColor?: string;
@@ -392,6 +820,25 @@ export default function IdeasPage() {
     }
   };
 
+  // Script & Dialogue Modal State
+  const [scriptModalIdea, setScriptModalIdea] = useState<SavedIdea | null>(null);
+  const [editedScriptText, setEditedScriptText] = useState("");
+
+  const handleOpenScriptModal = (idea: SavedIdea) => {
+    setScriptModalIdea(idea);
+    setEditedScriptText(getIdeaDialogue(idea));
+  };
+
+  const handleSaveScriptModal = () => {
+    if (!scriptModalIdea) return;
+    const updated = savedIdeas.map((i) =>
+      i.id === scriptModalIdea.id ? { ...i, customDialogue: editedScriptText } : i
+    );
+    saveToStorage(updated);
+    showToast("Spoken script / dialogue saved!", "success");
+    setScriptModalIdea(null);
+  };
+
   const handleSaveDialogue = () => {
     if (!customDialogue.trim()) {
       showToast("Please enter or generate a dialogue to save first.", "error");
@@ -430,7 +877,11 @@ export default function IdeasPage() {
           customIdea,
           existingDialogue: customDialogue,
           kidsAge,
+          kidsLocation,
           kidsHealth,
+          kidsVibe,
+          characterSetup,
+          charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
           aiModel,
         }),
       });
@@ -450,8 +901,12 @@ export default function IdeasPage() {
   
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
-  const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Cheerful & Energetic");
+  const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
+  const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Healthy");
+  const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "One Cute Little Girl");
+  const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "2 Characters");
+  const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
   
   const isRtl = language === "Urdu" || language === "Punjabi";
@@ -493,8 +948,12 @@ export default function IdeasPage() {
         videoDuration,
         customDialogue,
         kidsAge,
+        kidsLocation,
         kidsHealth,
+        kidsVibe,
         characterSetup,
+        charactersPerScene,
+        customCharactersPerScene,
         kidsNationality,
         carboxBrand,
         carboxColor,
@@ -516,8 +975,12 @@ export default function IdeasPage() {
     videoDuration,
     customDialogue,
     kidsAge,
+    kidsLocation,
     kidsHealth,
+    kidsVibe,
     characterSetup,
+    charactersPerScene,
+    customCharactersPerScene,
     kidsNationality,
     carboxBrand,
     carboxColor,
@@ -538,8 +1001,12 @@ export default function IdeasPage() {
     setVideoDuration(10);
     setCustomDialogue("");
     setKidsAge("Toddler (2-4 yrs)");
-    setKidsHealth("Cheerful & Energetic");
+    setKidsLocation("Cozy Home Living Room");
+    setKidsHealth("Healthy");
+    setKidsVibe("Cheerful & Energetic");
     setCharacterSetup("One Cute Little Girl");
+    setCharactersPerScene("2 Characters");
+    setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
     setCarboxBrand("Premium BMW");
     setCarboxColor("Glossy Black");
@@ -550,7 +1017,7 @@ export default function IdeasPage() {
     setSearchQuery("");
     setSortBy("NEWEST");
     setCurrentPage(1);
-    setAiModel("claude-3-7-sonnet-20250219");
+    setAiModel("claude-sonnet-4-6");
     if (typeof window !== "undefined") {
       localStorage.removeItem("flow-ideas-page-settings");
     }
@@ -631,7 +1098,25 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, language, visualStyle, videoDuration, customDialogue, kidsAge, kidsHealth, characterSetup, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground, aiModel }),
+        body: JSON.stringify({
+          category,
+          language,
+          visualStyle,
+          videoDuration,
+          customDialogue,
+          kidsAge,
+          kidsLocation,
+          kidsHealth,
+          kidsVibe,
+          characterSetup,
+          charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
+          kidsNationality,
+          carboxBrand,
+          carboxColor,
+          carboxPackaging,
+          carboxBackground,
+          aiModel,
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -654,6 +1139,7 @@ export default function IdeasPage() {
           createdAt: new Date().toISOString(),
           videoFileName,
           aiModel: aiModel || "claude-3-7-sonnet-20250219",
+          customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
         };
       });
       
@@ -883,7 +1369,7 @@ export default function IdeasPage() {
         </div>
 
         {/* Generate New Ideas Form Controls */}
-        <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-indigo-500/20 shadow-xl backdrop-blur-xl space-y-6">
+        <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-indigo-500/20 shadow-xl relative z-30 space-y-6">
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
             <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2.5">
               <span className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
@@ -1111,77 +1597,94 @@ export default function IdeasPage() {
 
           {/* Cute Kids Options */}
           {category === "CUTE_KIDS" && (
-            <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/20 border border-indigo-500/20 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Characters Age</label>
-                <select
-                  value={kidsAge}
-                  onChange={(e) => setKidsAge(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition-all font-medium cursor-pointer"
-                >
-                  {KIDS_AGE_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt} className="bg-slate-900 text-white">
-                      {opt}
-                    </option>
-                  ))}
-                </select>
+            <div className="p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 space-y-5 shadow-xl relative z-30">
+              <div className="flex items-center justify-between border-b border-indigo-500/20 pb-3">
+                <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+                  Cute Kids Generator Parameters
+                </span>
+                <span className="text-[10px] text-indigo-300/70 font-semibold px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-500/20 hidden sm:inline">
+                  Interactive Presets & Parameters
+                </span>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Kids Health / Vibe</label>
-                <select
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {/* 1. Characters Age */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+                    <span>Characters Age</span>
+                  </label>
+                  <select
+                    value={kidsAge}
+                    onChange={(e) => setKidsAge(e.target.value)}
+                    className="w-full h-11 px-3.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-xs sm:text-sm text-white font-semibold cursor-pointer transition-colors shadow-md"
+                  >
+                    {KIDS_AGE_OPTIONS.map((opt) => (
+                      <option key={opt} value={opt} className="bg-[#0c0f18] text-slate-100 font-medium">
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 2. Scene Location */}
+                <CustomSelect
+                  label="Scene Location"
+                  value={kidsLocation}
+                  onChange={setKidsLocation}
+                  groups={KIDS_LOCATION_GROUPS}
+                />
+
+                {/* 3. Kids Health */}
+                <CustomSelect
+                  label="Kids Health"
                   value={kidsHealth}
-                  onChange={(e) => setKidsHealth(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition-all font-medium cursor-pointer"
-                >
-                  {KIDS_HEALTH_GROUPS.map((group) => (
-                    <optgroup key={group.category} label={group.category} className="bg-slate-900 text-indigo-300 font-bold">
-                      {group.options.map((opt) => (
-                        <option key={opt} value={opt} className="bg-black text-white font-normal">
-                          {opt}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
-              </div>
+                  onChange={setKidsHealth}
+                  groups={KIDS_HEALTH_GROUPS}
+                />
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Character Setup</label>
-                <select
+                {/* 4. Kids Vibe */}
+                <CustomSelect
+                  label="Kids Vibe"
+                  value={kidsVibe}
+                  onChange={setKidsVibe}
+                  groups={KIDS_VIBE_GROUPS}
+                />
+
+                {/* 5. Character Setup */}
+                <CustomSelect
+                  label="Character Setup"
                   value={characterSetup}
-                  onChange={(e) => setCharacterSetup(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition-all font-medium cursor-pointer"
-                >
-                  {CHARACTER_SETUP_GROUPS.map((group) => (
-                    <optgroup key={group.category} label={group.category} className="bg-slate-900 text-indigo-300 font-bold">
-                      {group.options.map((opt) => (
-                        <option key={opt} value={opt} className="bg-black text-white font-normal">
-                          {opt}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
-              </div>
+                  onChange={setCharacterSetup}
+                  groups={CHARACTER_SETUP_GROUPS}
+                />
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Nationality</label>
-                <select
+                {/* 6. Characters Per Scene */}
+                <div className="space-y-1.5">
+                  <CustomSelect
+                    label="Characters Per Scene"
+                    value={charactersPerScene}
+                    onChange={setCharactersPerScene}
+                    groups={CHARACTERS_PER_SCENE_GROUPS}
+                  />
+                  {charactersPerScene === "Custom" && (
+                    <input
+                      type="text"
+                      value={customCharactersPerScene}
+                      onChange={(e) => setCustomCharactersPerScene(e.target.value)}
+                      placeholder="e.g. 5 Characters (3 Kids + 2 Adults)..."
+                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
+                    />
+                  )}
+                </div>
+
+                {/* 7. Nationality */}
+                <CustomSelect
+                  label="Nationality / Culture"
                   value={kidsNationality}
-                  onChange={(e) => setKidsNationality(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition-all font-medium cursor-pointer"
-                >
-                  <option value="Global / Any" className="bg-slate-900 text-white">Global / Any</option>
-                  <option value="American" className="bg-slate-900 text-white">American</option>
-                  <option value="Indian / South Asian" className="bg-slate-900 text-white">Indian / South Asian</option>
-                  <option value="Pakistani" className="bg-slate-900 text-white">Pakistani</option>
-                  <option value="East Asian (Japanese/Korean/Chinese)" className="bg-slate-900 text-white">East Asian</option>
-                  <option value="African" className="bg-slate-900 text-white">African</option>
-                  <option value="European" className="bg-slate-900 text-white">European</option>
-                  <option value="Middle Eastern" className="bg-slate-900 text-white">Middle Eastern</option>
-                  <option value="Latin American" className="bg-slate-900 text-white">Latin American</option>
-                </select>
+                  onChange={setKidsNationality}
+                  groups={KIDS_NATIONALITY_GROUPS}
+                />
               </div>
             </div>
           )}
@@ -1354,7 +1857,7 @@ export default function IdeasPage() {
         </div>
 
         {/* Saved Ideas Section */}
-        <div ref={savedIdeasSectionRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-slate-800/80 shadow-xl backdrop-blur-xl space-y-5">
+        <div ref={savedIdeasSectionRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-slate-800/80 shadow-xl backdrop-blur-xl space-y-5 relative z-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <span>Saved Ideas ({filteredIdeas.length})</span>
@@ -1541,68 +2044,300 @@ export default function IdeasPage() {
                         )}
                       </div>
 
-                      {/* Social Media Content Display Box */}
-                      {idea.socialContent && (
-                        <div className="mt-4 p-4 rounded-xl bg-blue-950/20 border border-blue-500/30 space-y-3.5 w-full">
-                          <div className="flex items-center justify-between border-b border-blue-500/20 pb-2">
-                            <div className="flex items-center gap-2 text-xs font-bold text-blue-300 uppercase tracking-wider">
-                              <Share2 className="w-3.5 h-3.5 text-blue-400" />
-                              <span>Facebook Social Content</span>
-                            </div>
+                      {/* Spoken Script & Custom Dialogue Banner */}
+                      <div className="mt-3 p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2.5 w-full shadow-lg">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
+                              <span>💬</span>
+                              <span>{idea.customDialogue ? "Custom Spoken Dialogue" : "Spoken Dialogue & Script"}</span>
+                            </span>
+                            {idea.customDialogue && (
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                User Custom Input
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-wrap">
                             <button
-                              onClick={() => handleGenerateSocial(idea)}
-                              disabled={generatingSocialId === idea.id}
-                              className="text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer"
+                              onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-card-dialogue`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-500/30 shadow-sm"
+                              title="Copy Spoken Dialogue"
                             >
-                              <RotateCcw className="w-3 h-3" />
-                              <span>Regenerate Social</span>
+                              {copiedId === `${idea.id}-card-dialogue` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-amber-400" />}
+                              <span>Copy Dialogue</span>
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setCustomDialogue(getIdeaDialogue(idea));
+                                showToast("Loaded custom dialogue into generator form!", "info");
+                              }}
+                              className="flex items-center gap-1 text-[11px] font-bold text-emerald-300 hover:text-white transition-colors cursor-pointer bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/30 shadow-sm"
+                              title="Use this dialogue in the generator form above"
+                            >
+                              <Sparkles className="w-3 h-3 text-emerald-400" />
+                              <span>Use in Generator</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleOpenScriptModal(idea)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
+                              title="Open Full Dialogue Box Modal"
+                            >
+                              <MessageSquare className="w-3 h-3 text-indigo-400" />
+                              <span>Open Dialog Box</span>
                             </button>
                           </div>
+                        </div>
 
-                          {/* Title Field (with Like & Share) */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>📌 Video Title (Like & Share)</span>
-                              <button
-                                onClick={() => handleCopy(idea.socialContent!.title, `${idea.id}-social-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
-                              >
-                                {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                                Copy Title
-                              </button>
+                        <div
+                          dir={isRtl ? "rtl" : "ltr"}
+                          className={`p-3 rounded-xl bg-black/70 border border-amber-500/30 text-xs sm:text-sm text-amber-100 font-medium leading-relaxed ${
+                            isRtl ? "text-right" : "text-left"
+                          }`}
+                        >
+                          {getIdeaDialogue(idea) || (
+                            <span className="text-slate-400 italic">No custom spoken dialogue specified yet. Click &quot;Open Dialog Box&quot; to add dialogue.</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Social Media Content Display Box */}
+                      {idea.socialContent && (
+                        <div className="mt-4 p-4.5 rounded-2xl bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-black/50 border border-blue-500/40 space-y-4 w-full shadow-xl font-sans">
+                          <div className="flex items-center justify-between border-b border-blue-500/20 pb-3 flex-wrap gap-2">
+                            <div className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-blue-300 uppercase tracking-wider">
+                              <Share2 className="w-4 h-4 text-blue-400" />
+                              <span>Social Media Titles & Trending Assets</span>
                             </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-white font-medium ${isRtl ? "text-right" : "text-left"}`}>
-                              {idea.socialContent.title}
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <button
+                                onClick={() => handleCopy(`🔴 YOUTUBE SHORTS TITLE:\n${getIdeaShortsTitle(idea)}\n\n📘 FACEBOOK REELS TITLE:\n${getIdeaReelsTitle(idea)}\n\n🎵 TIKTOK / IG REELS TITLE:\n${getIdeaTikTokTitle(idea)}\n\n📝 DESCRIPTION:\n${getIdeaDescription(idea)}\n\n🏷️ HASHTAGS:\n${getIdeaHashtags(idea)}\n\n🔥 TRENDING TAGS & SUGGESTIONS:\n${getIdeaTrendingTags(idea)}`, `${idea.id}-social-all`)}
+                                className="px-3 py-1.5 rounded-xl bg-blue-600/40 border border-blue-500/50 hover:bg-blue-600/60 text-xs font-bold text-white transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md"
+                                title="Copy all platform titles, description, hashtags and trending tags together"
+                              >
+                                {copiedId === `${idea.id}-social-all` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-300" />}
+                                <span>Copy All Social Assets</span>
+                              </button>
+                              <button
+                                onClick={() => handleGenerateSocial(idea)}
+                                disabled={generatingSocialId === idea.id}
+                                className="text-xs font-bold text-slate-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-700"
+                              >
+                                <RotateCcw className="w-3 h-3 text-blue-400" />
+                                <span>Regenerate Titles</span>
+                              </button>
                             </div>
                           </div>
 
-                          {/* Hashtags Field (Max 4-5) */}
+                          {/* 🔴 YouTube Shorts Title */}
                           <div className="space-y-1">
-                            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                              <span>🏷️ Hashtags (Max 4-5)</span>
+                            <div className="flex items-center justify-between text-xs font-bold text-rose-300">
+                              <span>🔴 YouTube Shorts Title (Emoji-Rich & Catchy)</span>
                               <button
-                                onClick={() => handleCopy(idea.socialContent!.hashtags, `${idea.id}-social-tags`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-blue-200 transition-colors cursor-pointer"
+                                onClick={() => handleCopy(getIdeaShortsTitle(idea), `${idea.id}-shorts-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-rose-400 hover:text-white transition-colors cursor-pointer bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/30"
                               >
-                                {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                                Copy Hashtags
+                                {copiedId === `${idea.id}-shorts-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-rose-400" />}
+                                Copy Shorts Title
                               </button>
                             </div>
-                            <div dir="ltr" className="p-2.5 rounded-lg bg-black/60 border border-slate-800 text-xs text-indigo-300 font-mono">
-                              {idea.socialContent.hashtags}
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-rose-500/30 text-xs sm:text-sm text-rose-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaShortsTitle(idea)}
+                            </div>
+                          </div>
+
+                          {/* 📘 Facebook Reels Title */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-xs font-bold text-blue-300">
+                              <span>📘 Facebook Reels Title (Viral Hook & Humor)</span>
+                              <button
+                                onClick={() => handleCopy(getIdeaReelsTitle(idea), `${idea.id}-reels-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-white transition-colors cursor-pointer bg-blue-950/60 px-2 py-0.5 rounded border border-blue-500/30"
+                              >
+                                {copiedId === `${idea.id}-reels-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-blue-400" />}
+                                Copy Reels Title
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-blue-500/30 text-xs sm:text-sm text-blue-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaReelsTitle(idea)}
+                            </div>
+                          </div>
+
+                          {/* 🎵 TikTok & IG Reels Title */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-xs font-bold text-purple-300">
+                              <span>🎵 TikTok & IG Reels Title (Trend Style)</span>
+                              <button
+                                onClick={() => handleCopy(getIdeaTikTokTitle(idea), `${idea.id}-tiktok-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-purple-400 hover:text-white transition-colors cursor-pointer bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30"
+                              >
+                                {copiedId === `${idea.id}-tiktok-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-purple-400" />}
+                                Copy TikTok Title
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-purple-500/30 text-xs sm:text-sm text-purple-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaTikTokTitle(idea)}
+                            </div>
+                          </div>
+
+                          {/* 📌 Universal Main Title */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+                              <span>📌 Universal Main Title</span>
+                              <button
+                                onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-social-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-slate-300 hover:text-white transition-colors cursor-pointer bg-slate-900 px-2 py-0.5 rounded border border-slate-700"
+                              >
+                                {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Main Title
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-slate-800 text-xs text-white font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaTitle(idea)}
+                            </div>
+                          </div>
+
+                          {/* 📝 Video Description */}
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+                              <span>📝 Video Description</span>
+                              <button
+                                onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-social-desc`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-slate-300 hover:text-white transition-colors cursor-pointer bg-slate-900 px-2 py-0.5 rounded border border-slate-700"
+                              >
+                                {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                Copy Description
+                              </button>
+                            </div>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-slate-800 text-xs text-slate-200 font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaDescription(idea)}
+                            </div>
+                          </div>
+
+                          {/* 🏷️ Core Hashtags & 🔥 Trending Tags */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            {/* Core Hashtags */}
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs font-bold text-indigo-300">
+                                <span>🏷️ Core Hashtags (4-5)</span>
+                                <button
+                                  onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-social-tags`)}
+                                  className="flex items-center gap-1 text-[11px] font-bold text-indigo-400 hover:text-white transition-colors cursor-pointer bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-500/30"
+                                >
+                                  {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-400" />}
+                                  Copy Tags
+                                </button>
+                              </div>
+                              <div dir="ltr" className="p-2.5 rounded-xl bg-black/70 border border-indigo-500/30 text-xs text-indigo-300 font-mono">
+                                {getIdeaHashtags(idea)}
+                              </div>
+                            </div>
+
+                            {/* Trending Tags & Suggestions */}
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs font-bold text-emerald-300">
+                                <span>🔥 Trending Tags & Growth</span>
+                                <button
+                                  onClick={() => handleCopy(getIdeaTrendingTags(idea), `${idea.id}-trending-tags`)}
+                                  className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-white transition-colors cursor-pointer bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30"
+                                >
+                                  {copiedId === `${idea.id}-trending-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-emerald-400" />}
+                                  Copy Trending Tags
+                                </button>
+                              </div>
+                              <div dir="ltr" className="p-2.5 rounded-xl bg-black/70 border border-emerald-500/30 text-xs text-emerald-300 font-mono">
+                                {getIdeaTrendingTags(idea)}
+                              </div>
                             </div>
                           </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Actions Row - Full Width Right-Aligned */}
+                    {/* Actions Row - Full Width Right-Aligned with Separate Copy Buttons */}
                     <div className="w-full flex items-center justify-end gap-2 flex-wrap pt-3 border-t border-slate-800/60">
+                      {/* Individual Copy Buttons requested by user */}
+                      <button
+                        onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-action-dialogue`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-xs font-bold text-amber-300 hover:text-white transition-all cursor-pointer active:scale-95"
+                        title="Copy Spoken Dialogue Script"
+                      >
+                        {copiedId === `${idea.id}-action-dialogue` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+                        <span>Copy Dialogue</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(idea.text, `${idea.id}-action-prompt`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95"
+                        title="Copy Full Video Prompt / Concept"
+                      >
+                        {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
+                        <span>Copy Prompt</span>
+                      </button>
+
+                      {/* 9:16 Mobile Vertical Aspect Ratio Prompt */}
+                      <button
+                        onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy 9:16 Mobile Vertical Aspect Ratio Prompt"
+                      >
+                        {copiedId === `${idea.id}-mobile` ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
+                        )}
+                        <span>9:16 Mobile</span>
+                      </button>
+
+                      {/* 16:9 Full Widescreen Aspect Ratio Prompt */}
+                      <button
+                        onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy 16:9 Full Widescreen Aspect Ratio Prompt"
+                      >
+                        {copiedId === `${idea.id}-full` ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                        )}
+                        <span>16:9 Full</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-action-title`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-950/40 border border-blue-500/40 text-xs font-bold text-blue-300 hover:text-white transition-all cursor-pointer active:scale-95"
+                        title="Copy Title"
+                      >
+                        {copiedId === `${idea.id}-action-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
+                        <span>Copy Title</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-action-desc`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 text-xs font-bold text-purple-300 hover:text-white transition-all cursor-pointer active:scale-95"
+                        title="Copy Description"
+                      >
+                        {copiedId === `${idea.id}-action-desc` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
+                        <span>Copy Description</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-action-tags`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs font-bold text-emerald-300 hover:text-white transition-all cursor-pointer active:scale-95"
+                        title="Copy Hashtags"
+                      >
+                        {copiedId === `${idea.id}-action-tags` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
+                        <span>Copy Tags</span>
+                      </button>
+
                       {/* Generate Social Button */}
                       <button
                         onClick={() => handleGenerateSocial(idea)}
                         disabled={generatingSocialId === idea.id}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
                         title="Generate Facebook title, description, caption & hashtags"
                       >
                         {generatingSocialId === idea.id ? (
@@ -1616,7 +2351,7 @@ export default function IdeasPage() {
                       {/* Favorite Toggle Button */}
                       <button
                         onClick={() => handleToggleFavorite(idea.id)}
-                        className={`p-2.5 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                        className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
                           idea.isFavorite 
                             ? "bg-rose-950/60 border-rose-500/50 text-rose-400 hover:bg-rose-900/60 shadow-md shadow-rose-950/40" 
                             : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40"
@@ -1626,51 +2361,10 @@ export default function IdeasPage() {
                         <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
                       </button>
 
-                      {/* Simple Copy Prompt Button */}
-                      <button
-                        onClick={() => handleCopy(idea.text, idea.id)}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white hover:border-indigo-500/40 transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Copy exact prompt text"
-                      >
-                        {copiedId === idea.id ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
-                        )}
-                        <span>Copy Prompt</span>
-                      </button>
-
-                      {/* Mobile & Full Options */}
-                      <button
-                        onClick={() => handleCopy(`[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${idea.text}`, `${idea.id}-mobile`)}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-950/50 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Copy Mobile Prompt (9:16)"
-                      >
-                        {copiedId === `${idea.id}-mobile` ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
-                        )}
-                        <span>9:16 Mobile</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleCopy(`[FORMAT: 16:9 Widescreen Aspect Ratio.]\n\n${idea.text}`, `${idea.id}-full`)}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Copy Full Prompt (16:9)"
-                      >
-                        {copiedId === `${idea.id}-full` ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        )}
-                        <span>16:9 Full</span>
-                      </button>
-
                       {/* Delete Button */}
                       <button
                         onClick={() => handleDeleteIdea(idea.id)}
-                        className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer active:scale-95"
+                        className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer active:scale-95"
                         title="Delete idea"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1708,6 +2402,77 @@ export default function IdeasPage() {
           )}
         </div>
       </main>
+
+      {/* Script & Dialogue Modal Dialog Box */}
+      {scriptModalIdea && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="w-full max-w-xl rounded-2xl bg-[#0b0e17] border border-indigo-500/40 p-6 space-y-4 shadow-2xl relative font-sans">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-indigo-500/20 pb-3">
+              <div className="flex items-center gap-2 text-sm sm:text-base font-extrabold text-white">
+                <span className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400">💬</span>
+                <span>Spoken Dialogue & Script Box</span>
+              </div>
+              <button
+                onClick={() => setScriptModalIdea(null)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Video Filename Sub-header */}
+            <div className="text-xs text-indigo-300/80 font-mono flex items-center gap-2 bg-indigo-950/40 p-2 rounded-lg border border-indigo-500/20">
+              <FileVideo className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Video ID: {getFallbackFileName(scriptModalIdea)}</span>
+            </div>
+
+            {/* Editable Script Textarea */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                <span>Dialogue Lines & Voiceover Script</span>
+                <span className="text-[10px] text-indigo-400 font-normal">Edit & save script for reuse</span>
+              </label>
+              <textarea
+                value={editedScriptText}
+                onChange={(e) => setEditedScriptText(e.target.value)}
+                dir={scriptModalIdea.language === "Urdu" || scriptModalIdea.language === "Punjabi" ? "rtl" : "ltr"}
+                rows={5}
+                className="w-full p-3.5 rounded-xl bg-black/70 border border-indigo-500/30 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all leading-relaxed font-sans"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => handleCopy(editedScriptText, `${scriptModalIdea.id}-modal-script`)}
+                className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-xs font-bold text-indigo-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-sm"
+              >
+                {copiedId === `${scriptModalIdea.id}-modal-script` ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-indigo-400" />}
+                <span>{copiedId === `${scriptModalIdea.id}-modal-script` ? "Copied Script" : "Copy Script"}</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setScriptModalIdea(null)}
+                  className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveScriptModal}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 transition-all cursor-pointer active:scale-95"
+                >
+                  Save Script
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -121,8 +121,11 @@ export interface SuggestIdeasInput {
   customDialogue?: string;
   seed?: number;
   kidsAge?: string;
+  kidsLocation?: string;
   kidsHealth?: string;
+  kidsVibe?: string;
   characterSetup?: string;
+  charactersPerScene?: string;
   kidsNationality?: string;
   carboxBrand?: string;
   carboxColor?: string;
