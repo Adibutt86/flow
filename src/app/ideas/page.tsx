@@ -218,6 +218,7 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Before School Routine", label: "Before School Routine", desc: "Getting ready for school with books and backpack." },
       { value: "Weekend Fun", label: "Weekend Fun", desc: "Carefree, relaxed, weekend play atmosphere." },
       { value: "Silly Kid", label: "Silly Kid / Funny", desc: "Playful funny faces, goofy antics, and slapstick humor." },
+      { value: "Romantic", label: "Romantic Vibe", desc: "Sweet, affectionate, heartwarming, and dreamy romantic mood." },
       { value: "Funny Teacher", label: "Funny Teacher Vibe", desc: "Playful classroom roleplay and funny teaching antics." },
       { value: "Dad Jokes", label: "Dad Jokes Vibe", desc: "Wholesome humor and silly parent-child jokes." },
     ],
