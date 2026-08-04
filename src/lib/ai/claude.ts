@@ -367,6 +367,7 @@ ${input.kidsVibe ? `Kids Vibe/Mood: ${input.kidsVibe}` : ""}
 ${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
 ${input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
 ${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType}` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}

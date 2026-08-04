@@ -132,6 +132,7 @@ export interface SuggestIdeasInput {
   carboxPackaging?: string;
   carboxBackground?: string;
   aiModel?: string;
+  musicType?: string;
 }
 
 /**

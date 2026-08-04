@@ -475,6 +475,43 @@ const KIDS_NATIONALITY_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Default Soundscape",
+    options: [
+      { value: "None", label: "None (Default)", desc: "No background music specified. Pure ambient dialogue & sound effects." },
+    ],
+  },
+  {
+    category: "Desi & Regional Music Genres",
+    options: [
+      { value: "Punjabi Beats & Bhangra", label: "Punjabi Beats & Bhangra", desc: "Energetic Dhol beats, Tumbi, and vibrant Punjabi folk rhythms." },
+      { value: "Sufi Qawwali & Harmonium", label: "Sufi Qawwali & Harmonium", desc: "Soulful Qawwali clapping, Harmonium, and mystical Sufi melodies." },
+      { value: "Bollywood Masala & Filmi", label: "Bollywood Masala & Filmi", desc: "Upbeat cinematic Bollywood dance rhythms and brass fanfares." },
+      { value: "Desi Hip-Hop & Trap", label: "Desi Hip-Hop & Trap", desc: "Heavy bass 808s blended with Desi ethnic synth melodies." },
+      { value: "Desi Classical & Ragas", label: "Desi Classical & Ragas", desc: "Traditional Sitar, Tabla, Harmonium, and classical Ragas." },
+      { value: "Desi Folk & Traditional", label: "Desi Folk & Traditional", desc: "Acoustic Ektara, Rubab, and village bamboo flute tunes." },
+      { value: "Nasheed / Vocal Only", label: "Nasheed / Vocal Only", desc: "Harmonious vocal-only a cappella background melodies without instruments." },
+    ],
+  },
+  {
+    category: "Global & Popular Music Genres",
+    options: [
+      { value: "Pop & Upbeat Dance", label: "Pop & Upbeat Dance", desc: "Catchy modern synth-pop and energetic radio hit melodies." },
+      { value: "Hip-Hop & Urban Beats", label: "Hip-Hop & Urban Beats", desc: "Rhythmic beat drops, funky basslines, and boom-bap drums." },
+      { value: "Rock & Electric Guitars", label: "Rock & Electric Guitars", desc: "High-energy electric guitar riffs, bass, and punchy acoustic drums." },
+      { value: "EDM & Electronic Dance", label: "EDM & Electronic Dance", desc: "High-bpm electronic synth drops, festival beats, and energetic bass." },
+      { value: "Lo-Fi Chill & Chillhop", label: "Lo-Fi Chill & Chillhop", desc: "Relaxing lofi beats, vinyl crackle, and cozy acoustic piano chords." },
+      { value: "Smooth Jazz & Lounge", label: "Smooth Jazz & Lounge", desc: "Cool saxophone, upright bass, and relaxed cafe jazz piano." },
+      { value: "Orchestral & Grand Symphony", label: "Orchestral & Grand Symphony", desc: "Full symphonic strings, brass fanfares, and epic cinematic timpani." },
+      { value: "Cinematic Epic & Dramatic", label: "Cinematic Epic & Dramatic", desc: "Suspenseful movie trailer strings, brass swells, and action percussion." },
+      { value: "Kids Nursery Rhymes", label: "Kids Nursery Rhymes", desc: "Playful xylophone, cute bells, and joyful children's melody tunes." },
+      { value: "Funny Comedy Sound Effects", label: "Funny Comedy Sound Effects", desc: "Playful cartoon boings, slide whistles, and comical kazoo tunes." },
+      { value: "Acoustic Guitar & Whistling", label: "Acoustic Guitar & Whistling", desc: "Warm strummed acoustic guitar with friendly whistling melody." },
+    ],
+  },
+];
+
 const AI_MODEL_OPTIONS = [
   { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
   { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
@@ -495,6 +532,7 @@ interface SavedIdea {
   videoFileName?: string;
   aiModel?: string;
   customDialogue?: string;
+  musicType?: string;
   socialContent?: {
     title: string;
     shortsTitle?: string;
@@ -769,6 +807,7 @@ interface IdeasPageSettings {
   sortBy?: "NEWEST" | "OLDEST" | "FAVORITES_FIRST";
   currentPage?: number;
   aiModel?: string;
+  musicType?: string;
 }
 
 export default function IdeasPage() {
@@ -928,6 +967,7 @@ export default function IdeasPage() {
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "2 Characters");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
+  const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
   
   const isRtl = language === "Urdu" || language === "Punjabi";
   
@@ -985,6 +1025,7 @@ export default function IdeasPage() {
         sortBy,
         currentPage,
         aiModel,
+        musicType,
       };
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
     }
@@ -1012,6 +1053,7 @@ export default function IdeasPage() {
     sortBy,
     currentPage,
     aiModel,
+    musicType,
   ]);
 
   const handleResetSettings = () => {
@@ -1028,6 +1070,7 @@ export default function IdeasPage() {
     setCharactersPerScene("2 Characters");
     setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
+    setMusicType("None");
     setCarboxBrand("Premium BMW");
     setCarboxColor("Glossy Black");
     setCarboxPackaging("Elegant Retail Box");
@@ -1136,6 +1179,7 @@ export default function IdeasPage() {
           carboxPackaging,
           carboxBackground,
           aiModel,
+          musicType,
         }),
       });
       const data = await res.json();
@@ -1160,6 +1204,7 @@ export default function IdeasPage() {
           videoFileName,
           aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
+          musicType: musicType !== "None" ? musicType : undefined,
         };
       });
       
@@ -1494,6 +1539,18 @@ export default function IdeasPage() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Background Music Type Dropdown */}
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <CustomSelect
+                label="Background Music Type"
+                icon="🎵"
+                value={musicType}
+                onChange={(val) => setMusicType(val)}
+                groups={MUSIC_TYPE_GROUPS}
+                badgeTitle="Music Style"
+              />
             </div>
 
             {/* Custom Spoken Dialogue Section */}
@@ -2007,6 +2064,12 @@ export default function IdeasPage() {
                             <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
                             <span>{getModelBadgeLabel(idea.aiModel)}</span>
                           </span>
+                          {idea.musicType && (
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/80 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                              <span>🎵</span>
+                              <span>{idea.musicType}</span>
+                            </span>
+                          )}
                         </div>
 
                         {/* Unique Video Filename Badge & Inline Editor */}
