@@ -484,15 +484,38 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
-    category: "Desi & Regional Music Genres",
+    category: "Punjabi Folk & Cultural Rhythms",
     options: [
-      { value: "Punjabi Beats & Bhangra", label: "Punjabi Beats & Bhangra", desc: "Energetic Dhol beats, Tumbi, and vibrant Punjabi folk rhythms." },
+      { value: "Punjabi Tappa & Dholak", label: "Punjabi Tappa & Dholak", desc: "Fast-paced rhythmic Punjabi Tappa couplets with Dholak & Chimta." },
+      { value: "Punjabi Jugni Folk Beats", label: "Punjabi Jugni Folk Beats", desc: "High-energy traditional Punjabi Jugni folk rhythm with Tumbi." },
+      { value: "Punjabi Boliyan & Giddha", label: "Punjabi Boliyan & Giddha", desc: "Lively Giddha clapping, Boliyan chants, and festive folk beats." },
+      { value: "Punjabi Mahiya & Dhola", label: "Punjabi Mahiya & Dhola", desc: "Soulful Punjabi Mahiya & Dhola acoustic folk melodies." },
+      { value: "Punjabi Mirza & Heer Legends", label: "Punjabi Mirza & Heer Legends", desc: "Emotional storytelling ballads with Sarangi & Tumbi." },
+      { value: "Punjabi Jhumar & Luddi", label: "Punjabi Jhumar & Luddi", desc: "Joyful festive Punjabi Jhumar & Luddi dance rhythms." },
+      { value: "Punjabi Beats & Bhangra", label: "Punjabi Beats & Bhangra", desc: "Energetic Dhol beats, Tumbi, and vibrant Punjabi Bhangra." },
+    ],
+  },
+  {
+    category: "Sufi, Spiritual & Regional Desi Folk",
+    options: [
       { value: "Sufi Qawwali & Harmonium", label: "Sufi Qawwali & Harmonium", desc: "Soulful Qawwali clapping, Harmonium, and mystical Sufi melodies." },
+      { value: "Sufi Instrumental Flute & Rubab", label: "Sufi Instrumental Flute & Rubab", desc: "Meditative bamboo flute, Rubab, and gentle ambient drone." },
+      { value: "Dhamal & Sufi Dhol", label: "Dhamal & Sufi Dhol", desc: "Spiritual ecstasy Dhamal beats with heavy Sufi Dhol & brass bells." },
+      { value: "Pashtun Rubab & Attan Beats", label: "Pashtun Rubab & Attan Beats", desc: "Melodic Pashto Rubab paired with traditional Attan drum rhythm." },
+      { value: "Sindhi Ajrak & Alghoza", label: "Sindhi Ajrak & Alghoza", desc: "Authentic Sindhi Alghoza double flute and Matka percussion." },
+      { value: "Balochi Chhap & Tamboor", label: "Balochi Chhap & Tamboor", desc: "Rhythmic Balochi Chhap clapping and Tamboor folk instrument." },
+      { value: "Kashmiri Rouf & Rabab", label: "Kashmiri Rouf & Rabab", desc: "Gentle Kashmiri Rouf folk rhythm with Rabab & Santoor." },
+      { value: "Rajasthani Manganiyar Folk", label: "Rajasthani Manganiyar Folk", desc: "Soulful Manganiyar folk vocals, Khartal, and Kamaicha." },
+      { value: "Bengali Baul & Ektara", label: "Bengali Baul & Ektara", desc: "Philosophical Bengali Baul folk song with Ektara & Dotara." },
+      { value: "Desi Classical Sitar & Tabla", label: "Desi Classical Sitar & Tabla", desc: "Traditional Indian classical Sitar, Tabla, Harmonium, and Ragas." },
+      { value: "Nasheed / Vocal Only", label: "Nasheed / Vocal Only", desc: "Harmonious vocal-only a cappella background melodies without instruments." },
+    ],
+  },
+  {
+    category: "Bollywood & Commercial Desi",
+    options: [
       { value: "Bollywood Masala & Filmi", label: "Bollywood Masala & Filmi", desc: "Upbeat cinematic Bollywood dance rhythms and brass fanfares." },
       { value: "Desi Hip-Hop & Trap", label: "Desi Hip-Hop & Trap", desc: "Heavy bass 808s blended with Desi ethnic synth melodies." },
-      { value: "Desi Classical & Ragas", label: "Desi Classical & Ragas", desc: "Traditional Sitar, Tabla, Harmonium, and classical Ragas." },
-      { value: "Desi Folk & Traditional", label: "Desi Folk & Traditional", desc: "Acoustic Ektara, Rubab, and village bamboo flute tunes." },
-      { value: "Nasheed / Vocal Only", label: "Nasheed / Vocal Only", desc: "Harmonious vocal-only a cappella background melodies without instruments." },
     ],
   },
   {
