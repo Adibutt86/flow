@@ -384,6 +384,14 @@ SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
 3. Audio Balance: Audience "Wah Wah!" reactions must be mixed at a natural, warm background volume so they blend in smoothly without overpowering the main spoken voice.`
     : ""
 }
+${
+  (input.characterSetup && /(boy|girl)\s*singer\s*\+\s*/i.test(input.characterSetup))
+    ? `
+LEAD SINGER & ANIMAL COMPANION MANDATE:
+1. Main Lead Singer: The specified child (Boy or Girl) MUST be designated as the main lead singer holding the microphone or singing enthusiastically in the scene.
+2. Companion Animal: The specified animal appears as a friendly companion character standing, sitting, listening, or reacting alongside the child singer.`
+    : ""
+}
 
 STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:

@@ -165,6 +165,17 @@ const CUTE_KIDS_PRESETS = [
     perScene: "2 Characters",
     nationality: "Pakistani Punjabi",
   },
+  {
+    icon: "🐮",
+    title: "Boy Singer & Calf",
+    age: "Toddler (2-4 yrs)",
+    location: "Desi Village & Punjabi Pind",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Boy Singer + Calf",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+  },
 ];
 
 export interface OptionWithDesc {
@@ -339,8 +350,50 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+export interface AnimalCompanionDef {
+  name: string;
+  emoji: string;
+  desc: string;
+}
+
+export const SINGER_ANIMAL_DEFS: AnimalCompanionDef[] = [
+  { name: "Calf", emoji: "🐮", desc: "Cute young calf companion standing beside the lead singer." },
+  { name: "Cow", emoji: "🐄", desc: "Gentle farm cow companion listening nearby." },
+  { name: "Buffalo", emoji: "🐃", desc: "Rural Desi buffalo resting as a companion character." },
+  { name: "Goat", emoji: "🐐", desc: "Energetic little goat hopping around as a companion." },
+  { name: "Sheep", emoji: "🐑", desc: "Fluffy white sheep standing by as a companion." },
+  { name: "Camel", emoji: "🐪", desc: "Tall desert camel companion standing in the scene." },
+  { name: "Horse", emoji: "🐎", desc: "Noble horse companion standing beside the singer." },
+  { name: "Donkey", emoji: "🫏", desc: "Friendly donkey companion listening to the performance." },
+  { name: "Chicken", emoji: "🐓", desc: "Feathery farm chicken clucking along as a companion." },
+  { name: "Duck", emoji: "🦆", desc: "Cute yellow duck companion standing in the scene." },
+  { name: "Rabbit", emoji: "🐰", desc: "Adorable bunny rabbit sitting near the singer." },
+  { name: "Cat", emoji: "🐱", desc: "Cute kitten companion purring beside the singer." },
+  { name: "Dog", emoji: "🐶", desc: "Loyal puppy dog companion wagging tail nearby." },
+  { name: "Parrot", emoji: "🦜", desc: "Colorful parrot companion perched in the scene." },
+  { name: "Peacock", emoji: "🦚", desc: "Vibrant peacock companion fanning feathers." },
+  { name: "Pigeon", emoji: "🕊️", desc: "Gentle cooing pigeon resting near the singer." },
+];
+
+export function createSingerWithAnimalGroup(
+  singerRole: "Boy" | "Girl",
+  categoryName: string,
+  animals: AnimalCompanionDef[]
+): OptionGroupWithDesc {
+  return {
+    category: categoryName,
+    options: animals.map((a) => ({
+      value: `${singerRole} Singer + ${a.name}`,
+      label: `${singerRole} Singer + ${a.name} ${a.emoji}`,
+      desc: `Main Lead Singer: ${singerRole} | Companion: ${a.name}. Little ${singerRole.toLowerCase()} holds the mic as main lead singer; ${a.name.toLowerCase()} appears as companion. ${a.desc}`,
+    })),
+  };
+}
+
 // 4. CHARACTER SETUP GROUPS (EXPANDED WITH PREDEFINED COMBOS)
 const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
+  createSingerWithAnimalGroup("Boy", "Boy – Singer with Animal", SINGER_ANIMAL_DEFS),
+  createSingerWithAnimalGroup("Girl", "Girl – Singer with Animal", SINGER_ANIMAL_DEFS),
   {
     category: "Predefined Role & Adult Combinations",
     options: [
