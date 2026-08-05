@@ -1701,6 +1701,39 @@ export default function IdeasPage() {
   const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
   const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
 
+  const CHARACTER_LOCATION_SMART_MAPPINGS: { pattern: RegExp; location: string; toastName: string }[] = [
+    { pattern: /doctor|pediatrician/i, location: "Doctor Clinic & Children Hospital", toastName: "Doctor Clinic 🏥" },
+    { pattern: /dentist/i, location: "Dentist Clinic & Tooth Care", toastName: "Dentist Clinic 🪥" },
+    { pattern: /pharmacist/i, location: "Pharmacy & Medicine Shop", toastName: "Pharmacy 💊" },
+    { pattern: /veterinarian|pet doctor|vet\b/i, location: "Veterinary Clinic & Pet Hospital", toastName: "Pet Hospital / Vet 🐾" },
+    { pattern: /firefighter/i, location: "Fire Station & Red Fire Truck", toastName: "Fire Station 🚒" },
+    { pattern: /police/i, location: "Police Station & Patrol Car", toastName: "Police Station 🚓" },
+    { pattern: /postman|mail carrier/i, location: "Post Office & Mail Room", toastName: "Post Office 📮" },
+    { pattern: /baker|chef/i, location: "Bakery & Pastry Shop", toastName: "Bakery 🥐" },
+    { pattern: /pilot|flight captain|aviator/i, location: "Airport Terminal & Airplane", toastName: "Airport Terminal ✈️" },
+    { pattern: /train driver|conductor/i, location: "Train Station Platform", toastName: "Train Station 🚉" },
+    { pattern: /astronaut|spacesuit/i, location: "Futuristic Space Station & Moon Base", toastName: "Space Station 🚀" },
+    { pattern: /dulha|dulhan|bride|groom|wedding|barat|walima|nikkah/i, location: "Traditional Heritage Haveli", toastName: "Heritage Haveli 🕌" },
+    { pattern: /village hero|pind|folk singer/i, location: "Desi Village & Punjabi Pind", toastName: "Desi Pind 📍" },
+    { pattern: /kite flying|rooftop/i, location: "House Rooftop Kite Flying (Kotha)", toastName: "House Rooftop 🪁" },
+    { pattern: /shopkeeper/i, location: "Bustling Desi Bazaar & Street Market", toastName: "Bustling Bazaar 🛍️" },
+    { pattern: /fairy wings|cloud/i, location: "Magical Cloud Kingdom", toastName: "Cloud Kingdom ✨" },
+    { pattern: /soccer player|sports/i, location: "Sunny Playground", toastName: "Playground ⚽" },
+    { pattern: /reading|library/i, location: "Cozy Library & Book Nook", toastName: "Library 📚" },
+  ];
+
+  const handleCharacterSetupChange = (newSetup: string) => {
+    setCharacterSetup(newSetup);
+
+    for (const mapping of CHARACTER_LOCATION_SMART_MAPPINGS) {
+      if (mapping.pattern.test(newSetup)) {
+        setKidsLocation(mapping.location);
+        showToast(`📍 Auto-selected "${mapping.toastName}" location (you can change it anytime)`, "info");
+        break;
+      }
+    }
+  };
+
   const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0]) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
@@ -2596,7 +2629,7 @@ export default function IdeasPage() {
                   label="Character Setup"
                   icon="👥"
                   value={characterSetup}
-                  onChange={setCharacterSetup}
+                  onChange={handleCharacterSetupChange}
                   groups={CHARACTER_SETUP_GROUPS}
                 />
 
