@@ -1134,11 +1134,20 @@ function getIdeaDialogue(idea: SavedIdea): string {
   if (match && match[1]) {
     return match[1].replace(/^["']|["']$/g, "").trim();
   }
-  const quoteMatches = text.match(/"([^"]+)"/g);
+  
+  // Extract spoken dialogue from quotes (single or double quotes, e.g. 'SUNNO SUNNO!' or "Dekha?")
+  const quoteMatches = text.match(/(?:shouts|whispers|says|recites|cries|sings|asks|replies|calls)?:\s*['"]([^'"]+)['"]/gi) ||
+                       text.match(/['"]([^'"]{4,})['"]/g);
   if (quoteMatches && quoteMatches.length > 0) {
-    return quoteMatches.map(q => q.replace(/"/g, "")).join(" | ");
+    const cleanedQuotes = quoteMatches
+      .map(q => q.replace(/^(?:shouts|whispers|says|recites|cries|sings|asks|replies|calls)?:\s*/gi, "").replace(/^['"]|['"]$/g, "").trim())
+      .filter(q => q.length > 3 && !q.toLowerCase().startsWith("format:"));
+    if (cleanedQuotes.length > 0) {
+      return `Spoken Dialogue: "${cleanedQuotes.slice(0, 2).join(" | ")}"`;
+    }
   }
-  return `Voiceover / Dialogue: "${text.slice(0, 120)}..."`;
+
+  return `Visual Concept: "${text.slice(0, 120)}..."`;
 }
 
 function getIdeaDescription(idea: SavedIdea): string {
