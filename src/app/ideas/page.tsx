@@ -483,33 +483,13 @@ export function createSingerWithAnimalGroup(
 
 // 4. CHARACTER SETUP GROUPS (EXPANDED WITH PREDEFINED COMBOS)
 const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
-  createSingerWithAnimalGroup("Boy", "Boy – Singer with Animal", SINGER_ANIMAL_DEFS),
-  createSingerWithAnimalGroup("Girl", "Girl – Singer with Animal", SINGER_ANIMAL_DEFS),
-  {
-    category: "Predefined Role & Adult Combinations",
-    options: [
-      { value: "Boy + Shopkeeper", label: "Boy + Shopkeeper", desc: "Little boy interacting with a friendly shopkeeper." },
-      { value: "Girl + Shopkeeper", label: "Girl + Shopkeeper", desc: "Little girl interacting with a friendly shopkeeper." },
-      { value: "Boy + Mother", label: "Boy + Mother", desc: "Little boy with his loving mother." },
-      { value: "Girl + Mother", label: "Girl + Mother", desc: "Little girl with her loving mother." },
-      { value: "Boy + Father", label: "Boy + Father", desc: "Little boy with his caring father." },
-      { value: "Girl + Father", label: "Girl + Father", desc: "Little girl with her caring father." },
-      { value: "Boy + Teacher", label: "Boy + Teacher", desc: "Little boy learning from a helpful teacher." },
-      { value: "Girl + Teacher", label: "Girl + Teacher", desc: "Little girl learning from a helpful teacher." },
-      { value: "Boy + Police Officer", label: "Boy + Police Officer", desc: "Little boy talking to a friendly police officer." },
-      { value: "Girl + Police Officer", label: "Girl + Police Officer", desc: "Little girl talking to a friendly police officer." },
-      { value: "Boy + Doctor", label: "Boy + Doctor", desc: "Little boy visiting a gentle doctor." },
-      { value: "Girl + Doctor", label: "Girl + Doctor", desc: "Little girl visiting a gentle doctor." },
-      { value: "Boy + Robot", label: "Boy + Robot", desc: "Little boy playing with a futuristic friendly robot." },
-      { value: "Girl + Robot", label: "Girl + Robot", desc: "Little girl playing with a futuristic friendly robot." },
-      { value: "Boy + Friend", label: "Boy + Friend", desc: "Little boy playing with his best friend." },
-      { value: "Girl + Friend", label: "Girl + Friend", desc: "Little girl playing with her best friend." },
-    ],
-  },
   {
     category: "Girl Characters",
     options: [
       { value: "One Cute Little Girl", label: "One Cute Little Girl", desc: "Single cute little girl protagonist." },
+      { value: "Cute Hijabi Little Girl", label: "Cute Hijabi Little Girl", desc: "Adorable little girl wearing a neat cute hijab." },
+      { value: "Little Girl in Traditional Shalwar Kameez", label: "Little Girl in Shalwar Kameez", desc: "Dressed in a vibrant traditional Shalwar Kameez outfit." },
+      { value: "Little Girl in Phulkari Dupatta", label: "Little Girl in Phulkari Dupatta", desc: "Cute Punjabi girl wearing a traditional colorful Phulkari Dupatta." },
       { value: "Smiling Little Girl", label: "Smiling Little Girl", desc: "Bright smiling little girl." },
       { value: "Happy Little Girl", label: "Happy Little Girl", desc: "Joyful and cheerful little girl." },
       { value: "Curious Little Girl", label: "Curious Little Girl", desc: "Inquisitive little girl asking questions." },
@@ -517,6 +497,15 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Playful Little Girl", label: "Playful Little Girl", desc: "Fun-loving playful girl." },
       { value: "Energetic Little Girl", label: "Energetic Little Girl", desc: "High energy active little girl." },
       { value: "Laughing Little Girl", label: "Laughing Little Girl", desc: "Giggling and laughing little girl." },
+      { value: "Cheerful Village Girl", label: "Cheerful Village Girl", desc: "Cute rural village girl in vibrant traditional clothing." },
+      { value: "Little Girl Riding a Bicycle", label: "Little Girl Riding a Bicycle", desc: "Happy girl riding a small pink bicycle with training wheels." },
+      { value: "Little Girl with a Kitten", label: "Little Girl with a Kitten", desc: "Little girl tenderly holding a fluffy cute kitten." },
+      { value: "Little Girl with a Puppy", label: "Little Girl with a Puppy", desc: "Excited girl cuddling a playful little puppy." },
+      { value: "Little Girl Superhero", label: "Little Girl Superhero", desc: "Fearless little girl wearing a mini superhero cape." },
+      { value: "Little Girl Astronaut", label: "Little Girl Astronaut", desc: "Cute girl in a white spacesuit dreaming of space." },
+      { value: "Little Girl Doctor", label: "Little Girl Doctor", desc: "Little girl with a toy stethoscope checking her teddy bear." },
+      { value: "Cute Twin Girls", label: "Cute Twin Girls", desc: "Matching cute twin little girls holding hands." },
+      { value: "Little Girl with Fairy Wings", label: "Little Girl with Fairy Wings", desc: "Enchanting little girl with sparkling magical fairy wings." },
       { value: "Sleeping Little Girl", label: "Sleeping Little Girl", desc: "Peacefully sleeping little girl." },
       { value: "Reading Little Girl", label: "Reading Little Girl", desc: "Little girl reading a storybook." },
       { value: "Drawing Little Girl", label: "Drawing Little Girl", desc: "Little girl drawing with crayons." },
@@ -559,6 +548,20 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     category: "Boy Characters",
     options: [
       { value: "One Cute Little Boy", label: "One Cute Little Boy", desc: "Single cute little boy protagonist." },
+      { value: "Little Boy in Traditional Kurta Pajama", label: "Little Boy in Kurta Pajama", desc: "Handsome little boy in neat traditional Kurta-Pajama." },
+      { value: "Little Boy in Punjabi Pagri / Turban", label: "Little Boy in Punjabi Turban", desc: "Cute little boy wearing a mini Punjabi turban or cap." },
+      { value: "Little Boy with Toy Car / Truck", label: "Little Boy with Toy Car", desc: "Excited little boy driving a red toy car or monster truck." },
+      { value: "Little Boy Riding a Scooter", label: "Little Boy Riding a Scooter", desc: "Active boy riding a kick scooter with a helmet." },
+      { value: "Little Boy with a Puppy", label: "Little Boy with a Puppy", desc: "Little boy playing fetch with a cute golden puppy." },
+      { value: "Little Boy with a Kitten", label: "Little Boy with a Kitten", desc: "Little boy feeding milk to a cute tiny kitten." },
+      { value: "Little Boy Soccer Player", label: "Little Boy Soccer Player", desc: "Sporty boy kicking a soccer ball in a jersey." },
+      { value: "Little Boy Pilot / Aviator", label: "Little Boy Pilot", desc: "Cute boy wearing aviator goggles and a bomber jacket." },
+      { value: "Little Boy Astronaut", label: "Little Boy Astronaut", desc: "Little boy wearing a space helmet and rocket backpack." },
+      { value: "Little Boy Detective", label: "Little Boy Detective", desc: "Curious boy with a magnifying glass inspecting footprints." },
+      { value: "Little Boy Firefighter", label: "Little Boy Firefighter", desc: "Little boy in a red firefighter hat holding a hose." },
+      { value: "Little Boy Dinosaur Fan", label: "Little Boy Dinosaur Fan", desc: "Little boy in a dino hoodie holding toy T-Rex." },
+      { value: "Cute Twin Boys", label: "Cute Twin Boys", desc: "Matching cute twin little boys playing together." },
+      { value: "Little Boy Village Hero", label: "Little Boy Village Hero", desc: "Playful boy running through green village fields with a windmill toy." },
       { value: "Smiling Little Boy", label: "Smiling Little Boy", desc: "Bright smiling little boy." },
       { value: "Happy Little Boy", label: "Happy Little Boy", desc: "Joyful and cheerful little boy." },
       { value: "Curious Little Boy", label: "Curious Little Boy", desc: "Inquisitive little boy exploring." },
@@ -629,6 +632,29 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Child & Friendly Robot", label: "Child & Friendly Robot", desc: "Child with a cute companion robot." },
     ],
   },
+  {
+    category: "Predefined Role & Adult Combinations",
+    options: [
+      { value: "Boy + Shopkeeper", label: "Boy + Shopkeeper", desc: "Little boy interacting with a friendly shopkeeper." },
+      { value: "Girl + Shopkeeper", label: "Girl + Shopkeeper", desc: "Little girl interacting with a friendly shopkeeper." },
+      { value: "Boy + Mother", label: "Boy + Mother", desc: "Little boy with his loving mother." },
+      { value: "Girl + Mother", label: "Girl + Mother", desc: "Little girl with her loving mother." },
+      { value: "Boy + Father", label: "Boy + Father", desc: "Little boy with his caring father." },
+      { value: "Girl + Father", label: "Girl + Father", desc: "Little girl with her caring father." },
+      { value: "Boy + Teacher", label: "Boy + Teacher", desc: "Little boy learning from a helpful teacher." },
+      { value: "Girl + Teacher", label: "Girl + Teacher", desc: "Little girl learning from a helpful teacher." },
+      { value: "Boy + Police Officer", label: "Boy + Police Officer", desc: "Little boy talking to a friendly police officer." },
+      { value: "Girl + Police Officer", label: "Girl + Police Officer", desc: "Little girl talking to a friendly police officer." },
+      { value: "Boy + Doctor", label: "Boy + Doctor", desc: "Little boy visiting a gentle doctor." },
+      { value: "Girl + Doctor", label: "Girl + Doctor", desc: "Little girl visiting a gentle doctor." },
+      { value: "Boy + Robot", label: "Boy + Robot", desc: "Little boy playing with a futuristic friendly robot." },
+      { value: "Girl + Robot", label: "Girl + Robot", desc: "Little girl playing with a futuristic friendly robot." },
+      { value: "Boy + Friend", label: "Boy + Friend", desc: "Little boy playing with his best friend." },
+      { value: "Girl + Friend", label: "Girl + Friend", desc: "Little girl playing with her best friend." },
+    ],
+  },
+  createSingerWithAnimalGroup("Boy", "Boy – Singer with Animal", SINGER_ANIMAL_DEFS),
+  createSingerWithAnimalGroup("Girl", "Girl – Singer with Animal", SINGER_ANIMAL_DEFS),
   {
     category: "Singers, Qawwals & Musical Performers",
     options: [
@@ -1000,47 +1026,20 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
   // triggers popstate (instead of navigating away), which we use to close modal.
   useEffect(() => {
     if (!isOpen) return;
+    let isPushed = true;
     history.pushState({ customSelectOpen: true }, "");
+
     const handlePopState = () => {
+      isPushed = false;
       setIsOpen(false);
     };
+
     window.addEventListener("popstate", handlePopState);
     return () => {
       window.removeEventListener("popstate", handlePopState);
-    };
-  }, [isOpen]);
-
-  // Swipe LEFT or swipe DOWN gesture to close the bottom-sheet modal.
-  // Left swipe = Android back gesture (system-level edge swipe)
-  // Down swipe = natural bottom-sheet dismiss gesture
-  useEffect(() => {
-    if (!isOpen) return;
-    let touchStartX = 0;
-    let touchStartY = 0;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      const dx = touchStartX - e.changedTouches[0].clientX; // positive = swipe left
-      const dy = e.changedTouches[0].clientY - touchStartY; // positive = swipe down
-      const THRESHOLD = 70; // px minimum swipe distance
-      if (dx > THRESHOLD || dy > THRESHOLD) {
-        setIsOpen(false);
-        // Pop the history state we pushed so browser history is clean
-        if (history.state?.customSelectOpen) {
-          history.back();
-        }
+      if (isPushed && history.state?.customSelectOpen) {
+        history.back();
       }
-    };
-
-    document.addEventListener("touchstart", handleTouchStart, { passive: true });
-    document.addEventListener("touchend", handleTouchEnd, { passive: true });
-    return () => {
-      document.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isOpen]);
 
@@ -1118,7 +1117,7 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
 
           <div
             ref={containerRef}
-            className="w-full sm:max-w-2xl sm:mx-auto h-[92vh] sm:h-[85vh] max-h-[92vh] rounded-t-3xl sm:rounded-3xl bg-[#080b14] border border-indigo-500/40 shadow-2xl flex flex-col overflow-hidden relative font-sans"
+            className="w-full sm:max-w-2xl sm:mx-auto h-[90vh] sm:h-[85vh] max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#080b14] border border-indigo-500/40 shadow-2xl flex flex-col overflow-hidden relative font-sans"
           >
             {/* Header */}
             <div className="p-4 sm:p-5 border-b border-indigo-500/20 bg-[#0c101d] sticky top-0 z-30 space-y-3">
@@ -1177,7 +1176,7 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
 
               {/* Category Filter Pills (Horizontal Scroll) */}
               {groups.length > 1 && (
-                <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar scroll-smooth">
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar scroll-smooth touch-pan-x">
                   <button
                     type="button"
                     onClick={() => setSelectedCategoryFilter("ALL")}
@@ -1208,7 +1207,10 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
             </div>
 
             {/* Scrollable Options Area */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-5 overscroll-contain scrollbar-thin scrollbar-thumb-indigo-500/40 pb-36 sm:pb-8">
+            <div
+              className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-5 overscroll-contain scrollbar-thin scrollbar-thumb-indigo-500/40 pb-36 sm:pb-8 touch-pan-y"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
               {totalFilteredCount === 0 ? (
                 <div className="p-8 text-center text-sm text-slate-400 font-medium space-y-3">
                   <p>No matching options for &quot;{searchQuery}&quot;</p>
@@ -1389,7 +1391,7 @@ export default function IdeasPage() {
     const updated = savedIdeas.map((i) =>
       i.id === scriptModalIdea.id ? { ...i, customDialogue: editedScriptText } : i
     );
-    saveToStorage(updated);
+    setSavedIdeas(updated);
     showToast("Spoken script / dialogue saved!", "success");
     setScriptModalIdea(null);
   };
