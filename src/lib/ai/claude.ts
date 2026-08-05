@@ -392,6 +392,15 @@ LEAD SINGER & ANIMAL COMPANION MANDATE:
 2. Companion Animal: The specified animal appears as a friendly companion character standing, sitting, listening, or reacting alongside the child singer.`
     : ""
 }
+${
+  (input.characterSetup && /dulhan|dulha|bride|groom|married|nikkah|walima|barat|miya\s*biwi|couple/i.test(input.characterSetup))
+    ? `
+WEDDING & MARRIED COUPLE (DULHA & DULHAN) MANDATE:
+1. Characters: Depict the specified married couple / bride & groom (Dulha & Dulhan) with authentic wedding or couple aesthetics.
+2. Visuals & Attire: Traditional Pakistani/Desi wedding attire (heavy embroidered red/gold lehenga, royal sherwani, turban, sehra, henna, bridal jewelry, or cozy married couple home attire).
+3. Tone & Chemistry: Heartwarming, respectful, loving, and authentic Desi romantic or family chemistry.`
+    : ""
+}
 
 STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
