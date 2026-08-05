@@ -460,14 +460,29 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "Medical & Community Services",
+    options: [
+      { value: "Doctor Clinic & Children Hospital", label: "Doctor Clinic / Children's Hospital 🏥", desc: "Gentle pediatrician clinic with colorful wall murals, height chart, and examination bed." },
+      { value: "Dentist Clinic & Tooth Care", label: "Dentist Clinic / Tooth Care 🪥", desc: "Bright friendly dentist clinic with dental chair, mouth mirror, and toothbrush posters." },
+      { value: "Pharmacy & Medicine Shop", label: "Pharmacy & Medicine Shop 💊", desc: "Neighborhood pharmacy filled with medicine shelves, syrup bottles, and pharmacist counter." },
+      { value: "Veterinary Clinic & Pet Hospital", label: "Veterinary Clinic & Pet Hospital 🐾", desc: "Cute pet clinic with stethoscope, examination table, and friendly puppy/kitten patients." },
+      { value: "Fire Station & Red Fire Truck", label: "Fire Station & Fire Truck 🚒", desc: "Exciting fire station garage with shiny red fire truck, helmets, and hose reel." },
+      { value: "Police Station & Patrol Car", label: "Police Station & Patrol Car 🚓", desc: "Friendly neighborhood police station with blue patrol car, badge signs, and desk." },
+      { value: "Post Office & Mail Room", label: "Post Office & Mail Room 📮", desc: "Cozy neighborhood post office with red mailboxes, stamps, and letter sorting boxes." },
+    ],
+  },
+  {
     category: "Shops, Places & City",
     options: [
       { value: "Ice Cream Shop", label: "Ice Cream Shop", desc: "Colorful sweet parlor with colorful scoops and ice cream cones." },
       { value: "Magical Toy Store", label: "Toy Store", desc: "Exciting shop filled with shelves of toys, dolls, and robots." },
       { value: "Supermarket & Grocery Market", label: "Market / Supermarket", desc: "Bustling market aisle with fruit baskets and shopping carts." },
-      { value: "Cozy Restaurant & Cafe", label: "Restaurant & Bakery", desc: "Cozy dining table with treats, cakes, and fruit juices." },
+      { value: "Cozy Restaurant & Cafe", label: "Restaurant & Cafe", desc: "Cozy dining table with treats, cakes, and fruit juices." },
+      { value: "Bakery & Pastry Shop", label: "Bakery & Pastry Shop 🥐", desc: "Aromatic bakery shop with glass display of hot bread, cupcakes, and chef counter." },
       { value: "Amusement Park & Carnival", label: "Amusement Park", desc: "Festive fairground with colorful rides and balloons." },
       { value: "Arcade & Game Zone", label: "Retro Arcade & Game Zone", desc: "Vibrant gaming arcade with claw machines and neon lights." },
+      { value: "Airport Terminal & Airplane", label: "Airport Terminal & Airplane ✈️", desc: "Bustling airport terminal with large glass windows overlooking passenger airplanes on runway." },
+      { value: "Train Station Platform", label: "Train Station & Platform 🚉", desc: "Bustling train station platform with passenger trains, luggage carts, and track views." },
     ],
   },
   {
