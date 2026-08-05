@@ -863,6 +863,21 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Girl + Friend", label: "Girl + Friend", desc: "Little girl playing with her best friend." },
     ],
   },
+  {
+    category: "Community Heroes & Career Roles",
+    options: [
+      { value: "Child & Pediatrician Doctor", label: "Child & Pediatrician Doctor 🏥", desc: "Child receiving a friendly checkup from a gentle pediatrician in a doctor clinic." },
+      { value: "Child & Friendly Dentist", label: "Child & Friendly Dentist 🪥", desc: "Child getting a brave smile checkup at a dentist clinic." },
+      { value: "Child & Pharmacist", label: "Child & Pharmacist 💊", desc: "Child getting sweet vitamin syrup from a friendly pharmacist." },
+      { value: "Child & Veterinarian (Pet Doctor)", label: "Child & Veterinarian 🐾", desc: "Child helping a caring pet doctor examine a cute puppy or kitten." },
+      { value: "Boy + Firefighter", label: "Boy + Firefighter 🚒", desc: "Little boy in a mini firefighter hat standing next to a real firefighter and red fire truck." },
+      { value: "Girl + Firefighter", label: "Girl + Firefighter 🚒", desc: "Little girl wearing a firefighter helmet touring a fire station." },
+      { value: "Child & Mail Carrier / Postman", label: "Child & Mail Carrier / Postman 📮", desc: "Child receiving a colorful letter or parcel from a friendly postman." },
+      { value: "Child & Friendly Baker", label: "Child & Friendly Baker 🥐", desc: "Child baking delicious cupcakes with a master baker in a bakery kitchen." },
+      { value: "Child & Pilot / Flight Captain", label: "Child & Pilot / Flight Captain ✈️", desc: "Child wearing pilot wings visiting an airplane cockpit with a friendly captain." },
+      { value: "Child & Train Driver / Conductor", label: "Child & Train Driver 🚉", desc: "Child wearing a conductor cap waving to passengers at a train station." },
+    ],
+  },
   createSingerWithAnimalGroup("Boy", "Boy – Singer with Animal", SINGER_ANIMAL_DEFS),
   createSingerWithAnimalGroup("Girl", "Girl – Singer with Animal", SINGER_ANIMAL_DEFS),
   {
