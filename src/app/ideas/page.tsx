@@ -2477,12 +2477,10 @@ export default function IdeasPage() {
                 <textarea
                   value={customDialogue}
                   onChange={(e) => setCustomDialogue(e.target.value)}
-                  dir={isRtl ? "rtl" : "ltr"}
+                  dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
                   rows={isDialogueExpanded ? 8 : 4}
-                  placeholder='e.g. Abu: "Chips kahan gaye?" \n Bachha: "Taqeeqat jaari hain!" (Or click Suggest AI Dialogue)'
-                  className={`w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner ${
-                    isRtl ? "text-right leading-relaxed tracking-wide font-sans" : "text-left leading-relaxed font-sans"
-                  }`}
+                  placeholder={`e.g. Abu: "Chips kahan gaye?"\nBachha: "Taqeeqat jaari hain!"\n(Or click Suggest AI Dialogue)`}
+                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
                 />
 
                 {/* Saved Dialogues Tag List */}
@@ -3466,7 +3464,7 @@ export default function IdeasPage() {
               <textarea
                 value={editedScriptText}
                 onChange={(e) => setEditedScriptText(e.target.value)}
-                dir={scriptModalIdea.language === "Urdu" || scriptModalIdea.language === "Punjabi" ? "rtl" : "ltr"}
+                dir={editedScriptText && /[\u0600-\u06FF]/.test(editedScriptText) ? "rtl" : "auto"}
                 rows={6}
                 className="w-full p-4 rounded-xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/20 transition-all leading-relaxed tracking-wide font-sans overflow-y-auto custom-scrollbar resize-y shadow-inner"
               />
