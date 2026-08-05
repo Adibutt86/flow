@@ -1120,11 +1120,16 @@ interface SavedIdea {
   };
 }
 
+function cleanPromptText(text: string): string {
+  if (!text) return "";
+  return text.replace(/\[FORMAT:[^\]]+\]\s*/gi, "").trim();
+}
+
 function getIdeaDialogue(idea: SavedIdea): string {
   if (idea.customDialogue && idea.customDialogue.trim()) {
-    return idea.customDialogue.trim();
+    return cleanPromptText(idea.customDialogue.trim());
   }
-  const text = idea.text || "";
+  const text = cleanPromptText(idea.text || "");
   const match = text.match(/(?:Dialogue|Spoken Dialogue|Audio Dialogue|Script|Spoken Line|Urdu Dialogue|Punjabi Dialogue):\s*([^\n]+)/i);
   if (match && match[1]) {
     return match[1].replace(/^["']|["']$/g, "").trim();
@@ -1133,14 +1138,15 @@ function getIdeaDialogue(idea: SavedIdea): string {
   if (quoteMatches && quoteMatches.length > 0) {
     return quoteMatches.map(q => q.replace(/"/g, "")).join(" | ");
   }
-  return `Voiceover / Dialogue: "${idea.text.slice(0, 120)}..."`;
+  return `Voiceover / Dialogue: "${text.slice(0, 120)}..."`;
 }
 
 function getIdeaDescription(idea: SavedIdea): string {
   if (idea.socialContent?.description && idea.socialContent.description.trim()) {
     return idea.socialContent.description.trim();
   }
-  return `Watch this viral ${CATEGORIES[idea.category]?.name || idea.category} 3D video concept! ${idea.text.slice(0, 160)}...`;
+  const cleanedText = cleanPromptText(idea.text || "");
+  return `Watch this viral ${CATEGORIES[idea.category]?.name || idea.category} 3D video concept! ${cleanedText.slice(0, 160)}...`;
 }
 
 function getIdeaHashtags(idea: SavedIdea): string {
@@ -1186,11 +1192,6 @@ function getIdeaTrendingTags(idea: SavedIdea): string {
   }
   const cleanCat = idea.category.replace(/[^a-zA-Z]/g, "");
   return `#TrendingReels #ForyouPage #ShortsViral #${cleanCat} #ViralVideo #RelatableHumor`;
-}
-
-function cleanPromptText(text: string): string {
-  if (!text) return "";
-  return text.replace(/^\[FORMAT:[^\]]+\]\s*/gi, "").trim();
 }
 
 function getPrompt916(text: string): string {
@@ -2944,7 +2945,7 @@ export default function IdeasPage() {
                           isRtl ? "text-right" : "text-left"
                         }`}
                       >
-                        {idea.text}
+                        {cleanPromptText(idea.text)}
                       </div>
                       
                       {/* Badges & Filename Toolbar */}
