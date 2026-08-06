@@ -2510,7 +2510,7 @@ export default function IdeasPage() {
         throw new Error(data.reason || data.error || "Failed to generate ideas");
       }
       
-      const createdIdeas = await Promise.all(data.ideas.map(async (text: string) => {
+      const createdIdeasRaw = await Promise.all(data.ideas.map(async (text: string) => {
         const tempId = Date.now().toString() + Math.random().toString(36).slice(2);
         const cleanBrand = (carboxBrand || "car").toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").slice(0, 12);
         const cleanId = tempId.slice(-4);
@@ -2533,16 +2533,37 @@ export default function IdeasPage() {
           outroEffects: outroEffects !== "None" ? outroEffects : undefined,
         };
         
-        const res = await fetch("/api/ideas", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          keepalive: true,
-          body: JSON.stringify(ideaData),
-        });
-        const ideaRes = await res.json();
-        return ideaRes.idea;
+        try {
+          const res = await fetch("/api/ideas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            keepalive: true,
+            body: JSON.stringify(ideaData),
+          });
+          const ideaRes = await res.json();
+          if (ideaRes.success && ideaRes.idea) {
+            return ideaRes.idea;
+          }
+        } catch (err) {
+          console.error("Error saving generated idea:", err);
+        }
+        return {
+          id: tempId,
+          text,
+          category,
+          language,
+          visualStyle,
+          videoFileName,
+          aiModel: aiModel || "claude-3-7-sonnet-20250219",
+          customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
+          musicType: musicType !== "None" ? musicType : undefined,
+          seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
+          createdAt: new Date().toISOString(),
+          isFavorite: false,
+        } as SavedIdea;
       }));
       
+      const createdIdeas = createdIdeasRaw.filter(Boolean);
       setSavedIdeas((prev) => [...createdIdeas, ...prev]);
       setFilterCategory("ALL");
       setCurrentPage(1);
