@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { useUser, MASTER_USER } from "@/context/UserContext";
-import { Crown, User as UserIcon, Plus, Check, X, Sparkles, ShieldCheck, ArrowRight } from "lucide-react";
+import { useUser } from "@/context/UserContext";
+import { Crown, User as UserIcon, Check, X, ShieldCheck, ArrowRight, Lock, Key, Sparkles } from "lucide-react";
 
 export function AuthModal() {
   const {
@@ -16,8 +16,15 @@ export function AuthModal() {
   } = useUser();
 
   const [inputName, setInputName] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  const [requiresPassword, setRequiresPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  // Password setup states
+  const [showPasswordSetup, setShowPasswordSetup] = useState(false);
+  const [newPasswordInput, setNewPasswordInput] = useState("");
+  const [passwordSetupMsg, setPasswordSetupMsg] = useState("");
 
   if (!isAuthModalOpen) return null;
 
@@ -30,8 +37,29 @@ export function AuthModal() {
     setError("");
     setIsSubmitting(true);
     try {
-      await loginByName(inputName);
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: inputName.trim(),
+          password: inputPassword.trim() || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 401 && data.requiresPassword) {
+        setRequiresPassword(true);
+        setError(data.error || "Password required for this account");
+        setIsSubmitting(false);
+        return;
+      }
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to log in");
+      }
+
+      await loginByName(inputName.trim());
       setInputName("");
+      setInputPassword("");
+      setRequiresPassword(false);
     } catch (err: any) {
       setError(err.message || "Failed to log in");
     } finally {
@@ -48,9 +76,35 @@ export function AuthModal() {
     }
   };
 
+  const handleSetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordSetupMsg("");
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/users", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: currentUser.id,
+          newPassword: newPasswordInput.trim() || null,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to update password");
+      }
+      setPasswordSetupMsg(data.message || "Password updated successfully!");
+      setNewPasswordInput("");
+    } catch (err: any) {
+      setPasswordSetupMsg(`Error: ${err.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-[#0b0e17] border border-indigo-500/30 shadow-2xl space-y-6 text-white overflow-hidden">
+      <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-[#0b0e17] border border-indigo-500/30 shadow-2xl space-y-6 text-white overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Decorative Background Glow */}
         <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-indigo-600/20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
@@ -62,10 +116,10 @@ export function AuthModal() {
               <span className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
                 <ShieldCheck className="w-5 h-5" />
               </span>
-              <h2 className="text-xl font-extrabold text-white tracking-tight">Account & Login</h2>
+              <h2 className="text-xl font-extrabold text-white tracking-tight">Account & Security</h2>
             </div>
             <p className="text-xs text-gray-400">
-              Each user has their own saved ideas & projects. No password required!
+              Each user has their own saved ideas & projects. Optional passwords supported!
             </p>
           </div>
           <button
@@ -85,7 +139,7 @@ export function AuthModal() {
               </span>
               <div>
                 <h3 className="text-sm font-bold text-amber-200">1-Click Master Account</h3>
-                <p className="text-[11px] text-amber-300/80">Access master database with zero restrictions</p>
+                <p className="text-[11px] text-amber-300/80">Access master workspace & database</p>
               </div>
             </div>
           </div>
@@ -99,41 +153,105 @@ export function AuthModal() {
           </button>
         </div>
 
-        {/* Password-Free Login Form */}
+        {/* User Login Form */}
         <form onSubmit={handleSubmitNewUser} className="space-y-3">
           <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider">
-            Create or Enter Username (No Password Required)
+            Login or Create User Account
           </label>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
+          <div className="space-y-2">
+            <div className="relative">
               <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 value={inputName}
-                onChange={(e) => setInputName(e.target.value)}
-                placeholder="Enter name (e.g. Hassan, Sarah)..."
+                onChange={(e) => {
+                  setInputName(e.target.value);
+                  setRequiresPassword(false);
+                  setError("");
+                }}
+                placeholder="Enter username (e.g. Hassan, Sarah)..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/60 border border-gray-800 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-sans"
               />
             </div>
+
+            {requiresPassword && (
+              <div className="relative animate-in slide-in-from-top-1">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-400" />
+                <input
+                  type="password"
+                  value={inputPassword}
+                  onChange={(e) => setInputPassword(e.target.value)}
+                  placeholder="Enter account password..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/50 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-sans"
+                  autoFocus
+                />
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isSubmitting || !inputName.trim()}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl gradient-bg-primary text-white font-bold text-xs sm:text-sm shadow-lg hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl gradient-bg-primary text-white font-bold text-xs sm:text-sm shadow-lg hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
             >
-              <span>Login</span>
+              <span>{requiresPassword ? "Unlock & Login" : "Start Session / Login"}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
           {error && <p className="text-xs text-rose-400 font-medium">{error}</p>}
         </form>
 
+        {/* Set / Change Password for Current Account */}
+        <div className="pt-2 border-t border-gray-800/80 space-y-3">
+          <button
+            type="button"
+            onClick={() => setShowPasswordSetup(!showPasswordSetup)}
+            className="flex items-center justify-between w-full text-xs font-bold text-gray-300 hover:text-white transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <Key className="w-4 h-4 text-amber-400" />
+              <span>Password Settings ({currentUser.name})</span>
+            </span>
+            <span className="text-[11px] text-indigo-400">{showPasswordSetup ? "Hide" : "Set / Change"}</span>
+          </button>
+
+          {showPasswordSetup && (
+            <form onSubmit={handleSetPassword} className="space-y-3.5 p-3.5 rounded-2xl bg-black/40 border border-gray-800 animate-in fade-in">
+              <p className="text-[11px] text-gray-400">
+                Set a password to protect your <strong>{currentUser.name}</strong> account. Leave empty to make account password-free.
+              </p>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <input
+                  type="password"
+                  value={newPasswordInput}
+                  onChange={(e) => setNewPasswordInput(e.target.value)}
+                  placeholder="Enter new password (or leave empty to clear)..."
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/60 border border-gray-700 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-all font-sans"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              >
+                Save Password Setting
+              </button>
+              {passwordSetupMsg && (
+                <p className={`text-xs font-medium ${passwordSetupMsg.startsWith("Error") ? "text-rose-400" : "text-emerald-400"}`}>
+                  {passwordSetupMsg}
+                </p>
+              )}
+            </form>
+          )}
+        </div>
+
         {/* Saved Local Accounts Switcher */}
         {allUsers.length > 0 && (
           <div className="space-y-2 pt-2 border-t border-gray-800/80">
             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider">
-              Switch Account on Device ({allUsers.length})
+              Saved Accounts ({allUsers.length})
             </label>
-            <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
+            <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
               {allUsers.map((user) => {
                 const isActive = currentUser.id === user.id;
                 return (
