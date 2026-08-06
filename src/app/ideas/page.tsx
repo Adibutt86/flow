@@ -2543,9 +2543,11 @@ export default function IdeasPage() {
           const ideaRes = await res.json();
           if (ideaRes.success && ideaRes.idea) {
             return ideaRes.idea;
+          } else {
+            console.error("API failed to save idea:", ideaRes.error);
           }
         } catch (err) {
-          console.error("Error saving generated idea:", err);
+          console.error("Error saving generated idea to database:", err);
         }
         return {
           id: tempId,
@@ -2566,9 +2568,10 @@ export default function IdeasPage() {
       const createdIdeas = createdIdeasRaw.filter(Boolean);
       setSavedIdeas((prev) => [...createdIdeas, ...prev]);
       setFilterCategory("ALL");
+      setSearchQuery("");
       setCurrentPage(1);
       
-      showToast(`Generated and saved ${data.ideas.length} idea!`, "success");
+      showToast(`Generated ${createdIdeas.length} idea!`, "success");
       setTimeout(() => {
         savedIdeasSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 150);
