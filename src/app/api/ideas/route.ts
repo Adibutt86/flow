@@ -39,6 +39,16 @@ export async function POST(request: Request) {
       musicType,
       seriousDialogueStyle,
       socialContent,
+      videoFileName,
+      kidsClothing,
+      kidsExpression,
+      kidsFood,
+      kidsProp,
+      timeOfDay,
+      storyBeat,
+      cameraShot,
+      customSceneDescription,
+      outroEffects,
     } = body;
 
     const idea = await db.idea.create({
@@ -51,6 +61,16 @@ export async function POST(request: Request) {
         customDialogue,
         musicType,
         seriousDialogueStyle,
+        videoFileName,
+        kidsClothing,
+        kidsExpression,
+        kidsFood,
+        kidsProp,
+        timeOfDay,
+        storyBeat,
+        cameraShot,
+        customSceneDescription,
+        outroEffects,
         socialContent: socialContent ? JSON.stringify(socialContent) : null,
       },
     });
