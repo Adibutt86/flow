@@ -13,17 +13,30 @@ async function ensureProjectColumnsExist() {
       ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "provider" TEXT;
       ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "model" TEXT;
       ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "generationMode" TEXT;
+      ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "userId" TEXT;
     `);
   } catch (e) {
     // ignore raw migration error if already exists
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId") || request.headers.get("x-user-id");
+
+    const whereCondition: any = {};
+    if (userId && userId !== "all" && userId !== "master-user-id") {
+      whereCondition.OR = [
+        { userId: userId },
+        { userId: null }
+      ];
+    }
+
     let projects;
     try {
       projects = await db.project.findMany({
+        where: whereCondition,
         orderBy: { createdAt: "desc" },
         include: {
           characters: true,
@@ -38,6 +51,7 @@ export async function GET() {
         console.warn("Detected missing database columns, executing self-healing schema repair...");
         await ensureProjectColumnsExist();
         projects = await db.project.findMany({
+          where: whereCondition,
           orderBy: { createdAt: "desc" },
           include: {
             characters: true,
@@ -64,6 +78,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
+    const headerUserId = request.headers.get("x-user-id");
     const {
       title,
       category,
@@ -75,7 +90,10 @@ export async function POST(request: Request) {
       userCharacters,
       storySource = "ai",
       autoGenerate = true,
+      userId: bodyUserId,
     } = body;
+
+    const finalUserId = bodyUserId || headerUserId || "master-user-id";
 
     if (!category || !idea) {
       return NextResponse.json(
@@ -99,6 +117,7 @@ export async function POST(request: Request) {
         clipCount,
         customInstructions,
         storySource,
+        userId: finalUserId,
         status: autoGenerate ? "GENERATING" : "DRAFT",
       },
     });

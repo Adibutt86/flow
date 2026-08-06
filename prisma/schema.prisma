@@ -10,9 +10,11 @@ model User {
   id        String    @id @default(uuid())
   email     String?   @unique
   name      String?
+  isMaster  Boolean   @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   projects  Project[]
+  ideas     Idea[]
 }
 
 model Project {
@@ -135,6 +137,8 @@ model Idea {
   category             String
   language             String
   visualStyle          String
+  userId               String?
+  user                 User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   isFavorite           Boolean  @default(false)

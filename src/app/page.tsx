@@ -8,6 +8,7 @@ import { ProjectCard } from "@/components/dashboard/ProjectCard";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import { useToast } from "@/components/ui/Toast";
+import { useUser } from "@/context/UserContext";
 import {
   Wand2,
   Video,
@@ -24,6 +25,7 @@ import {
 
 export default function HomePage() {
   const { showToast } = useToast();
+  const { currentUser } = useUser();
   const [projects, setProjects] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [wizardOpen, setWizardOpen] = useState(false);
@@ -32,7 +34,10 @@ export default function HomePage() {
   const fetchProjects = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/projects", { cache: "no-store" });
+      const res = await fetch(`/api/projects?userId=${encodeURIComponent(currentUser.id)}`, {
+        cache: "no-store",
+        headers: { "x-user-id": currentUser.id },
+      });
       const contentType = res.headers.get("content-type");
       if (res.ok && contentType && contentType.includes("application/json")) {
         const data = await res.json();
@@ -55,7 +60,7 @@ export default function HomePage() {
     };
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
-  }, []);
+  }, [currentUser.id]);
 
   const handleDeleteProject = async (id: string) => {
     if (!confirm("Are you sure you want to delete this video project?")) return;

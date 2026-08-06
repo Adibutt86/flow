@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useToast } from "@/components/ui/Toast";
+import { useUser } from "@/context/UserContext";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import {
@@ -1992,6 +1993,7 @@ interface IdeasPageSettings {
 
 export default function IdeasPage() {
   const { showToast } = useToast();
+  const { currentUser } = useUser();
 
   const savedIdeasSectionRef = useRef<HTMLDivElement>(null);
   const customIdeaOptimizerRef = useRef<HTMLDivElement>(null);
@@ -2253,19 +2255,60 @@ export default function IdeasPage() {
   const [isLoadingIdeas, setIsLoadingIdeas] = useState(true);
 
   useEffect(() => {
-    fetch("/api/ideas")
+    setIsLoadingIdeas(true);
+    const cacheKey = `flow-saved-ideas-cache_${currentUser.id}`;
+
+    // 1. Instantly load cached ideas from localStorage if available
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setSavedIdeas(parsed);
+            setIsLoadingIdeas(false);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to read saved ideas from cache", e);
+      }
+    }
+
+    // 2. Fetch fresh ideas from DB scoped to currentUser.id
+    fetch(`/api/ideas?userId=${encodeURIComponent(currentUser.id)}`, {
+      headers: { "x-user-id": currentUser.id },
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
-          setSavedIdeas(data.ideas || []);
+        if (data.success && Array.isArray(data.ideas)) {
+          setSavedIdeas(data.ideas);
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem(cacheKey, JSON.stringify(data.ideas));
+            } catch (e) {
+              console.error("Failed to update saved ideas cache", e);
+            }
+          }
         }
         setIsLoadingIdeas(false);
       })
       .catch((err) => {
-        console.error("Failed to fetch ideas", err);
+        console.error("Failed to fetch ideas from API", err);
         setIsLoadingIdeas(false);
       });
-  }, []);
+  }, [currentUser.id]);
+
+  // Sync savedIdeas to localStorage whenever savedIdeas state changes
+  useEffect(() => {
+    if (typeof window !== "undefined" && savedIdeas.length > 0) {
+      try {
+        localStorage.setItem(`flow-saved-ideas-cache_${currentUser.id}`, JSON.stringify(savedIdeas));
+      } catch (e) {
+        console.error("Failed to sync savedIdeas to localStorage", e);
+      }
+    }
+  }, [savedIdeas, currentUser.id]);
+
 
   // Pagination & Filters
   const [currentPage, setCurrentPage] = useState<number>(initialSettings.currentPage || 1);
@@ -2466,6 +2509,47 @@ export default function IdeasPage() {
     }
   };
 
+  const [isSavingOptimized, setIsSavingOptimized] = useState(false);
+  const handleSaveOptimizedIdea = async () => {
+    if (!optimizedData) return;
+    setIsSavingOptimized(true);
+    try {
+      const fullText = `[TITLE: ${optimizedData.title}]\n\n` + optimizedData.scenes.map((s) => `SCENE ${s.sceneNumber}:\n${s.content}`).join("\n\n");
+      const cleanId = Date.now().toString().slice(-4);
+      const videoFileName = `${category.toLowerCase()}_opt_${cleanId}`;
+
+      const ideaData = {
+        text: fullText,
+        category,
+        language,
+        visualStyle,
+        videoFileName,
+        userId: currentUser.id,
+        aiModel: (optimizedData as any).modelUsed || aiModel || "claude-3-7-sonnet-20250219",
+      };
+
+      const res = await fetch("/api/ideas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-id": currentUser.id,
+        },
+        body: JSON.stringify(ideaData),
+      });
+      const data = await res.json();
+      if (data.success && data.idea) {
+        setSavedIdeas((prev) => [data.idea, ...prev]);
+        showToast("Optimized idea saved to your saved list!", "success");
+      } else {
+        throw new Error(data.error || "Failed to save optimized idea");
+      }
+    } catch (e: any) {
+      showToast(e.message || "Failed to save optimized idea", "error");
+    } finally {
+      setIsSavingOptimized(false);
+    }
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
@@ -2524,11 +2608,18 @@ export default function IdeasPage() {
           language,
           visualStyle,
           videoFileName,
+          userId: currentUser.id,
           aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
           kidsClothing: category === "CUTE_KIDS" ? kidsClothing : undefined,
+          kidsExpression: category === "CUTE_KIDS" && kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
+          kidsFood: category === "CUTE_KIDS" && kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
+          kidsProp: category === "CUTE_KIDS" && kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
+          timeOfDay: timeOfDay !== "Any / AI Decides" ? timeOfDay : undefined,
+          storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
+          cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
           customSceneDescription: customSceneDescription && customSceneDescription.trim() ? customSceneDescription.trim() : undefined,
           outroEffects: outroEffects !== "None" ? outroEffects : undefined,
         };
@@ -2536,7 +2627,10 @@ export default function IdeasPage() {
         try {
           const res = await fetch("/api/ideas", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "x-user-id": currentUser.id,
+            },
             keepalive: true,
             body: JSON.stringify(ideaData),
           });
@@ -2545,9 +2639,11 @@ export default function IdeasPage() {
             return ideaRes.idea;
           } else {
             console.error("API failed to save idea:", ideaRes.error);
+            showToast(`Idea saved locally (${ideaRes.error || "DB error"})`, "info");
           }
         } catch (err) {
           console.error("Error saving generated idea to database:", err);
+          showToast("Idea saved locally (network error)", "info");
         }
         return {
           id: tempId,
@@ -2560,6 +2656,7 @@ export default function IdeasPage() {
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
+          kidsClothing: category === "CUTE_KIDS" ? kidsClothing : undefined,
           createdAt: new Date().toISOString(),
           isFavorite: false,
         } as SavedIdea;
@@ -2801,7 +2898,15 @@ export default function IdeasPage() {
                 {optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content}
               </div>
               
-              <div className="flex justify-end">
+              <div className="flex flex-wrap items-center justify-end gap-2.5">
+                <button
+                  onClick={handleSaveOptimizedIdea}
+                  disabled={isSavingOptimized}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition-all cursor-pointer shadow-sm active:scale-95 disabled:opacity-50"
+                >
+                  {isSavingOptimized ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Bookmark className="w-3.5 h-3.5" />}
+                  {isSavingOptimized ? "Saving..." : "Save to Saved Ideas"}
+                </button>
                 <button
                   onClick={() => handleCopy(optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content || "", "opt-scene")}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 hover:text-white hover:border-emerald-500/40 transition-all cursor-pointer shadow-sm active:scale-95"

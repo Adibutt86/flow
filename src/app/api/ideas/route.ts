@@ -4,9 +4,21 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId") || request.headers.get("x-user-id");
+
+    const whereCondition: any = {};
+    if (userId && userId !== "all" && userId !== "master-user-id") {
+      whereCondition.OR = [
+        { userId: userId },
+        { userId: null } // include legacy/public ideas
+      ];
+    }
+
     const ideas = await db.idea.findMany({
+      where: whereCondition,
       orderBy: { createdAt: "desc" },
     });
     
@@ -29,6 +41,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    const headerUserId = request.headers.get("x-user-id");
     const {
       text,
       category,
@@ -49,7 +62,10 @@ export async function POST(request: Request) {
       cameraShot,
       customSceneDescription,
       outroEffects,
+      userId: bodyUserId,
     } = body;
+
+    const finalUserId = bodyUserId || headerUserId || "master-user-id";
 
     const idea = await db.idea.create({
       data: {
@@ -71,6 +87,7 @@ export async function POST(request: Request) {
         cameraShot,
         customSceneDescription,
         outroEffects,
+        userId: finalUserId,
         socialContent: socialContent ? JSON.stringify(socialContent) : null,
       },
     });

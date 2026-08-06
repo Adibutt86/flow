@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import { useToast } from "@/components/ui/Toast";
+import { useUser } from "@/context/UserContext";
 import { StorySourceBadge } from "@/components/common/StorySourceBadge";
 import {
   Ghost,
@@ -86,6 +87,7 @@ const VISUAL_STYLES = [
 export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWizardProps) {
   const router = useRouter();
   const { showToast } = useToast();
+  const { currentUser } = useUser();
 
   const [step, setStep] = useState<number>(1);
   const [category, setCategory] = useState<CategoryId>(initialCategory || "FUNNY");
@@ -138,13 +140,17 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
 
       const res = await fetch("/api/projects", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-id": currentUser.id,
+        },
         body: JSON.stringify({
           category,
           duration,
           language,
           visualStyle,
           idea,
+          userId: currentUser.id,
           userCharacters: userCharacters.trim() || undefined,
           customInstructions: customInstructions.trim() || undefined,
           autoGenerate: true,
