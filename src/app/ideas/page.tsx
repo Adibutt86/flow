@@ -216,8 +216,21 @@ const CUTE_KIDS_PRESETS = [
     dialogueStyle: "Poetic/Shayari",
   },
   {
+    icon: "👤",
+    title: "1 Character Solo",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "1 Character",
+    nationality: "Global / Any",
+    musicType: "None",
+    dialogueStyle: "None",
+  },
+  {
     icon: "👦",
-    title: "Single Boy Dialogue",
+    title: "Single Boy Solo",
     age: "Child (5-8 yrs)",
     location: "Cozy Home Living Room",
     health: "Healthy",
@@ -230,7 +243,7 @@ const CUTE_KIDS_PRESETS = [
   },
   {
     icon: "👧",
-    title: "Single Girl Dialogue",
+    title: "Single Girl Solo",
     age: "Child (5-8 yrs)",
     location: "Cozy Home Living Room",
     health: "Healthy",
@@ -408,6 +421,42 @@ export function getOptionDescription(groups: OptionGroupWithDesc[], currentValue
 // 1. LOCATION OPTIONS
 const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "Indoor & Home Settings",
+    options: [
+      { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },
+      { value: "Modern Kitchen", label: "Kitchen & Dining", desc: "Clean kitchen with dining table, breakfast snacks, and fruits." },
+      { value: "Colorful Kids Bedroom", label: "Kids Bedroom / Playroom", desc: "Vibrant bedroom with bed, stuffed animals, and storybooks." },
+      { value: "Cozy Library & Book Nook", label: "Library & Reading Nook", desc: "Quiet library with tall wooden bookshelves, cozy reading chairs, and books." },
+      { value: "School Classroom", label: "School Classroom", desc: "Learning environment with tiny desks, colorful charts, and chalkboard." },
+      { value: "Daycare & Nursery", label: "Daycare & Nursery", desc: "Safe activity playroom with soft foam blocks and play mats." },
+      { value: "Indoor Toy Store & Arcade", label: "Indoor Toy Store / Arcade 🧸", desc: "Bright toy shop filled with teddy bear shelves, dollhouses, and arcade claw games." },
+      { value: "Cozy Bedroom Attic & Secret Fort", label: "Attic & Secret Blanket Fort ⛺", desc: "Cozy wooden attic bedroom with fairy lights, blanket fort, and pillows." },
+      { value: "Supermarket & Snack Aisle", label: "Supermarket / Grocery Store 🛒", desc: "Colorful supermarket aisle stacked with snack boxes, cereal, and mini shopping carts." },
+      { value: "Art Studio & Paint Corner", label: "Art Studio & Painting Room 🎨", desc: "Creative art studio with mini easels, paint-splattered floor, and colorful canvases." },
+      { value: "Bakery & Pastry Shop", label: "Sweet Bakery & Pastry Shop 🧁", desc: "Warm bakery display filled with fresh frosted cupcakes, donuts, and birthday cakes." },
+      { value: "Indoor Swimming Pool & Splash Zone", label: "Indoor Heated Pool & Splash Zone 🏊", desc: "Clean turquoise indoor swimming pool with pool floats and colorful water slides." },
+    ],
+  },
+  {
+    category: "Outdoor, Nature & Farm",
+    options: [
+      { value: "Lush Green Park", label: "Park & Garden", desc: "Lush outdoor green grass, flowers, trees, and sunny sky." },
+      { value: "Sunny Playground", label: "Outdoor Playground", desc: "Fun slides, swings, seesaws, and sandbox." },
+      { value: "Peaceful Village & Countryside", label: "Village & Countryside", desc: "Rustic rural farm with green fields and friendly animals." },
+      { value: "Enchanted Forest & Woodland Trail", label: "Enchanted Forest & Trail", desc: "Sunlit green forest path with towering trees, butterflies, and singing birds." },
+      { value: "Misty Mountain Valley & Waterfall", label: "Mountain Valley & Waterfall", desc: "Breathtaking mountain valley with cascading crystal waterfall and wildflowers." },
+      { value: "Neighborhood Street", label: "Neighborhood Street", desc: "Clean sunny sidewalk in front of cozy colorful houses." },
+      { value: "Sunny Beach & Ocean", label: "Beach & Seaside", desc: "Sandy ocean beach with gentle waves and sea shells." },
+      { value: "Cozy Camping Site & Bonfire", label: "Camping Site & Campfire", desc: "Cozy campsite with tents, glowing campfire, and starry night sky." },
+      { value: "Botanical Flower Garden & Greenhouse", label: "Botanical Flower Garden 🌸", desc: "Vibrant flower conservatory blooming with roses, tulips, and giant sunlit greenhouse." },
+      { value: "Sunny Backyard & Treehouse", label: "Backyard Garden & Treehouse 🏡", desc: "Green backyard lawn with wooden treehouse ladder, swing, and garden flowers." },
+      { value: "Sunflower Field under Blue Sky", label: "Golden Sunflower Field 🌻", desc: "Vibrant endless field of tall yellow sunflowers under bright afternoon sun." },
+      { value: "Autumn Park with Golden Fallen Leaves", label: "Autumn Park / Fallen Leaves 🍂", desc: "Golden autumn park path covered in crisp red and orange fallen maple leaves." },
+      { value: "Winter Snow Park & Snowman Yard", label: "Winter Snow Park & Snowman ☃️", desc: "Soft white snow-covered park with pine trees, wooden sled, and cute snowman." },
+      { value: "Zoo & Friendly Animal Safari", label: "Zoo & Petting Farm 🦒", desc: "Friendly zoo enclosure with giraffes, rabbits, duck pond, and wooden fences." },
+    ],
+  },
+  {
     category: "Desi (Indian & Pakistani) Locations",
     options: [
       { value: "Desi Village & Punjabi Pind", label: "Desi Village & Pind (پنڈ / गाँव)", desc: "Authentic rural Desi village with green sugarcane fields, mud houses, and wooden charpai." },
@@ -423,30 +472,6 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Desi Mela & Festival Fairground", label: "Desi Mela / Festival (میلہ)", desc: "Festive carnival ground with colorful lights, toy stalls, and giant Ferris wheel." },
       { value: "Festive Eid & Chand Raat Market", label: "Eid & Chand Raat Market (عید بازار)", desc: "Night street market decorated with fairy lights, bangles, henna, and sweets." },
       { value: "Traditional Heritage Haveli", label: "Traditional Haveli & Courtyard (حویلی)", desc: "Grand heritage brick Haveli with carved wooden doors, archways, and jharokhas." },
-    ],
-  },
-  {
-    category: "Indoor & Home Settings",
-    options: [
-      { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },
-      { value: "Modern Kitchen", label: "Kitchen & Dining", desc: "Clean kitchen with dining table, breakfast snacks, and fruits." },
-      { value: "Colorful Kids Bedroom", label: "Kids Bedroom / Playroom", desc: "Vibrant bedroom with bed, stuffed animals, and storybooks." },
-      { value: "Cozy Library & Book Nook", label: "Library & Reading Nook", desc: "Quiet library with tall wooden bookshelves, cozy reading chairs, and books." },
-      { value: "School Classroom", label: "School Classroom", desc: "Learning environment with tiny desks, colorful charts, and chalkboard." },
-      { value: "Daycare & Nursery", label: "Daycare & Nursery", desc: "Safe activity playroom with soft foam blocks and play mats." },
-    ],
-  },
-  {
-    category: "Outdoor, Nature & Farm",
-    options: [
-      { value: "Lush Green Park", label: "Park & Garden", desc: "Lush outdoor green grass, flowers, trees, and sunny sky." },
-      { value: "Sunny Playground", label: "Outdoor Playground", desc: "Fun slides, swings, seesaws, and sandbox." },
-      { value: "Peaceful Village & Countryside", label: "Village & Countryside", desc: "Rustic rural farm with green fields and friendly animals." },
-      { value: "Enchanted Forest & Woodland Trail", label: "Enchanted Forest & Trail", desc: "Sunlit green forest path with towering trees, butterflies, and singing birds." },
-      { value: "Misty Mountain Valley & Waterfall", label: "Mountain Valley & Waterfall", desc: "Breathtaking mountain valley with cascading crystal waterfall and wildflowers." },
-      { value: "Neighborhood Street", label: "Neighborhood Street", desc: "Clean sunny sidewalk in front of cozy colorful houses." },
-      { value: "Sunny Beach & Ocean", label: "Beach & Seaside", desc: "Sandy ocean beach with gentle waves and sea shells." },
-      { value: "Cozy Camping Site & Bonfire", label: "Camping Site & Campfire", desc: "Cozy campsite with tents, glowing campfire, and starry night sky." },
     ],
   },
   {
@@ -925,6 +950,357 @@ const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+// 5.5 KIDS CLOTHING OPTIONS — Separated by Girl & Boy
+const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI choose the best outfit for the character and scene." },
+    ]
+  },
+  {
+    category: "👗 Girls — Everyday & Casual",
+    options: [
+      { value: "Girl — Colorful Casual T-shirt & Jeans", label: "Colorful Casual T-shirt & Jeans", desc: "Bright pastel t-shirt with comfy jeans and cute sneakers." },
+      { value: "Girl — Floral Dress & Sandals", label: "Floral Dress & Sandals", desc: "Pretty floral summer dress with flat sandals." },
+      { value: "Girl — Dungarees / Overalls", label: "Dungarees / Overalls", desc: "Adorable denim or pastel dungaree overalls with a stripe tee." },
+      { value: "Girl — Cozy Pajamas / Sleepwear", label: "Cozy Pajamas / Sleepwear", desc: "Cute matching pajamas with cartoon prints." },
+      { value: "Girl — Soft Pastel Leggings & Top", label: "Soft Pastel Leggings & Top", desc: "Aesthetic pastel leggings with a matching crop top." },
+      { value: "Girl — Skirt & Blouse", label: "Skirt & Blouse", desc: "Cute pleated skirt with a ruffled blouse." },
+      { value: "Girl — Sporty Tracksuit", label: "Sporty Tracksuit", desc: "Athletic tracksuit in bright colors with sporty sneakers." },
+      { value: "Girl — Winter Sweater & Boots", label: "Winter Sweater & Boots", desc: "Fluffy chunky sweater, warm leggings, and ankle boots." },
+      { value: "Girl — Denim Jacket & Skirt", label: "Denim Jacket & Skirt", desc: "Cool denim jacket over a floral skirt." },
+    ]
+  },
+  {
+    category: "✨ Girls — Traditional & Cultural",
+    options: [
+      { value: "Girl — Desi Shalwar Kameez", label: "Desi Shalwar Kameez (شلوار قمیض)", desc: "Traditional clean shalwar kameez with dupatta for girls." },
+      { value: "Girl — Embroidered Frocksuit / Lawn Frock", label: "Embroidered Frock / Lawn Suit", desc: "Colorful embroidered frock suit with lace trim and churidar." },
+      { value: "Girl — Fancy Eid Festive Dress", label: "Fancy Eid Dress (عید لباس)", desc: "Festive embroidered dress with glitter and bright colors." },
+      { value: "Girl — Sindhi / Phulkari Embroidered Outfit", label: "Sindhi / Phulkari Embroidered Outfit", desc: "Vibrant folk embroidery outfit with mirror-work and bright thread." },
+      { value: "Girl — Desi School Uniform (Pinafore)", label: "Desi School Uniform (Pinafore)", desc: "Neat white shirt with dark pinafore dress and white socks." },
+      { value: "Girl — Princess Gown (Desi Style)", label: "Princess Gown (Desi Style)", desc: "Glittery Cinderella-style princess gown with tiara and heels." },
+      { value: "Girl — Ghagra Choli", label: "Ghagra Choli (Indian Folk)", desc: "Colorful traditional Ghagra Choli with lehenga and dupatta." },
+    ]
+  },
+  {
+    category: "🎀 Girls — Costumes & Special",
+    options: [
+      { value: "Girl — Fairy Costume with Wings", label: "Fairy Costume with Wings", desc: "Shimmery fairy outfit with sparkly wings and wand." },
+      { value: "Girl — Superhero Cape & Mask", label: "Superhero Cape & Mask", desc: "Fun homemade superhero costume with a bright cape and mask." },
+      { value: "Girl — Animal Onesie", label: "Animal Onesie", desc: "Cute plush onesie like bunny, cat, panda, or unicorn." },
+      { value: "Girl — Ballet Tutu & Leotard", label: "Ballet Tutu & Leotard", desc: "Classic pink ballet tutu with matching leotard and ballet flats." },
+      { value: "Girl — Doctor Coat & Stethoscope", label: "Tiny Doctor Coat", desc: "Mini white doctor coat with stethoscope toy." },
+      { value: "Girl — Chef Apron & Hat", label: "Chef Apron & Hat", desc: "Miniature chef apron and tall white chef hat." },
+    ]
+  },
+  {
+    category: "👕 Boys — Everyday & Casual",
+    options: [
+      { value: "Boy — Casual T-shirt & Shorts", label: "Casual T-shirt & Shorts", desc: "Simple graphic t-shirt with cargo or jogger shorts." },
+      { value: "Boy — Hoodie & Sweatpants", label: "Hoodie & Sweatpants", desc: "Comfy hoodie with matching sweatpants and sneakers." },
+      { value: "Boy — Denim Jacket & Jeans", label: "Denim Jacket & Jeans", desc: "Cool double denim look with graphic tee underneath." },
+      { value: "Boy — Sporty Tracksuit", label: "Sporty Tracksuit", desc: "Athletic tracksuit in bold colors with matching sports shoes." },
+      { value: "Boy — Cozy Pajamas / Sleepwear", label: "Cozy Pajamas / Sleepwear", desc: "Cute matching pajamas with superhero or cartoon prints." },
+      { value: "Boy — Polo Shirt & Trousers", label: "Polo Shirt & Trousers", desc: "Smart-casual polo shirt with neat trousers and loafers." },
+      { value: "Boy — Graphic Tee & Joggers", label: "Graphic Tee & Joggers", desc: "Fun graphic print tee with jogger pants and sneakers." },
+      { value: "Boy — Winter Coat & Boots", label: "Winter Coat & Boots", desc: "Warm puffer coat, jeans, beanie, and winter boots." },
+    ]
+  },
+  {
+    category: "🧕 Boys — Traditional & Cultural",
+    options: [
+      { value: "Boy — Desi Shalwar Kameez", label: "Desi Shalwar Kameez (شلوار قمیض)", desc: "Traditional clean shalwar kameez for boys." },
+      { value: "Boy — Kurta & Pajama", label: "Desi Kurta & Pajama", desc: "Vibrant embroidered traditional boys kurta with pajama." },
+      { value: "Boy — Fancy Eid Sherwani", label: "Fancy Eid Sherwani (شیروانی)", desc: "Elegant sherwani with khussa shoes for Eid occasion." },
+      { value: "Boy — Sindhi / Punjabi Folk Attire", label: "Sindhi / Punjabi Folk Attire", desc: "Cultural clothes with traditional embroidery or Phulkari work." },
+      { value: "Boy — Desi School Uniform", label: "Desi School Uniform (یونیفارم)", desc: "Neat white shirt with dark trousers and black shoes." },
+      { value: "Boy — Pathani Shalwar Suit", label: "Pathani Shalwar Suit", desc: "Classic Pathani-style kameez shalwar with khussa." },
+      { value: "Boy — Dhoti & Kurta", label: "Dhoti & Kurta (Indian Folk)", desc: "Traditional white dhoti with embroidered kurta." },
+    ]
+  },
+  {
+    category: "🦸 Boys — Costumes & Special",
+    options: [
+      { value: "Boy — Superhero Costume", label: "Superhero Costume", desc: "Full superhero outfit with cape, mask, and belt." },
+      { value: "Boy — Animal Onesie", label: "Animal Onesie", desc: "Cute plush onesie like lion, dinosaur, bear, or tiger." },
+      { value: "Boy — Pilot / Aviator Suit", label: "Pilot / Aviator Suit", desc: "Mini aviator jacket, goggles, and captain cap." },
+      { value: "Boy — Chef Apron & Hat", label: "Chef Apron & Hat", desc: "Miniature chef apron and tall white chef hat." },
+      { value: "Boy — Doctor Coat & Stethoscope", label: "Tiny Doctor Coat", desc: "Mini white doctor coat with stethoscope toy." },
+      { value: "Boy — Astronaut Suit", label: "Astronaut Suit", desc: "White space suit with helmet visor and NASA-style patches." },
+      { value: "Boy — Mini Police Uniform", label: "Mini Police Uniform", desc: "Cute toy police uniform with cap, badge, and belt." },
+    ]
+  },
+];
+
+// 5.6 KIDS EXPRESSION / REACTION STYLE
+const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI choose the most fitting expression for the scene." },
+    ]
+  },
+  {
+    category: "Cute & Heartwarming",
+    options: [
+      { value: "Wide Eyes Surprise", label: "Wide Eyes Surprise", desc: "Big adorable surprised eyes with an open mouth." },
+      { value: "Burst Out Laughing", label: "Burst Out Laughing", desc: "Uncontrollable giggles with head thrown back." },
+      { value: "Sunshine Beam Smile", label: "Sunshine Beam Smile", desc: "Ear-to-ear heart-melting beam of pure joy." },
+      { value: "Shy Hide Face", label: "Shy Hide Face", desc: "Hiding face in hands or looking away with rosy cheeks." },
+      { value: "Adorable Head Tilt", label: "Adorable Head Tilt", desc: "Cute tilted head with a puzzled or wondering expression." },
+    ]
+  },
+  {
+    category: "Funny & Viral",
+    options: [
+      { value: "Pouty Lip About to Cry", label: "Pouty Lip / About to Cry", desc: "Quivering lip and glistening eyes — maximum cute drama." },
+      { value: "Sneaky Side-Eye", label: "Sneaky Side-Eye", desc: "Mischievous glance sideways, clearly plotting something." },
+      { value: "Disgusted Face", label: "Disgusted Face", desc: "Dramatic disgust at food or something they dislike." },
+      { value: "Mini Lecture Mode", label: "Mini Lecture Mode", desc: "Wagging finger seriously, explaining something with authority." },
+      { value: "Confused Blink", label: "Confused Blink", desc: "Slow blink with a deeply puzzled expression." },
+      { value: "Dramatic Gasp", label: "Dramatic Gasp", desc: "Over-the-top shocked gasp with hand on cheek." },
+    ]
+  },
+  {
+    category: "Triumphant & Proud",
+    options: [
+      { value: "Victory Fist Pump", label: "Victory Fist Pump", desc: "Triumphant celebration arms raised high." },
+      { value: "Proud Arms Crossed", label: "Proud Arms Crossed", desc: "Confident pose with arms crossed and satisfied smile." },
+      { value: "Embarrassed Red Cheeks", label: "Embarrassed Red Cheeks", desc: "Red cheeks, looking down, covering face with a shy smile." },
+      { value: "None / Natural", label: "None / Natural (AI decides)", desc: "Let the AI choose the most fitting natural expression." },
+    ]
+  },
+];
+
+// 5.7 FOOD / SNACK IN SCENE
+const KIDS_FOOD_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI choose what food or snack to include, if any." },
+    ]
+  },
+  {
+    category: "Desi Favourites",
+    options: [
+      { value: "Mango Slice (Aam)", label: "Mango Slice (آم)", desc: "Juicy ripe mango slice dripping in summer sweetness." },
+      { value: "Samosa", label: "Samosa (سموسہ)", desc: "Hot triangle Desi fried snack with chutney." },
+      { value: "Kheer / Halwa", label: "Kheer / Halwa (کھیر / حلوہ)", desc: "Traditional sweet dessert bowl of Kheer or Halwa." },
+      { value: "Aam Papad / Tamarind Candy", label: "Aam Papad / Imli Candy", desc: "Tangy roll-up Aam Papad or Imli candy on a stick." },
+      { value: "Gulab Jamun", label: "Gulab Jamun (گلاب جامن)", desc: "Soft syrupy Gulab Jamun in a bowl." },
+      { value: "Chai (Desi Tea)", label: "Desi Chai Cup (چائے)", desc: "Steaming cup of milky Desi Chai." },
+    ]
+  },
+  {
+    category: "Sweet & Fun",
+    options: [
+      { value: "Ice Cream Cone", label: "Ice Cream Cone 🍦", desc: "Single or double scoop cone with rainbow sprinkles." },
+      { value: "Birthday Cake Slice", label: "Birthday Cake Slice 🎂", desc: "A colourful birthday cake slice with candles." },
+      { value: "Lollipop", label: "Big Round Lollipop 🍭", desc: "Oversized colourful spiral lollipop." },
+      { value: "Chocolate Bar", label: "Chocolate Bar 🍫", desc: "Unwrapped or half-bitten chocolate bar." },
+      { value: "Cupcake", label: "Cupcake 🧁", desc: "Frosted cupcake with sprinkles on top." },
+      { value: "Cotton Candy", label: "Cotton Candy (Pashmak) 🩷", desc: "Fluffy pink cotton candy on a stick." },
+    ]
+  },
+  {
+    category: "Healthy & Fruit",
+    options: [
+      { value: "Watermelon Slice", label: "Watermelon Slice 🍉", desc: "Big red juicy slice of watermelon." },
+      { value: "Apple", label: "Apple 🍎", desc: "Shiny red apple held in small hands." },
+      { value: "Banana", label: "Banana 🍌", desc: "Yellow banana mid-peel." },
+      { value: "Fresh Fruit Plate", label: "Fresh Fruit Plate 🍓", desc: "Colourful platter of grapes, strawberries, and berries." },
+    ]
+  },
+  {
+    category: "Snacks & Savoury",
+    options: [
+      { value: "Chips / Crisps Packet", label: "Chips / Crisps Packet 🥔", desc: "Open Lays or crisp packet being crunched." },
+      { value: "Popcorn Bowl", label: "Popcorn Bowl 🍿", desc: "Overflowing bowl of buttered popcorn." },
+      { value: "Pizza Slice", label: "Pizza Slice 🍕", desc: "Stretchy cheesy pizza slice." },
+      { value: "Burger", label: "Burger 🍔", desc: "Mini kids burger with dripping cheese." },
+      { value: "None / No Food", label: "None / No Food", desc: "No food in the scene." },
+    ]
+  },
+];
+
+// 5.8 PROPS / OBJECT IN HAND
+const KIDS_PROP_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI choose what prop or object to include, if any." },
+    ]
+  },
+  {
+    category: "Toys & Comfort",
+    options: [
+      { value: "Teddy Bear", label: "Teddy Bear 🧸", desc: "Classic soft stuffed teddy bear." },
+      { value: "Toy Car / Truck", label: "Toy Car / Truck 🚗", desc: "Boys' classic toy car or mini truck." },
+      { value: "Doll / Barbie", label: "Doll / Barbie 🪆", desc: "Colourful doll or Barbie in hand." },
+      { value: "Stuffed Animal", label: "Stuffed Animal", desc: "Random cute plush animal toy." },
+    ]
+  },
+  {
+    category: "Art & School",
+    options: [
+      { value: "Coloring Book & Crayons", label: "Colouring Book & Crayons 🖍️", desc: "Open colouring book with a box of crayons." },
+      { value: "Pencil & Notebook", label: "Pencil & Notebook 📝", desc: "Little pencil and exercise notebook." },
+      { value: "School Bag / Backpack", label: "School Bag / Backpack 🎒", desc: "Ready-for-school backpack on shoulders or in hand." },
+      { value: "Book / Storybook", label: "Storybook / Book 📚", desc: "Holding an open picture storybook." },
+    ]
+  },
+  {
+    category: "Festive & Fun",
+    options: [
+      { value: "Balloon (bunch)", label: "Balloon Bunch 🎈", desc: "Colourful bunch of helium balloons." },
+      { value: "Single Balloon", label: "Single Balloon 🎈", desc: "Holding one big round balloon on a string." },
+      { value: "Flower Bouquet", label: "Flower Bouquet 💐", desc: "Giving or holding a bunch of colourful flowers." },
+      { value: "Magic Wand", label: "Magic Wand 🪄", desc: "Sparkly fairy magic wand." },
+      { value: "Kite", label: "Kite 🪁", desc: "Holding a string attached to a flying kite." },
+    ]
+  },
+  {
+    category: "Tech & Instruments",
+    options: [
+      { value: "Tablet / Smartphone", label: "Tablet / Smartphone 📱", desc: "Kids-sized tablet or smartphone." },
+      { value: "Toy Microphone", label: "Toy Microphone 🎤", desc: "Bright colourful toy microphone singing into." },
+      { value: "Dholki / Mini Drum", label: "Dholki / Mini Drum 🥁", desc: "Desi dholki or mini toy drum." },
+      { value: "None / No Prop", label: "None / No Prop", desc: "No prop — natural empty hands." },
+    ]
+  },
+];
+
+// 5.9 TIME OF DAY / LIGHTING MOOD
+const TIME_OF_DAY_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Daytime",
+    options: [
+      { value: "Bright Morning Sunshine", label: "Bright Morning Sunshine ☀️", desc: "Warm golden hour morning light streaming in." },
+      { value: "Afternoon Daylight", label: "Afternoon Daylight", desc: "Clear neutral midday lighting, bright and crisp." },
+      { value: "Overcast Cloudy Day", label: "Overcast Cloudy Day ⛅", desc: "Soft diffused light, slightly muted and gentle." },
+    ]
+  },
+  {
+    category: "Evening & Night",
+    options: [
+      { value: "Golden Hour Sunset", label: "Golden Hour Sunset 🌅", desc: "Warm orange-pink dusk glow through windows or outdoors." },
+      { value: "Blue Hour Twilight", label: "Blue Hour Twilight 🌆", desc: "Cool soft purple-blue twilight just after sunset." },
+      { value: "Cozy Night Lamp", label: "Cozy Night Lamp 🌙", desc: "Soft warm indoor lamp light at night, cozy atmosphere." },
+      { value: "Starry Night Sky", label: "Starry Night Sky ⭐", desc: "Clear night with visible stars, outdoor or rooftop scene." },
+    ]
+  },
+  {
+    category: "Weather & Seasonal",
+    options: [
+      { value: "Rainy Day Indoors", label: "Rainy Day Indoors 🌧️", desc: "Rain on the window, cozy warm indoor glow." },
+      { value: "Snowfall Winter", label: "Snowfall Winter ❄️", desc: "Soft falling snow, winter wonderland atmosphere." },
+      { value: "Spring Bloom", label: "Spring Bloom 🌸", desc: "Cherry blossom petals falling, fresh green light." },
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI pick the most fitting time and lighting." },
+    ]
+  },
+];
+
+// 5.91 STORY BEAT / NARRATIVE MOMENT
+const STORY_BEAT_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI craft the narrative moment freely." },
+    ]
+  },
+  {
+    category: "Funny & Viral Moments",
+    options: [
+      { value: "Kid Caught Red-Handed", label: "Kid Caught Red-Handed 😳", desc: "Getting caught doing something naughty mid-act." },
+      { value: "Sneaking a Snack", label: "Sneaking a Snack 🍪", desc: "Tiptoeing quietly to steal a cookie or snack." },
+      { value: "Refusing Vegetables", label: "Refusing Vegetables 🥦", desc: "Classic hilarious veggie rejection scene." },
+      { value: "Disgusted Food Reaction", label: "Disgusted Food Reaction 🤢", desc: "Dramatic over-the-top reaction to tasting something yucky." },
+      { value: "Sneaky Side-Eye Plotting", label: "Sneaky Plotting Side-Eye 😏", desc: "Kid glancing sideways mischievously, clearly scheming." },
+    ]
+  },
+  {
+    category: "Heartwarming Moments",
+    options: [
+      { value: "Big Reveal Surprise", label: "Big Reveal / Surprise 🎁", desc: "Unwrapping a gift or discovering a surprise." },
+      { value: "First Day Achievement", label: "First Day Achievement 🏆", desc: "Showing off a result or trophy proudly." },
+      { value: "Asking a Deep Innocent Question", label: "Asking Deep Innocent Question 🤔", desc: "Sweet philosophical question to a parent or teacher." },
+      { value: "Showing Off Skills", label: "Showing Off Skills 🌟", desc: "Dancing, counting, singing, or reciting something proudly." },
+      { value: "Making Up After Fight", label: "Making Up After a Fight 🤝", desc: "Two kids hugging and reconciling after a disagreement." },
+    ]
+  },
+  {
+    category: "Learning & Discovery",
+    options: [
+      { value: "Trying Something New", label: "Trying Something New 🆕", desc: "Hesitant first bite, first step, or first attempt." },
+      { value: "Fixing a Mistake", label: "Fixing a Mistake ✏️", desc: "Realizing an error and correcting it earnestly." },
+      { value: "Sharing With a Friend", label: "Sharing With a Friend 🤲", desc: "Generously offering a snack or toy to another kid." },
+      { value: "None / Open Story", label: "None / Open Story", desc: "No fixed beat — let the AI craft the narrative." },
+    ]
+  },
+];
+
+// 5.92 CAMERA SHOT STYLE
+const CAMERA_SHOT_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Fixed & Locked Camera",
+    options: [
+      { value: "Fixed Camera on Character", label: "Fixed Camera on Character 📌", desc: "Camera locked stationary on the main character throughout the scene with no panning or shaking." },
+      { value: "Static Center Framing", label: "Static Center Framing 🎯", desc: "Character remains perfectly locked in center frame as background action happens." },
+      { value: "Tracking Lock on Character", label: "Tracking Lock on Character 🎥", desc: "Camera follows character movement smoothly keeping them fixed in center view." },
+    ]
+  },
+  {
+    category: "Standard Shots",
+    options: [
+      { value: "Close-Up Face Shot", label: "Close-Up Face Shot 🎥", desc: "Tight shot on the kid's face and expressions." },
+      { value: "Full Body Wide Shot", label: "Full Body Wide Shot", desc: "Head-to-toe view with environment clearly visible." },
+      { value: "Medium Shot (Waist Up)", label: "Medium Shot (Waist Up)", desc: "Mid-body shot from the waist up." },
+    ]
+  },
+  {
+    category: "Cinematic & Creative",
+    options: [
+      { value: "Over-Shoulder Shot", label: "Over-Shoulder Shot", desc: "Camera behind one character looking at another." },
+      { value: "Low Angle (Kid Hero POV)", label: "Low Angle / Kid Hero POV", desc: "Camera at kid's eye level, makes them look heroic." },
+      { value: "Bird's Eye Top-Down", label: "Bird's Eye / Top-Down View", desc: "Overhead aerial view of the kid and scene." },
+      { value: "Slow Motion Reaction", label: "Slow Motion Reaction ✨", desc: "Slow-motion capture of an expression change or action." },
+      { value: "Zoom-In Reveal", label: "Zoom-In Reveal", desc: "Camera slowly zooms in to reveal a reaction or detail." },
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI pick the most cinematic shot style." },
+    ]
+  },
+];
+
+// 5.93 CHARACTER PERFORMANCE
+const CHARACTER_PERFORMANCE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI decide the best performance style for the scene." },
+    ]
+  },
+  {
+    category: "Speech & Expression",
+    options: [
+      { value: "Dialogue", label: "🗣️ Dialogue", desc: "Kid speaks naturally — words, sentences, funny or heartfelt lines." },
+      { value: "Silent Expressions", label: "🤫 Silent Expressions", desc: "No words — just powerful, expressive facial acting." },
+      { value: "Cute Reactions", label: "😊 Cute Reactions", desc: "Responding to something with adorable non-verbal reactions." },
+      { value: "Emotional Acting", label: "😭 Emotional Acting", desc: "Deep heartfelt performance — joy, sadness, pride, or love." },
+      { value: "Surprise Moments", label: "😲 Surprise Moments", desc: "Shocked, startled, or astonished big dramatic reaction." },
+    ]
+  },
+  {
+    category: "Movement & Action",
+    options: [
+      { value: "Dance", label: "💃 Dance", desc: "Kid performs a fun dance move, groove, or freestyle." },
+      { value: "Lip Sync", label: "🎵 Lip Sync", desc: "Mouthing lyrics or words to a song with energy and style." },
+      { value: "Funny Actions", label: "😂 Funny Actions", desc: "Slapstick, goofy physical comedy — falling, wobbling, tripping." },
+      { value: "Mixed Performance", label: "🎭 Mixed Performance", desc: "Combines dialogue, expressions, and movement in one scene." },
+    ]
+  },
+];
+
 // 6. NATIONALITY / CULTURE OPTIONS
 const KIDS_NATIONALITY_GROUPS: OptionGroupWithDesc[] = [
   {
@@ -1087,6 +1463,27 @@ const SERIOUS_DIALOGUE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+const OUTRO_EFFECTS_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Festive & Celebration",
+    options: [
+      { value: "None", label: "None (Default)", desc: "No special ending effect." },
+      { value: "Confetti Burst", label: "Confetti Burst (آتش بازی/کونفیٹی)", desc: "Colorful confetti explosion celebrating the end of the scene." },
+      { value: "Sparkles & Glitters", label: "Sparkles & Glitters", desc: "Magical fairy sparkles twinkling across the screen." },
+      { value: "Balloon Drop", label: "Balloon Drop", desc: "Colorful helium balloons drifting down from above." },
+      { value: "Firework Finale", label: "Firework Finale", desc: "Spectacular miniature fireworks lighting up the background." },
+    ],
+  },
+  {
+    category: "Cinematic Transitions",
+    options: [
+      { value: "Fade to Black", label: "Fade to Black", desc: "Cinematic fade-out to black screen." },
+      { value: "Motion Blur Zoom out", label: "Motion Blur Zoom out", desc: "Dynamic blur effect as camera zooms out rapidly." },
+      { value: "Camera Flash & Freeze Frame", label: "Camera Flash & Freeze Frame", desc: "Bright white flash ending in a sweet Polaroid-style freeze frame." }
+    ]
+  }
+];
+
 const AI_MODEL_OPTIONS = [
   { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
   { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
@@ -1109,6 +1506,9 @@ interface SavedIdea {
   customDialogue?: string;
   musicType?: string;
   seriousDialogueStyle?: string;
+  kidsClothing?: string;
+  customSceneDescription?: string;
+  outroEffects?: string;
   socialContent?: {
     title: string;
     shortsTitle?: string;
@@ -1220,9 +1620,10 @@ interface CustomSelectProps {
   onChange: (value: string) => void;
   groups: OptionGroupWithDesc[];
   badgeTitle?: string;
+  keepOpenOnSelect?: boolean;
 }
 
-function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProps) {
+function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = false }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
@@ -1483,7 +1884,9 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
                             type="button"
                             onClick={() => {
                               onChange(opt.value);
-                              setIsOpen(false);
+                              if (!keepOpenOnSelect) {
+                                setIsOpen(false);
+                              }
                             }}
                             className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all flex flex-col justify-between cursor-pointer select-none touch-manipulation active:scale-[0.98] ${
                               isSelected
@@ -1514,6 +1917,21 @@ function CustomSelect({ label, icon, value, onChange, groups }: CustomSelectProp
                 ))
               )}
             </div>
+
+            {keepOpenOnSelect && (
+              <div className="p-3 sm:p-4 border-t border-indigo-500/20 bg-[#0c101d] flex items-center justify-between gap-3">
+                <span className="text-xs text-indigo-300 font-medium truncate">
+                  Selected: <span className="text-white font-bold">{selectedLabel}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-extrabold shadow-lg shadow-indigo-500/30 transition-all cursor-pointer active:scale-95 shrink-0"
+                >
+                  Done ✓
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1531,6 +1949,14 @@ interface IdeasPageSettings {
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
+  kidsClothing?: string;
+  kidsExpression?: string;
+  kidsFood?: string;
+  kidsProp?: string;
+  timeOfDay?: string;
+  storyBeat?: string;
+  cameraShot?: string;
+  charPerformance?: string;
   characterSetup?: string;
   charactersPerScene?: string;
   customCharactersPerScene?: string;
@@ -1547,6 +1973,8 @@ interface IdeasPageSettings {
   aiModel?: string;
   musicType?: string;
   seriousDialogueStyle?: string;
+  customSceneDescription?: string;
+  outroEffects?: string;
 }
 
 export default function IdeasPage() {
@@ -1585,6 +2013,7 @@ export default function IdeasPage() {
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
+  const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
   const [aiModel, setAiModel] = useState<string>(
     initialSettings.aiModel && ["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(initialSettings.aiModel)
       ? initialSettings.aiModel
@@ -1670,6 +2099,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-dialogue", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        keepalive: true,
         body: JSON.stringify({
           category,
           language,
@@ -1678,17 +2108,27 @@ export default function IdeasPage() {
           kidsAge,
           kidsLocation,
           kidsHealth,
+          kidsClothing,
           kidsVibe,
           characterSetup,
           charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
           aiModel,
           seriousDialogueStyle,
+          customSceneDescription,
+          outroEffects,
+          kidsExpression: kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
+          kidsFood: kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
+          kidsProp: kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
+          timeOfDay: timeOfDay !== "Any / AI Decides" ? timeOfDay : undefined,
+          storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
+          cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
+          charPerformance: charPerformance !== "Any / AI Decides" ? charPerformance : undefined,
         }),
       });
       const data = await res.json();
       if (data.success && data.dialogue) {
         setCustomDialogue(data.dialogue);
-        showToast("Generated AI dialogue suggestion!", "success");
+        showToast("Refined & corrected script!", "success");
       } else {
         throw new Error(data.error || "Failed to suggest dialogue");
       }
@@ -1699,17 +2139,29 @@ export default function IdeasPage() {
     }
   };
   
+
+
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
   const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Healthy");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
+  const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "One Cute Little Girl");
-  const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "2 Characters");
+  const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
   const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
   const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
+  const [customSceneDescription, setCustomSceneDescription] = useState(initialSettings.customSceneDescription || "");
+  const [outroEffects, setOutroEffects] = useState<string>(initialSettings.outroEffects || "None");
+  const [kidsExpression, setKidsExpression] = useState(initialSettings.kidsExpression || "Any / AI Decides");
+  const [kidsFood, setKidsFood] = useState(initialSettings.kidsFood || "Any / AI Decides");
+  const [kidsProp, setKidsProp] = useState(initialSettings.kidsProp || "Any / AI Decides");
+  const [timeOfDay, setTimeOfDay] = useState(initialSettings.timeOfDay || "Any / AI Decides");
+  const [storyBeat, setStoryBeat] = useState(initialSettings.storyBeat || "Any / AI Decides");
+  const [cameraShot, setCameraShot] = useState(initialSettings.cameraShot || "Any / AI Decides");
+  const [charPerformance, setCharPerformance] = useState(initialSettings.charPerformance || "Any / AI Decides");
 
   const CHARACTER_LOCATION_SMART_MAPPINGS: { pattern: RegExp; location: string; toastName: string }[] = [
     { pattern: /doctor|pediatrician/i, location: "Doctor Clinic & Children Hospital", toastName: "Doctor Clinic 🏥" },
@@ -1744,7 +2196,7 @@ export default function IdeasPage() {
     }
   };
 
-  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0]) => {
+  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0] & { clothing?: string }) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsHealth(preset.health);
@@ -1752,6 +2204,18 @@ export default function IdeasPage() {
     setCharacterSetup(preset.setup);
     setCharactersPerScene(preset.perScene);
     setKidsNationality(preset.nationality);
+    
+    // Smart mapping for kids clothing based on preset or location/culture
+    if (preset.clothing) {
+      setKidsClothing(preset.clothing);
+    } else if (preset.location.includes("School") || preset.location.includes("Classroom")) {
+      setKidsClothing("Desi School Uniform");
+    } else if (preset.nationality.includes("Pakistani") || preset.nationality.includes("Indian") || preset.title.includes("Desi") || preset.title.includes("Qawwal")) {
+      setKidsClothing("Desi Shalwar Kameez");
+    } else {
+      setKidsClothing("Colorful Casual");
+    }
+
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
     showToast(`✅ Applied "${preset.title}" preset!`, "success");
@@ -1809,6 +2273,7 @@ export default function IdeasPage() {
         kidsLocation,
         kidsHealth,
         kidsVibe,
+        kidsClothing,
         characterSetup,
         charactersPerScene,
         customCharactersPerScene,
@@ -1825,6 +2290,14 @@ export default function IdeasPage() {
         aiModel,
         musicType,
         seriousDialogueStyle,
+        customSceneDescription,
+        outroEffects,
+        kidsExpression,
+        kidsFood,
+        kidsProp,
+        timeOfDay,
+        storyBeat,
+        cameraShot,
       };
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
     }
@@ -1838,6 +2311,7 @@ export default function IdeasPage() {
     kidsLocation,
     kidsHealth,
     kidsVibe,
+    kidsClothing,
     characterSetup,
     charactersPerScene,
     customCharactersPerScene,
@@ -1854,6 +2328,14 @@ export default function IdeasPage() {
     aiModel,
     musicType,
     seriousDialogueStyle,
+    customSceneDescription,
+    outroEffects,
+    kidsExpression,
+    kidsFood,
+    kidsProp,
+    timeOfDay,
+    storyBeat,
+    cameraShot,
   ]);
 
   const handleResetSettings = () => {
@@ -1866,12 +2348,22 @@ export default function IdeasPage() {
     setKidsLocation("Cozy Home Living Room");
     setKidsHealth("Healthy");
     setKidsVibe("Cheerful & Energetic");
+    setKidsClothing("Any / AI Decides");
     setCharacterSetup("One Cute Little Girl");
-    setCharactersPerScene("2 Characters");
+    setCharactersPerScene("1 Character");
     setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
     setMusicType("None");
     setSeriousDialogueStyle("None");
+    setCustomSceneDescription("");
+    setOutroEffects("None");
+    setKidsExpression("Any / AI Decides");
+    setKidsFood("Any / AI Decides");
+    setKidsProp("Any / AI Decides");
+    setTimeOfDay("Any / AI Decides");
+    setStoryBeat("Any / AI Decides");
+    setCameraShot("Any / AI Decides");
+    setCharPerformance("Any / AI Decides");
     setCarboxBrand("Premium BMW");
     setCarboxColor("Glossy Black");
     setCarboxPackaging("Elegant Retail Box");
@@ -1967,6 +2459,7 @@ export default function IdeasPage() {
       const res = await fetch("/api/suggest-ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        keepalive: true,
         body: JSON.stringify({
           category,
           language,
@@ -1976,6 +2469,7 @@ export default function IdeasPage() {
           kidsAge,
           kidsLocation,
           kidsHealth,
+          kidsClothing,
           kidsVibe,
           characterSetup,
           charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
@@ -1987,6 +2481,15 @@ export default function IdeasPage() {
           aiModel,
           musicType,
           seriousDialogueStyle,
+          customSceneDescription,
+          outroEffects,
+          kidsExpression: kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
+          kidsFood: kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
+          kidsProp: kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
+          timeOfDay: timeOfDay !== "Any / AI Decides" ? timeOfDay : undefined,
+          storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
+          cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
+          charPerformance: charPerformance !== "Any / AI Decides" ? charPerformance : undefined,
         }),
       });
       const data = await res.json();
@@ -2012,11 +2515,15 @@ export default function IdeasPage() {
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
+          kidsClothing: category === "CUTE_KIDS" ? kidsClothing : undefined,
+          customSceneDescription: customSceneDescription && customSceneDescription.trim() ? customSceneDescription.trim() : undefined,
+          outroEffects: outroEffects !== "None" ? outroEffects : undefined,
         };
         
         const res = await fetch("/api/ideas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          keepalive: true,
           body: JSON.stringify(ideaData),
         });
         const ideaRes = await res.json();
@@ -2281,6 +2788,165 @@ export default function IdeasPage() {
             </h2>
           </div>
 
+          {/* Top Priority Inputs: Dialogue & Situation Description */}
+          {category !== "CARBOX" && (
+            <div className="space-y-4 mb-4">
+              {/* Custom Spoken Dialogue Section */}
+              <div className="space-y-3 p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30">
+                <div className="flex flex-wrap items-center justify-between gap-2.5">
+                  <label className="text-xs font-extrabold text-amber-300 flex items-center gap-2">
+                    <span>💬 Custom Spoken Dialogue (Optional)</span>
+                  </label>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {customDialogue && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={handleSaveDialogue}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-700/50 text-xs font-bold text-indigo-200 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          title="Save dialogue for future reuse"
+                        >
+                          <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                          <span>Save</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(customDialogue, "custom-dialogue-input")}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          title="Copy spoken dialogue"
+                        >
+                          {copiedId === "custom-dialogue-input" ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                          <span>{copiedId === "custom-dialogue-input" ? "Copied" : "Copy"}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomDialogue("");
+                            showToast("Cleared dialogue text", "info");
+                          }}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          title="Clear dialogue"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Clear</span>
+                        </button>
+                      </>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setIsDialogueExpanded(!isDialogueExpanded)}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                      title={isDialogueExpanded ? "Collapse to normal height" : "Expand field height for large script view"}
+                    >
+                      {isDialogueExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                      <span>{isDialogueExpanded ? "Collapse" : "Expand"}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSuggestDialogue}
+                      disabled={isSuggestingDialogue}
+                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm"
+                      title="Automatically fix Urdu/Punjabi spelling, grammar, and Zair/Zabar/Pesh diacritics while preserving exact meaning"
+                    >
+                      {isSuggestingDialogue ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                      ) : (
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      )}
+                      {isSuggestingDialogue ? "Fixing Script..." : "✨ Fix Urdu & Punjabi Script"}
+                    </button>
+                  </div>
+                </div>
+
+                <textarea
+                  value={customDialogue}
+                  onChange={(e) => setCustomDialogue(e.target.value)}
+                  dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
+                  rows={isDialogueExpanded ? 8 : 4}
+                  placeholder={`Paste your Urdu or Punjabi script here, e.g.:\nابو: چپس کہاں گئے؟\nبچہ: تحقیقات جاری ہیں!\n(Then click ✨ Fix Urdu & Punjabi Script)`}
+                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
+                />
+
+                {/* Saved Dialogues Tag List */}
+                {savedDialogues.length > 0 && (
+                  <div className="mt-3 p-3.5 rounded-xl bg-black/40 border border-indigo-500/20 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                        <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                        Saved Dialogues ({savedDialogues.length})
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto pt-1">
+                      {savedDialogues.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-sm"
+                        >
+                          <span
+                            dir={language === "Urdu" || language === "Punjabi" ? "rtl" : "ltr"}
+                            className="truncate max-w-[180px] sm:max-w-xs font-medium"
+                          >
+                            {item.text}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleUseSavedDialogue(item.text)}
+                            className="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] transition-all cursor-pointer active:scale-95"
+                          >
+                            Use
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSavedDialogue(item.id)}
+                            className="p-0.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+                            title="Delete saved dialogue"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Situation/Scene Description Section */}
+              <div className="space-y-3 p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/30">
+                <div className="flex flex-wrap items-center justify-between gap-2.5">
+                  <label className="text-xs font-extrabold text-indigo-300 flex items-center gap-2">
+                    <span>🎬 Situation / Scene Description (Optional)</span>
+                  </label>
+                  {customSceneDescription && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCustomSceneDescription("");
+                        showToast("Cleared situation description", "info");
+                      }}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                      title="Clear description"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Clear</span>
+                    </button>
+                  )}
+                </div>
+
+                <textarea
+                  value={customSceneDescription}
+                  onChange={(e) => setCustomSceneDescription(e.target.value)}
+                  rows={3}
+                  placeholder={`e.g. The kid is trying to sneak cookies from the top jar on the kitchen counter while standing on tip-toes, looking around guiltily.`}
+                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
+                />
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
             {/* Category */}
             <div className="space-y-2">
@@ -2402,130 +3068,18 @@ export default function IdeasPage() {
               />
             </div>
 
-            {/* Custom Spoken Dialogue Section */}
-            {category !== "CARBOX" && (
-              <div className="space-y-3 lg:col-span-5 p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30">
-                <div className="flex flex-wrap items-center justify-between gap-2.5">
-                  <label className="text-xs font-extrabold text-amber-300 flex items-center gap-2">
-                    <span>💬 Custom Spoken Dialogue (Optional)</span>
-                  </label>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {customDialogue && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={handleSaveDialogue}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-700/50 text-xs font-bold text-indigo-200 transition-all cursor-pointer active:scale-95 shadow-sm"
-                          title="Save dialogue for future reuse"
-                        >
-                          <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
-                          <span>Save</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(customDialogue, "custom-dialogue-input")}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all cursor-pointer active:scale-95 shadow-sm"
-                          title="Copy spoken dialogue"
-                        >
-                          {copiedId === "custom-dialogue-input" ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-400" />
-                          ) : (
-                            <Copy className="w-3.5 h-3.5" />
-                          )}
-                          <span>{copiedId === "custom-dialogue-input" ? "Copied" : "Copy"}</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomDialogue("");
-                            showToast("Cleared dialogue text", "info");
-                          }}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
-                          title="Clear dialogue"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                          <span>Clear</span>
-                        </button>
-                      </>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => setIsDialogueExpanded(!isDialogueExpanded)}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title={isDialogueExpanded ? "Collapse to normal height" : "Expand field height for large script view"}
-                    >
-                      {isDialogueExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-                      <span>{isDialogueExpanded ? "Collapse" : "Expand"}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleSuggestDialogue}
-                      disabled={isSuggestingDialogue}
-                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm"
-                      title="Generate a short, natural dialogue line matching current script style"
-                    >
-                      {isSuggestingDialogue ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
-                      ) : (
-                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                      )}
-                      {isSuggestingDialogue ? "Suggesting..." : "✨ Suggest AI Dialogue"}
-                    </button>
-                  </div>
-                </div>
+            {/* Ending/Outro Visual Effects Dropdown */}
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <CustomSelect
+                label="Ending Outro Visual Effects"
+                icon="🎬"
+                value={outroEffects}
+                onChange={(val) => setOutroEffects(val)}
+                groups={OUTRO_EFFECTS_GROUPS}
+                badgeTitle="Outro Effects"
+              />
+            </div>
 
-                <textarea
-                  value={customDialogue}
-                  onChange={(e) => setCustomDialogue(e.target.value)}
-                  dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
-                  rows={isDialogueExpanded ? 8 : 4}
-                  placeholder={`e.g. Abu: "Chips kahan gaye?"\nBachha: "Taqeeqat jaari hain!"\n(Or click Suggest AI Dialogue)`}
-                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
-                />
-
-                {/* Saved Dialogues Tag List */}
-                {savedDialogues.length > 0 && (
-                  <div className="mt-3 p-3.5 rounded-xl bg-black/40 border border-indigo-500/20 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                        <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
-                        Saved Dialogues ({savedDialogues.length})
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto pt-1">
-                      {savedDialogues.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-sm"
-                        >
-                          <span
-                            dir={language === "Urdu" || language === "Punjabi" ? "rtl" : "ltr"}
-                            className="truncate max-w-[180px] sm:max-w-xs font-medium"
-                          >
-                            {item.text}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleUseSavedDialogue(item.text)}
-                            className="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] transition-all cursor-pointer active:scale-95"
-                          >
-                            Use
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteSavedDialogue(item.id)}
-                            className="p-0.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
-                            title="Delete saved dialogue"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Cute Kids Options */}
@@ -2547,52 +3101,65 @@ export default function IdeasPage() {
               </div>
 
               {/* One-Tap Mobile Presets Bar */}
-              <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 space-y-3">
-                <div className="flex items-center justify-between">
+              <div className="rounded-2xl bg-indigo-950/40 border border-indigo-500/30 overflow-hidden">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsPresetsExpanded((v) => !v)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsPresetsExpanded((v) => !v); }}
+                  className="w-full flex items-center justify-between p-3.5 sm:p-4 cursor-pointer touch-manipulation select-none"
+                >
                   <span className="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                     One-Tap Mobile Presets
                   </span>
-                  <button
-                    type="button"
-                    onClick={handleResetSettings}
-                    title="Reset all settings to default values"
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
-                  >
-                    <RotateCcw className="w-3 h-3 text-amber-400" />
-                    <span>Reset</span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleResetSettings(); }}
+                      title="Reset all settings to default values"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                    >
+                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      <span>Reset</span>
+                    </button>
+                    <ChevronDown className={`w-4 h-4 text-indigo-400 transition-transform duration-200 ${isPresetsExpanded ? "rotate-180" : ""}`} />
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {CUTE_KIDS_PRESETS.map((preset) => {
-                    const isActive = 
-                      kidsAge === preset.age &&
-                      kidsLocation === preset.location &&
-                      kidsHealth === preset.health &&
-                      kidsVibe === preset.vibe &&
-                      characterSetup === preset.setup &&
-                      charactersPerScene === preset.perScene &&
-                      kidsNationality === preset.nationality &&
-                      (!preset.musicType || musicType === preset.musicType) &&
-                      (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
-                    
-                    return (
-                      <button
-                        key={preset.title}
-                        type="button"
-                        onClick={() => applyCuteKidsPreset(preset)}
-                        className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
-                          isActive 
-                            ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
-                            : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
-                        }`}
-                      >
-                        <span className="text-base shrink-0">{preset.icon}</span>
-                        <span className="truncate">{preset.title}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+                {isPresetsExpanded && (
+                  <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {CUTE_KIDS_PRESETS.map((preset) => {
+                        const isActive = 
+                          kidsAge === preset.age &&
+                          kidsLocation === preset.location &&
+                          kidsHealth === preset.health &&
+                          kidsVibe === preset.vibe &&
+                          characterSetup === preset.setup &&
+                          charactersPerScene === preset.perScene &&
+                          kidsNationality === preset.nationality &&
+                          (!preset.musicType || musicType === preset.musicType) &&
+                          (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
+                        
+                        return (
+                          <button
+                            key={preset.title}
+                            type="button"
+                            onClick={() => applyCuteKidsPreset(preset)}
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                              isActive 
+                                ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
+                                : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
+                            }`}
+                          >
+                            <span className="text-base shrink-0">{preset.icon}</span>
+                            <span className="truncate">{preset.title}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2632,6 +3199,16 @@ export default function IdeasPage() {
                   groups={KIDS_VIBE_GROUPS}
                 />
 
+                {/* 4.5 Kids Clothing / Outfit Style */}
+                <CustomSelect
+                  label="Kids Clothing / Outfit"
+                  icon="👕"
+                  value={kidsClothing}
+                  onChange={setKidsClothing}
+                  groups={KIDS_CLOTHING_GROUPS}
+                  keepOpenOnSelect={true}
+                />
+
                 {/* 5. Character Setup */}
                 <CustomSelect
                   label="Character Setup"
@@ -2668,6 +3245,69 @@ export default function IdeasPage() {
                   value={kidsNationality}
                   onChange={setKidsNationality}
                   groups={KIDS_NATIONALITY_GROUPS}
+                />
+
+                {/* 8. Kids Expression / Reaction Style */}
+                <CustomSelect
+                  label="Expression / Reaction Style"
+                  icon="😄"
+                  value={kidsExpression}
+                  onChange={setKidsExpression}
+                  groups={KIDS_EXPRESSION_GROUPS}
+                />
+
+                {/* 9. Food / Snack in Scene */}
+                <CustomSelect
+                  label="Food / Snack in Scene"
+                  icon="🍭"
+                  value={kidsFood}
+                  onChange={setKidsFood}
+                  groups={KIDS_FOOD_GROUPS}
+                />
+
+                {/* 10. Props / Object in Hand */}
+                <CustomSelect
+                  label="Props / Object in Hand"
+                  icon="🎈"
+                  value={kidsProp}
+                  onChange={setKidsProp}
+                  groups={KIDS_PROP_GROUPS}
+                />
+
+                {/* 11. Time of Day / Lighting */}
+                <CustomSelect
+                  label="Time of Day / Lighting"
+                  icon="🌅"
+                  value={timeOfDay}
+                  onChange={setTimeOfDay}
+                  groups={TIME_OF_DAY_GROUPS}
+                />
+
+                {/* 12. Story Beat / Narrative Moment */}
+                <CustomSelect
+                  label="Story Beat / Narrative"
+                  icon="🎬"
+                  value={storyBeat}
+                  onChange={setStoryBeat}
+                  groups={STORY_BEAT_GROUPS}
+                />
+
+                {/* 13. Camera Shot Style */}
+                <CustomSelect
+                  label="Camera Shot Style"
+                  icon="🎥"
+                  value={cameraShot}
+                  onChange={setCameraShot}
+                  groups={CAMERA_SHOT_GROUPS}
+                />
+
+                {/* 14. Character Performance */}
+                <CustomSelect
+                  label="Character Performance"
+                  icon="🎭"
+                  value={charPerformance}
+                  onChange={setCharPerformance}
+                  groups={CHARACTER_PERFORMANCE_GROUPS}
                 />
               </div>
             </div>
@@ -2944,11 +3584,112 @@ export default function IdeasPage() {
                     key={idea.id}
                     className="group flex flex-col items-start justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-black/40 border border-slate-800 hover:border-indigo-500/30 transition-all shadow-md hover:shadow-xl w-full"
                   >
+                    {/* Action Toolbar — Placed at TOP for immediate mobile access */}
+                    <div className="flex items-center gap-1.5 flex-wrap w-full pb-1 border-b border-slate-800/80">
+                      <button
+                        onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-action-dialogue`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-xs font-bold text-amber-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Spoken Dialogue"
+                      >
+                        {copiedId === `${idea.id}-action-dialogue` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+                        <span>Copy Dialogue</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Clean Video Prompt"
+                      >
+                        {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
+                        <span>Copy Prompt</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getPrompt916(idea.text), `${idea.id}-mobile`)}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy 9:16 Mobile Vertical Aspect Ratio Prompt"
+                      >
+                        {copiedId === `${idea.id}-mobile` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
+                        <span>9:16 Mobile</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getPrompt169(idea.text), `${idea.id}-full`)}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy 16:9 Full Widescreen Aspect Ratio Prompt"
+                      >
+                        {copiedId === `${idea.id}-full` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
+                        <span>16:9 Full</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-action-title`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-950/40 border border-blue-500/40 text-xs font-bold text-blue-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Video Title"
+                      >
+                        {copiedId === `${idea.id}-action-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
+                        <span>Copy Title</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-action-desc`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 text-xs font-bold text-purple-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Description"
+                      >
+                        {copiedId === `${idea.id}-action-desc` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
+                        <span>Copy Description</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-action-tags`)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs font-bold text-emerald-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Copy Hashtags"
+                      >
+                        {copiedId === `${idea.id}-action-tags` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
+                        <span>Copy Tags</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleGenerateSocial(idea)}
+                        disabled={generatingSocialId === idea.id}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                        title="Generate Social Media Assets"
+                      >
+                        {generatingSocialId === idea.id ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                        ) : (
+                          <Share2 className="w-3.5 h-3.5 text-blue-400" />
+                        )}
+                        <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
+                      </button>
+
+                      <div className="ml-auto flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleToggleFavorite(idea.id)}
+                          className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                            idea.isFavorite 
+                              ? "bg-rose-950/60 border-rose-500/50 text-rose-400 hover:bg-rose-900/60 shadow-md shadow-rose-950/40" 
+                              : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40"
+                          }`}
+                          title={idea.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                        >
+                          <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteIdea(idea.id)}
+                          className="p-2 rounded-xl bg-slate-900 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 transition-all cursor-pointer active:scale-95"
+                          title="Delete Idea Card"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Full Width Prompt Area */}
                     <div className="w-full space-y-3">
                       <div
                         dir={isRtl ? "rtl" : "ltr"}
-                        className={`w-full p-4 rounded-xl bg-black/30 border border-slate-800/80 text-sm sm:text-base text-slate-100 leading-relaxed font-sans select-text ${
+                        className={`w-full p-3.5 sm:p-4 rounded-xl bg-black/30 border border-slate-800/80 text-xs sm:text-sm text-slate-100 leading-relaxed font-sans select-text max-h-36 sm:max-h-48 overflow-y-auto ${
                           isRtl ? "text-right" : "text-left"
                         }`}
                       >
@@ -3040,8 +3781,8 @@ export default function IdeasPage() {
                         )}
                       </div>
 
-                      {/* Spoken Script & Custom Dialogue Banner */}
-                      <div className="mt-3 p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2.5 w-full shadow-lg">
+                      {/* Spoken Script & Custom Dialogue Banner (Height reduced for mobile) */}
+                      <div className="mt-3 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2 w-full shadow-lg">
                         <div className="flex items-center justify-between flex-wrap gap-2">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
@@ -3090,7 +3831,7 @@ export default function IdeasPage() {
 
                         <div
                           dir={isRtl ? "rtl" : "ltr"}
-                          className={`p-4 rounded-xl bg-black/80 border border-amber-500/40 text-base sm:text-lg font-bold text-amber-100 leading-relaxed tracking-wide ${
+                          className={`p-3 rounded-xl bg-black/80 border border-amber-500/40 text-sm sm:text-base font-bold text-amber-100 leading-snug tracking-wide max-h-28 sm:max-h-36 overflow-y-auto ${
                             isRtl ? "text-right" : "text-left"
                           }`}
                         >
@@ -3142,7 +3883,7 @@ export default function IdeasPage() {
                             </div>
                             <div className="flex items-center gap-2 flex-wrap">
                               <button
-                                onClick={() => handleCopy(`🔴 YOUTUBE SHORTS TITLE:\n${getIdeaShortsTitle(idea)}\n\n📘 FACEBOOK REELS TITLE:\n${getIdeaReelsTitle(idea)}\n\n🎵 TIKTOK / IG REELS TITLE:\n${getIdeaTikTokTitle(idea)}\n\n📝 DESCRIPTION:\n${getIdeaDescription(idea)}\n\n🏷️ HASHTAGS:\n${getIdeaHashtags(idea)}\n\n🔥 TRENDING TAGS & SUGGESTIONS:\n${getIdeaTrendingTags(idea)}`, `${idea.id}-social-all`)}
+                                onClick={() => handleCopy(`🎬 VIDEO TITLE:\n${getIdeaShortsTitle(idea) || getIdeaTitle(idea)}\n\n📝 DESCRIPTION:\n${getIdeaDescription(idea)}\n\n🏷️ HASHTAGS:\n${getIdeaHashtags(idea)}\n\n🔥 TRENDING TAGS & SUGGESTIONS:\n${getIdeaTrendingTags(idea)}`, `${idea.id}-social-all`)}
                                 className="px-3 py-1.5 rounded-xl bg-blue-600/40 border border-blue-500/50 hover:bg-blue-600/60 text-xs font-bold text-white transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md"
                                 title="Copy all platform titles, description, hashtags and trending tags together"
                               >
@@ -3160,71 +3901,20 @@ export default function IdeasPage() {
                             </div>
                           </div>
 
-                          {/* 🔴 YouTube Shorts Title */}
+                          {/* 🎬 Universal Video Title (All Platforms: YouTube Shorts, FB Reels, TikTok & IG) */}
                           <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-rose-300">
-                              <span>🔴 YouTube Shorts Title (Emoji-Rich & Catchy)</span>
+                            <div className="flex items-center justify-between text-xs font-bold text-indigo-300">
+                              <span>🎬 Universal Video Title (Fits YouTube Shorts, FB Reels, TikTok & IG)</span>
                               <button
-                                onClick={() => handleCopy(getIdeaShortsTitle(idea), `${idea.id}-shorts-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-rose-400 hover:text-white transition-colors cursor-pointer bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/30"
+                                onClick={() => handleCopy(getIdeaShortsTitle(idea) || getIdeaTitle(idea), `${idea.id}-universal-title`)}
+                                className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
                               >
-                                {copiedId === `${idea.id}-shorts-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-rose-400" />}
-                                Copy Shorts Title
+                                {copiedId === `${idea.id}-universal-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-400" />}
+                                Copy Video Title
                               </button>
                             </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-rose-500/30 text-xs sm:text-sm text-rose-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
-                              {getIdeaShortsTitle(idea)}
-                            </div>
-                          </div>
-
-                          {/* 📘 Facebook Reels Title */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-blue-300">
-                              <span>📘 Facebook Reels Title (Viral Hook & Humor)</span>
-                              <button
-                                onClick={() => handleCopy(getIdeaReelsTitle(idea), `${idea.id}-reels-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-white transition-colors cursor-pointer bg-blue-950/60 px-2 py-0.5 rounded border border-blue-500/30"
-                              >
-                                {copiedId === `${idea.id}-reels-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-blue-400" />}
-                                Copy Reels Title
-                              </button>
-                            </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-blue-500/30 text-xs sm:text-sm text-blue-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
-                              {getIdeaReelsTitle(idea)}
-                            </div>
-                          </div>
-
-                          {/* 🎵 TikTok & IG Reels Title */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-purple-300">
-                              <span>🎵 TikTok & IG Reels Title (Trend Style)</span>
-                              <button
-                                onClick={() => handleCopy(getIdeaTikTokTitle(idea), `${idea.id}-tiktok-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-purple-400 hover:text-white transition-colors cursor-pointer bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30"
-                              >
-                                {copiedId === `${idea.id}-tiktok-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-purple-400" />}
-                                Copy TikTok Title
-                              </button>
-                            </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-purple-500/30 text-xs sm:text-sm text-purple-100 font-semibold ${isRtl ? "text-right" : "text-left"}`}>
-                              {getIdeaTikTokTitle(idea)}
-                            </div>
-                          </div>
-
-                          {/* 📌 Universal Main Title */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-                              <span>📌 Universal Main Title</span>
-                              <button
-                                onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-social-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-slate-300 hover:text-white transition-colors cursor-pointer bg-slate-900 px-2 py-0.5 rounded border border-slate-700"
-                              >
-                                {copiedId === `${idea.id}-social-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                                Copy Main Title
-                              </button>
-                            </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-slate-800 text-xs text-white font-medium ${isRtl ? "text-right" : "text-left"}`}>
-                              {getIdeaTitle(idea)}
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-3 rounded-xl bg-black/80 border border-indigo-500/40 text-sm sm:text-base text-white font-bold tracking-wide ${isRtl ? "text-right" : "text-left"}`}>
+                              {getIdeaShortsTitle(idea) || getIdeaTitle(idea)}
                             </div>
                           </div>
 
@@ -3283,120 +3973,6 @@ export default function IdeasPage() {
                           </div>
                         </div>
                       )}
-                    </div>
-
-                    {/* Actions Row - Full Width Right-Aligned with Separate Copy Buttons */}
-                    <div className="w-full flex items-center justify-end gap-2 flex-wrap pt-3 border-t border-slate-800/60">
-                      {/* Individual Copy Buttons requested by user */}
-                      <button
-                        onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-action-dialogue`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-xs font-bold text-amber-300 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Spoken Dialogue Script"
-                      >
-                        {copiedId === `${idea.id}-action-dialogue` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
-                        <span>Copy Dialogue</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Clean Video Prompt (Without Format Tag)"
-                      >
-                        {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
-                        <span>Copy Prompt</span>
-                      </button>
-
-                      {/* 9:16 Mobile Vertical Aspect Ratio Prompt */}
-                      <button
-                        onClick={() => handleCopy(getPrompt916(idea.text), `${idea.id}-mobile`)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Copy 9:16 Mobile Vertical Aspect Ratio Prompt"
-                      >
-                        {copiedId === `${idea.id}-mobile` ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 text-indigo-400" />
-                        )}
-                        <span>9:16 Mobile</span>
-                      </button>
-
-                      {/* 16:9 Full Widescreen Aspect Ratio Prompt */}
-                      <button
-                        onClick={() => handleCopy(getPrompt169(idea.text), `${idea.id}-full`)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Copy 16:9 Full Widescreen Aspect Ratio Prompt"
-                      >
-                        {copiedId === `${idea.id}-full` ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        )}
-                        <span>16:9 Full</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-action-title`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-950/40 border border-blue-500/40 text-xs font-bold text-blue-300 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Title"
-                      >
-                        {copiedId === `${idea.id}-action-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
-                        <span>Copy Title</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-action-desc`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 text-xs font-bold text-purple-300 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Description"
-                      >
-                        {copiedId === `${idea.id}-action-desc` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
-                        <span>Copy Description</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-action-tags`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs font-bold text-emerald-300 hover:text-white transition-all cursor-pointer active:scale-95"
-                        title="Copy Hashtags"
-                      >
-                        {copiedId === `${idea.id}-action-tags` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
-                        <span>Copy Tags</span>
-                      </button>
-
-                      {/* Generate Social Button */}
-                      <button
-                        onClick={() => handleGenerateSocial(idea)}
-                        disabled={generatingSocialId === idea.id}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                        title="Generate Facebook title, description, caption & hashtags"
-                      >
-                        {generatingSocialId === idea.id ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
-                        ) : (
-                          <Share2 className="w-3.5 h-3.5 text-blue-400" />
-                        )}
-                        <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
-                      </button>
-
-                      {/* Favorite Toggle Button */}
-                      <button
-                        onClick={() => handleToggleFavorite(idea.id)}
-                        className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
-                          idea.isFavorite 
-                            ? "bg-rose-950/60 border-rose-500/50 text-rose-400 hover:bg-rose-900/60 shadow-md shadow-rose-950/40" 
-                            : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40"
-                        }`}
-                        title={idea.isFavorite ? "Remove from favorites" : "Add to favorites"}
-                      >
-                        <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
-                      </button>
-
-                      {/* Delete Button */}
-                      <button
-                        onClick={() => handleDeleteIdea(idea.id)}
-                        className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-all cursor-pointer active:scale-95"
-                        title="Delete idea"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
                     </div>
                   </div>
                 );

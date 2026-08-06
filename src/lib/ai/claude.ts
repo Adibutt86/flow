@@ -342,7 +342,7 @@ export async function generateIdeaSuggestionsWithClaude(
 
   for (const modelName of modelsToTry) {
     try {
-      const anthropic = new Anthropic({ apiKey });
+      const anthropic = new Anthropic({ apiKey, timeout: 60000, maxRetries: 3 });
       const response = await anthropic.messages.create({
         model: modelName,
         max_tokens: 4096,
@@ -359,16 +359,36 @@ Tone: ${categoryConfig.tone}
 Language: ${input.language}
 Visual Style: ${input.visualStyle}
 ${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
-${input.customDialogue ? `User Custom Spoken Dialogue: "${input.customDialogue}"` : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."}
+${
+  input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue
+    ? `CRITICAL SILENT MANDATE (NO SPOKEN DIALOGUE):
+The user selected Character Performance Mode: "${input.charPerformance}".
+STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue lines in the prompt!
+The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
+    : input.customDialogue
+    ? `User Custom Spoken Dialogue: "${input.customDialogue}"`
+    : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."
+}
+${input.customSceneDescription ? `Situation/Scene Description: "${input.customSceneDescription}"` : ""}
 ${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
 ${input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
+${input.kidsClothing ? `Kids Clothing/Outfit Style: ${input.kidsClothing}` : ""}
 ${input.kidsVibe ? `Kids Vibe/Mood: ${input.kidsVibe}` : ""}
 ${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
 ${input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
 ${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
-${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType}` : ""}
+${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).` : ""}
 ${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
+${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Effects: ${input.outroEffects}` : ""}
+${input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
+${input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
+${input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
+${input.timeOfDay && input.timeOfDay !== "Any / AI Decides" ? `Time of Day/Lighting: ${input.timeOfDay}` : ""}
+${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrative Moment: ${input.storyBeat}` : ""}
+${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
+${input.cameraShot && /fixed|static|lock/i.test(input.cameraShot) ? `STRICT CAMERA LOCK MANDATE: The camera MUST stay 100% stationary and locked on the speaking character throughout the entire 10-second clip. NO camera panning, NO wild zooms, NO background cuts, NO camera rotation. The speaking character remains centered in frame from start to finish.` : ""}
+${input.charPerformance && input.charPerformance !== "Any / AI Decides" ? `Character Performance Mode: ${input.charPerformance}` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
@@ -407,7 +427,7 @@ The generated prompt string MUST follow this EXACT structure:
 
 [FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
 
-10-second ${input.visualStyle || "high-quality 3D cartoon animation"}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action & dialogue]. ESCALATION (3-7s): [Camera movement & dialogue/action escalation]. PUNCHLINE (7-10s): [Hilarious physical gag/punchline ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
+10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh), [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
 
 Return ONLY a valid JSON array of 1 string containing the full prompt:
 [
@@ -665,7 +685,6 @@ Return ONLY a valid JSON object matching this exact structure:
 
   throw new Error("Failed to optimize idea. AI returned invalid format or failed.");
 }
-
 export async function generateDialogueSuggestionWithClaude(input: {
   category: string;
   language: string;
@@ -674,11 +693,21 @@ export async function generateDialogueSuggestionWithClaude(input: {
   kidsAge?: string;
   kidsLocation?: string;
   kidsHealth?: string;
+  kidsClothing?: string;
+  kidsExpression?: string;
+  kidsFood?: string;
+  kidsProp?: string;
+  timeOfDay?: string;
+  storyBeat?: string;
+  cameraShot?: string;
+  charPerformance?: string;
   kidsVibe?: string;
   characterSetup?: string;
   charactersPerScene?: string;
   aiModel?: string;
   seriousDialogueStyle?: string;
+  customSceneDescription?: string;
+  outroEffects?: string;
 }): Promise<string> {
   const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
@@ -710,31 +739,17 @@ export async function generateDialogueSuggestionWithClaude(input: {
         messages: [
           {
             role: "user",
-            content: `You are an expert script dialogue writer for 10-second viral short video clips (Google Flow).
-Generate a natural, witty, or deeply expressive dialogue line tailored to:
-- Category: ${input.category}
-- Language: ${input.language}
-${input.customIdea ? `- Video Concept: "${input.customIdea}"` : ""}
-${input.existingDialogue ? `- Current Script Context: "${input.existingDialogue}"` : ""}
-${input.kidsAge ? `- Character Age: ${input.kidsAge}` : ""}
-${input.kidsLocation ? `- Scene Location: ${input.kidsLocation}` : ""}
-${input.kidsHealth ? `- Character Health: ${input.kidsHealth}` : ""}
-${input.kidsVibe ? `- Character Vibe: ${input.kidsVibe}` : ""}
-${input.characterSetup ? `- Character Setup: ${input.characterSetup}` : ""}
-${input.charactersPerScene ? `- Characters Per Scene: ${input.charactersPerScene}` : ""}
-${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `- Serious Dialogue Style: "${input.seriousDialogueStyle}" (Craft deeply focused ${input.seriousDialogueStyle} speech; avoid slapstick comedic jokes)` : ""}
+            content: `You are an expert Urdu and Punjabi script corrector and editor specializing in viral short video scripts (Google Flow).
+Your SOLE TASK is to automatically correct and refine Urdu and Punjabi scripts.
 
-STRICT DIALOGUE STYLE & LANGUAGE RULES:
-1. Match the exact tone and language format of the current script context.
-2. If Language is "English", write strictly in clear, natural English.
-3. If Language is "Urdu" or "Roman Urdu":
-   - Write in authentic Urdu script or Roman Urdu.
-4. If Language is "Punjabi", write in authentic Roman Punjabi.
-5. Keep it punchy, expressive, and realistic for short video clips under 15 words per speaker.
-6. SHAYARI / MUSHAIRA MANDATE: If Shayar or Poetic/Shayari is requested, write a charming 2-line Shayari (Sher-o-Shayari in Urdu/Hindi script or Roman script). Format the recitation with natural audience reactions in parentheses, e.g.:
-   Shayar Kid: "Aap ke aane se mehfil mein bahaar aayi hai!"
-   Audience: "(Wah Wah! Wah Wah! Irshad!)"
-7. Output Format: Return ONLY the exact dialogue text with NO extra intro/outro explanations or markdown wrapping.`,
+Text to fix: "${input.existingDialogue || input.customIdea || ""}"
+
+STRICT SCRIPT CORRECTION & DIALOGUE RULES:
+1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi).
+2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
+3. PRESERVE MEANING: Keep the original meaning, joke timing, and intent 100% intact. Do NOT change the story or punchline, only refine and elevate the script quality.
+4. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Punjabi dialogue matching the category "${input.category}".
+5. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.`,
           },
         ],
       });
@@ -810,25 +825,26 @@ export async function generateSocialContentWithClaude(input: {
   ]));
 
   const prompt = `You are a world-class viral social media strategist for YouTube Shorts, Facebook Reels, TikTok, and Instagram Reels.
-Generate platform-optimized, emoji-rich titles, video description, and trending tags tailored to the following video concept.
+Generate platform-optimized, professional ENGLISH social media content (titles, description, and hashtags) for the following video concept.
 
 Video Concept:
 "${input.ideaText}"
 
 Category: ${input.category}
-Language: ${input.language}
+Original Dialogue/Script Language: ${input.language}
 Visual Style: ${input.visualStyle || "Standard 3D"}
 
-CRITICAL INDEPENDENT SOCIAL TITLES & TRENDING TAGS MANDATE:
-1. "title": Universal main title (clean, short, catchy, no call-to-actions).
-2. "shortsTitle": Catchy, emoji-rich YouTube Shorts title with high-curiosity hook (e.g. "Wait for the ending! 😱🔥 #Shorts").
-3. "reelsTitle": Engaging, emotional/humorous Facebook Reels title tailored to viral audiences (e.g. "Chintu Ka Naya Karname! 🤣👇").
-4. "tiktokTitle": Energetic TikTok & Instagram Reels trend title with relatable hook (e.g. "When your toddler takes over... 😭💀").
-5. "description": Short 2-line engaging video caption/description.
-6. "hashtags": EXACTLY 4 to 5 core hashtags (e.g. "#FunnyKids #3DAnimation #Shorts #Viral #DesiComedy").
-7. "trendingTags": 6 to 8 trending viral hashtags and growth suggestions (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyShorts #Relatable #ViralVideo").
-
-STRICT RULE: Match language requested (${input.language}). DO NOT include any "Like & Share" or "Subscribe" CTAs in any title.
+CRITICAL ENGLISH-ONLY SOCIAL MEDIA MANDATE:
+1. ALL TITLES, DESCRIPTIONS, AND HASHTAGS MUST BE 100% IN HIGHLY ENGAGING, PROFESSIONAL ENGLISH regardless of the video's spoken language (Urdu, Punjabi, Hindi, etc.).
+2. DO NOT translate the video's original dialogue word-for-word into English; instead, analyze the core story/humor/action and write engaging, viral English copy.
+3. "title": Highly engaging, universal main English title (clean, short, catchy, no call-to-actions).
+4. "shortsTitle": Catchy, emoji-rich YouTube Shorts English title with high-curiosity hook (e.g. "Wait for the ending! 😱🔥 #Shorts").
+5. "reelsTitle": Engaging, viral English Facebook Reels title (e.g. "Toddler's sneaky plan caught on camera! 🤣👇").
+6. "tiktokTitle": Energetic, relatable TikTok & Instagram Reels English title (e.g. "When your toddler takes over the house... 😭💀").
+7. "description": SEO-friendly, short 2-line English video caption/description explaining the fun scenario.
+8. "hashtags": EXACTLY 4 to 5 core English hashtags (e.g. "#FunnyKids #3DAnimation #Shorts #Viral #DesiComedy").
+9. "trendingTags": 6 to 8 trending viral hashtags in English (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyShorts #Relatable #ViralVideo").
+10. DO NOT include any "Like & Share" or "Subscribe" CTAs in any title.
 
 OUTPUT MUST BE VALID JSON ONLY with this exact structure:
 {

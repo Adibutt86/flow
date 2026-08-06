@@ -4,7 +4,30 @@ import { generateDialogueSuggestionWithClaude } from "@/lib/ai/claude";
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { category = "FUNNY", language = "Urdu", customIdea, existingDialogue, kidsAge, kidsLocation, kidsHealth, kidsVibe, characterSetup, charactersPerScene, aiModel, seriousDialogueStyle } = body;
+    const {
+      category = "FUNNY",
+      language = "Urdu",
+      customIdea,
+      existingDialogue,
+      kidsAge,
+      kidsLocation,
+      kidsHealth,
+      kidsClothing,
+      kidsExpression,
+      kidsFood,
+      kidsProp,
+      timeOfDay,
+      storyBeat,
+      cameraShot,
+      charPerformance,
+      kidsVibe,
+      characterSetup,
+      charactersPerScene,
+      aiModel,
+      seriousDialogueStyle,
+      customSceneDescription,
+      outroEffects,
+    } = body;
 
     if (category === "CARBOX") {
       return NextResponse.json(
@@ -21,11 +44,21 @@ export async function POST(request: Request) {
       kidsAge,
       kidsLocation,
       kidsHealth,
+      kidsClothing,
+      kidsExpression,
+      kidsFood,
+      kidsProp,
+      timeOfDay,
+      storyBeat,
+      cameraShot,
+      charPerformance,
       kidsVibe,
       characterSetup,
       charactersPerScene,
       aiModel,
       seriousDialogueStyle,
+      customSceneDescription,
+      outroEffects,
     });
 
     return NextResponse.json({ success: true, dialogue });

@@ -4,7 +4,38 @@ import { generateIdeaSuggestionsWithClaude } from "@/lib/ai/claude";
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { category = "FUNNY", language = "Urdu", visualStyle = "3D Cartoon Style", videoDuration = 8, customDialogue, seed, kidsAge, kidsLocation, kidsHealth, kidsVibe, characterSetup, charactersPerScene, kidsNationality, carboxBrand, carboxColor, carboxPackaging, carboxBackground, aiModel, musicType, seriousDialogueStyle } = body;
+    const {
+      category = "FUNNY",
+      language = "Urdu",
+      visualStyle = "3D Cartoon Style",
+      videoDuration = 8,
+      customDialogue,
+      seed,
+      kidsAge,
+      kidsLocation,
+      kidsHealth,
+      kidsClothing,
+      kidsExpression,
+      kidsFood,
+      kidsProp,
+      timeOfDay,
+      storyBeat,
+      cameraShot,
+      charPerformance,
+      kidsVibe,
+      characterSetup,
+      charactersPerScene,
+      kidsNationality,
+      carboxBrand,
+      carboxColor,
+      carboxPackaging,
+      carboxBackground,
+      aiModel,
+      musicType,
+      seriousDialogueStyle,
+      customSceneDescription,
+      outroEffects,
+    } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
       category,
@@ -15,6 +46,14 @@ export async function POST(request: Request) {
       kidsAge,
       kidsLocation,
       kidsHealth,
+      kidsClothing,
+      kidsExpression,
+      kidsFood,
+      kidsProp,
+      timeOfDay,
+      storyBeat,
+      cameraShot,
+      charPerformance,
       kidsVibe,
       characterSetup,
       charactersPerScene,
@@ -27,6 +66,8 @@ export async function POST(request: Request) {
       aiModel,
       musicType,
       seriousDialogueStyle,
+      customSceneDescription,
+      outroEffects,
     });
 
     return NextResponse.json({ success: true, ideas });

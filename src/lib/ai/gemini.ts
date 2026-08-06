@@ -124,6 +124,14 @@ export interface SuggestIdeasInput {
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
+  kidsClothing?: string;
+  kidsExpression?: string;
+  kidsFood?: string;
+  kidsProp?: string;
+  timeOfDay?: string;
+  storyBeat?: string;
+  cameraShot?: string;
+  charPerformance?: string;
   characterSetup?: string;
   charactersPerScene?: string;
   kidsNationality?: string;
@@ -132,6 +140,8 @@ export interface SuggestIdeasInput {
   carboxPackaging?: string;
   carboxBackground?: string;
   aiModel?: string;
+  customSceneDescription?: string;
+  outroEffects?: string;
   musicType?: string;
   seriousDialogueStyle?: string;
 }

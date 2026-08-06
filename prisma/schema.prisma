@@ -144,4 +144,13 @@ model Idea {
   musicType            String?
   seriousDialogueStyle String?
   socialContent        String?
+  kidsClothing         String?
+  kidsExpression       String?
+  kidsFood             String?
+  kidsProp             String?
+  timeOfDay            String?
+  storyBeat            String?
+  cameraShot           String?
+  customSceneDescription String?
+  outroEffects         String?
 }
