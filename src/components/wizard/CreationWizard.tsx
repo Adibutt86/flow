@@ -32,6 +32,7 @@ import {
   RefreshCw,
   Bot,
   Smile,
+  Music,
 } from "lucide-react";
 
 interface CreationWizardProps {
@@ -50,6 +51,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   Film: <Film className="w-5 h-5" />,
   Sliders: <Sliders className="w-5 h-5" />,
   Smile: <Smile className="w-5 h-5" />,
+  Music: <Music className="w-5 h-5 text-pink-400" />,
 };
 
 const DURATION_OPTIONS = [

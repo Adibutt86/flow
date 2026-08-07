@@ -27,6 +27,9 @@ import {
   MessageSquare,
   Maximize2,
   Minimize2,
+  Mic,
+  Lock,
+  Feather,
   X,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
@@ -413,6 +416,402 @@ const CUTE_KIDS_PRESETS = [
   },
 ];
 
+// ── SONG & SHAYARI OPTION GROUPS (FULL AGE RANGE 6-9 YRS TO OLD MAN) ──
+const SONG_AGE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Performers Age Ranges (Child 6-9 to Old Man Legend)",
+    options: [
+      { value: "Child Singer (6-9 yrs)", label: "👦 Child Singer (6-9 yrs)", desc: "Talented young child singer or prodigy performer." },
+      { value: "Pre-Teen & Teen (10-17 yrs)", label: "🧑 Pre-Teen & Teen Singer (10-17 yrs)", desc: "Youthful teenage vocalist with fresh energy and style." },
+      { value: "Young Adult (18-24 yrs)", label: "👤 Young Adult Singer (18-24 yrs)", desc: "Youthful singer or shayara with vibrant romantic energy." },
+      { value: "Adult (25-35 yrs)", label: "🎩 Adult Vocalist (25-35 yrs)", desc: "Experienced adult artist with deep melodic vocal presence." },
+      { value: "Mature Master (36-50 yrs)", label: "🌟 Mature Master Singer (36-50 yrs)", desc: "Mature artist with classic elegance and rich emotional tone." },
+      { value: "Senior Maestro (51-65 yrs)", label: "🔮 Senior Maestro Singer (51-65 yrs)", desc: "Experienced maestro ghazal singer or traditional Qawwal master." },
+      { value: "Old Man Legend (65+ yrs)", label: "👴 Old Man Legend (65+ yrs)", desc: "Venerable old man Sufi singer, folk legend, or elder Shayar." },
+      { value: "Multi-Generational Duet", label: "👥 Multi-Generational Duet", desc: "Duet pairing young and senior/old man artists together." },
+    ],
+  },
+];
+
+const SONG_CROWD_FX_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Background Noise & Audience Sound Effects",
+    options: [
+      { value: "DISABLED (Quiet Studio - Default)", label: "🚫 DISABLED (Quiet Studio - Default)", desc: "No background noise or audience Wah Wah. Pure clean studio voice." },
+      { value: "Live Mushaira Crowd (Wah Wah & Irshad)", label: "👏 Live Mushaira Crowd (Wah Wah & Irshad)", desc: "Authentic audience reactions shouting Wah Wah! and Irshad! during pauses." },
+      { value: "Concert Crowd Cheering & Clapping", label: "🏟️ Concert Crowd Cheering & Clapping", desc: "Live concert arena crowd cheering and applauding." },
+      { value: "Desi Mehfil Dholak & Clapping", label: "🥁 Desi Mehfil Dholak & Clapping", desc: "Traditional rhythmic hand clapping and warm Dholak room ambience." },
+      { value: "Vintage Tape Hiss & Vinyl Crackle", label: "📻 Vintage Tape Hiss & Vinyl Crackle", desc: "Nostalgic retro lofi vinyl crackle and warm studio tape haze." },
+      { value: "Rain & Cozy Fireside Ambience", label: "🌧️ Rain & Cozy Fireside Ambience", desc: "Gentle rain tapping on window and crackling fireplace warmth." },
+    ],
+  },
+];
+
+const SONG_PRESETS = [
+  {
+    icon: "🎵",
+    title: "Romantic 2-Liner",
+    age: "Young Adult (18-24 yrs)",
+    location: "Sunset Rooftop & City Skyline 🌇",
+    vibe: "Romantic & Soulful",
+    setup: "Solo Adult Female Singer 👩‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Acoustic Guitar & Whistling",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🎤",
+    title: "Urdu Shayari Mehfil",
+    age: "Adult (25-35 yrs)",
+    location: "Traditional Heritage Haveli",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Male & Female Duet (Shayar & Singer)",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🎧",
+    title: "Lo-Fi Sunset Jam",
+    age: "Young Adult (18-24 yrs)",
+    location: "Rainy Window Coffee Shop ☕",
+    vibe: "Aesthetic Lo-Fi Chill",
+    setup: "Singer + Acoustic Guitarist",
+    perScene: "2 Characters",
+    nationality: "Global / Any",
+    musicType: "Lo-Fi Chill & Chillhop",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "👰‍♀️",
+    title: "Dulha & Dulhan Ghazal",
+    age: "Young Adult (18-24 yrs)",
+    location: "Traditional Heritage Haveli",
+    vibe: "Romantic & Soulful",
+    setup: "Dulha & Dulhan (Bride & Groom)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🎸",
+    title: "Coke Studio Duet",
+    age: "Adult (25-35 yrs)",
+    location: "Coke Studio Fusion Stage 🎸",
+    vibe: "Coke Studio Fusion Vibe",
+    setup: "Male & Female Duet (Shayar & Singer)",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Coke Studio Style Fusion",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🪕",
+    title: "Punjabi Tappa Folk",
+    age: "Adult (25-35 yrs)",
+    location: "Golden Mustard & Wheat Fields 🌾",
+    vibe: "Romantic & Soulful",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Tappa & Dholak",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🌧️",
+    title: "Rainy Window Sad Shayari",
+    age: "Adult (25-35 yrs)",
+    location: "Rainy Bedroom Window 🌧️",
+    vibe: "Deep Emotional & Heartbroken (Sad Shayari)",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Bansuri Flute & Ambient Nature",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🕌",
+    title: "Sufi Qawwali Party",
+    age: "Mature Adult (36-45 yrs)",
+    location: "Traditional Heritage Haveli",
+    vibe: "Sufi Mystical & Spiritual",
+    setup: "Qawwali Group (Qawwal Party)",
+    perScene: "3 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "Poetic/Shayari",
+  },
+];
+
+const POETRY_PRESETS = [
+  {
+    icon: "📖",
+    title: "Classic Urdu Ghazal Mehfil",
+    age: "Adult (25-35 yrs)",
+    location: "Traditional Heritage Haveli",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+  },
+  {
+    icon: "😂",
+    title: "Funny Satirical Shayar",
+    age: "Adult (25-35 yrs)",
+    location: "Bustling Desi Bazaar & Street Market",
+    vibe: "Funny & Humorous Shayari (Tanzo Mazah)",
+    setup: "Funny Comedic Shayar (Tanzo Mazah Poet) 😂",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "Funny Satirical Shayari (Tanzo Mazah)",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+  },
+  {
+    icon: "💔",
+    title: "Heartbreak Sad Shayari",
+    age: "Young Adult (18-24 yrs)",
+    location: "Rainy Window Coffee Shop ☕",
+    vibe: "Deep Emotional & Heartbroken (Sad Shayari)",
+    setup: "Solo Adult Female Singer 👩‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Bansuri Flute & Ambient Nature",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "Rain & Cozy Fireside Ambience",
+  },
+  {
+    icon: "🕌",
+    title: "Sufi Mystical Kalam",
+    age: "Senior Maestro (51-65 yrs)",
+    location: "Old City Street & Mughal Architecture",
+    vibe: "Sufi Mystical & Spiritual",
+    setup: "Qawwali Group (Qawwal Party)",
+    perScene: "3 Characters",
+    nationality: "Pakistani Sufi / Punjabi",
+    musicType: "Sufi Instrumental Flute & Rubab",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Desi Mehfil Dholak & Clapping",
+  },
+  {
+    icon: "👴",
+    title: "Old Man Legend Shayari",
+    age: "Old Man Legend (65+ yrs)",
+    location: "Vintage Library & Fireplace 📚",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+  },
+  {
+    icon: "🥀",
+    title: "Solitary Candlelit Tanhai",
+    age: "Young Adult (18-24 yrs)",
+    location: "Candlelit Solitary Room (Tanhai / Solitary Room) 🕯️",
+    vibe: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Male Simple Button-Down Shirt & Dark Trousers (Sad/Lonely Poet) 👔",
+    musicType: "Soft Acoustic Guitar Melody",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "DISABLED (Quiet Studio - Default)",
+  },
+  {
+    icon: "🕌",
+    title: "Grand Floor Mehfil (Gaddi & Masnad)",
+    age: "Adult (25-35 yrs)",
+    location: "Mehfil Stage with Carpet & Bolster Pillows (محفل کی رونک) 🕌",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    clothing: "Male Traditional Shalwar Kameez & Waistcoat 👔",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+  },
+];
+
+const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🏛️ Mehfil & Mushaira Settings",
+    options: [
+      { value: "Traditional Heritage Haveli", label: "Heritage Haveli & Courtyard (حویلی)", desc: "Carved archways, wooden balconies, flickering oil lamps, and historic courtyard." },
+      { value: "Mehfil Stage with Carpet & Bolster Pillows (محفل کی رونک) 🕌", label: "Mehfil Stage with Carpets & Gaddi (محفل کی رونک) 🕌", desc: "Traditional floor seating with plush carpets, velvet bolster pillows (Masnad), and candle stand." },
+      { value: "Colonial Heritage Auditorium & Stage 🏛️", label: "Colonial Heritage Auditorium Stage 🏛️", desc: "Grand auditorium with antique wooden stage, vintage brass mic, and ambient spotlight." },
+      { value: "Open-Air Garden Mehfil under Fairy Lights ✨", label: "Open-Air Garden Mehfil under Fairy Lights ✨", desc: "Nighttime outdoor garden gathering illuminated by twinkling fairy lights." },
+      { value: "Ancient Fort Archway & Torches 🏰", label: "Ancient Fort Archway & Torches 🏰", desc: "Historic stone fort archways lit by glowing oil torches and starry night sky." },
+      { value: "Dynamic Multi-Location Mehfil & Solitude 🎭", label: "Dynamic Multi-Location (Stage + Solitary Room) 🎭", desc: "Transitions between a lively Mushaira stage and a quiet solitary room." },
+    ],
+  },
+  {
+    category: "🌧️ Solitary, Sad & Atmospheric Locations",
+    options: [
+      { value: "Candlelit Solitary Room (Tanhai / Solitary Room) 🕯️", label: "Candlelit Solitary Room (تنہا کمرہ / Tanhai) 🕯️", desc: "Dimly lit room, flickering desk candle, handwritten poetry papers, and quiet solitude." },
+      { value: "Rain-Slicked Midnight Rooftop Balcony 🌧️🌙", label: "Rain-Slicked Midnight Balcony 🌧️🌙", desc: "Standing alone under pouring midnight rain gazing at distant city lights." },
+      { value: "Rainy Window Coffee Shop ☕", label: "Rainy Window Coffee Shop ☕", desc: "Warm coffee shop interior with raindrops streaking glass window." },
+      { value: "Sunset Rooftop & City Skyline 🌇", label: "Sunset Rooftop & Skyline 🌇", desc: "Golden hour rooftop view of twinkling city lights under twilight sky." },
+      { value: "Dimly Lit Vintage Tea House (Dhaba) ☕", label: "Dimly Lit Vintage Tea House / Dhaba ☕", desc: "Late night quiet corner table with warm steaming tea and vintage aesthetic." },
+      { value: "Solitary Bench in Misty Autumn Park 🍁", label: "Solitary Bench in Misty Park 🍁", desc: "Foggy morning park bench surrounded by falling leaves and morning mist." },
+      { value: "Ocean Cliff at Dusk 🌊", label: "Ocean Cliff at Dusk 🌊", desc: "Dramatic ocean waves crashing against rocks under purple dusk sky." },
+      { value: "Acoustic Music Studio 🎤", label: "Acoustic Music Studio 🎤", desc: "Studio stage with vintage ribbon microphones and warm spotlight bokeh." },
+      { value: "Coke Studio Fusion Stage 🎸", label: "Coke Studio Stage 🎸", desc: "Modern lighting rig, oriental rugs, acoustic instruments, and electric vibe." },
+    ],
+  },
+];
+
+const SONG_VIBE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Song & Shayari Moods",
+    options: [
+      { value: "Very Sad & Heartbroken Mehfil (Shayari of Grief & Loss) 💔😭", label: "Very Sad & Heartbroken Mehfil 💔😭", desc: "Profound grief, tearful eyes, broken heart Shayari, and tragic emotional intensity." },
+      { value: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀", label: "Lonely & Isolated Solitude (تنہائی) 🌧️🥀", desc: "Solitary character sitting alone in quiet darkness reflecting on painful memories." },
+      { value: "Melancholic Midnight Rain (Ghamgina Shayari) 🌙🌧️", label: "Melancholic Midnight Rain (غمگین شاعری) 🌙🌧️", desc: "Gloomy atmospheric midnight rain with sorrowful poetic recitation." },
+      { value: "Funny & Humorous Shayari (Tanzo Mazah)", label: "Funny & Humorous Shayari (طنز و مزاح) 😂", desc: "Witty comedic Shayari, hilarious satire (Tanzo Mazah), and funny poetry punchlines." },
+      { value: "Romantic & Soulful", label: "Romantic & Soulful", desc: "Deep romantic devotion, sweet glances, and heartwarming affection." },
+      { value: "Deep Emotional & Heartbroken (Sad Shayari)", label: "Deep Emotional & Sad Shayari 💔", desc: "Poetic sorrow, longing for lost love, and tearful gaze." },
+      { value: "Aesthetic Lo-Fi Chill", label: "Aesthetic Lo-Fi Chill", desc: "Cozy, relaxed, aesthetic atmosphere with calm artistic focus." },
+      { value: "Coke Studio Fusion Vibe", label: "Coke Studio Fusion Vibe", desc: "Dynamic vocal energy, rhythmic hand clapping, and musical passion." },
+      { value: "Poetic Shayari Mehfil", label: "Poetic Shayari Mehfil", desc: "Classical literary gathering atmosphere with Urdu Shayari couplets." },
+      { value: "Nostalgic & Vintage Retro", label: "Nostalgic & Vintage Retro", desc: "90s Bollywood or classic vinyl record nostalgia." },
+      { value: "Sufi Mystical & Spiritual", label: "Sufi Mystical & Spiritual", desc: "Transcendent spiritual ecstasy, Sufi devotion, and rhythmic clapping." },
+    ],
+  },
+];
+
+const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Adult Performers & Duet Combos",
+    options: [
+      { value: "Man & Girl Combo (Duet Performers) 👫", label: "Man & Girl Combo (Duet Performers) 👫", desc: "Dual performance clip featuring a man and a girl performing together." },
+      { value: "Man Shayar & Girl Shayara Duo 🎤", label: "Man Shayar & Girl Shayara Duo 🎤", desc: "Poetic recitation exchange between male Shayar and female Shayara." },
+      { value: "Man Singer & Girl Lead Vocalist Duet 👩‍🎤👨‍🎤", label: "Man Singer & Girl Lead Vocalist 👩‍🎤👨‍🎤", desc: "Romantic acoustic or Coke Studio duet between man and girl singers." },
+      { value: "Man Guitarist & Girl Lead Vocalist 🎸👩‍🎤", label: "Man Guitarist & Girl Lead Vocalist 🎸👩‍🎤", desc: "Male acoustic guitarist playing for female lead singer." },
+      { value: "Funny Comedic Shayar (Tanzo Mazah Poet) 😂", label: "Funny Comedic Shayar (طنزیہ شاعر) 😂", desc: "Hilarious comedy poet performing funny satirical Shayari with comic body language." },
+      { value: "Solo Adult Female Singer 👩‍🎤", label: "Solo Adult Female Singer 👩‍🎤", desc: "Single stylish female vocalist performing two-liner lyrics or Shayari." },
+      { value: "Solo Adult Male Shayar 👨‍🎤", label: "Solo Adult Male Shayar 👨‍🎤", desc: "Single handsome male poet reciting emotional Shayari." },
+      { value: "Romantic Couple (Miya Biwi)", label: "Romantic Couple (Miya Biwi)", desc: "Loving husband & wife or romantic couple sharing a sweet moment." },
+      { value: "Dulha & Dulhan (Bride & Groom)", label: "Dulha & Dulhan (Bride & Groom)", desc: "Royal Desi bride and groom couple in rich wedding attire." },
+      { value: "Qawwali Group (Qawwal Party)", label: "Qawwali Group (Qawwal Party)", desc: "Traditional Qawwali lead singer with harmonium player and clappers." },
+      { value: "Two Male Friends Jamming", label: "Two Male Friends Jamming", desc: "Best friends sitting with acoustic guitars or harmonium." },
+    ],
+  },
+];
+
+const SONG_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "👨 Male Shayar & Performer Outfits",
+    options: [
+      { value: "Male Simple Button-Down Shirt & Dark Trousers (Sad/Lonely Poet) 👔", label: "Male Simple Pant & Button-Down Shirt (Sad/Lonely) 👔", desc: "Simple unbuttoned collar dress shirt and dark trousers for a solitary, heartbroken Shayar." },
+      { value: "Male Casual Polo T-Shirt & Chino Pants (Everyday Melancholic) 👕", label: "Male Casual T-Shirt & Chino Pants (Melancholic) 👕", desc: "Minimalist casual shirt with dark pants for a modern everyday sad poet." },
+      { value: "Male Unbuttoned Linen Shirt & Rolled Sleeves (Heartbroken) 💔", label: "Male Unbuttoned Linen Shirt & Dark Jeans (Heartbroken) 💔", desc: "Relaxed unbuttoned linen shirt, rolled-up sleeves, dark jeans, and lonely demeanor." },
+      { value: "Male Simple Plain White Shalwar Kameez (Solitary Desi Shayar) 🌧️", label: "Male Simple Plain Shalwar Kameez (Solitary Desi) 🌧️", desc: "Simple unembroidered cotton Shalwar Kameez for a contemplative, melancholic Shayar." },
+      { value: "Male Traditional Shalwar Kameez & Waistcoat 👔", label: "Male Shalwar Kameez & Velvet Waistcoat 👔", desc: "Crisp white/black traditional Shalwar Kameez with embroidered velvet waistcoat." },
+      { value: "Male Royal Embroidered Sherwani 👑", label: "Male Royal Embroidered Sherwani 👑", desc: "Regal embroidered silk Sherwani with matching stole and formal shoes." },
+      { value: "Male Western Tuxedo Suit & Bowtie 🕴️", label: "Male Western Tuxedo Suit & Bowtie 🕴️", desc: "Tailored 3-piece Western tuxedo suit, crisp dress shirt, and bowtie." },
+      { value: "Male Leather Jacket & Dark Denim Jeans 🧥", label: "Male Leather Jacket & Dark Denim Jeans 🧥", desc: "Cool black leather jacket over fitted t-shirt and dark denim jeans." },
+      { value: "Male Knit Turtleneck & Wool Scarf 🧣", label: "Male Knit Turtleneck & Wool Scarf 🧣", desc: "Acoustic artist turtleneck sweater, wool scarf, and stylish glasses." },
+      { value: "Male Oversized Hoodie & Streetwear 👟", label: "Male Oversized Hoodie & Streetwear 👟", desc: "Modern oversized designer hoodie, cargo pants, and fresh sneakers." },
+      { value: "Male Traditional Qawwal Kurta & Turban 🕌", label: "Male Qawwal Kurta & Turban 🕌", desc: "Embroidered traditional Qawwal kurta with matching turban." },
+    ],
+  },
+  {
+    category: "👩 Female Shayara & Singer Outfits",
+    options: [
+      { value: "Female Heavily Embellished Lehenga Choli 👗", label: "Female Embellished Lehenga Choli 👗", desc: "Royal embroidered bridal/party Lehenga Choli with sheer Dupatta." },
+      { value: "Female Elegant Silk Saree & Jewels 🥻", label: "Female Elegant Silk Saree & Jewels 🥻", desc: "Graceful Banarasi/silk saree with traditional jhumka earrings." },
+      { value: "Female Stylish Anarkali Frock & Dupatta ✨", label: "Female Stylish Anarkali Frock & Dupatta ✨", desc: "Flowing floor-length Anarkali suit with heavy hand-embroidered borders." },
+      { value: "Female Western Formal Evening Gown 💃", label: "Female Western Evening Gown 💃", desc: "Sophisticated floor-length Western silk evening gown with heels." },
+      { value: "Female Western Chic Cocktail Dress 👠", label: "Female Western Cocktail Dress & Heels 👠", desc: "Modern Western cocktail dress with elegant jewelry and heels." },
+      { value: "Female Casual Denim Jacket & Sundress 🌸", label: "Female Denim Jacket & Sundress 🌸", desc: "Breezy floral sundress paired with a light denim jacket." },
+    ],
+  },
+  {
+    category: "👫 Man & Girl Combo Outfits",
+    options: [
+      { value: "Man & Girl Combo: Suit & Elegant Gown 👔👗", label: "Man & Girl Combo: Suit & Gown 👔👗", desc: "Tailored Western suit for man and elegant gown for girl." },
+      { value: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫", label: "Man & Girl Combo: Kurta & Anarkali 👫", desc: "Traditional Shalwar Kameez waistcoat for man and Anarkali frock for girl." },
+      { value: "Man & Girl Combo: Leather Jackets & Denim Jeans 🧥", label: "Man & Girl Combo: Leather Jackets & Denim 🧥", desc: "Matching stylish leather jackets and dark denim jeans." },
+      { value: "Man & Girl Combo: Royal Sherwani & Embellished Lehenga 👑", label: "Man & Girl Combo: Royal Sherwani & Lehenga 👑", desc: "Regal embroidered Sherwani for man and heavy Lehenga for girl." },
+      { value: "Man & Girl Combo: Casual Hoodies & Jeans 👟", label: "Man & Girl Combo: Casual Hoodies & Jeans 👟", desc: "Cozy modern hoodies, t-shirts, and casual denim jeans." },
+      { value: "Man & Girl Combo: Acoustic Sweaters & Wool Scarves 🧣", label: "Man & Girl Combo: Acoustic Sweaters & Scarves 🧣", desc: "Cozy turtleneck sweaters and wool scarves for acoustic jam video." },
+    ],
+  },
+];
+
+const CHARACTER_FACE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default & Random",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI pick unique facial features." },
+      { value: "Unique Non-Repetitive Random Face 🎲", label: "Unique Random Face Every Time 🎲", desc: "Forces AI to generate a completely distinct face structure for every video." },
+    ],
+  },
+  {
+    category: "👨 Male Facial Features & Beards",
+    options: [
+      { value: "Young Handsome & Clean-Shaven 🧑", label: "Young Handsome & Clean-Shaven 🧑", desc: "Sharp jawline, smooth clean-shaven skin, expressive eyes, modern hair fade." },
+      { value: "Rugged Stubble & Groomed Beard 🧔", label: "Rugged Stubble & Groomed Beard 🧔", desc: "Fitted short stubble, well-groomed mustache, deep intense gaze, masculine structure." },
+      { value: "Classic Urdu Shayar Full Beard 🕌", label: "Classic Urdu Shayar Full Beard 🕌", desc: "Traditional full neat beard, intellectual look, expressive eyes, classic poet face." },
+      { value: "Regal Mughal & Royal Features 👑", label: "Regal Mughal & Royal Features 👑", desc: "High cheekbones, royal mustache, dignified posture, rich heritage face." },
+      { value: "Old Maestro Silver Beard (60+ yrs) 👴", label: "Old Maestro Silver Beard (60+ yrs) 👴", desc: "Weathered wise face, silver/grey beard, deep expressive laugh lines." },
+      { value: "Western Rockstar Undercut & Stubble 🎸", label: "Western Rockstar Undercut & Stubble 🎸", desc: "Modern undercut hairstyle, light stubble, sharp model jawline." },
+      { value: "Dense Salt-and-Pepper Beard (40s-50s) 🧔‍♂️", label: "Dense Salt-and-Pepper Beard (40s-50s) 🧔‍♂️", desc: "Mature distinguished salt-and-pepper beard, refined features, dignified look." },
+      { value: "Curly Hair & Short Boxed Beard 👨‍🦱", label: "Curly Hair & Short Boxed Beard 👨‍🦱", desc: "Natural curly hair, trimmed short boxed beard, warm friendly eyes." },
+      { value: "Traditional Punjabi Turban & Full Beard 👳", label: "Traditional Punjabi Turban & Full Beard 👳", desc: "Iconic colorful turban, full neat Sikh/Punjabi beard, proud royal features." },
+      { value: "Bold Bald Head & Heavy Beard 👨‍🦲", label: "Bold Bald Head & Heavy Beard 👨‍🦲", desc: "Clean shaved bald head with a thick full beard, strong athletic jawline." },
+      { value: "Stylish Glasses & Goatee Beard 👓", label: "Stylish Glasses & Goatee Beard 👓", desc: "Intellectual thin-rim glasses, neat goatee beard, artistic Shayar look." },
+      { value: "Western Blond / Light Brown Hair Model 👱", label: "Western Blond / Light Brown Hair Model 👱", desc: "Light brown or blond hair, light eyes, sharp Western fashion model structure." },
+    ],
+  },
+  {
+    category: "👩 Female Facial Features & Styles",
+    options: [
+      { value: "Graceful Desi Female (Large Expressive Eyes) 👁️", label: "Graceful Desi Female (Expressive Eyes) 👁️", desc: "Soft oval face, large expressive dark eyes, delicate smile, long black hair." },
+      { value: "Royal Kashmiri / Northern Fair Complexion 🌸", label: "Royal Kashmiri / Fair Complexion 🌸", desc: "Rosy cheeks, fair skin tone, hazel/green eyes, elegant traditional hair." },
+      { value: "Traditional Hijab & Graceful Features 🧕", label: "Traditional Hijab & Graceful Features 🧕", desc: "Elegant silk hijab framing a serene face with soft expressive eyes." },
+      { value: "Western High-Fashion Model Face 💃", label: "Western High-Fashion Model Face 💃", desc: "Defined cheekbones, sharp jawline, modern chic hairstyle, glamour look." },
+      { value: "Short Curly Hair & Chic Modern Face 👩‍🦱", label: "Short Curly Hair & Chic Modern Face 👩‍🦱", desc: "Trendy short curly hair, bright smile, modern stylish aesthetic." },
+    ],
+  },
+];
+
+const SONG_STYLE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Romantic, Poetic & Comedic Styles",
+    options: [
+      { value: "Funny Satirical Shayari (Tanzo Mazah)", label: "Funny Satirical Shayari (طنز و مزاح) 🤣", desc: "Humorous Shayari couplets with witty punchlines and comical expressions." },
+      { value: "Two-Liner Romantic Song", label: "Two-Liner Romantic Song 🎵", desc: "Catchy 2-liner acoustic song lyrics synced to emotional video." },
+      { value: "Urdu Shayari Couplet (Ghazal)", label: "Urdu Ghazal Shayari (غزل)", desc: "Deep Urdu ghazal Shayari lines with poetic narration." },
+      { value: "Coke Studio Sufi Fusion", label: "Coke Studio Sufi Fusion 🎤", desc: "Soulful Coke Studio style acoustic and electric fusion vocals." },
+      { value: "Classical Raag & Khayal", label: "Classical Raag & Khayal 🎶", desc: "Traditional Hindustani classical vocal raag inflections." },
+      { value: "Sad / Heartbreak Shayari", label: "Sad / Heartbreak Shayari 💔", desc: "Emotional Shayari about heartbreak, parting, and pain." },
+      { value: "Sufi Qawwali Clapping", label: "Sufi Qawwali Clapping 🕌", desc: "Energetic Sufi Qawwali performance lines." },
+      { value: "Lo-Fi Acoustic Melody", label: "Lo-Fi Acoustic Melody 🎧", desc: "Soft whispering vocals over lo-fi guitar chords." },
+    ],
+  },
+  {
+    category: "Regional Desi Folk & Cultural Tones",
+    options: [
+      { value: "Punjabi Folk & Boliyan Style", label: "Punjabi Folk & Boliyan (پنجابی)", desc: "Authentic Punjabi folk couplets, Boliyan chants, and Jugni style." },
+      { value: "Sindhi Sufi & Shah Bhait Style", label: "Sindhi Sufi & Shah Bhait (سنڌي)", desc: "Melodic Sindhi Sufi poetry and Shah Abdul Latif bhait vocal style." },
+      { value: "Pashto Folk & Landay Style", label: "Pashto Folk & Landay (پښتو)", desc: "Expressive Pashto Landay poetry and Rubab-infused folk vocal cadence." },
+      { value: "Balochi Chhap & Folk Style", label: "Balochi Chhap & Folk (بلوچی)", desc: "Rhythmic Balochi folk chants, Tamboor, and desert vocal storytelling." },
+      { value: "Seraiki Jhumar & Kafi Style", label: "Seraiki Jhumar & Kafi (سرائیکی)", desc: "Soulful Seraiki Khwaja Ghulam Farid Kafi and Jhumar rhythm." },
+    ],
+  },
+];
+
 export interface OptionWithDesc {
   value: string;
   label: string;
@@ -570,6 +969,16 @@ const KIDS_HEALTH_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "🧠 Intelligence & Clever Kids (Smart & Genius)",
+    options: [
+      { value: "Smart & Intelligent Genius Kid 🧠👓", label: "Smart & Intelligent Genius Kid 🧠👓", desc: "Super smart, clever child with curious eyes, solving puzzles or asking brilliant questions." },
+      { value: "Clever Little Scientist 🔬🧪", label: "Clever Little Scientist 🔬🧪", desc: "Curious kid exploring science experiments, magnifying glasses, and fun discoveries." },
+      { value: "Smart Bookworm & Avid Reader 📚🤓", label: "Smart Bookworm & Avid Reader 📚🤓", desc: "Cute intellectual kid holding a storybook or reading with focused attention." },
+      { value: "Quick Learner & Tech Whiz 💻💡", label: "Quick Learner & Tech Whiz 💻💡", desc: "Tech-savvy, sharp kid interacting with educational toys, tablets, or building blocks." },
+      { value: "Clever Problem Solver 🧩✨", label: "Clever Problem Solver 🧩✨", desc: "Focused, sharp child completing Rubik's cube, jigsaw puzzles, or Lego inventions." },
+    ],
+  },
+  {
     category: "Nutrition & Daily Habits",
     options: [
       { value: "Fruit Time", label: "Fruit Time", desc: "Munching on fresh, colorful apples, bananas, and berries." },
@@ -600,6 +1009,8 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Themes & Style Vibes",
     options: [
+      { value: "Korean Aegyo & Cute Heart Hands 🫰🇰🇷", label: "Korean Aegyo & Heart Hands 🫰🇰🇷", desc: "Adorable Korean Aegyo expressions, finger heart gestures (🫰), and sweet winks." },
+      { value: "K-Drama Soft Aesthetic Vibe 🌸", label: "K-Drama Soft Aesthetic Vibe 🌸", desc: "Soft pastel lighting, aesthetic bokeh, cinematic K-drama warm tone, and gentle smiles." },
       { value: "Rainbow Adventure", label: "Rainbow Adventure", desc: "Magical, colorful, and imaginative play atmosphere." },
       { value: "Before School Routine", label: "Before School Routine", desc: "Getting ready for school with books and backpack." },
       { value: "Weekend Fun", label: "Weekend Fun", desc: "Carefree, relaxed, weekend play atmosphere." },
@@ -953,9 +1364,11 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
 // 5. CHARACTERS PER SCENE OPTIONS
 const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
   {
-    category: "Characters Count Per Scene",
+    category: "Characters Count & Combos",
     options: [
       { value: "1 Character", label: "1 Character", desc: "Single character focus in every scene." },
+      { value: "2 Characters (1 Man + 1 Girl Combo) 👫", label: "2 Characters (1 Man + 1 Girl Combo) 👫", desc: "Explicit duet combo pairing one man and one girl/woman." },
+      { value: "3 Characters (1 Man + 1 Girl + 1 Musician) 👥", label: "3 Characters (1 Man + 1 Girl + Musician) 👥", desc: "Duet combo with an additional instrument player." },
       { value: "2 Characters", label: "2 Characters", desc: "Two characters (duo interaction - Recommended)." },
       { value: "3 Characters", label: "3 Characters", desc: "Three characters in the scene." },
       { value: "4 Characters", label: "4 Characters", desc: "Four characters / group family scene." },
@@ -967,9 +1380,12 @@ const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
 // 5.5 KIDS CLOTHING OPTIONS — Separated by Girl & Boy
 const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   {
-    category: "🤖 Default",
+    category: "🇰🇷 Korean Fashion & Hanbok Outfits",
     options: [
-      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI choose the best outfit for the character and scene." },
+      { value: "Korean Pastel Oversized Knit Sweater & Beanie 🇰🇷", label: "Korean Oversized Knit & Beanie 🇰🇷", desc: "Cozy Korean pastel oversized sweater, bucket hat/beanie, dark trousers, and cute sneakers." },
+      { value: "Korean Traditional Silk Hanbok Dress (Chuseok) 👘", label: "Korean Traditional Silk Hanbok Dress 👘", desc: "Vibrant traditional Korean silk Hanbok with embroidered ribbon (Otgoreum) and pouch." },
+      { value: "Korean K-Pop Aesthetic Streetwear & Cardigan 🎵", label: "Korean K-Pop Aesthetic Streetwear 🎵", desc: "Trendy Korean idol-inspired oversized cardigan, graphic tee, cargo pants, and fresh kicks." },
+      { value: "Korean Chic School Uniform (K-Drama Style) 🎒", label: "Korean K-Drama School Uniform 🎒", desc: "Neat Korean school uniform with pleated skirt/trousers, tie, blazer, and cute backpack." },
     ]
   },
   {
@@ -1342,6 +1758,14 @@ const KIDS_NATIONALITY_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "🇰🇷 East Asian & Korean Style Aesthetics",
+    options: [
+      { value: "Korean (K-Drama / Seoul Streetwear) 🇰🇷", label: "Korean (K-Drama / Seoul Fashion) 🇰🇷", desc: "Trendy Korean K-drama kid aesthetic, glass skin, K-pop style hair, pastel streetwear." },
+      { value: "Korean Traditional Hanbok (Chuseok / Festival) 👘", label: "Korean Traditional Hanbok 👘", desc: "Charming traditional silk Hanbok dress with embroidered pouch and ribbon headband." },
+      { value: "Japanese Kawaii / Harajuku Style 🇯🇵", label: "Japanese Kawaii Anime Style 🇯🇵", desc: "Ultra-cute Japanese Kawaii aesthetic, anime-inspired pastel outfit, and cute hairclips." },
+    ],
+  },
+  {
     category: "Other Global Cultures",
     options: [
       { value: "Bangladeshi / Bengali", label: "Bangladeshi (বাংলাদেশী)", desc: "Traditional Bangladeshi attire, Lungi, Panjabi, and rivers aesthetic." },
@@ -1595,6 +2019,217 @@ function getIdeaShortsTitle(idea: SavedIdea): string {
   return `Wait for the end! 😱🔥 ${getIdeaTitle(idea)} #Shorts`;
 }
 
+// LIVE STAGE METAMORPHOSIS OPTION GROUPS
+const AUDIENCE_PERSPECTIVE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Smartphone POV (Front Row & Crowd)",
+    options: [
+      { value: "Front row smartphone POV", label: "📱 Front Row Smartphone POV", desc: "Close-up front-row angle with phone recording screen in camera view." },
+      { value: "Over-the-shoulder phone POV", label: "🤳 Over-the-Shoulder Phone POV", desc: "Over-the-shoulder crowd shot capturing the phone screen and stage action." },
+      { value: "Close-up low angle crowd POV", label: "📱 Low Angle Crowd POV", desc: "Dynamic low angle looking up from the audience pit toward the stage." },
+      { value: "Center floor audience POV", label: "📱 Center Floor Audience POV", desc: "Direct center stage view from standing floor crowd." },
+    ],
+  },
+  {
+    category: "Theater Balcony & Elevated Views",
+    options: [
+      { value: "Theater balcony view", label: "🎭 Theater Balcony View", desc: "Slightly elevated view overlooking the grand stage and crowd below." },
+      { value: "VIP box seat perspective", label: "🎟️ VIP Box Seat Perspective", desc: "Side-angle elevated view with elegant venue architecture framing the stage." },
+      { value: "Mid-arena crowd perspective", label: "🏟️ Mid-Arena Crowd Perspective", desc: "Balanced arena view capturing wide audience silhouettes and stage lights." },
+      { value: "Far back arena wide POV", label: "✨ Wide Arena Panoramic POV", desc: "Epic panoramic perspective showing the entire arena, crowd, and stage." },
+    ],
+  },
+];
+
+const STAGE_ENVIRONMENT_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Circus & Illusionist Stages",
+    options: [
+      { value: "Circus arena ring", label: "🎪 Circus Arena Ring", desc: "Illuminated wooden circular arena ring with sawdust and spotlight beams." },
+      { value: "Grand theater platform", label: "🎭 Grand Theater Platform", desc: "Ornate velvet-draped theater stage with polished hardwood flooring." },
+      { value: "Illusionist stage", label: "🔮 Illusionist Stage", desc: "Mysterious dark illusionist platform with reflective black mirror floor." },
+      { value: "Opera house main stage", label: "🏛️ Opera House Main Stage", desc: "Classic opera house stage with golden archways and grand chandeliers." },
+    ],
+  },
+  {
+    category: "Modern & Concert Event Stages",
+    options: [
+      { value: "Concert festival stage", label: "🎸 Concert Festival Stage", desc: "High-energy festival stage with massive LED video walls and trussing." },
+      { value: "Neon stadium stage", label: "⚡ Neon Stadium Stage", desc: "Futuristic stadium stage lined with vibrant neon light bars." },
+      { value: "Dark cyberpunk arena", label: "🏙️ Dark Cyberpunk Arena", desc: "Industrial cyberpunk stage with glowing neon grids and volumetric haze." },
+      { value: "Gothic cathedral stage", label: "🕯️ Gothic Cathedral Stage", desc: "Eerie stone altar stage with tall stained-glass windows and candlelight." },
+    ],
+  },
+];
+
+const INITIAL_PERFORMER_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Classic Illusionists & Magicians",
+    options: [
+      { value: "Ringmaster in red coat", label: "🎪 Ringmaster in Red Coat & Top Hat", desc: "Charismatic circus ringmaster in embroidered red tailcoat." },
+      { value: "Magician in black suit", label: "🎩 Magician in Black Suit", desc: "Sleek stage magician in custom black tuxedo and gloves." },
+      { value: "Mysterious hooded illusionist", label: "🧙 Mysterious Hooded Illusionist", desc: "Enigmatic performer wrapped in a dark hooded robe." },
+      { value: "Masked stage conjurer", label: "🎭 Masked Stage Conjurer", desc: "Intriguing masked performer in ornate Venetian costume." },
+    ],
+  },
+  {
+    category: "Modern & Fantasy Performers",
+    options: [
+      { value: "Cyberpunk stage performer", label: "⚡ Cyberpunk Stage Performer", desc: "Futuristic performer in chrome suit with LED accents." },
+      { value: "Female acrobat in gold silk", label: "💃 Female Acrobat in Gold Silk", desc: "Graceful performer in shimmering gold sequin aerial silk costume." },
+      { value: "Gothic sorcerer in velvet cape", label: "🖤 Gothic Sorcerer in Velvet Cape", desc: "Dramatic gothic performer in heavy dark velvet cape." },
+      { value: "Street illusionist in leather jacket", label: "🧥 Street Illusionist in Leather Jacket", desc: "Edgy modern magician in dark leather jacket and boots." },
+    ],
+  },
+];
+
+const TRIGGER_ACTION_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Cape & Fabric Triggers",
+    options: [
+      { value: "Tossing a red cape upward", label: "🧥 Tossing Red Cape Upward", desc: "Hurling a large red cape into the air to envelop the transformation." },
+      { value: "Spinning in dense fog", label: "🌫️ Spinning in Dense Fog", desc: "Rapidly spinning as heavy white stage fog swirls around the performer." },
+      { value: "Swirling a heavy black cloak", label: "🖤 Swirling Heavy Black Cloak", desc: "Encircling the body in a dramatic cloak whip before the morph." },
+      { value: "Dropping a silk veil to the floor", label: "✨ Dropping Silk Veil", desc: "Releasing a shimmering veil that falls over the performer as they change." },
+    ],
+  },
+  {
+    category: "FX & Physical Triggers",
+    options: [
+      { value: "Slapping hands together with sparks", label: "💥 Slapping Hands with Sparks", desc: "Clapping hands to unleash an explosion of bright golden sparks." },
+      { value: "Snapping fingers as lasers flash", label: "⚡ Snapping Fingers with Lasers", desc: "Snapping fingers as intense laser beams pulse across the stage." },
+      { value: "Vanishing into a burst of gold dust", label: "✨ Gold Dust Burst", desc: "Exploding into a cloud of glittering gold particles during the transformation." },
+      { value: "Leaping into the air mid-stage", label: "🦘 Leaping into the Air", desc: "Jumping high into the spotlight beam and morphing before landing." },
+    ],
+  },
+];
+
+const TARGET_ENTITY_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Majestic Apex Predators",
+    options: [
+      { value: "Majestic male lion", label: "🦁 Majestic Male Lion", desc: "Powerful male lion with thick golden mane and fierce stance." },
+      { value: "Cybernetic panther", label: "🐆 Cybernetic Panther", desc: "Sleek black panther with glowing blue neon cybernetic circuitry." },
+      { value: "Massive Bengal tiger", label: "🐅 Massive Bengal Tiger", desc: "Hyper-realistic giant Bengal tiger with striking orange-black stripes." },
+      { value: "Giant silverback gorilla", label: "🦍 Giant Silverback Gorilla", desc: "Colossal silverback gorilla thumping its chest in the spotlight." },
+      { value: "Black panther with piercing eyes", label: "🖤 Black Panther", desc: "Stealthy, muscular black panther with luminous yellow eyes." },
+    ],
+  },
+  {
+    category: "Mythical & Elemental Creatures",
+    options: [
+      { value: "Fiery phoenix", label: "🔥 Fiery Phoenix", desc: "Breathtaking phoenix bird made of roaring flames and embers." },
+      { value: "Golden celestial dragon", label: "🐉 Golden Celestial Dragon", desc: "Majestic Asian dragon with glowing golden scales and whiskers." },
+      { value: "Eerie shadow wolf with red eyes", label: "🐺 Shadow Wolf", desc: "Imposing shadow wolf with glowing crimson eyes and smoke fur." },
+      { value: "Crystalline frost tiger", label: "❄️ Crystalline Frost Tiger", desc: "Radiant tiger crafted from translucent ice crystals and blue light." },
+    ],
+  },
+];
+
+const LIGHTING_FX_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Spotlights & Lasers",
+    options: [
+      { value: "Bright overhead spotlights", label: "💡 Bright Overhead Spotlights", desc: "Intense white spotlight beams cutting through stage haze." },
+      { value: "Flashing lasers & stage smoke", label: "⚡ Flashing Lasers & Stage Smoke", desc: "Pulsing laser arrays and thick rolling stage fog." },
+      { value: "Dramatic backlit rim lighting", label: "✨ Backlit Rim Lighting", desc: "High-contrast silhouette lighting creating a dramatic edge glow." },
+      { value: "Strobe flashes & neon sparks", label: "⚡ Strobe Flashes & Neon Sparks", desc: "Rapid strobe pulses and bursting electrical sparks." },
+    ],
+  },
+  {
+    category: "Magical & Atmospheric FX",
+    options: [
+      { value: "Golden particle aura & low fog", label: "✨ Golden Particle Aura & Low Fog", desc: "Floating gold embers and heavy floor-hugging dry ice fog." },
+      { value: "Eerie purple volumetric smoke", label: "🟣 Eerie Purple Volumetric Smoke", desc: "Deep purple haze illuminated by blue beam lights." },
+      { value: "Blinding white light burst", label: "💥 Blinding White Light Burst", desc: "Flash-bang white burst illuminating the exact morph moment." },
+    ],
+  },
+];
+
+const METAMORPHOSIS_AGE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Performer Age Ranges",
+    options: [
+      { value: "Young Adult (18-25 yrs)", label: "👤 Young Adult (18-25 yrs)", desc: "Dynamic young stage performer or modern illusionist." },
+      { value: "Adult Illusionist (26-40 yrs)", label: "🎩 Adult Illusionist (26-40 yrs)", desc: "Experienced stage magician or ringmaster in their prime." },
+      { value: "Master Stage Performer (40-55 yrs)", label: "🌟 Master Stage Performer (40-55 yrs)", desc: "Distinguished master illusionist with commanding presence." },
+      { value: "Veteran Legend (55+ yrs)", label: "🔮 Veteran Illusionist Legend (55+ yrs)", desc: "Iconic veteran magician with classic dramatic wisdom." },
+    ],
+  },
+];
+
+const METAMORPHOSIS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "World Stage & Illusion Venues",
+    options: [
+      { value: "Circus Arena Ring", label: "🎪 Circus Arena Ring", desc: "Illuminated wooden circular arena ring under a grand big top." },
+      { value: "Las Vegas Grand Illusion Theater", label: "🎰 Las Vegas Grand Theater", desc: "World-famous Las Vegas resort illusion stage with laser rigging." },
+      { value: "Royal London Opera House", label: "🏛️ Royal London Opera House", desc: "Historic Victorian theater stage with gold decor and red velvet curtains." },
+      { value: "Tokyo Cyberpunk Neon Arena", label: "🏙️ Tokyo Cyberpunk Neon Arena", desc: "Futuristic Tokyo stadium stage lined with glowing neon lighting." },
+      { value: "Parisian Magic Cabaret Club", label: "🍷 Parisian Magic Cabaret", desc: "Intimate Parisian underground speakeasy magic club." },
+      { value: "Outdoor Music Festival Stage", label: "🎸 Outdoor Festival Stage", desc: "Massive open-air festival stage with laser towers and crowd screens." },
+    ],
+  },
+];
+
+const STAGE_METAMORPHOSIS_PRESETS = [
+  {
+    name: "🎪 Circus Ringmaster -> Majestic Male Lion",
+    performerAge: "Adult Illusionist (26-40 yrs)",
+    stageLocation: "Circus Arena Ring",
+    audiencePerspective: "Front row smartphone POV",
+    stageEnvironment: "Circus arena ring",
+    initialPerformer: "Ringmaster in red coat",
+    triggerAction: "Tossing a red cape upward",
+    targetEntity: "Majestic male lion",
+    lightingFx: "Bright overhead spotlights",
+  },
+  {
+    name: "⚡ Magician -> Cybernetic Panther",
+    performerAge: "Young Adult (18-25 yrs)",
+    stageLocation: "Tokyo Cyberpunk Neon Arena",
+    audiencePerspective: "Over-the-shoulder phone POV",
+    stageEnvironment: "Neon stadium stage",
+    initialPerformer: "Magician in black suit",
+    triggerAction: "Snapping fingers as lasers flash",
+    targetEntity: "Cybernetic panther",
+    lightingFx: "Flashing lasers & stage smoke",
+  },
+  {
+    name: "🔥 Gothic Illusionist -> Fiery Phoenix",
+    performerAge: "Master Stage Performer (40-55 yrs)",
+    stageLocation: "Royal London Opera House",
+    audiencePerspective: "Theater balcony view",
+    stageEnvironment: "Illusionist stage",
+    initialPerformer: "Gothic sorcerer in velvet cape",
+    triggerAction: "Vanishing into a burst of gold dust",
+    targetEntity: "Fiery phoenix",
+    lightingFx: "Golden particle aura & low fog",
+  },
+  {
+    name: "🐉 Sorcerer -> Golden Celestial Dragon",
+    performerAge: "Veteran Legend (55+ yrs)",
+    stageLocation: "Las Vegas Grand Illusion Theater",
+    audiencePerspective: "Center floor audience POV",
+    stageEnvironment: "Grand theater platform",
+    initialPerformer: "Mysterious hooded illusionist",
+    triggerAction: "Spinning in dense fog",
+    targetEntity: "Golden celestial dragon",
+    lightingFx: "Dramatic backlit rim lighting",
+  },
+  {
+    name: "🐺 Acrobat -> Shadow Wolf",
+    performerAge: "Young Adult (18-25 yrs)",
+    stageLocation: "Parisian Magic Cabaret Club",
+    audiencePerspective: "Close-up low angle crowd POV",
+    stageEnvironment: "Dark cyberpunk arena",
+    initialPerformer: "Female acrobat in gold silk",
+    triggerAction: "Dropping a silk veil to the floor",
+    targetEntity: "Eerie shadow wolf with red eyes",
+    lightingFx: "Eerie purple volumetric smoke",
+  },
+];
+
 function getIdeaReelsTitle(idea: SavedIdea): string {
   if (idea.socialContent?.reelsTitle && idea.socialContent.reelsTitle.trim()) {
     return idea.socialContent.reelsTitle.trim();
@@ -1637,7 +2272,7 @@ interface CustomSelectProps {
   keepOpenOnSelect?: boolean;
 }
 
-function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = false }: CustomSelectProps) {
+function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = true }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
@@ -1898,9 +2533,6 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                             type="button"
                             onClick={() => {
                               onChange(opt.value);
-                              if (!keepOpenOnSelect) {
-                                setIsOpen(false);
-                              }
                             }}
                             className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all flex flex-col justify-between cursor-pointer select-none touch-manipulation active:scale-[0.98] ${
                               isSelected
@@ -1932,20 +2564,21 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
               )}
             </div>
 
-            {keepOpenOnSelect && (
-              <div className="p-3 sm:p-4 border-t border-indigo-500/20 bg-[#0c101d] flex items-center justify-between gap-3">
-                <span className="text-xs text-indigo-300 font-medium truncate">
-                  Selected: <span className="text-white font-bold">{selectedLabel}</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-extrabold shadow-lg shadow-indigo-500/30 transition-all cursor-pointer active:scale-95 shrink-0"
-                >
-                  Done ✓
-                </button>
+            {/* Sticky Save & Close Footer Bar */}
+            <div className="p-3.5 sm:p-4 border-t border-indigo-500/20 bg-[#0c101d] flex items-center justify-between gap-3 sticky bottom-0 z-30 shadow-2xl shrink-0">
+              <div className="flex flex-col truncate">
+                <span className="text-[10px] text-indigo-300/70 font-bold uppercase tracking-wider">Selected Choice</span>
+                <span className="text-xs sm:text-sm text-white font-extrabold truncate">{selectedLabel}</span>
               </div>
-            )}
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-indigo-600 to-purple-600 hover:from-emerald-500 hover:to-purple-500 text-white text-xs font-black tracking-wide shadow-lg shadow-indigo-500/30 transition-all cursor-pointer active:scale-95 shrink-0 flex items-center gap-1.5"
+              >
+                <Check className="w-4 h-4 text-emerald-300" />
+                <span>Save Selection & Close ✓</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1989,11 +2622,22 @@ interface IdeasPageSettings {
   seriousDialogueStyle?: string;
   customSceneDescription?: string;
   outroEffects?: string;
+  includeMic?: boolean;
+  audiencePerspective?: string;
+  stageEnvironment?: string;
+  initialPerformer?: string;
+  triggerAction?: string;
+  targetEntity?: string;
+  lightingFx?: string;
+  performerAge?: string;
+  stageLocation?: string;
+  songCrowdFx?: string;
+  characterFaceType?: string;
 }
 
 export default function IdeasPage() {
   const { showToast } = useToast();
-  const { currentUser } = useUser();
+  const { currentUser, isLoggedIn, setIsAuthModalOpen } = useUser();
 
   const savedIdeasSectionRef = useRef<HTMLDivElement>(null);
   const customIdeaOptimizerRef = useRef<HTMLDivElement>(null);
@@ -2024,7 +2668,9 @@ export default function IdeasPage() {
   // Generation controls
   const [category, setCategory] = useState<CategoryId>(initialSettings.category || "FUNNY");
   const [language, setLanguage] = useState(initialSettings.language || "Urdu");
-  const [visualStyle, setVisualStyle] = useState(initialSettings.visualStyle || "3D Cartoon Style");
+  const [visualStyle, setVisualStyle] = useState(
+    initialSettings.visualStyle || (initialSettings.category === "SONG" ? "Hyper-Realistic CGI" : "3D Cartoon Style")
+  );
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
@@ -2120,20 +2766,25 @@ export default function IdeasPage() {
           language,
           customIdea,
           existingDialogue: customDialogue,
-          kidsAge,
-          kidsLocation,
-          kidsHealth,
-          kidsClothing,
-          kidsVibe,
-          characterSetup,
-          charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
+          kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
+          kidsClothing: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsVibe: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          charactersPerScene: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           aiModel,
           seriousDialogueStyle,
           customSceneDescription,
           outroEffects,
-          kidsExpression: kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
-          kidsFood: kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
-          kidsProp: kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
+          includeMic,
+          performerAge: category === "LIVE_STAGE_METAMORPHOSIS" ? performerAge : undefined,
+          stageLocation: category === "LIVE_STAGE_METAMORPHOSIS" ? stageLocation : undefined,
+          songCrowdFx: (category === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
+          characterFaceType: characterFaceType !== "Any / AI Decides" ? characterFaceType : undefined,
+          kidsExpression: category === "CUTE_KIDS" && kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
+          kidsFood: category === "CUTE_KIDS" && kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
+          kidsProp: category === "CUTE_KIDS" && kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
           timeOfDay: timeOfDay !== "Any / AI Decides" ? timeOfDay : undefined,
           storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
           cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
@@ -2177,6 +2828,31 @@ export default function IdeasPage() {
   const [storyBeat, setStoryBeat] = useState(initialSettings.storyBeat || "Any / AI Decides");
   const [cameraShot, setCameraShot] = useState(initialSettings.cameraShot || "Any / AI Decides");
   const [charPerformance, setCharPerformance] = useState(initialSettings.charPerformance || "Any / AI Decides");
+  const [includeMic, setIncludeMic] = useState<boolean>(initialSettings.includeMic || false);
+  const [songCrowdFx, setSongCrowdFx] = useState(initialSettings.songCrowdFx || "DISABLED (Quiet Studio - Default)");
+  const [characterFaceType, setCharacterFaceType] = useState(initialSettings.characterFaceType || "Any / AI Decides");
+
+  // Live Stage Metamorphosis options
+  const [performerAge, setPerformerAge] = useState(initialSettings.performerAge || "Adult Illusionist (26-40 yrs)");
+  const [stageLocation, setStageLocation] = useState(initialSettings.stageLocation || "Circus Arena Ring");
+  const [audiencePerspective, setAudiencePerspective] = useState(initialSettings.audiencePerspective || "Front row smartphone POV");
+  const [stageEnvironment, setStageEnvironment] = useState(initialSettings.stageEnvironment || "Circus arena ring");
+  const [initialPerformer, setInitialPerformer] = useState(initialSettings.initialPerformer || "Ringmaster in red coat");
+  const [triggerAction, setTriggerAction] = useState(initialSettings.triggerAction || "Tossing a red cape upward");
+  const [targetEntity, setTargetEntity] = useState(initialSettings.targetEntity || "Majestic male lion");
+  const [lightingFx, setLightingFx] = useState(initialSettings.lightingFx || "Bright overhead spotlights");
+
+  const applyStageMetamorphosisPreset = (preset: typeof STAGE_METAMORPHOSIS_PRESETS[0]) => {
+    setPerformerAge(preset.performerAge);
+    setStageLocation(preset.stageLocation);
+    setAudiencePerspective(preset.audiencePerspective);
+    setStageEnvironment(preset.stageEnvironment);
+    setInitialPerformer(preset.initialPerformer);
+    setTriggerAction(preset.triggerAction);
+    setTargetEntity(preset.targetEntity);
+    setLightingFx(preset.lightingFx);
+    showToast(`Applied preset: ${preset.name}`, "success");
+  };
 
   const CHARACTER_LOCATION_SMART_MAPPINGS: { pattern: RegExp; location: string; toastName: string }[] = [
     { pattern: /doctor|pediatrician/i, location: "Doctor Clinic & Children Hospital", toastName: "Doctor Clinic 🏥" },
@@ -2234,6 +2910,38 @@ export default function IdeasPage() {
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
     showToast(`✅ Applied "${preset.title}" preset!`, "success");
+  };
+
+  const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string }) => {
+    setKidsAge(preset.age);
+    setKidsLocation(preset.location);
+    setKidsVibe(preset.vibe);
+    setCharacterSetup(preset.setup);
+    setCharactersPerScene(preset.perScene);
+    setKidsNationality(preset.nationality);
+    
+    if (preset.clothing) {
+      setKidsClothing(preset.clothing);
+    } else {
+      setKidsClothing("Sherwani & Lehenga (Wedding / Royal)");
+    }
+
+    if (preset.musicType) setMusicType(preset.musicType);
+    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    showToast(`✅ Applied "${preset.title}" Song preset!`, "success");
+  };
+
+  const applyPoetryPreset = (preset: typeof POETRY_PRESETS[0]) => {
+    setKidsAge(preset.age);
+    setKidsLocation(preset.location);
+    setKidsVibe(preset.vibe);
+    setCharacterSetup(preset.setup);
+    setCharactersPerScene(preset.perScene);
+    setKidsNationality(preset.nationality);
+    if (preset.musicType) setMusicType(preset.musicType);
+    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
+    showToast(`✅ Applied "${preset.title}" Poetry & Shayari preset!`, "success");
   };
   
   const isRtl = language === "Urdu" || language === "Punjabi";
@@ -2394,6 +3102,84 @@ export default function IdeasPage() {
     cameraShot,
   ]);
 
+  const handleResetCategorySettings = (targetCat?: CategoryId) => {
+    const catToReset = targetCat || category;
+
+    if (catToReset === "CUTE_KIDS") {
+      setKidsAge("Toddler (2-4 yrs)");
+      setKidsLocation("Cozy Home Living Room");
+      setKidsHealth("Healthy");
+      setKidsVibe("Cheerful & Energetic");
+      setKidsClothing("Any / AI Decides");
+      setCharacterSetup("One Cute Little Girl");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Global / Any");
+      setKidsExpression("Any / AI Decides");
+      setKidsFood("Any / AI Decides");
+      setKidsProp("Any / AI Decides");
+      setTimeOfDay("Any / AI Decides");
+      setStoryBeat("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Cute Kids parameters to default!", "info");
+    } else if (catToReset === "SONG") {
+      setKidsAge("Adult (25-35 yrs)");
+      setKidsLocation("Sunset Rooftop & City Skyline 🌇");
+      setKidsVibe("Romantic & Soulful");
+      setKidsClothing("Performers Outfit & Attire");
+      setCharacterSetup("Solo Adult Female Singer 👩‍🎤");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Pakistani (General / Desi)");
+      setSeriousDialogueStyle("None");
+      setMusicType("None");
+      setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+      setCharacterFaceType("Any / AI Decides");
+      setVisualStyle("Hyper-Realistic CGI");
+      setTimeOfDay("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Song parameters to default!", "info");
+    } else if (catToReset === "POETRY") {
+      setKidsAge("Adult (25-35 yrs)");
+      setKidsLocation("Traditional Heritage Haveli");
+      setKidsVibe("Poetic Shayari Mehfil");
+      setKidsClothing("Performers Outfit & Attire");
+      setCharacterSetup("Solo Adult Male Shayar 👨‍🎤");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Pakistani Muhajir / Urdu Speaking");
+      setSeriousDialogueStyle("Poetic/Shayari");
+      setMusicType("Desi Classical Sitar & Tabla");
+      setSongCrowdFx("Live Mushaira Crowd (Wah Wah & Irshad)");
+      setCharacterFaceType("Any / AI Decides");
+      setVisualStyle("Hyper-Realistic CGI");
+      setTimeOfDay("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Poetry & Shayari parameters to default!", "info");
+    } else if (catToReset === "LIVE_STAGE_METAMORPHOSIS") {
+      setPerformerAge("Adult Illusionist (26-40 yrs)");
+      setStageLocation("Circus Arena Ring");
+      setAudiencePerspective("Front row smartphone POV");
+      setStageEnvironment("Circus arena ring");
+      setInitialPerformer("Ringmaster in red coat");
+      setTriggerAction("Tossing a red cape upward");
+      setTargetEntity("Majestic male lion");
+      setLightingFx("Bright overhead spotlights");
+      showToast("Reset Live Stage Metamorphosis parameters to default!", "info");
+    } else if (catToReset === "CARBOX") {
+      setCarboxBrand("Premium BMW");
+      setCarboxColor("Glossy Black");
+      setCarboxPackaging("Elegant Retail Box");
+      setCarboxBackground("Clean White Studio Tabletop");
+      showToast("Reset Car Unboxing parameters to default!", "info");
+    } else {
+      handleResetSettings();
+    }
+  };
+
   const handleResetSettings = () => {
     setCategory("CUTE_KIDS");
     setLanguage("Urdu");
@@ -2424,6 +3210,15 @@ export default function IdeasPage() {
     setCarboxColor("Glossy Black");
     setCarboxPackaging("Elegant Retail Box");
     setCarboxBackground("Clean White Studio Tabletop");
+    setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+    setPerformerAge("Adult Illusionist (26-40 yrs)");
+    setStageLocation("Circus Arena Ring");
+    setAudiencePerspective("Front row smartphone POV");
+    setStageEnvironment("Circus arena ring");
+    setInitialPerformer("Ringmaster in red coat");
+    setTriggerAction("Tossing a red cape upward");
+    setTargetEntity("Majestic male lion");
+    setLightingFx("Bright overhead spotlights");
     setCustomIdea("");
     setFilterCategory("ALL");
     setSearchQuery("");
@@ -2563,14 +3358,14 @@ export default function IdeasPage() {
           visualStyle,
           videoDuration,
           customDialogue,
-          kidsAge,
-          kidsLocation,
-          kidsHealth,
-          kidsClothing,
-          kidsVibe,
-          characterSetup,
-          charactersPerScene: charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene,
-          kidsNationality,
+          kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
+          kidsClothing: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsVibe: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          charactersPerScene: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          kidsNationality: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsNationality : undefined,
           carboxBrand,
           carboxColor,
           carboxPackaging,
@@ -2580,9 +3375,20 @@ export default function IdeasPage() {
           seriousDialogueStyle,
           customSceneDescription,
           outroEffects,
-          kidsExpression: kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
-          kidsFood: kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
-          kidsProp: kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
+          includeMic,
+          audiencePerspective: category === "LIVE_STAGE_METAMORPHOSIS" ? audiencePerspective : undefined,
+          stageEnvironment: category === "LIVE_STAGE_METAMORPHOSIS" ? stageEnvironment : undefined,
+          initialPerformer: category === "LIVE_STAGE_METAMORPHOSIS" ? initialPerformer : undefined,
+          triggerAction: category === "LIVE_STAGE_METAMORPHOSIS" ? triggerAction : undefined,
+          targetEntity: category === "LIVE_STAGE_METAMORPHOSIS" ? targetEntity : undefined,
+          lightingFx: category === "LIVE_STAGE_METAMORPHOSIS" ? lightingFx : undefined,
+          performerAge: category === "LIVE_STAGE_METAMORPHOSIS" ? performerAge : undefined,
+          stageLocation: category === "LIVE_STAGE_METAMORPHOSIS" ? stageLocation : undefined,
+          songCrowdFx: (category === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
+          characterFaceType: characterFaceType !== "Any / AI Decides" ? characterFaceType : undefined,
+          kidsExpression: category === "CUTE_KIDS" && kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
+          kidsFood: category === "CUTE_KIDS" && kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
+          kidsProp: category === "CUTE_KIDS" && kidsProp !== "Any / AI Decides" ? kidsProp : undefined,
           timeOfDay: timeOfDay !== "Any / AI Decides" ? timeOfDay : undefined,
           storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
           cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
@@ -2795,6 +3601,32 @@ export default function IdeasPage() {
   );
 
   const categoryEntries = Object.values(CATEGORIES);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+        <Navbar />
+        <main className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6 max-w-md mx-auto my-auto">
+          <div className="w-20 h-20 rounded-3xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-2xl animate-pulse">
+            <Lock className="w-10 h-10" />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-white">🔒 Login Required</h1>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Please log in to your account (Hassan or Adi) to access the AI Idea Generator.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsAuthModalOpen(true)}
+            className="px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-extrabold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer w-full"
+          >
+            Login to Access Website
+          </button>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white font-sans">
@@ -3101,8 +3933,9 @@ export default function IdeasPage() {
                   if (cat === "CARBOX") {
                     setLanguage("ASMR Unboxing Effects");
                     setVisualStyle("Realistic");
-                  }
-                  else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
+                  } else if (cat === "SONG" || cat === "POETRY") {
+                    setVisualStyle("Hyper-Realistic CGI");
+                  } else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
                   else if (cat === "HINDI_JOKE") setLanguage("Hindi");
                   else if (language === "ASMR Unboxing Effects") setLanguage("Urdu");
                 }}
@@ -3222,6 +4055,33 @@ export default function IdeasPage() {
               />
             </div>
 
+            {/* Include Microphone Toggle Switch */}
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <label className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <Mic className="w-3.5 h-3.5 text-pink-400" />
+                  <span>Microphone (Mic)</span>
+                </span>
+                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${includeMic ? "bg-pink-500/20 text-pink-300 border border-pink-500/40" : "bg-slate-800 text-slate-400"}`}>
+                  {includeMic ? "ENABLED 🎙️" : "DISABLED (Default)"}
+                </span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setIncludeMic(!includeMic)}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer select-none ${
+                  includeMic
+                    ? "bg-pink-950/60 border-pink-500 text-pink-200 shadow-md shadow-pink-500/20"
+                    : "bg-black/60 border-slate-800 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <span className="truncate">{includeMic ? "🎙️ Mic Included in Prompt" : "🚫 No Mic (Natural Voice)"}</span>
+                <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${includeMic ? "bg-pink-600" : "bg-slate-700"}`}>
+                  <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeMic ? "translate-x-4" : "translate-x-0"}`} />
+                </div>
+              </button>
+            </div>
+
           </div>
 
           {/* Cute Kids Options */}
@@ -3258,8 +4118,8 @@ export default function IdeasPage() {
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); handleResetSettings(); }}
-                      title="Reset all settings to default values"
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("CUTE_KIDS"); }}
+                      title="Reset Cute Kids settings to default values"
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
                     >
                       <RotateCcw className="w-3 h-3 text-amber-400" />
@@ -3450,6 +4310,568 @@ export default function IdeasPage() {
                   value={charPerformance}
                   onChange={setCharPerformance}
                   groups={CHARACTER_PERFORMANCE_GROUPS}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* SONG & SHAYARI (ADULT CLONE OF CUTE KIDS) OPTIONS */}
+          {category === "SONG" && (
+            <div className="p-4 sm:p-6 rounded-2xl bg-pink-950/20 border border-pink-500/25 space-y-5 shadow-xl relative z-30">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-pink-500/20 pb-3 gap-2">
+                <div>
+                  <span className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
+                    Song & Shayari Generator Parameters (Adult Content Engine)
+                  </span>
+                  <p className="text-[11px] text-slate-400 font-normal mt-0.5">
+                    Adult video clone of Cute Kids tailored for romantic Shayari, Urdu ghazals, Coke Studio duets, and two-liner song clips.
+                  </p>
+                </div>
+                <span className="text-[10px] text-pink-300/80 font-semibold px-2.5 py-1 rounded-full bg-pink-950/60 border border-pink-500/20 self-start sm:self-auto">
+                  Adult Song Engine
+                </span>
+              </div>
+
+              {/* One-Tap Presets Bar */}
+              <div className="rounded-2xl bg-pink-950/40 border border-pink-500/30 overflow-hidden">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsPresetsExpanded((v) => !v)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsPresetsExpanded((v) => !v); }}
+                  className="w-full flex items-center justify-between p-3.5 sm:p-4 cursor-pointer touch-manipulation select-none"
+                >
+                  <span className="text-[11px] font-extrabold text-pink-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    One-Tap Song & Shayari Presets
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("SONG"); }}
+                      title="Reset Song & Shayari settings to default values"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                    >
+                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      <span>Reset</span>
+                    </button>
+                    <ChevronDown className={`w-4 h-4 text-pink-400 transition-transform duration-200 ${isPresetsExpanded ? "rotate-180" : ""}`} />
+                  </div>
+                </div>
+                {isPresetsExpanded && (
+                  <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {SONG_PRESETS.map((preset) => {
+                        const isActive = 
+                          kidsAge === preset.age &&
+                          kidsLocation === preset.location &&
+                          kidsVibe === preset.vibe &&
+                          characterSetup === preset.setup &&
+                          charactersPerScene === preset.perScene &&
+                          kidsNationality === preset.nationality &&
+                          (!preset.musicType || musicType === preset.musicType) &&
+                          (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
+                        
+                        return (
+                          <button
+                            key={preset.title}
+                            type="button"
+                            onClick={() => applySongPreset(preset)}
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                              isActive 
+                                ? "bg-pink-600 border-pink-400 shadow-md shadow-pink-500/40 ring-1 ring-pink-400" 
+                                : "bg-pink-900/60 hover:bg-pink-800 border-pink-500/40"
+                            }`}
+                          >
+                            <span className="text-base shrink-0">{preset.icon}</span>
+                            <span className="truncate">{preset.title}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* 1. Performers Age */}
+                <CustomSelect
+                  label="Performers Age Range"
+                  icon="👤"
+                  value={kidsAge}
+                  onChange={setKidsAge}
+                  groups={SONG_AGE_GROUPS}
+                />
+
+                {/* 2. Song Scene Location */}
+                <CustomSelect
+                  label="Song & Shayari Scene Location"
+                  icon="📍"
+                  value={kidsLocation}
+                  onChange={setKidsLocation}
+                  groups={SONG_LOCATION_GROUPS}
+                />
+
+                {/* 3. Song Vibe & Mood */}
+                <CustomSelect
+                  label="Song Vibe & Mood"
+                  icon="✨"
+                  value={kidsVibe}
+                  onChange={setKidsVibe}
+                  groups={SONG_VIBE_GROUPS}
+                />
+
+                {/* 4. Performers Clothing / Outfit */}
+                <CustomSelect
+                  label="Performers Outfit & Attire"
+                  icon="👗"
+                  value={kidsClothing}
+                  onChange={setKidsClothing}
+                  groups={SONG_CLOTHING_GROUPS}
+                  keepOpenOnSelect={true}
+                />
+
+                {/* 5. Performer / Character Setup */}
+                <CustomSelect
+                  label="Performer / Character Setup"
+                  icon="👥"
+                  value={characterSetup}
+                  onChange={handleCharacterSetupChange}
+                  groups={SONG_CHARACTER_SETUP_GROUPS}
+                />
+
+                {/* 6. Performers Per Scene */}
+                <div className="space-y-1.5">
+                  <CustomSelect
+                    label="Performers Per Scene"
+                    icon="🔢"
+                    value={charactersPerScene}
+                    onChange={setCharactersPerScene}
+                    groups={CHARACTERS_PER_SCENE_GROUPS}
+                  />
+                  {charactersPerScene === "Custom" && (
+                    <input
+                      type="text"
+                      value={customCharactersPerScene}
+                      onChange={(e) => setCustomCharactersPerScene(e.target.value)}
+                      placeholder="e.g. 4 Performers (2 Singers + 2 Musicians)..."
+                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-pink-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-400 font-medium shadow-inner"
+                    />
+                  )}
+                </div>
+
+                {/* 7. Culture / Nationality */}
+                <CustomSelect
+                  label="Culture / Aesthetic"
+                  icon="🌍"
+                  value={kidsNationality}
+                  onChange={setKidsNationality}
+                  groups={KIDS_NATIONALITY_GROUPS}
+                />
+
+                {/* 8. Vocal / Song Style */}
+                <CustomSelect
+                  label="Vocal & Song Style"
+                  icon="🎶"
+                  value={seriousDialogueStyle}
+                  onChange={setSeriousDialogueStyle}
+                  groups={SONG_STYLE_GROUPS}
+                />
+
+                {/* 9. Time of Day / Lighting */}
+                <CustomSelect
+                  label="Time of Day / Lighting"
+                  icon="🌅"
+                  value={timeOfDay}
+                  onChange={setTimeOfDay}
+                  groups={TIME_OF_DAY_GROUPS}
+                />
+
+                {/* 10. Camera Shot Style */}
+                <CustomSelect
+                  label="Camera Shot Style"
+                  icon="🎥"
+                  value={cameraShot}
+                  onChange={setCameraShot}
+                  groups={CAMERA_SHOT_GROUPS}
+                />
+
+                {/* 11. Character Performance */}
+                <CustomSelect
+                  label="Performance Expression"
+                  icon="🎭"
+                  value={charPerformance}
+                  onChange={setCharPerformance}
+                  groups={CHARACTER_PERFORMANCE_GROUPS}
+                />
+
+                {/* 12. Background Noise & Audience FX */}
+                <CustomSelect
+                  label="Background Noise / Crowd Effects"
+                  icon="🔊"
+                  value={songCrowdFx}
+                  onChange={setSongCrowdFx}
+                  groups={SONG_CROWD_FX_GROUPS}
+                />
+
+                {/* 13. Facial Features & Beard Style */}
+                <CustomSelect
+                  label="Facial Features & Beard Style"
+                  icon="🧔"
+                  value={characterFaceType}
+                  onChange={setCharacterFaceType}
+                  groups={CHARACTER_FACE_GROUPS}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* POETRY & SHAYARI OPTIONS */}
+          {category === "POETRY" && (
+            <div className="p-4 sm:p-6 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-5 shadow-xl relative z-30 font-sans">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-500/20 pb-3 gap-2">
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-purple-300 flex items-center gap-2 uppercase tracking-wide">
+                    <Feather className="w-4 h-4 text-purple-400" />
+                    Poetry & Shayari Parameters
+                  </h3>
+                  <p className="text-[11px] text-slate-400 font-medium mt-0.5">
+                    Customize Shayar age, Mehfil location, funny/satirical or serious poetry styles, and audience reactions.
+                  </p>
+                </div>
+                <span className="text-[10px] text-purple-300/80 font-semibold px-2.5 py-1 rounded-full bg-purple-950/60 border border-purple-500/20 self-start sm:self-auto">
+                  Touch-Friendly Selectors
+                </span>
+              </div>
+
+              {/* One-Tap Presets Bar */}
+              <div className="rounded-2xl bg-purple-950/40 border border-purple-500/30 overflow-hidden">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsPresetsExpanded((v) => !v)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsPresetsExpanded((v) => !v); }}
+                  className="w-full flex items-center justify-between p-3.5 sm:p-4 cursor-pointer touch-manipulation select-none"
+                >
+                  <span className="text-[11px] font-extrabold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    One-Tap Poetry & Shayari Presets
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("POETRY"); }}
+                      title="Reset Poetry settings to default values"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                    >
+                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      <span>Reset</span>
+                    </button>
+                    <ChevronDown className={`w-4 h-4 text-purple-400 transition-transform duration-200 ${isPresetsExpanded ? "rotate-180" : ""}`} />
+                  </div>
+                </div>
+                {isPresetsExpanded && (
+                  <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                      {POETRY_PRESETS.map((preset, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => applyPoetryPreset(preset)}
+                          className="flex flex-col items-start p-2.5 rounded-xl bg-purple-900/30 hover:bg-purple-800/50 border border-purple-500/30 text-left transition-all active:scale-95 touch-manipulation group"
+                        >
+                          <span className="text-base mb-1">{preset.icon}</span>
+                          <span className="text-xs font-bold text-white group-hover:text-purple-200 line-clamp-1">{preset.title}</span>
+                          <span className="text-[10px] text-purple-300/70 line-clamp-1">{preset.setup}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Grid of Dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* 1. Shayar / Poet Age */}
+                <CustomSelect
+                  label="Shayar / Poet Age Range"
+                  icon="🎂"
+                  value={kidsAge}
+                  onChange={setKidsAge}
+                  groups={SONG_AGE_GROUPS}
+                />
+
+                {/* 2. Mehfil & Poetry Location */}
+                <CustomSelect
+                  label="Mehfil & Poetry Location"
+                  icon="📍"
+                  value={kidsLocation}
+                  onChange={setKidsLocation}
+                  groups={SONG_LOCATION_GROUPS}
+                />
+
+                {/* 3. Poetry Vibe & Mood */}
+                <CustomSelect
+                  label="Poetry Vibe & Mood"
+                  icon="✨"
+                  value={kidsVibe}
+                  onChange={setKidsVibe}
+                  groups={SONG_VIBE_GROUPS}
+                />
+
+                {/* 4. Shayar Attire / Outfit */}
+                <CustomSelect
+                  label="Shayar Attire & Outfit"
+                  icon="👗"
+                  value={kidsClothing}
+                  onChange={setKidsClothing}
+                  groups={SONG_CLOTHING_GROUPS}
+                  keepOpenOnSelect={true}
+                />
+
+                {/* 5. Shayar & Poet Setup */}
+                <CustomSelect
+                  label="Shayar & Poet Setup"
+                  icon="👥"
+                  value={characterSetup}
+                  onChange={handleCharacterSetupChange}
+                  groups={SONG_CHARACTER_SETUP_GROUPS}
+                />
+
+                {/* 6. Performers Per Scene */}
+                <div className="space-y-1.5">
+                  <CustomSelect
+                    label="Performers Per Scene"
+                    icon="🔢"
+                    value={charactersPerScene}
+                    onChange={setCharactersPerScene}
+                    groups={CHARACTERS_PER_SCENE_GROUPS}
+                  />
+                  {charactersPerScene === "Custom" && (
+                    <input
+                      type="text"
+                      value={customCharactersPerScene}
+                      onChange={(e) => setCustomCharactersPerScene(e.target.value)}
+                      placeholder="e.g. 2 Shayars reciting Shayari..."
+                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-purple-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-medium shadow-inner"
+                    />
+                  )}
+                </div>
+
+                {/* 7. Culture / Aesthetic */}
+                <CustomSelect
+                  label="Culture / Aesthetic"
+                  icon="🌍"
+                  value={kidsNationality}
+                  onChange={setKidsNationality}
+                  groups={KIDS_NATIONALITY_GROUPS}
+                />
+
+                {/* 8. Poetry & Satire Style */}
+                <CustomSelect
+                  label="Poetry & Satire Style"
+                  icon="📜"
+                  value={seriousDialogueStyle}
+                  onChange={setSeriousDialogueStyle}
+                  groups={SONG_STYLE_GROUPS}
+                />
+
+                {/* 9. Background Music Instrument */}
+                <CustomSelect
+                  label="Background Music Instrument"
+                  icon="🎶"
+                  value={musicType}
+                  onChange={setMusicType}
+                  groups={MUSIC_TYPE_GROUPS}
+                />
+
+                {/* 10. Time of Day / Lighting */}
+                <CustomSelect
+                  label="Time of Day / Lighting"
+                  icon="🌅"
+                  value={timeOfDay}
+                  onChange={setTimeOfDay}
+                  groups={TIME_OF_DAY_GROUPS}
+                />
+
+                {/* 11. Camera Shot Style */}
+                <CustomSelect
+                  label="Camera Shot Style"
+                  icon="🎥"
+                  value={cameraShot}
+                  onChange={setCameraShot}
+                  groups={CAMERA_SHOT_GROUPS}
+                />
+
+                {/* 12. Background Audience Sound FX */}
+                <CustomSelect
+                  label="Background Audience FX (Wah Wah)"
+                  icon="🔊"
+                  value={songCrowdFx}
+                  onChange={setSongCrowdFx}
+                  groups={SONG_CROWD_FX_GROUPS}
+                />
+
+                {/* 13. Facial Features & Beard Style */}
+                <CustomSelect
+                  label="Facial Features & Beard Style"
+                  icon="🧔"
+                  value={characterFaceType}
+                  onChange={setCharacterFaceType}
+                  groups={CHARACTER_FACE_GROUPS}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* LIVE STAGE METAMORPHOSIS OPTIONS */}
+          {category === "LIVE_STAGE_METAMORPHOSIS" && (
+            <div className="p-4 sm:p-6 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-5 shadow-xl relative z-30 font-sans">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-amber-500/20 pb-3 gap-2">
+                <div>
+                  <span className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                    Live Stage Metamorphosis Parameters (10-Second VFX Morph)
+                  </span>
+                  <p className="text-[11px] text-slate-300 font-normal mt-0.5">
+                    Live Event / Audience POV / VFX Illusion Transformation. Seamlessly morph performers into iconic creatures recorded by smartphones.
+                  </p>
+                </div>
+                <span className="text-[10px] text-amber-300/90 font-extrabold px-2.5 py-1 rounded-full bg-amber-950/80 border border-amber-500/40 self-start sm:self-auto shadow-sm">
+                  10s VFX Metamorphosis
+                </span>
+              </div>
+
+              {/* One-Tap Presets Bar */}
+              <div className="rounded-2xl bg-amber-950/40 border border-amber-500/30 overflow-hidden">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsPresetsExpanded((v) => !v)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsPresetsExpanded((v) => !v); }}
+                  className="w-full flex items-center justify-between p-3.5 sm:p-4 cursor-pointer touch-manipulation select-none"
+                >
+                  <span className="text-[11px] font-extrabold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    One-Tap Metamorphosis Presets
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("LIVE_STAGE_METAMORPHOSIS"); }}
+                      title="Reset Live Stage Metamorphosis settings to default values"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                    >
+                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      <span>Reset</span>
+                    </button>
+                    <ChevronDown className={`w-4 h-4 text-amber-400 transition-transform duration-200 ${isPresetsExpanded ? "rotate-180" : ""}`} />
+                  </div>
+                </div>
+                {isPresetsExpanded && (
+                  <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {STAGE_METAMORPHOSIS_PRESETS.map((preset) => {
+                        const isActive =
+                          audiencePerspective === preset.audiencePerspective &&
+                          stageEnvironment === preset.stageEnvironment &&
+                          initialPerformer === preset.initialPerformer &&
+                          triggerAction === preset.triggerAction &&
+                          targetEntity === preset.targetEntity &&
+                          lightingFx === preset.lightingFx;
+
+                        return (
+                          <button
+                            key={preset.name}
+                            type="button"
+                            onClick={() => applyStageMetamorphosisPreset(preset)}
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                              isActive
+                                ? "bg-amber-600 border-amber-400 shadow-md shadow-amber-500/40 ring-1 ring-amber-400"
+                                : "bg-amber-950/60 hover:bg-amber-900 border-amber-500/40"
+                            }`}
+                          >
+                            <span className="truncate">{preset.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* 1. Performer Age Range */}
+                <CustomSelect
+                  label="Performer Age Range"
+                  icon="👤"
+                  value={performerAge}
+                  onChange={setPerformerAge}
+                  groups={METAMORPHOSIS_AGE_GROUPS}
+                />
+
+                {/* 2. Stage Location / Venue */}
+                <CustomSelect
+                  label="Stage Location / Venue"
+                  icon="📍"
+                  value={stageLocation}
+                  onChange={setStageLocation}
+                  groups={METAMORPHOSIS_LOCATION_GROUPS}
+                />
+
+                {/* 3. Audience Perspective */}
+                <CustomSelect
+                  label="Audience Perspective"
+                  icon="📱"
+                  value={audiencePerspective}
+                  onChange={setAudiencePerspective}
+                  groups={AUDIENCE_PERSPECTIVE_GROUPS}
+                />
+
+                {/* 4. Stage Environment */}
+                <CustomSelect
+                  label="Stage Environment"
+                  icon="🎪"
+                  value={stageEnvironment}
+                  onChange={setStageEnvironment}
+                  groups={STAGE_ENVIRONMENT_GROUPS}
+                />
+
+                {/* 5. Initial Performer */}
+                <CustomSelect
+                  label="Initial Performer"
+                  icon="🎩"
+                  value={initialPerformer}
+                  onChange={setInitialPerformer}
+                  groups={INITIAL_PERFORMER_GROUPS}
+                />
+
+                {/* 4. Trigger Action */}
+                <CustomSelect
+                  label="Trigger Action"
+                  icon="⚡"
+                  value={triggerAction}
+                  onChange={setTriggerAction}
+                  groups={TRIGGER_ACTION_GROUPS}
+                />
+
+                {/* 5. Target Entity */}
+                <CustomSelect
+                  label="Target Entity (Morph Creature)"
+                  icon="🦁"
+                  value={targetEntity}
+                  onChange={setTargetEntity}
+                  groups={TARGET_ENTITY_GROUPS}
+                />
+
+                {/* 6. Lighting & FX */}
+                <CustomSelect
+                  label="Lighting & Stage FX"
+                  icon="💡"
+                  value={lightingFx}
+                  onChange={setLightingFx}
+                  groups={LIGHTING_FX_GROUPS}
                 />
               </div>
             </div>

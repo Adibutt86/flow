@@ -370,20 +370,21 @@ The character must NOT speak. Focus 100% on facial expressions, physical acting,
     : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."
 }
 ${input.customSceneDescription ? `Situation/Scene Description: "${input.customSceneDescription}"` : ""}
-${input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
-${input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
-${input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
-${input.kidsClothing ? `Kids Clothing/Outfit Style: ${input.kidsClothing}` : ""}
-${input.kidsVibe ? `Kids Vibe/Mood: ${input.kidsVibe}` : ""}
-${input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
-${input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
-${input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${input.characterFaceType && input.characterFaceType !== "Any / AI Decides" ? `Facial Features & Face Archetype: ${input.characterFaceType} (FACIAL DIVERSITY MANDATE: Render the character with explicit ${input.characterFaceType} features, custom facial structure, distinct hair/beard styling, and unique facial identity).` : ""}
 ${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).` : ""}
 ${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
 ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Effects: ${input.outroEffects}` : ""}
-${input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
-${input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
-${input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
 ${input.timeOfDay && input.timeOfDay !== "Any / AI Decides" ? `Time of Day/Lighting: ${input.timeOfDay}` : ""}
 ${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrative Moment: ${input.storyBeat}` : ""}
 ${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
@@ -393,22 +394,72 @@ ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Mod
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}
 ${input.category === "CARBOX" && input.carboxBackground ? `Tabletop Background: ${input.carboxBackground}` : ""}
+${input.audiencePerspective ? `Audience Perspective: ${input.audiencePerspective}` : ""}
+${input.stageEnvironment ? `Stage Environment: ${input.stageEnvironment}` : ""}
+${input.initialPerformer ? `Initial Performer: ${input.initialPerformer}` : ""}
+${input.triggerAction ? `Trigger Action: ${input.triggerAction}` : ""}
+${input.targetEntity ? `Target Entity: ${input.targetEntity}` : ""}
+${input.lightingFx ? `Lighting & FX: ${input.lightingFx}` : ""}
+${input.performerAge ? `Performer Age Range: ${input.performerAge}` : ""}
+${input.stageLocation ? `Stage Venue / Location: ${input.stageLocation}` : ""}
 ${
-  (input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
-  (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue)) ||
-  (input.seriousDialogueStyle === "Poetic/Shayari")
+  input.category === "LIVE_STAGE_METAMORPHOSIS"
+    ? `
+LIVE STAGE METAMORPHOSIS MANDATE:
+Generate a detailed 10-second video creation prompt for a live stage transformation effect following this EXACT Master Prompt Generator Template:
+"[Audience Perspective] view of a [Stage Environment]. A [Initial Performer] stands under [Lighting & FX]. Suddenly, the performer [Trigger Action]. In a single seamless motion, the performer transforms into a massive, realistic [Target Entity]. The creature stands on stage and lets out a dramatic roar toward the audience, while foreground crowd members hold up glowing smartphone screens recording the moment. Ultra-realistic, seamless VFX metamorphosis, photorealistic stage physics, 8k resolution."
+Replace the bracketed placeholders with the chosen or generated values for audience perspective, stage environment, initial performer, lighting & FX, trigger action, and target entity.`
+    : ""
+}
+${
+  input.includeMic
+    ? `MICROPHONE IN SCENE: Include a microphone (handheld mic or vintage stand mic) for the character to perform/sing into.`
+    : `MICROPHONE MANDATE: Do NOT include any microphones, handheld mics, or stage mic stands in the scene visuals. The character performs naturally with open hands, gesturing, or sitting comfortably without holding a microphone.`
+}
+${
+  input.songCrowdFx && !/disabled|quiet|none/i.test(input.songCrowdFx)
+    ? `BACKGROUND CROWD NOISE & SOUND EFFECT MANDATE:
+Audio Soundscape: Include background sound effect - "${input.songCrowdFx}". ${/wah\s*wah/i.test(input.songCrowdFx) ? 'Include authentic crowd reactions saying "Wah Wah! Wah Wah!" and "Irshad!" during vocal pauses.' : ""} Mix this background ambience smoothly at a natural volume behind the main vocal melody.`
+    : input.songCrowdFx && /disabled|quiet|none/i.test(input.songCrowdFx)
+    ? `STRICT NO-BACKGROUND-NOISE MANDATE:
+Do NOT include any audience "Wah Wah", crowd cheering, background chatter, or ambient noise effects. Keep the audio track 100% clean and quiet for a pure studio recording.`
+    : (input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
+      (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue)) ||
+      (input.seriousDialogueStyle === "Poetic/Shayari")
     ? `
 SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
-1. Setting: Traditional Mushaira Mehfil stage setting with Gao Takiya bolster cushions, brass microphone, and warm ambient lighting.
+1. Setting: Traditional Mushaira Mehfil stage setting with Gao Takiya bolster cushions and warm ambient lighting${input.includeMic ? " with a vintage brass microphone" : " (no microphone in hand)"}.
 2. Audio Soundscape: Live background audience reaction with people saying "Wah Wah! Wah Wah!" and "Irshad!" during pauses in the Shayari poetry recitation.
 3. Audio Balance: Audience "Wah Wah!" reactions must be mixed at a natural, warm background volume so they blend in smoothly without overpowering the main spoken voice.`
+    : ""
+}
+${
+  (input.characterSetup && /funny|comedic|tanzo|mazah/i.test(input.characterSetup)) ||
+  (input.kidsVibe && /funny|tanzo|mazah/i.test(input.kidsVibe)) ||
+  (input.seriousDialogueStyle && /funny|tanzo|mazah|satirical/i.test(input.seriousDialogueStyle))
+    ? `
+FUNNY SHAYAR & COMEDIC POETRY MANDATE:
+1. Character & Tone: Depict a witty, hilarious Shayar (comedy poet) delivering satirical comedic Shayari (Tanzo Mazah) with expressive Desi facial reactions, animated hand gestures, and funny comic timing.
+2. Audio & Reactions: Include authentic audience chuckles, laughter, and enthusiastic applause during pauses as the funny Shayar drops the comedic poetry punchlines.`
+    : ""
+}
+${
+  (input.category === "POETRY" || input.category === "SONG")
+    ? `
+POETRY & SONG — STRICT 10-SECOND SCRIPT MANDATE:
+1. NO LINE REPETITION: The Shayar / Singer MUST NEVER repeat the same Shayari couplet, lyric line, or phrase more than once within the 10-second clip. Every spoken line must be a new, unique, forward-moving part of the script.
+2. COMPLETE THOUGHT IN 10 SECONDS: The full Shayari couplet or song lyric passage must start, build, and conclude entirely within the 10-second clip. Do NOT carry over unfinished lines.
+3. TIGHT SCRIPT PACING: Max 2-3 lyric lines or 1 full Shayari sher (couplet) delivered at a natural, expressive, unhurried pace that fits cleanly within 10 seconds.
+4. HOOK (0-3s): Shayar / singer opens with the first verse line with emotion.
+5. ESCALATION (3-7s): Delivers the second unique verse/line with rising vocal emotion or poetic depth.
+6. PUNCHLINE (7-10s): Closes with the poetic climax or emotional final word — NO repeated refrain.`
     : ""
 }
 ${
   (input.characterSetup && /(boy|girl)\s*singer\s*\+\s*/i.test(input.characterSetup))
     ? `
 LEAD SINGER & ANIMAL COMPANION MANDATE:
-1. Main Lead Singer: The specified child (Boy or Girl) MUST be designated as the main lead singer holding the microphone or singing enthusiastically in the scene.
+1. Main Lead Singer: The specified child (Boy or Girl) MUST be designated as the main lead singer${input.includeMic ? " holding a microphone" : " singing with expressive hand gestures (no mic)"}.
 2. Companion Animal: The specified animal appears as a friendly companion character standing, sitting, listening, or reacting alongside the child singer.`
     : ""
 }
@@ -419,6 +470,18 @@ WEDDING & MARRIED COUPLE (DULHA & DULHAN) MANDATE:
 1. Characters: Depict the specified married couple / bride & groom (Dulha & Dulhan) with authentic wedding or couple aesthetics.
 2. Visuals & Attire: Traditional Pakistani/Desi wedding attire (heavy embroidered red/gold lehenga, royal sherwani, turban, sehra, henna, bridal jewelry, or cozy married couple home attire).
 3. Tone & Chemistry: Heartwarming, respectful, loving, and authentic Desi romantic or family chemistry.`
+    : ""
+}
+
+${
+  (input.characterSetup && /man\s*&\s*girl|girl\s*&\s*man|man\s*shayar\s*&\s*girl|man\s*singer\s*&\s*girl|man\s*guitarist\s*&\s*girl/i.test(input.characterSetup)) ||
+  (input.charactersPerScene && /1\s*man\s*\+\s*1\s*girl/i.test(input.charactersPerScene)) ||
+  (input.kidsClothing && /man\s*&\s*girl\s*combo/i.test(input.kidsClothing))
+    ? `
+MAN & GIRL DUET COMBO MANDATE:
+1. Visual Composition: Feature both the adult male (man) and adult female (girl/woman) prominently together in the scene.
+2. Interaction & Chemistry: Depict dynamic duet performance chemistry with warm eye contact, expressive singing gestures, or poetic recitation exchange between the man and girl.
+3. Outfits & Styling: Ensure both the man and girl are wearing the specified matching combo outfits.`
     : ""
 }
 
@@ -708,6 +771,8 @@ export async function generateDialogueSuggestionWithClaude(input: {
   seriousDialogueStyle?: string;
   customSceneDescription?: string;
   outroEffects?: string;
+  songCrowdFx?: string;
+  characterFaceType?: string;
 }): Promise<string> {
   const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
@@ -749,8 +814,18 @@ STRICT SCRIPT CORRECTION & DIALOGUE RULES:
 2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
 3. PRESERVE MEANING: Keep the original meaning, joke timing, and intent 100% intact. Do NOT change the story or punchline, only refine and elevate the script quality.
 4. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Punjabi dialogue matching the category "${input.category}".
-5. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.`,
+5. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
+${
+  (input.category === "POETRY" || input.category === "SONG")
+    ? `
+POETRY & SONG — STRICT 10-SECOND SCRIPT RULES (CRITICAL):
+6. NO LINE REPETITION: NEVER repeat the same Shayari couplet, lyric line, or phrase more than once. Every line must be unique and forward-moving.
+7. FIT IN 10 SECONDS: The entire script must be readable/speakable in a natural, expressive 10-second delivery. Max 2-3 lines or 1 complete Shayari sher (couplet) only.
+8. COMPLETE THOUGHT: The script must have a clear opening line, a middle build, and a final climactic word or line — all within the 10-second window.`
+    : ""
+}`,
           },
+
         ],
       });
 

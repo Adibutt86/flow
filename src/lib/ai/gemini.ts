@@ -144,6 +144,17 @@ export interface SuggestIdeasInput {
   outroEffects?: string;
   musicType?: string;
   seriousDialogueStyle?: string;
+  includeMic?: boolean;
+  audiencePerspective?: string;
+  stageEnvironment?: string;
+  initialPerformer?: string;
+  triggerAction?: string;
+  targetEntity?: string;
+  lightingFx?: string;
+  performerAge?: string;
+  stageLocation?: string;
+  songCrowdFx?: string;
+  characterFaceType?: string;
 }
 
 /**

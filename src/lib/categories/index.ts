@@ -317,6 +317,95 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Emphasize bright softbox studio lighting, shallow depth of field, ultra-realistic textures, satisfying unboxing action, and luxury product showcase vibes.",
   },
 
+  SONG: {
+    id: "SONG",
+    name: "Song",
+    badge: "Music & Vocals",
+    iconName: "Music",
+    description: "Adult music video content engine for romantic two-liner songs, Coke Studio acoustic fusion, Sufi Qawwali, and vocal duets.",
+    storytellingRules: [
+      "Feature romantic, soulful adult singers or vocalists (couples, singers, qawwali group, or acoustic artists)",
+      "Focus on emotional vocal depth, rhythm, and musical performance",
+      "Highlight two-liner song lyrics paired with expressive music video visuals",
+      "Incorporate classic or modern musical instruments (guitar, sitar, harmonium, tabla, Coke Studio fusion)",
+      "End with a soul-stirring musical beat or romantic music video glance"
+    ],
+    tone: "Melodic, romantic, artistic, soulful, musical",
+    pacing: "Melodic, smooth, synced with the musical rhythm and song vocal delivery",
+    hookStyle: "Captivating musical intro with acoustic guitar or harmonium sound opening",
+    endingStyle: "A fading echo of song lyrics or serene aesthetic music video atmosphere",
+    characterStyle: "Stylish adult vocalists (Solo Singer, Acoustic Duo, Qawwali Party, Dulha & Dulhan)",
+    visualStyleSuggestions: [
+      "Hyper-Realistic CGI",
+      "Photorealistic 8K Cinematic",
+      "Bollywood Cinematic",
+      "3D Pixar Animation",
+      "Soft Pastel Watercolor"
+    ],
+    dialogueStyle: "Two-liner song lyrics, melodic vocals, or romantic duet lyrics",
+    promptInstructions:
+      "Emphasize music video aesthetics, stage/acoustic lighting, crisp instrument details, stylish outfits, and rhythmic vocal expression.",
+  },
+
+  POETRY: {
+    id: "POETRY",
+    name: "Poetry",
+    badge: "Shayari & Mushaira",
+    iconName: "Feather",
+    description: "Dedicated Shayari & Poetry engine for romantic Ghazals, Mushaira Mehfils, funny satirical Shayars, and Urdu/Punjabi couplets.",
+    storytellingRules: [
+      "Feature eloquent adult Shayars or poets (romantic Shayara, funny comedic poet, classic Mushaira Shayar)",
+      "Focus on poetic expressions, dramatic pauses, deep eye contact, or witty satirical punchlines",
+      "Highlight traditional Urdu Ghazals, romantic Shayari, funny satire (Tanzo Mazah), or Punjabi Tappa",
+      "Incorporate traditional Mushaira Mehfil settings (Gao Takiya bolster cushions, warm ambient lamps, vintage mic)",
+      "End with a soul-stirring Shayari climax, audience Wah Wah reaction, or funny comedic poetry punchline"
+    ],
+    tone: "Poetic, eloquent, emotional, humorous, romantic, artistic",
+    pacing: "Deliberate, expressive, with natural poetic pauses for audience Wah Wah or comedic punchlines",
+    hookStyle: "A mesmerizing poetic opening line or a funny Shayar addressing the audience",
+    endingStyle: "Deep poetic gaze, fading Shayari echo, or hilarious audience laughter and applause",
+    characterStyle: "Eloquent Shayars (Solo Shayar, Funny Comedy Poet, Mushaira Mehfil Duo, Romantic Shayara)",
+    visualStyleSuggestions: [
+      "Hyper-Realistic CGI",
+      "Photorealistic 8K Cinematic",
+      "Bollywood Cinematic",
+      "Dark Fantasy & Eerie Glow",
+      "Soft Pastel Watercolor"
+    ],
+    dialogueStyle: "Urdu Ghazal lines, romantic Shayari couplets, funny satirical Tanzo Mazah, or Punjabi Boliyan",
+    promptInstructions:
+      "Emphasize authentic Mushaira Mehfil atmosphere, warm glowing ambient lamps, expressively moving hands, and rich traditional/Western outfits.",
+  },
+
+  LIVE_STAGE_METAMORPHOSIS: {
+    id: "LIVE_STAGE_METAMORPHOSIS",
+    name: "Live Stage Metamorphosis",
+    badge: "10s Live VFX Metamorphosis",
+    iconName: "Zap",
+    description: "Live Event / Audience POV / VFX Illusion Transformation (10 Seconds)",
+    storytellingRules: [
+      "Target video length: exactly 10 Seconds",
+      "Audience POV view of a live stage environment with crowd members holding up glowing smartphone screens",
+      "Performer executes a trigger action (tossing cape, spinning in dense fog, snapping fingers) under dramatic stage lighting & VFX",
+      "In a single seamless motion, the performer transforms into a massive, realistic target entity (lion, cybernetic panther, phoenix)",
+      "The creature lets out a dramatic roar toward the audience while smartphones record the metamorphosis"
+    ],
+    tone: "Electrifying, magical, high-energy, mesmerizing, epic live illusion",
+    pacing: "Fast, dramatic 10-second progression leading to a spectacular VFX morph climax",
+    hookStyle: "Audience smartphone POV looking at an illuminated stage under bright spotlights",
+    endingStyle: "Massive transformed creature roaring at the crowd as smartphone screens flash and film the moment",
+    characterStyle: "Live Stage Performers (Ringmaster, Magician, Illusionist, Acrobat) morphing into Majestic Creatures",
+    visualStyleSuggestions: [
+      "Ultra-realistic Live Smartphone POV 8K",
+      "Cinematic 35mm Live Concert",
+      "Hyper-detailed 3D VFX Metamorphosis",
+      "Dark Fantasy Stage Illusion"
+    ],
+    dialogueStyle: "Live crowd cheeres & dramatic creature roar (Audience POV)",
+    promptInstructions:
+      "Follow the Master Template: [Audience Perspective] view of a [Stage Environment]. A [Initial Performer] stands under [Lighting & FX]. Suddenly, the performer [Trigger Action]. In a single seamless motion, the performer transforms into a massive, realistic [Target Entity]. The creature stands on stage and lets out a dramatic roar toward the audience, while foreground crowd members hold up glowing smartphone screens recording the moment. Ultra-realistic, seamless VFX metamorphosis, photorealistic stage physics, 8k resolution.",
+  },
+
   CUSTOM: {
     id: "CUSTOM",
     name: "Custom Rules",

@@ -27,6 +27,8 @@ export async function POST(request: Request) {
       seriousDialogueStyle,
       customSceneDescription,
       outroEffects,
+      songCrowdFx,
+      characterFaceType,
     } = body;
 
     if (category === "CARBOX") {
@@ -59,6 +61,8 @@ export async function POST(request: Request) {
       seriousDialogueStyle,
       customSceneDescription,
       outroEffects,
+      songCrowdFx,
+      characterFaceType,
     });
 
     return NextResponse.json({ success: true, dialogue });

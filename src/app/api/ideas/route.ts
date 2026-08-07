@@ -11,10 +11,7 @@ export async function GET(request: Request) {
 
     const whereCondition: any = {};
     if (userId && userId !== "all" && userId !== "master-user-id") {
-      whereCondition.OR = [
-        { userId: userId },
-        { userId: null } // include legacy/public ideas
-      ];
+      whereCondition.userId = userId;
     }
 
     const ideas = await db.idea.findMany({

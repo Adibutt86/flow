@@ -35,6 +35,17 @@ export async function POST(request: Request) {
       seriousDialogueStyle,
       customSceneDescription,
       outroEffects,
+      includeMic,
+      audiencePerspective,
+      stageEnvironment,
+      initialPerformer,
+      triggerAction,
+      targetEntity,
+      lightingFx,
+      performerAge,
+      stageLocation,
+      songCrowdFx,
+      characterFaceType,
     } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
@@ -68,6 +79,17 @@ export async function POST(request: Request) {
       seriousDialogueStyle,
       customSceneDescription,
       outroEffects,
+      includeMic: Boolean(includeMic),
+      audiencePerspective,
+      stageEnvironment,
+      initialPerformer,
+      triggerAction,
+      targetEntity,
+      lightingFx,
+      performerAge,
+      stageLocation,
+      songCrowdFx,
+      characterFaceType,
     });
 
     return NextResponse.json({ success: true, ideas });

@@ -27,10 +27,7 @@ export async function GET(request: Request) {
 
     const whereCondition: any = {};
     if (userId && userId !== "all" && userId !== "master-user-id") {
-      whereCondition.OR = [
-        { userId: userId },
-        { userId: null }
-      ];
+      whereCondition.userId = userId;
     }
 
     let projects;

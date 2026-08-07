@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/Toast";
 import { getCategoryConfig } from "@/lib/categories";
 import { copyToClipboard } from "@/lib/utils";
 import { StorySourceBadge } from "@/components/common/StorySourceBadge";
+import { useUser } from "@/context/UserContext";
 import {
   ArrowLeft,
   Wand2,
@@ -26,6 +27,7 @@ import {
   Copy,
   Loader2,
   AlertCircle,
+  Lock,
 } from "lucide-react";
 
 export default function ProjectEditorPage({
@@ -36,6 +38,7 @@ export default function ProjectEditorPage({
   const { id } = use(params);
   const router = useRouter();
   const { showToast } = useToast();
+  const { isLoggedIn, setIsAuthModalOpen } = useUser();
 
   const [project, setProject] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -209,6 +212,32 @@ export default function ProjectEditorPage({
       setTimeout(() => setCopiedPackage(false), 3000);
     }
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+        <Navbar />
+        <main className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6 max-w-md mx-auto my-auto">
+          <div className="w-20 h-20 rounded-3xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-2xl animate-pulse">
+            <Lock className="w-10 h-10" />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-white">🔒 Login Required</h1>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Please log in to your account (Hassan or Adi) to access video project details and storyboards.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsAuthModalOpen(true)}
+            className="px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-extrabold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer w-full"
+          >
+            Login to Access Website
+          </button>
+        </main>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -4,8 +4,57 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// Helper to seed default users hassan and adi
+async function seedDefaultUsers() {
+  try {
+    const hassan = await db.user.findFirst({
+      where: { OR: [{ name: "hassan" }, { name: "Hassan" }] },
+    });
+    if (!hassan) {
+      await db.user.create({
+        data: {
+          id: "usr_hassan_2000",
+          name: "hassan",
+          email: "hassan@flow.app",
+          password: "hassan456",
+          isMaster: false,
+        },
+      });
+    } else if (hassan.password !== "hassan456") {
+      await db.user.update({
+        where: { id: hassan.id },
+        data: { password: "hassan456" },
+      });
+    }
+
+    const adi = await db.user.findFirst({
+      where: { OR: [{ name: "adi" }, { name: "Adi" }] },
+    });
+    if (!adi) {
+      await db.user.create({
+        data: {
+          id: "usr_adi_2026",
+          name: "adi",
+          email: "adi@flow.app",
+          password: "flowapp2026",
+          isMaster: false,
+        },
+      });
+    } else if (adi.password !== "flowapp2026") {
+      await db.user.update({
+        where: { id: adi.id },
+        data: { password: "flowapp2026" },
+      });
+    }
+  } catch (e) {
+    console.error("Error seeding default users hassan and adi:", e);
+  }
+}
+
 export async function GET() {
   try {
+    await seedDefaultUsers();
+
     const users = await db.user.findMany({
       orderBy: { createdAt: "desc" },
       select: {
@@ -37,6 +86,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    await seedDefaultUsers();
+
     const body = await request.json();
     const { name, email, password, isMaster } = body;
 
@@ -46,9 +97,27 @@ export async function POST(request: Request) {
 
     const cleanEmail = email && email.trim() ? email.trim().toLowerCase() : undefined;
     const cleanName = name ? name.trim() : (cleanEmail ? cleanEmail.split("@")[0] : "User");
+    const lowerName = cleanName.toLowerCase();
+
+    // Specific password overrides for hassan & adi
+    if (lowerName === "hassan") {
+      if (!password || password.trim() !== "hassan456") {
+        return NextResponse.json(
+          { success: false, requiresPassword: true, error: "Incorrect password for Hassan" },
+          { status: 401 }
+        );
+      }
+    } else if (lowerName === "adi") {
+      if (!password || password.trim() !== "flowapp2026") {
+        return NextResponse.json(
+          { success: false, requiresPassword: true, error: "Incorrect password for Adi" },
+          { status: 401 }
+        );
+      }
+    }
 
     // Master account login
-    if (isMaster || cleanEmail === "master@flow.com" || (cleanName && cleanName.toLowerCase().includes("master"))) {
+    if (isMaster || cleanEmail === "master@flow.com" || (lowerName && lowerName.includes("master"))) {
       let master = await db.user.findFirst({
         where: { OR: [{ id: "master-user-id" }, { email: "master@flow.com" }] },
       });
@@ -69,26 +138,26 @@ export async function POST(request: Request) {
             { status: 401 }
           );
         }
-      } else if (password && !master.password) {
-        // Set password if none existed
-        master = await db.user.update({
-          where: { id: master.id },
-          data: { password: password.trim() },
-        });
       }
       return NextResponse.json({ success: true, user: master });
     }
 
     // Standard User Search / Creation
     let user = await db.user.findFirst({
-      where: cleanEmail ? { email: cleanEmail } : { name: cleanName },
+      where: {
+        OR: [
+          ...(cleanEmail ? [{ email: cleanEmail }] : []),
+          { name: { equals: cleanName } },
+          { name: { equals: lowerName } }
+        ]
+      },
     });
 
     if (user) {
       if (user.password) {
         if (!password || password.trim() !== user.password) {
           return NextResponse.json(
-            { success: false, requiresPassword: true, error: "Incorrect password for this account" },
+            { success: false, requiresPassword: true, error: `Incorrect password for user '${user.name}'` },
             { status: 401 }
           );
         }
@@ -99,12 +168,15 @@ export async function POST(request: Request) {
         });
       }
     } else {
+      // Set default password if user is hassan or adi
+      const initialPassword = lowerName === "hassan" ? "flowapp2000" : (lowerName === "adi" ? "flowapp2026" : (password ? password.trim() : null));
+
       user = await db.user.create({
         data: {
           name: cleanName,
-          email: cleanEmail || null,
+          email: cleanEmail || `${lowerName}@flow.app`,
           isMaster: false,
-          password: password ? password.trim() : null,
+          password: initialPassword,
         },
       });
     }
@@ -130,7 +202,7 @@ export async function PUT(request: Request) {
 
     const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) {
-      return NextResponse.json({ success: false, error: "User not found" }, { status: 444 });
+      return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
     }
 
     if (user.password && currentPassword && currentPassword.trim() !== user.password) {
