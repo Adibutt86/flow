@@ -707,6 +707,21 @@ const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Two Male Friends Jamming", label: "Two Male Friends Jamming", desc: "Best friends sitting with acoustic guitars or harmonium." },
     ],
   },
+  {
+    category: "🎤 Shayar & Listener — Poetry Duos",
+    options: [
+      {
+        value: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+        label: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+        desc: "Man recites Shayari with passion. Girl sits beside him in the same location, listening quietly with admiration and an impressed, moved expression. Only the speaking role differs.",
+      },
+      {
+        value: "Female Poet Recites + Man Listens & Admires 🎤🧔",
+        label: "Female Poet Recites + Man Listens & Admires 🎤🧔",
+        desc: "Girl recites Shayari with emotion and elegance. Man sits beside her in the same location, listening quietly with an admiring, captivated expression. Only the speaking role differs.",
+      },
+    ],
+  },
 ];
 
 const SONG_CLOTHING_GROUPS: OptionGroupWithDesc[] = [

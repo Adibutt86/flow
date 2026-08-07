@@ -488,6 +488,30 @@ MAN & GIRL DUET COMBO MANDATE:
     : ""
 }
 
+${
+  input.characterSetup && /Male Poet Recites.*Girl Listens/i.test(input.characterSetup)
+    ? `
+MALE POET + FEMALE LISTENER MANDATE (CRITICAL — STRICT ROLE ENFORCEMENT):
+1. SPEAKING ROLE — THE MAN ONLY: The adult male character is the SOLE speaker/reciter. He recites the Shayari/poetry with passion, deep emotion, expressive eyes, and graceful hand gestures. His lips move. He is the performer.
+2. SILENT LISTENER — THE GIRL ONLY: The adult female character sits or stands beside him in the SAME location. She does NOT speak, does NOT recite, and does NOT move her lips. She listens quietly with a soft, admiring, deeply impressed expression — eyes slightly wide, a gentle touched smile, perhaps a hand near her heart.
+3. SAME LOCATION: Both characters share the exact same scene/location/environment. No cuts. No location change.
+4. CAMERA COMPOSITION: Frame both characters in the shot — the man on one side reciting, the girl on the other side reacting with admiration. Use warm intimate lighting.
+5. AUDIO: Only the man's voice is heard reciting the Shayari. No dialogue from the girl.`
+    : ""
+}
+
+${
+  input.characterSetup && /Female Poet Recites.*Man Listens/i.test(input.characterSetup)
+    ? `
+FEMALE POET + MALE LISTENER MANDATE (CRITICAL — STRICT ROLE ENFORCEMENT):
+1. SPEAKING ROLE — THE GIRL ONLY: The adult female character is the SOLE speaker/reciter. She recites the Shayari/poetry with elegance, emotional depth, and graceful expressive gestures. Her lips move. She is the performer.
+2. SILENT LISTENER — THE MAN ONLY: The adult male character sits or stands beside her in the SAME location. He does NOT speak, does NOT recite, and does NOT move his lips. He listens quietly with a captivated, deeply moved, admiring expression — leaning slightly forward, eyes soft and attentive, perhaps a slow approving nod.
+3. SAME LOCATION: Both characters share the exact same scene/location/environment. No cuts. No location change.
+4. CAMERA COMPOSITION: Frame both characters in the shot — the girl on one side reciting, the man on the other side reacting with admiration. Use warm intimate lighting.
+5. AUDIO: Only the girl's voice is heard reciting the Shayari. No dialogue from the man.`
+    : ""
+}
+
 STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
 
