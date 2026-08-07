@@ -3948,7 +3948,10 @@ export default function IdeasPage() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const categoryEntries = Object.values(CATEGORIES);
+  const isAdiUser = currentUser?.name?.toLowerCase() === "adi";
+  const categoryEntries = Object.values(CATEGORIES).filter(
+    (cat) => !(isAdiUser && (cat.id === "SONG" || cat.id === "POETRY"))
+  );
 
   if (!isLoggedIn) {
     return (
