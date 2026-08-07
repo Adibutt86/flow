@@ -437,7 +437,8 @@ const SONG_CROWD_FX_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Background Noise & Audience Sound Effects",
     options: [
-      { value: "DISABLED (Quiet Studio - Default)", label: "🚫 DISABLED (Quiet Studio - Default)", desc: "No background noise or audience Wah Wah. Pure clean studio voice." },
+      { value: "AI Decides", label: "🤖 AI Decides (Default)", desc: "Let the AI pick the most fitting background audience sound for the scene automatically." },
+      { value: "DISABLED (Quiet Studio - Default)", label: "🚫 DISABLED (Quiet Studio)", desc: "No background noise or audience Wah Wah. Pure clean studio voice." },
       { value: "Live Mushaira Crowd (Wah Wah & Irshad)", label: "👏 Live Mushaira Crowd (Wah Wah & Irshad)", desc: "Authentic audience reactions shouting Wah Wah! and Irshad! during pauses." },
       { value: "Concert Crowd Cheering & Clapping", label: "🏟️ Concert Crowd Cheering & Clapping", desc: "Live concert arena crowd cheering and applauding." },
       { value: "Desi Mehfil Dholak & Clapping", label: "🥁 Desi Mehfil Dholak & Clapping", desc: "Traditional rhythmic hand clapping and warm Dholak room ambience." },
@@ -2829,7 +2830,7 @@ export default function IdeasPage() {
   const [cameraShot, setCameraShot] = useState(initialSettings.cameraShot || "Any / AI Decides");
   const [charPerformance, setCharPerformance] = useState(initialSettings.charPerformance || "Any / AI Decides");
   const [includeMic, setIncludeMic] = useState<boolean>(initialSettings.includeMic || false);
-  const [songCrowdFx, setSongCrowdFx] = useState(initialSettings.songCrowdFx || "DISABLED (Quiet Studio - Default)");
+  const [songCrowdFx, setSongCrowdFx] = useState(initialSettings.songCrowdFx || "AI Decides");
   const [characterFaceType, setCharacterFaceType] = useState(initialSettings.characterFaceType || "Any / AI Decides");
 
   // Live Stage Metamorphosis options

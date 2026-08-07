@@ -417,7 +417,10 @@ ${
     : `MICROPHONE MANDATE: Do NOT include any microphones, handheld mics, or stage mic stands in the scene visuals. The character performs naturally with open hands, gesturing, or sitting comfortably without holding a microphone.`
 }
 ${
-  input.songCrowdFx && !/disabled|quiet|none/i.test(input.songCrowdFx)
+  input.songCrowdFx && /AI\s*Decides/i.test(input.songCrowdFx)
+    ? `BACKGROUND AUDIENCE SOUND MANDATE:
+AI FREELY DECIDES: Choose the most contextually fitting background audience ambience, crowd noise, or sound effect that best matches the scene, character setup, vibe, and location. Options include Wah Wah Mushaira crowd, concert cheering, Dholak clapping, quiet studio, rain ambience, or any other fitting audio layer.`
+    : input.songCrowdFx && !/disabled|quiet|none/i.test(input.songCrowdFx)
     ? `BACKGROUND CROWD NOISE & SOUND EFFECT MANDATE:
 Audio Soundscape: Include background sound effect - "${input.songCrowdFx}". ${/wah\s*wah/i.test(input.songCrowdFx) ? 'Include authentic crowd reactions saying "Wah Wah! Wah Wah!" and "Irshad!" during vocal pauses.' : ""} Mix this background ambience smoothly at a natural volume behind the main vocal melody.`
     : input.songCrowdFx && /disabled|quiet|none/i.test(input.songCrowdFx)
