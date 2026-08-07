@@ -35,30 +35,36 @@ import {
 import { copyToClipboard } from "@/lib/utils";
 
 const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
-const VISUAL_STYLES = [
-  "3D Cartoon Style",
-  "3D Pixar Animation",
-  "3D Disney Animation",
-  "Claymation 3D",
-  "Photorealistic 8K Cinematic",
-  "Realistic ASMR Commercial",
-  "Hyper-Realistic CGI",
-  "Anime (Shonen / Modern)",
-  "Studio Ghibli Anime",
-  "Chibi Anime Style",
-  "Comic Book & Graphic Novel",
-  "Vintage 90s Cartoon",
-  "Retro 80s Synthwave",
-  "Cyberpunk Neon",
-  "Soft Pastel Watercolor",
-  "Oil Painting Masterpiece",
-  "Paper Cutout Art",
-  "Low Poly 3D World",
-  "Isometric 3D Architecture",
-  "Dark Fantasy & Eerie Glow",
-  "Noir Vintage Film",
-  "Vector Flat Art Animation",
-  "Pencil Sketch & Charcoal",
+const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
+  // ─── Realistic / Cinematic ───
+  { value: "Photorealistic 8K Cinematic", label: "Photorealistic 8K Cinematic", desc: "Film-quality depth, bokeh, cinematic lighting — perfect for romantic & emotional Shayari scenes", tag: "⭐ Best for Poetry" },
+  { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch — great for moonlit palaces & Mughal courtyards", tag: "🏆 Top Pick" },
+  { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look ideal for product unboxing & ASMR sensory content" },
+  // ─── 3D Animation ───
+  { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders — ideal for emotional storytelling & Poet+Listener duos", tag: "💡 Highly Recommended" },
+  { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
+  { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions — great for comedy & kids' content" },
+  { value: "Claymation 3D", label: "Claymation 3D", desc: "Handcrafted clay-like textures with quirky charm — unique look for funny or whimsical stories" },
+  // ─── Anime ───
+  { value: "Studio Ghibli Anime", label: "Studio Ghibli Anime", desc: "Dreamy, painterly — moonlit lakes, autumn forests, snow cabins. Emotionally resonant for Shayari", tag: "🌸 Romantic Mood" },
+  { value: "Anime (Shonen / Modern)", label: "Anime (Shonen / Modern)", desc: "Dynamic action lines, vivid colors & intense expressions — great for adventure & drama" },
+  { value: "Chibi Anime Style", label: "Chibi Anime Style", desc: "Tiny adorable characters with oversized heads — best for cute, lighthearted & funny clips" },
+  // ─── Artistic ───
+  { value: "Oil Painting Masterpiece", label: "Oil Painting Masterpiece", desc: "Grand Mehfil & Mughal settings — rich painterly Urdu poetry aesthetic", tag: "🎨 Poetic Classic" },
+  { value: "Soft Pastel Watercolor", label: "Soft Pastel Watercolor", desc: "Delicate sakura blossoms, rose gardens — gentle romantic scenes with an airy dream-like quality" },
+  { value: "Pencil Sketch & Charcoal", label: "Pencil Sketch & Charcoal", desc: "Raw, expressive hand-drawn feel — perfect for introspective, artsy storytelling" },
+  { value: "Paper Cutout Art", label: "Paper Cutout Art", desc: "Layered paper-craft aesthetic — visually distinctive for educational or children's content" },
+  { value: "Vector Flat Art Animation", label: "Vector Flat Art Animation", desc: "Clean, modern flat design with bold shapes — ideal for explainer videos & infographics" },
+  // ─── Dark / Stylized ───
+  { value: "Noir Vintage Film", label: "Noir Vintage Film", desc: "Moody black & white cinematic feel — perfect for sad/heartbreak Shayari & mystery drama", tag: "💔 Heartbreak Mood" },
+  { value: "Dark Fantasy & Eerie Glow", label: "Dark Fantasy & Eerie Glow", desc: "Ominous gothic atmospheres with ethereal glow — great for supernatural & thriller narratives" },
+  { value: "Cyberpunk Neon", label: "Cyberpunk Neon", desc: "Electric neon-lit futuristic cityscape — best for sci-fi, tech & action-packed content" },
+  { value: "Retro 80s Synthwave", label: "Retro 80s Synthwave", desc: "Glowing grids, chrome retro aesthetics — nostalgic and high-energy for music-driven clips" },
+  // ─── Misc ───
+  { value: "Comic Book & Graphic Novel", label: "Comic Book & Graphic Novel", desc: "Bold outlines, halftone dots & action panels — dynamic look for superhero & drama shorts" },
+  { value: "Vintage 90s Cartoon", label: "Vintage 90s Cartoon", desc: "Nostalgic Saturday morning cartoon style — charming throwback for comedy & kids" },
+  { value: "Low Poly 3D World", label: "Low Poly 3D World", desc: "Geometric faceted 3D landscapes — minimalist artistic look, great for calm ambient content" },
+  { value: "Isometric 3D Architecture", label: "Isometric 3D Architecture", desc: "Top-down isometric cityscapes & rooms — ideal for architecture, city-builder & explainer clips" },
 ];
 
 const KIDS_AGE_OPTIONS = [
@@ -2884,6 +2890,96 @@ interface IdeasPageSettings {
   characterFaceType?: string;
 }
 
+// ─── Visual Style Custom Dropdown ───────────────────────────────────────────
+function VisualStyleDropdown({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const selected = VISUAL_STYLES.find((s) => s.value === value) ?? VISUAL_STYLES[0];
+
+  // Close on outside click
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      {/* Trigger button */}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 hover:border-indigo-500/60 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer group"
+      >
+        <span className="flex flex-col items-start text-left min-w-0">
+          <span className="text-xs sm:text-sm font-semibold text-white truncate">
+            {selected.label}
+          </span>
+          <span className="text-[11px] text-slate-400 truncate max-w-[260px]">
+            {selected.desc}
+          </span>
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
+            open ? "rotate-180 text-indigo-400" : "group-hover:text-slate-300"
+          }`}
+        />
+      </button>
+
+      {/* Dropdown list */}
+      {open && (
+        <div className="absolute z-50 mt-2 w-full max-h-72 overflow-y-auto rounded-xl border border-slate-700 bg-[#0c0f1a] shadow-2xl shadow-black/60 scrollbar-thin">
+          {VISUAL_STYLES.map((style) => {
+            const isActive = style.value === value;
+            return (
+              <button
+                key={style.value}
+                type="button"
+                onClick={() => {
+                  onChange(style.value);
+                  setOpen(false);
+                }}
+                className={`w-full flex items-start justify-between gap-2 px-4 py-3 text-left transition-colors hover:bg-indigo-950/50 ${
+                  isActive
+                    ? "bg-indigo-950/60 border-l-2 border-indigo-500"
+                    : "border-l-2 border-transparent"
+                }`}
+              >
+                <span className="flex flex-col min-w-0">
+                  <span
+                    className={`text-xs sm:text-sm font-semibold truncate ${
+                      isActive ? "text-indigo-300" : "text-white"
+                    }`}
+                  >
+                    {style.label}
+                  </span>
+                  <span className="text-[11px] text-slate-400 leading-snug mt-0.5 line-clamp-2">
+                    {style.desc}
+                  </span>
+                </span>
+                {style.tag && (
+                  <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 whitespace-nowrap mt-0.5">
+                    {style.tag}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 export default function IdeasPage() {
   const { showToast } = useToast();
   const { currentUser, isLoggedIn, setIsAuthModalOpen } = useUser();
@@ -4225,17 +4321,7 @@ export default function IdeasPage() {
             {/* Visual Style */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Visual Style</label>
-              <select
-                value={visualStyle}
-                onChange={(e) => setVisualStyle(e.target.value)}
-                className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
-              >
-                {VISUAL_STYLES.map((s) => (
-                  <option key={s} value={s} className="bg-slate-900 text-white">
-                    {s}
-                  </option>
-                ))}
-              </select>
+              <VisualStyleDropdown value={visualStyle} onChange={setVisualStyle} />
             </div>
 
             {/* Duration */}
