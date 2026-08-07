@@ -2359,6 +2359,12 @@ interface SavedIdea {
   musicType?: string;
   seriousDialogueStyle?: string;
   kidsClothing?: string;
+  kidsExpression?: string;
+  kidsFood?: string;
+  kidsProp?: string;
+  timeOfDay?: string;
+  storyBeat?: string;
+  cameraShot?: string;
   customSceneDescription?: string;
   outroEffects?: string;
   socialContent?: {
@@ -4056,6 +4062,42 @@ export default function IdeasPage() {
     } finally {
       setGeneratingSocialId(null);
     }
+  };
+
+  const handleRemake = (idea: SavedIdea) => {
+    setCategory(idea.category);
+    if (idea.language) setLanguage(idea.language);
+    if (idea.visualStyle) setVisualStyle(idea.visualStyle);
+    if (idea.aiModel) setAiModel(idea.aiModel);
+    
+    setCustomDialogue(idea.customDialogue || "");
+    setMusicType(idea.musicType || "None");
+    setSeriousDialogueStyle(idea.seriousDialogueStyle || "None");
+    setCustomSceneDescription(idea.customSceneDescription || "");
+    setOutroEffects(idea.outroEffects || "None");
+    
+    if (idea.kidsClothing) setKidsClothing(idea.kidsClothing);
+    
+    if (idea.kidsExpression) setKidsExpression(idea.kidsExpression);
+    else setKidsExpression("Any / AI Decides");
+    
+    if (idea.kidsFood) setKidsFood(idea.kidsFood);
+    else setKidsFood("Any / AI Decides");
+    
+    if (idea.kidsProp) setKidsProp(idea.kidsProp);
+    else setKidsProp("Any / AI Decides");
+    
+    if (idea.timeOfDay) setTimeOfDay(idea.timeOfDay);
+    else setTimeOfDay("Any / AI Decides");
+    
+    if (idea.storyBeat) setStoryBeat(idea.storyBeat);
+    else setStoryBeat("Any / AI Decides");
+    
+    if (idea.cameraShot) setCameraShot(idea.cameraShot);
+    else setCameraShot("Any / AI Decides");
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast("Settings loaded! You can now remake this script.", "success");
   };
 
   const handleCopy = async (text: string, id: string) => {
@@ -6009,6 +6051,15 @@ export default function IdeasPage() {
                           <Share2 className="w-3.5 h-3.5 text-blue-400" />
                         )}
                         <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleRemake(idea)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-950/60 border border-purple-600/50 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-900/80 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Load settings to remake this script"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                        <span>Remake</span>
                       </button>
 
                       <div className="ml-auto flex items-center gap-1.5">
