@@ -4280,15 +4280,93 @@ export default function IdeasPage() {
                 value={category}
                 onChange={(e) => {
                   const cat = e.target.value as CategoryId;
+                  const prevCat = category;
                   setCategory(cat);
-                  if (cat === "CARBOX") {
-                    setLanguage("ASMR Unboxing Effects");
-                    setVisualStyle("Realistic");
-                  } else if (cat === "SONG" || cat === "POETRY") {
-                    setVisualStyle("Hyper-Realistic CGI");
-                  } else if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
+
+                  // ── STRICT CATEGORY ISOLATION ──────────────────────────────
+                  // Reset ALL character/scene settings to that category's own
+                  // defaults whenever the user switches categories. This prevents
+                  // adult Poetry/Song details (beards, adult age, etc.) from
+                  // bleeding into Cute Kids prompts and vice versa.
+                  if (cat !== prevCat) {
+                    if (cat === "CUTE_KIDS") {
+                      setKidsAge("Toddler (2-4 yrs)");
+                      setKidsLocation("Cozy Home Living Room");
+                      setKidsHealth("Healthy");
+                      setKidsVibe("Cheerful & Energetic");
+                      setKidsClothing("Any / AI Decides");
+                      setCharacterSetup("One Cute Little Girl");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Global / Any");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsFood("Any / AI Decides");
+                      setKidsProp("Any / AI Decides");
+                      setTimeOfDay("Any / AI Decides");
+                      setStoryBeat("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setCharacterFaceType("Any / AI Decides");
+                      setSeriousDialogueStyle("None");
+                      setMusicType("None");
+                      setSongCrowdFx("AI Decides");
+                      setVisualStyle("3D Cartoon Style");
+                    } else if (cat === "SONG") {
+                      setKidsAge("Adult (25-35 yrs)");
+                      setKidsLocation("Sunset Rooftop & City Skyline 🌇");
+                      setKidsVibe("Romantic & Soulful");
+                      setKidsClothing("Performers Outfit & Attire");
+                      setCharacterSetup("Solo Adult Female Singer 👩‍🎤");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Pakistani (General / Desi)");
+                      setSeriousDialogueStyle("None");
+                      setMusicType("None");
+                      setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+                      setCharacterFaceType("Any / AI Decides");
+                      setVisualStyle("Hyper-Realistic CGI");
+                      setTimeOfDay("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsHealth("Healthy");
+                    } else if (cat === "POETRY") {
+                      setKidsAge("Adult (25-35 yrs)");
+                      setKidsLocation("Traditional Heritage Haveli");
+                      setKidsVibe("Poetic Shayari Mehfil");
+                      setKidsClothing("Performers Outfit & Attire");
+                      setCharacterSetup("Solo Adult Male Shayar 👨‍🎤");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Pakistani Muhajir / Urdu Speaking");
+                      setSeriousDialogueStyle("Poetic/Shayari");
+                      setMusicType("Desi Classical Sitar & Tabla");
+                      setSongCrowdFx("Live Mushaira Crowd (Wah Wah & Irshad)");
+                      setCharacterFaceType("Any / AI Decides");
+                      setVisualStyle("Hyper-Realistic CGI");
+                      setTimeOfDay("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsHealth("Healthy");
+                    } else if (cat === "LIVE_STAGE_METAMORPHOSIS") {
+                      setPerformerAge("Adult Illusionist (26-40 yrs)");
+                      setStageLocation("Circus Arena Ring");
+                      setAudiencePerspective("Front row smartphone POV");
+                      setStageEnvironment("Circus arena ring");
+                      setInitialPerformer("Ringmaster in red coat");
+                      setTriggerAction("Tossing a red cape upward");
+                      setTargetEntity("Majestic male lion");
+                      setLightingFx("Bright overhead spotlights");
+                    } else if (cat === "CARBOX") {
+                      setLanguage("ASMR Unboxing Effects");
+                      setVisualStyle("Realistic");
+                    }
+                  }
+
+                  if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
                   else if (cat === "HINDI_JOKE") setLanguage("Hindi");
-                  else if (language === "ASMR Unboxing Effects") setLanguage("Urdu");
+                  else if (cat !== "CARBOX" && language === "ASMR Unboxing Effects") setLanguage("Urdu");
                 }}
                 className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
               >

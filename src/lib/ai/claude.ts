@@ -370,7 +370,16 @@ The character must NOT speak. Focus 100% on facial expressions, physical acting,
     : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."
 }
 ${input.customSceneDescription ? `Situation/Scene Description: "${input.customSceneDescription}"` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsAge ? `Characters Age: ${input.kidsAge}` : ""}
+${
+  input.category === "CUTE_KIDS"
+    ? "\n─── CUTE KIDS CATEGORY: Characters MUST be cute innocent children/toddlers ONLY. NO adults, NO beards, NO Shayars, NO singers. ───"
+    : input.category === "SONG"
+    ? "\n─── SONG CATEGORY: Characters MUST be adult vocalists/singers ONLY. NO children, NO toddlers, NO cute kids. ───"
+    : input.category === "POETRY"
+    ? "\n─── POETRY CATEGORY: Characters MUST be adult Shayars/poets ONLY. NO children, NO toddlers, NO cute kids. ───"
+    : ""
+}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Shayar/Poet Age"}: ${input.kidsAge}` : ""}
 ${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
 ${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
@@ -517,7 +526,28 @@ The generated prompt string MUST follow this EXACT structure:
 
 [FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
 
-10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh), [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
+${
+  input.category === "SONG"
+    ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} music video (photorealistic 8K cinematic quality, film-grade color grading, volumetric stage lighting, shallow depth of field bokeh, adult vocalists/singers ONLY — NO children, NO cartoons, NO animated kids)`
+    : input.category === "POETRY"
+    ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} poetry visual (photorealistic 8K cinematic quality, warm ambient Mushaira Mehfil lighting, film-grade color grading, adult Shayars/poets ONLY — NO children, NO cartoons, NO animated kids)`
+    : input.category === "LIVE_STAGE_METAMORPHOSIS"
+    ? `10-second ${input.visualStyle || "Ultra-realistic Live Smartphone POV 8K"} (hyper-detailed VFX metamorphosis, photorealistic stage physics, 8K resolution, live audience perspective — NO cartoon characters, NO children)`
+    : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
+
+CATEGORY CHARACTER ISOLATION MANDATE (CRITICAL — DO NOT MIX):
+${
+  input.category === "CUTE_KIDS"
+    ? "CUTE_KIDS CATEGORY: This prompt is STRICTLY for cute children/toddlers/babies. NEVER include any adults with beards, Shayars, poets, singers, or any adult character details from Poetry or Song categories. Characters MUST be young children with innocent, playful, age-appropriate features."
+    : input.category === "SONG"
+    ? "SONG CATEGORY: This prompt is STRICTLY for adult vocalists/singers/musicians. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Characters MUST be adult performers in music video settings."
+    : input.category === "POETRY"
+    ? "POETRY CATEGORY: This prompt is STRICTLY for adult Shayars/poets reciting Shayari. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Characters MUST be adult poets in Mushaira/Mehfil settings."
+    : input.category === "LIVE_STAGE_METAMORPHOSIS"
+    ? "LIVE STAGE METAMORPHOSIS CATEGORY: This prompt is STRICTLY for adult stage performers transforming into creatures. NEVER include any children, cute kids, or any kid character details. Characters MUST be adult stage performers."
+    : "Strictly use characters appropriate for this category only. Do NOT borrow or blend character details from other categories."
+}
 
 Return ONLY a valid JSON array of 1 string containing the full prompt:
 [
