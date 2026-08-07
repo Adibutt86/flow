@@ -545,6 +545,111 @@ const SONG_PRESETS = [
     musicType: "Sufi Qawwali & Harmonium",
     dialogueStyle: "Poetic/Shayari",
   },
+  {
+    icon: "🌹",
+    title: "Rose Garden Romantic Shayari",
+    age: "Young Adult (18-24 yrs)",
+    location: "Blooming Rose Garden at Golden Hour 🌹",
+    vibe: "Romantic & Soulful",
+    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
+    musicType: "Acoustic Guitar & Whistling",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Rugged Stubble & Groomed Beard 🧔",
+  },
+  {
+    icon: "🌕",
+    title: "Moonlit Palace Duet",
+    age: "Adult (25-35 yrs)",
+    location: "Moonlit Palace Rooftop Terrace 🌕",
+    vibe: "Romantic & Soulful",
+    setup: "Man Shayar & Girl Shayara Duo 🎤",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    clothing: "Man & Girl Combo: Royal Sherwani & Embellished Lehenga 👑",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Classic Urdu Shayar Full Beard 🕌",
+  },
+  {
+    icon: "🌸",
+    title: "Sakura Blossom Ghazal",
+    age: "Young Adult (18-24 yrs)",
+    location: "Cherry Blossom Garden (Sakura) 🌸",
+    vibe: "Romantic & Soulful",
+    setup: "Female Poet Recites + Man Listens & Admires 🎤🧔",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Acoustic Sweaters & Wool Scarves 🧣",
+    musicType: "Soft Acoustic Guitar Melody",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Graceful Desi Female (Large Expressive Eyes) 👁️",
+  },
+  {
+    icon: "❄️",
+    title: "Snow Cabin Heartbreak Shayari",
+    age: "Adult (25-35 yrs)",
+    location: "Snow-Capped Mountain Cabin & Fireplace ❄️🔥",
+    vibe: "Deep Emotional & Heartbroken (Sad Shayari)",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Male Knit Turtleneck & Wool Scarf 🧣",
+    musicType: "Bansuri Flute & Ambient Nature",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "DISABLED (Quiet Studio - Default)",
+    faceType: "Dense Salt-and-Pepper Beard (40s-50s) 🧔‍♂️",
+  },
+  {
+    icon: "🚣",
+    title: "Shikara Moonlit Lake Mehfil",
+    age: "Adult (25-35 yrs)",
+    location: "Lakeside Boat Mehfil (Shikara / Dal Lake) 🚣",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Classic Urdu Shayar Full Beard 🕌",
+  },
+  {
+    icon: "🍷",
+    title: "Rooftop Candlelight Romance",
+    age: "Young Adult (18-24 yrs)",
+    location: "Rooftop Candlelight Dinner Setup 🍷🕯️",
+    vibe: "Romantic & Soulful",
+    setup: "Female Poet Recites + Man Listens & Admires 🎤🧔",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Suit & Elegant Gown 👔👗",
+    musicType: "Acoustic Guitar & Whistling",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Western High-Fashion Model Face 💃",
+  },
+  {
+    icon: "🌄",
+    title: "Desert Dunes Sad Shayar",
+    age: "Mature Adult (36-45 yrs)",
+    location: "Desert Dunes at Sunset with Bonfire 🌄🔥",
+    vibe: "Very Sad & Heartbroken Mehfil (Shayari of Grief & Loss) 💔😭",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Male Traditional Shalwar Kameez & Waistcoat 👔",
+    musicType: "Bansuri Flute & Ambient Nature",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "DISABLED (Quiet Studio - Default)",
+    faceType: "Regal Mughal & Royal Features 👑",
+  },
 ];
 
 const POETRY_PRESETS = [
@@ -641,6 +746,111 @@ const POETRY_PRESETS = [
     dialogueStyle: "Poetic/Shayari",
     crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
   },
+  {
+    icon: "👑",
+    title: "Mughal Courtyard Royal Mehfil",
+    age: "Mature Adult (36-45 yrs)",
+    location: "Royal Mughal Courtyard Mehfil 👑",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    clothing: "Male Royal Embroidered Sherwani 👑",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+    faceType: "Regal Mughal & Royal Features 👑",
+  },
+  {
+    icon: "🌹",
+    title: "Rose Garden Male Poet",
+    age: "Young Adult (18-24 yrs)",
+    location: "Blooming Rose Garden at Golden Hour 🌹",
+    vibe: "Romantic & Soulful",
+    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
+    musicType: "Acoustic Guitar & Whistling",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Rugged Stubble & Groomed Beard 🧔",
+  },
+  {
+    icon: "🎤",
+    title: "Female Poet — Candlelit Library",
+    age: "Young Adult (18-24 yrs)",
+    location: "Candlelit Indoor Library & Books 🕯️📚",
+    vibe: "Romantic & Soulful",
+    setup: "Female Poet Recites + Man Listens & Admires 🎤🧔",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    clothing: "Man & Girl Combo: Acoustic Sweaters & Wool Scarves 🧣",
+    musicType: "Soft Acoustic Guitar Melody",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Graceful Desi Female (Large Expressive Eyes) 👁️",
+  },
+  {
+    icon: "🌧️",
+    title: "Rainy Terrace Midnight Tanhai",
+    age: "Young Adult (18-24 yrs)",
+    location: "Terrace with City View & Rain 🌧️🏙️",
+    vibe: "Melancholic Midnight Rain (Ghamgina Shayari) 🌙🌧️",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Male Unbuttoned Linen Shirt & Rolled Sleeves (Heartbroken) 💔",
+    musicType: "Bansuri Flute & Ambient Nature",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "DISABLED (Quiet Studio - Default)",
+    faceType: "Rugged Stubble & Groomed Beard 🧔",
+  },
+  {
+    icon: "🍂",
+    title: "Autumn Forest Solo Ghazal",
+    age: "Adult (25-35 yrs)",
+    location: "Autumn Leaf Forest Path 🍂🌲",
+    vibe: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀",
+    setup: "Solo Adult Male Shayar 👨‍🎤",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Male Simple Button-Down Shirt & Dark Trousers (Sad/Lonely Poet) 👔",
+    musicType: "Soft Acoustic Guitar Melody",
+    dialogueStyle: "Sad / Heartbreak Shayari",
+    crowdFx: "DISABLED (Quiet Studio - Default)",
+    faceType: "Dense Salt-and-Pepper Beard (40s-50s) 🧔‍♂️",
+  },
+  {
+    icon: "🛶",
+    title: "Shikara Romantic Duo",
+    age: "Adult (25-35 yrs)",
+    location: "Lakeside Boat Mehfil (Shikara / Dal Lake) 🚣",
+    vibe: "Romantic & Soulful",
+    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    clothing: "Man & Girl Combo: Royal Sherwani & Embellished Lehenga 👑",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "AI Decides",
+    faceType: "Classic Urdu Shayar Full Beard 🕌",
+  },
+  {
+    icon: "🌙",
+    title: "Desi Rooftop Moonlight Mehfil",
+    age: "Adult (25-35 yrs)",
+    location: "Desi Rooftop Mehfil under Moonlight 🌙",
+    vibe: "Poetic Shayari Mehfil",
+    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+    crowdFx: "Live Mushaira Crowd (Wah Wah & Irshad)",
+    faceType: "Classic Urdu Shayar Full Beard 🕌",
+  },
 ];
 
 const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
@@ -653,6 +863,9 @@ const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Open-Air Garden Mehfil under Fairy Lights ✨", label: "Open-Air Garden Mehfil under Fairy Lights ✨", desc: "Nighttime outdoor garden gathering illuminated by twinkling fairy lights." },
       { value: "Ancient Fort Archway & Torches 🏰", label: "Ancient Fort Archway & Torches 🏰", desc: "Historic stone fort archways lit by glowing oil torches and starry night sky." },
       { value: "Dynamic Multi-Location Mehfil & Solitude 🎭", label: "Dynamic Multi-Location (Stage + Solitary Room) 🎭", desc: "Transitions between a lively Mushaira stage and a quiet solitary room." },
+      { value: "Desi Rooftop Mehfil under Moonlight 🌙", label: "Desi Rooftop Mehfil under Moonlight 🌙", desc: "House rooftop with warm diyas, scattered rose petals, and a full moon glowing above the gathering." },
+      { value: "Royal Mughal Courtyard Mehfil 👑", label: "Royal Mughal Courtyard Mehfil 👑", desc: "Opulent Mughal-era open courtyard with marble floors, fountain, Persian rugs, and chandelier lanterns." },
+      { value: "Lakeside Boat Mehfil (Shikara / Dal Lake) 🚣", label: "Lakeside Shikara Boat Mehfil 🚣", desc: "Romantic wooden shikara boat floating on glassy lake at dusk, lanterns reflecting on calm water." },
     ],
   },
   {
@@ -667,6 +880,26 @@ const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Ocean Cliff at Dusk 🌊", label: "Ocean Cliff at Dusk 🌊", desc: "Dramatic ocean waves crashing against rocks under purple dusk sky." },
       { value: "Acoustic Music Studio 🎤", label: "Acoustic Music Studio 🎤", desc: "Studio stage with vintage ribbon microphones and warm spotlight bokeh." },
       { value: "Coke Studio Fusion Stage 🎸", label: "Coke Studio Stage 🎸", desc: "Modern lighting rig, oriental rugs, acoustic instruments, and electric vibe." },
+    ],
+  },
+  {
+    category: "💕 Romantic Places & Couple Locations",
+    options: [
+      { value: "Blooming Rose Garden at Golden Hour 🌹", label: "Blooming Rose Garden at Golden Hour 🌹", desc: "Lush rose garden bathed in warm golden-hour sunlight, fallen petals on grass, gentle breeze." },
+      { value: "Moonlit Palace Rooftop Terrace 🌕", label: "Moonlit Palace Rooftop Terrace 🌕", desc: "Luxurious rooftop terrace of a heritage palace under a glowing full moon with fairy lights." },
+      { value: "Candlelit Indoor Library & Books 🕯️📚", label: "Candlelit Library & Book Nook 🕯️📚", desc: "Warm dim library, tall wooden shelves of Urdu poetry books, flickering candelabras, Persian rug." },
+      { value: "Riverside Sunset Promenade 🌅🌊", label: "Riverside Sunset Promenade 🌅🌊", desc: "Scenic riverside pathway at sunset, soft waves, warm orange sky, and willow trees." },
+      { value: "Flower Market & Gol Gappa Stall Evening 🌺", label: "Desi Flower Market Evening 🌺", desc: "Colorful bazaar flower stall at dusk, fresh roses and marigolds, warm market lamp glow." },
+      { value: "Snow-Capped Mountain Cabin & Fireplace ❄️🔥", label: "Snow Mountain Cabin & Fireplace ❄️🔥", desc: "Cozy wooden cabin in snowy mountains, glowing fireplace, wool blankets, and hot tea." },
+      { value: "Cherry Blossom Garden (Sakura) 🌸", label: "Cherry Blossom Garden (Sakura) 🌸", desc: "Dreamy sakura blossom garden with pink petals floating in the breeze and soft bokeh light." },
+      { value: "Rooftop Candlelight Dinner Setup 🍷🕯️", label: "Rooftop Candlelight Dinner 🍷🕯️", desc: "Elegant rooftop table with white linen, pillar candles, rose petals, and city glitter view." },
+      { value: "Hidden Waterfall & Lush Green Valley 🌿💦", label: "Hidden Waterfall & Green Valley 🌿💦", desc: "Secluded waterfall surrounded by lush tropical foliage, misty air, and soft diffused light." },
+      { value: "Vintage European Cobblestone Street 🇫🇷🌙", label: "Vintage European Cobblestone Alley 🌙", desc: "Romantic Paris-style narrow cobblestone alley with gas lanterns, ivy walls, and rain puddles." },
+      { value: "Boat Ride on Moonlit Lake 🛶🌕", label: "Moonlit Lake Boat Ride 🛶🌕", desc: "Two characters in a wooden rowboat on a perfectly still moonlit lake, lantern softly glowing." },
+      { value: "Desert Dunes at Sunset with Bonfire 🌄🔥", label: "Desert Dunes Sunset & Bonfire 🌄🔥", desc: "Golden sand dunes under a blazing sunset sky with a warm crackling bonfire nearby." },
+      { value: "Terrace with City View & Rain 🌧️🏙️", label: "Rainy Terrace with City View 🌧️🏙️", desc: "Open terrace in gentle rain, blurred neon city lights below, cozy shawl-wrapped couple." },
+      { value: "Autumn Leaf Forest Path 🍂🌲", label: "Autumn Forest Path 🍂🌲", desc: "Magical forest path covered in fallen red and gold leaves under soft autumn afternoon light." },
+      { value: "Indoor Haveli Balcony with Diyas (Diwali / Night) 🪔", label: "Heritage Haveli Balcony with Diyas 🪔", desc: "Ornate Haveli balcony adorned with warm clay diyas, rose garlands, and carved jali screens." },
     ],
   },
 ];
@@ -2928,7 +3161,7 @@ export default function IdeasPage() {
     showToast(`✅ Applied "${preset.title}" preset!`, "success");
   };
 
-  const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string }) => {
+  const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsVibe(preset.vibe);
@@ -2941,13 +3174,14 @@ export default function IdeasPage() {
     } else {
       setKidsClothing("Sherwani & Lehenga (Wedding / Royal)");
     }
-
+    if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
+    if (preset.faceType) setCharacterFaceType(preset.faceType);
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
     showToast(`✅ Applied "${preset.title}" Song preset!`, "success");
   };
 
-  const applyPoetryPreset = (preset: typeof POETRY_PRESETS[0]) => {
+  const applyPoetryPreset = (preset: typeof POETRY_PRESETS[0] & { clothing?: string; faceType?: string }) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsVibe(preset.vibe);
@@ -2957,6 +3191,8 @@ export default function IdeasPage() {
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
     if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
+    if (preset.clothing) setKidsClothing(preset.clothing);
+    if (preset.faceType) setCharacterFaceType(preset.faceType);
     showToast(`✅ Applied "${preset.title}" Poetry & Shayari preset!`, "success");
   };
   
