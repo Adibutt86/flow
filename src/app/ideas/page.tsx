@@ -31,6 +31,7 @@ import {
   Lock,
   Feather,
   X,
+  Eye,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -119,307 +120,462 @@ const KIDS_AGE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
-const CUTE_KIDS_PRESETS = [
+const CUTE_KIDS_PRESET_GROUPS = [
   {
-    icon: "⚡",
-    title: "Desi Pind Toddler",
-    age: "Toddler (2-4 yrs)",
-    location: "Desi Village & Punjabi Pind",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "One Cute Little Girl",
-    perScene: "2 Characters",
-    nationality: "Pakistani Punjabi",
-    musicType: "Punjabi Beats & Bhangra",
-    dialogueStyle: "None",
+    groupName: "Popular Combinations",
+    presets: [
+      {
+        icon: "👬",
+        title: "Friends",
+        age: "Child (5-8 yrs)",
+        location: "Desi Dhaba & Roadside Chai Stall",
+        health: "Healthy & Active",
+        vibe: "Silly Kid",
+        setup: "Two Boy Friends (Best Friends)",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Funny Comedy Sound Effects",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🪁",
+        title: "Brother & Sister",
+        age: "Child (5-8 yrs)",
+        location: "House Rooftop Kite Flying (Kotha)",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Brother & Sister",
+        perScene: "2 Characters",
+        nationality: "Pakistani Punjabi",
+        musicType: "Punjabi Beats & Bhangra",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "👫",
+        title: "Boy & Girl",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+    ]
   },
   {
-    icon: "💖",
-    title: "Cozy Baby & Mom",
-    age: "Baby (1-2 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Happy & Healthy",
-    vibe: "Cute & Playful",
-    setup: "Girl + Mother",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "None",
-    dialogueStyle: "None",
+    groupName: "Solo Characters",
+    presets: [
+      {
+        icon: "👧",
+        title: "Single Girl Solo",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "None",
+        dialogueStyle: "Monologue",
+      },
+      {
+        icon: "👦",
+        title: "Single Boy Solo",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "None",
+        dialogueStyle: "Monologue",
+      },
+      {
+        icon: "👤",
+        title: "1 Character Solo",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "⚡",
+        title: "Desi Pind Toddler",
+        age: "Toddler (2-4 yrs)",
+        location: "Desi Village & Punjabi Pind",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Girl",
+        perScene: "2 Characters",
+        nationality: "Pakistani Punjabi",
+        musicType: "Punjabi Beats & Bhangra",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "✨",
+        title: "Fairy Tale Girl",
+        age: "Toddler (2-4 yrs)",
+        location: "Magical Cloud Kingdom",
+        health: "Healthy",
+        vibe: "Rainbow Adventure",
+        setup: "Little Girl with Fairy Wings",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "Orchestral & Grand Symphony",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🚀",
+        title: "Space Explorer",
+        age: "Child (5-8 yrs)",
+        location: "Futuristic Space Station & Moon Base",
+        health: "Healthy & Active",
+        vibe: "Happy Explorer",
+        setup: "Little Boy Astronaut",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "Cinematic Epic & Dramatic",
+        dialogueStyle: "Narration Style",
+      },
+      {
+        icon: "🎧",
+        title: "Lo-Fi Story Time",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Library & Book Nook",
+        health: "Healthy",
+        vibe: "Soft Pastel Style",
+        setup: "Reading Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "Lo-Fi Chill & Chillhop",
+        dialogueStyle: "Narration Style",
+      },
+      {
+        icon: "🪕",
+        title: "Punjabi Folk Singer",
+        age: "Child (5-8 yrs)",
+        location: "Green Wheat & Mustard Fields",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Punjabi Folk Singer (Jugni & Tappa)",
+        perScene: "1 Character",
+        nationality: "Pakistani Punjabi",
+        musicType: "Punjabi Jugni Folk Beats",
+        dialogueStyle: "Poetic/Shayari",
+      },
+    ]
   },
   {
-    icon: "🍦",
-    title: "Toddler Duo Ice Cream",
-    age: "Toddler (2-4 yrs)",
-    location: "Ice Cream Shop",
-    health: "Healthy",
-    vibe: "Silly Kid",
-    setup: "One Girl & One Boy",
-    perScene: "2 Characters",
-    nationality: "Global / Any",
-    musicType: "Kids Nursery Rhymes",
-    dialogueStyle: "None",
+    groupName: "Duos & Groups",
+    presets: [
+      {
+        icon: "🏫",
+        title: "School Friends",
+        age: "Child (5-8 yrs)",
+        location: "Desi Primary School Classroom",
+        health: "Healthy & Active",
+        vibe: "Happy Explorer",
+        setup: "Two Kids (Friends)",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "💖",
+        title: "Cozy Baby & Mom",
+        age: "Baby (1-2 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Happy & Healthy",
+        vibe: "Cute & Playful",
+        setup: "Girl + Mother",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🍦",
+        title: "Toddler Duo Ice Cream",
+        age: "Toddler (2-4 yrs)",
+        location: "Ice Cream Shop",
+        health: "Healthy",
+        vibe: "Silly Kid",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "Kids Nursery Rhymes",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🐱",
+        title: "Toddler & Kitten",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Happy & Healthy",
+        vibe: "Cute & Playful",
+        setup: "Little Girl with a Kitten",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Acoustic Guitar & Whistling",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🐮",
+        title: "Boy Singer & Calf",
+        age: "Toddler (2-4 yrs)",
+        location: "Desi Village & Punjabi Pind",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy Singer + Calf",
+        perScene: "2 Characters",
+        nationality: "Pakistani Punjabi",
+        musicType: "Punjabi Beats & Bhangra",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🕌",
+        title: "Eid Celebration",
+        age: "Child (5-8 yrs)",
+        location: "Festive Eid & Chand Raat Market",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Girl Friends (Best Friends)",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Nasheed / Vocal Only",
+        dialogueStyle: "Emotional",
+      },
+    ]
   },
   {
-    icon: "🏫",
-    title: "School Friends",
-    age: "Child (5-8 yrs)",
-    location: "Desi Primary School Classroom",
-    health: "Healthy & Active",
-    vibe: "Happy Explorer",
-    setup: "Two Kids (Friends)",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "None",
-    dialogueStyle: "None",
-  },
+    groupName: "Performances & Couples",
+    presets: [
+      {
+        icon: "🎤",
+        title: "Cute Qawwal Duo",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy & Girl Qawwal Duo",
+        perScene: "2 Characters",
+        nationality: "Pakistani Punjabi",
+        musicType: "Sufi Qawwali & Harmonium",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🎵",
+        title: "Qawali Night",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Romantic",
+        setup: "Boy Qawwali Group (Qawwal Party)",
+        perScene: "3 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Sufi Qawwali & Harmonium",
+        dialogueStyle: "Poetic/Shayari",
+      },
+      {
+        icon: "🎤",
+        title: "Shayari Mehfil",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Romantic",
+        setup: "Boy & Girl Shayar Duo",
+        perScene: "2 Characters",
+        nationality: "Pakistani Muhajir / Urdu Speaking",
+        musicType: "Desi Classical Sitar & Tabla",
+        dialogueStyle: "Poetic/Shayari",
+      },
+      {
+        icon: "🎸",
+        title: "Coke Studio Jam",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Heritage Haveli",
+        health: "Healthy & Active",
+        vibe: "Positive Energy",
+        setup: "Boy & Girl Singer Duet",
+        perScene: "2 Characters",
+        nationality: "Pakistani Punjabi",
+        musicType: "Coke Studio Style Fusion",
+        dialogueStyle: "Poetic/Shayari",
+      },
+      {
+        icon: "❤️",
+        title: "Miya Biwi",
+        age: "Young Adult (18-24 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Happy & Healthy",
+        vibe: "Romantic",
+        setup: "Husband & Wife (Miya Biwi)",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Lo-Fi Chill & Chillhop",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "👰‍♀️",
+        title: "Dulha & Dulhan",
+        age: "Young Adult (18-24 yrs)",
+        location: "Traditional Heritage Haveli",
+        health: "Happy & Healthy",
+        vibe: "Romantic",
+        setup: "Dulha & Dulhan (Bride & Groom Couple)",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Sufi Qawwali & Harmonium",
+        dialogueStyle: "Poetic/Shayari",
+      },
+    ]
+  }
+,
   {
-    icon: "🎤",
-    title: "Cute Qawwal Duo",
-    age: "Child (5-8 yrs)",
-    location: "Traditional Desi Courtyard & Vehra",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "Boy & Girl Qawwal Duo",
-    perScene: "2 Characters",
-    nationality: "Pakistani Punjabi",
-    musicType: "Sufi Qawwali & Harmonium",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "🐮",
-    title: "Boy Singer & Calf",
-    age: "Toddler (2-4 yrs)",
-    location: "Desi Village & Punjabi Pind",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "Boy Singer + Calf",
-    perScene: "2 Characters",
-    nationality: "Pakistani Punjabi",
-    musicType: "Punjabi Beats & Bhangra",
-    dialogueStyle: "None",
-  },
-  // ── NEW PRESETS ──────────────────────────────────────────────────────────────
-  {
-    icon: "🎵",
-    title: "Qawali Night",
-    age: "Child (5-8 yrs)",
-    location: "Traditional Desi Courtyard & Vehra",
-    health: "Healthy",
-    vibe: "Romantic",
-    setup: "Boy Qawwali Group (Qawwal Party)",
-    perScene: "3 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Sufi Qawwali & Harmonium",
-    dialogueStyle: "Poetic/Shayari",
-  },
-  {
-    icon: "🎤",
-    title: "Shayari Mehfil",
-    age: "Child (5-8 yrs)",
-    location: "Traditional Desi Courtyard & Vehra",
-    health: "Healthy",
-    vibe: "Romantic",
-    setup: "Boy & Girl Shayar Duo",
-    perScene: "2 Characters",
-    nationality: "Pakistani Muhajir / Urdu Speaking",
-    musicType: "Desi Classical Sitar & Tabla",
-    dialogueStyle: "Poetic/Shayari",
-  },
-  {
-    icon: "👤",
-    title: "1 Character Solo",
-    age: "Child (5-8 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "One Cute Little Girl",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    musicType: "None",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "👦",
-    title: "Single Boy Solo",
-    age: "Child (5-8 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "One Cute Little Boy",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "None",
-    dialogueStyle: "Monologue",
-  },
-  {
-    icon: "👫",
-    title: "Boy & Girl Duo",
-    age: "Child (5-8 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "One Girl & One Boy",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "None",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "👧",
-    title: "Single Girl Solo",
-    age: "Child (5-8 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "One Cute Little Girl",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "None",
-    dialogueStyle: "Monologue",
-  },
-  {
-    icon: "❤️",
-    title: "Miya Biwi",
-    age: "Young Adult (18-24 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Happy & Healthy",
-    vibe: "Romantic",
-    setup: "Husband & Wife (Miya Biwi)",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Lo-Fi Chill & Chillhop",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "👰‍♀️",
-    title: "Dulha & Dulhan",
-    age: "Young Adult (18-24 yrs)",
-    location: "Traditional Heritage Haveli",
-    health: "Happy & Healthy",
-    vibe: "Romantic",
-    setup: "Dulha & Dulhan (Bride & Groom Couple)",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Sufi Qawwali & Harmonium",
-    dialogueStyle: "Poetic/Shayari",
-  },
-  {
-    icon: "👬",
-    title: "Two Friends",
-    age: "Child (5-8 yrs)",
-    location: "Desi Dhaba & Roadside Chai Stall",
-    health: "Healthy & Active",
-    vibe: "Silly Kid",
-    setup: "Two Boy Friends (Best Friends)",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Funny Comedy Sound Effects",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "🚀",
-    title: "Space Explorer",
-    age: "Child (5-8 yrs)",
-    location: "Futuristic Space Station & Moon Base",
-    health: "Healthy & Active",
-    vibe: "Happy Explorer",
-    setup: "Little Boy Astronaut",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    musicType: "Cinematic Epic & Dramatic",
-    dialogueStyle: "Narration Style",
-  },
-  {
-    icon: "🪁",
-    title: "Rooftop Kite Fun",
-    age: "Child (5-8 yrs)",
-    location: "House Rooftop Kite Flying (Kotha)",
-    health: "Healthy & Active",
-    vibe: "Cheerful & Energetic",
-    setup: "Brother & Sister",
-    perScene: "2 Characters",
-    nationality: "Pakistani Punjabi",
-    musicType: "Punjabi Beats & Bhangra",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "🪕",
-    title: "Punjabi Folk Singer",
-    age: "Child (5-8 yrs)",
-    location: "Green Wheat & Mustard Fields",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "Punjabi Folk Singer (Jugni & Tappa)",
-    perScene: "1 Character",
-    nationality: "Pakistani Punjabi",
-    musicType: "Punjabi Jugni Folk Beats",
-    dialogueStyle: "Poetic/Shayari",
-  },
-  {
-    icon: "✨",
-    title: "Fairy Tale Girl",
-    age: "Toddler (2-4 yrs)",
-    location: "Magical Cloud Kingdom",
-    health: "Healthy",
-    vibe: "Rainbow Adventure",
-    setup: "Little Girl with Fairy Wings",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    musicType: "Orchestral & Grand Symphony",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "🐱",
-    title: "Toddler & Kitten",
-    age: "Toddler (2-4 yrs)",
-    location: "Cozy Home Living Room",
-    health: "Happy & Healthy",
-    vibe: "Cute & Playful",
-    setup: "Little Girl with a Kitten",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Acoustic Guitar & Whistling",
-    dialogueStyle: "None",
-  },
-  {
-    icon: "🎧",
-    title: "Lo-Fi Story Time",
-    age: "Child (5-8 yrs)",
-    location: "Cozy Library & Book Nook",
-    health: "Healthy",
-    vibe: "Soft Pastel Style",
-    setup: "Reading Little Girl",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    musicType: "Lo-Fi Chill & Chillhop",
-    dialogueStyle: "Narration Style",
-  },
-  {
-    icon: "🕌",
-    title: "Eid Celebration",
-    age: "Child (5-8 yrs)",
-    location: "Festive Eid & Chand Raat Market",
-    health: "Healthy",
-    vibe: "Cheerful & Energetic",
-    setup: "Two Girl Friends (Best Friends)",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    musicType: "Nasheed / Vocal Only",
-    dialogueStyle: "Emotional",
-  },
-  {
-    icon: "🎸",
-    title: "Coke Studio Jam",
-    age: "Child (5-8 yrs)",
-    location: "Traditional Heritage Haveli",
-    health: "Healthy & Active",
-    vibe: "Positive Energy",
-    setup: "Boy & Girl Singer Duet",
-    perScene: "2 Characters",
-    nationality: "Pakistani Punjabi",
-    musicType: "Coke Studio Style Fusion",
-    dialogueStyle: "Poetic/Shayari",
-  },
+    groupName: "Dialogue Presets",
+    presets: [
+      {
+        icon: "🗣️",
+        title: "Two Boys Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Little Boys",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Two Girls Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Little Girls",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Boy & Girl Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Three Boys Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Desi Dhaba & Roadside Chai Stall",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Three Boy Friends (Trio Squad)",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Three Girls Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Three Girl Friends (Trio Squad)",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Two Boys & One Girl",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Boys & One Girl",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Two Girls & One Boy",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Girls & One Boy",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Brother & Sister Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Brother & Sister",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Friends Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Desi Primary School Classroom",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Kids (Friends)",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🗣️",
+        title: "Classmates Dialogue",
+        age: "Child (5-8 yrs)",
+        location: "Desi Primary School Classroom",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "Classmates",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        musicType: "None",
+        dialogueStyle: "None",
+      },
+    ]
+  }
 ];
 
 // ── SONG & SHAYARI OPTION GROUPS (FULL AGE RANGE 6-9 YRS TO OLD MAN) ──
@@ -1529,7 +1685,10 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "One Girl & One Boy", label: "One Girl & One Boy", desc: "Classic boy and girl duo." },
       { value: "Brother & Sister", label: "Brother & Sister", desc: "Heartwarming sibling brother and sister team." },
       { value: "Two Kids (Siblings)", label: "Two Kids (Siblings)", desc: "Two sibling kids playing together." },
-      { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
+            { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
+      { value: "Two Boys & One Girl", label: "Two Boys & One Girl", desc: "A trio consisting of two boys and one girl." },
+      { value: "Two Girls & One Boy", label: "Two Girls & One Boy", desc: "A trio consisting of two girls and one boy." },
+      { value: "Classmates", label: "Classmates", desc: "Two or more classmates talking." },
       { value: "Two Boy Friends (Best Friends)", label: "Two Boy Friends (Best Friends)", desc: "Two best buddy boys laughing, joking, and hanging out together." },
       { value: "Two Girl Friends (Best Friends)", label: "Two Girl Friends (Best Friends)", desc: "Two best girl friends sharing secrets and having fun." },
       { value: "Husband & Wife (Miya Biwi)", label: "Husband & Wife (Miya Biwi) ❤️", desc: "A loving husband and wife couple in everyday Desi home scenarios." },
@@ -3232,7 +3391,7 @@ export default function IdeasPage() {
     }
   };
 
-  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0] & { clothing?: string }) => {
+  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESET_GROUPS[0]["presets"][0] & { clothing?: string }) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsHealth(preset.health);
@@ -4549,35 +4708,44 @@ export default function IdeasPage() {
                 </div>
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                      {CUTE_KIDS_PRESETS.map((preset) => {
-                        const isActive = 
-                          kidsAge === preset.age &&
-                          kidsLocation === preset.location &&
-                          kidsHealth === preset.health &&
-                          kidsVibe === preset.vibe &&
-                          characterSetup === preset.setup &&
-                          charactersPerScene === preset.perScene &&
-                          kidsNationality === preset.nationality &&
-                          (!preset.musicType || musicType === preset.musicType) &&
-                          (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
-                        
-                        return (
-                          <button
-                            key={preset.title}
-                            type="button"
-                            onClick={() => applyCuteKidsPreset(preset)}
-                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
-                              isActive 
-                                ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
-                                : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
-                            }`}
-                          >
-                            <span className="text-base shrink-0">{preset.icon}</span>
-                            <span className="truncate">{preset.title}</span>
-                          </button>
-                        );
-                      })}
+                    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
+                      {CUTE_KIDS_PRESET_GROUPS.map((group) => (
+                        <div key={group.groupName} className="space-y-2">
+                          <h4 className="text-[11px] font-bold text-indigo-300/80 uppercase tracking-wider px-1">
+                            {group.groupName}
+                          </h4>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                            {group.presets.map((preset) => {
+                              const isActive = 
+                                kidsAge === preset.age &&
+                                kidsLocation === preset.location &&
+                                kidsHealth === preset.health &&
+                                kidsVibe === preset.vibe &&
+                                characterSetup === preset.setup &&
+                                charactersPerScene === preset.perScene &&
+                                kidsNationality === preset.nationality &&
+                                (!preset.musicType || musicType === preset.musicType) &&
+                                (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
+                              
+                              return (
+                                <button
+                                  key={preset.title}
+                                  type="button"
+                                  onClick={() => applyCuteKidsPreset(preset)}
+                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                                    isActive 
+                                      ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
+                                      : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
+                                  }`}
+                                >
+                                  <span className="text-base shrink-0">{preset.icon}</span>
+                                  <span className="truncate">{preset.title}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -5437,6 +5605,203 @@ export default function IdeasPage() {
               </div>
             </div>
           )}
+
+          {/* Quick View Summary */}
+          <div className="mt-8 mb-6 p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/30 shadow-inner relative z-10">
+            <h3 className="text-sm font-bold text-indigo-300 mb-4 flex items-center gap-2 uppercase tracking-wider">
+              <Eye className="w-4 h-4 text-indigo-400" />
+              Quick View: Selected Configuration
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 gap-x-3 text-[11px] sm:text-xs">
+              
+              {/* Global Settings */}
+              <div className="space-y-1">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Category</span>
+                <span className="text-indigo-200 font-bold">{category}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Language</span>
+                <span className="text-indigo-200 font-bold">{language}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Visual Style</span>
+                <span className="text-indigo-200 font-bold">{visualStyle}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px]">AI Model</span>
+                <span className="text-indigo-200 font-bold">{aiModel}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Duration</span>
+                <span className="text-indigo-200 font-bold">{videoDuration}</span>
+              </div>
+
+              {/* Shared Settings */}
+              {musicType !== "None" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Music</span>
+                  <span className="text-indigo-200 font-bold">{musicType}</span>
+                </div>
+              )}
+              {seriousDialogueStyle !== "None" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Dialogue Style</span>
+                  <span className="text-indigo-200 font-bold">{seriousDialogueStyle}</span>
+                </div>
+              )}
+              {outroEffects !== "None" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Outro Effect</span>
+                  <span className="text-indigo-200 font-bold">{outroEffects}</span>
+                </div>
+              )}
+              {characterFaceType !== "Any / AI Decides" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Face Type</span>
+                  <span className="text-indigo-200 font-bold">{characterFaceType}</span>
+                </div>
+              )}
+              {timeOfDay !== "Any / AI Decides" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Time of Day</span>
+                  <span className="text-indigo-200 font-bold">{timeOfDay}</span>
+                </div>
+              )}
+              {cameraShot !== "Any / AI Decides" && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Camera Shot</span>
+                  <span className="text-indigo-200 font-bold">{cameraShot}</span>
+                </div>
+              )}
+
+              {/* Character Categories */}
+              {(category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") && (
+                <>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Characters</span>
+                    <span className="text-indigo-200 font-bold">{charactersPerScene === "Custom" ? customCharactersPerScene : charactersPerScene}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Setup</span>
+                    <span className="text-indigo-200 font-bold">{characterSetup}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Age</span>
+                    <span className="text-indigo-200 font-bold">{kidsAge}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Location</span>
+                    <span className="text-indigo-200 font-bold">{kidsLocation}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Clothing</span>
+                    <span className="text-indigo-200 font-bold">{kidsClothing}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Vibe</span>
+                    <span className="text-indigo-200 font-bold">{kidsVibe}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Nationality</span>
+                    <span className="text-indigo-200 font-bold">{kidsNationality}</span>
+                  </div>
+                </>
+              )}
+              
+              {/* CUTE KIDS Specific */}
+              {category === "CUTE_KIDS" && (
+                <>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Health</span>
+                    <span className="text-indigo-200 font-bold">{kidsHealth}</span>
+                  </div>
+                  {kidsExpression !== "Any / AI Decides" && (
+                    <div className="space-y-1">
+                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Expression</span>
+                      <span className="text-indigo-200 font-bold">{kidsExpression}</span>
+                    </div>
+                  )}
+                  {kidsFood !== "Any / AI Decides" && (
+                    <div className="space-y-1">
+                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Food</span>
+                      <span className="text-indigo-200 font-bold">{kidsFood}</span>
+                    </div>
+                  )}
+                  {kidsProp !== "Any / AI Decides" && (
+                    <div className="space-y-1">
+                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Prop</span>
+                      <span className="text-indigo-200 font-bold">{kidsProp}</span>
+                    </div>
+                  )}
+                </>
+              )}
+              
+              {/* CARBOX */}
+              {category === "CARBOX" && (
+                <>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Brand</span>
+                    <span className="text-indigo-200 font-bold">{carboxBrand}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Color</span>
+                    <span className="text-indigo-200 font-bold">{carboxColor}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Packaging</span>
+                    <span className="text-indigo-200 font-bold">{carboxPackaging}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Background</span>
+                    <span className="text-indigo-200 font-bold">{carboxBackground}</span>
+                  </div>
+                </>
+              )}
+              
+              {/* LIVE STAGE */}
+              {category === "LIVE_STAGE_METAMORPHOSIS" && (
+                <>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Performer</span>
+                    <span className="text-indigo-200 font-bold">{initialPerformer}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Target Entity</span>
+                    <span className="text-indigo-200 font-bold">{targetEntity}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Action</span>
+                    <span className="text-indigo-200 font-bold">{triggerAction}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Environment</span>
+                    <span className="text-indigo-200 font-bold">{stageEnvironment}</span>
+                  </div>
+                </>
+              )}
+
+              {/* SONG & POETRY */}
+              {(category === "SONG" || category === "POETRY") && (
+                <div className="space-y-1">
+                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Crowd FX</span>
+                  <span className="text-indigo-200 font-bold">{songCrowdFx}</span>
+                </div>
+              )}
+            </div>
+            
+            {customDialogue && customDialogue.trim() && (
+              <div className="mt-4 pt-3 border-t border-indigo-500/20">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Dialogue</span>
+                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customDialogue}"</p>
+              </div>
+            )}
+            {customSceneDescription && customSceneDescription.trim() && (
+              <div className="mt-3 pt-3 border-t border-indigo-500/20">
+                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Scene Description</span>
+                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customSceneDescription}"</p>
+              </div>
+            )}
+          </div>
 
           {/* Generator Action Footer */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t border-slate-800/80">
