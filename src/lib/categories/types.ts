@@ -12,7 +12,10 @@ export type CategoryId =
   | "CARBOX"
   | "SONG"
   | "POETRY"
+  | "SHORT_CLIP"
   | "LIVE_STAGE_METAMORPHOSIS"
+  | "COMMERCIAL_AD"
+  | "CHARACTER_BIBLE"
   | "CUSTOM";
 
 export interface CategoryConfig {

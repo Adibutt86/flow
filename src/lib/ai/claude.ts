@@ -343,52 +343,108 @@ export async function generateIdeaSuggestionsWithClaude(
   for (const modelName of modelsToTry) {
     try {
       const anthropic = new Anthropic({ apiKey, timeout: 60000, maxRetries: 3 });
+      const maxTokens = 4096;
       const response = await anthropic.messages.create({
         model: modelName,
-        max_tokens: 4096,
+        max_tokens: maxTokens,
         messages: [
           {
             role: "user",
             content: `You are an expert cinematic AI video prompt writer specializing in viral short-form video prompts (Google Flow, VEO, Sora, Runway Gen-3).
-Generate EXACTLY 1 highly creative, production-ready video concept idea strictly formatted as a complete detailed video prompt.
+Generate EXACTLY 1 highly creative, production-ready video concept idea strictly formatted as a clean 9:16 vertical video prompt.
 
 Category: ${categoryConfig.name} (${input.category})
-Badge: ${categoryConfig.badge}
-Description: ${categoryConfig.description}
 Tone: ${categoryConfig.tone}
-Language: ${input.language}
+Language: ${input.language || "Urdu"} (DEFAULT: Urdu)
 Visual Style: ${input.visualStyle}
-${input.videoDuration ? `Video Duration: ${input.videoDuration} Seconds` : ""}
+
+🔴 SPOKEN DIALOGUE LANGUAGE MANDATE:
+All spoken dialogue, character script lines, and voiceover text MUST be written strictly in "${input.language || 'Urdu'}".
+- If Language is "Urdu" (Default): Output authentic Urdu script in native Urdu script (e.g. "ابو! آپ کہاں جا رہے ہیں؟").
+- If Language is "Roman Urdu": Output spoken script in Roman Urdu (e.g. "Abu! Aap kahan ja rahe hain?").
+- If Language is "Hindi": Output spoken script in Hindi (Devanagari script).
+- If Language is "Punjabi": Output spoken script in authentic Punjabi.
+- If Language is "English": Output spoken script in English.
+${input.compactMode !== false ? "\n─── COMPACT 9:16 MOBILE PROMPT MANDATE: Output ONLY the 9:16 vertical video prompt and spoken script line. STRICTLY SKIP ALL social titles, video descriptions, core hashtags, trending tags, and extra metadata fluff to save credits. ───\n" : ""}
+─── STRICT AI VIDEO GENERATOR PROMPT MANDATE (GOOGLE FLOW / GEMINI / VEO 2 / SORA / RUNWAY): ───
+1. 100% ENGLISH VISUAL PROMPT: The visual scene prompt block MUST be 100% clean English describing ONLY 9:16 framing, lighting, setting, character specs, camera motion, and action beat.
+2. DEDICATED DIALOGUE LINES: NEVER embed Urdu script lines inside the visual video prompt block! All spoken dialogue MUST be placed on a separate dedicated line starting with "💬 Spoken Dialogue:".
+3. POSITIVE STATEMENTS: Do NOT write negative words like "NO cartoons" or "NO kids" inside positive visual prompts. State visual style positively (e.g. "Live-action photorealistic 8K cinema").
+4. CLEAN TIME FORMATTING: Always use hyphenated time formats like "(0-3s)" or "(3-7s)", never unhyphenated digits like "03s" or "37s".
+5. SAFE CLOTHING DESCRIPTIONS: Describe outfits safely (e.g. "open linen shirt over an inner shirt") to pass AI model safety policies 100%.
+6. 100% VERBATIM CUSTOM DIALOGUE PRESERVATION (ALL CATEGORIES): If custom spoken dialogue or script is provided in Urdu, Roman Urdu, Hindi, Punjabi, or English, you MUST output that text EXACTLY VERBATIM as provided by the user on the "💬 Spoken Dialogue:" line across ALL categories. NEVER translate user custom dialogue to English! NEVER rewrite, translate, or alter native Urdu text in any category!
+7. ZERO WORD REPETITION & NATURAL LIP-SYNC: Ensure video generation prompts mandate smooth natural lip-sync, zero word repetition, zero word stutter, and fluid mouth motion so characters never repeat words or loop mouth movements.
+8. 8-SECOND DIALOGUE TIMING & NATURAL PAUSES: All spoken Shayari/dialogue lines MUST be paced with natural pauses (using '...') and finish completely within 8 seconds (0-8s), leaving 8-10s for lingering silent reaction.
+───────────────────────────────────────────────────────────────────────────────────────────
 ${
-  input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue
+  input.withoutDialogue
+    ? `CRITICAL WITHOUT DIALOGUE MANDATE (STRICTLY NO SPOKEN DIALOGUE OR SCRIPT):
+STRICT RULE: Do NOT include ANY spoken dialogue, speech, spoken words, spoken conversation lines, or spoken script text in the generated concept!
+STRICT RULE: Do NOT output any "Spoken Dialogue:" label, script text blocks, or spoken poetry lines in the prompt text.
+The concept MUST be structured as a clean, concise visual story (small idea format) communicated strictly through:
+- Character physical actions & body posture
+- Facial expressions & weeping/emotional reactions
+- Environment, room lighting & set design
+- Camera movement & slow framing
+- Scene progression & visual storytelling
+Do NOT write any spoken speech or dialogue lines anywhere in the prompt.`
+    : input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue
     ? `CRITICAL SILENT MANDATE (NO SPOKEN DIALOGUE):
 The user selected Character Performance Mode: "${input.charPerformance}".
 STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue lines in the prompt!
 The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
     : input.customDialogue
-    ? `User Custom Spoken Dialogue: "${input.customDialogue}"`
-    : "Dialogue Mandate: Include authentic, hilarious dialogue with funny Desi timing and comic punchlines."
+    ? `🔴 CRITICAL MANDATE FOR USER CUSTOM DIALOGUE:
+The user typed/pasted EXACT custom spoken dialogue in Urdu/native script:
+"${input.customDialogue}"
+
+YOU MUST INCLUDE THIS EXACT LINE VERBATIM IN YOUR FINAL OUTPUT:
+💬 Spoken Dialogue: "${input.customDialogue}"
+
+STRICT RULES:
+1. Do NOT translate "${input.customDialogue}" to English!
+2. Do NOT summarize, modify, or rephrase the Urdu/native script text!
+3. Output "${input.customDialogue}" 100% UNCHANGED on the "💬 Spoken Dialogue:" line!
+4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!`
+    : "Dialogue Mandate: Include authentic, hilarious dialogue in the selected language with funny Desi timing and comic punchlines."
 }
-${input.customSceneDescription ? `Situation/Scene Description: "${input.customSceneDescription}"` : ""}
 ${
   input.category === "CUTE_KIDS"
-    ? "\n─── CUTE KIDS CATEGORY: Characters MUST be cute innocent children/toddlers ONLY. NO adults, NO beards, NO Shayars, NO singers. ───"
+    ? "\n─── CUTE KIDS CATEGORY: Main protagonist MUST be a cute innocent child/toddler (3-6yo). If a Father & Son setup is selected, Abu is the adult father (28-35yo) and Baita is the cute toddler. Keep spoken dialogue on dedicated separate lines starting with 💬 Spoken Dialogue. ───"
     : input.category === "SONG"
     ? "\n─── SONG CATEGORY: Characters MUST be adult vocalists/singers ONLY. NO children, NO toddlers, NO cute kids. ───"
     : input.category === "POETRY"
     ? "\n─── POETRY CATEGORY: Characters MUST be adult Shayars/poets ONLY. NO children, NO toddlers, NO cute kids. ───"
+    : input.category === "SHORT_CLIP"
+    ? "\n─── SHORT CLIP CATEGORY: 10s Connected Video Clips with 100% Locked Character Consistency Across Clips. ───"
+    : input.category === "CHARACTER_BIBLE"
+    ? "\n─── CHARACTER BIBLE CATEGORY: Generate a comprehensive locked Character & World Bible specifying exact facial features, age, body build, locked outfit, personality, voice guidelines, and prompt consistency rules. ───"
     : ""
 }
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Shayar/Poet Age"}: ${input.kidsAge}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY") && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
+${input.fatherClothing && input.fatherClothing !== "AI Decides" ? `Locked Father Clothing: ${input.fatherClothing} (FATHER OUTFIT MANDATE: Father MUST be rendered wearing ${input.fatherClothing} throughout all scenes).` : ""}
+${input.motherClothing && input.motherClothing !== "AI Decides" ? `Locked Mother Clothing: ${input.motherClothing} (MOTHER OUTFIT MANDATE: Mother MUST be rendered wearing ${input.motherClothing} throughout all scenes).` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.characterFaceType && input.characterFaceType !== "Any / AI Decides" ? `Facial Features & Face Archetype: ${input.characterFaceType} (FACIAL DIVERSITY MANDATE: Render the character with explicit ${input.characterFaceType} features, custom facial structure, distinct hair/beard styling, and unique facial identity).` : ""}
-${input.musicType && input.musicType !== "None" ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).` : ""}
+${input.includeCharacterBible === false ? "CHARACTER BIBLE MANDATE: Do NOT include the '📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE' section in the output. Omit the Bible header block and output ONLY the clean scene video prompt clips directly." : ""}
+${
+  input.withoutMusic
+    ? `CRITICAL WITHOUT MUSIC MANDATE (NO BACKGROUND MUSIC):
+STRICT RULE: Do NOT include, suggest, or mention ANY background music, soundtrack, background score, or background songs in the generated concept!
+The video CAN still use:
+- Natural / environmental sounds (wind, rain, ambient atmosphere)
+- Sound effects / Foley (footsteps, object sounds, door sounds, animal sounds, physical impacts)
+- Diegetic audio elements`
+    : input.musicType && input.musicType !== "None"
+    ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).`
+    : ""
+}
 ${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
 ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Effects: ${input.outroEffects}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
@@ -435,9 +491,10 @@ Audio Soundscape: Include background sound effect - "${input.songCrowdFx}". ${/w
     : input.songCrowdFx && /disabled|quiet|none/i.test(input.songCrowdFx)
     ? `STRICT NO-BACKGROUND-NOISE MANDATE:
 Do NOT include any audience "Wah Wah", crowd cheering, background chatter, or ambient noise effects. Keep the audio track 100% clean and quiet for a pure studio recording.`
-    : (input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
-      (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue)) ||
-      (input.seriousDialogueStyle === "Poetic/Shayari")
+    : (input.category !== "CUTE_KIDS") &&
+      ((input.characterSetup && /shayar|mushaira|poet/i.test(input.characterSetup)) ||
+       (input.customDialogue && /shayar|mushaira|wa\s*wah|irshad/i.test(input.customDialogue)) ||
+       (input.seriousDialogueStyle === "Poetic/Shayari"))
     ? `
 SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
 1. Setting: Traditional Mushaira Mehfil stage setting with Gao Takiya bolster cushions and warm ambient lighting${input.includeMic ? " with a vintage brass microphone" : " (no microphone in hand)"}.
@@ -446,9 +503,10 @@ SHAYAR & MUSHAIRA AUDIO & VISUAL MANDATE:
     : ""
 }
 ${
-  (input.characterSetup && /funny|comedic|tanzo|mazah/i.test(input.characterSetup)) ||
-  (input.kidsVibe && /funny|tanzo|mazah/i.test(input.kidsVibe)) ||
-  (input.seriousDialogueStyle && /funny|tanzo|mazah|satirical/i.test(input.seriousDialogueStyle))
+  (input.category !== "CUTE_KIDS") &&
+  ((input.characterSetup && /funny|comedic|tanzo|mazah/i.test(input.characterSetup)) ||
+   (input.kidsVibe && /funny|tanzo|mazah/i.test(input.kidsVibe)) ||
+   (input.seriousDialogueStyle && /funny|tanzo|mazah|satirical/i.test(input.seriousDialogueStyle)))
     ? `
 FUNNY SHAYAR & COMEDIC POETRY MANDATE:
 1. Character & Tone: Depict a witty, hilarious Shayar (comedy poet) delivering satirical comedic Shayari (Tanzo Mazah) with expressive Desi facial reactions, animated hand gestures, and funny comic timing.
@@ -458,13 +516,18 @@ FUNNY SHAYAR & COMEDIC POETRY MANDATE:
 ${
   (input.category === "POETRY" || input.category === "SONG")
     ? `
-POETRY & SONG — STRICT 10-SECOND SCRIPT MANDATE:
-1. NO LINE REPETITION: The Shayar / Singer MUST NEVER repeat the same Shayari couplet, lyric line, or phrase more than once within the 10-second clip. Every spoken line must be a new, unique, forward-moving part of the script.
-2. COMPLETE THOUGHT IN 10 SECONDS: The full Shayari couplet or song lyric passage must start, build, and conclude entirely within the 10-second clip. Do NOT carry over unfinished lines.
-3. TIGHT SCRIPT PACING: Max 2-3 lyric lines or 1 full Shayari sher (couplet) delivered at a natural, expressive, unhurried pace that fits cleanly within 10 seconds.
-4. HOOK (0-3s): Shayar / singer opens with the first verse line with emotion.
-5. ESCALATION (3-7s): Delivers the second unique verse/line with rising vocal emotion or poetic depth.
-6. PUNCHLINE (7-10s): Closes with the poetic climax or emotional final word — NO repeated refrain.`
+POETRY & SONG — STRICT 10-SECOND SCRIPT & CHARACTER CONSISTENCY MANDATE:
+1. LOCKED CHARACTER FACIAL IDENTITY: You MUST explicitly define a LOCKED CHARACTER IDENTITY & VISUAL BIBLE (locked facial structure, age, hair style, beard/facial hair, skin tone, eye shape, clothing colors, and environment). When generating scripts for POETRY and SONG, preserve 100% character face and visual appearance consistency across generations using the same settings.
+2. NO LINE REPETITION: The Shayar / Singer MUST NEVER repeat the same Shayari couplet, lyric line, or phrase more than once within the 10-second clip. Every spoken line must be a new, unique, forward-moving part of the script.
+3. COMPLETE THOUGHT IN 10 SECONDS: The full Shayari couplet or song lyric passage must start, build, and conclude entirely within the 10-second clip. Do NOT carry over unfinished lines.
+4. TIGHT SCRIPT PACING: Max 2-3 lyric lines or 1 full Shayari sher (couplet) delivered at a natural, expressive, unhurried pace that fits cleanly within 10 seconds.
+5. HOOK (0-3s): Shayar / singer opens with the first verse line with emotion.
+6. ESCALATION (3-7s): Delivers the second unique verse/line with rising vocal emotion or poetic depth.
+7. PUNCHLINE (7-10s): Closes with the poetic climax or emotional final word — NO repeated refrain.
+8. ZERO WORD REPETITION & FLUID LIP-SYNC MANDATE: The Shayar / Poet / Singer MUST speak with smooth, fluid lip-sync articulation. The visual video prompt MUST explicitly mandate: "smooth natural lip-sync, zero word repetition, zero word stutter, natural fluid mouth movements without mouth looping".
+9. CINEMATIC POETIC ACTING: Emphasize serene micro-expressions (gentle eye movement, subtle head turn, hand resting over heart or opening in a graceful gesture) so AI video engines generate fluid, photorealistic human acting without mouth glitches.
+10. STRICT 8-SECOND DIALOGUE COMPLETION: The spoken Shayari couplet MUST finish recitation completely within 8 seconds (0-8s mark). The final 2 seconds (8-10s) MUST be reserved for quiet emotional resonance, lingering gaze, and a cinematic freeze frame without any spoken words.
+11. NATURAL POETIC PAUSES: Format the spoken dialogue line with natural poetic pauses using ellipses (e.g. "تیرے واسطے ہیں میری حیات کے سبھی رنگ... تو جس رنگ بھی نکھرے... میں اس رنگ کے صدقے") so the AI voice & lip-sync model recites with artistic, unhurried emotional pacing.`
     : ""
 }
 ${
@@ -521,7 +584,165 @@ FEMALE POET + MALE LISTENER MANDATE (CRITICAL — STRICT ROLE ENFORCEMENT):
     : ""
 }
 
-STRICT 9:16 PROMPT FORMAT MANDATE:
+${
+  Number(input.videoDuration) === 20
+    ? input.kids20sStep === "SCENE_1_ONLY"
+      ? `STEP 1 OF 2: GENERATE FIRST 10-SECOND SCENE (CLIP 1 PROMPT) & LOCKED CHARACTER BIBLE ONLY (TO SAVE AI CREDITS):
+Generate ONLY the first 10-second scene (Clip 1 Prompt) and the Locked Character & Environment Continuity Bible.
+Do NOT generate Clip 2 Prompt yet (the user will review/approve Scene 1 first before generating Scene 2).
+
+${input.customDialogueSeq1 ? `User Sequence 1 Spoken Dialogue (First 10s Clip): "${input.customDialogueSeq1}"` : ""}
+
+REQUIRED OUTPUT FORMAT STRUCTURE:
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+
+🎬 20-SECOND CONNECTED STORY (STEP 1: FIRST 10s SCENE & CHARACTER BIBLE)
+
+📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:
+• Character 1: [Name/Role, exact age, hair style/color, facial structure, skin tone, locked outfit & exact clothing colors, body build]
+• Character 2 (if present): [Name/Role, exact age, hair style/color, skin tone, locked outfit & exact clothing colors]
+• Visual & Environment Bible: [Location, lighting, rendering style, color palette, background props]
+
+🎥 CLIP 1 PROMPT (First 10-Second Scene — Google Flow / Gemini Prompt):
+10-second video animation [Visual Style]. Setting: [Location & Lighting]. Characters: [Character 1 details wearing locked outfit] and [Character 2 details]. Action (0-10s): [Opening setup beat, initial visual action or question]. Camera: [Dynamic camera move].
+💬 First Sequence Spoken Dialogue: "${input.customDialogueSeq1 ? input.customDialogueSeq1 : '[Dialogue for 0-10s]'}"
+
+⏳ STEP 2 STATUS: [Scene 1 Ready for Review. Click "✨ Generate Second Scene (10-20s)" once you approve Scene 1].`
+      : input.kids20sStep === "SCENE_2_ONLY"
+      ? `STEP 2 OF 2: GENERATE SECOND 10-SECOND CONTINUATION SCENE (CLIP 2 PROMPT):
+You are given the APPROVED FIRST SCENE & LOCKED CHARACTER BIBLE:
+--- APPROVED SCENE 1 BIBLE ---
+${input.scene1Text || ""}
+------------------------------
+
+${input.customDialogueSeq2 ? `User Sequence 2 Spoken Dialogue (Second 10s Clip): "${input.customDialogueSeq2}"` : ""}
+
+CRITICAL CONTINUITY MANDATE:
+Generate the continuation Scene 2 (Clip 2 Prompt: 10-20s) that continues IMMEDIATELY from Scene 1.
+🔴 STRICT LOCKED CLOTHING MANDATE: You MUST maintain 100% identical clothing/outfit colors, shirts, pants, and visual style for BOTH characters in Scene 2.
+${input.scene1Clothing ? `LOCKED SCENE 1 CLOTHING SPECIFICATION: "${input.scene1Clothing}"` : ""}
+In Clip 2 Prompt (10-20s), you MUST repeat the EXACT SAME clothing/outfit description verbatim from Scene 1 for both Character 1 and Character 2! Do NOT change, modify, or invent different clothes or outfit colors for any character in Scene 2.
+
+REQUIRED OUTPUT FORMAT STRUCTURE:
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+
+${(input.scene1Text || "").replace(/⏳\s*STEP 2 STATUS:[\s\S]*$/i, "").trim()}
+
+🎥 CLIP 2 PROMPT (Second 10-Second Scene — Google Flow / Gemini Continuation Prompt):
+10-second video continuation [Visual Style]. Setting: [Same Location & Lighting from Scene 1]. Characters: [Same locked Character 1 in identical outfit] and [Same locked Character 2]. Action (10-20s): [Direct continuation beat following immediately from Clip 1, resolving the situation with a clear climax or warm conclusion]. Camera: [Matching smooth camera move].
+💬 Second Sequence Spoken Dialogue: "${input.customDialogueSeq2 ? input.customDialogueSeq2 : '[Dialogue for 10-20s]'}"
+
+✂️ CAPCUT CONTINUITY & EDITING NOTES:
+• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and story continuity.`
+      : `20-SECOND CONNECTED STORY MANDATE (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI):
+For this 20-second Video, format the output concept into TWO distinct, copyable 10-second prompt blocks (Clip 1 & Clip 2) so the user can generate Clip 1 in Google Flow / Gemini, generate Clip 2 in Google Flow / Gemini, and combine them in CapCut:
+
+${input.customDialogueSeq1 ? `User Sequence 1 Spoken Dialogue (First 10s Clip): "${input.customDialogueSeq1}"` : ""}
+${input.customDialogueSeq2 ? `User Sequence 2 Spoken Dialogue (Second 10s Clip): "${input.customDialogueSeq2}"` : ""}
+
+REQUIRED OUTPUT FORMAT STRUCTURE:
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+
+🎬 20-SECOND CONNECTED STORY (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI)
+
+📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:
+• Character 1: [Name/Role, exact age, hair style/color, facial structure, skin tone, locked outfit & exact clothing colors, body build]
+• Character 2 (if present): [Name/Role, exact age, hair style/color, skin tone, locked outfit & exact clothing colors]
+• Visual & Environment Bible: [Location, lighting, rendering style, color palette, background props]
+
+🎥 CLIP 1 PROMPT (First 10-Second Scene — Google Flow / Gemini Prompt):
+10-second video animation [Visual Style]. Setting: [Location & Lighting]. Characters: [Character 1 details wearing locked outfit] and [Character 2 details]. Action (0-10s): [Opening setup beat, initial visual action or question]. Camera: [Dynamic camera move].
+💬 First Sequence Spoken Dialogue: "${input.customDialogueSeq1 ? input.customDialogueSeq1 : '[Dialogue for 0-10s]'}"
+
+🎥 CLIP 2 PROMPT (Second 10-Second Scene — Google Flow / Gemini Continuation Prompt):
+10-second video continuation [Visual Style]. Setting: [Same Location & Lighting]. Characters: [Same locked Character 1 in identical outfit] and [Same locked Character 2]. Action (10-20s): [Direct continuation beat following immediately from Clip 1, resolving the situation with a clear climax or warm conclusion]. Camera: [Matching smooth camera move].
+💬 Second Sequence Spoken Dialogue: "${input.customDialogueSeq2 ? input.customDialogueSeq2 : '[Dialogue for 10-20s]'}"
+
+✂️ CAPCUT CONTINUITY & EDITING NOTES:
+• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and audio narrative continuity.`
+    : input.category === "CHARACTER_BIBLE"
+    ? `CHARACTER BIBLE GENERATION MANDATE:
+For the CHARACTER_BIBLE category, format the output idea as a comprehensive, locked Character & World Bible for multi-clip AI video generation:
+
+📋 CHARACTER 1 (MAIN PROTAGONIST):
+• Name / Role: [Character Name & Role]
+• Age & Demographics: [Exact Age & Cultural Background]
+• Facial Identity: [Eye color, skin tone, facial structure, distinctive features]
+• Hair & Grooming: [Exact hair color, length, style, facial hair if applicable]
+• Locked Outfit & Costume: [Exact clothing style, top, bottom, footwear, colors, textures, accessories]
+• Body Build & Stature: [Height, posture, build]
+• Personality & Mannerisms: [Core personality traits, body language, facial expressions, signature gestures]
+• Voice & Spoken Style: [Tone of voice, language style, speech cadence, catchphrases]
+
+📋 CHARACTER 2 (SUPPORTING / COMPANION, IF APPLICABLE):
+• Name / Role: [Character Name & Role]
+• Facial Identity & Outfit: [Exact locked visual details]
+
+🎨 VISUAL & WORLD ENVIRONMENT BIBLE:
+• Setting & Environment: [Primary location, atmosphere, set details]
+• Visual Style & Lighting: [Rendering style e.g., 3D Pixar / Photorealistic 8K, color palette, lighting]
+
+🔒 PROMPT CONSISTENCY RULEBOOK:
+• Copyable Master Prompt Prefix: [Exact prompt prefix to use for 100% character consistency across all generated clips]`
+    : input.category === "SHORT_CLIP"
+    ? `SHORT CLIP BIBLE & CONNECTED SCENE MANDATE (CRITICAL - UP TO 10 CONNECTED CLIPS):
+For the SHORT_CLIP category, you MUST format the output idea as a connected multi-clip project (supporting 4 to 10 connected 10-second clips) built from a locked Character Bible & Visual Bible:
+
+📋 PROJECT CHARACTER & VISUAL BIBLE:
+• Character 1: [Fixed name/role, exact age, hair color/style, facial structure, skin tone, locked outfit & exact clothing colors, body type]
+• Character 2 (if present): [Fixed name/role, exact age, hair color/style, facial structure, skin tone, locked outfit & exact clothing colors, body type]
+• Visual & Environment Bible: [Fixed location, lighting, cinematic rendering style, color grading, time of day]
+• Romance & Dance Theme Context: [Interpersonal chemistry, dance choreography style (slow dance, duet, rain dance, classical Kathak, rooftop dance), emotional progression]
+
+🎬 CONNECTED 10-SECOND CLIP SEQUENCE (CLIP 1 TO CLIP 10 STORY ARC):
+
+🎥 CLIP 1 (0-10s): [Opening scene / initial romantic meeting or glance. Must explicitly reference exact Character & Visual Bible details].
+🎥 CLIP 2 (10-20s): [Scene 2 beat / romantic interaction or playful dance banter. Must maintain exact same Character & Visual Bible details].
+🎥 CLIP 3 (20-30s): [Scene 3 beat / synchronized dance choreography or emotional depth. Must maintain exact same Character & Visual Bible details].
+🎥 CLIP 4 (30-40s): [Scene 4 beat / emotional turning point, conflict, or tender embrace. Must maintain exact same Character & Visual Bible details].
+[Continue adding CLIP 5, CLIP 6, CLIP 7, CLIP 8, CLIP 9, CLIP 10 if creating a complete 10-clip romantic story arc].
+
+${input.withoutDialogue ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label or script paragraph. Visual storytelling & dance body language only." : ""}
+${input.withoutMusic ? "MUSIC RULE: Music is OFF by default. Focus purely on environmental audio Foley and natural sound FX." : ""}`
+    : input.category === "COMMERCIAL_AD"
+    ? `COMMERCIAL AD & BRAND PITCH MANDATE (10-20 SECONDS COMMERCIAL AD):
+For the COMMERCIAL_AD category, format the prompt as a high-converting 10-20 second promotional video ad, UGC commercial, or brand pitch script:
+
+🛍️ BRAND & PRODUCT PITCH SPECIFICATIONS:
+• Brand / Product: ${input.customSceneDescription || "Featured Brand / Product"}
+• Hook Style: Problem-Agitate-Solve / UGC Aesthetic / Cinematic Luxury Pitch
+• Visual Style: ${input.visualStyle || "Photorealistic 8K Commercial"}
+
+🎬 COMMERCIAL AD SCRIPT STRUCTURE:
+• 🧲 SCROLL-STOPPING HOOK (0-3s): High-impact visual hook addressing a pain point or displaying an irresistible macro product shot.
+• 💡 VALUE PITCH & DEMO (3-12s): Product demonstration, key benefit reveal, or dramatic before & after transformation.
+• 🎯 CALL TO ACTION / OFFER (12-20s): Strong conversion CTA (e.g. "Tap link in bio to get 20% off today!"), brand logo freeze frame.`
+    : input.isShortIdea
+    ? `SHORT IDEA & FULL IDEA DUAL GENERATION MANDATE:
+You MUST generate BOTH a "Short Idea" and a "Full Idea" for this concept.
+
+The generated output text MUST strictly use this EXACT format structure:
+
+📌 SHORT IDEA (3-4 Clips Concept):
+[Provide a concise version of the overall story concept structured into 3-4 separate clips/scenes (Clip 1, Clip 2, Clip 3, Clip 4) that can serve as the foundation for creating a complete short video. Describe the overall story/concept and visual progression across the 3-4 clips rather than just summarizing dialogue.]
+
+🎬 FULL DETAILED IDEA:
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+
+${
+  input.category === "SONG"
+    ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} music video (photorealistic 8K cinematic quality, film-grade color grading, volumetric stage lighting, shallow depth of field bokeh, adult vocalists/singers ONLY — NO children, NO cartoons, NO animated kids)`
+    : input.category === "POETRY"
+    ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} poetry visual (photorealistic 8K cinematic quality, warm ambient Mushaira Mehfil lighting, film-grade color grading, adult Shayars/poets ONLY — NO children, NO cartoons, NO animated kids)`
+    : input.category === "SHORT_CLIP"
+    ? `10-second ${input.visualStyle || "Photorealistic 8K Cinematic"} video clip (100% character consistency lock, photorealistic 8K cinematic quality, film-grade color grading, exact character appearance/outfit continuity from clip to clip)`
+    : input.category === "LIVE_STAGE_METAMORPHOSIS"
+    ? `10-second ${input.visualStyle || "Ultra-realistic Live Smartphone POV 8K"} (hyper-detailed VFX metamorphosis, photorealistic stage physics, 8K resolution, live audience perspective — NO cartoon characters, NO children)`
+    : input.category === "CHARACTER_BIBLE"
+    ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
+    : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+    : `STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
 
 [FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
@@ -531,19 +752,27 @@ ${
     ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} music video (photorealistic 8K cinematic quality, film-grade color grading, volumetric stage lighting, shallow depth of field bokeh, adult vocalists/singers ONLY — NO children, NO cartoons, NO animated kids)`
     : input.category === "POETRY"
     ? `10-second ${input.visualStyle || "Hyper-Realistic CGI"} poetry visual (photorealistic 8K cinematic quality, warm ambient Mushaira Mehfil lighting, film-grade color grading, adult Shayars/poets ONLY — NO children, NO cartoons, NO animated kids)`
+    : input.category === "SHORT_CLIP"
+    ? `10-second ${input.visualStyle || "Photorealistic 8K Cinematic"} video clip (100% character consistency lock, photorealistic 8K cinematic quality, film-grade color grading, exact character appearance/outfit continuity from clip to clip)`
     : input.category === "LIVE_STAGE_METAMORPHOSIS"
     ? `10-second ${input.visualStyle || "Ultra-realistic Live Smartphone POV 8K"} (hyper-detailed VFX metamorphosis, photorealistic stage physics, 8K resolution, live audience perspective — NO cartoon characters, NO children)`
+    : input.category === "CHARACTER_BIBLE"
+    ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}
+${input.withoutDialogue ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label, script paragraph, or spoken monologue anywhere in the prompt text. Keep the generated concept concise and visual-only." : ""}
 
 CATEGORY CHARACTER ISOLATION MANDATE (CRITICAL — DO NOT MIX):
 ${
   input.category === "CUTE_KIDS"
     ? "CUTE_KIDS CATEGORY: This prompt is STRICTLY for cute children/toddlers/babies. NEVER include any adults with beards, Shayars, poets, singers, or any adult character details from Poetry or Song categories. Characters MUST be young children with innocent, playful, age-appropriate features."
     : input.category === "SONG"
-    ? "SONG CATEGORY: This prompt is STRICTLY for adult vocalists/singers/musicians. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Characters MUST be adult performers in music video settings."
+    ? "SONG CATEGORY: This prompt is STRICTLY for adult vocalists/singers/musicians. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Maintain 100% locked character facial consistency, hair style, beard, skin tone, and outfit continuity across all generated scripts using these settings."
     : input.category === "POETRY"
-    ? "POETRY CATEGORY: This prompt is STRICTLY for adult Shayars/poets reciting Shayari. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Characters MUST be adult poets in Mushaira/Mehfil settings."
+    ? "POETRY CATEGORY: This prompt is STRICTLY for adult Shayars/poets reciting Shayari. NEVER include any children, toddlers, babies, cute kids, or any kid character details from Cute Kids category. Maintain 100% locked character facial consistency, hair style, beard, skin tone, and outfit continuity across all generated scripts using these settings."
+    : input.category === "SHORT_CLIP"
+    ? "SHORT_CLIP CATEGORY: This prompt is for connected 10-second video clips. Maintain 100% locked character consistency (exact same facial structure, clothing, hair, age, body type) across all clips in the project so they can be combined into a longer video."
     : input.category === "LIVE_STAGE_METAMORPHOSIS"
     ? "LIVE STAGE METAMORPHOSIS CATEGORY: This prompt is STRICTLY for adult stage performers transforming into creatures. NEVER include any children, cute kids, or any kid character details. Characters MUST be adult stage performers."
     : "Strictly use characters appropriate for this category only. Do NOT borrow or blend character details from other categories."
@@ -598,11 +827,133 @@ Return ONLY a valid JSON array of 1 string containing the full prompt:
     }
   }
 
+  // Gracefully fallback to built-in prompt engine if Anthropic credit balance is low or API key fails
+  if (
+    lastError?.message?.includes("credit balance") ||
+    lastError?.message?.includes("too low") ||
+    lastError?.message?.includes("invalid_request_error") ||
+    lastError?.status === 400
+  ) {
+    console.warn("Anthropic API credit balance low. Using built-in Fallback Generator Engine.");
+    return generateFallbackIdeaPrompt(input);
+  }
+
   throw new ValidationError({
     success: false,
     stage: "Idea Suggestion Generator",
     reason: lastError?.message || "API is not working. Please check your API key or model permissions.",
   });
+}
+
+function generateFallbackIdeaPrompt(input: any): string[] {
+  const cat = input.category || "FUNNY";
+  const style = input.visualStyle || "Photorealistic 8K Cinematic";
+  const loc = input.kidsLocation && input.kidsLocation !== "Any / AI Decides" ? input.kidsLocation : "Candlelit Solitary Room (تنہا کمرہ / Tanhai) 🕯️";
+  const vibe = input.kidsVibe && input.kidsVibe !== "Any / AI Decides" ? input.kidsVibe : "Deep Emotional Devastation & Comfort";
+  const setup = input.characterSetup && input.characterSetup !== "Any / AI Decides" ? input.characterSetup : "Couple (Male & Female Shayar Duo) 💑";
+  const outfit = input.kidsClothing && input.kidsClothing !== "Any / AI Decides" ? input.kidsClothing : "Male Charcoal Sherwani & Female Ivory Muslin Dupatta 🥋";
+  const desc = input.customSceneDescription || "An emotional scene filled with depth, expressive performances, and atmospheric lighting.";
+
+  if (cat === "CHARACTER_BIBLE") {
+    return [
+      `[FORMAT: 9:16 Vertical Aspect Ratio. Center main action.]\n\n` +
+      `📋 CHARACTER 1 (MAIN PROTAGONIST):\n` +
+      `• Name / Role: Little Omar (Cute Pakistani Boy)\n` +
+      `• Age & Demographics: 6 years old, Pakistani Desi\n` +
+      `• Facial Identity: Big innocent dark brown eyes, chubby rosy cheeks, joyful expressive smile\n` +
+      `• Hair & Grooming: Short dark brown hair, neat trim\n` +
+      `• Locked Outfit & Costume: Bright turquoise blue polo shirt, beige shorts, white sneakers\n` +
+      `• Body Build & Stature: Petite, energetic, light build\n` +
+      `• Personality & Mannerisms: Curious, mischievous, highly expressive, laughs easily\n` +
+      `• Voice & Spoken Style: Cute toddler Urdu accent, enthusiastic high pitch\n\n` +
+      `🎨 VISUAL & WORLD ENVIRONMENT BIBLE:\n` +
+      `• Setting & Environment: Sunny home living room with colorful rug and wooden toy boxes\n` +
+      `• Visual Style & Lighting: 3D Pixar Cartoon Style, soft PBR fabric shaders, warm volumetric lighting\n\n` +
+      `🔒 PROMPT CONSISTENCY RULEBOOK:\n` +
+      `• Master Prompt Prefix: "6yo Pakistani boy, big dark brown eyes, turquoise polo shirt, beige shorts, 3D Pixar animation style, locked appearance."`
+    ];
+  }
+
+  if (Number(input.videoDuration) === 20 && (cat === "CUTE_KIDS" || cat === "KIDS_FUNNY")) {
+    const seq1Dialogue = input.customDialogueSeq1 || "ابو دیکھو! میں نے ایک نیا کھیل دریافت کر لیا ہے!";
+    const seq2Dialogue = input.customDialogueSeq2 || "ارے یہ کیا ہو گیا! لیکن کتنا مزہ آیا!";
+
+    if (input.kids20sStep === "SCENE_1_ONLY") {
+      return [
+        `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+        `🎬 20-SECOND CONNECTED KIDS STORY (STEP 1: FIRST 10s SCENE & CHARACTER BIBLE)\n\n` +
+        `📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:\n` +
+        `• Character 1: 6yo Pakistani boy, dark brown eyes, chubby cheeks, wearing bright turquoise polo shirt & beige shorts.\n` +
+        `• Visual & Environment Bible: Cozy home living room, warm volumetric lighting, ${style}.\n\n` +
+        `🎥 CLIP 1 PROMPT (First 10-Second Scene — Google Flow / Gemini Prompt):\n` +
+        `10-second ${style} cute kids animation in ${loc}. Setting: ${loc}. Characters: ${setup} wearing ${outfit}. Action (0-10s): ${desc}\n` +
+        `💬 First Sequence Spoken Dialogue: "${seq1Dialogue}"\n\n` +
+        `⏳ STEP 2 STATUS: [Scene 1 Ready for Review. Click "✨ Generate Second Scene (10-20s)" once you approve Scene 1].\n\n` +
+        `⚠️ NOTE: Generated via Built-in Engine (Anthropic API Credit Balance Low).`
+      ];
+    } else if (input.kids20sStep === "SCENE_2_ONLY") {
+      const baseScene1 = (input.scene1Text || "").replace(/⏳\s*STEP 2 STATUS:[\s\S]*$/i, "").trim();
+      return [
+        `${baseScene1}\n\n` +
+        `🎥 CLIP 2 PROMPT (Second 10-Second Scene — Google Flow / Gemini Continuation Prompt):\n` +
+        `10-second ${style} continuation in ${loc}. Setting: ${loc}. Characters: Locked ${setup} wearing identical ${outfit}. Action (10-20s): Direct continuation as the kid executes the funny surprise move with an adorable smile.\n` +
+        `💬 Second Sequence Spoken Dialogue: "${seq2Dialogue}"\n\n` +
+        `✂️ CAPCUT CONTINUITY & EDITING NOTES:\n` +
+        `• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and story continuity.\n\n` +
+        `⚠️ NOTE: Generated via Built-in Engine (Anthropic API Credit Balance Low).`
+      ];
+    }
+
+    return [
+      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+      `🎬 20-SECOND CONNECTED KIDS STORY (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI)\n\n` +
+      `📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:\n` +
+      `• Character 1: 6yo Pakistani boy, dark brown eyes, chubby cheeks, wearing bright turquoise polo shirt & beige shorts.\n` +
+      `• Visual & Environment Bible: Cozy home living room, warm volumetric lighting, ${style}.\n\n` +
+      `🎥 CLIP 1 PROMPT (First 10-Second Scene — Google Flow / Gemini Prompt):\n` +
+      `10-second ${style} cute kids animation in ${loc}. Setting: ${loc}. Characters: ${setup} wearing ${outfit}. Action (0-10s): ${desc}\n` +
+      `💬 First Sequence Spoken Dialogue: "${seq1Dialogue}"\n\n` +
+      `🎥 CLIP 2 PROMPT (Second 10-Second Scene — Google Flow / Gemini Continuation Prompt):\n` +
+      `10-second ${style} continuation in ${loc}. Setting: ${loc}. Characters: Locked ${setup} wearing identical ${outfit}. Action (10-20s): Direct continuation as the kid executes the funny surprise move with an adorable smile.\n` +
+      `💬 Second Sequence Spoken Dialogue: "${seq2Dialogue}"\n\n` +
+      `✂️ CAPCUT CONTINUITY & EDITING NOTES:\n` +
+      `• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and story continuity.\n\n` +
+      `⚠️ NOTE: Generated via Built-in Engine (Anthropic API Credit Balance Low).`
+    ];
+  }
+
+  if (cat === "SHORT_CLIP") {
+    return [
+      `[FORMAT: 9:16 Vertical Aspect Ratio. Center main action.]\n\n` +
+      `📋 PROJECT CHARACTER & VISUAL BIBLE:\n` +
+      `• Character 1 (Man): Lean adult male, sharp refined features, dark disheveled hair, wearing ${outfit}.\n` +
+      `• Character 2 (Girl): Elegant adult female, dark expressive eyes, wearing matching ${outfit}.\n` +
+      `• Visual & Environment Bible: Location: ${loc}, Vibe: ${vibe}, Rendering: ${style}.\n\n` +
+      `🎬 CONNECTED 10-SECOND CLIP SEQUENCE:\n\n` +
+      `🎥 CLIP 1 (0-10s): Opening scene in ${loc}. ${desc} Camera slowly pushes in on the character's expressive face.\n` +
+      `🎥 CLIP 2 (10-20s): Dynamic interaction beat in ${loc}. Locked character appearance maintained seamlessly.\n` +
+      `🎥 CLIP 3 (20-30s): Emotional climax and warm embrace under soft volumetric lighting.\n` +
+      `🎥 CLIP 4 (30-40s): Final lingering glance and peaceful resolution in ${loc}.\n\n` +
+      `⚠️ NOTE: Generated via Built-in Engine (Anthropic API Credit Balance Low). To re-enable full Claude AI models, add credits at console.anthropic.com/settings/plans`
+    ];
+  }
+
+  const customDiagLine = input.customDialogue
+    ? `💬 Spoken Dialogue: "${input.customDialogue}"\n\n`
+    : "";
+
+  return [
+    `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+    `10-second ${style} concept set in ${loc}.\n` +
+    `Setting: ${loc} with ${vibe} atmosphere.\n` +
+    `Character Setup: ${setup} wearing ${outfit}.\n` +
+    `Scene: ${desc}\n` +
+    `HOOK (0-3s): Opening visual focus on character performance.\n` +
+    `ESCALATION (3-7s): Dynamic camera movement as emotional intensity peaks.\n` +
+    `PUNCHLINE (7-10s): Cinematic freeze frame ending with lingering emotional resonance.\n\n` +
+    customDiagLine +
+    `⚠️ NOTE: Generated via Built-in Engine.`
+  ];
 }
 
 export async function regenerateSingleSceneWithClaude(

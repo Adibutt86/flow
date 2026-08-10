@@ -86,6 +86,13 @@ const VISUAL_STYLES = [
   { id: "Realistic", label: "Realistic", desc: "True-to-life standard realism" },
 ];
 
+const AI_MODEL_OPTIONS = [
+  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet", badge: "Best Quality", desc: "Default — Highest quality storytelling & prompt details" },
+  { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet", badge: "Balanced", desc: "Balanced performance & fast script generation" },
+  { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku", badge: "Fastest", desc: "Lightweight & high speed script execution" },
+  { id: "claude-opus-4-6", label: "Claude 4.6 Opus", badge: "Max Power", desc: "Deep reasoning & maximum creative control" },
+];
+
 export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWizardProps) {
   const router = useRouter();
   const { showToast } = useToast();
@@ -99,6 +106,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
   const [visualStyle, setVisualStyle] = useState<string>(initialCategory === "CARBOX" ? "Realistic" : "3D Cartoon");
   const [userCharacters, setUserCharacters] = useState<string>("");
   const [customInstructions, setCustomInstructions] = useState<string>("");
+  const [aiModel, setAiModel] = useState<string>("claude-sonnet-4-6");
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
   useEffect(() => {
@@ -152,6 +160,7 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
           language,
           visualStyle,
           idea,
+          aiModel,
           userId: currentUser.id,
           userCharacters: userCharacters.trim() || undefined,
           customInstructions: customInstructions.trim() || undefined,
@@ -292,11 +301,14 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
               <div className="p-4 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-center gap-3 text-amber-200">
                 <Bot className="w-6 h-6 text-amber-400 shrink-0" />
                 <div>
-                  <div className="text-sm font-semibold text-amber-300">
-                    Engine: Claude API (Anthropic)
+                  <div className="text-sm font-semibold text-amber-300 flex items-center gap-2">
+                    <span>Engine: Claude API (Anthropic)</span>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                      {AI_MODEL_OPTIONS.find(m => m.id === aiModel)?.label || aiModel}
+                    </span>
                   </div>
                   <div className="text-xs text-amber-200/80">
-                    Powered by Claude 3.7 Sonnet for high-quality storytelling script creation.
+                    Powered by {AI_MODEL_OPTIONS.find(m => m.id === aiModel)?.label || aiModel} for high-quality storytelling script creation.
                   </div>
                 </div>
               </div>
@@ -436,6 +448,44 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
                 </div>
               </div>
 
+              {/* AI Model Selector */}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-white flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <Bot className="w-4 h-4 text-amber-400" />
+                    <span>Claude AI Model</span>
+                  </span>
+                  <span className="text-[10px] text-amber-300 font-mono bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-500/30">
+                    Active: {AI_MODEL_OPTIONS.find(m => m.id === aiModel)?.label || aiModel}
+                  </span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {AI_MODEL_OPTIONS.map((m) => {
+                    const isSel = aiModel === m.id;
+                    return (
+                      <button
+                        key={m.id}
+                        type="button"
+                        onClick={() => setAiModel(m.id)}
+                        className={`p-3 rounded-xl border text-left flex flex-col transition-all cursor-pointer ${
+                          isSel
+                            ? "bg-amber-950/60 border-amber-500 text-amber-100 shadow-md shadow-amber-500/20 ring-1 ring-amber-500/40"
+                            : "bg-gray-900/40 border-gray-800 text-gray-300 hover:border-gray-700 hover:bg-gray-900/80"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-semibold text-xs text-white">{m.label}</span>
+                          <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded ${isSel ? "bg-amber-500/30 text-amber-300" : "bg-gray-800 text-gray-400"}`}>
+                            {m.badge}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-gray-400 leading-tight">{m.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Collapsible Advanced Preferences */}
               <div className="pt-2">
                 <button
@@ -493,9 +543,9 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
               <div className="p-6 rounded-2xl bg-gray-900/60 border border-gray-800 space-y-4">
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 pb-4 border-b border-gray-800">
                   <div>
-                    <span className="text-xs text-gray-400 block mb-0.5">AI Engine</span>
+                    <span className="text-xs text-gray-400 block mb-0.5">AI Model</span>
                     <span className="font-semibold text-sm text-amber-400">
-                      Claude (Anthropic)
+                      {AI_MODEL_OPTIONS.find(m => m.id === aiModel)?.label || aiModel}
                     </span>
                   </div>
                   <div>

@@ -59,6 +59,9 @@ export async function POST(request: Request) {
       cameraShot,
       customSceneDescription,
       outroEffects,
+      isShortIdea,
+      withoutDialogue,
+      withoutMusic,
       userId: bodyUserId,
     } = body;
 
@@ -84,6 +87,9 @@ export async function POST(request: Request) {
         cameraShot,
         customSceneDescription,
         outroEffects,
+        isShortIdea: Boolean(isShortIdea),
+        withoutDialogue: Boolean(withoutDialogue),
+        withoutMusic: Boolean(withoutMusic),
         userId: finalUserId,
         socialContent: socialContent ? JSON.stringify(socialContent) : null,
       },

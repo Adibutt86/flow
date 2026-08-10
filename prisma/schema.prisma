@@ -158,4 +158,7 @@ model Idea {
   cameraShot           String?
   customSceneDescription String?
   outroEffects         String?
+  isShortIdea          Boolean? @default(false)
+  withoutDialogue      Boolean? @default(false)
+  withoutMusic         Boolean? @default(false)
 }

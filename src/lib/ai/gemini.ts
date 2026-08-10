@@ -119,12 +119,21 @@ export interface SuggestIdeasInput {
   visualStyle: string;
   videoDuration?: number;
   customDialogue?: string;
+  customDialogueSeq1?: string;
+  customDialogueSeq2?: string;
+  kids20sStep?: "SCENE_1_ONLY" | "SCENE_2_ONLY" | "FULL";
+  scene1Text?: string;
+  scene1Clothing?: string;
+  includeCharacterBible?: boolean;
+  compactMode?: boolean;
   seed?: number;
   kidsAge?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
   kidsClothing?: string;
+  fatherClothing?: string;
+  motherClothing?: string;
   kidsExpression?: string;
   kidsFood?: string;
   kidsProp?: string;
@@ -155,6 +164,9 @@ export interface SuggestIdeasInput {
   stageLocation?: string;
   songCrowdFx?: string;
   characterFaceType?: string;
+  isShortIdea?: boolean;
+  withoutDialogue?: boolean;
+  withoutMusic?: boolean;
 }
 
 /**

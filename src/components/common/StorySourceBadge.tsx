@@ -17,7 +17,7 @@ export function StorySourceBadge({
   storySource = "custom",
   aiUsed = true,
   provider = "Claude (Anthropic)",
-  model = "claude-3-7-sonnet",
+  model = "claude-sonnet-4-6",
   showDetails = false,
 }: StorySourceBadgeProps) {
   let badgeConfig = {

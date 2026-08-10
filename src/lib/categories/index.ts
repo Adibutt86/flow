@@ -377,6 +377,36 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Emphasize authentic Mushaira Mehfil atmosphere, warm glowing ambient lamps, expressively moving hands, and rich traditional/Western outfits.",
   },
 
+  SHORT_CLIP: {
+    id: "SHORT_CLIP",
+    name: "Short Clip",
+    badge: "10s Connected Clips",
+    iconName: "Film",
+    description: "Connected 10-second video clip ideas with 100% character consistency across clips to build complete short film stories.",
+    storytellingRules: [
+      "Series of connected 10-second video clip ideas representing specific emotional moments",
+      "100% CHARACTER CONSISTENCY MANDATE: All clips use exact same character appearance, clothing, hair, age & body type",
+      "Maintain story continuity from clip to clip so they can be combined into a longer video",
+      "Focus on visual storytelling, character performance, facial expressions & body language",
+      "Music OFF/muted by default (optional music toggle available)",
+    ],
+    tone: "Emotional, cinematic, narrative, story-driven, character-focused",
+    pacing: "Connected 10-second scene beats with strong visual emotional continuity",
+    hookStyle: "Clear opening moment capturing a character in a specific emotional state or scene beat",
+    endingStyle: "Meaningful scene beat resolving or escalating the overall multi-clip story arc",
+    characterStyle: "Locked consistent characters (e.g. Solo character, Couple, Family) with identical outfits & features",
+    visualStyleSuggestions: [
+      "Hyper-Realistic CGI",
+      "Photorealistic 8K Cinematic",
+      "Bollywood Cinematic",
+      "3D Cartoon",
+      "Soft Pastel Watercolor"
+    ],
+    dialogueStyle: "Silent visual storytelling by default or sparse authentic dialogue couplets",
+    promptInstructions:
+      "Enforce 100% character consistency across all connected 10-second clips. Keep music OFF by default unless explicitly enabled. Structure clips cleanly so they combine seamlessly into a continuous short film.",
+  },
+
   LIVE_STAGE_METAMORPHOSIS: {
     id: "LIVE_STAGE_METAMORPHOSIS",
     name: "Live Stage Metamorphosis",
@@ -404,6 +434,65 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     dialogueStyle: "Live crowd cheeres & dramatic creature roar (Audience POV)",
     promptInstructions:
       "Follow the Master Template: [Audience Perspective] view of a [Stage Environment]. A [Initial Performer] stands under [Lighting & FX]. Suddenly, the performer [Trigger Action]. In a single seamless motion, the performer transforms into a massive, realistic [Target Entity]. The creature stands on stage and lets out a dramatic roar toward the audience, while foreground crowd members hold up glowing smartphone screens recording the moment. Ultra-realistic, seamless VFX metamorphosis, photorealistic stage physics, 8k resolution.",
+  },
+
+  COMMERCIAL_AD: {
+    id: "COMMERCIAL_AD",
+    name: "Commercial Ad & Brand Pitch",
+    badge: "10-20s Brand Video Ad",
+    iconName: "Megaphone",
+    description: "High-converting 10-20 second promotional video ads, product pitches, UGC commercials, and marketing pitches.",
+    storytellingRules: [
+      "Scroll-stopping visual hook in the first 0-3 seconds addressing a problem or desire",
+      "High-impact product demonstration, aesthetic reveal, or emotional value pitch (3-12s)",
+      "Strong conversion call to action (CTA), discount code, or link in bio push (12-20s)",
+      "Photorealistic commercial lighting, premium color grading, and crisp brand framing",
+    ],
+    tone: "Persuasive, high-converting, premium, energetic",
+    pacing: "Fast-paced commercial editing with crisp value delivery",
+    hookStyle: "Problem-Agitate-Solve, ASMR product unboxing, or dramatic transformation reveal",
+    endingStyle: "Clear Call To Action (CTA) offer with brand logo & link in bio incentive",
+    characterStyle: "Relatable customer, brand ambassador, or charismatic product presenter",
+    visualStyleSuggestions: [
+      "Photorealistic 8K Commercial",
+      "UGC TikTok Style",
+      "Cinematic Luxury Ad",
+      "ASMR Unboxing & Macro",
+      "3D Product Animation",
+    ],
+    dialogueStyle: "Snappy, persuasive, benefit-driven voiceover or energetic UGC customer pitch",
+    promptInstructions: "Structure prompt with clear HOOK (0-3s), VALUE PITCH & DEMO (3-12s), and CALL TO ACTION (12-20s). Emphasize brand aesthetics, macro closeups, and high-converting visual appeal.",
+  },
+
+  CHARACTER_BIBLE: {
+    id: "CHARACTER_BIBLE",
+    name: "Character Bible",
+    badge: "Character Consistency & World Building",
+    iconName: "UserCheck",
+    description: "Detailed Character Bible with locked character appearance, physical traits, costume design, personality, background, and visual consistency rules across all connected scenes.",
+    storytellingRules: [
+      "Define 100% locked visual appearance including face, hair, eye color, age, body height & build",
+      "Specify exact clothing/outfit details, colors, textures, accessories, and signature style",
+      "Outline character personality traits, tone of voice, posture, facial expressions, and unique mannerisms",
+      "Provide locked prompt rules so the character remains 100% identical in every video clip",
+      "Set up world-building and character backstory to drive rich multi-clip storytelling",
+    ],
+    tone: "Detailed, authoritative, consistent, character-focused",
+    pacing: "Comprehensive character breakdown and consistent story arc setup",
+    hookStyle: "Detailed character introduction showcasing signature visual style and core motivation",
+    endingStyle: "Locked character reference guidelines and scene placement scenarios",
+    characterStyle: "Locked main protagonist and supporting characters with exact physical and costume specifications",
+    visualStyleSuggestions: [
+      "Photorealistic 8K Cinematic",
+      "Hyper-Realistic CGI",
+      "3D Pixar Animation",
+      "3D Disney Animation",
+      "Studio Ghibli Anime",
+      "Oil Painting Masterpiece",
+    ],
+    dialogueStyle: "Character voice profiling, signature catchphrases, and spoken dialogue guidelines",
+    promptInstructions:
+      "Generate a comprehensive Character Bible detailing locked physical appearance, costume, accessories, facial features, age, personality, voice guidelines, and visual consistency instructions for AI video rendering.",
   },
 
   CUSTOM: {
