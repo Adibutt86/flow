@@ -258,33 +258,33 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Emphasize large expressive eyes, soft lighting, vibrant pastel colors, adorable oversized clothing, and heartwarming physical comedy.",
   },
 
-  CATS_DANCING: {
-    id: "CATS_DANCING",
-    name: "Cats Dancing",
-    badge: "Viral Trend",
+  ANIMAL_DANCING: {
+    id: "ANIMAL_DANCING",
+    name: "Animal Dancing",
+    badge: "Viral Cosplay Pets",
     iconName: "Music",
-    description: "Hilarious and energetic videos of cats performing trending dance styles with cute costumes and accessories.",
+    description: "Hilarious viral videos of cute 3D/CGI kittens, puppies, and baby animals standing on two legs performing energetic dance routines in cute cosplay costumes.",
     storytellingRules: [
-      "Select a unique dance style (hip-hop, breakdance, salsa, bhangra, K-pop, Bollywood, robot, shuffle, moonwalk, ballet, etc.)",
-      "Give the cat a distinct persona (e.g., cool street cat, elegant ballet kitty, swag hip-hop kitten)",
-      "Include entertaining costumes or accessories matching the dance style (sunglasses, tutus, gold chains, tiny hats)",
-      "Feature hilarious and surprisingly coordinated feline dance moves",
-      "Set the performance in a lively, colorful, and engaging environment"
+      "Feature ultra-cute 3D/CGI kittens, puppies, baby pandas, or bunnies standing upright on two hind legs",
+      "Include detailed plush cosplay costumes (e.g. Strawberry hood hat & diaper with pink crocs, Yellow & black bumblebee suit with wings, Cowboy hat & boots, Dinosaur onesie, Pirate captain)",
+      "Set the dance on clean polished living room hardwood floors with giant plush teddy bears in the background or sun-dappled outdoor settings",
+      "Perform synchronized on-beat dance choreography (side-to-side leg kicks, beat-drop butt wiggle, freeze-on-beat statue pose, arm pumps, spinning twirls)",
+      "Sync dance movement with upbeat viral rhythm beats, cute baby animal giggles, and meows/barks"
     ],
-    tone: "Energetic, hilarious, trendy, upbeat, surprisingly cool",
-    pacing: "Fast, rhythmic, synchronized with an imagined upbeat viral audio track",
-    hookStyle: "A cat dramatically putting on an accessory (like sunglasses) or striking an unexpected opening pose",
-    endingStyle: "A flawless finishing pose, a mic-drop moment, or a funny tired meow",
-    characterStyle: "Highly energetic cats (male or female, varying ages from kittens to cool older cats) with swagger",
+    tone: "Cute, hilarious, energetic, viral, trendy, upbeat",
+    pacing: "Fast, rhythmic, synchronized on-beat choreography",
+    hookStyle: "Cute baby animal in cosplay costume taking a rhythmic opening stance",
+    endingStyle: "Synchronized group pose with a cute wink, arm-up victory, or freeze frame",
+    characterStyle: "Adorable 3D cartoon or CGI pets (kittens, puppies, pandas, bunnies) standing on two legs wearing plush cosplay outfits",
     visualStyleSuggestions: [
+      "3D Pixar Animation",
       "3D Cartoon",
-      "3D Animation",
-      "Neon Cyberpunk",
-      "Anime"
+      "Hyper-Realistic CGI",
+      "Realistic"
     ],
-    dialogueStyle: "Mostly rhythmic action-matched SFX, meows, or silent swagger (minimal actual dialogue)",
+    dialogueStyle: "Pure dance visual — NO spoken dialogue or script (syncs with viral music & animal SFX)",
     promptInstructions:
-      "Emphasize dynamic motion blur, neon/stage lighting, hilarious cat facial expressions of intense focus, detailed tiny costumes, and rhythmic action cues.",
+      "Emphasize large expressive round eyes, plush costume textures, polished wooden floor reflections, background stuffed animals, and precise on-beat dance choreography.",
   },
 
   CARBOX: {

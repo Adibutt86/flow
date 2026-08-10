@@ -31,10 +31,6 @@ import {
   Lock,
   Feather,
   X,
-  Eye,
-  ArrowUp,
-  Smartphone,
-  FileText,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -123,1133 +119,307 @@ const KIDS_AGE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
-const FRUIT_DANCING_PRESETS = [
+const CUTE_KIDS_PRESETS = [
   {
-    icon: "🥝",
-    title: "Kiwi Fuzzy Toddler",
-    fruitType: "Fuzzy Kiwi Fruit (Sliced Green Kiwi Belly with Seeds)",
+    icon: "⚡",
+    title: "Desi Pind Toddler",
     age: "Toddler (2-4 yrs)",
-    location: "Lush Kiwi Orchard with Sliced Kiwis on Grass",
-    vibe: "Cute Wobbly Bounce & Foot Tapping",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    location: "Desi Village & Punjabi Pind",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Beats & Bhangra",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍉",
-    title: "Watermelon Wiggle",
-    fruitType: "Striped Watermelon Onesie (Red Juicy Sliced Belly)",
-    age: "Toddler (2-4 yrs)",
-    location: "Sunny Watermelon Patch with Giant Melon Slices",
-    vibe: "Cheerful Hip-Hop & Arm Waving",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    icon: "💖",
+    title: "Cozy Baby & Mom",
+    age: "Baby (1-2 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Happy & Healthy",
+    vibe: "Cute & Playful",
+    setup: "Girl + Mother",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍓",
-    title: "Strawberry Sweetie",
-    fruitType: "Plush Red Strawberry Costume with Green Leaf Hat",
+    icon: "🍦",
+    title: "Toddler Duo Ice Cream",
     age: "Toddler (2-4 yrs)",
-    location: "Magical Strawberry Patch with Floating Berry Sparkles",
-    vibe: "Adorable Twirl & Giggle Dance",
-    musicType: "Cute Playful Children Symphony",
-    visualStyle: "3D Disney Animation",
+    location: "Ice Cream Shop",
+    health: "Healthy",
+    vibe: "Silly Kid",
+    setup: "One Girl & One Boy",
+    perScene: "2 Characters",
+    nationality: "Global / Any",
+    musicType: "Kids Nursery Rhymes",
+    dialogueStyle: "None",
   },
   {
-    icon: "🥭",
-    title: "Mango Swag Toddler",
-    fruitType: "Golden Yellow Mango Onesie with Soft Velvet Texture",
-    age: "Toddler (2-4 yrs)",
-    location: "Tropical Mango Grove under Golden Hour Sunlight",
-    vibe: "Swag Toddler Dance & Head Bop",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
+    icon: "🏫",
+    title: "School Friends",
+    age: "Child (5-8 yrs)",
+    location: "Desi Primary School Classroom",
+    health: "Healthy & Active",
+    vibe: "Happy Explorer",
+    setup: "Two Kids (Friends)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍍",
-    title: "Pineapple Groover",
-    fruitType: "Spiky Textured Golden Pineapple Suit with Crown Top",
-    age: "Toddler (2-4 yrs)",
-    location: "Tropical Island Orchard with Palm Trees",
-    vibe: "Funky Island Groove & Hip Sway",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    icon: "🎤",
+    title: "Cute Qawwal Duo",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Boy & Girl Qawwal Duo",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍌",
-    title: "Banana Bounce",
-    fruitType: "Peeled Yellow Banana Suit Framing Cute Face",
+    icon: "🐮",
+    title: "Boy Singer & Calf",
     age: "Toddler (2-4 yrs)",
-    location: "Vibrant Tropical Jungle Path with Banana Palms",
-    vibe: "High Energy Wobbly Bounce",
+    location: "Desi Village & Punjabi Pind",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Boy Singer + Calf",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Beats & Bhangra",
+    dialogueStyle: "None",
+  },
+  // ── NEW PRESETS ──────────────────────────────────────────────────────────────
+  {
+    icon: "🎵",
+    title: "Qawali Night",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Romantic",
+    setup: "Boy Qawwali Group (Qawwal Party)",
+    perScene: "3 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "🎤",
+    title: "Shayari Mehfil",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Desi Courtyard & Vehra",
+    health: "Healthy",
+    vibe: "Romantic",
+    setup: "Boy & Girl Shayar Duo",
+    perScene: "2 Characters",
+    nationality: "Pakistani Muhajir / Urdu Speaking",
+    musicType: "Desi Classical Sitar & Tabla",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "👤",
+    title: "1 Character Solo",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "1 Character",
+    nationality: "Global / Any",
+    musicType: "None",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "👦",
+    title: "Single Boy Solo",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Boy",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "Monologue",
+  },
+  {
+    icon: "👫",
+    title: "Boy & Girl Duo",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Girl & One Boy",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "👧",
+    title: "Single Girl Solo",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "One Cute Little Girl",
+    perScene: "1 Character",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "None",
+    dialogueStyle: "Monologue",
+  },
+  {
+    icon: "❤️",
+    title: "Miya Biwi",
+    age: "Young Adult (18-24 yrs)",
+    location: "Cozy Home Living Room",
+    health: "Happy & Healthy",
+    vibe: "Romantic",
+    setup: "Husband & Wife (Miya Biwi)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Lo-Fi Chill & Chillhop",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "👰‍♀️",
+    title: "Dulha & Dulhan",
+    age: "Young Adult (18-24 yrs)",
+    location: "Traditional Heritage Haveli",
+    health: "Happy & Healthy",
+    vibe: "Romantic",
+    setup: "Dulha & Dulhan (Bride & Groom Couple)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Sufi Qawwali & Harmonium",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "👬",
+    title: "Two Friends",
+    age: "Child (5-8 yrs)",
+    location: "Desi Dhaba & Roadside Chai Stall",
+    health: "Healthy & Active",
+    vibe: "Silly Kid",
+    setup: "Two Boy Friends (Best Friends)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
     musicType: "Funny Comedy Sound Effects",
-    visualStyle: "3D Pixar Animation",
+    dialogueStyle: "None",
   },
   {
-    icon: "🥑",
-    title: "Avocado Chubby Dancer",
-    fruitType: "Green Avocado Suit with Dark Brown Seed Pit Belly",
+    icon: "🚀",
+    title: "Space Explorer",
+    age: "Child (5-8 yrs)",
+    location: "Futuristic Space Station & Moon Base",
+    health: "Healthy & Active",
+    vibe: "Happy Explorer",
+    setup: "Little Boy Astronaut",
+    perScene: "1 Character",
+    nationality: "Global / Any",
+    musicType: "Cinematic Epic & Dramatic",
+    dialogueStyle: "Narration Style",
+  },
+  {
+    icon: "🪁",
+    title: "Rooftop Kite Fun",
+    age: "Child (5-8 yrs)",
+    location: "House Rooftop Kite Flying (Kotha)",
+    health: "Healthy & Active",
+    vibe: "Cheerful & Energetic",
+    setup: "Brother & Sister",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Beats & Bhangra",
+    dialogueStyle: "None",
+  },
+  {
+    icon: "🪕",
+    title: "Punjabi Folk Singer",
+    age: "Child (5-8 yrs)",
+    location: "Green Wheat & Mustard Fields",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Punjabi Folk Singer (Jugni & Tappa)",
+    perScene: "1 Character",
+    nationality: "Pakistani Punjabi",
+    musicType: "Punjabi Jugni Folk Beats",
+    dialogueStyle: "Poetic/Shayari",
+  },
+  {
+    icon: "✨",
+    title: "Fairy Tale Girl",
     age: "Toddler (2-4 yrs)",
-    location: "Aesthetic Green Garden with Giant Sliced Avocados",
-    vibe: "Chubby Belly Wobble & Cute Spin",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    location: "Magical Cloud Kingdom",
+    health: "Healthy",
+    vibe: "Rainbow Adventure",
+    setup: "Little Girl with Fairy Wings",
+    perScene: "1 Character",
+    nationality: "Global / Any",
+    musicType: "Orchestral & Grand Symphony",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍊",
-    title: "Orange Citrus Popper",
-    fruitType: "Bright Orange Citrus Onesie with Leaf Collar",
+    icon: "🐱",
+    title: "Toddler & Kitten",
     age: "Toddler (2-4 yrs)",
-    location: "Sun-dappled Orange Grove with Sliced Oranges",
-    vibe: "Zesty Pop & Foot Tapping",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
+    location: "Cozy Home Living Room",
+    health: "Happy & Healthy",
+    vibe: "Cute & Playful",
+    setup: "Little Girl with a Kitten",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Acoustic Guitar & Whistling",
+    dialogueStyle: "None",
   },
   {
-    icon: "🍇",
-    title: "Grape Cluster Shuffle",
-    fruitType: "Purple Grape Cluster Bubble Suit with Green Vine Top",
-    age: "Toddler (2-4 yrs)",
-    location: "Sunny Italian Vineyard with Hanging Grapes",
-    vibe: "Rhythmic Grape Shuffle & Clapping",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    icon: "🎧",
+    title: "Lo-Fi Story Time",
+    age: "Child (5-8 yrs)",
+    location: "Cozy Library & Book Nook",
+    health: "Healthy",
+    vibe: "Soft Pastel Style",
+    setup: "Reading Little Girl",
+    perScene: "1 Character",
+    nationality: "Global / Any",
+    musicType: "Lo-Fi Chill & Chillhop",
+    dialogueStyle: "Narration Style",
   },
   {
-    icon: "🍑",
-    title: "Peach Blossom Wiggle",
-    fruitType: "Soft Fuzzy Pink Peach Suit with Velvet Finish",
-    age: "Toddler (2-4 yrs)",
-    location: "Peach Blossom Garden with Petals Drifting in Wind",
-    vibe: "Gentle Sweet Wiggle & Soft Giggles",
-    musicType: "Cute Playful Children Symphony",
-    visualStyle: "3D Disney Animation",
+    icon: "🕌",
+    title: "Eid Celebration",
+    age: "Child (5-8 yrs)",
+    location: "Festive Eid & Chand Raat Market",
+    health: "Healthy",
+    vibe: "Cheerful & Energetic",
+    setup: "Two Girl Friends (Best Friends)",
+    perScene: "2 Characters",
+    nationality: "Pakistani (General / Desi)",
+    musicType: "Nasheed / Vocal Only",
+    dialogueStyle: "Emotional",
   },
   {
-    icon: "🍎",
-    title: "Crispy Apple Hop",
-    fruitType: "Shiny Red Apple Suit with Green Stem Hood",
-    age: "Toddler (2-4 yrs)",
-    location: "Autumn Apple Orchard under Warm Afternoon Sun",
-    vibe: "Energetic Apple Hop & Clapping",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
+    icon: "🎸",
+    title: "Coke Studio Jam",
+    age: "Child (5-8 yrs)",
+    location: "Traditional Heritage Haveli",
+    health: "Healthy & Active",
+    vibe: "Positive Energy",
+    setup: "Boy & Girl Singer Duet",
+    perScene: "2 Characters",
+    nationality: "Pakistani Punjabi",
+    musicType: "Coke Studio Style Fusion",
+    dialogueStyle: "Poetic/Shayari",
   },
-  {
-    icon: "🐉",
-    title: "Dragonfruit Neon Dancer",
-    fruitType: "Vibrant Magenta Dragonfruit Suit with White Seeded Belly",
-    age: "Toddler (2-4 yrs)",
-    location: "Exotic Tropical Garden with Glowing Lotus Flowers",
-    vibe: "Neon Glow Groove & Cute Pose",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
-  },
-  {
-    icon: "🍒",
-    title: "Cherry Pair Twirler",
-    fruitType: "Double Red Cherry Suit with Twin Stem Crown",
-    age: "Toddler (2-4 yrs)",
-    location: "Cherry Blossom Orchard in Full Bloom",
-    vibe: "Playful Twirl & High Fives",
-    musicType: "Cute Playful Children Symphony",
-    visualStyle: "3D Disney Animation",
-  },
-  {
-    icon: "🍋",
-    title: "Zesty Lemon Spin",
-    fruitType: "Bright Lemon Yellow Suit with Citrus Texture",
-    age: "Toddler (2-4 yrs)",
-    location: "Mediterranean Lemon Grove with Sunlight Bokeh",
-    vibe: "Zesty Spin & Happy Shoulder Shakes",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🥥",
-    title: "Coconut Beach Bouncer",
-    fruitType: "Hairy Brown Coconut Suit with Pure White Core Belly",
-    age: "Toddler (2-4 yrs)",
-    location: "Tropical Sandy Beach with Gentle Turquoise Waves",
-    vibe: "Beach Hula Bounce & Arm Waving",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
-  },
-  {
-    icon: "🍐",
-    title: "Pear Blossom Hopper",
-    fruitType: "Gentle Lime Green Pear Suit with Leaf Accent",
-    age: "Toddler (2-4 yrs)",
-    location: "Pear Blossom Garden with Soft Morning Sunlight",
-    vibe: "Sweet Hopper Dance & Cute Bow",
-    musicType: "Cute Playful Children Symphony",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🫐",
-    title: "Blueberry Pop Toddler",
-    fruitType: "Round Deep Blue Berry Suit with Crown Top",
-    age: "Toddler (2-4 yrs)",
-    location: "Berry Patch Meadow with Oversized Blueberries",
-    vibe: "Bouncy Berry Pop & Foot Tapping",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🍈",
-    title: "Honeydew Melon Breeze",
-    fruitType: "Soft Pastel Green Honeydew Suit with Mesh Texture",
-    age: "Toddler (2-4 yrs)",
-    location: "Lush Meadow Garden with Giant Melon Cutouts",
-    vibe: "Breezy Wiggle & Happy Giggles",
-    musicType: "Cute Playful Children Symphony",
-    visualStyle: "3D Disney Animation",
-  },
-  {
-    icon: "🌽",
-    title: "Sweet Corn Pop Jig",
-    fruitType: "Golden Yellow Corn Husk Suit with Husk Leaves",
-    age: "Toddler (2-4 yrs)",
-    location: "Golden Countryside Cornfield under Blue Sky",
-    vibe: "Country Pop Jig & Hands Up",
-    musicType: "Funny Comedy Sound Effects",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🧺",
-    title: "Multi-Fruit Party",
-    fruitType: "Fruit Salad Combo Costumes (Kiwi, Strawberry, Watermelon)",
-    age: "Toddler (2-4 yrs)",
-    location: "Giant Woven Picnic Fruit Basket Arena",
-    vibe: "Group Dance Party & Synced Bounce",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-];
-
-// ─── FRUIT DANCING SPECIFIC OPTION GROUPS ────────────────────────────────────
-
-const FRUIT_DANCING_AGE_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🍼 Baby & Toddler Age Ranges",
-    options: [
-      { value: "Newborn Baby (0-12 months)", label: "👶 Newborn Baby (0-12 months)", desc: "Tiny newborn baby in a fruit onesie with chubby cheeks and a sleepy smile." },
-      { value: "Baby (1-2 yrs)", label: "🐣 Baby (1-2 yrs)", desc: "Wobbly standing baby just starting to bounce and clap." },
-      { value: "Toddler (2-4 yrs)", label: "🧒 Toddler (2-4 yrs) — Most Viral", desc: "Classic viral age: chubby cheeks, wobbly dancing, biggest cute factor." },
-      { value: "Preschool Kid (4-5 yrs)", label: "👦 Preschool Kid (4-5 yrs)", desc: "More energetic and coordinated dancer with expressive reactions." },
-      { value: "Twin Babies (2-4 yrs)", label: "👯 Twin Babies (2-4 yrs)", desc: "Two identical twins in matching fruit suits dancing in sync — extra viral." },
-    ],
-  },
-];
-
-const FRUIT_DANCING_LOCATION_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🌳 Fruit Orchards & Gardens",
-    options: [
-      { value: "Lush Kiwi Orchard with Sliced Kiwis on Grass", label: "🥝 Kiwi Orchard with Sliced Kiwis", desc: "Lush green kiwi orchard with giant sliced kiwis scattered on soft grass." },
-      { value: "Sunny Watermelon Patch with Giant Melon Slices", label: "🍉 Sunny Watermelon Patch", desc: "Bright sunny watermelon patch with giant sliced melons and green vines." },
-      { value: "Magical Strawberry Patch with Floating Berry Sparkles", label: "🍓 Magical Strawberry Patch", desc: "Enchanted strawberry patch with glowing sparkles and giant red berries." },
-      { value: "Tropical Mango Grove under Golden Hour Sunlight", label: "🥭 Tropical Mango Grove (Golden Hour)", desc: "Lush mango orchard glowing under warm golden-hour sunlight." },
-      { value: "Tropical Island Orchard with Palm Trees", label: "🍍 Tropical Island Orchard & Palms", desc: "Tropical beach-side orchard with tall swaying palm trees and sunshine." },
-      { value: "Vibrant Tropical Jungle Path with Banana Palms", label: "🍌 Tropical Jungle Path & Banana Palms", desc: "Colorful jungle path lined with banana palms and dappled sunlight." },
-      { value: "Aesthetic Green Garden with Giant Sliced Avocados", label: "🥑 Aesthetic Avocado Garden", desc: "Dreamy green garden with giant sliced avocados and soft pastel light." },
-      { value: "Sun-dappled Orange Grove with Sliced Oranges", label: "🍊 Sun-dappled Orange Grove", desc: "Beautiful orange grove with sliced citrus fruits on the warm grass floor." },
-      { value: "Sunny Italian Vineyard with Hanging Grapes", label: "🍇 Sunny Italian Vineyard", desc: "Classic Mediterranean vineyard with lush hanging grape clusters." },
-      { value: "Peach Blossom Garden with Petals Drifting in Wind", label: "🍑 Peach Blossom Garden", desc: "Romantic garden with pink peach blossoms floating gently in the breeze." },
-      { value: "Autumn Apple Orchard under Warm Afternoon Sun", label: "🍎 Autumn Apple Orchard", desc: "Warm autumn apple orchard with golden light and scattered leaves." },
-      { value: "Exotic Tropical Garden with Glowing Lotus Flowers", label: "🐉 Exotic Tropical Garden (Neon Glow)", desc: "Vibrant tropical garden with glowing lotus flowers and neon-lit foliage." },
-      { value: "Cherry Blossom Orchard in Full Bloom", label: "🍒 Cherry Blossom Orchard (Sakura)", desc: "Stunning pink cherry blossom orchard with petals raining from the sky." },
-      { value: "Mediterranean Lemon Grove with Sunlight Bokeh", label: "🍋 Mediterranean Lemon Grove", desc: "Bright Mediterranean lemon grove with warm golden bokeh sunlight." },
-      { value: "Tropical Sandy Beach with Gentle Turquoise Waves", label: "🥥 Tropical Sandy Beach & Waves", desc: "Sunny tropical beach with clear turquoise waves and coconut palms." },
-      { value: "Pear Blossom Garden with Soft Morning Sunlight", label: "🍐 Pear Blossom Garden", desc: "Gentle garden with soft morning sunlight and white pear blossoms." },
-      { value: "Berry Patch Meadow with Oversized Blueberries", label: "🫐 Berry Patch Meadow", desc: "Colorful meadow with giant oversized blueberries scattered on the grass." },
-      { value: "Lush Meadow Garden with Giant Melon Cutouts", label: "🍈 Lush Meadow with Melon Cutouts", desc: "Breezy green meadow with giant decorative melon cutouts and flowers." },
-      { value: "Golden Countryside Cornfield under Blue Sky", label: "🌽 Golden Countryside Cornfield", desc: "Vast golden cornfield under a bright blue sky with fluffy clouds." },
-      { value: "Giant Woven Picnic Fruit Basket Arena", label: "🧺 Giant Picnic Fruit Basket Arena", desc: "Whimsical giant woven fruit basket filled with colorful fruits as the dance arena." },
-    ],
-  },
-  {
-    category: "✨ Magical & Studio Settings",
-    options: [
-      { value: "Colorful Confetti Dance Studio with Balloons", label: "🎈 Confetti Dance Studio & Balloons", desc: "Bright studio with rainbow confetti falling and colorful balloon arches." },
-      { value: "Pastel Rainbow Candy Land Dance Floor", label: "🌈 Pastel Rainbow Candy Land", desc: "Dreamy candy-land setting with rainbow floors and pastel candy decorations." },
-      { value: "Magical Floating Fruits Sky Garden", label: "☁️ Magical Floating Fruits Sky Garden", desc: "Sky-high magical garden with floating giant fruits and soft cloud floor." },
-    ],
-  },
-];
-
-const FRUIT_DANCING_VIBE_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🕺 Dance Styles & General Vibes",
-    options: [
-      { value: "Cute Wobbly Bounce & Foot Tapping", label: "🐾 Cute Wobbly Bounce & Foot Tapping", desc: "Classic wobbly toddler bounce with happy foot tapping — maximum cuteness." },
-      { value: "Cheerful Hip-Hop & Arm Waving", label: "🤸 Cheerful Hip-Hop & Arm Waving", desc: "Energetic hip-hop vibes with enthusiastic arm waves and head bops." },
-      { value: "Adorable Twirl & Giggle Dance", label: "🌀 Adorable Twirl & Giggle Dance", desc: "Sweet spinning twirls paired with contagious baby giggles throughout." },
-      { value: "Swag Toddler Dance & Head Bop", label: "😎 Swag Toddler Dance & Head Bop", desc: "Extra-confident toddler swagger with rhythmic head bops and attitude." },
-      { value: "Funky Island Groove & Hip Sway", label: "🌴 Funky Island Groove & Hip Sway", desc: "Tropical island-inspired funky hip sway with a big joyful smile." },
-      { value: "High Energy Wobbly Bounce", label: "⚡ High Energy Wobbly Bounce", desc: "Non-stop high-energy bouncing with zero chill and maximum enthusiasm." },
-      { value: "Chubby Belly Wobble & Cute Spin", label: "🫃 Chubby Belly Wobble & Cute Spin", desc: "The iconic chubby belly wobble with an adorable slow spin." },
-      { value: "Zesty Pop & Foot Tapping", label: "🍊 Zesty Pop & Foot Tapping", desc: "Quick pop dance moves with snappy foot tapping and citrus energy." },
-      { value: "Rhythmic Grape Shuffle & Clapping", label: "🍇 Rhythmic Grape Shuffle & Clapping", desc: "Rhythmic side-shuffle with enthusiastic hand clapping to the beat." },
-      { value: "Gentle Sweet Wiggle & Soft Giggles", label: "🌸 Gentle Sweet Wiggle & Soft Giggles", desc: "Soft and gentle wiggle dance with the most adorable baby giggles." },
-      { value: "Energetic Apple Hop & Clapping", label: "🍎 Energetic Apple Hop & Clapping", desc: "Bouncy hops with clapping hands in perfect rhythm — very energetic." },
-      { value: "Neon Glow Groove & Cute Pose", label: "✨ Neon Glow Groove & Cute Pose", desc: "Stylish groove moves with a cool neon-lit finishing pose." },
-      { value: "Playful Twirl & High Fives", label: "🍒 Playful Twirl & High Fives", desc: "Fun spinning twirls with imaginary high-five moments to the camera." },
-      { value: "Beach Hula Bounce & Arm Waving", label: "🌊 Beach Hula Bounce & Arm Waving", desc: "Tropical hula-inspired bounce with wide arm waves like ocean waves." },
-      { value: "Country Pop Jig & Hands Up", label: "🌽 Country Pop Jig & Hands Up", desc: "Fun country-style jig with both hands shooting up to the sky." },
-      { value: "Group Dance Party & Synced Bounce", label: "🧺 Group Party Dance & Synced Bounce", desc: "Multiple babies bouncing in perfect sync — maximum viral energy." },
-    ],
-  },
-  {
-    category: "🤣 Funny On-Beat Kids Moves",
-    options: [
-      {
-        value: "On-Beat Butt Wiggle — Baby shakes booty exactly on every beat drop with a cheeky look at camera",
-        label: "🍑 On-Beat Butt Wiggle (Beat Drop Booty)",
-        desc: "Baby's booty shakes PRECISELY on each beat drop — hilariously timed, maximum comedy, camera side-eye.",
-      },
-      {
-        value: "Freeze-on-beat — Baby dances wildly then FREEZES completely stiff on every beat hit like a statue",
-        label: "🧊 Freeze-on-Beat Statue Move",
-        desc: "Wild random dance bursts then sudden full-body freeze on every beat — looks shockingly funny.",
-      },
-      {
-        value: "Beat-Synced Head Bobble — Giant exaggerated head nod forward on every single beat, body barely moves",
-        label: "🗿 Giant Head Bobble On Every Beat",
-        desc: "Huge exaggerated head nod forward in perfect sync with each beat — body still, only head moves.",
-      },
-      {
-        value: "On-Beat Clap-Stomp Combo — Clap hands and stomp one foot simultaneously on every beat like a tiny DJ",
-        label: "👏 On-Beat Clap-Stomp Combo (Tiny DJ)",
-        desc: "Both hands clap AND one foot stomps hard on each beat in perfect sync — looks like a tiny DJ.",
-      },
-      {
-        value: "Beat-Drop Squat — Baby does a full sit-squat exactly when the beat drops then pops back up instantly",
-        label: "💥 Beat-Drop Squat & Pop Up",
-        desc: "Full squat down on the beat drop, instantly pop back up — repeated each drop. Hilarious timing.",
-      },
-      {
-        value: "Shoulder Shrug On Beat — Dramatic slow shoulder shrug up on the beat then snap drop on the off-beat",
-        label: "🤷 Dramatic Shoulder Shrug On Beat",
-        desc: "Slow dramatic shoulders-up on beat, snap-drop off-beat — like a confused superstar.",
-      },
-      {
-        value: "Point-at-Camera On Beat — Baby extends one finger and points directly at camera on every single beat",
-        label: "☝️ On-Beat Camera Point (I See You!)",
-        desc: "Single finger jab straight at camera on every beat — serious face makes it incredibly funny.",
-      },
-      {
-        value: "Beat-Synced Eye Blink — Baby blinks both eyes wildly wide on beat, tiny body barely moves",
-        label: "👀 On-Beat Wild Eye Blink (Shocked Face)",
-        desc: "Eyes go massive-wide on each beat — tiny body still, only eyes react. Looks hilariously shocked.",
-      },
-      {
-        value: "Knock-Knock Knee Tap — Baby taps both knees together on every beat with a wobbly silly stance",
-        label: "🦵 On-Beat Knock-Knock Knee Tap",
-        desc: "Both chubby knees tap together on each beat with a wide wobbly stance — pure funny toddler energy.",
-      },
-      {
-        value: "On-Beat Arm Fling — Both arms fling outward explosively on beat then snap back in, repeatedly",
-        label: "💥 On-Beat Explosive Arm Fling",
-        desc: "Arms explode outward on every beat and snap back in — like a tiny surprised bird taking off.",
-      },
-      {
-        value: "Hip Pop Lock On Beat — Baby locks hip to one side on beat, holds for one beat, then snaps to the other",
-        label: "🎯 Hip Pop-Lock On Beat (Left-Right Snap)",
-        desc: "Sharp hip-pop left on one beat, lock, then snap right on next — perfectly rhythmic and funny.",
-      },
-      {
-        value: "On-Beat Tummy Poke — Baby pokes own belly button on every beat with a confused look then giggles",
-        label: "🫃 On-Beat Belly Button Poke & Giggle",
-        desc: "Pokes own chubby belly on each beat then looks confused then giggles — irresistibly hilarious.",
-      },
-      {
-        value: "Tongue-Out Head Shake On Beat — Tongue sticks out and head shakes left-right wildly on every beat",
-        label: "😜 On-Beat Tongue-Out Head Shake",
-        desc: "Tongue out, head shaking left-right in perfect rhythm on each beat — maximum silly energy.",
-      },
-      {
-        value: "On-Beat Baby Dab — Full dab pose executed perfectly on each beat drop, bounces normally in between",
-        label: "🎤 On-Beat Baby Dab (Beat Drop Dab)",
-        desc: "Baby dabs sharply on every beat drop and bounces normally in between — classic yet hilarious.",
-      },
-      {
-        value: "Surprise Face On Beat — Baby's eyebrows shoot up and mouth opens wide in shock on every beat hit",
-        label: "😲 On-Beat Surprise Face Reaction",
-        desc: "Eyebrows jump up + mouth opens in shock on every beat — looks genuinely surprised every time.",
-      },
-      {
-        value: "On-Beat Spin-Clap-Drop — Baby spins once, claps, then drops to squat in perfect 3-beat sequence",
-        label: "🌀 Spin → Clap → Drop (3-Beat Combo)",
-        desc: "Three-beat combo: spin on beat 1, clap on beat 2, squat drop on beat 3 — perfectly rhythmic.",
-      },
-    ],
-  },
-  {
-    category: "🎬 10-Second Choreographed Move Sequences",
-    options: [
-      {
-        value: "[0-3s] Cute waddle entrance → [3-6s] Double arm pump + hip bounce → [6-9s] Full 360° spin → [9-10s] Freeze pose with cheeky grin",
-        label: "🌀 Waddle → Arm Pump → Spin → Freeze Pose",
-        desc: "Perfect 10s arc: cute walking in, arm pumping, full spin, and a freeze finish."
-      },
-      {
-        value: "[0-2s] Bounce in place → [2-5s] Side shuffle left & right → [5-8s] Big belly wiggle → [8-10s] Sit-down bow",
-        label: "🍑 Bounce → Shuffle → Belly Wiggle → Bow",
-        desc: "Classic 10s viral format: bouncing, shuffling sides, belly wiggle, adorable bow ending."
-      },
-      {
-        value: "[0-3s] Jump jump jump with arms out → [3-6s] Head shake side-to-side → [6-9s] Stomp stomp clap → [9-10s] Arms up victory pose",
-        label: "🎉 Jump → Head Shake → Stomp Clap → Victory",
-        desc: "High energy 10s: jumping start, head shakes, stomping, hands-up winner pose."
-      },
-      {
-        value: "[0-3s] Slow hip sway left-right → [3-6s] Shoulder shimmy with big smile → [6-8s] Quick spin → [8-10s] Point at camera cutely",
-        label: "💃 Hip Sway → Shimmy → Spin → Point at Camera",
-        desc: "Smooth groovy 10s: gentle hip sways, shoulder shimmy, spin, and a cute camera point."
-      },
-      {
-        value: "[0-2s] Stomp entrance with arms wide → [2-5s] Alternating arm waves → [5-8s] Whole-body bounce → [8-10s] Wink & blow kiss",
-        label: "😘 Stomp → Arm Waves → Full Bounce → Blow Kiss",
-        desc: "Charming 10s: powerful stomp start, alternating waves, bouncing, ends with a blown kiss."
-      },
-      {
-        value: "[0-3s] Tiptoe spin → [3-5s] Freeze & look surprised → [5-8s] Rapid booty shake → [8-10s] Collapse into giggles",
-        label: "😂 Tiptoe Spin → Surprise Freeze → Booty Shake → Giggles",
-        desc: "Funny 10s: tiptoe spin, surprised freeze, funny booty shake, collapses laughing."
-      },
-      {
-        value: "[0-3s] Robot stiff arm march → [3-6s] Disco finger point up-down → [6-9s] Side-to-side slide step → [9-10s] Jazz hands finish",
-        label: "🤖 Robot March → Disco Point → Slide Step → Jazz Hands",
-        desc: "Funny retro 10s: stiff robot walk, disco pointing, sliding, jazzy finish."
-      },
-      {
-        value: "[0-2s] Run in from side → [2-5s] Crash stop & look at camera → [5-8s] Crazy wobbly head spin → [8-10s] Fall down & pop back up",
-        label: "🏃 Run In → Crash Stop → Wobbly Spin → Fall & Pop Up",
-        desc: "Comedy 10s: running entrance, surprised stop, silly spin, tumbles and pops back up."
-      },
-      {
-        value: "[0-3s] March in with exaggerated steps → [3-6s] Floss dance left & right → [6-8s] Mini moonwalk backward → [8-10s] Double thumbs up",
-        label: "🕺 March → Floss → Moonwalk → Thumbs Up",
-        desc: "Trendy 10s moves: exaggerated march, floss, moonwalk, double thumbs-up ending."
-      },
-      {
-        value: "[0-3s] Wiggle wiggle in place → [3-6s] Jump and clap three times → [6-8s] Fast tiptoe circle → [8-10s] Big surprised eyes freeze",
-        label: "😲 Wiggle → Jump Clap → Tiptoe Circle → Surprise Freeze",
-        desc: "Playful 10s: wiggles, jump-claps, tiptoe spin, ends with huge surprised eyes."
-      },
-    ],
-  },
-];
-
-const FRUIT_DANCING_COSTUME_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🍃 Soft & Fuzzy Fruit Onesies",
-    options: [
-      { value: "Fuzzy Kiwi Fruit (Sliced Green Kiwi Belly with Seeds)", label: "🥝 Fuzzy Kiwi Onesie (Green Sliced Belly)", desc: "Fuzzy textured brown kiwi skin hood suit with vibrant green sliced kiwi belly and black seeds." },
-      { value: "Striped Watermelon Onesie (Red Juicy Sliced Belly)", label: "🍉 Striped Watermelon Onesie", desc: "Classic watermelon onesie with green striped skin and red juicy sliced belly with seeds." },
-      { value: "Plush Red Strawberry Costume with Green Leaf Hat", label: "🍓 Plush Red Strawberry Costume", desc: "Adorable plush red strawberry suit with seed dots and a matching green leaf hood." },
-      { value: "Golden Yellow Mango Onesie with Soft Velvet Texture", label: "🥭 Golden Yellow Mango Onesie", desc: "Rich golden mango onesie with soft velvet texture and a warm yellow-orange glow." },
-      { value: "Spiky Textured Golden Pineapple Suit with Crown Top", label: "🍍 Spiky Golden Pineapple Suit (Crown Top)", desc: "Iconic golden pineapple suit with spiky surface texture and a green crown hood top." },
-      { value: "Peeled Yellow Banana Suit Framing Cute Face", label: "🍌 Peeled Banana Suit (Face Framed)", desc: "Bright yellow banana peel suit that frames the baby's adorable face perfectly." },
-      { value: "Green Avocado Suit with Dark Brown Seed Pit Belly", label: "🥑 Green Avocado Suit (Seed Pit Belly)", desc: "Trendy avocado suit in green with a large dark brown seed pit on the belly." },
-      { value: "Bright Orange Citrus Onesie with Leaf Collar", label: "🍊 Bright Orange Citrus Onesie", desc: "Vibrant orange citrus onesie with a cute green leaf collar accent." },
-      { value: "Purple Grape Cluster Bubble Suit with Green Vine Top", label: "🍇 Purple Grape Cluster Bubble Suit", desc: "Puffy purple grape cluster bubble suit with green vine and leaf hood." },
-      { value: "Soft Fuzzy Pink Peach Suit with Velvet Finish", label: "🍑 Soft Fuzzy Pink Peach Suit", desc: "Velvety soft pink peach suit with a slightly fuzzy finish and rosy warmth." },
-      { value: "Shiny Red Apple Suit with Green Stem Hood", label: "🍎 Shiny Red Apple Suit (Stem Hood)", desc: "Classic shiny red apple costume with a cute green stem and leaf hood." },
-      { value: "Vibrant Magenta Dragonfruit Suit with White Seeded Belly", label: "🐉 Vibrant Magenta Dragonfruit Suit", desc: "Eye-catching magenta dragonfruit suit with white seeded belly pattern." },
-      { value: "Double Red Cherry Suit with Twin Stem Crown", label: "🍒 Double Red Cherry Suit (Twin Stems)", desc: "Adorable twin red cherry costume with a matching twin-stem crown top." },
-      { value: "Bright Lemon Yellow Suit with Citrus Texture", label: "🍋 Bright Lemon Yellow Suit", desc: "Zesty bright lemon yellow suit with realistic citrus peel texture." },
-      { value: "Hairy Brown Coconut Suit with Pure White Core Belly", label: "🥥 Hairy Brown Coconut Suit", desc: "Textured hairy brown coconut shell suit with pure white coconut core belly." },
-      { value: "Gentle Lime Green Pear Suit with Leaf Accent", label: "🍐 Lime Green Pear Suit (Leaf Accent)", desc: "Soft lime green pear-shaped suit with a cute green leaf accent on the hood." },
-      { value: "Round Deep Blue Berry Suit with Crown Top", label: "🫐 Deep Blue Blueberry Suit (Crown Top)", desc: "Round chubby blueberry suit in deep blue with a tiny crown-top detail." },
-      { value: "Soft Pastel Green Honeydew Suit with Mesh Texture", label: "🍈 Pastel Green Honeydew Suit", desc: "Soft pastel green honeydew onesie with delicate mesh texture pattern." },
-      { value: "Golden Yellow Corn Husk Suit with Husk Leaves", label: "🌽 Golden Corn Husk Suit (Husk Leaves)", desc: "Bright golden corn suit with realistic green corn husk leaf framing the face." },
-      { value: "Fruit Salad Combo Costumes (Kiwi, Strawberry, Watermelon)", label: "🧺 Multi-Fruit Salad Party Costumes", desc: "Multiple babies each wearing different fruit suits for a colourful fruit salad party." },
-    ],
-  },
-];
-
-const FRUIT_DANCING_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "👶 Baby Character Setup",
-    options: [
-      { value: "One Cute 3D Baby/Toddler in Fruit Suit", label: "👶 Single Cute Toddler (Most Viral)", desc: "One adorable 3D baby or toddler dancing solo in a fruit onesie — the classic viral format." },
-      { value: "Twin Babies in Matching Fruit Suits", label: "👯 Twin Babies (Matching Suits)", desc: "Two identical twin babies wearing perfectly matching fruit costumes and dancing in sync." },
-      { value: "Two Toddlers in Different Fruit Suits", label: "🍉🥝 Two Toddlers (Different Fruits)", desc: "Two toddlers each wearing a different fruit suit, dancing together playfully." },
-      { value: "Baby Girl in Fruit Suit", label: "👧 Baby Girl in Fruit Suit", desc: "An adorable baby girl wearing a plush fruit onesie with cute hair accessories." },
-      { value: "Baby Boy in Fruit Suit", label: "👦 Baby Boy in Fruit Suit", desc: "A chubby baby boy in a fruit onesie with big expressive eyes and a wide grin." },
-      { value: "Baby & Toddler Siblings in Fruit Suits", label: "🍓🍌 Baby & Toddler Siblings", desc: "An older toddler and younger baby sibling dancing together in matching fruit costumes." },
-      { value: "Group of 3-4 Toddlers in Fruit Suits (Party)", label: "🎉 Group Party (3-4 Toddlers)", desc: "A lively group of 3 to 4 toddlers each wearing different fruit suits for a party dance." },
-    ],
-  },
-];
-
-// ─── ANIMAL DANCING PRESETS & OPTION GROUPS ─────────────────────────────────
-
-const ANIMAL_DANCING_PRESETS = [
-  {
-    icon: "🍓",
-    title: "Strawberry Kitten Shuffle",
-    animalType: "5 Cute Kittens Line Dance (Strawberry, Bee, Cowboy, Dino, Pirate)",
-    costume: "Strawberry Hood + Pattern Shorts & Pink Crocs",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Living Room Hardwood Floor with Giant Plush Teddy Bears",
-    vibe: "🍑 On-Beat Butt Wiggle (Beat Drop Booty)",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🐝",
-    title: "Bumblebee Pup Bop",
-    animalType: "Solo Golden Retriever Puppy",
-    costume: "Yellow & Black Bumblebee Suit with Wings & Antennas",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Living Room Hardwood Floor with Giant Plush Teddy Bears",
-    vibe: "👏 On-Beat Clap-Stomp Combo (Tiny DJ)",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🤠",
-    title: "Cowboy Cat Line Dance",
-    animalType: "Ginger Tabby Kitten Solo",
-    costume: "Brown Cowboy Hat, Leather Vest & Tiny Boots",
-    age: "Playful Toddler Pets (1-2 yrs)",
-    location: "Polished Wooden Floor with Warm Indoor Sunlight",
-    vibe: "🤠 Cowboy Line Dance Stomp & Side-Step",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
-  },
-  {
-    icon: "🦖",
-    title: "Dino Kitten Groove",
-    animalType: "Solo Tabby Kitten",
-    costume: "Green Dinosaur Onesie with Back Spikes",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Living Room Hardwood Floor with Giant Plush Teddy Bears",
-    vibe: "💥 On-Beat Explosive Arm Fling",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🏴‍☠️",
-    title: "Pirate Kitten Crew Jig",
-    animalType: "5 Cute Kittens Line Dance (Strawberry, Bee, Cowboy, Dino, Pirate)",
-    costume: "Pirate Captain Hat with Skull & Crossbones & Striped Pants",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Living Room Hardwood Floor with Giant Plush Teddy Bears",
-    vibe: "🌀 Waddle → Arm Pump → Spin → Freeze Pose",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🐼",
-    title: "Baby Panda Hula",
-    animalType: "Baby Panda Bear Solo",
-    costume: "Hawaiian Hula Grass Skirt & Floral Lei",
-    age: "Playful Toddler Pets (1-2 yrs)",
-    location: "Tropical Sandy Beach & Palm Trees",
-    vibe: "🌴 Funky Island Groove & Hip Sway",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🐰",
-    title: "Bunny Chef Beat",
-    animalType: "Fluffy Bunny Rabbit Squad",
-    costume: "White Chef Hat & Apron",
-    age: "Playful Toddler Pets (1-2 yrs)",
-    location: "Clean Kitchen Countertop & Bakery Counter",
-    vibe: "💥 Beat-Drop Squat & Pop Up",
-    musicType: "Funny Comedy Sound Effects",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "🦈",
-    title: "Baby Shark Pup",
-    animalType: "French Bulldog Puppy",
-    costume: "Blue Baby Shark Onesie",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Living Room Hardwood Floor with Giant Plush Teddy Bears",
-    vibe: "💥 Beat-Drop Squat & Pop Up",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "👨‍🚀",
-    title: "Space Hamster Boogie",
-    animalType: "Tiny Hamster Crew",
-    costume: "Metallic Silver Astronaut Suit",
-    age: "Playful Toddler Pets (1-2 yrs)",
-    location: "Neon Glow Disco Dance Studio & Balloons",
-    vibe: "🤖 Robot March → Disco Point → Slide Step → Jazz Hands",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "3D Pixar Animation",
-  },
-  {
-    icon: "👑",
-    title: "Royal King Kitty",
-    animalType: "Fluffy White Persian Kitten",
-    costume: "Gold Royal King Crown & Red Velvet Cape",
-    age: "Tiny Kittens & Puppies (6-12 months)",
-    location: "Polished Wooden Floor with Warm Indoor Sunlight",
-    vibe: "🌀 Spin → Clap → Drop (3-Beat Combo)",
-    musicType: "Upbeat Viral TikTok Beats",
-    visualStyle: "Hyper-Realistic CGI",
-  },
-];
-
-const ANIMAL_DANCING_AGE_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🐾 Pet Age & Stage",
-    options: [
-      { value: "Newborn Baby Animals (0-6 months)", label: "🍼 Newborn Baby Animals (0-6 months)", desc: "Tiny newborn kittens & puppies waddling cutely." },
-      { value: "Tiny Kittens & Puppies (6-12 months)", label: "🐣 Tiny Kittens & Puppies (6-12 mos) — Most Viral", desc: "Classic viral size: fluffy coats, standing on two legs, max cute factor." },
-      { value: "Playful Toddler Pets (1-2 yrs)", label: "🧒 Playful Toddler Pets (1-2 yrs)", desc: "Energetic and synchronized dancers with expressive facial reactions." },
-      { value: "Cute Fluffy Squad (Matching Twins)", label: "👯 Cute Fluffy Squad (Matching Twins)", desc: "Multiple identical pets in matching cosplay suits dancing in sync." },
-    ],
-  },
-];
-
-const ANIMAL_DANCING_SPECIES_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🐾 Animal & Species Setup",
-    options: [
-      { value: "5 Cute Kittens Line Dance (Strawberry, Bee, Cowboy, Dino, Pirate)", label: "🐱 5 Kittens Line Dance (Cat.mp4 Iconic Squad)", desc: "5 cute kittens standing in a row wearing Strawberry hood, Bee, Cowboy, Dino, and Pirate suits." },
-      { value: "Solo White Kitten in Strawberry Outfit", label: "🍓 Solo White Kitten in Strawberry Hood & Crocs", desc: "Iconic white kitten in strawberry hood hat, diaper shorts, and tiny pink crocs dancing center stage." },
-      { value: "Solo Golden Retriever Puppy", label: "🐶 Solo Golden Retriever Puppy", desc: "Super cute fluffy golden puppy dancing upright with floppy ears." },
-      { value: "Kitten & Puppy Duet Dance", label: "🐱🐶 Kitten & Puppy Duet Squad", desc: "A kitten and a puppy dancing together side-by-side on beat." },
-      { value: "Ginger Tabby Kitten Solo", label: "🐈 Ginger Tabby Kitten Solo", desc: "Handsome ginger tabby kitten performing energetic dance moves." },
-      { value: "Baby Panda Bear Solo", label: "🐼 Baby Panda Bear Solo", desc: "Chubby baby panda wobbling and dancing cutely." },
-      { value: "Fluffy Bunny Rabbit Squad", label: "🐰 Fluffy Bunny Rabbit Squad", desc: "Cute bunnies with long floppy ears hopping and dancing on beat." },
-      { value: "French Bulldog Puppy", label: "🐶 French Bulldog Puppy", desc: "Chubby Frenchie puppy with bat ears doing beat-drop squats." },
-      { value: "Cute Baby Bears Duo", label: "🐻 Cute Baby Bears Duo", desc: "Two fluffy baby bears dancing in synchronized rhythm." },
-      { value: "Fox & Raccoon Dance Duo", label: "🦊🦝 Fox & Raccoon Dance Duo", desc: "Playful little fox and raccoon duo dancing together." },
-      { value: "Tiny Hamster Crew", label: "🐹 Tiny Hamster Crew", desc: "Chubby fluffy hamsters dancing in mini costumes." },
-    ],
-  },
-];
-
-const ANIMAL_DANCING_COSTUME_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "👗 Cosplay Costume & Outfit",
-    options: [
-      { value: "Strawberry Hood + Pattern Shorts & Pink Crocs", label: "🍓 Strawberry Hood & Pink Crocs (Cat.mp4 Iconic)", desc: "Red strawberry hood hat with stem, patterned diaper shorts, and tiny pink crocs." },
-      { value: "Yellow & Black Bumblebee Suit with Wings & Antennas", label: "🐝 Bumblebee Suit with Wings & Antennas", desc: "Striped yellow & black bumblebee onesie with tiny wings and bouncy antennas." },
-      { value: "Brown Cowboy Hat, Leather Vest & Tiny Boots", label: "🤠 Cowboy Hat, Leather Vest & Boots", desc: "Mini brown cowboy hat, fringe leather vest, and tiny boots." },
-      { value: "Green Dinosaur Onesie with Back Spikes", label: "🦖 Green Dinosaur Onesie (Back Spikes)", desc: "Cute green dino hood suit with yellow belly and felt back spikes." },
-      { value: "Pirate Captain Hat with Skull & Crossbones & Striped Pants", label: "🏴‍☠️ Pirate Captain Hat & Striped Pants", desc: "Classic pirate tricorn hat with skull logo and red-and-white striped pants." },
-      { value: "Blue Baby Shark Onesie", label: "🦈 Blue Baby Shark Onesie", desc: "Adorable blue shark hooded onesie with fin on the back." },
-      { value: "White Chef Hat & Apron", label: "👨‍🍳 White Chef Hat & Apron", desc: "Tall white chef hat and tiny kitchen apron." },
-      { value: "Gold Royal King Crown & Red Velvet Cape", label: "👑 Gold Royal King Crown & Red Velvet Cape", desc: "Shiny gold crown and plush red velvet cape with white faux fur." },
-      { value: "Superhero Cape & Eye Mask", label: "🦸 Superhero Cape & Eye Mask", desc: "Vibrant superhero cape fluttering behind with a matching eye mask." },
-      { value: "Metallic Silver Astronaut Suit", label: "👨‍🚀 Metallic Silver Astronaut Suit", desc: "Futuristic space suit with tiny helmet and patches." },
-      { value: "Hawaiian Hula Grass Skirt & Floral Lei", label: "🌴 Hawaiian Hula Grass Skirt & Floral Lei", desc: "Green grass skirt with colorful flower lei necklace." },
-      { value: "Martial Arts Karate Gi & Black Belt", label: "🥋 Martial Arts Karate Gi & Black Belt", desc: "White karate uniform with tiny black belt." },
-    ],
-  },
-];
-
-const ANIMAL_DANCING_LOCATION_GROUPS: OptionGroupWithDesc[] = [
-  {
-    category: "🏠 Living Room & Indoor Floors",
-    options: [
-      { value: "Living Room Hardwood Floor with Giant Plush Teddy Bears", label: "🧸 Living Room Hardwood Floor & Teddy Bears (Cat.mp4)", desc: "Polished hardwood floor with plush teddy bears, couch, and soft sunlight." },
-      { value: "Polished Wooden Floor with Warm Indoor Sunlight", label: "🪵 Polished Wooden Floor (Sunlit)", desc: "Clean glossy hardwood floor reflecting warm golden sunlight." },
-      { value: "Neon Glow Disco Dance Studio & Balloons", label: "🪩 Neon Glow Disco Studio", desc: "Vibrant dance floor with colorful neon lights and floating balloons." },
-      { value: "Clean Kitchen Countertop & Bakery Counter", label: "🍳 Kitchen Countertop & Bakery", desc: "Sparkling clean kitchen counter with baking props and warm ambient light." },
-    ],
-  },
-  {
-    category: "🌴 Outdoor & Fantasy Settings",
-    options: [
-      { value: "Tropical Sandy Beach & Palm Trees", label: "🏖️ Tropical Sandy Beach & Palms", desc: "Sunny beach with clear turquoise ocean waves and palm trees." },
-      { value: "Cherry Blossom Garden with Petals Falling", label: "🌸 Cherry Blossom Garden (Sakura)", desc: "Romantic park with pink cherry blossoms raining down." },
-      { value: "Pastel Rainbow Candy Land Floor", label: "🌈 Pastel Rainbow Candy Land", desc: "Dreamy candy garden with rainbow dance floor and sweets." },
-      { value: "Magical Sky Garden with Floating Clouds", label: "☁️ Magical Sky Garden & Clouds", desc: "Enchanted sky platform with soft cloud floor and starlight." },
-    ],
-  },
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-const CUTE_KIDS_PRESET_GROUPS = [
-  {
-    groupName: "Popular Combinations",
-    presets: [
-      {
-        icon: "👬",
-        title: "Friends",
-        age: "Child (5-8 yrs)",
-        location: "Desi Dhaba & Roadside Chai Stall",
-        health: "Healthy & Active",
-        vibe: "Silly Kid",
-        setup: "Two Boy Friends (Best Friends)",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Funny Comedy Sound Effects",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🪁",
-        title: "Brother & Sister",
-        age: "Child (5-8 yrs)",
-        location: "House Rooftop Kite Flying (Kotha)",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Brother & Sister",
-        perScene: "2 Characters",
-        nationality: "Pakistani Punjabi",
-        musicType: "Punjabi Beats & Bhangra",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "👫",
-        title: "Boy & Girl",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "One Girl & One Boy",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-    ]
-  },
-  {
-    groupName: "Solo Characters",
-    presets: [
-      {
-        icon: "👧",
-        title: "Single Girl Solo",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "One Cute Little Girl",
-        perScene: "1 Character",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "None",
-        dialogueStyle: "Monologue",
-      },
-      {
-        icon: "👦",
-        title: "Single Boy Solo",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "One Cute Little Boy",
-        perScene: "1 Character",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "None",
-        dialogueStyle: "Monologue",
-      },
-      {
-        icon: "👤",
-        title: "1 Character Solo",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "One Cute Little Girl",
-        perScene: "1 Character",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "⚡",
-        title: "Desi Pind Toddler",
-        age: "Toddler (2-4 yrs)",
-        location: "Desi Village & Punjabi Pind",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "One Cute Little Girl",
-        perScene: "2 Characters",
-        nationality: "Pakistani Punjabi",
-        musicType: "Punjabi Beats & Bhangra",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "✨",
-        title: "Fairy Tale Girl",
-        age: "Toddler (2-4 yrs)",
-        location: "Magical Cloud Kingdom",
-        health: "Healthy",
-        vibe: "Rainbow Adventure",
-        setup: "Little Girl with Fairy Wings",
-        perScene: "1 Character",
-        nationality: "Global / Any",
-        musicType: "Orchestral & Grand Symphony",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🚀",
-        title: "Space Explorer",
-        age: "Child (5-8 yrs)",
-        location: "Futuristic Space Station & Moon Base",
-        health: "Healthy & Active",
-        vibe: "Happy Explorer",
-        setup: "Little Boy Astronaut",
-        perScene: "1 Character",
-        nationality: "Global / Any",
-        musicType: "Cinematic Epic & Dramatic",
-        dialogueStyle: "Narration Style",
-      },
-      {
-        icon: "🎧",
-        title: "Lo-Fi Story Time",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Library & Book Nook",
-        health: "Healthy",
-        vibe: "Soft Pastel Style",
-        setup: "Reading Little Girl",
-        perScene: "1 Character",
-        nationality: "Global / Any",
-        musicType: "Lo-Fi Chill & Chillhop",
-        dialogueStyle: "Narration Style",
-      },
-      {
-        icon: "🪕",
-        title: "Punjabi Folk Singer",
-        age: "Child (5-8 yrs)",
-        location: "Green Wheat & Mustard Fields",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "Punjabi Folk Singer (Jugni & Tappa)",
-        perScene: "1 Character",
-        nationality: "Pakistani Punjabi",
-        dialogueStyle: "Poetic/Shayari",
-      },
-    ]
-  },
-  {
-    groupName: "Kids & Toddler Scenes",
-    presets: [
-      {
-        icon: "🏫",
-        title: "School Friends",
-        age: "Child (5-8 yrs)",
-        location: "Desi Primary School Classroom",
-        health: "Healthy & Active",
-        vibe: "Happy Explorer",
-        setup: "Two Kids (Friends)",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "💖",
-        title: "Cozy Baby & Mom",
-        age: "Baby (1-2 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Happy & Healthy",
-        vibe: "Cute & Playful",
-        setup: "Girl + Mother",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🍦",
-        title: "Toddler Duo Ice Cream",
-        age: "Toddler (2-4 yrs)",
-        location: "Ice Cream Shop",
-        health: "Healthy",
-        vibe: "Silly Kid",
-        setup: "One Girl & One Boy",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "Kids Nursery Rhymes",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🐱",
-        title: "Toddler & Kitten",
-        age: "Toddler (2-4 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Happy & Healthy",
-        vibe: "Cute & Playful",
-        setup: "Little Girl with a Kitten",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Acoustic Guitar & Whistling",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🐮",
-        title: "Boy Singer & Calf",
-        age: "Toddler (2-4 yrs)",
-        location: "Desi Village & Punjabi Pind",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "Boy Singer + Calf",
-        perScene: "2 Characters",
-        nationality: "Pakistani Punjabi",
-        musicType: "Punjabi Beats & Bhangra",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🕌",
-        title: "Eid Celebration",
-        age: "Child (5-8 yrs)",
-        location: "Festive Eid & Chand Raat Market",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Girl Friends (Best Friends)",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Nasheed / Vocal Only",
-        dialogueStyle: "Emotional",
-      },
-    ]
-  },
-  {
-    groupName: "Performances & Couples",
-    presets: [
-      {
-        icon: "🎤",
-        title: "Cute Qawwal Duo",
-        age: "Child (5-8 yrs)",
-        location: "Traditional Desi Courtyard & Vehra",
-        health: "Healthy",
-        vibe: "Cheerful & Energetic",
-        setup: "Boy & Girl Qawwal Duo",
-        perScene: "2 Characters",
-        nationality: "Pakistani Punjabi",
-        musicType: "Sufi Qawwali & Harmonium",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🎵",
-        title: "Qawali Night",
-        age: "Child (5-8 yrs)",
-        location: "Traditional Desi Courtyard & Vehra",
-        health: "Healthy",
-        vibe: "Romantic",
-        setup: "Boy Qawwali Group (Qawwal Party)",
-        perScene: "3 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Sufi Qawwali & Harmonium",
-        dialogueStyle: "Poetic/Shayari",
-      },
-      {
-        icon: "🎤",
-        title: "Shayari Mehfil",
-        age: "Child (5-8 yrs)",
-        location: "Traditional Desi Courtyard & Vehra",
-        health: "Healthy",
-        vibe: "Romantic",
-        setup: "Boy & Girl Shayar Duo",
-        perScene: "2 Characters",
-        nationality: "Pakistani Muhajir / Urdu Speaking",
-        musicType: "Desi Classical Sitar & Tabla",
-        dialogueStyle: "Poetic/Shayari",
-      },
-      {
-        icon: "🎸",
-        title: "Coke Studio Jam",
-        age: "Child (5-8 yrs)",
-        location: "Traditional Heritage Haveli",
-        health: "Healthy & Active",
-        vibe: "Positive Energy",
-        setup: "Boy & Girl Singer Duet",
-        perScene: "2 Characters",
-        nationality: "Pakistani Punjabi",
-        musicType: "Coke Studio Style Fusion",
-        dialogueStyle: "Poetic/Shayari",
-      },
-      {
-        icon: "❤️",
-        title: "Miya Biwi",
-        age: "Young Adult (18-24 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Happy & Healthy",
-        vibe: "Romantic",
-        setup: "Husband & Wife (Miya Biwi)",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Lo-Fi Chill & Chillhop",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "👰‍♀️",
-        title: "Dulha & Dulhan",
-        age: "Young Adult (18-24 yrs)",
-        location: "Traditional Heritage Haveli",
-        health: "Happy & Healthy",
-        vibe: "Romantic",
-        setup: "Dulha & Dulhan (Bride & Groom Couple)",
-        perScene: "2 Characters",
-        nationality: "Pakistani (General / Desi)",
-        musicType: "Sufi Qawwali & Harmonium",
-        dialogueStyle: "Poetic/Shayari",
-      },
-    ]
-  }
-,
-  {
-    groupName: "Dialogue Presets",
-    presets: [
-      {
-        icon: "🗣️",
-        title: "Two Boys Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Little Boys",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Two Girls Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Little Girls",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Boy & Girl Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "One Girl & One Boy",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Three Boys Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Desi Dhaba & Roadside Chai Stall",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Three Boy Friends (Trio Squad)",
-        perScene: "3 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Three Girls Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Three Girl Friends (Trio Squad)",
-        perScene: "3 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Two Boys & One Girl",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Boys & One Girl",
-        perScene: "3 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Two Girls & One Boy",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Girls & One Boy",
-        perScene: "3 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Brother & Sister Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Cozy Home Living Room",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Brother & Sister",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Friends Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Desi Primary School Classroom",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Two Kids (Friends)",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-      {
-        icon: "🗣️",
-        title: "Classmates Dialogue",
-        age: "Child (5-8 yrs)",
-        location: "Desi Primary School Classroom",
-        health: "Healthy & Active",
-        vibe: "Cheerful & Energetic",
-        setup: "Classmates",
-        perScene: "2 Characters",
-        nationality: "Global / Any",
-        musicType: "None",
-        dialogueStyle: "None",
-      },
-    ]
-  }
-];
-
-const FATHER_CLOTHING_OPTIONS = [
-  "AI Decides",
-  "Traditional White Kurta Shalwar",
-  "Casual Polo & Denim Jeans",
-  "Waistcoat & Embroidered Kurta",
-  "Classic Sherwani",
-  "Tracksuit & Loungewear",
-  "Formal Suit & Tie",
-  "Custom",
-];
-
-const MOTHER_CLOTHING_OPTIONS = [
-  "AI Decides",
-  "Traditional Embroidered Lawn Suit",
-  "Simple Cotton Shalwar Kameez",
-  "Elegant Silk Suit with Silk Dupatta",
-  "Abaya & Hijab",
-  "Casual Home Loungewear",
-  "Saree / Festive Wear",
-  "Custom",
 ];
 
 // ── SONG & SHAYARI OPTION GROUPS (FULL AGE RANGE 6-9 YRS TO OLD MAN) ──
@@ -1569,79 +739,6 @@ const POETRY_PRESETS = [
     crowdFx: "DISABLED (Quiet Studio - Default)",
   },
   {
-    icon: "🪑",
-    title: "Lonely Man on Park Bench",
-    age: "Adult (25-35 yrs)",
-    location: "Solitary Bench in Misty Autumn Park 🍁",
-    vibe: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Overcoat & Scarf (Lonely Park Walk) 🧥",
-    musicType: "Soft Acoustic Guitar Melody",
-    dialogueStyle: "Sad / Heartbreak Shayari",
-    crowdFx: "DISABLED (Quiet Studio - Default)",
-    faceType: "Rugged Stubble & Groomed Beard 🧔",
-  },
-  {
-    icon: "☕",
-    title: "Rainy Window Café Solitude",
-    age: "Young Adult (18-24 yrs)",
-    location: "Rainy Window Coffee Shop ☕",
-    vibe: "Deep Emotional & Heartbroken (Sad Shayari)",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Simple Button-Down Shirt & Dark Trousers (Sad/Lonely Poet) 👔",
-    musicType: "Bansuri Flute & Ambient Nature",
-    dialogueStyle: "Sad / Heartbreak Shayari",
-    crowdFx: "Rain & Cozy Fireside Ambience",
-    faceType: "Western Rockstar Undercut & Stubble 🎸",
-  },
-  {
-    icon: "🏮",
-    title: "Late Night Streetlamp Walk",
-    age: "Adult (25-35 yrs)",
-    location: "Vintage European Cobblestone Street 🇫🇷🌙",
-    vibe: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Overcoat & Scarf (Lonely Park Walk) 🧥",
-    musicType: "Soft Acoustic Guitar Melody",
-    dialogueStyle: "Sad / Heartbreak Shayari",
-    crowdFx: "DISABLED (Quiet Studio - Default)",
-  },
-  {
-    icon: "🌅",
-    title: "Sunset Rooftop Romantic Duo",
-    age: "Young Adult (18-24 yrs)",
-    location: "Sunset Rooftop & City Skyline 🌇",
-    vibe: "Romantic & Soulful",
-    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
-    musicType: "Acoustic Guitar & Whistling",
-    dialogueStyle: "Poetic/Shayari",
-    crowdFx: "AI Decides",
-    faceType: "Rugged Stubble & Groomed Beard 🧔",
-  },
-  {
-    icon: "🏜️",
-    title: "Desert Bonfire Romantic Shayari",
-    age: "Adult (25-35 yrs)",
-    location: "Desert Dunes at Sunset with Bonfire 🌄🔥",
-    vibe: "Romantic & Soulful",
-    setup: "Male Poet Recites + Girl Listens & Admires 🎤👁️",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
-    musicType: "Sufi Instrumental Flute & Rubab",
-    dialogueStyle: "Poetic/Shayari",
-    crowdFx: "AI Decides",
-  },
-  {
     icon: "🕌",
     title: "Grand Floor Mehfil (Gaddi & Masnad)",
     age: "Adult (25-35 yrs)",
@@ -1762,471 +859,6 @@ const POETRY_PRESETS = [
   },
 ];
 
-const COMMERCIAL_AD_PRESETS = [
-  {
-    icon: "🧴",
-    title: "Skincare UGC Ad",
-    desc: "Problem Hook → Serum Glow Demo → 20% Off CTA",
-    age: "Young Adult (18-24 yrs)",
-    location: "Clean Sunlit Bathroom Studio 🧴",
-    vibe: "Aesthetic & Glowing",
-    setup: "Solo Adult Female Model 👩‍🎤",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    clothing: "White Cotton Robe & Silk Headband 🧖‍♀️",
-    visualStyle: "UGC TikTok Style",
-    customSceneDescription: "Glowing Skincare Serum (Problem: Dry Skin → Value: Instant Hydration → CTA: Tap link in bio for 20% off)",
-  },
-  {
-    icon: "🍕",
-    title: "Food & Restaurant Ad",
-    desc: "Sizzling Macro Shot → Cheese Pull → Order Now",
-    age: "Adult (25-35 yrs)",
-    location: "Bustling Gourmet Kitchen & Bistro 🍕",
-    vibe: "Mouthwatering & Energetic",
-    setup: "Charismatic Chef & Foodie Presenter 👨‍🍳",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Black Chef Apron & Denim Shirt 👨‍🍳",
-    visualStyle: "Photorealistic 8K Commercial",
-    customSceneDescription: "Artisanal Gourmet Pizza (Hook: Sizzling melted cheese pull → Demo: Wood-fired crust → CTA: Order on Foodpanda now)",
-  },
-  {
-    icon: "🏎️",
-    title: "Luxury Perfume Pitch",
-    desc: "Cinematic Moody Lighting → Spray Macro → Shop Collection",
-    age: "Adult (25-35 yrs)",
-    location: "Moonlit Palace Rooftop Terrace 🌕",
-    vibe: "Luxury & Mysterious",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Global / Any",
-    clothing: "Black Velvet Smoking Jacket & Silk Gown 🤵‍♀️",
-    visualStyle: "Cinematic Luxury Ad",
-    customSceneDescription: "Royal Oud & Rose Fragrance (Hook: Mist bottle spray close-up → Pitch: Sensual allure → CTA: Visit store today)",
-  },
-  {
-    icon: "📱",
-    title: "SaaS App & Software Promo",
-    desc: "Frustrated Creator → 1-Click Solution → Free Trial",
-    age: "Young Adult (18-24 yrs)",
-    location: "Modern Sunlit Co-Working Office 💻",
-    vibe: "Productive & Tech",
-    setup: "Solo Adult Male Creator 👨‍💻",
-    perScene: "1 Character",
-    nationality: "Global / Any",
-    clothing: "Casual Grey Hoodie & Glasses 👓",
-    visualStyle: "UGC TikTok Style",
-    customSceneDescription: "AI Video Editing App (Hook: Hours of manual editing → Solution: 1-Click AI Magic → CTA: Start 7-Day Free Trial)",
-  },
-  {
-    icon: "👗",
-    title: "Fashion & Clothing Ad",
-    desc: "Street Jump Cuts → Outfit Transitions → Shop Collection",
-    age: "Young Adult (18-24 yrs)",
-    location: "Vintage European Cobblestone Alley 🌙",
-    vibe: "Trendy & High-Fashion",
-    setup: "Female Fashion Influencer 👗",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Embroidered Velvet Festive Anarkali 🥻",
-    visualStyle: "Photorealistic 8K Commercial",
-    customSceneDescription: "Festive Lawn Collection (Hook: Snap-turn outfit change → Demo: Fabric motion & embroidery details → CTA: Shop New Drops)",
-  },
-  {
-    icon: "🏠",
-    title: "Real Estate & Tour Pitch",
-    desc: "Grand Door Entrance → Skyline View → Book Private Tour",
-    age: "Adult (25-35 yrs)",
-    location: "Sunset Rooftop & City Skyline 🌇",
-    vibe: "Opulent & Premium",
-    setup: "Professional Real Estate Agent 👔",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Crisp Charcoal Navy Suit & Watch ⌚",
-    visualStyle: "Photorealistic 8K Commercial",
-    customSceneDescription: "Penthouse Apartment Tour (Hook: Floor-to-ceiling city skyline view → Pitch: Smart home features → CTA: DM for Private Tour)",
-  },
-];
-
-const SHORT_CLIP_PRESETS = [
-  {
-    icon: "❤️",
-    title: "Love Story",
-    desc: "Bench → Meeting → Happy Duo",
-    age: "Adult (25-35 yrs)",
-    location: "Solitary Bench in Misty Autumn Park 🍁",
-    vibe: "Romantic & Heartfelt",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Navy Overcoat & Female White Sweater 🧥👗",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🌧️",
-    title: "Sad → Happy",
-    desc: "Heartbreak to Joyous Reconnection",
-    age: "Adult (25-35 yrs)",
-    location: "Rainy Window Coffee Shop ☕",
-    vibe: "Sad → Happy Emotional Arc",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Black Leather Jacket & Female Crimson Scarf 🧥🧣",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "👨‍👩‍👧",
-    title: "Family Moment",
-    desc: "Warm Household Gathering & Joy",
-    age: "Adult (25-35 yrs)",
-    location: "Cozy Heritage Living Room 🛋️",
-    vibe: "Wholesome & Heartwarming",
-    setup: "Family Group (Parents & Child) 👨‍👩‍👧",
-    perScene: "3 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Traditional Shalwar Kameez & Warm Shawls 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🤝",
-    title: "Friendship",
-    desc: "Loyal Companions Through Rain & Sun",
-    age: "Adult (25-35 yrs)",
-    location: "Vintage Urban Rooftop at Sunset 🌇",
-    vibe: "Loyal & Emotional Friendship",
-    setup: "Two Best Friends (Male Duo) 👨‍👦",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Casual Denim Jackets & Warm Hoodies 🧥",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🥺",
-    title: "Emotional Story",
-    desc: "Silent Tears to Warm Embrace",
-    age: "Adult (25-35 yrs)",
-    location: "Candlelit Solitary Room (Tanhai / Solitary Room) 🕯️",
-    vibe: "Deep Emotional Devastation & Comfort",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Charcoal Sherwani & Female Ivory Muslin Dupatta 🥋",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "⏳",
-    title: "Before & After",
-    desc: "Struggle to Triumphant Success",
-    age: "Adult (25-35 yrs)",
-    location: "Old City Street & Mughal Architecture",
-    vibe: "Nostalgic & Triumphant",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Simple Faded Kurta → Crisp Charcoal Suit 👔",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "⚔️",
-    title: "Meet → Conflict → Happy Ending",
-    desc: "Chance Meeting, Misunderstanding & Reunion",
-    age: "Adult (25-35 yrs)",
-    location: "Vintage Railway Platform at Dusk 🚉",
-    vibe: "Dramatic Conflict & Happy Reunion",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Overcoat & Female Floral Muslin Suit 🧥🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🧸",
-    title: "Childhood Memories",
-    desc: "Past Playtime Flashback to Adult Reconnection",
-    age: "Adult (25-35 yrs)",
-    location: "Kashmiri Apple Orchard in Bloom 🍎🌸",
-    vibe: "Nostalgic Childhood Flashback",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Traditional Woolen Pheran & Kashmiri Embroidered Shawl 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "😂",
-    title: "Funny Story",
-    desc: "Playful Misunderstanding & Comedic Reaction",
-    age: "Adult (25-35 yrs)",
-    location: "Bustling Desi Bazaar & Street Market",
-    vibe: "Witty & Hilarious Banter",
-    setup: "Funny Comedic Shayar (Tanzo Mazah Poet) 😂",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Bright Color-Blocked Jackets & Waistcoats 🦺",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🎬",
-    title: "Cinematic Story",
-    desc: "Foggy Suspense to Dramatic Push-in Reveal",
-    age: "Adult (25-35 yrs)",
-    location: "Foggy Mountain Ridge at Twilight 🏔️",
-    vibe: "Epic & Atmospheric",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Dark Tactical Trenchcoat & Scarf 🧥",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "☕",
-    title: "Cozy Café Conversation",
-    desc: "Warm Coffee Shop Dialogue & Shared Smiles",
-    age: "Young Adult (18-24 yrs)",
-    location: "Rainy Window Coffee Shop ☕",
-    vibe: "Cozy & Intimate",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Wool Sweaters & Warm Scarves 🧣",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🌅",
-    title: "Sunset Rooftop Reunion",
-    desc: "Golden Hour Skyline Embrace & Reunion",
-    age: "Adult (25-35 yrs)",
-    location: "Sunset Rooftop & City Skyline 🌇",
-    vibe: "Romantic & Soulful",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Man & Girl Combo: Kurta Waistcoat & Anarkali Frock 👫",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🍁",
-    title: "Autumn Park Bench Reflection",
-    desc: "Misty Leaf Path Walk & Solitary Deep Thought",
-    age: "Adult (25-35 yrs)",
-    location: "Solitary Bench in Misty Autumn Park 🍁",
-    vibe: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Overcoat & Scarf (Lonely Park Walk) 🧥",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🌧️",
-    title: "Rainy Window Solitude",
-    desc: "Faded Light & Raindrops on Glass Window",
-    age: "Young Adult (18-24 yrs)",
-    location: "Terrace with City View & Rain 🌧️🏙️",
-    vibe: "Melancholic Midnight Rain (Ghamgina Shayari) 🌙🌧️",
-    setup: "Solo Adult Female Singer 👩‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Simple Silk Dupatta & Soft Muslin Suit 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🕌",
-    title: "Heritage Haveli Courtyard",
-    desc: "Urdu Calligraphy & Candlelit Archways",
-    age: "Adult (25-35 yrs)",
-    location: "Traditional Heritage Haveli",
-    vibe: "Poetic Shayari Mehfil",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani Muhajir / Urdu Speaking",
-    clothing: "Male Charcoal Sherwani 🥋",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🚂",
-    title: "Vintage Station Goodbye",
-    desc: "Emotional Train Platform Departure & Wave",
-    age: "Adult (25-35 yrs)",
-    location: "Vintage Railway Platform at Dusk 🚉",
-    vibe: "Bittersweet Farewell",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Male Woolen Trenchcoat & Female Floral Shawl 🧥🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🌸",
-    title: "Cherry Blossom Orchard Walk",
-    desc: "Petal-Filled Breeze & Playful Moment",
-    age: "Young Adult (18-24 yrs)",
-    location: "Kashmiri Apple Orchard in Bloom 🍎🌸",
-    vibe: "Dreamy & Romantic",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Soft Pastels & Kashmiri Embroidered Suits 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🏜️",
-    title: "Desert Bonfire Twilight",
-    desc: "Sand Dunes & Flickering Campfire Glow",
-    age: "Adult (25-35 yrs)",
-    location: "Desert Dunes at Sunset with Bonfire 🌄🔥",
-    vibe: "Mystical & Warm",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Traditional Embroidered Shawls & Kurtas 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🕯️",
-    title: "Candlelit Library Study",
-    desc: "Ancient Books & Quiet Shared Glances",
-    age: "Young Adult (18-24 yrs)",
-    location: "Candlelit Indoor Library & Books 🕯️📚",
-    vibe: "Poetic & Academic",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani Muhajir / Urdu Speaking",
-    clothing: "Classic Oxford Sweaters & Linen Shirts 👔",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🏙️",
-    title: "City Lights Midnight Walk",
-    desc: "Lit Cobblestone Streets & Starlit Skyline",
-    age: "Adult (25-35 yrs)",
-    location: "Vintage European Cobblestone Street 🇫🇷🌙",
-    vibe: "Cinematic Solitude",
-    setup: "Solo Adult Male Shayar 👨‍🎤",
-    perScene: "1 Character",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Dark Tailored Overcoat & Scarf 🧥",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "💃",
-    title: "Romantic Dance & Duet Story",
-    desc: "Meeting → Slow Dance → Rain Dance → Sunset Embrace",
-    age: "Young Adult (18-24 yrs)",
-    location: "Sunset Rooftop & City Skyline 🌇",
-    vibe: "Romantic Dance & Duet Story",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Fitting Black Tuxedo & Red Flowing Ballgown 💃🕺",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🕺",
-    title: "Bollywood Musical Romance",
-    desc: "Playful Dance Banter → Synchronized Duet → Reunion",
-    age: "Adult (25-35 yrs)",
-    location: "Kashmiri Apple Orchard in Bloom 🍎🌸",
-    vibe: "Bollywood Musical Dance",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Color-Coordinated Desi Kurta & Anarkali Frock 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🌧️",
-    title: "Rain Dance Romance",
-    desc: "Monsoon Rain Dance → Tender Glance → Heartfelt Hug",
-    age: "Young Adult (18-24 yrs)",
-    location: "Terrace with City View & Rain 🌧️🏙️",
-    vibe: "Monsoon Rain Dance & Romance",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Wet White Kurta & Muslin Saree 🌧️🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "🪩",
-    title: "Modern Rooftop Couple Dance",
-    desc: "Fairy Light Night Dance → Starlit Romance",
-    age: "Adult (25-35 yrs)",
-    location: "Open-Air Garden Mehfil under Fairy Lights ✨",
-    vibe: "Modern Rooftop Dance",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani (General / Desi)",
-    clothing: "Stylish Evening Suit & Sparkling Cocktail Dress 👗",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-  {
-    icon: "💃",
-    title: "Classical Courtyard Dance",
-    desc: "Historic Haveli Kathak Dance → Poetic Romance",
-    age: "Adult (25-35 yrs)",
-    location: "Traditional Heritage Haveli",
-    vibe: "Classical Kathak & Haveli Romance",
-    setup: "Couple (Male & Female Shayar Duo) 💑",
-    perScene: "2 Characters",
-    nationality: "Pakistani Muhajir / Urdu Speaking",
-    clothing: "Traditional Ghungroo Anarkali & Silk Kurta Waistcoat 🥻",
-    withoutMusic: true,
-    withoutDialogue: true,
-    isShortIdea: true,
-  },
-];
-
 const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "🏛️ Mehfil & Mushaira Settings",
@@ -2274,16 +906,6 @@ const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Terrace with City View & Rain 🌧️🏙️", label: "Rainy Terrace with City View 🌧️🏙️", desc: "Open terrace in gentle rain, blurred neon city lights below, cozy shawl-wrapped couple." },
       { value: "Autumn Leaf Forest Path 🍂🌲", label: "Autumn Forest Path 🍂🌲", desc: "Magical forest path covered in fallen red and gold leaves under soft autumn afternoon light." },
       { value: "Indoor Haveli Balcony with Diyas (Diwali / Night) 🪔", label: "Heritage Haveli Balcony with Diyas 🪔", desc: "Ornate Haveli balcony adorned with warm clay diyas, rose garlands, and carved jali screens." },
-      { value: "Old Vintage Railway Platform at Dusk 🚂🌅", label: "Vintage Railway Platform at Dusk 🚂🌅", desc: "Antique wooden train platform with warm hanging lamps, soft dusk sky, and romantic nostalgia." },
-      { value: "Glasshouse Botanical Conservatory 🌿🌸", label: "Glasshouse Botanical Conservatory 🌿🌸", desc: "Ornate Victorian glasshouse with tropical palms, blooming pink orchids, and romantic sunbeams." },
-      { value: "Seaside Lighthouse Balcony at Twilight 🗼🌊", label: "Seaside Lighthouse Balcony at Twilight 🗼🌊", desc: "High cliff lighthouse balcony with sweeping purple dusk sky and crashing ocean waves." },
-      { value: "Kashmiri Apple Orchard in Bloom 🍎🌸", label: "Kashmiri Apple Orchard in Bloom 🍎🌸", desc: "Beautiful mountain valley apple orchard in pink bloom with morning mist and rustic wooden fence." },
-      { value: "Candlelit Vine Covered Gazebo 🍇🕯️", label: "Candlelit Vine Covered Gazebo 🍇🕯️", desc: "Romantic outdoor wooden gazebo covered in green vines, hanging glass candle lanterns, and rose petals." },
-      { value: "Heritage Library Window (Jharoka) 📚🪟", label: "Heritage Library Window (Jharoka) 📚🪟", desc: "Ornate carved Haveli jharoka window overlooking quiet stone courtyard with vintage poetry books." },
-      { value: "Starry Desert Oasis & Palm Trees 🌴✨", label: "Starry Desert Oasis & Palm Trees 🌴✨", desc: "Quiet desert oasis surrounded by tall date palms under a glowing starry night sky." },
-      { value: "Hilltop Pavilion & City Lights View ⛰️🌃", label: "Hilltop Pavilion & City Lights View ⛰️🌃", desc: "High mountain gazebo overlooking a sparkling city skyline under romantic moonlight." },
-      { value: "Lavender Field at Sunset 🪻🌅", label: "Lavender Field at Sunset 🪻🌅", desc: "Endless purple lavender fields glowing under a golden sunset sky with soft warm breeze." },
-      { value: "Old Town Café Balcony at Dusk 🍷🕯️", label: "Old Town Café Balcony at Dusk 🍷🕯️", desc: "Charming vintage balcony with wrought-iron railing, candle lantern, and distant clock tower view." },
     ],
   },
 ];
@@ -2305,72 +927,6 @@ const SONG_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Sufi Mystical & Spiritual", label: "Sufi Mystical & Spiritual", desc: "Transcendent spiritual ecstasy, Sufi devotion, and rhythmic clapping." },
     ],
   },
-];
-
-const SITUATION_CATEGORIES = [
-  {
-    id: "TRAIN",
-    label: "🚂 Train & Station Farewell",
-    suggestions: [
-      "A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind.",
-      "A man standing on a train doorway waving goodbye to a girl standing alone on a foggy rain-soaked railway platform.",
-      "A couple sharing a last quiet glance through a rain-streaked train window as the train slowly starts moving.",
-    ],
-  },
-  {
-    id: "ROMANTIC",
-    label: "❤️ Romantic & Reunion",
-    suggestions: [
-      "A man and girl meeting unexpectedly at a sunset rooftop cafe after years apart, exchanging an emotional embrace.",
-      "A couple walking hand in hand under a canopy of blooming cherry blossom trees as pink petals fall around them.",
-      "A man surprising a girl with a hand-carved wooden gift in a candlelit courtyard at dusk.",
-    ],
-  },
-  {
-    id: "RAIN",
-    label: "🌧️ Rainy Solitude & Sadness",
-    suggestions: [
-      "A solitary man sitting on a park bench in heavy rainfall, staring at a faded photograph as autumn leaves wash away.",
-      "A girl gazing out of a rain-splattered coffee shop window, holding a hot cup of tea with a bittersweet longing look.",
-      "Two people standing under a single small umbrella in pouring rain, looking into each other's eyes silently.",
-    ],
-  },
-  {
-    id: "DANCE",
-    label: "💃 Dance & Duet",
-    suggestions: [
-      "A couple performing a graceful, synchronized slow dance in a heritage haveli courtyard under hanging fairy lights.",
-      "A man and girl dancing joyously in a sudden monsoon rain shower on an open terrace overlooking city lights.",
-      "A classical dancer performing Kathak turns in a candlelit archway, her ghungroo bells resonating with passion.",
-    ],
-  },
-  {
-    id: "FUNNY",
-    label: "😂 Funny & Misunderstanding",
-    suggestions: [
-      "A kid trying to sneak cookies from a high counter jar on tip-toes, slipping on a toy car as flour spills all over.",
-      "A man trying to impress a girl with a magic trick, but accidentally pulling out a noisy toy chicken instead.",
-      "A dog wearing a tiny superhero cape dashing through a living room while a bewildered toddler chases after it.",
-    ],
-  },
-  {
-    id: "DRAMATIC",
-    label: "🎬 Cinematic & Suspense",
-    suggestions: [
-      "A lone figure walking slowly into a dense misty forest at twilight as mysterious golden particles float in the air.",
-      "A dramatic confrontation between two rivals on a windy cliffside at dusk, heavy clouds swirling overhead.",
-      "A magician on a shadowy circus stage tossing a velvet cape into the air as bright spotlights converge.",
-    ],
-  },
-];
-
-const QUICK_SITUATION_PILLS = [
-  { label: "🚂 Girl Running After Train", text: "A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind." },
-  { label: "❤️ Sunset Rooftop Reunion", text: "A man and girl meeting unexpectedly at a sunset rooftop cafe after years apart, sharing an emotional embrace." },
-  { label: "🌧️ Rainy Solitude on Bench", text: "A solitary man sitting on a park bench in heavy rainfall, staring at a faded photograph as autumn leaves wash away." },
-  { label: "💃 Haveli Courtyard Rain Dance", text: "A couple performing a graceful, synchronized slow dance in a heritage haveli courtyard under hanging fairy lights." },
-  { label: "☕ Cozy Café Conversation", text: "Two close friends sharing coffee by a rain-streaked window, laughing quietly together." },
-  { label: "🧸 Sneaking Cookies Jar", text: "A kid trying to sneak cookies from a high counter jar on tip-toes, slipping on a toy car as flour spills all over." },
 ];
 
 const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
@@ -2973,10 +1529,7 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "One Girl & One Boy", label: "One Girl & One Boy", desc: "Classic boy and girl duo." },
       { value: "Brother & Sister", label: "Brother & Sister", desc: "Heartwarming sibling brother and sister team." },
       { value: "Two Kids (Siblings)", label: "Two Kids (Siblings)", desc: "Two sibling kids playing together." },
-            { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
-      { value: "Two Boys & One Girl", label: "Two Boys & One Girl", desc: "A trio consisting of two boys and one girl." },
-      { value: "Two Girls & One Boy", label: "Two Girls & One Boy", desc: "A trio consisting of two girls and one boy." },
-      { value: "Classmates", label: "Classmates", desc: "Two or more classmates talking." },
+      { value: "Two Kids (Friends)", label: "Two Kids (Friends)", desc: "Two best friend kids having fun." },
       { value: "Two Boy Friends (Best Friends)", label: "Two Boy Friends (Best Friends)", desc: "Two best buddy boys laughing, joking, and hanging out together." },
       { value: "Two Girl Friends (Best Friends)", label: "Two Girl Friends (Best Friends)", desc: "Two best girl friends sharing secrets and having fun." },
       { value: "Husband & Wife (Miya Biwi)", label: "Husband & Wife (Miya Biwi) ❤️", desc: "A loving husband and wife couple in everyday Desi home scenarios." },
@@ -3491,25 +2044,6 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
-    category: "🪘 Dholki & Percussion Rhythms (ڈھولک اور بیٹس)",
-    options: [
-      { value: "Just Dholki & Rhythm Beat (ڈھولک بیٹس)", label: "Just Dholki & Rhythm Beat (ڈھولک بیٹس)", desc: "Pure acoustic Dholki percussion and rhythmic hand clapping beat (no heavy synths)." },
-      { value: "Acoustic Dholak & Tabla Beat", label: "Acoustic Dholak & Tabla Beat", desc: "Traditional wooden Dholak paired with crisp Tabla beats and gentle rhythmic pulses." },
-      { value: "Desi Dholak & Clapping Folk Beat", label: "Desi Dholak & Clapping Folk Beat", desc: "Authentic wedding Dholak beat with synchronized hand clapping and folk energy." },
-    ],
-  },
-  {
-    category: "🎬 Bollywood & Filmi Music Styles (بالی وڈ نغمے)",
-    options: [
-      { value: "Bollywood Romantic Strings & Violin", label: "Bollywood Romantic Strings & Violin", desc: "Lush romantic Bollywood orchestral strings, passionate violin solo, and emotional score." },
-      { value: "Bollywood Lo-Fi Chill Beats & Flute", label: "Bollywood Lo-Fi Chill Beats & Flute", desc: "Cozy lofi hip-hop beat blended with romantic Bollywood Bansuri flute and vinyl warmth." },
-      { value: "90s Classic Bollywood Melodious Beat", label: "90s Classic Bollywood Melodious Beat", desc: "Nostalgic 90s Bollywood melody with acoustic guitar, Dholak, and sweet flute accents." },
-      { value: "Upbeat Bollywood Dance & Party Beat", label: "Upbeat Bollywood Dance & Party Beat", desc: "High-energy Bollywood dance party beat with brass fanfares, Dhol, and electronic bass drops." },
-      { value: "Sufi Bollywood Fusion & Harmonium", label: "Sufi Bollywood Fusion & Harmonium", desc: "Soulful Sufi-style Bollywood fusion with Harmonium, Dholak, and passionate vocal hooks." },
-      { value: "Bollywood Acoustic Guitar & Piano", label: "Bollywood Acoustic Guitar & Piano", desc: "Gentle unplugged Bollywood guitar strumming and soft romantic piano chords." },
-    ],
-  },
-  {
     category: "Punjabi Folk & Cultural Rhythms",
     options: [
       { value: "Punjabi Tappa & Dholak", label: "Punjabi Tappa & Dholak", desc: "Fast-paced rhythmic Punjabi Tappa couplets with Dholak & Chimta." },
@@ -3666,18 +2200,8 @@ interface SavedIdea {
   musicType?: string;
   seriousDialogueStyle?: string;
   kidsClothing?: string;
-  kidsExpression?: string;
-  kidsFood?: string;
-  kidsProp?: string;
-  timeOfDay?: string;
-  storyBeat?: string;
-  cameraShot?: string;
   customSceneDescription?: string;
   outroEffects?: string;
-  isShortIdea?: boolean;
-  withoutDialogue?: boolean;
-  withoutMusic?: boolean;
-  videoDuration?: number;
   socialContent?: {
     title: string;
     shortsTitle?: string;
@@ -3695,73 +2219,28 @@ function cleanPromptText(text: string): string {
 }
 
 function getIdeaDialogue(idea: SavedIdea): string {
-  // If dialogue is disabled or category is Fruit Dancing / Animal Dancing, return empty string
-  if (idea.withoutDialogue || idea.category === "FRUIT_DANCING" || idea.category === "ANIMAL_DANCING") {
-    return "";
-  }
-
-  // If user provided a custom dialogue script, return full script directly
   if (idea.customDialogue && idea.customDialogue.trim()) {
     return cleanPromptText(idea.customDialogue.trim());
   }
-
   const text = cleanPromptText(idea.text || "");
-
-  // Check for 20-second two-sequence dialogue matches
-  const seq1Match = text.match(/(?:First Sequence Spoken Dialogue|Sequence 1 Dialogue|First Sequence Dialogue|0-10s Spoken Dialogue):\s*["']?([^\n\r]+)/i);
-  const seq2Match = text.match(/(?:Second Sequence Spoken Dialogue|Sequence 2 Dialogue|Second Sequence Dialogue|10-20s Spoken Dialogue):\s*["']?([^\n\r]+)/i);
-
-  if (seq1Match && seq2Match) {
-    const s1 = seq1Match[1].replace(/^["'\s]+|["'\s]+$/g, "").trim();
-    const s2 = seq2Match[1].replace(/^["'\s]+|["'\s]+$/g, "").trim();
-    return `First Sequence (0-10s): "${s1}"\nSecond Sequence (10-20s): "${s2}"`;
-  } else if (seq1Match) {
-    const s1 = seq1Match[1].replace(/^["'\s]+|["'\s]+$/g, "").trim();
-    return `First Sequence (0-10s): "${s1}"`;
-  } else if (seq2Match) {
-    const s2 = seq2Match[1].replace(/^["'\s]+|["'\s]+$/g, "").trim();
-    return `Second Sequence (10-20s): "${s2}"`;
-  }
-
-  const match = text.match(/(?:💬\s*Spoken Dialogue|Spoken Dialogue|Audio Dialogue|Script|Spoken Line|Urdu Dialogue|Urdu spoken dialogue|Punjabi Dialogue):\s*["']?([^\n\r]+)/i);
+  const match = text.match(/(?:Dialogue|Spoken Dialogue|Audio Dialogue|Script|Spoken Line|Urdu Dialogue|Punjabi Dialogue):\s*([^\n]+)/i);
   if (match && match[1]) {
-    const extracted = match[1].replace(/^["'\s]+|["'\s]+$/g, "").trim();
-    if (extracted.length > 2) {
-      return extracted;
+    return match[1].replace(/^["']|["']$/g, "").trim();
+  }
+  
+  // Extract spoken dialogue from quotes (single or double quotes, e.g. 'SUNNO SUNNO!' or "Dekha?")
+  const quoteMatches = text.match(/(?:shouts|whispers|says|recites|cries|sings|asks|replies|calls)?:\s*['"]([^'"]+)['"]/gi) ||
+                       text.match(/['"]([^'"]{4,})['"]/g);
+  if (quoteMatches && quoteMatches.length > 0) {
+    const cleanedQuotes = quoteMatches
+      .map(q => q.replace(/^(?:shouts|whispers|says|recites|cries|sings|asks|replies|calls)?:\s*/gi, "").replace(/^['"]|['"]$/g, "").trim())
+      .filter(q => q.length > 3 && !q.toLowerCase().startsWith("format:"));
+    if (cleanedQuotes.length > 0) {
+      return `Spoken Dialogue: "${cleanedQuotes.slice(0, 2).join(" | ")}"`;
     }
   }
 
-  return "";
-}
-
-function getClip1Prompt(ideaText: string): string {
-  const text = cleanPromptText(ideaText || "");
-  const match = text.match(/🎥\s*CLIP 1 PROMPT[^\n]*\n([\s\S]*?)(?=🎥\s*CLIP 2 PROMPT|✂️|$)/i) ||
-                text.match(/🎥\s*FIRST SEQUENCE[^\n]*\n([\s\S]*?)(?=🎥\s*SECOND SEQUENCE|Continuity:|$)/i);
-  if (match && match[1]) {
-    return match[1].trim();
-  }
-  return text;
-}
-
-function getClip2Prompt(ideaText: string): string {
-  const text = cleanPromptText(ideaText || "");
-  const match = text.match(/🎥\s*CLIP 2 PROMPT[^\n]*\n([\s\S]*?)(?=✂️|Continuity:|$)/i) ||
-                text.match(/🎥\s*SECOND SEQUENCE[^\n]*\n([\s\S]*?)(?=Continuity:|$)/i);
-  if (match && match[1]) {
-    return match[1].trim();
-  }
-  return text;
-}
-
-function extractScene1Clothing(text: string): string {
-  if (!text) return "";
-  const matches = text.match(/(?:wearing|outfit|clothing|costume|attire|dressed in)[^,.\n]+/gi) ||
-                  text.match(/•\s*Character\s*\d+:[^\n]+/gi);
-  if (matches && matches.length > 0) {
-    return matches.join(" | ").trim();
-  }
-  return "";
+  return `Visual Concept: "${text.slice(0, 120)}..."`;
 }
 
 function getIdeaDescription(idea: SavedIdea): string {
@@ -4291,8 +2770,8 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                   </button>
                 </div>
               ) : (
-                filteredGroups.map((group) => (
-                  <div key={group.category} className="space-y-2.5">
+                filteredGroups.map((group, groupIdx) => (
+                  <div key={groupIdx} className="space-y-2.5">
                     <div className="px-3 py-2 text-xs font-extrabold uppercase tracking-wider text-indigo-400 border-b border-indigo-500/20 sticky top-0 bg-[#080b14]/95 backdrop-blur-md z-10 flex items-center justify-between">
                       <span>{group.category}</span>
                       <span className="text-[10px] text-indigo-300/70 font-medium">
@@ -4409,9 +2888,6 @@ interface IdeasPageSettings {
   stageLocation?: string;
   songCrowdFx?: string;
   characterFaceType?: string;
-  isShortIdea?: boolean;
-  withoutDialogue?: boolean;
-  withoutMusic?: boolean;
 }
 
 // ─── Visual Style Custom Dropdown ───────────────────────────────────────────
@@ -4542,8 +3018,6 @@ export default function IdeasPage() {
   );
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
-  const [customDialogueSeq1, setCustomDialogueSeq1] = useState("");
-  const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
   const [aiModel, setAiModel] = useState<string>(
@@ -4553,26 +3027,6 @@ export default function IdeasPage() {
   );
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
-  const [loadingSceneStepId, setLoadingSceneStepId] = useState<string | null>(null);
-  const [includeCharacterBible, setIncludeCharacterBible] = useState<boolean>(false);
-  const [compactMode, setCompactMode] = useState<boolean>(true);
-  const [fatherClothing, setFatherClothing] = useState<string>("AI Decides");
-  const [customFatherClothing, setCustomFatherClothing] = useState<string>("");
-  const [motherClothing, setMotherClothing] = useState<string>("AI Decides");
-  const [customMotherClothing, setCustomMotherClothing] = useState<string>("");
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 250) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Saved Dialogues
   interface SavedDialogueItem {
@@ -4607,43 +3061,6 @@ export default function IdeasPage() {
   const handleOpenScriptModal = (idea: SavedIdea) => {
     setScriptModalIdea(idea);
     setEditedScriptText(getIdeaDialogue(idea));
-  };
-
-  const getLatestIdea = (): SavedIdea | null => {
-    if (savedIdeas.length === 0) return null;
-    return [...savedIdeas].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    )[0];
-  };
-
-  const handleCopyTopPrompt = () => {
-    const targetIdea = getLatestIdea();
-    if (!targetIdea) {
-      showToast("No generated prompt available yet. Click 'Generate Idea' first!", "info");
-      return;
-    }
-    const textToCopy = cleanPromptText(targetIdea.text);
-    copyToClipboard(textToCopy);
-    setCopiedId(`floating-prompt-${targetIdea.id}`);
-    setTimeout(() => setCopiedId(null), 2000);
-    showToast("Copied Latest Mobile Prompt (9:16) to clipboard!", "success");
-  };
-
-  const handleCopyTopScript = () => {
-    const targetIdea = getLatestIdea();
-    if (!targetIdea) {
-      showToast("No generated script available yet. Click 'Generate Idea' first!", "info");
-      return;
-    }
-    const scriptToCopy = getIdeaDialogue(targetIdea) || cleanPromptText(targetIdea.customDialogue || targetIdea.text);
-    copyToClipboard(scriptToCopy);
-    setCopiedId(`floating-script-${targetIdea.id}`);
-    setTimeout(() => setCopiedId(null), 2000);
-    showToast("Copied Latest Spoken Script to clipboard!", "success");
-  };
-
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSaveScriptModal = () => {
@@ -4748,15 +3165,6 @@ export default function IdeasPage() {
   const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
   const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
   const [customSceneDescription, setCustomSceneDescription] = useState(initialSettings.customSceneDescription || "");
-  const [selectedSituationCat, setSelectedSituationCat] = useState("TRAIN");
-
-  const handleSuggestSituation = (catId?: string) => {
-    const targetId = catId || selectedSituationCat;
-    const foundCat = SITUATION_CATEGORIES.find((c) => c.id === targetId) || SITUATION_CATEGORIES[0];
-    const randomSuggestion = foundCat.suggestions[Math.floor(Math.random() * foundCat.suggestions.length)];
-    setCustomSceneDescription(randomSuggestion);
-    showToast(`✨ Suggested situation: "${foundCat.label.split(" ")[1] || foundCat.label}"`, "success");
-  };
   const [outroEffects, setOutroEffects] = useState<string>(initialSettings.outroEffects || "None");
   const [kidsExpression, setKidsExpression] = useState(initialSettings.kidsExpression || "Any / AI Decides");
   const [kidsFood, setKidsFood] = useState(initialSettings.kidsFood || "Any / AI Decides");
@@ -4766,11 +3174,8 @@ export default function IdeasPage() {
   const [cameraShot, setCameraShot] = useState(initialSettings.cameraShot || "Any / AI Decides");
   const [charPerformance, setCharPerformance] = useState(initialSettings.charPerformance || "Any / AI Decides");
   const [includeMic, setIncludeMic] = useState<boolean>(initialSettings.includeMic || false);
-  const [songCrowdFx, setSongCrowdFx] = useState(initialSettings.songCrowdFx || "DISABLED (Quiet Studio - Default)");
+  const [songCrowdFx, setSongCrowdFx] = useState(initialSettings.songCrowdFx || "AI Decides");
   const [characterFaceType, setCharacterFaceType] = useState(initialSettings.characterFaceType || "Any / AI Decides");
-  const [isShortIdea, setIsShortIdea] = useState<boolean>(initialSettings.isShortIdea || false);
-  const [withoutDialogue, setWithoutDialogue] = useState<boolean>(initialSettings.withoutDialogue || false);
-  const [withoutMusic, setWithoutMusic] = useState<boolean>(initialSettings.withoutMusic || false);
 
   // Live Stage Metamorphosis options
   const [performerAge, setPerformerAge] = useState(initialSettings.performerAge || "Adult Illusionist (26-40 yrs)");
@@ -4827,7 +3232,7 @@ export default function IdeasPage() {
     }
   };
 
-  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESET_GROUPS[0]["presets"][0] & { clothing?: string }) => {
+  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESETS[0] & { clothing?: string }) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsHealth(preset.health);
@@ -4885,64 +3290,6 @@ export default function IdeasPage() {
     if (preset.clothing) setKidsClothing(preset.clothing);
     if (preset.faceType) setCharacterFaceType(preset.faceType);
     showToast(`✅ Applied "${preset.title}" Poetry & Shayari preset!`, "success");
-  };
-
-  const applyShortClipPreset = (preset: typeof SHORT_CLIP_PRESETS[0]) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    setWithoutMusic(preset.withoutMusic !== undefined ? preset.withoutMusic : false);
-    setWithoutDialogue(preset.withoutDialogue !== undefined ? preset.withoutDialogue : false);
-    if (preset.isShortIdea !== undefined) setIsShortIdea(preset.isShortIdea);
-    setMusicType("None");
-    setSongCrowdFx("DISABLED (Quiet Studio - Default)");
-    showToast(`✅ Applied "${preset.title}" Short Clip preset!`, "success");
-  };
-
-  const applyCommercialAdPreset = (preset: typeof COMMERCIAL_AD_PRESETS[0]) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    if (preset.clothing) setKidsClothing(preset.clothing);
-    if (preset.visualStyle) setVisualStyle(preset.visualStyle);
-    if (preset.customSceneDescription) setCustomSceneDescription(preset.customSceneDescription);
-    setWithoutMusic(false);
-    setWithoutDialogue(false);
-    showToast(`✅ Applied "${preset.title}" Brand Ad preset!`, "success");
-  };
-
-  const applyFruitDancingPreset = (preset: typeof FRUIT_DANCING_PRESETS[0]) => {
-    setKidsAge("Toddler (2-4 yrs)");
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setKidsClothing(preset.fruitType);
-    setCharacterSetup("One Cute 3D Baby/Toddler in Fruit Suit");
-    setCharactersPerScene("1 Character");
-    if (preset.musicType) setMusicType(preset.musicType);
-    if (preset.visualStyle) setVisualStyle(preset.visualStyle);
-    setWithoutDialogue(true);
-    setWithoutMusic(false);
-    showToast(`🍓 Applied "${preset.title}" Fruit Dancing preset!`, "success");
-  };
-
-  const applyAnimalDancingPreset = (preset: typeof ANIMAL_DANCING_PRESETS[0]) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setKidsClothing(preset.costume);
-    setCharacterSetup(preset.animalType);
-    setCharactersPerScene("1 Character");
-    if (preset.musicType) setMusicType(preset.musicType);
-    if (preset.visualStyle) setVisualStyle(preset.visualStyle);
-    setWithoutDialogue(true);
-    setWithoutMusic(false);
-    showToast(`🐱 Applied "${preset.title}" Animal Dancing preset!`, "success");
   };
   
   const isRtl = language === "Urdu" || language === "Punjabi";
@@ -5063,9 +3410,6 @@ export default function IdeasPage() {
         timeOfDay,
         storyBeat,
         cameraShot,
-        isShortIdea,
-        withoutDialogue,
-        withoutMusic,
       };
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
     }
@@ -5104,48 +3448,66 @@ export default function IdeasPage() {
     timeOfDay,
     storyBeat,
     cameraShot,
-    isShortIdea,
-    withoutDialogue,
-    withoutMusic,
   ]);
 
   const handleResetCategorySettings = (targetCat?: CategoryId) => {
     const catToReset = targetCat || category;
 
-    // Set ALL parameter options to "Any / AI Decides" so AI chooses what is best by default
-    setKidsAge("Any / AI Decides");
-    setKidsLocation("Any / AI Decides");
-    setKidsVibe("Any / AI Decides");
-    setKidsClothing("Any / AI Decides");
-    setCharacterSetup("Any / AI Decides");
-    setCharactersPerScene("Any / AI Decides");
-    setCustomCharactersPerScene("");
-    setKidsNationality("Any / AI Decides");
-    setKidsExpression("Any / AI Decides");
-    setKidsFood("Any / AI Decides");
-    setKidsProp("Any / AI Decides");
-    setTimeOfDay("Any / AI Decides");
-    setStoryBeat("Any / AI Decides");
-    setCameraShot("Any / AI Decides");
-    setCharPerformance("Any / AI Decides");
-    setCharacterFaceType("Any / AI Decides");
-    setSeriousDialogueStyle("Any / AI Decides");
-    setMusicType("None");
-    setSongCrowdFx("AI Decides");
-    setCustomSceneDescription("");
-
-    if (catToReset === "SHORT_CLIP") {
-      setWithoutMusic(true);
-      setWithoutDialogue(true);
-    } else if (catToReset === "FRUIT_DANCING" || catToReset === "ANIMAL_DANCING") {
-      setWithoutDialogue(true);
-      setWithoutMusic(false);
-    } else {
-      setWithoutMusic(false);
-      setWithoutDialogue(false);
-    }
-
-    if (catToReset === "LIVE_STAGE_METAMORPHOSIS") {
+    if (catToReset === "CUTE_KIDS") {
+      setKidsAge("Toddler (2-4 yrs)");
+      setKidsLocation("Cozy Home Living Room");
+      setKidsHealth("Healthy");
+      setKidsVibe("Cheerful & Energetic");
+      setKidsClothing("Any / AI Decides");
+      setCharacterSetup("One Cute Little Girl");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Global / Any");
+      setKidsExpression("Any / AI Decides");
+      setKidsFood("Any / AI Decides");
+      setKidsProp("Any / AI Decides");
+      setTimeOfDay("Any / AI Decides");
+      setStoryBeat("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Cute Kids parameters to default!", "info");
+    } else if (catToReset === "SONG") {
+      setKidsAge("Adult (25-35 yrs)");
+      setKidsLocation("Sunset Rooftop & City Skyline 🌇");
+      setKidsVibe("Romantic & Soulful");
+      setKidsClothing("Performers Outfit & Attire");
+      setCharacterSetup("Solo Adult Female Singer 👩‍🎤");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Pakistani (General / Desi)");
+      setSeriousDialogueStyle("None");
+      setMusicType("None");
+      setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+      setCharacterFaceType("Any / AI Decides");
+      setVisualStyle("Hyper-Realistic CGI");
+      setTimeOfDay("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Song parameters to default!", "info");
+    } else if (catToReset === "POETRY") {
+      setKidsAge("Adult (25-35 yrs)");
+      setKidsLocation("Traditional Heritage Haveli");
+      setKidsVibe("Poetic Shayari Mehfil");
+      setKidsClothing("Performers Outfit & Attire");
+      setCharacterSetup("Solo Adult Male Shayar 👨‍🎤");
+      setCharactersPerScene("1 Character");
+      setCustomCharactersPerScene("");
+      setKidsNationality("Pakistani Muhajir / Urdu Speaking");
+      setSeriousDialogueStyle("Poetic/Shayari");
+      setMusicType("Desi Classical Sitar & Tabla");
+      setSongCrowdFx("Live Mushaira Crowd (Wah Wah & Irshad)");
+      setCharacterFaceType("Any / AI Decides");
+      setVisualStyle("Hyper-Realistic CGI");
+      setTimeOfDay("Any / AI Decides");
+      setCameraShot("Any / AI Decides");
+      setCharPerformance("Any / AI Decides");
+      showToast("Reset Poetry & Shayari parameters to default!", "info");
+    } else if (catToReset === "LIVE_STAGE_METAMORPHOSIS") {
       setPerformerAge("Adult Illusionist (26-40 yrs)");
       setStageLocation("Circus Arena Ring");
       setAudiencePerspective("Front row smartphone POV");
@@ -5154,18 +3516,16 @@ export default function IdeasPage() {
       setTriggerAction("Tossing a red cape upward");
       setTargetEntity("Majestic male lion");
       setLightingFx("Bright overhead spotlights");
+      showToast("Reset Live Stage Metamorphosis parameters to default!", "info");
     } else if (catToReset === "CARBOX") {
       setCarboxBrand("Premium BMW");
       setCarboxColor("Glossy Black");
       setCarboxPackaging("Elegant Retail Box");
       setCarboxBackground("Clean White Studio Tabletop");
-    } else if (catToReset === "FRUIT_DANCING") {
-      applyFruitDancingPreset(FRUIT_DANCING_PRESETS[0]);
-    } else if (catToReset === "ANIMAL_DANCING") {
-      applyAnimalDancingPreset(ANIMAL_DANCING_PRESETS[0]);
+      showToast("Reset Car Unboxing parameters to default!", "info");
+    } else {
+      handleResetSettings();
     }
-
-    showToast(`Reset parameters to AI Default (AI will choose what is best)!`, "info");
   };
 
   const handleResetSettings = () => {
@@ -5207,9 +3567,6 @@ export default function IdeasPage() {
     setTriggerAction("Tossing a red cape upward");
     setTargetEntity("Majestic male lion");
     setLightingFx("Bright overhead spotlights");
-    setIsShortIdea(false);
-    setWithoutDialogue(false);
-    setWithoutMusic(false);
     setCustomIdea("");
     setFilterCategory("ALL");
     setSearchQuery("");
@@ -5311,7 +3668,7 @@ export default function IdeasPage() {
         visualStyle,
         videoFileName,
         userId: currentUser.id,
-        aiModel: (optimizedData as any).modelUsed || aiModel || "claude-sonnet-4-6",
+        aiModel: (optimizedData as any).modelUsed || aiModel || "claude-3-7-sonnet-20250219",
       };
 
       const res = await fetch("/api/ideas", {
@@ -5348,20 +3705,11 @@ export default function IdeasPage() {
           language,
           visualStyle,
           videoDuration,
-          includeCharacterBible,
-          compactMode,
-          kids20sStep: videoDuration === 20 ? "SCENE_1_ONLY" : undefined,
-          customDialogue: videoDuration === 20
-            ? (customDialogueSeq1 || customDialogueSeq2 ? `First Sequence (0-10s): "${customDialogueSeq1.trim()}"\nSecond Sequence (10-20s): "${customDialogueSeq2.trim()}"` : customDialogue)
-            : customDialogue,
-          customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
-          customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
+          customDialogue,
           kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
           kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsClothing : undefined,
-          fatherClothing: fatherClothing === "Custom" ? (customFatherClothing || "Custom") : (fatherClothing !== "AI Decides" ? fatherClothing : undefined),
-          motherClothing: motherClothing === "Custom" ? (customMotherClothing || "Custom") : (motherClothing !== "AI Decides" ? motherClothing : undefined),
           kidsVibe: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsVibe : undefined,
           characterSetup: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? characterSetup : undefined,
           charactersPerScene: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
@@ -5372,10 +3720,10 @@ export default function IdeasPage() {
           carboxBackground,
           aiModel,
           musicType,
-          seriousDialogueStyle: category === "CUTE_KIDS" ? undefined : seriousDialogueStyle,
+          seriousDialogueStyle,
           customSceneDescription,
           outroEffects,
-          includeMic: category === "CUTE_KIDS" ? false : includeMic,
+          includeMic,
           audiencePerspective: category === "LIVE_STAGE_METAMORPHOSIS" ? audiencePerspective : undefined,
           stageEnvironment: category === "LIVE_STAGE_METAMORPHOSIS" ? stageEnvironment : undefined,
           initialPerformer: category === "LIVE_STAGE_METAMORPHOSIS" ? initialPerformer : undefined,
@@ -5393,9 +3741,6 @@ export default function IdeasPage() {
           storyBeat: storyBeat !== "Any / AI Decides" ? storyBeat : undefined,
           cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
           charPerformance: charPerformance !== "Any / AI Decides" ? charPerformance : undefined,
-          isShortIdea,
-          withoutDialogue,
-          withoutMusic,
         }),
       });
       const data = await res.json();
@@ -5418,7 +3763,7 @@ export default function IdeasPage() {
           visualStyle,
           videoFileName,
           userId: currentUser.id,
-          aiModel: aiModel || "claude-sonnet-4-6",
+          aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
@@ -5431,10 +3776,6 @@ export default function IdeasPage() {
           cameraShot: cameraShot !== "Any / AI Decides" ? cameraShot : undefined,
           customSceneDescription: customSceneDescription && customSceneDescription.trim() ? customSceneDescription.trim() : undefined,
           outroEffects: outroEffects !== "None" ? outroEffects : undefined,
-          isShortIdea,
-          withoutDialogue,
-          withoutMusic,
-          videoDuration,
         };
         
         try {
@@ -5465,12 +3806,11 @@ export default function IdeasPage() {
           language,
           visualStyle,
           videoFileName,
-          aiModel: aiModel || "claude-sonnet-4-6",
+          aiModel: aiModel || "claude-3-7-sonnet-20250219",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
           kidsClothing: category === "CUTE_KIDS" ? kidsClothing : undefined,
-          videoDuration,
           createdAt: new Date().toISOString(),
           isFavorite: false,
         } as SavedIdea;
@@ -5490,98 +3830,6 @@ export default function IdeasPage() {
       showToast(e.message || "Failed to generate ideas", "error");
     } finally {
       setIsGenerating(false);
-    }
-  };
-
-  const handleGenerateScene2 = async (idea: SavedIdea) => {
-    setLoadingSceneStepId(idea.id);
-    try {
-      const res = await fetch("/api/suggest-ideas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category: idea.category,
-          language: idea.language,
-          visualStyle: idea.visualStyle,
-          videoDuration: 20,
-          kids20sStep: "SCENE_2_ONLY",
-          scene1Text: idea.text,
-          scene1Clothing: extractScene1Clothing(idea.text),
-          customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
-          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success || !data.ideas?.[0]) {
-        throw new Error(data.reason || data.error || "Failed to generate Scene 2");
-      }
-
-      const updatedText = data.ideas[0];
-
-      setSavedIdeas((prev) =>
-        prev.map((item) => (item.id === idea.id ? { ...item, text: updatedText } : item))
-      );
-
-      try {
-        await fetch(`/api/ideas/${idea.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: updatedText }),
-        });
-      } catch (err) {
-        console.error("Error updating idea with Scene 2 in DB:", err);
-      }
-
-      showToast("✨ Generated Scene 2! Both scenes ready for CapCut stitching.", "success");
-    } catch (e: any) {
-      showToast(e.message || "Failed to generate Scene 2", "error");
-    } finally {
-      setLoadingSceneStepId(null);
-    }
-  };
-
-  const handleRegenerateScene1 = async (idea: SavedIdea) => {
-    setLoadingSceneStepId(idea.id);
-    try {
-      const res = await fetch("/api/suggest-ideas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category: idea.category,
-          language: idea.language,
-          visualStyle: idea.visualStyle,
-          videoDuration: 20,
-          kids20sStep: "SCENE_1_ONLY",
-          customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
-          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success || !data.ideas?.[0]) {
-        throw new Error(data.reason || data.error || "Failed to regenerate Scene 1");
-      }
-
-      const updatedText = data.ideas[0];
-
-      setSavedIdeas((prev) =>
-        prev.map((item) => (item.id === idea.id ? { ...item, text: updatedText } : item))
-      );
-
-      try {
-        await fetch(`/api/ideas/${idea.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: updatedText }),
-        });
-      } catch (err) {
-        console.error("Error updating idea with regenerated Scene 1 in DB:", err);
-      }
-
-      showToast("🔄 Regenerated First Scene! Review and click 'Generate Second Scene' when ready.", "success");
-    } catch (e: any) {
-      showToast(e.message || "Failed to regenerate Scene 1", "error");
-    } finally {
-      setLoadingSceneStepId(null);
     }
   };
 
@@ -5651,112 +3899,6 @@ export default function IdeasPage() {
     }
   };
 
-  const handleRemake = (idea: SavedIdea) => {
-    setCategory(idea.category);
-    if (idea.language) setLanguage(idea.language);
-    if (idea.visualStyle) setVisualStyle(idea.visualStyle);
-    if (idea.aiModel) setAiModel(idea.aiModel);
-    
-    setCustomDialogue(idea.customDialogue || "");
-    setMusicType(idea.musicType || "None");
-    setSeriousDialogueStyle(idea.seriousDialogueStyle || "None");
-    setCustomSceneDescription(idea.customSceneDescription || "");
-    setOutroEffects(idea.outroEffects || "None");
-    setIsShortIdea(idea.isShortIdea || false);
-    setWithoutDialogue(idea.withoutDialogue || false);
-    setWithoutMusic(idea.withoutMusic || false);
-    
-    if (idea.kidsClothing) setKidsClothing(idea.kidsClothing);
-    
-    if (idea.kidsExpression) setKidsExpression(idea.kidsExpression);
-    else setKidsExpression("Any / AI Decides");
-    
-    if (idea.kidsFood) setKidsFood(idea.kidsFood);
-    else setKidsFood("Any / AI Decides");
-    
-    if (idea.kidsProp) setKidsProp(idea.kidsProp);
-    else setKidsProp("Any / AI Decides");
-    
-    if (idea.timeOfDay) setTimeOfDay(idea.timeOfDay);
-    else setTimeOfDay("Any / AI Decides");
-    
-    if (idea.storyBeat) setStoryBeat(idea.storyBeat);
-    else setStoryBeat("Any / AI Decides");
-    
-    if (idea.cameraShot) setCameraShot(idea.cameraShot);
-    else setCameraShot("Any / AI Decides");
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast("Settings loaded! You can now remake this script.", "success");
-  };
-
-  const handleCategoryChange = (cat: CategoryId) => {
-    const prevCat = category;
-    setCategory(cat);
-
-    if (cat !== prevCat) {
-      setKidsAge("Any / AI Decides");
-      setKidsLocation("Any / AI Decides");
-      setKidsVibe("Any / AI Decides");
-      setKidsClothing("Any / AI Decides");
-      setCharacterSetup("Any / AI Decides");
-      setCharactersPerScene("Any / AI Decides");
-      setCustomCharactersPerScene("");
-      setKidsNationality("Any / AI Decides");
-      setKidsExpression("Any / AI Decides");
-      setKidsFood("Any / AI Decides");
-      setKidsProp("Any / AI Decides");
-      setTimeOfDay("Any / AI Decides");
-      setStoryBeat("Any / AI Decides");
-      setCameraShot("Any / AI Decides");
-      setCharPerformance("Any / AI Decides");
-      setCharacterFaceType("Any / AI Decides");
-      setSeriousDialogueStyle("Any / AI Decides");
-      setMusicType("None");
-      setKidsHealth("Healthy");
-
-      if (cat === "CUTE_KIDS") {
-        setVisualStyle("3D Cartoon Style");
-      } else if (cat === "CHARACTER_BIBLE") {
-        setVisualStyle("Photorealistic 8K Cinematic");
-      } else if (cat === "SONG" || cat === "POETRY") {
-        setVisualStyle("Hyper-Realistic CGI");
-      } else if (cat === "COMMERCIAL_AD") {
-        applyCommercialAdPreset(COMMERCIAL_AD_PRESETS[0]);
-      } else if (cat === "SHORT_CLIP") {
-        setWithoutMusic(true);
-        setWithoutDialogue(true);
-        setVisualStyle("Photorealistic 8K Cinematic");
-      } else if (cat === "LIVE_STAGE_METAMORPHOSIS") {
-        setPerformerAge("Adult Illusionist (26-40 yrs)");
-        setStageLocation("Circus Arena Ring");
-        setAudiencePerspective("Front row smartphone POV");
-        setStageEnvironment("Circus arena ring");
-        setInitialPerformer("Ringmaster in red coat");
-        setTriggerAction("Tossing a red cape upward");
-        setTargetEntity("Majestic male lion");
-        setLightingFx("Bright overhead spotlights");
-      } else if (cat === "CARBOX") {
-        setLanguage("ASMR Unboxing Effects");
-        setVisualStyle("Realistic");
-      } else if (cat === "FRUIT_DANCING") {
-        setVisualStyle("3D Pixar Animation");
-        setWithoutDialogue(true);
-        setWithoutMusic(false);
-        applyFruitDancingPreset(FRUIT_DANCING_PRESETS[0]);
-      } else if (cat === "ANIMAL_DANCING") {
-        setVisualStyle("3D Pixar Animation");
-        setWithoutDialogue(true);
-        setWithoutMusic(false);
-        applyAnimalDancingPreset(ANIMAL_DANCING_PRESETS[0]);
-      }
-    }
-
-    if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
-    else if (cat === "HINDI_JOKE") setLanguage("Hindi");
-    else if (cat !== "CARBOX" && language === "ASMR Unboxing Effects") setLanguage("Urdu");
-  };
-
   const handleCopy = async (text: string, id: string) => {
     const ok = await copyToClipboard(text);
     if (ok) {
@@ -5806,7 +3948,10 @@ export default function IdeasPage() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const categoryEntries = Object.values(CATEGORIES);
+  const isAdiUser = currentUser?.name?.toLowerCase() === "adi";
+  const categoryEntries = Object.values(CATEGORIES).filter(
+    (cat) => !(isAdiUser && (cat.id === "SONG" || cat.id === "POETRY"))
+  );
 
   if (!isLoggedIn) {
     return (
@@ -5968,129 +4113,10 @@ export default function IdeasPage() {
             </h2>
           </div>
 
-          {/* 🌟 BIG UNIFIED CATEGORY & PRIMARY CONTROLS CARD (Right after Generate New Video Concept) */}
-          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-950/60 via-indigo-950/70 to-purple-950/60 border-2 border-amber-500/50 shadow-2xl space-y-5">
-            {/* Top Row: Big Active Category Display + Category Dropdown Selector */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/20 pb-4">
-              <div className="flex items-center gap-3.5">
-                <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-black/70 border border-amber-500/40 shadow-inner shrink-0">
-                  {CATEGORIES[category]?.badge || "💡"}
-                </span>
-                <div>
-                  <div className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest flex items-center gap-2">
-                    <span>ACTIVE CATEGORY</span>
-                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                  </div>
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight mt-0.5">
-                    {CATEGORIES[category]?.name || category}
-                  </h3>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-snug">
-                    {CATEGORIES[category]?.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Category Dropdown Selector */}
-              <div className="w-full md:w-auto min-w-[260px] shrink-0">
-                <label className="text-[11px] font-extrabold text-amber-300 uppercase tracking-wider block mb-1">
-                  Change Category:
-                </label>
-                <select
-                  value={category}
-                  onChange={(e) => handleCategoryChange(e.target.value as CategoryId)}
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border-2 border-amber-500/60 text-sm sm:text-base font-extrabold text-amber-200 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 cursor-pointer shadow-xl transition-all"
-                >
-                  {categoryEntries.map((cat) => (
-                    <option key={cat.id} value={cat.id} className="bg-slate-900 text-slate-100 font-bold py-1.5">
-                      {cat.name} ({cat.badge})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Bottom Row: Grouped Primary Options (Language, Visual Style, Duration, AI Model) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Language */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Language</label>
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-slate-700 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer disabled:opacity-50"
-                  disabled={category === "CARBOX"}
-                >
-                  {category === "CARBOX" ? (
-                    <option value="ASMR Unboxing Effects" className="bg-slate-900 text-white">ASMR Unboxing Effects</option>
-                  ) : (
-                    LANGUAGE_OPTIONS.map((l) => (
-                      <option key={l} value={l} className="bg-slate-900 text-white">
-                        {l}
-                      </option>
-                    ))
-                  )}
-                </select>
-              </div>
-
-              {/* Visual Style */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Visual Style</label>
-                <VisualStyleDropdown value={visualStyle} onChange={setVisualStyle} />
-              </div>
-
-              {/* Duration */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1">
-                  <span>Duration</span>
-                </label>
-                <select
-                  value={videoDuration}
-                  onChange={(e) => setVideoDuration(Number(e.target.value))}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-indigo-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
-                >
-                  <option value={8} className="bg-slate-900 text-white">8 Sec Story Clip</option>
-                  <option value={10} className="bg-slate-900 text-white">⚡ 10 Sec Fast & Energetic</option>
-                  <option value={20} className="bg-slate-900 text-white">⚡🎬 20 Sec Connected Story (2x 10s)</option>
-                </select>
-              </div>
-
-              {/* AI Model Selector */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <span>🤖 AI Model</span>
-                </label>
-                <select
-                  value={aiModel}
-                  onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-purple-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all font-semibold cursor-pointer"
-                >
-                  {AI_MODEL_OPTIONS.map((m) => (
-                    <option key={m.id} value={m.id} className="bg-slate-900 text-white">
-                      {m.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
           {/* Top Priority Inputs: Dialogue & Situation Description */}
           {category !== "CARBOX" && (
             <div className="space-y-4 mb-4">
-              {/* Fruit Dancing & Animal Dancing: No-dialogue info badge */}
-              {category === "FRUIT_DANCING" || category === "ANIMAL_DANCING" ? (
-                <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-950/30 border border-green-500/40 shadow-md">
-                  <span className="text-2xl">🔇</span>
-                  <div>
-                    <p className="text-xs font-extrabold text-green-300 uppercase tracking-wide">No Spoken Dialogue — Pure Dance Video</p>
-                    <p className="text-[11px] text-slate-400 font-medium mt-0.5">
-                      {category === "ANIMAL_DANCING" 
-                        ? "Animal Dancing videos are silent visual performances. AI will not add any spoken script or character dialogue — only cute dance moves, rhythm beats, and animal sound effects."
-                        : "Fruit Dancing videos are silent visual performances. AI will not add any spoken script or character dialogue — only dance moves, music, and baby giggles."}
-                    </p>
-                  </div>
-                </div>
-              ) : (
+              {/* Custom Spoken Dialogue Section */}
               <div className="space-y-3 p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30">
                 <div className="flex flex-wrap items-center justify-between gap-2.5">
                   <label className="text-xs font-extrabold text-amber-300 flex items-center gap-2">
@@ -6161,68 +4187,14 @@ export default function IdeasPage() {
                   </div>
                 </div>
 
-                {videoDuration === 20 ? (
-                  <div className="space-y-4 pt-1">
-                    <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
-                          <span>🎬 Sequence 1 Spoken Dialogue (First 10s Clip — 0-10s)</span>
-                        </label>
-                        {customDialogueSeq1 && (
-                          <button
-                            type="button"
-                            onClick={() => setCustomDialogueSeq1("")}
-                            className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
-                          >
-                            Clear Seq 1
-                          </button>
-                        )}
-                      </div>
-                      <textarea
-                        value={customDialogueSeq1}
-                        onChange={(e) => setCustomDialogueSeq1(e.target.value)}
-                        dir={customDialogueSeq1 && /[\u0600-\u06FF]/.test(customDialogueSeq1) ? "rtl" : "auto"}
-                        rows={3}
-                        placeholder={`Spoken dialogue for first 10s clip, e.g.:\nابو دیکھو! میں نے ایک نیا کھیل دریافت کر لیا ہے!`}
-                        className="w-full px-4 py-3 rounded-xl bg-black/80 border border-amber-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-all resize-y custom-scrollbar"
-                      />
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/40 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-extrabold text-indigo-300 flex items-center gap-1.5">
-                          <span>🎬 Sequence 2 Spoken Dialogue (Second 10s Clip — 10-20s Continuation)</span>
-                        </label>
-                        {customDialogueSeq2 && (
-                          <button
-                            type="button"
-                            onClick={() => setCustomDialogueSeq2("")}
-                            className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
-                          >
-                            Clear Seq 2
-                          </button>
-                        )}
-                      </div>
-                      <textarea
-                        value={customDialogueSeq2}
-                        onChange={(e) => setCustomDialogueSeq2(e.target.value)}
-                        dir={customDialogueSeq2 && /[\u0600-\u06FF]/.test(customDialogueSeq2) ? "rtl" : "auto"}
-                        rows={3}
-                        placeholder={`Spoken dialogue for second 10s clip, e.g.:\nارے یہ کیا ہو گیا! لیکن کتنا مزہ آیا!`}
-                        className="w-full px-4 py-3 rounded-xl bg-black/80 border border-indigo-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 transition-all resize-y custom-scrollbar"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <textarea
-                    value={customDialogue}
-                    onChange={(e) => setCustomDialogue(e.target.value)}
-                    dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
-                    rows={isDialogueExpanded ? 8 : 4}
-                    placeholder={`Paste your Urdu or Punjabi script here, e.g.:\nابو: چپس کہاں گئے؟\nبچہ: تحقیقات جاری ہیں!\n(Then click ✨ Fix Urdu & Punjabi Script)`}
-                    className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
-                  />
-                )}
+                <textarea
+                  value={customDialogue}
+                  onChange={(e) => setCustomDialogue(e.target.value)}
+                  dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
+                  rows={isDialogueExpanded ? 8 : 4}
+                  placeholder={`Paste your Urdu or Punjabi script here, e.g.:\nابو: چپس کہاں گئے؟\nبچہ: تحقیقات جاری ہیں!\n(Then click ✨ Fix Urdu & Punjabi Script)`}
+                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
+                />
 
                 {/* Saved Dialogues Tag List */}
                 {savedDialogues.length > 0 && (
@@ -6266,7 +4238,6 @@ export default function IdeasPage() {
                   </div>
                 )}
               </div>
-              )}
 
               {/* Situation/Scene Description Section */}
               <div className="space-y-3 p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/30">
@@ -6274,84 +4245,199 @@ export default function IdeasPage() {
                   <label className="text-xs font-extrabold text-indigo-300 flex items-center gap-2">
                     <span>🎬 Situation / Scene Description (Optional)</span>
                   </label>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {/* Situation Category Selector Dropdown */}
-                    <select
-                      value={selectedSituationCat}
-                      onChange={(e) => {
-                        setSelectedSituationCat(e.target.value);
-                        handleSuggestSituation(e.target.value);
-                      }}
-                      className="px-3 py-1.5 rounded-lg bg-indigo-950/80 border border-indigo-500/40 text-xs font-bold text-indigo-200 focus:outline-none focus:border-indigo-400 cursor-pointer shadow-sm"
-                      title="Select a situation category to get AI scene suggestions"
-                    >
-                      {SITUATION_CATEGORIES.map((cat) => (
-                        <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
-                          {cat.label}
-                        </option>
-                      ))}
-                    </select>
-
-                    {/* AI Suggest Situation Button */}
+                  {customSceneDescription && (
                     <button
                       type="button"
-                      onClick={() => handleSuggestSituation()}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600/80 to-purple-600/80 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title="Suggest a new random scenario for the selected situation category"
+                      onClick={() => {
+                        setCustomSceneDescription("");
+                        showToast("Cleared situation description", "info");
+                      }}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                      title="Clear description"
                     >
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>✨ AI Suggest Situation</span>
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Clear</span>
                     </button>
-
-                    {customSceneDescription && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCustomSceneDescription("");
-                          showToast("Cleared situation description", "info");
-                        }}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Clear description"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Clear</span>
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
 
                 <textarea
                   value={customSceneDescription}
                   onChange={(e) => setCustomSceneDescription(e.target.value)}
                   rows={3}
-                  placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind.`}
+                  placeholder={`e.g. The kid is trying to sneak cookies from the top jar on the kitchen counter while standing on tip-toes, looking around guiltily.`}
                   className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
                 />
-
-                {/* One-Tap Quick Situation Suggestions Pills */}
-                <div className="space-y-1.5 pt-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">⚡ One-Tap Quick Situations:</span>
-                  <div className="flex flex-wrap gap-2">
-                    {QUICK_SITUATION_PILLS.map((pill) => (
-                      <button
-                        key={pill.label}
-                        type="button"
-                        onClick={() => {
-                          setCustomSceneDescription(pill.text);
-                          showToast(`Applied situation: "${pill.label}"`, "info");
-                        }}
-                        className="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-indigo-900/60 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold text-slate-300 hover:text-indigo-200 transition-all cursor-pointer active:scale-95 shadow-sm"
-                      >
-                        {pill.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
+            {/* Category */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Category</label>
+              <select
+                value={category}
+                onChange={(e) => {
+                  const cat = e.target.value as CategoryId;
+                  const prevCat = category;
+                  setCategory(cat);
+
+                  // ── STRICT CATEGORY ISOLATION ──────────────────────────────
+                  // Reset ALL character/scene settings to that category's own
+                  // defaults whenever the user switches categories. This prevents
+                  // adult Poetry/Song details (beards, adult age, etc.) from
+                  // bleeding into Cute Kids prompts and vice versa.
+                  if (cat !== prevCat) {
+                    if (cat === "CUTE_KIDS") {
+                      setKidsAge("Toddler (2-4 yrs)");
+                      setKidsLocation("Cozy Home Living Room");
+                      setKidsHealth("Healthy");
+                      setKidsVibe("Cheerful & Energetic");
+                      setKidsClothing("Any / AI Decides");
+                      setCharacterSetup("One Cute Little Girl");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Global / Any");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsFood("Any / AI Decides");
+                      setKidsProp("Any / AI Decides");
+                      setTimeOfDay("Any / AI Decides");
+                      setStoryBeat("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setCharacterFaceType("Any / AI Decides");
+                      setSeriousDialogueStyle("None");
+                      setMusicType("None");
+                      setSongCrowdFx("AI Decides");
+                      setVisualStyle("3D Cartoon Style");
+                    } else if (cat === "SONG") {
+                      setKidsAge("Adult (25-35 yrs)");
+                      setKidsLocation("Sunset Rooftop & City Skyline 🌇");
+                      setKidsVibe("Romantic & Soulful");
+                      setKidsClothing("Performers Outfit & Attire");
+                      setCharacterSetup("Solo Adult Female Singer 👩‍🎤");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Pakistani (General / Desi)");
+                      setSeriousDialogueStyle("None");
+                      setMusicType("None");
+                      setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+                      setCharacterFaceType("Any / AI Decides");
+                      setVisualStyle("Hyper-Realistic CGI");
+                      setTimeOfDay("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsHealth("Healthy");
+                    } else if (cat === "POETRY") {
+                      setKidsAge("Adult (25-35 yrs)");
+                      setKidsLocation("Traditional Heritage Haveli");
+                      setKidsVibe("Poetic Shayari Mehfil");
+                      setKidsClothing("Performers Outfit & Attire");
+                      setCharacterSetup("Solo Adult Male Shayar 👨‍🎤");
+                      setCharactersPerScene("1 Character");
+                      setCustomCharactersPerScene("");
+                      setKidsNationality("Pakistani Muhajir / Urdu Speaking");
+                      setSeriousDialogueStyle("Poetic/Shayari");
+                      setMusicType("Desi Classical Sitar & Tabla");
+                      setSongCrowdFx("Live Mushaira Crowd (Wah Wah & Irshad)");
+                      setCharacterFaceType("Any / AI Decides");
+                      setVisualStyle("Hyper-Realistic CGI");
+                      setTimeOfDay("Any / AI Decides");
+                      setCameraShot("Any / AI Decides");
+                      setCharPerformance("Any / AI Decides");
+                      setKidsExpression("Any / AI Decides");
+                      setKidsHealth("Healthy");
+                    } else if (cat === "LIVE_STAGE_METAMORPHOSIS") {
+                      setPerformerAge("Adult Illusionist (26-40 yrs)");
+                      setStageLocation("Circus Arena Ring");
+                      setAudiencePerspective("Front row smartphone POV");
+                      setStageEnvironment("Circus arena ring");
+                      setInitialPerformer("Ringmaster in red coat");
+                      setTriggerAction("Tossing a red cape upward");
+                      setTargetEntity("Majestic male lion");
+                      setLightingFx("Bright overhead spotlights");
+                    } else if (cat === "CARBOX") {
+                      setLanguage("ASMR Unboxing Effects");
+                      setVisualStyle("Realistic");
+                    }
+                  }
+
+                  if (cat === "PUNJABI_JOKE") setLanguage("Punjabi");
+                  else if (cat === "HINDI_JOKE") setLanguage("Hindi");
+                  else if (cat !== "CARBOX" && language === "ASMR Unboxing Effects") setLanguage("Urdu");
+                }}
+                className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
+              >
+                {categoryEntries.map((cat) => (
+                  <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Language */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Language</label>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer disabled:opacity-50"
+                disabled={category === "CARBOX"}
+              >
+                {category === "CARBOX" ? (
+                  <option value="ASMR Unboxing Effects" className="bg-slate-900 text-white">ASMR Unboxing Effects</option>
+                ) : (
+                  LANGUAGE_OPTIONS.map((l) => (
+                    <option key={l} value={l} className="bg-slate-900 text-white">
+                      {l}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
+
+            {/* Visual Style */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Visual Style</label>
+              <VisualStyleDropdown value={visualStyle} onChange={setVisualStyle} />
+            </div>
+
+            {/* Duration */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1">
+                <span>Duration</span>
+              </label>
+              <select
+                value={videoDuration}
+                onChange={(e) => setVideoDuration(Number(e.target.value))}
+                className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-indigo-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
+              >
+                <option value={8} className="bg-slate-900 text-white">8 Sec Story Clip</option>
+                <option value={10} className="bg-slate-900 text-white">⚡ 10 Sec Fast & Energetic</option>
+              </select>
+            </div>
+
+            {/* AI Model Selector */}
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <label className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🤖 AI Model</span>
+              </label>
+              <select
+                value={aiModel}
+                onChange={(e) => setAiModel(e.target.value)}
+                className="w-full px-3.5 py-3 rounded-xl bg-black/60 border border-purple-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all font-semibold cursor-pointer"
+              >
+                {AI_MODEL_OPTIONS.map((m) => (
+                  <option key={m.id} value={m.id} className="bg-slate-900 text-white">
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Background Music Type Dropdown */}
             <div className="space-y-2 sm:col-span-2 lg:col-span-1">
               <CustomSelect
@@ -6417,134 +4503,6 @@ export default function IdeasPage() {
 
           </div>
 
-          {/* Universal Concept Options: Short Idea, Without Dialogue, Without Music */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 space-y-3.5 shadow-lg relative z-30">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/20 pb-2.5 gap-1.5">
-              <span className="text-xs font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-                Universal Concept Options (Applies to All Categories)
-              </span>
-              <span className="text-[10px] text-slate-400 font-medium">All options OFF by default</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-              {/* 1. Short Idea Toggle */}
-              <div
-                onClick={() => setIsShortIdea(!isShortIdea)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  isShortIdea
-                    ? "bg-amber-950/50 border-amber-500/80 text-amber-200 shadow-md shadow-amber-500/20 ring-1 ring-amber-500/40"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                    <span className="text-base">⚡</span>
-                    <span>Short Idea</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${isShortIdea ? "bg-amber-500" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${isShortIdea ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
-                  {isShortIdea ? "ON: Generates 3-4 clip short concept + Full Idea" : "OFF: Generates normal/full idea only"}
-                </p>
-              </div>
-
-              {/* 2. Without Dialogue Toggle */}
-              <div
-                onClick={() => setWithoutDialogue(!withoutDialogue)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  withoutDialogue
-                    ? "bg-purple-950/50 border-purple-500/80 text-purple-200 shadow-md shadow-purple-500/20 ring-1 ring-purple-500/40"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                    <span className="text-base">🔇</span>
-                    <span>Without Dialogue</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutDialogue ? "bg-purple-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutDialogue ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
-                  {withoutDialogue ? "ON: Dialogue & Spoken Script DISABLED (Silent Visual Storytelling)" : "OFF: Dialogue & Character Script ENABLED"}
-                </p>
-              </div>
-
-              {/* 3. Without Music Toggle */}
-              <div
-                onClick={() => setWithoutMusic(!withoutMusic)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  withoutMusic
-                    ? "bg-rose-950/50 border-rose-500/80 text-rose-200 shadow-md shadow-rose-500/20 ring-1 ring-rose-500/40"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                    <span className="text-base">🚫🎵</span>
-                    <span>Without Music</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutMusic ? "bg-rose-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutMusic ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
-                  {withoutMusic ? "ON: No background music. Diegetic SFX only" : "OFF: Can include background music"}
-                </p>
-              </div>
-
-              {/* 4. Character Continuity Bible Toggle */}
-              <div
-                onClick={() => setIncludeCharacterBible(!includeCharacterBible)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  includeCharacterBible
-                    ? "bg-indigo-950/50 border-indigo-500/80 text-indigo-200 shadow-md shadow-indigo-500/20 ring-1 ring-indigo-500/40"
-                    : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                    <span className="text-base">📋🔒</span>
-                    <span>Continuity Bible</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${includeCharacterBible ? "bg-indigo-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeCharacterBible ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
-                  {includeCharacterBible ? "ENABLED: Includes locked facial identity & outfit specs" : "DISABLED: Skips Bible header & outputs scene prompts directly"}
-                </p>
-              </div>
-
-              {/* 5. Compact 9:16 Prompt Only (Credit Saver) Toggle */}
-              <div
-                onClick={() => setCompactMode(!compactMode)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  compactMode
-                    ? "bg-emerald-950/50 border-emerald-500/80 text-emerald-200 shadow-md shadow-emerald-500/20 ring-1 ring-emerald-500/40"
-                    : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                    <span className="text-base">⚡📱</span>
-                    <span>9:16 Credit Saver</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${compactMode ? "bg-emerald-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${compactMode ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
-                  {compactMode ? "ON: Generates lean 9:16 prompt only (Saves ~75% credits)" : "OFF: Generates extended detailed description"}
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Cute Kids Options */}
           {category === "CUTE_KIDS" && (
             <div className="p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 space-y-5 shadow-xl relative z-30">
@@ -6591,44 +4549,35 @@ export default function IdeasPage() {
                 </div>
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
-                    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
-                      {CUTE_KIDS_PRESET_GROUPS.map((group) => (
-                        <div key={group.groupName} className="space-y-2">
-                          <h4 className="text-[11px] font-bold text-indigo-300/80 uppercase tracking-wider px-1">
-                            {group.groupName}
-                          </h4>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                            {group.presets.map((preset) => {
-                              const isActive = 
-                                kidsAge === preset.age &&
-                                kidsLocation === preset.location &&
-                                kidsHealth === preset.health &&
-                                kidsVibe === preset.vibe &&
-                                characterSetup === preset.setup &&
-                                charactersPerScene === preset.perScene &&
-                                kidsNationality === preset.nationality &&
-                                (!preset.musicType || musicType === preset.musicType) &&
-                                (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
-                              
-                              return (
-                                <button
-                                  key={preset.title}
-                                  type="button"
-                                  onClick={() => applyCuteKidsPreset(preset)}
-                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
-                                    isActive 
-                                      ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
-                                      : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
-                                  }`}
-                                >
-                                  <span className="text-base shrink-0">{preset.icon}</span>
-                                  <span className="truncate">{preset.title}</span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {CUTE_KIDS_PRESETS.map((preset) => {
+                        const isActive = 
+                          kidsAge === preset.age &&
+                          kidsLocation === preset.location &&
+                          kidsHealth === preset.health &&
+                          kidsVibe === preset.vibe &&
+                          characterSetup === preset.setup &&
+                          charactersPerScene === preset.perScene &&
+                          kidsNationality === preset.nationality &&
+                          (!preset.musicType || musicType === preset.musicType) &&
+                          (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
+                        
+                        return (
+                          <button
+                            key={preset.title}
+                            type="button"
+                            onClick={() => applyCuteKidsPreset(preset)}
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                              isActive 
+                                ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
+                                : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
+                            }`}
+                          >
+                            <span className="text-base shrink-0">{preset.icon}</span>
+                            <span className="truncate">{preset.title}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -6680,62 +4629,6 @@ export default function IdeasPage() {
                   groups={KIDS_CLOTHING_GROUPS}
                   keepOpenOnSelect={true}
                 />
-
-                {/* 4.6 Father Clothing & Outfit */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>👨</span>
-                    <span>Father Clothing</span>
-                  </label>
-                  <select
-                    value={fatherClothing}
-                    onChange={(e) => setFatherClothing(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-slate-800 text-xs font-bold text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
-                  >
-                    {FATHER_CLOTHING_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-slate-900 text-slate-200">
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                  {fatherClothing === "Custom" && (
-                    <input
-                      type="text"
-                      value={customFatherClothing}
-                      onChange={(e) => setCustomFatherClothing(e.target.value)}
-                      placeholder="e.g. White Waistcoat over Navy Blue Kurta..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
-                    />
-                  )}
-                </div>
-
-                {/* 4.7 Mother Clothing & Outfit */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>👩</span>
-                    <span>Mother Clothing</span>
-                  </label>
-                  <select
-                    value={motherClothing}
-                    onChange={(e) => setMotherClothing(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-slate-800 text-xs font-bold text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
-                  >
-                    {MOTHER_CLOTHING_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-slate-900 text-slate-200">
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                  {motherClothing === "Custom" && (
-                    <input
-                      type="text"
-                      value={customMotherClothing}
-                      onChange={(e) => setCustomMotherClothing(e.target.value)}
-                      placeholder="e.g. Emerald Green Silk Suit with Embroidered Dupatta..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
-                    />
-                  )}
-                </div>
 
                 {/* 5. Character Setup */}
                 <CustomSelect
@@ -7053,33 +4946,17 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* POETRY, SHORT CLIP, COMMERCIAL AD, FRUIT DANCING & ANIMAL DANCING OPTIONS */}
-          {(category === "POETRY" || category === "SHORT_CLIP" || category === "COMMERCIAL_AD" || category === "FRUIT_DANCING" || category === "ANIMAL_DANCING") && (
+          {/* POETRY & SHAYARI OPTIONS */}
+          {category === "POETRY" && (
             <div className="p-4 sm:p-6 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-5 shadow-xl relative z-30 font-sans">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-500/20 pb-3 gap-2">
                 <div>
                   <h3 className="text-sm sm:text-base font-extrabold text-purple-300 flex items-center gap-2 uppercase tracking-wide">
                     <Feather className="w-4 h-4 text-purple-400" />
-                    {category === "ANIMAL_DANCING"
-                      ? "Animal Dancing Parameters (Viral Cosplay Pets)"
-                      : category === "FRUIT_DANCING"
-                      ? "Fruit Dancing Parameters (Viral 3D Baby Costumes)"
-                      : category === "SHORT_CLIP" 
-                      ? "Short Clip Parameters (10s Connected Scenes)" 
-                      : category === "COMMERCIAL_AD"
-                      ? "Commercial Ad Parameters (10-20s Brand Video Ad)"
-                      : "Poetry & Shayari Parameters"}
+                    Poetry & Shayari Parameters
                   </h3>
                   <p className="text-[11px] text-slate-400 font-medium mt-0.5">
-                    {category === "ANIMAL_DANCING"
-                      ? "Generate viral 3D cartoon animal dance videos (kittens, puppies, pandas, bunnies) in cute cosplay costumes with 10 one-tap presets."
-                      : category === "FRUIT_DANCING"
-                      ? "Generate viral 3D cartoon baby fruit costume dance videos with 20 one-tap presets."
-                      : category === "SHORT_CLIP" 
-                      ? "Connected 10-second scene ideas with 100% locked character consistency. Music is OFF by default." 
-                      : category === "COMMERCIAL_AD"
-                      ? "High-converting brand ads, product pitches, and UGC commercial scripts."
-                      : "Atmospheric Ghazals, romantic Shayari, satirical Tanzo Mazah, and Mushaira Mehfils."}
+                    Customize Shayar age, Mehfil location, funny/satirical or serious poetry styles, and audience reactions.
                   </p>
                 </div>
                 <span className="text-[10px] text-purple-300/80 font-semibold px-2.5 py-1 rounded-full bg-purple-950/60 border border-purple-500/20 self-start sm:self-auto">
@@ -7098,21 +4975,13 @@ export default function IdeasPage() {
                 >
                   <span className="text-[11px] font-extrabold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    {category === "ANIMAL_DANCING"
-                      ? "One-Tap Animal Dancing Presets (Viral Cosplay Pets)"
-                      : category === "SHORT_CLIP" 
-                      ? "One-Tap Short Clip Presets (Connected Stories)" 
-                      : category === "COMMERCIAL_AD"
-                      ? "One-Tap Commercial Ad & Brand Pitch Presets (10-20s)"
-                      : category === "FRUIT_DANCING"
-                      ? "One-Tap Fruit Dancing Presets (Viral Baby Costumes)"
-                      : "One-Tap Poetry & Shayari Presets"}
+                    One-Tap Poetry & Shayari Presets
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings(category); }}
-                      title={`Reset ${category} settings to default values`}
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("POETRY"); }}
+                      title="Reset Poetry settings to default values"
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
                     >
                       <RotateCcw className="w-3 h-3 text-amber-400" />
@@ -7124,22 +4993,16 @@ export default function IdeasPage() {
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-                      {(category === "ANIMAL_DANCING" ? ANIMAL_DANCING_PRESETS : category === "FRUIT_DANCING" ? FRUIT_DANCING_PRESETS : category === "SHORT_CLIP" ? SHORT_CLIP_PRESETS : category === "COMMERCIAL_AD" ? COMMERCIAL_AD_PRESETS : POETRY_PRESETS).map((preset: any) => (
+                      {POETRY_PRESETS.map((preset, idx) => (
                         <button
-                          key={`${category}-${preset.title}`}
+                          key={idx}
                           type="button"
-                          onClick={() => {
-                            if (category === "ANIMAL_DANCING") applyAnimalDancingPreset(preset);
-                            else if (category === "FRUIT_DANCING") applyFruitDancingPreset(preset);
-                            else if (category === "SHORT_CLIP") applyShortClipPreset(preset);
-                            else if (category === "COMMERCIAL_AD") applyCommercialAdPreset(preset);
-                            else applyPoetryPreset(preset);
-                          }}
+                          onClick={() => applyPoetryPreset(preset)}
                           className="flex flex-col items-start p-2.5 rounded-xl bg-purple-900/30 hover:bg-purple-800/50 border border-purple-500/30 text-left transition-all active:scale-95 touch-manipulation group"
                         >
                           <span className="text-base mb-1">{preset.icon}</span>
                           <span className="text-xs font-bold text-white group-hover:text-purple-200 line-clamp-1">{preset.title}</span>
-                          <span className="text-[10px] text-purple-300/70 line-clamp-1">{preset.desc || preset.setup || preset.animalType}</span>
+                          <span className="text-[10px] text-purple-300/70 line-clamp-1">{preset.setup}</span>
                         </button>
                       ))}
                     </div>
@@ -7149,50 +5012,50 @@ export default function IdeasPage() {
 
               {/* Grid of Dropdowns */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* 1. Pet Age  ↔  Baby / Toddler Age  ↔  Shayar / Poet Age */}
+                {/* 1. Shayar / Poet Age */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Pet Age / Stage" : category === "FRUIT_DANCING" ? "Baby / Toddler Age" : "Shayar / Poet Age Range"}
-                  icon={category === "ANIMAL_DANCING" ? "🐾" : category === "FRUIT_DANCING" ? "🍼" : "🎂"}
+                  label="Shayar / Poet Age Range"
+                  icon="🎂"
                   value={kidsAge}
                   onChange={setKidsAge}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_AGE_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_AGE_GROUPS : SONG_AGE_GROUPS}
+                  groups={SONG_AGE_GROUPS}
                 />
 
-                {/* 2. Dance Location  ↔  Mehfil & Poetry Location */}
+                {/* 2. Mehfil & Poetry Location */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Location / Setting" : "Mehfil & Poetry Location"}
-                  icon={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "🌳" : "📍"}
+                  label="Mehfil & Poetry Location"
+                  icon="📍"
                   value={kidsLocation}
                   onChange={setKidsLocation}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_LOCATION_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_LOCATION_GROUPS : SONG_LOCATION_GROUPS}
+                  groups={SONG_LOCATION_GROUPS}
                 />
 
-                {/* 3. Dance Style & Vibe  ↔  Poetry Vibe & Mood */}
+                {/* 3. Poetry Vibe & Mood */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Style & Vibe" : "Poetry Vibe & Mood"}
-                  icon={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "🕺" : "✨"}
+                  label="Poetry Vibe & Mood"
+                  icon="✨"
                   value={kidsVibe}
                   onChange={setKidsVibe}
-                  groups={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? FRUIT_DANCING_VIBE_GROUPS : SONG_VIBE_GROUPS}
+                  groups={SONG_VIBE_GROUPS}
                 />
 
-                {/* 4. Cosplay Costume  ↔  Fruit Costume Type  ↔  Shayar Attire / Outfit */}
+                {/* 4. Shayar Attire / Outfit */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Cosplay Costume & Outfit" : category === "FRUIT_DANCING" ? "Fruit Costume Type" : "Shayar Attire & Outfit"}
-                  icon={category === "ANIMAL_DANCING" ? "👗" : category === "FRUIT_DANCING" ? "🍉" : "👗"}
+                  label="Shayar Attire & Outfit"
+                  icon="👗"
                   value={kidsClothing}
                   onChange={setKidsClothing}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_COSTUME_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_COSTUME_GROUPS : SONG_CLOTHING_GROUPS}
+                  groups={SONG_CLOTHING_GROUPS}
                   keepOpenOnSelect={true}
                 />
 
-                {/* 5. Animal & Species Setup  ↔  Baby Character Setup  ↔  Shayar & Poet Setup */}
+                {/* 5. Shayar & Poet Setup */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Animal & Species Setup" : category === "FRUIT_DANCING" ? "Baby Character Setup" : "Shayar & Poet Setup"}
-                  icon={category === "ANIMAL_DANCING" ? "🐱" : category === "FRUIT_DANCING" ? "👶" : "👥"}
+                  label="Shayar & Poet Setup"
+                  icon="👥"
                   value={characterSetup}
                   onChange={handleCharacterSetupChange}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_SPECIES_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_CHARACTER_SETUP_GROUPS : SONG_CHARACTER_SETUP_GROUPS}
+                  groups={SONG_CHARACTER_SETUP_GROUPS}
                 />
 
                 {/* 6. Performers Per Scene */}
@@ -7224,8 +5087,7 @@ export default function IdeasPage() {
                   groups={KIDS_NATIONALITY_GROUPS}
                 />
 
-                {/* 8. Poetry & Satire Style (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
-                {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
+                {/* 8. Poetry & Satire Style */}
                 <CustomSelect
                   label="Poetry & Satire Style"
                   icon="📜"
@@ -7233,7 +5095,6 @@ export default function IdeasPage() {
                   onChange={setSeriousDialogueStyle}
                   groups={SONG_STYLE_GROUPS}
                 />
-                )}
 
                 {/* 9. Background Music Instrument */}
                 <CustomSelect
@@ -7262,8 +5123,7 @@ export default function IdeasPage() {
                   groups={CAMERA_SHOT_GROUPS}
                 />
 
-                {/* 12. Background Audience Sound FX (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
-                {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
+                {/* 12. Background Audience Sound FX */}
                 <CustomSelect
                   label="Background Audience FX (Wah Wah)"
                   icon="🔊"
@@ -7271,10 +5131,8 @@ export default function IdeasPage() {
                   onChange={setSongCrowdFx}
                   groups={SONG_CROWD_FX_GROUPS}
                 />
-                )}
 
-                {/* 13. Facial Features & Beard Style (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
-                {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
+                {/* 13. Facial Features & Beard Style */}
                 <CustomSelect
                   label="Facial Features & Beard Style"
                   icon="🧔"
@@ -7282,7 +5140,6 @@ export default function IdeasPage() {
                   onChange={setCharacterFaceType}
                   groups={CHARACTER_FACE_GROUPS}
                 />
-                )}
               </div>
             </div>
           )}
@@ -7581,221 +5438,6 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* Quick View Summary */}
-          <div className="mt-8 mb-6 p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/30 shadow-inner relative z-10">
-            <h3 className="text-sm font-bold text-indigo-300 mb-4 flex items-center gap-2 uppercase tracking-wider">
-              <Eye className="w-4 h-4 text-indigo-400" />
-              Quick View: Selected Configuration
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 gap-x-3 text-[11px] sm:text-xs">
-              
-              {/* Global Settings */}
-              <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Category</span>
-                <span className="text-indigo-200 font-bold">{category}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Language</span>
-                <span className="text-indigo-200 font-bold">{language}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Visual Style</span>
-                <span className="text-indigo-200 font-bold">{visualStyle}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">AI Model</span>
-                <span className="text-indigo-200 font-bold">{aiModel}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Duration</span>
-                <span className="text-indigo-200 font-bold">{videoDuration}</span>
-              </div>
-              {isShortIdea && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Short Idea</span>
-                  <span className="text-amber-300 font-bold">ON (3-4 Clips Concept)</span>
-                </div>
-              )}
-              {withoutDialogue && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Dialogue</span>
-                  <span className="text-purple-300 font-bold">WITHOUT DIALOGUE</span>
-                </div>
-              )}
-              {withoutMusic && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Music</span>
-                  <span className="text-rose-300 font-bold">WITHOUT MUSIC (SFX Only)</span>
-                </div>
-              )}
-
-              {/* Shared Settings */}
-              {musicType !== "None" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Music</span>
-                  <span className="text-indigo-200 font-bold">{musicType}</span>
-                </div>
-              )}
-              {seriousDialogueStyle !== "None" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Dialogue Style</span>
-                  <span className="text-indigo-200 font-bold">{seriousDialogueStyle}</span>
-                </div>
-              )}
-              {outroEffects !== "None" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Outro Effect</span>
-                  <span className="text-indigo-200 font-bold">{outroEffects}</span>
-                </div>
-              )}
-              {characterFaceType !== "Any / AI Decides" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Face Type</span>
-                  <span className="text-indigo-200 font-bold">{characterFaceType}</span>
-                </div>
-              )}
-              {timeOfDay !== "Any / AI Decides" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Time of Day</span>
-                  <span className="text-indigo-200 font-bold">{timeOfDay}</span>
-                </div>
-              )}
-              {cameraShot !== "Any / AI Decides" && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Camera Shot</span>
-                  <span className="text-indigo-200 font-bold">{cameraShot}</span>
-                </div>
-              )}
-
-              {/* Character Categories */}
-              {(category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") && (
-                <>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Characters</span>
-                    <span className="text-indigo-200 font-bold">{charactersPerScene === "Custom" ? customCharactersPerScene : charactersPerScene}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Setup</span>
-                    <span className="text-indigo-200 font-bold">{characterSetup}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Age</span>
-                    <span className="text-indigo-200 font-bold">{kidsAge}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Location</span>
-                    <span className="text-indigo-200 font-bold">{kidsLocation}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Clothing</span>
-                    <span className="text-indigo-200 font-bold">{kidsClothing}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Vibe</span>
-                    <span className="text-indigo-200 font-bold">{kidsVibe}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Nationality</span>
-                    <span className="text-indigo-200 font-bold">{kidsNationality}</span>
-                  </div>
-                </>
-              )}
-              
-              {/* CUTE KIDS Specific */}
-              {category === "CUTE_KIDS" && (
-                <>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Health</span>
-                    <span className="text-indigo-200 font-bold">{kidsHealth}</span>
-                  </div>
-                  {kidsExpression !== "Any / AI Decides" && (
-                    <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Expression</span>
-                      <span className="text-indigo-200 font-bold">{kidsExpression}</span>
-                    </div>
-                  )}
-                  {kidsFood !== "Any / AI Decides" && (
-                    <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Food</span>
-                      <span className="text-indigo-200 font-bold">{kidsFood}</span>
-                    </div>
-                  )}
-                  {kidsProp !== "Any / AI Decides" && (
-                    <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Prop</span>
-                      <span className="text-indigo-200 font-bold">{kidsProp}</span>
-                    </div>
-                  )}
-                </>
-              )}
-              
-              {/* CARBOX */}
-              {category === "CARBOX" && (
-                <>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Brand</span>
-                    <span className="text-indigo-200 font-bold">{carboxBrand}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Color</span>
-                    <span className="text-indigo-200 font-bold">{carboxColor}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Packaging</span>
-                    <span className="text-indigo-200 font-bold">{carboxPackaging}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Background</span>
-                    <span className="text-indigo-200 font-bold">{carboxBackground}</span>
-                  </div>
-                </>
-              )}
-              
-              {/* LIVE STAGE */}
-              {category === "LIVE_STAGE_METAMORPHOSIS" && (
-                <>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Performer</span>
-                    <span className="text-indigo-200 font-bold">{initialPerformer}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Target Entity</span>
-                    <span className="text-indigo-200 font-bold">{targetEntity}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Action</span>
-                    <span className="text-indigo-200 font-bold">{triggerAction}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Environment</span>
-                    <span className="text-indigo-200 font-bold">{stageEnvironment}</span>
-                  </div>
-                </>
-              )}
-
-              {/* SONG & POETRY */}
-              {(category === "SONG" || category === "POETRY") && (
-                <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Crowd FX</span>
-                  <span className="text-indigo-200 font-bold">{songCrowdFx}</span>
-                </div>
-              )}
-            </div>
-            
-            {customDialogue && customDialogue.trim() && (
-              <div className="mt-4 pt-3 border-t border-indigo-500/20">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Dialogue</span>
-                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customDialogue}"</p>
-              </div>
-            )}
-            {customSceneDescription && customSceneDescription.trim() && (
-              <div className="mt-3 pt-3 border-t border-indigo-500/20">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Scene Description</span>
-                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customSceneDescription}"</p>
-              </div>
-            )}
-          </div>
-
           {/* Generator Action Footer */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t border-slate-800/80">
             <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 shadow-inner w-full sm:w-auto">
@@ -7816,11 +5458,7 @@ export default function IdeasPage() {
               ) : (
                 <Sparkles className="w-5 h-5" />
               )}
-              {isGenerating
-                ? "Generating Concept..."
-                : videoDuration === 20
-                ? "🎬 Generate First Scene (0-10s)"
-                : "✨ Generate 1 Idea"}
+              {isGenerating ? "Generating Concept..." : "✨ Generate 1 Idea"}
             </button>
           </div>
         </div>
@@ -7940,62 +5578,6 @@ export default function IdeasPage() {
                         <span>Copy Dialogue</span>
                       </button>
 
-                      {(idea.videoDuration === 20 || (idea.text && (idea.text.includes("CLIP 1 PROMPT") || idea.text.includes("20-SECOND CONNECTED") || idea.text.includes("STEP 1:")))) && (
-                        <>
-                          <button
-                            onClick={() => handleCopy(getClip1Prompt(idea.text), `${idea.id}-clip1`)}
-                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-xs font-bold text-emerald-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                            title="Copy Clip 1 Prompt (0-10s) for Google Flow / Gemini"
-                          >
-                            {copiedId === `${idea.id}-clip1` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
-                            <span>Clip 1 Prompt (0-10s)</span>
-                          </button>
-
-                          {(idea.text.includes("CLIP 2 PROMPT") || idea.text.includes("SECOND SEQUENCE")) ? (
-                            <>
-                              <button
-                                onClick={() => handleCopy(getClip2Prompt(idea.text), `${idea.id}-clip2`)}
-                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-950/70 border border-indigo-500/50 text-xs font-bold text-indigo-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                                title="Copy Clip 2 Prompt (10-20s Continuation) for Google Flow / Gemini"
-                              >
-                                {copiedId === `${idea.id}-clip2` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
-                                <span>Clip 2 Prompt (10-20s)</span>
-                              </button>
-
-                              <button
-                                onClick={() => handleRegenerateScene1(idea)}
-                                disabled={loadingSceneStepId === idea.id}
-                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                                title="Regenerate Scene 1 (0-10s)"
-                              >
-                                {loadingSceneStepId === idea.id ? <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" /> : <RotateCcw className="w-3.5 h-3.5 text-amber-400" />}
-                                <span>Re-gen Scene 1</span>
-                              </button>
-
-                              <button
-                                onClick={() => handleGenerateScene2(idea)}
-                                disabled={loadingSceneStepId === idea.id}
-                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                                title="Regenerate Scene 2 (10-20s)"
-                              >
-                                {loadingSceneStepId === idea.id ? <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" /> : <RotateCcw className="w-3.5 h-3.5 text-indigo-400" />}
-                                <span>Re-gen Scene 2</span>
-                              </button>
-                            </>
-                          ) : (
-                            <button
-                              onClick={() => handleGenerateScene2(idea)}
-                              disabled={loadingSceneStepId === idea.id}
-                              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 border border-emerald-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                              title="Generate Second Scene (10-20s)"
-                            >
-                              {loadingSceneStepId === idea.id ? <Loader2 className="w-3.5 h-3.5 animate-spin text-white" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
-                              <span>✨ Generate Scene 2</span>
-                            </button>
-                          )}
-                        </>
-                      )}
-
                       <button
                         onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
@@ -8064,15 +5646,6 @@ export default function IdeasPage() {
                         <span>{idea.socialContent ? "Regenerate Social" : "Generate Social"}</span>
                       </button>
 
-                      <button
-                        onClick={() => handleRemake(idea)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-950/60 border border-purple-600/50 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-900/80 transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Load settings to remake this script"
-                      >
-                        <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
-                        <span>Remake</span>
-                      </button>
-
                       <div className="ml-auto flex items-center gap-1.5">
                         <button
                           onClick={() => handleToggleFavorite(idea.id)}
@@ -8095,67 +5668,15 @@ export default function IdeasPage() {
                       </div>
                     </div>
 
-                    {/* Step 1 Review Banner for 20s Kids Videos */}
-                    {(idea.videoDuration === 20 || (idea.text && (idea.text.includes("CLIP 1 PROMPT") || idea.text.includes("20-SECOND CONNECTED") || idea.text.includes("STEP 1:")))) &&
-                      !(idea.text.includes("CLIP 2 PROMPT") || idea.text.includes("SECOND SEQUENCE")) && (
-                      <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-950 border border-indigo-500/50 space-y-3 shadow-lg my-1">
-                        <div className="flex items-center justify-between flex-wrap gap-2">
-                          <span className="text-xs font-extrabold text-amber-300 flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-                            <span>Step 1 Complete: First Scene (0-10s) Ready for Review</span>
-                          </span>
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300">
-                            Credits Saved ⚡ (Scene 2 Not Generated Yet)
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-300 leading-relaxed">
-                          Review the First Scene & Locked Character Bible below. If satisfied, click <strong>✨ Generate Second Scene</strong> to create Scene 2 continuation. If not, click <strong>🔄 Regenerate First Scene</strong> to try another option without spending credits on Scene 2!
-                        </p>
-                        <div className="flex items-center gap-2.5 flex-wrap pt-1">
-                          <button
-                            onClick={() => handleRegenerateScene1(idea)}
-                            disabled={loadingSceneStepId === idea.id}
-                            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
-                          >
-                            {loadingSceneStepId === idea.id ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
-                            ) : (
-                              <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
-                            )}
-                            <span>🔄 Regenerate First Scene (0-10s)</span>
-                          </button>
-
-                          <button
-                            onClick={() => handleGenerateScene2(idea)}
-                            disabled={loadingSceneStepId === idea.id}
-                            className="flex items-center gap-1.5 px-4.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 border border-emerald-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-md shadow-emerald-900/30 disabled:opacity-50"
-                          >
-                            {loadingSceneStepId === idea.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin text-white" />
-                            ) : (
-                              <Sparkles className="w-4 h-4 text-amber-300" />
-                            )}
-                            <span>✨ Generate Second Scene (10-20s)</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
                     {/* Full Width Prompt Area */}
                     <div className="w-full space-y-3">
-                      <div className="w-full p-3.5 sm:p-4 rounded-xl bg-black/30 border border-slate-800/80 text-xs sm:text-sm text-slate-100 leading-relaxed font-sans select-text max-h-48 overflow-y-auto whitespace-pre-wrap space-y-1">
-                        {cleanPromptText(idea.text).split("\n").map((line, idx) => {
-                          const isUrduLine = /[\u0600-\u06FF]/.test(line);
-                          return (
-                            <div
-                              key={`line-${idx}-${line.slice(0, 8)}`}
-                              dir={isUrduLine ? "rtl" : "ltr"}
-                              className={isUrduLine ? "text-right font-medium text-amber-200 py-0.5 tracking-wide" : "text-left text-slate-200"}
-                            >
-                              {line}
-                            </div>
-                          );
-                        })}
+                      <div
+                        dir={isRtl ? "rtl" : "ltr"}
+                        className={`w-full p-3.5 sm:p-4 rounded-xl bg-black/30 border border-slate-800/80 text-xs sm:text-sm text-slate-100 leading-relaxed font-sans select-text max-h-36 sm:max-h-48 overflow-y-auto ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {cleanPromptText(idea.text)}
                       </div>
                       
                       {/* Badges & Filename Toolbar */}
@@ -8174,30 +5695,6 @@ export default function IdeasPage() {
                             <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
                             <span>{getModelBadgeLabel(idea.aiModel)}</span>
                           </span>
-                          {(idea.videoDuration === 20 || (idea.text && (idea.text.includes("20-SECOND CONNECTED KIDS STORY") || idea.text.includes("2x 10s SEQUENCES")))) && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
-                              <span>⚡🎬</span>
-                              <span>20s (2x 10s Sequences)</span>
-                            </span>
-                          )}
-                          {idea.isShortIdea && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-950/90 text-amber-300 border border-amber-500/40 flex items-center gap-1">
-                              <span>⚡</span>
-                              <span>Short Idea</span>
-                            </span>
-                          )}
-                          {idea.withoutDialogue && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-950/90 text-purple-300 border border-purple-500/40 flex items-center gap-1">
-                              <span>🔇</span>
-                              <span>No Dialogue</span>
-                            </span>
-                          )}
-                          {idea.withoutMusic && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/90 text-rose-300 border border-rose-500/40 flex items-center gap-1">
-                              <span>🚫🎵</span>
-                              <span>No Music</span>
-                            </span>
-                          )}
                           {idea.musicType && (
                             <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/80 text-rose-300 border border-rose-500/30 flex items-center gap-1">
                               <span>🎵</span>
@@ -8267,75 +5764,65 @@ export default function IdeasPage() {
                         )}
                       </div>
 
-                      {/* Spoken Script & Custom Dialogue Banner */}
-                      {idea.withoutDialogue || idea.category === "FRUIT_DANCING" || idea.category === "ANIMAL_DANCING" ? (
-                        <div className="mt-3 p-3 sm:p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs text-slate-400 font-medium">
-                          <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
-                            <span>🔇</span>
-                            <span>Silent Visual Video — No Spoken Dialogue</span>
-                          </span>
-                          <span className="text-[10px] text-slate-500">Visuals & Music Only</span>
-                        </div>
-                      ) : (
-                        <div className="mt-3 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2 w-full shadow-lg">
-                          <div className="flex items-center justify-between flex-wrap gap-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
-                                <span>💬</span>
-                                <span>{idea.customDialogue ? "Custom Spoken Dialogue" : "Spoken Dialogue & Script"}</span>
+                      {/* Spoken Script & Custom Dialogue Banner (Height reduced for mobile) */}
+                      <div className="mt-3 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2 w-full shadow-lg">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
+                              <span>💬</span>
+                              <span>{idea.customDialogue ? "Custom Spoken Dialogue" : "Spoken Dialogue & Script"}</span>
+                            </span>
+                            {idea.customDialogue && (
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                User Custom Input
                               </span>
-                              {idea.customDialogue && (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
-                                  User Custom Input
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <button
-                                onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-card-dialogue`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-500/30 shadow-sm"
-                                title="Copy Spoken Dialogue"
-                              >
-                                {copiedId === `${idea.id}-card-dialogue` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-amber-400" />}
-                                <span>Copy Dialogue</span>
-                              </button>
-
-                              <button
-                                onClick={() => {
-                                  setCustomDialogue(getIdeaDialogue(idea));
-                                  showToast("Loaded custom dialogue into generator form!", "info");
-                                }}
-                                className="flex items-center gap-1 text-[11px] font-bold text-emerald-300 hover:text-white transition-colors cursor-pointer bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/30 shadow-sm"
-                                title="Use this dialogue in the generator form above"
-                              >
-                                <Sparkles className="w-3 h-3 text-emerald-400" />
-                                <span>Use in Generator</span>
-                              </button>
-
-                              <button
-                                onClick={() => handleOpenScriptModal(idea)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
-                                title="Open Full Dialogue Box Modal"
-                              >
-                                <MessageSquare className="w-3 h-3 text-indigo-400" />
-                                <span>Open Dialog Box</span>
-                              </button>
-                            </div>
-                          </div>
-
-                          <div
-                            dir={isRtl ? "rtl" : "ltr"}
-                            className={`p-3 rounded-xl bg-black/80 border border-amber-500/40 text-sm sm:text-base font-bold text-amber-100 leading-snug tracking-wide max-h-28 sm:max-h-36 overflow-y-auto ${
-                              isRtl ? "text-right" : "text-left"
-                            }`}
-                          >
-                            {getIdeaDialogue(idea) || (
-                              <span className="text-slate-400 italic">No custom spoken dialogue specified yet. Click &quot;Open Dialog Box&quot; to add dialogue.</span>
                             )}
                           </div>
+
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <button
+                              onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-card-dialogue`)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-500/30 shadow-sm"
+                              title="Copy Spoken Dialogue"
+                            >
+                              {copiedId === `${idea.id}-card-dialogue` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-amber-400" />}
+                              <span>Copy Dialogue</span>
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setCustomDialogue(getIdeaDialogue(idea));
+                                showToast("Loaded custom dialogue into generator form!", "info");
+                              }}
+                              className="flex items-center gap-1 text-[11px] font-bold text-emerald-300 hover:text-white transition-colors cursor-pointer bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/30 shadow-sm"
+                              title="Use this dialogue in the generator form above"
+                            >
+                              <Sparkles className="w-3 h-3 text-emerald-400" />
+                              <span>Use in Generator</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleOpenScriptModal(idea)}
+                              className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
+                              title="Open Full Dialogue Box Modal"
+                            >
+                              <MessageSquare className="w-3 h-3 text-indigo-400" />
+                              <span>Open Dialog Box</span>
+                            </button>
+                          </div>
                         </div>
-                      )}
+
+                        <div
+                          dir={isRtl ? "rtl" : "ltr"}
+                          className={`p-3 rounded-xl bg-black/80 border border-amber-500/40 text-sm sm:text-base font-bold text-amber-100 leading-snug tracking-wide max-h-28 sm:max-h-36 overflow-y-auto ${
+                            isRtl ? "text-right" : "text-left"
+                          }`}
+                        >
+                          {getIdeaDialogue(idea) || (
+                            <span className="text-slate-400 italic">No custom spoken dialogue specified yet. Click &quot;Open Dialog Box&quot; to add dialogue.</span>
+                          )}
+                        </div>
+                      </div>
 
                       {/* Social Media Content — Prominent CTA when not yet generated */}
                       {!idea.socialContent && (
@@ -8573,71 +6060,6 @@ export default function IdeasPage() {
           </div>
         </div>
       )}
-
-      {/* 🚀 Floating Fixed Action Toolbar (Copy Prompt, Copy Script, Go to Top) */}
-      <div className="fixed bottom-6 right-5 sm:right-6 z-[99999] flex flex-col gap-3 items-end select-none">
-        {/* 1. Copy Mobile Prompt Floating Button */}
-        {savedIdeas.length > 0 && (
-          <div className="relative group">
-            <button
-              type="button"
-              onClick={handleCopyTopPrompt}
-              className="p-3.5 rounded-2xl bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/50 text-white shadow-xl shadow-indigo-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-indigo-500/30"
-              title="Copy Mobile Prompt (9:16)"
-            >
-              {copiedId?.startsWith("floating-prompt") ? (
-                <Check className="w-5 h-5 text-emerald-300 animate-bounce" />
-              ) : (
-                <Smartphone className="w-5 h-5 text-indigo-100" />
-              )}
-            </button>
-            <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-indigo-500/40 text-xs font-bold text-indigo-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
-              <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Copy Mobile Prompt (9:16)</span>
-            </div>
-          </div>
-        )}
-
-        {/* 2. Copy Generated Script Floating Button */}
-        {savedIdeas.length > 0 && (
-          <div className="relative group">
-            <button
-              type="button"
-              onClick={handleCopyTopScript}
-              className="p-3.5 rounded-2xl bg-purple-600/90 hover:bg-purple-500 border border-purple-400/50 text-white shadow-xl shadow-purple-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-purple-500/30"
-              title="Copy Generated Script"
-            >
-              {copiedId?.startsWith("floating-script") ? (
-                <Check className="w-5 h-5 text-emerald-300 animate-bounce" />
-              ) : (
-                <FileText className="w-5 h-5 text-purple-100" />
-              )}
-            </button>
-            <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-purple-500/40 text-xs font-bold text-purple-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
-              <FileText className="w-3.5 h-3.5 text-purple-400" />
-              <span>Copy Generated Script</span>
-            </div>
-          </div>
-        )}
-
-        {/* 3. Go to Top Floating Button */}
-        <div className="relative group">
-          <button
-            type="button"
-            onClick={handleScrollToTop}
-            className={`p-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white shadow-xl shadow-slate-950/90 backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-slate-700/50 ${
-              showScrollTop ? "opacity-100 scale-100" : "opacity-75 hover:opacity-100"
-            }`}
-            title="Go to Top"
-          >
-            <ArrowUp className="w-5 h-5 text-slate-200 group-hover:-translate-y-0.5 transition-transform" />
-          </button>
-          <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
-            <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
-            <span>Go to Top</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

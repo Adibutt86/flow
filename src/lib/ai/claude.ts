@@ -568,7 +568,21 @@ VIRAL INSTAGRAM FRUIT DANCING BABY MANDATE (CRITICAL):
 2. FRUIT COSTUME DETAIL: The baby MUST wear a plush, fuzzy 3D fruit onesie costume hood suit (e.g. Kiwi fruit with fuzzy textured brown skin and a vibrant green sliced kiwi belly showing black seeds; or Watermelon with green striped rind and red sliced belly with seeds; or Strawberry with plush red dotted fruit suit; or Mango / Pineapple / Banana). The fruit onesie has a cute hood framed around the baby's adorable face.
 3. CUTE DANCING ANIMATION: The baby performs an energetic, rhythmic, cute dance choreography (hip-hop bounce, wobbly toddler wiggle, hand waving, foot tapping, spinning around, ending with a cheerful arm-up pose).
 4. VIBRANT FRUIT ORCHARD ENVIRONMENT: Set the dance in a lush, magical fruit garden or sun-dappled orchard filled with giant sliced fruits scattered on soft green grass, warm golden bokeh sunlight, floating light particles, and vibrant pastel colors.
-5. AUDIO & SOUND: Sync the dance with upbeat viral Instagram audio, energetic rhythm beats, and adorable baby giggles.`
+5. AUDIO & SOUND: Sync the dance with upbeat viral Instagram audio, energetic rhythm beats, and adorable baby giggles.
+6. 🔇 ABSOLUTE NO-DIALOGUE RULE: This is a PURE DANCE VIDEO. Do NOT generate ANY "Spoken Dialogue:" section, spoken script lines, character speech, monologue, or any text the baby speaks. The ONLY output is the visual dance prompt. NO dialogue line. NO script paragraph. If you output any "💬 Spoken Dialogue:" label or spoken text, you have FAILED this mandate.`
+    : ""
+}
+
+${
+  input.category === "ANIMAL_DANCING"
+    ? `
+VIRAL INSTAGRAM ANIMAL DANCING PETS MANDATE (CRITICAL):
+1. CHARACTER IDENTITY & SPECIES: Feature ultra-cute, adorable 3D cartoon or CGI kittens, puppies, baby pandas, or bunnies standing upright on two hind legs with large round glossy eyes, fluffy fur, and charming facial expressions.
+2. COSPLAY COSTUME DETAIL: The animals MUST wear detailed plush cosplay costumes (e.g. Strawberry hood hat with diaper shorts & tiny pink crocs; Yellow & black bumblebee suit with wings; Brown cowboy hat & leather vest; Green dinosaur onesie with back spikes; Pirate captain hat with skull & crossbones; Baby Shark onesie; Chef hat & apron).
+3. ON-BEAT DANCE ANIMATION: The animals perform synchronized on-beat dance choreography standing upright on two legs (side-to-side leg kicks, beat-drop butt wiggle, freeze-on-beat statue pose, arm pumps, head bobs, spinning twirls).
+4. ENVIRONMENT: Set the performance on a clean polished living room hardwood floor with plush stuffed teddy bears sitting in the background, or sun-dappled outdoor patio with warm indoor lighting.
+5. AUDIO & SOUND: Sync the dance with upbeat viral rhythm beats, background music, cute meows, barks, or baby animal giggles.
+6. 🔇 ABSOLUTE NO-DIALOGUE RULE: This is a PURE DANCE VIDEO. Do NOT generate ANY "Spoken Dialogue:" section, spoken script lines, character speech, monologue, or any text the animals speak. The ONLY output is the visual dance prompt. NO dialogue line. NO script paragraph.`
     : ""
 }
 
@@ -714,7 +728,7 @@ For the SHORT_CLIP category, you MUST format the output idea as a connected mult
 🎥 CLIP 4 (30-40s): [Scene 4 beat / emotional turning point, conflict, or tender embrace. Must maintain exact same Character & Visual Bible details].
 [Continue adding CLIP 5, CLIP 6, CLIP 7, CLIP 8, CLIP 9, CLIP 10 if creating a complete 10-clip romantic story arc].
 
-${input.withoutDialogue ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label or script paragraph. Visual storytelling & dance body language only." : ""}
+${input.withoutDialogue || (input.category as string) === "FRUIT_DANCING" || (input.category as string) === "ANIMAL_DANCING" ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label or script paragraph. Visual storytelling & dance body language only." : ""}
 ${input.withoutMusic ? "MUSIC RULE: Music is OFF by default. Focus purely on environmental audio Foley and natural sound FX." : ""}`
     : input.category === "COMMERCIAL_AD"
     ? `COMMERCIAL AD & BRAND PITCH MANDATE (10-20 SECONDS COMMERCIAL AD):
@@ -753,7 +767,7 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
     : `STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
 
@@ -771,9 +785,9 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
 }
-${input.withoutDialogue ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label, script paragraph, or spoken monologue anywhere in the prompt text. Keep the generated concept concise and visual-only." : ""}
+${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label, script paragraph, or spoken monologue anywhere in the prompt text. Keep the generated concept concise and visual-only." : ""}
 
 CATEGORY CHARACTER ISOLATION MANDATE (CRITICAL — DO NOT MIX):
 ${

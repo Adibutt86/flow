@@ -8,7 +8,7 @@ export type CategoryId =
   | "ABSTRACT"
   | "CINEMATIC"
   | "CUTE_KIDS"
-  | "CATS_DANCING"
+  | "ANIMAL_DANCING"
   | "CARBOX"
   | "SONG"
   | "POETRY"
