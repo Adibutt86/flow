@@ -123,6 +123,209 @@ const KIDS_AGE_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+const FRUIT_DANCING_PRESETS = [
+  {
+    icon: "🥝",
+    title: "Kiwi Fuzzy Toddler",
+    fruitType: "Fuzzy Kiwi Fruit (Sliced Green Kiwi Belly with Seeds)",
+    age: "Toddler (2-4 yrs)",
+    location: "Lush Kiwi Orchard with Sliced Kiwis on Grass",
+    vibe: "Cute Wobbly Bounce & Foot Tapping",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍉",
+    title: "Watermelon Wiggle",
+    fruitType: "Striped Watermelon Onesie (Red Juicy Sliced Belly)",
+    age: "Toddler (2-4 yrs)",
+    location: "Sunny Watermelon Patch with Giant Melon Slices",
+    vibe: "Cheerful Hip-Hop & Arm Waving",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍓",
+    title: "Strawberry Sweetie",
+    fruitType: "Plush Red Strawberry Costume with Green Leaf Hat",
+    age: "Toddler (2-4 yrs)",
+    location: "Magical Strawberry Patch with Floating Berry Sparkles",
+    vibe: "Adorable Twirl & Giggle Dance",
+    musicType: "Cute Playful Children Symphony",
+    visualStyle: "3D Disney Animation",
+  },
+  {
+    icon: "🥭",
+    title: "Mango Swag Toddler",
+    fruitType: "Golden Yellow Mango Onesie with Soft Velvet Texture",
+    age: "Toddler (2-4 yrs)",
+    location: "Tropical Mango Grove under Golden Hour Sunlight",
+    vibe: "Swag Toddler Dance & Head Bop",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "Hyper-Realistic CGI",
+  },
+  {
+    icon: "🍍",
+    title: "Pineapple Groover",
+    fruitType: "Spiky Textured Golden Pineapple Suit with Crown Top",
+    age: "Toddler (2-4 yrs)",
+    location: "Tropical Island Orchard with Palm Trees",
+    vibe: "Funky Island Groove & Hip Sway",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍌",
+    title: "Banana Bounce",
+    fruitType: "Peeled Yellow Banana Suit Framing Cute Face",
+    age: "Toddler (2-4 yrs)",
+    location: "Vibrant Tropical Jungle Path with Banana Palms",
+    vibe: "High Energy Wobbly Bounce",
+    musicType: "Funny Comedy Sound Effects",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🥑",
+    title: "Avocado Chubby Dancer",
+    fruitType: "Green Avocado Suit with Dark Brown Seed Pit Belly",
+    age: "Toddler (2-4 yrs)",
+    location: "Aesthetic Green Garden with Giant Sliced Avocados",
+    vibe: "Chubby Belly Wobble & Cute Spin",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍊",
+    title: "Orange Citrus Popper",
+    fruitType: "Bright Orange Citrus Onesie with Leaf Collar",
+    age: "Toddler (2-4 yrs)",
+    location: "Sun-dappled Orange Grove with Sliced Oranges",
+    vibe: "Zesty Pop & Foot Tapping",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "Hyper-Realistic CGI",
+  },
+  {
+    icon: "🍇",
+    title: "Grape Cluster Shuffle",
+    fruitType: "Purple Grape Cluster Bubble Suit with Green Vine Top",
+    age: "Toddler (2-4 yrs)",
+    location: "Sunny Italian Vineyard with Hanging Grapes",
+    vibe: "Rhythmic Grape Shuffle & Clapping",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍑",
+    title: "Peach Blossom Wiggle",
+    fruitType: "Soft Fuzzy Pink Peach Suit with Velvet Finish",
+    age: "Toddler (2-4 yrs)",
+    location: "Peach Blossom Garden with Petals Drifting in Wind",
+    vibe: "Gentle Sweet Wiggle & Soft Giggles",
+    musicType: "Cute Playful Children Symphony",
+    visualStyle: "3D Disney Animation",
+  },
+  {
+    icon: "🍎",
+    title: "Crispy Apple Hop",
+    fruitType: "Shiny Red Apple Suit with Green Stem Hood",
+    age: "Toddler (2-4 yrs)",
+    location: "Autumn Apple Orchard under Warm Afternoon Sun",
+    vibe: "Energetic Apple Hop & Clapping",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🐉",
+    title: "Dragonfruit Neon Dancer",
+    fruitType: "Vibrant Magenta Dragonfruit Suit with White Seeded Belly",
+    age: "Toddler (2-4 yrs)",
+    location: "Exotic Tropical Garden with Glowing Lotus Flowers",
+    vibe: "Neon Glow Groove & Cute Pose",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "Hyper-Realistic CGI",
+  },
+  {
+    icon: "🍒",
+    title: "Cherry Pair Twirler",
+    fruitType: "Double Red Cherry Suit with Twin Stem Crown",
+    age: "Toddler (2-4 yrs)",
+    location: "Cherry Blossom Orchard in Full Bloom",
+    vibe: "Playful Twirl & High Fives",
+    musicType: "Cute Playful Children Symphony",
+    visualStyle: "3D Disney Animation",
+  },
+  {
+    icon: "🍋",
+    title: "Zesty Lemon Spin",
+    fruitType: "Bright Lemon Yellow Suit with Citrus Texture",
+    age: "Toddler (2-4 yrs)",
+    location: "Mediterranean Lemon Grove with Sunlight Bokeh",
+    vibe: "Zesty Spin & Happy Shoulder Shakes",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🥥",
+    title: "Coconut Beach Bouncer",
+    fruitType: "Hairy Brown Coconut Suit with Pure White Core Belly",
+    age: "Toddler (2-4 yrs)",
+    location: "Tropical Sandy Beach with Gentle Turquoise Waves",
+    vibe: "Beach Hula Bounce & Arm Waving",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "Hyper-Realistic CGI",
+  },
+  {
+    icon: "🍐",
+    title: "Pear Blossom Hopper",
+    fruitType: "Gentle Lime Green Pear Suit with Leaf Accent",
+    age: "Toddler (2-4 yrs)",
+    location: "Pear Blossom Garden with Soft Morning Sunlight",
+    vibe: "Sweet Hopper Dance & Cute Bow",
+    musicType: "Cute Playful Children Symphony",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🫐",
+    title: "Blueberry Pop Toddler",
+    fruitType: "Round Deep Blue Berry Suit with Crown Top",
+    age: "Toddler (2-4 yrs)",
+    location: "Berry Patch Meadow with Oversized Blueberries",
+    vibe: "Bouncy Berry Pop & Foot Tapping",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🍈",
+    title: "Honeydew Melon Breeze",
+    fruitType: "Soft Pastel Green Honeydew Suit with Mesh Texture",
+    age: "Toddler (2-4 yrs)",
+    location: "Lush Meadow Garden with Giant Melon Cutouts",
+    vibe: "Breezy Wiggle & Happy Giggles",
+    musicType: "Cute Playful Children Symphony",
+    visualStyle: "3D Disney Animation",
+  },
+  {
+    icon: "🌽",
+    title: "Sweet Corn Pop Jig",
+    fruitType: "Golden Yellow Corn Husk Suit with Husk Leaves",
+    age: "Toddler (2-4 yrs)",
+    location: "Golden Countryside Cornfield under Blue Sky",
+    vibe: "Country Pop Jig & Hands Up",
+    musicType: "Funny Comedy Sound Effects",
+    visualStyle: "3D Pixar Animation",
+  },
+  {
+    icon: "🧺",
+    title: "Multi-Fruit Party",
+    fruitType: "Fruit Salad Combo Costumes (Kiwi, Strawberry, Watermelon)",
+    age: "Toddler (2-4 yrs)",
+    location: "Giant Woven Picnic Fruit Basket Arena",
+    vibe: "Group Dance Party & Synced Bounce",
+    musicType: "Upbeat Viral TikTok Beats",
+    visualStyle: "3D Pixar Animation",
+  },
+];
+
 const CUTE_KIDS_PRESET_GROUPS = [
   {
     groupName: "Popular Combinations",
@@ -4272,6 +4475,18 @@ export default function IdeasPage() {
     setWithoutDialogue(false);
     showToast(`✅ Applied "${preset.title}" Brand Ad preset!`, "success");
   };
+
+  const applyFruitDancingPreset = (preset: typeof FRUIT_DANCING_PRESETS[0]) => {
+    setKidsAge("Toddler (2-4 yrs)");
+    setKidsLocation(preset.location);
+    setKidsVibe(preset.vibe);
+    setKidsClothing(preset.fruitType);
+    setCharacterSetup("One Cute 3D Baby/Toddler in Fruit Suit");
+    setCharactersPerScene("1 Character");
+    if (preset.musicType) setMusicType(preset.musicType);
+    if (preset.visualStyle) setVisualStyle(preset.visualStyle);
+    showToast(`🍓 Applied "${preset.title}" Fruit Dancing preset!`, "success");
+  };
   
   const isRtl = language === "Urdu" || language === "Punjabi";
   
@@ -6352,25 +6567,29 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* POETRY, SHORT CLIP & COMMERCIAL AD OPTIONS */}
-          {(category === "POETRY" || category === "SHORT_CLIP" || category === "COMMERCIAL_AD") && (
+          {/* POETRY, SHORT CLIP, COMMERCIAL AD & FRUIT DANCING OPTIONS */}
+          {(category === "POETRY" || category === "SHORT_CLIP" || category === "COMMERCIAL_AD" || category === "FRUIT_DANCING") && (
             <div className="p-4 sm:p-6 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-5 shadow-xl relative z-30 font-sans">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-500/20 pb-3 gap-2">
                 <div>
                   <h3 className="text-sm sm:text-base font-extrabold text-purple-300 flex items-center gap-2 uppercase tracking-wide">
                     <Feather className="w-4 h-4 text-purple-400" />
-                    {category === "SHORT_CLIP" 
+                    {category === "FRUIT_DANCING"
+                      ? "Fruit Dancing Parameters (Viral 3D Baby Costumes)"
+                      : category === "SHORT_CLIP" 
                       ? "Short Clip Parameters (10s Connected Scenes)" 
                       : category === "COMMERCIAL_AD"
                       ? "Commercial Ad Parameters (10-20s Brand Video Ad)"
                       : "Poetry & Shayari Parameters"}
                   </h3>
                   <p className="text-[11px] text-slate-400 font-medium mt-0.5">
-                    {category === "SHORT_CLIP" 
+                    {category === "FRUIT_DANCING"
+                      ? "Generate viral 3D cartoon baby fruit costume dance videos with 20 one-tap presets."
+                      : category === "SHORT_CLIP" 
                       ? "Connected 10-second scene ideas with 100% locked character consistency. Music is OFF by default." 
                       : category === "COMMERCIAL_AD"
-                      ? "10-20 second commercial ads, product marketing pitches, and UGC video ads with strong Call To Action (CTA)."
-                      : "Customize Shayar age, Mehfil location, funny/satirical or serious poetry styles, and audience reactions."}
+                      ? "High-converting brand ads, product pitches, and UGC commercial scripts."
+                      : "Atmospheric Ghazals, romantic Shayari, satirical Tanzo Mazah, and Mushaira Mehfils."}
                   </p>
                 </div>
                 <span className="text-[10px] text-purple-300/80 font-semibold px-2.5 py-1 rounded-full bg-purple-950/60 border border-purple-500/20 self-start sm:self-auto">
