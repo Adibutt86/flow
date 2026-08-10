@@ -495,6 +495,35 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Generate a comprehensive Character Bible detailing locked physical appearance, costume, accessories, facial features, age, personality, voice guidelines, and visual consistency instructions for AI video rendering.",
   },
 
+  FRUIT_DANCING: {
+    id: "FRUIT_DANCING",
+    name: "Fruit Dancing",
+    badge: "Viral Insta Trend",
+    iconName: "Sparkles",
+    description: "Viral Instagram & TikTok trend featuring adorable 3D cartoon babies & toddlers wearing fuzzy 3D fruit costumes (Kiwi, Watermelon, Strawberry, Mango, Pineapple, Banana, Avocado) performing cute dance routines.",
+    storytellingRules: [
+      "Feature an ultra-cute 3D cartoon baby or toddler (1-3 yrs old) with big expressive eyes and rosy chubby cheeks",
+      "Dress the baby in a plush, fuzzy 3D fruit Onesie costume (Kiwi, Watermelon, Strawberry, Mango, Pineapple, Banana, Avocado, Dragon Fruit)",
+      "Include realistic fruit texture details (fuzzy kiwi peel, sliced fruit belly with black seeds, strawberry seed dots, textured watermelon skin)",
+      "Feature energetic, cute toddler dance moves (hip-hop bounce, wobbly wiggle, hands up in the air, foot tapping, cute spins)",
+      "Set the performance in a lush, vibrant fruit orchard or garden surrounded by giant sliced fruits on the ground and warm soft lighting",
+    ],
+    tone: "Cute, joyful, energetic, wholesome, viral",
+    pacing: "Bouncy, rhythmic, synchronized with upbeat viral music and toddler giggles",
+    hookStyle: "Cute 3D baby in a fuzzy fruit costume striking an adorable opening dance pose",
+    endingStyle: "Flawless finishing dance move, cute toddler giggle, or an adorable sit-down bow",
+    characterStyle: "Chubby 3D cartoon baby/toddler wearing a textured fuzzy 3D fruit suit with a sliced fruit belly",
+    visualStyleSuggestions: [
+      "3D Pixar Animation",
+      "Hyper-Realistic CGI",
+      "3D Disney Animation",
+      "Photorealistic 8K Cinematic",
+    ],
+    dialogueStyle: "Upbeat viral music, cute baby giggles, or short adorable spoken line (e.g. 'Look at my Kiwi dance!')",
+    promptInstructions:
+      "Emphasize plush fuzzy fruit costume textures, sliced fruit belly with seeds, big shiny baby eyes, chubby cheeks, vibrant outdoor orchard setting, and energetic toddler dance choreography.",
+  },
+
   CUSTOM: {
     id: "CUSTOM",
     name: "Custom Rules",

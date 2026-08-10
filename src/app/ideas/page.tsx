@@ -5060,6 +5060,8 @@ export default function IdeasPage() {
       } else if (cat === "CARBOX") {
         setLanguage("ASMR Unboxing Effects");
         setVisualStyle("Realistic");
+      } else if (cat === "FRUIT_DANCING") {
+        setVisualStyle("3D Pixar Animation");
       }
     }
 

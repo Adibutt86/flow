@@ -561,6 +561,18 @@ MAN & GIRL DUET COMBO MANDATE:
 }
 
 ${
+  input.category === "FRUIT_DANCING"
+    ? `
+VIRAL INSTAGRAM FRUIT DANCING BABY MANDATE (CRITICAL):
+1. CHARACTER IDENTITY & AGE: Feature an ultra-cute, adorable 3D cartoon baby or toddler (1-3 years old) with large expressive round eyes, soft flushed rosy cheeks, locked cute facial identity, and innocent cheerful expression.
+2. FRUIT COSTUME DETAIL: The baby MUST wear a plush, fuzzy 3D fruit onesie costume hood suit (e.g. Kiwi fruit with fuzzy textured brown skin and a vibrant green sliced kiwi belly showing black seeds; or Watermelon with green striped rind and red sliced belly with seeds; or Strawberry with plush red dotted fruit suit; or Mango / Pineapple / Banana). The fruit onesie has a cute hood framed around the baby's adorable face.
+3. CUTE DANCING ANIMATION: The baby performs an energetic, rhythmic, cute dance choreography (hip-hop bounce, wobbly toddler wiggle, hand waving, foot tapping, spinning around, ending with a cheerful arm-up pose).
+4. VIBRANT FRUIT ORCHARD ENVIRONMENT: Set the dance in a lush, magical fruit garden or sun-dappled orchard filled with giant sliced fruits scattered on soft green grass, warm golden bokeh sunlight, floating light particles, and vibrant pastel colors.
+5. AUDIO & SOUND: Sync the dance with upbeat viral Instagram audio, energetic rhythm beats, and adorable baby giggles.`
+    : ""
+}
+
+${
   input.characterSetup && /Male Poet Recites.*Girl Listens/i.test(input.characterSetup)
     ? `
 MALE POET + FEMALE LISTENER MANDATE (CRITICAL — STRICT ROLE ENFORCEMENT):

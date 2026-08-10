@@ -16,6 +16,7 @@ export type CategoryId =
   | "LIVE_STAGE_METAMORPHOSIS"
   | "COMMERCIAL_AD"
   | "CHARACTER_BIBLE"
+  | "FRUIT_DANCING"
   | "CUSTOM";
 
 export interface CategoryConfig {
