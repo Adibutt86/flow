@@ -6630,12 +6630,13 @@ export default function IdeasPage() {
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-                      {(category === "SHORT_CLIP" ? SHORT_CLIP_PRESETS : category === "COMMERCIAL_AD" ? COMMERCIAL_AD_PRESETS : POETRY_PRESETS).map((preset: any, idx) => (
+                      {(category === "FRUIT_DANCING" ? FRUIT_DANCING_PRESETS : category === "SHORT_CLIP" ? SHORT_CLIP_PRESETS : category === "COMMERCIAL_AD" ? COMMERCIAL_AD_PRESETS : POETRY_PRESETS).map((preset: any, idx) => (
                         <button
                           key={idx}
                           type="button"
                           onClick={() => {
-                            if (category === "SHORT_CLIP") applyShortClipPreset(preset);
+                            if (category === "FRUIT_DANCING") applyFruitDancingPreset(preset);
+                            else if (category === "SHORT_CLIP") applyShortClipPreset(preset);
                             else if (category === "COMMERCIAL_AD") applyCommercialAdPreset(preset);
                             else applyPoetryPreset(preset);
                           }}
