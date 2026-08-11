@@ -2508,7 +2508,7 @@ const SONG_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
       { value: "Female Elegant Abaya & Silk Hijab 🧕", label: "Female Elegant Abaya & Silk Hijab 🧕", desc: "Modest and graceful dark abaya with a beautifully draped silk hijab." },
       { value: "Female Traditional Salwar Kameez with Hijab 🧕", label: "Female Salwar Kameez with Hijab 🧕", desc: "Modest ethnic Shalwar Kameez paired with a neatly styled matching hijab." },
       { value: "Female Modest Long Gown with Chiffon Hijab 🧕", label: "Female Modest Gown with Chiffon Hijab 🧕", desc: "Flowing modest evening gown styled with a delicate chiffon hijab." },
-      { value: "Female Full Niqab (Only Eyes Showing) 🧕👁️", label: "Female Full Niqab (Only Eyes Showing) 🧕👁️", desc: "Traditional modest Niqab / Burqa where only the expressive eyes are visible." },
+      { value: "Female Full Niqab (Strictly Fully Covered, ONLY Eyes Visible) 🧕👁️", label: "Female Full Niqab (Only Eyes Showing) 🧕👁️", desc: "Traditional modest Niqab/Burqa. The girl is fully covered. The entire face, hair, neck, and body must be completely covered. STRICTLY ONLY her expressive eyes are visible." },
       { value: "Female Western Formal Evening Gown 💃", label: "Female Western Evening Gown 💃", desc: "Sophisticated floor-length Western silk evening gown with heels." },
       { value: "Female Western Chic Cocktail Dress 👠", label: "Female Western Cocktail Dress & Heels 👠", desc: "Modern Western cocktail dress with elegant jewelry and heels." },
       { value: "Female Casual Denim Jacket & Sundress 🌸", label: "Female Denim Jacket & Sundress 🌸", desc: "Breezy floral sundress paired with a light denim jacket." },
