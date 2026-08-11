@@ -2312,6 +2312,7 @@ const SONG_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Melancholic Midnight Rain (Ghamgina Shayari) 🌙🌧️", label: "Melancholic Midnight Rain (غمگین شاعری) 🌙🌧️", desc: "Gloomy atmospheric midnight rain with sorrowful poetic recitation." },
       { value: "Funny & Humorous Shayari (Tanzo Mazah)", label: "Funny & Humorous Shayari (طنز و مزاح) 😂", desc: "Witty comedic Shayari, hilarious satire (Tanzo Mazah), and funny poetry punchlines." },
       { value: "Romantic & Soulful", label: "Romantic & Soulful", desc: "Deep romantic devotion, sweet glances, and heartwarming affection." },
+      { value: "Shy, Playful & Naughty 😏💖", label: "Shy, Playful & Naughty 😏💖", desc: "A blend of sweet shyness with mischievous, playful and naughty expressions." },
       { value: "Deep Emotional & Heartbroken (Sad Shayari)", label: "Deep Emotional & Sad Shayari 💔", desc: "Poetic sorrow, longing for lost love, and emotional gaze." },
       { value: "Aesthetic Lo-Fi Chill", label: "Aesthetic Lo-Fi Chill", desc: "Cozy, relaxed, aesthetic atmosphere with calm artistic focus." },
       { value: "Coke Studio Fusion Vibe", label: "Coke Studio Fusion Vibe", desc: "Dynamic vocal energy, rhythmic hand clapping, and musical passion." },
@@ -2500,6 +2501,7 @@ const CHARACTER_FACE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Traditional Hijab & Graceful Features 🧕", label: "Traditional Hijab & Graceful Features 🧕", desc: "Elegant silk hijab framing a serene face with soft expressive eyes." },
       { value: "Western High-Fashion Model Face 💃", label: "Western High-Fashion Model Face 💃", desc: "Defined cheekbones, sharp jawline, modern chic hairstyle, glamour look." },
       { value: "Short Curly Hair & Chic Modern Face 👩‍🦱", label: "Short Curly Hair & Chic Modern Face 👩‍🦱", desc: "Trendy short curly hair, bright smile, modern stylish aesthetic." },
+      { value: "Shy & Naughty Playful Expression 😏😳", label: "Shy & Naughty Playful Expression 😏😳", desc: "A mix of sweet shyness and a naughty, mischievous playful smile with expressive eyes." },
     ],
   },
 ];
