@@ -12,8 +12,10 @@ export async function POST(request: Request) {
       customDialogue,
       customDialogueSeq1,
       customDialogueSeq2,
+      customDialogueSeq3,
       kids20sStep,
       scene1Text,
+      scene2Text,
       scene1Clothing,
       seed,
       kidsAge,
@@ -58,6 +60,7 @@ export async function POST(request: Request) {
       withoutMusic = false,
       includeCharacterBible = false,
       compactMode = true,
+      referenceCharacterInfo,
     } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
@@ -68,8 +71,10 @@ export async function POST(request: Request) {
       customDialogue,
       customDialogueSeq1,
       customDialogueSeq2,
+      customDialogueSeq3,
       kids20sStep,
       scene1Text,
+      scene2Text,
       scene1Clothing,
       includeCharacterBible: Boolean(includeCharacterBible),
       compactMode: Boolean(compactMode),
@@ -114,6 +119,7 @@ export async function POST(request: Request) {
       stageLocation,
       songCrowdFx,
       characterFaceType,
+      referenceCharacterInfo,
     });
 
     return NextResponse.json({ success: true, ideas });

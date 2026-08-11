@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Video, PlusCircle, Sparkles, Film, HelpCircle, Menu, X, Crown, User as UserIcon } from "lucide-react";
+import { Video, PlusCircle, Sparkles, Film, HelpCircle, Menu, X, Crown, User as UserIcon, Image as ImageIcon } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 
 interface NavbarProps {
@@ -54,6 +54,14 @@ export function Navbar({ onOpenWizard }: NavbarProps) {
               >
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span>Ideas</span>
+              </Link>
+
+              <Link
+                href="/nano-pro"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors"
+              >
+                <ImageIcon className="w-4 h-4 text-purple-400" />
+                <span>Nano Pro</span>
               </Link>
 
               <a
@@ -147,6 +155,15 @@ export function Navbar({ onOpenWizard }: NavbarProps) {
           >
             <Sparkles className="w-4 h-4 text-amber-400" />
             <span>AI Idea Generator</span>
+          </Link>
+
+          <Link
+            href="/nano-pro"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-200 hover:text-white hover:bg-gray-800/60 transition-colors"
+          >
+            <ImageIcon className="w-4 h-4 text-purple-400" />
+            <span>Nano Pro Generator</span>
           </Link>
 
           <button

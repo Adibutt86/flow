@@ -115,14 +115,16 @@ export interface GenerateVariationsInput {
 
 export interface SuggestIdeasInput {
   category: string;
-  language: string;
+  language?: string;
   visualStyle: string;
   videoDuration?: number;
   customDialogue?: string;
   customDialogueSeq1?: string;
   customDialogueSeq2?: string;
-  kids20sStep?: "SCENE_1_ONLY" | "SCENE_2_ONLY" | "FULL";
+  customDialogueSeq3?: string;
+  kids20sStep?: "SCENE_1_ONLY" | "SCENE_2_ONLY" | "SCENE_3_ONLY" | "FULL";
   scene1Text?: string;
+  scene2Text?: string;
   scene1Clothing?: string;
   includeCharacterBible?: boolean;
   compactMode?: boolean;
@@ -144,6 +146,7 @@ export interface SuggestIdeasInput {
   characterSetup?: string;
   charactersPerScene?: string;
   kidsNationality?: string;
+  referenceCharacterInfo?: string;
   carboxBrand?: string;
   carboxColor?: string;
   carboxPackaging?: string;

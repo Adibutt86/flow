@@ -816,6 +816,20 @@ const CUTE_KIDS_PRESET_GROUPS = [
         musicType: "None",
         dialogueStyle: "None",
       },
+      {
+        icon: "🇵🇰",
+        title: "14 August Song",
+        age: "Child (5-8 yrs)",
+        location: "City Street / Road",
+        health: "Healthy & Active",
+        vibe: "Patriotic & Emotional",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "National Anthem/Patriotic Song",
+        clothing: "Green & White Independence Day Clothes",
+        dialogueStyle: "None",
+      },
     ]
   },
   {
@@ -3746,8 +3760,18 @@ function getClip1Prompt(ideaText: string): string {
 
 function getClip2Prompt(ideaText: string): string {
   const text = cleanPromptText(ideaText || "");
-  const match = text.match(/🎥\s*CLIP 2 PROMPT[^\n]*\n([\s\S]*?)(?=✂️|Continuity:|$)/i) ||
-                text.match(/🎥\s*SECOND SEQUENCE[^\n]*\n([\s\S]*?)(?=Continuity:|$)/i);
+  const match = text.match(/🎥\s*CLIP 2 PROMPT[^\n]*\n([\s\S]*?)(?=🎥\s*CLIP 3 PROMPT|✂️|Continuity:|$)/i) ||
+                text.match(/🎥\s*SECOND SEQUENCE[^\n]*\n([\s\S]*?)(?=🎥\s*THIRD SEQUENCE|Continuity:|$)/i);
+  if (match && match[1]) {
+    return match[1].trim();
+  }
+  return text;
+}
+
+function getClip3Prompt(ideaText: string): string {
+  const text = cleanPromptText(ideaText || "");
+  const match = text.match(/🎥\s*CLIP 3 PROMPT[^\n]*\n([\s\S]*?)(?=✂️|Continuity:|$)/i) ||
+                text.match(/🎥\s*THIRD SEQUENCE[^\n]*\n([\s\S]*?)(?=Continuity:|$)/i);
   if (match && match[1]) {
     return match[1].trim();
   }
@@ -4544,6 +4568,7 @@ export default function IdeasPage() {
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
   const [customDialogueSeq1, setCustomDialogueSeq1] = useState("");
   const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
+  const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
   const [aiModel, setAiModel] = useState<string>(
@@ -4741,7 +4766,7 @@ export default function IdeasPage() {
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Healthy");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
-  const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "One Cute Little Girl");
+  const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "Any / AI Decides");
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
@@ -4759,6 +4784,12 @@ export default function IdeasPage() {
   };
   const [outroEffects, setOutroEffects] = useState<string>(initialSettings.outroEffects || "None");
   const [kidsExpression, setKidsExpression] = useState(initialSettings.kidsExpression || "Any / AI Decides");
+  const [referenceImage, setReferenceImage] = useState<string>("");
+  const [referenceCharacterInfo, setReferenceCharacterInfo] = useState<string>("");
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState<boolean>(false);
+  const [showCharacterLibrary, setShowCharacterLibrary] = useState(false);
+  const [savedCharacters, setSavedCharacters] = useState<any[]>([]);
+  const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
   const [kidsFood, setKidsFood] = useState(initialSettings.kidsFood || "Any / AI Decides");
   const [kidsProp, setKidsProp] = useState(initialSettings.kidsProp || "Any / AI Decides");
   const [timeOfDay, setTimeOfDay] = useState(initialSettings.timeOfDay || "Any / AI Decides");
@@ -5179,7 +5210,7 @@ export default function IdeasPage() {
     setKidsHealth("Healthy");
     setKidsVibe("Cheerful & Energetic");
     setKidsClothing("Any / AI Decides");
-    setCharacterSetup("One Cute Little Girl");
+    setCharacterSetup("Any / AI Decides");
     setCharactersPerScene("1 Character");
     setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
@@ -5336,6 +5367,52 @@ export default function IdeasPage() {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64 = event.target?.result as string;
+      setReferenceImage(base64);
+      setIsAnalyzingImage(true);
+      try {
+        const res = await fetch("/api/analyze-character", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageBase64: base64 })
+        });
+        const data = await res.json();
+        if (data.character?.description) {
+          setReferenceCharacterInfo(data.character.description);
+          showToast("Character reference analyzed and saved!", "success");
+        } else {
+          showToast(`Failed: ${data.error || "Could not analyze image"}`, "error");
+        }
+      } catch (err: any) {
+        console.error("Image upload fetch error:", err);
+        showToast(`Error analyzing image: ${err.message || "Unknown error"}`, "error");
+      } finally {
+        setIsAnalyzingImage(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const fetchCharacterLibrary = async () => {
+    setIsLoadingLibrary(true);
+    try {
+      const res = await fetch("/api/characters");
+      const data = await res.json();
+      if (data.characters) {
+        setSavedCharacters(data.characters);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoadingLibrary(false);
+    }
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
@@ -5350,12 +5427,13 @@ export default function IdeasPage() {
           videoDuration,
           includeCharacterBible,
           compactMode,
-          kids20sStep: videoDuration === 20 ? "SCENE_1_ONLY" : undefined,
-          customDialogue: videoDuration === 20
-            ? (customDialogueSeq1 || customDialogueSeq2 ? `First Sequence (0-10s): "${customDialogueSeq1.trim()}"\nSecond Sequence (10-20s): "${customDialogueSeq2.trim()}"` : customDialogue)
+          kids20sStep: (videoDuration === 20 || videoDuration === 30) ? "SCENE_1_ONLY" : undefined,
+          customDialogue: (videoDuration === 20 || videoDuration === 30)
+            ? (customDialogueSeq1 || customDialogueSeq2 || customDialogueSeq3 ? `First Sequence (0-10s): "${customDialogueSeq1.trim()}"\nSecond Sequence (10-20s): "${customDialogueSeq2.trim()}"${videoDuration === 30 ? `\nThird Sequence (20-30s): "${customDialogueSeq3.trim()}"` : ""}` : customDialogue)
             : customDialogue,
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
+          customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
           kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
           kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
@@ -5375,6 +5453,7 @@ export default function IdeasPage() {
           seriousDialogueStyle: category === "CUTE_KIDS" ? undefined : seriousDialogueStyle,
           customSceneDescription,
           outroEffects,
+          referenceCharacterInfo: referenceCharacterInfo || undefined,
           includeMic: category === "CUTE_KIDS" ? false : includeMic,
           audiencePerspective: category === "LIVE_STAGE_METAMORPHOSIS" ? audiencePerspective : undefined,
           stageEnvironment: category === "LIVE_STAGE_METAMORPHOSIS" ? stageEnvironment : undefined,
@@ -5503,7 +5582,7 @@ export default function IdeasPage() {
           category: idea.category,
           language: idea.language,
           visualStyle: idea.visualStyle,
-          videoDuration: 20,
+          videoDuration: idea.videoDuration === 30 ? 30 : 20,
           kids20sStep: "SCENE_2_ONLY",
           scene1Text: idea.text,
           scene1Clothing: extractScene1Clothing(idea.text),
@@ -5540,6 +5619,54 @@ export default function IdeasPage() {
     }
   };
 
+  const handleGenerateScene3 = async (idea: SavedIdea) => {
+    setLoadingSceneStepId(idea.id);
+    try {
+      const res = await fetch("/api/suggest-ideas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: idea.category,
+          language: idea.language,
+          visualStyle: idea.visualStyle,
+          videoDuration: 30,
+          kids20sStep: "SCENE_3_ONLY",
+          scene1Text: idea.text, // Scene 1&2 Bible
+          scene2Text: idea.text, // Scene 1&2 Bible is passed down
+          scene1Clothing: extractScene1Clothing(idea.text),
+          customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
+          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success || !data.ideas?.[0]) {
+        throw new Error(data.reason || data.error || "Failed to generate Scene 3");
+      }
+
+      const updatedText = data.ideas[0];
+
+      setSavedIdeas((prev) =>
+        prev.map((item) => (item.id === idea.id ? { ...item, text: updatedText } : item))
+      );
+
+      try {
+        await fetch(`/api/ideas/${idea.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: updatedText }),
+        });
+      } catch (err) {
+        console.error("Error updating idea with Scene 3 in DB:", err);
+      }
+
+      showToast("✨ Generated Scene 3! All 3 scenes ready for CapCut stitching.", "success");
+    } catch (e: any) {
+      showToast(e.message || "Failed to generate Scene 3", "error");
+    } finally {
+      setLoadingSceneStepId(null);
+    }
+  };
+
   const handleRegenerateScene1 = async (idea: SavedIdea) => {
     setLoadingSceneStepId(idea.id);
     try {
@@ -5550,7 +5677,7 @@ export default function IdeasPage() {
           category: idea.category,
           language: idea.language,
           visualStyle: idea.visualStyle,
-          videoDuration: 20,
+          videoDuration: idea.videoDuration === 30 ? 30 : 20,
           kids20sStep: "SCENE_1_ONLY",
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
@@ -6051,6 +6178,7 @@ export default function IdeasPage() {
                   <option value={8} className="bg-slate-900 text-white">8 Sec Story Clip</option>
                   <option value={10} className="bg-slate-900 text-white">⚡ 10 Sec Fast & Energetic</option>
                   <option value={20} className="bg-slate-900 text-white">⚡🎬 20 Sec Connected Story (2x 10s)</option>
+                  <option value={30} className="bg-slate-900 text-white">⚡🎬 30 Sec Connected Story (3x 10s)</option>
                 </select>
               </div>
 
@@ -6161,7 +6289,7 @@ export default function IdeasPage() {
                   </div>
                 </div>
 
-                {videoDuration === 20 ? (
+                {(videoDuration === 20 || videoDuration === 30) ? (
                   <div className="space-y-4 pt-1">
                     <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 space-y-2">
                       <div className="flex items-center justify-between">
@@ -6212,6 +6340,33 @@ export default function IdeasPage() {
                         className="w-full px-4 py-3 rounded-xl bg-black/80 border border-indigo-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 transition-all resize-y custom-scrollbar"
                       />
                     </div>
+
+                    {videoDuration === 30 && (
+                      <div className="p-3.5 rounded-xl bg-fuchsia-950/40 border border-fuchsia-500/40 space-y-2 mt-4">
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-extrabold text-fuchsia-300 flex items-center gap-1.5">
+                            <span>✨ Sequence 3 Spoken Dialogue (Third 10s Clip - 20-30s)</span>
+                          </label>
+                          {customDialogueSeq3 && (
+                            <button
+                              type="button"
+                              onClick={() => setCustomDialogueSeq3("")}
+                              className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                            >
+                              Clear Seq 3
+                            </button>
+                          )}
+                        </div>
+                        <textarea
+                          value={customDialogueSeq3}
+                          onChange={(e) => setCustomDialogueSeq3(e.target.value)}
+                          dir={customDialogueSeq3 && /[\u0600-\u06FF]/.test(customDialogueSeq3) ? "rtl" : "auto"}
+                          rows={3}
+                          placeholder={`Spoken dialogue for third 10s clip, e.g.:\nLook what happened!`}
+                          className="w-full px-4 py-3 rounded-xl bg-black/80 border border-fuchsia-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-fuchsia-400 transition-all resize-y custom-scrollbar"
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <textarea
@@ -6745,6 +6900,35 @@ export default function IdeasPage() {
                   onChange={handleCharacterSetupChange}
                   groups={CHARACTER_SETUP_GROUPS}
                 />
+
+                {/* Optional Character Reference Upload */}
+                <div className="space-y-1.5 mt-4 mb-4">
+                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                    <span>Character Reference Image (Optional)</span>
+                    <button 
+                      onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
+                    >
+                      🖼️ Browse Library
+                    </button>
+                  </label>
+                  <div className="flex flex-col gap-2">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={handleImageUpload} 
+                      className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                    />
+                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image and saving character info...</div>}
+                    {referenceImage && !isAnalyzingImage && (
+                      <div className="flex items-center gap-3 bg-indigo-900/30 p-2 rounded-xl border border-indigo-500/20">
+                        <img src={referenceImage} alt="Reference" className="w-10 h-10 rounded-lg object-cover border border-indigo-500/50" />
+                        <span className="text-xs text-indigo-300 flex-1 line-clamp-2">{referenceCharacterInfo}</span>
+                        <button onClick={() => { setReferenceImage(""); setReferenceCharacterInfo(""); }} className="p-1 text-slate-400 hover:text-red-400"><X className="w-4 h-4"/></button>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
                 {/* 6. Characters Per Scene */}
                 <div className="space-y-1.5">
@@ -7993,6 +8177,40 @@ export default function IdeasPage() {
                               <span>✨ Generate Scene 2</span>
                             </button>
                           )}
+
+                          {idea.videoDuration === 30 && (idea.text.includes("CLIP 2 PROMPT") || idea.text.includes("SECOND SEQUENCE")) && (
+                            (idea.text.includes("CLIP 3 PROMPT") || idea.text.includes("THIRD SEQUENCE")) ? (
+                              <>
+                                <button
+                                  onClick={() => handleCopy(getClip3Prompt(idea.text), `${idea.id}-clip3`)}
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-fuchsia-950/70 border border-fuchsia-500/50 text-xs font-bold text-fuchsia-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                                  title="Copy Clip 3 Prompt (20-30s Continuation) for Google Flow / Gemini"
+                                >
+                                  {copiedId === `${idea.id}-clip3` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-fuchsia-400" />}
+                                  <span>Clip 3 Prompt (20-30s)</span>
+                                </button>
+                                <button
+                                  onClick={() => handleGenerateScene3(idea)}
+                                  disabled={loadingSceneStepId === idea.id}
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                                  title="Regenerate Scene 3 (20-30s)"
+                                >
+                                  {loadingSceneStepId === idea.id ? <Loader2 className="w-3.5 h-3.5 animate-spin text-fuchsia-400" /> : <RotateCcw className="w-3.5 h-3.5 text-fuchsia-400" />}
+                                  <span>Re-gen Scene 3</span>
+                                </button>
+                              </>
+                            ) : (
+                              <button
+                                onClick={() => handleGenerateScene3(idea)}
+                                disabled={loadingSceneStepId === idea.id}
+                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                                title="Generate Third Scene (20-30s)"
+                              >
+                                {loadingSceneStepId === idea.id ? <Loader2 className="w-3.5 h-3.5 animate-spin text-white" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
+                                <span>✨ Generate Scene 3</span>
+                              </button>
+                            )
+                          )}
                         </>
                       )}
 
@@ -8576,6 +8794,30 @@ export default function IdeasPage() {
 
       {/* 🚀 Floating Fixed Action Toolbar (Copy Prompt, Copy Script, Go to Top) */}
       <div className="fixed bottom-6 right-5 sm:right-6 z-[99999] flex flex-col gap-3 items-end select-none">
+        
+        {/* 0. Generate Script Floating Button (Red) */}
+        <div className="relative group">
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={isGenerating}
+            className={`p-3.5 rounded-2xl bg-red-600/90 hover:bg-red-500 border border-red-400/50 text-white shadow-xl shadow-red-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-red-500/30 ${
+              isGenerating ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            title="Generate Script"
+          >
+            {isGenerating ? (
+              <Loader2 className="w-5 h-5 text-red-100 animate-spin" />
+            ) : (
+              <Sparkles className="w-5 h-5 text-red-100" />
+            )}
+          </button>
+          <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-red-500/40 text-xs font-bold text-red-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-red-400" />
+            <span>Generate Script</span>
+          </div>
+        </div>
+
         {/* 1. Copy Mobile Prompt Floating Button */}
         {savedIdeas.length > 0 && (
           <div className="relative group">
@@ -8636,6 +8878,62 @@ export default function IdeasPage() {
             <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
             <span>Go to Top</span>
           </div>
+      {/* Character Library Modal */}
+      {showCharacterLibrary && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                🖼️ Character Library
+              </h3>
+              <button onClick={() => setShowCharacterLibrary(false)} className="text-slate-400 hover:text-white transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="p-4 overflow-y-auto flex-1">
+              {isLoadingLibrary ? (
+                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                  <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                  <span className="text-slate-400 text-sm">Loading characters...</span>
+                </div>
+              ) : savedCharacters.length === 0 ? (
+                <div className="text-center py-12 text-slate-400">
+                  <p>No characters saved yet.</p>
+                  <p className="text-sm mt-2">Upload an image to save your first character!</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {savedCharacters.map((char) => (
+                    <div 
+                      key={char.id} 
+                      onClick={() => {
+                        setReferenceImage(char.imageUrl);
+                        setReferenceCharacterInfo(char.description);
+                        setShowCharacterLibrary(false);
+                        showToast("Character selected from library!", "success");
+                      }}
+                      className="group cursor-pointer bg-black/40 rounded-xl border border-white/5 hover:border-indigo-500/50 transition-all overflow-hidden flex flex-col"
+                    >
+                      <div className="aspect-square overflow-hidden relative">
+                        <img 
+                          src={char.imageUrl} 
+                          alt={char.name} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="p-2">
+                        <p className="text-xs text-slate-300 font-medium truncate">{char.name || "Character"}</p>
+                        <p className="text-[10px] text-slate-500 truncate mt-0.5">{char.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
         </div>
       </div>
     </div>

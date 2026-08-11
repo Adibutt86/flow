@@ -13,9 +13,10 @@ model User {
   password  String?
   isMaster  Boolean   @default(false)
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  projects  Project[]
-  ideas     Idea[]
+  updatedAt          DateTime  @updatedAt
+  projects           Project[]
+  ideas              Idea[]
+  referenceCharacters ReferenceCharacter[]
 }
 
 model Project {
@@ -161,4 +162,19 @@ model Idea {
   isShortIdea          Boolean? @default(false)
   withoutDialogue      Boolean? @default(false)
   withoutMusic         Boolean? @default(false)
+  referenceCharacterId String?
+  referenceCharacter   ReferenceCharacter? @relation(fields: [referenceCharacterId], references: [id], onDelete: SetNull)
+}
+
+model ReferenceCharacter {
+  id             String   @id @default(uuid())
+  name           String   @default("Unnamed Character")
+  imageUrl       String   // Can store base64 string or an actual URL
+  description    String   @db.Text // AI generated detailed appearance
+  category       String   @default("CUTE_KIDS")
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ideas          Idea[]
 }

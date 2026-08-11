@@ -450,6 +450,7 @@ ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Eff
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
+${input.category === "CUTE_KIDS" && input.referenceCharacterInfo ? `\nCRITICAL CHARACTER REFERENCE: The character must perfectly match this exact description: ${input.referenceCharacterInfo}\n` : ""}
 ${input.timeOfDay && input.timeOfDay !== "Any / AI Decides" ? `Time of Day/Lighting: ${input.timeOfDay}` : ""}
 ${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrative Moment: ${input.storyBeat}` : ""}
 ${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
@@ -611,7 +612,7 @@ FEMALE POET + MALE LISTENER MANDATE (CRITICAL — STRICT ROLE ENFORCEMENT):
 }
 
 ${
-  Number(input.videoDuration) === 20
+  (Number(input.videoDuration) === 20 || Number(input.videoDuration) === 30)
     ? input.kids20sStep === "SCENE_1_ONLY"
       ? `STEP 1 OF 2: GENERATE FIRST 10-SECOND SCENE (CLIP 1 PROMPT) & LOCKED CHARACTER BIBLE ONLY (TO SAVE AI CREDITS):
 Generate ONLY the first 10-second scene (Clip 1 Prompt) and the Locked Character & Environment Continuity Bible.
@@ -635,7 +636,7 @@ REQUIRED OUTPUT FORMAT STRUCTURE:
 
 ⏳ STEP 2 STATUS: [Scene 1 Ready for Review. Click "✨ Generate Second Scene (10-20s)" once you approve Scene 1].`
       : input.kids20sStep === "SCENE_2_ONLY"
-      ? `STEP 2 OF 2: GENERATE SECOND 10-SECOND CONTINUATION SCENE (CLIP 2 PROMPT):
+      ? `STEP 2 OF ${Number(input.videoDuration) === 30 ? "3" : "2"}: GENERATE SECOND 10-SECOND CONTINUATION SCENE (CLIP 2 PROMPT):
 You are given the APPROVED FIRST SCENE & LOCKED CHARACTER BIBLE:
 --- APPROVED SCENE 1 BIBLE ---
 ${input.scene1Text || ""}
@@ -658,8 +659,34 @@ ${(input.scene1Text || "").replace(/⏳\s*STEP 2 STATUS:[\s\S]*$/i, "").trim()}
 10-second video continuation [Visual Style]. Setting: [Same Location & Lighting from Scene 1]. Characters: [Same locked Character 1 in identical outfit] and [Same locked Character 2]. Action (10-20s): [Direct continuation beat following immediately from Clip 1, resolving the situation with a clear climax or warm conclusion]. Camera: [Matching smooth camera move].
 💬 Second Sequence Spoken Dialogue: "${input.customDialogueSeq2 ? input.customDialogueSeq2 : '[Dialogue for 10-20s]'}"
 
+${Number(input.videoDuration) === 30 ? `⏳ STEP 3 STATUS: [Scene 2 Ready for Review. Click "✨ Generate Third Scene (20-30s)" once you approve Scene 2].` : `✂️ CAPCUT CONTINUITY & EDITING NOTES:
+• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and story continuity.`}`
+      : input.kids20sStep === "SCENE_3_ONLY"
+      ? `STEP 3 OF 3: GENERATE THIRD 10-SECOND CONTINUATION SCENE (CLIP 3 PROMPT):
+You are given the APPROVED FIRST & SECOND SCENES & LOCKED CHARACTER BIBLE:
+--- APPROVED SCENE 1 & 2 BIBLE ---
+${input.scene2Text || ""}
+------------------------------
+
+${input.customDialogueSeq3 ? `User Sequence 3 Spoken Dialogue (Third 10s Clip): "${input.customDialogueSeq3}"` : ""}
+
+CRITICAL CONTINUITY MANDATE:
+Generate the continuation Scene 3 (Clip 3 Prompt: 20-30s) that continues IMMEDIATELY from Scene 2.
+🔴 STRICT LOCKED CLOTHING MANDATE: You MUST maintain 100% identical clothing/outfit colors, shirts, pants, and visual style for BOTH characters in Scene 3.
+${input.scene1Clothing ? `LOCKED SCENE 1&2 CLOTHING SPECIFICATION: "${input.scene1Clothing}"` : ""}
+In Clip 3 Prompt (20-30s), you MUST repeat the EXACT SAME clothing/outfit description verbatim from Scene 1 and Scene 2 for both Character 1 and Character 2! Do NOT change, modify, or invent different clothes or outfit colors for any character in Scene 3.
+
+REQUIRED OUTPUT FORMAT STRUCTURE:
+[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+
+${(input.scene2Text || "").replace(/⏳\s*STEP 3 STATUS:[\s\S]*$/i, "").trim()}
+
+🎥 CLIP 3 PROMPT (Third 10-Second Scene — Google Flow / Gemini Continuation Prompt):
+10-second video continuation [Visual Style]. Setting: [Same Location & Lighting from Scene 1 & 2]. Characters: [Same locked Character 1 in identical outfit] and [Same locked Character 2]. Action (20-30s): [Direct continuation beat following immediately from Clip 2, resolving the situation with a clear climax or warm conclusion]. Camera: [Matching smooth camera move].
+💬 Third Sequence Spoken Dialogue: "${input.customDialogueSeq3 ? input.customDialogueSeq3 : '[Dialogue for 20-30s]'}"
+
 ✂️ CAPCUT CONTINUITY & EDITING NOTES:
-• Stitch Clip 1 (0-10s) and Clip 2 (10-20s) end-to-end in CapCut for a seamless continuous 20-second video with 100% character appearance, outfit, environment, and story continuity.`
+• Stitch Clip 1 (0-10s), Clip 2 (10-20s), and Clip 3 (20-30s) end-to-end in CapCut for a seamless continuous 30-second video with 100% character appearance, outfit, environment, and story continuity.`
       : `20-SECOND CONNECTED STORY MANDATE (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI):
 For this 20-second Video, format the output concept into TWO distinct, copyable 10-second prompt blocks (Clip 1 & Clip 2) so the user can generate Clip 1 in Google Flow / Gemini, generate Clip 2 in Google Flow / Gemini, and combine them in CapCut:
 
@@ -900,7 +927,7 @@ function generateFallbackIdeaPrompt(input: any): string[] {
     ];
   }
 
-  if (Number(input.videoDuration) === 20 && (cat === "CUTE_KIDS" || cat === "KIDS_FUNNY")) {
+  if ((Number(input.videoDuration) === 20 || Number(input.videoDuration) === 30) && (cat === "CUTE_KIDS" || cat === "KIDS_FUNNY")) {
     const seq1Dialogue = input.customDialogueSeq1 || "ابو دیکھو! میں نے ایک نیا کھیل دریافت کر لیا ہے!";
     const seq2Dialogue = input.customDialogueSeq2 || "ارے یہ کیا ہو گیا! لیکن کتنا مزہ آیا!";
 
