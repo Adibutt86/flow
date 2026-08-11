@@ -2649,6 +2649,12 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
 // 2. KIDS HEALTH OPTIONS
 const KIDS_HEALTH_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "Default / AI Decides",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI decide the health and wellness based on the story." },
+    ],
+  },
+  {
     category: "General Health & Physical Wellness",
     options: [
       { value: "Healthy", label: "Healthy", desc: "Energetic, active, cheerful child with vibrant physical wellness." },
@@ -3533,6 +3539,12 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Punjabi Mirza & Heer Legends", label: "Punjabi Mirza & Heer Legends", desc: "Emotional storytelling ballads with Sarangi & Tumbi." },
       { value: "Punjabi Jhumar & Luddi", label: "Punjabi Jhumar & Luddi", desc: "Joyful festive Punjabi Jhumar & Luddi dance rhythms." },
       { value: "Punjabi Beats & Bhangra", label: "Punjabi Beats & Bhangra", desc: "Energetic Dhol beats, Tumbi, and vibrant Punjabi Bhangra." },
+    ],
+  },
+  {
+    category: "Patriotic & National",
+    options: [
+      { value: "Pakistan Tarana", label: "Pakistan Tarana (پاکستانی ترانہ)", desc: "Inspiring and patriotic Pakistani national anthem style (Tarana) music with military band & orchestral elements." },
     ],
   },
   {
@@ -4763,7 +4775,7 @@ export default function IdeasPage() {
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
   const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
-  const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Healthy");
+  const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Any / AI Decides");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "Any / AI Decides");
