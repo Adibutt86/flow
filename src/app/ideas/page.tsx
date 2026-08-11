@@ -4784,7 +4784,7 @@ export default function IdeasPage() {
   };
   const [outroEffects, setOutroEffects] = useState<string>(initialSettings.outroEffects || "None");
   const [kidsExpression, setKidsExpression] = useState(initialSettings.kidsExpression || "Any / AI Decides");
-  const [referenceImage, setReferenceImage] = useState<string>("");
+  const [referenceImages, setReferenceImages] = useState<string[]>([]);
   const [referenceCharacterInfo, setReferenceCharacterInfo] = useState<string>("");
   const [isAnalyzingImage, setIsAnalyzingImage] = useState<boolean>(false);
   const [showCharacterLibrary, setShowCharacterLibrary] = useState(false);
@@ -5368,13 +5368,16 @@ export default function IdeasPage() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const base64 = event.target?.result as string;
-      setReferenceImage(base64);
-      setIsAnalyzingImage(true);
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setIsAnalyzingImage(true);
+    for (const file of files) {
+      const base64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event.target?.result as string);
+        reader.readAsDataURL(file);
+      });
+      setReferenceImages((prev) => [...prev, base64]);
       try {
         const res = await fetch("/api/analyze-character", {
           method: "POST",
@@ -5383,7 +5386,7 @@ export default function IdeasPage() {
         });
         const data = await res.json();
         if (data.character?.description) {
-          setReferenceCharacterInfo(data.character.description);
+          setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + data.character.description : data.character.description);
           showToast("Character reference analyzed and saved!", "success");
         } else {
           showToast(`Failed: ${data.error || "Could not analyze image"}`, "error");
@@ -5391,11 +5394,9 @@ export default function IdeasPage() {
       } catch (err: any) {
         console.error("Image upload fetch error:", err);
         showToast(`Error analyzing image: ${err.message || "Unknown error"}`, "error");
-      } finally {
-        setIsAnalyzingImage(false);
       }
-    };
-    reader.readAsDataURL(file);
+    }
+    setIsAnalyzingImage(false);
   };
 
   const fetchCharacterLibrary = async () => {
@@ -6098,34 +6099,35 @@ export default function IdeasPage() {
           {/* 🌟 BIG UNIFIED CATEGORY & PRIMARY CONTROLS CARD (Right after Generate New Video Concept) */}
           <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-950/60 via-indigo-950/70 to-purple-950/60 border-2 border-amber-500/50 shadow-2xl space-y-5">
             {/* Top Row: Big Active Category Display + Category Dropdown Selector */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/20 pb-4">
-              <div className="flex items-center gap-3.5">
-                <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-black/70 border border-amber-500/40 shadow-inner shrink-0">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/20 pb-4 w-full">
+              <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
+                <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-black/70 border border-amber-500/40 shadow-inner shrink-0 hidden sm:block">
                   {CATEGORIES[category]?.badge || "💡"}
                 </span>
-                <div>
-                  <div className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest flex items-center gap-2">
+                <div className="min-w-0 flex-1">
+                  <div className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest flex items-center gap-2 flex-wrap">
+                    <span className="inline-block sm:hidden text-base leading-none">{CATEGORIES[category]?.badge || "💡"}</span>
                     <span>ACTIVE CATEGORY</span>
-                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping shrink-0" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight mt-0.5">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight mt-0.5 break-words">
                     {CATEGORIES[category]?.name || category}
                   </h3>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-snug">
+                  <p className="text-xs text-slate-300 font-medium mt-1 leading-snug break-words whitespace-normal">
                     {CATEGORIES[category]?.description}
                   </p>
                 </div>
               </div>
 
               {/* Category Dropdown Selector */}
-              <div className="w-full md:w-auto min-w-[260px] shrink-0">
+              <div className="w-full md:w-auto md:min-w-[260px] shrink-0 max-w-full overflow-hidden">
                 <label className="text-[11px] font-extrabold text-amber-300 uppercase tracking-wider block mb-1">
                   Change Category:
                 </label>
                 <select
                   value={category}
                   onChange={(e) => handleCategoryChange(e.target.value as CategoryId)}
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border-2 border-amber-500/60 text-sm sm:text-base font-extrabold text-amber-200 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 cursor-pointer shadow-xl transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-black/80 border-2 border-amber-500/60 text-sm sm:text-base font-extrabold text-amber-200 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 cursor-pointer shadow-xl transition-all truncate text-ellipsis"
                 >
                   {categoryEntries.map((cat) => (
                     <option key={cat.id} value={cat.id} className="bg-slate-900 text-slate-100 font-bold py-1.5">
@@ -6916,15 +6918,22 @@ export default function IdeasPage() {
                     <input 
                       type="file" 
                       accept="image/*" 
+                      multiple
                       onChange={handleImageUpload} 
                       className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
                     />
-                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image and saving character info...</div>}
-                    {referenceImage && !isAnalyzingImage && (
-                      <div className="flex items-center gap-3 bg-indigo-900/30 p-2 rounded-xl border border-indigo-500/20">
-                        <img src={referenceImage} alt="Reference" className="w-10 h-10 rounded-lg object-cover border border-indigo-500/50" />
-                        <span className="text-xs text-indigo-300 flex-1 line-clamp-2">{referenceCharacterInfo}</span>
-                        <button onClick={() => { setReferenceImage(""); setReferenceCharacterInfo(""); }} className="p-1 text-slate-400 hover:text-red-400"><X className="w-4 h-4"/></button>
+                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
+                    {referenceImages.length > 0 && (
+                      <div className="flex flex-col gap-3 bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20">
+                        <div className="flex flex-wrap gap-2">
+                          {referenceImages.map((img, idx) => (
+                            <img key={idx} src={img} alt={`Reference ${idx + 1}`} className="w-12 h-12 rounded-lg object-cover border border-indigo-500/50" />
+                          ))}
+                        </div>
+                        {referenceCharacterInfo && !isAnalyzingImage && (
+                          <div className="text-xs text-indigo-300 whitespace-pre-wrap max-h-32 overflow-y-auto">{referenceCharacterInfo}</div>
+                        )}
+                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-400 hover:text-red-400 flex items-center gap-1"><X className="w-4 h-4"/> Clear All</button>
                       </div>
                     )}
                   </div>
@@ -8908,8 +8917,8 @@ export default function IdeasPage() {
                     <div 
                       key={char.id} 
                       onClick={() => {
-                        setReferenceImage(char.imageUrl);
-                        setReferenceCharacterInfo(char.description);
+                        setReferenceImages((prev) => [...prev, char.imageUrl]);
+                        setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + char.description : char.description);
                         setShowCharacterLibrary(false);
                         showToast("Character selected from library!", "success");
                       }}

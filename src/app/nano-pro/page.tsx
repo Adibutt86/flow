@@ -15,6 +15,7 @@ export default function NanoProGenerator() {
   const [clothing, setClothing] = useState("Any / AI Decides");
   const [age, setAge] = useState("Any / AI Decides");
   const [nationality, setNationality] = useState("Any / AI Decides");
+  const [complexion, setComplexion] = useState("Any / AI Decides");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon Style");
   const [aspectRatio, setAspectRatio] = useState("9:16");
   const [isCopied, setIsCopied] = useState(false);
@@ -22,7 +23,17 @@ export default function NanoProGenerator() {
   // Scene Settings
   const [backgroundStyle, setBackgroundStyle] = useState("Any / AI Decides");
 
-  const [promptHistory, setPromptHistory] = useState<{prompt: string, timestamp: string}[]>([]);
+  const [customVisualStyle, setCustomVisualStyle] = useState("");
+  const [customCharacterType, setCustomCharacterType] = useState("");
+  const [customClothing, setCustomClothing] = useState("");
+  const [customAge, setCustomAge] = useState("");
+  const [customNationality, setCustomNationality] = useState("");
+  const [customComplexion, setCustomComplexion] = useState("");
+  const [customBackgroundStyle, setCustomBackgroundStyle] = useState("");
+
+  const [promptHistory, setPromptHistory] = useState<any[]>([]);
+  const [historyPage, setHistoryPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Character Reference (Library)
   const [showCharacterLibrary, setShowCharacterLibrary] = useState(false);
@@ -41,6 +52,7 @@ export default function NanoProGenerator() {
         if (parsed.clothing) setClothing(parsed.clothing);
         if (parsed.age) setAge(parsed.age);
         if (parsed.nationality) setNationality(parsed.nationality);
+        if (parsed.complexion) setComplexion(parsed.complexion);
         if (parsed.visualStyle) setVisualStyle(parsed.visualStyle);
         if (parsed.aspectRatio) setAspectRatio(parsed.aspectRatio);
         if (parsed.backgroundStyle) setBackgroundStyle(parsed.backgroundStyle);
@@ -60,6 +72,7 @@ export default function NanoProGenerator() {
       clothing,
       age,
       nationality,
+      complexion,
       visualStyle,
       aspectRatio,
       backgroundStyle,
@@ -68,7 +81,7 @@ export default function NanoProGenerator() {
       referenceImage,
     };
     localStorage.setItem("nanoProState", JSON.stringify(state));
-  }, [generatedPrompt, characterType, clothing, age, nationality, visualStyle, aspectRatio, backgroundStyle, promptHistory, referenceCharacterInfo, referenceImage]);
+  }, [generatedPrompt, characterType, clothing, age, nationality, complexion, visualStyle, aspectRatio, backgroundStyle, promptHistory, referenceCharacterInfo, referenceImage]);
 
   const fetchCharacterLibrary = async () => {
     setIsLoadingLibrary(true);
@@ -102,20 +115,34 @@ export default function NanoProGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           aiModel,
-          visualStyle,
+          visualStyle: visualStyle === "Custom" ? customVisualStyle : visualStyle,
           aspectRatio,
-          characterType,
-          clothing,
-          age,
-          nationality,
-          backgroundStyle,
+          characterType: characterType === "Custom" ? customCharacterType : characterType,
+          clothing: clothing === "Custom" ? customClothing : clothing,
+          age: age === "Custom" ? customAge : age,
+          nationality: nationality === "Custom" ? customNationality : nationality,
+          complexion: complexion === "Custom" ? customComplexion : complexion,
+          backgroundStyle: backgroundStyle === "Custom" ? customBackgroundStyle : backgroundStyle,
           referenceCharacterInfo
         }),
       });
       const data = await res.json();
       if (data.prompt) {
         setGeneratedPrompt(data.prompt);
-        setPromptHistory(prev => [{ prompt: data.prompt, timestamp: new Date().toLocaleTimeString() }, ...prev]);
+        setPromptHistory(prev => [{ 
+          prompt: data.prompt, 
+          timestamp: new Date().toLocaleTimeString(),
+          parameters: {
+            visualStyle: visualStyle === "Custom" ? customVisualStyle : visualStyle,
+            characterType: characterType === "Custom" ? customCharacterType : characterType,
+            clothing: clothing === "Custom" ? customClothing : clothing,
+            age: age === "Custom" ? customAge : age,
+            nationality: nationality === "Custom" ? customNationality : nationality,
+            complexion: complexion === "Custom" ? customComplexion : complexion,
+            backgroundStyle: backgroundStyle === "Custom" ? customBackgroundStyle : backgroundStyle,
+          }
+        }, ...prev]);
+        setHistoryPage(1);
       } else {
         console.error(data.error);
         setGeneratedPrompt("Error generating prompt: " + data.error);
@@ -223,7 +250,17 @@ export default function NanoProGenerator() {
                           <option value="Cyberpunk">Cyberpunk</option>
                           <option value="Claymation">Claymation</option>
                           <option value="Pencil Sketch">Pencil Sketch</option>
+                          <option value="Custom">Custom...</option>
                         </select>
+                        {visualStyle === "Custom" && (
+                          <input
+                            type="text"
+                            value={customVisualStyle}
+                            onChange={(e) => setCustomVisualStyle(e.target.value)}
+                            placeholder="e.g. Vintage 1950s comic book style..."
+                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          />
+                        )}
                       </div>
                       
                       <div className="space-y-1.5">
@@ -268,7 +305,17 @@ export default function NanoProGenerator() {
                         <option value="Cute Dog">Cute Dog</option>
                         <option value="Robot">Robot</option>
                         <option value="Alien">Alien</option>
+                        <option value="Custom">Custom...</option>
                       </select>
+                      {characterType === "Custom" && (
+                        <input
+                          type="text"
+                          value={customCharacterType}
+                          onChange={(e) => setCustomCharacterType(e.target.value)}
+                          placeholder="e.g. Candy boy..."
+                          className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        />
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
@@ -297,7 +344,17 @@ export default function NanoProGenerator() {
                         <option value="Sportswear">Sportswear</option>
                         <option value="Vintage 90s Outfit">Vintage 90s Outfit</option>
                         <option value="Cyberpunk Techwear">Cyberpunk Techwear</option>
+                        <option value="Custom">Custom...</option>
                       </select>
+                      {clothing === "Custom" && (
+                        <input
+                          type="text"
+                          value={customClothing}
+                          onChange={(e) => setCustomClothing(e.target.value)}
+                          placeholder="e.g. Red hoodie and blue jeans..."
+                          className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        />
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
@@ -320,7 +377,17 @@ export default function NanoProGenerator() {
                         <option value="Elderly (56-70)">Elderly (56-70 years)</option>
                         <option value="Senior (71+)">Senior (71+ years)</option>
                         <option value="Immortal / Ageless">Immortal / Ageless</option>
+                        <option value="Custom">Custom...</option>
                       </select>
+                      {age === "Custom" && (
+                        <input
+                          type="text"
+                          value={customAge}
+                          onChange={(e) => setCustomAge(e.target.value)}
+                          placeholder="e.g. Around 40 but looks 20..."
+                          className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        />
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
@@ -346,7 +413,46 @@ export default function NanoProGenerator() {
                         <option value="Native American / Indigenous">Native American / Indigenous</option>
                         <option value="Mixed / Multiracial">Mixed / Multiracial</option>
                         <option value="Fantasy / Otherworldly">Fantasy / Otherworldly</option>
+                        <option value="Custom">Custom...</option>
                       </select>
+                      {nationality === "Custom" && (
+                        <input
+                          type="text"
+                          value={customNationality}
+                          onChange={(e) => setCustomNationality(e.target.value)}
+                          placeholder="e.g. Cybernetic Martian..."
+                          className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        />
+                      )}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                          Skin Tone / Complexion
+                        </label>
+                        <select
+                          value={complexion}
+                          onChange={(e) => setComplexion(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        >
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Fair / Pale">Fair / Pale</option>
+                          <option value="Light">Light</option>
+                          <option value="Medium / Olive">Medium / Olive</option>
+                          <option value="Tan / Brown">Tan / Brown</option>
+                          <option value="Dark Brown">Dark Brown</option>
+                          <option value="Black">Black</option>
+                          <option value="Custom">Custom...</option>
+                        </select>
+                        {complexion === "Custom" && (
+                          <input
+                            type="text"
+                            value={customComplexion}
+                            onChange={(e) => setCustomComplexion(e.target.value)}
+                            placeholder="e.g. Pale with freckles..."
+                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          />
+                        )}
                       </div>
                       
                       <div className="space-y-1.5">
@@ -370,7 +476,17 @@ export default function NanoProGenerator() {
                           <option value="Cinematic Studio Lighting">Cinematic Studio Lighting</option>
                           <option value="Dreamy Soft Focus">Dreamy Soft Focus</option>
                           <option value="Neon Cyberpunk Alley">Neon Cyberpunk Alley</option>
+                          <option value="Custom">Custom...</option>
                         </select>
+                        {backgroundStyle === "Custom" && (
+                          <input
+                            type="text"
+                            value={customBackgroundStyle}
+                            onChange={(e) => setCustomBackgroundStyle(e.target.value)}
+                            placeholder="e.g. A busy futuristic street..."
+                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          />
+                        )}
                       </div>
 
                     </div>
@@ -480,9 +596,20 @@ export default function NanoProGenerator() {
                 <h2 className="text-xl font-bold text-white">Prompt History</h2>
               </div>
               <div className="space-y-4">
-                {promptHistory.map((item, index) => (
+                {promptHistory.slice((historyPage - 1) * itemsPerPage, historyPage * itemsPerPage).map((item, index) => (
                   <div key={index} className="bg-black/40 rounded-xl p-4 border border-white/5 relative group">
-                    <div className="text-xs text-slate-500 mb-2 font-mono">{item.timestamp}</div>
+                    <div className="text-xs text-slate-500 mb-3 font-mono">{item.timestamp}</div>
+                    {item.parameters && (
+                      <div className="flex flex-wrap gap-2 mb-3 pr-12">
+                        {Object.entries(item.parameters).map(([key, value]) => (
+                          value && value !== "Any / AI Decides" && (
+                            <span key={key} className="text-[10px] uppercase tracking-wider px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded">
+                              {key.replace(/([A-Z])/g, ' $1').trim()}: {value as string}
+                            </span>
+                          )
+                        ))}
+                      </div>
+                    )}
                     <div className="font-mono text-sm text-purple-200/90 leading-relaxed pr-12">
                       {item.prompt}
                     </div>
@@ -500,6 +627,30 @@ export default function NanoProGenerator() {
                   </div>
                 ))}
               </div>
+              
+              {promptHistory.length > itemsPerPage && (
+                <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5">
+                  <span className="text-sm text-slate-500">
+                    Showing {(historyPage - 1) * itemsPerPage + 1}-{Math.min(historyPage * itemsPerPage, promptHistory.length)} of {promptHistory.length}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => setHistoryPage(p => Math.max(1, p - 1))}
+                      disabled={historyPage === 1}
+                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 rounded-lg text-sm text-slate-300 transition-colors"
+                    >
+                      Previous
+                    </button>
+                    <button 
+                      onClick={() => setHistoryPage(p => Math.min(Math.ceil(promptHistory.length / itemsPerPage), p + 1))}
+                      disabled={historyPage === Math.ceil(promptHistory.length / itemsPerPage)}
+                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 rounded-lg text-sm text-slate-300 transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -12,6 +12,7 @@ export async function POST(req: Request) {
       clothing,
       age,
       nationality,
+      complexion,
       backgroundStyle,
       referenceCharacterInfo
     } = body;
@@ -27,6 +28,7 @@ Write a highly detailed, cinematic image generation prompt based on the followin
 - Character Type: ${characterType}
 - Age: ${age}
 - Nationality/Ethnicity: ${nationality}
+- Skin Tone / Complexion: ${complexion || "Any / AI Decides"}
 - Clothing: ${clothing}
 - Background/Environment: ${backgroundStyle}
 
