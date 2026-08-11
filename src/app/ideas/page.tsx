@@ -3179,12 +3179,34 @@ const POETRY_STYLE_GROUPS = [
 const POETRY_CROWD_FX_GROUPS = SONG_CROWD_FX_GROUPS; // Wah Wah, etc.
 const POETRY_MUSIC_TYPE_GROUPS = [
   {
-    category: "Background Music Instrument",
+    category: "Background Music Instrument & Genre",
     options: [
-      { value: "Tabla & Harmonium", label: "Tabla & Harmonium", desc: "Classic Mushaira instruments." },
-      { value: "Solo Flute", label: "Solo Flute", desc: "Soft, emotional background flute." },
-      { value: "Sad Sitar", label: "Sad Sitar", desc: "Melancholic sitar playing softly." },
-      { value: "No Music (Voice Only)", label: "No Music (Voice Only)", desc: "Pure voice recitation." }
+      { value: "Bollywood Romantic", label: "Bollywood Romantic", desc: "Flute, Violin, Soft Acoustic." },
+      { value: "Bollywood Item Song", label: "Bollywood Item Song", desc: "Dholak, Synths, High Energy." },
+      { value: "Bollywood 90s Melody", label: "Bollywood 90s Melody", desc: "Nostalgic Synth, Congas." },
+      { value: "Ghazal & Semi-Classical", label: "Ghazal & Semi-Classical", desc: "Tabla, Sarangi, Harmonium." },
+      { value: "Indian Classical", label: "Indian Classical", desc: "Sitar, Tabla, Tanpura." },
+      { value: "Punjabi Pop", label: "Punjabi Pop", desc: "Tumbi, Dhol, Electronic Beat." },
+      { value: "Punjabi Bhangra Dhol", label: "Punjabi Bhangra Dhol", desc: "High energy Punjabi Dhol beats." },
+      { value: "Sufi Qawwali", label: "Sufi Qawwali", desc: "Harmonium, Dholak, Hand Claps." },
+      { value: "Pop / Acoustic", label: "Pop / Acoustic", desc: "Mainstream pop or acoustic guitar." },
+      { value: "Electric Guitar & Drums", label: "Electric Guitar & Drums", desc: "Full rock band setup." },
+      { value: "Synth Pop Beat", label: "Synth Pop Beat", desc: "Modern electronic synth beat." },
+      { value: "Acoustic Guitar", label: "Acoustic Guitar", desc: "Simple acoustic strumming." },
+      { value: "Piano Ballad", label: "Piano Ballad", desc: "Emotional piano accompaniment." },
+      { value: "Tabla & Harmonium", label: "Tabla & Harmonium", desc: "Classic Desi instruments." },
+      { value: "Sitar & Flute", label: "Sitar & Flute", desc: "Traditional Indian classical setup." },
+      { value: "Lo-Fi Hip Hop Beat", label: "Lo-Fi Hip Hop Beat", desc: "Chill and relaxing lo-fi music." },
+      { value: "R&B / Soul Groove", label: "R&B / Soul Groove", desc: "Smooth bass and soulful rhythm." },
+      { value: "Jazz / Blues", label: "Jazz / Blues", desc: "Saxophone, Upright Bass, Piano." },
+      { value: "Country / Western", label: "Country / Western", desc: "Acoustic Guitar, Fiddle, Steel Guitar." },
+      { value: "EDM / House", label: "EDM / House", desc: "Four-on-the-floor beat, heavy synths." },
+      { value: "K-Pop / J-Pop", label: "K-Pop / J-Pop", desc: "Upbeat electronic pop production." },
+      { value: "Afrobeat / Dancehall", label: "Afrobeat / Dancehall", desc: "Rhythmic percussion, tropical vibe." },
+      { value: "Cinematic Orchestral", label: "Cinematic Orchestral", desc: "Epic string section and brass." },
+      { value: "Heavy Metal / Hard Rock", label: "Heavy Metal / Hard Rock", desc: "Intense distorted guitars and loud drums." },
+      { value: "Reggae / Dancehall", label: "Reggae / Dancehall", desc: "Upbeat tropical island vibe." },
+      { value: "No Music (Acapella)", label: "No Music (Acapella)", desc: "Vocals only, no instruments." }
     ]
   }
 ];
@@ -3237,12 +3259,34 @@ const SONG_CROWD_FX_GROUPS_NEW = [
 
 const SONG_MUSIC_TYPE_GROUPS = [
   {
-    category: "Background Music Instrument",
+    category: "Background Music Instrument & Genre",
     options: [
+      { value: "Bollywood Romantic", label: "Bollywood Romantic", desc: "Flute, Violin, Soft Acoustic." },
+      { value: "Bollywood Item Song", label: "Bollywood Item Song", desc: "Dholak, Synths, High Energy." },
+      { value: "Bollywood 90s Melody", label: "Bollywood 90s Melody", desc: "Nostalgic Synth, Congas." },
+      { value: "Ghazal & Semi-Classical", label: "Ghazal & Semi-Classical", desc: "Tabla, Sarangi, Harmonium." },
+      { value: "Indian Classical", label: "Indian Classical", desc: "Sitar, Tabla, Tanpura." },
+      { value: "Punjabi Pop", label: "Punjabi Pop", desc: "Tumbi, Dhol, Electronic Beat." },
+      { value: "Punjabi Bhangra Dhol", label: "Punjabi Bhangra Dhol", desc: "High energy Punjabi Dhol beats." },
+      { value: "Sufi Qawwali", label: "Sufi Qawwali", desc: "Harmonium, Dholak, Hand Claps." },
+      { value: "Pop / Acoustic", label: "Pop / Acoustic", desc: "Mainstream pop or acoustic guitar." },
       { value: "Electric Guitar & Drums", label: "Electric Guitar & Drums", desc: "Full rock band setup." },
       { value: "Synth Pop Beat", label: "Synth Pop Beat", desc: "Modern electronic synth beat." },
       { value: "Acoustic Guitar", label: "Acoustic Guitar", desc: "Simple acoustic strumming." },
-      { value: "Piano Ballad", label: "Piano Ballad", desc: "Emotional piano accompaniment." }
+      { value: "Piano Ballad", label: "Piano Ballad", desc: "Emotional piano accompaniment." },
+      { value: "Tabla & Harmonium", label: "Tabla & Harmonium", desc: "Classic Desi instruments." },
+      { value: "Sitar & Flute", label: "Sitar & Flute", desc: "Traditional Indian classical setup." },
+      { value: "Lo-Fi Hip Hop Beat", label: "Lo-Fi Hip Hop Beat", desc: "Chill and relaxing lo-fi music." },
+      { value: "R&B / Soul Groove", label: "R&B / Soul Groove", desc: "Smooth bass and soulful rhythm." },
+      { value: "Jazz / Blues", label: "Jazz / Blues", desc: "Saxophone, Upright Bass, Piano." },
+      { value: "Country / Western", label: "Country / Western", desc: "Acoustic Guitar, Fiddle, Steel Guitar." },
+      { value: "EDM / House", label: "EDM / House", desc: "Four-on-the-floor beat, heavy synths." },
+      { value: "K-Pop / J-Pop", label: "K-Pop / J-Pop", desc: "Upbeat electronic pop production." },
+      { value: "Afrobeat / Dancehall", label: "Afrobeat / Dancehall", desc: "Rhythmic percussion, tropical vibe." },
+      { value: "Cinematic Orchestral", label: "Cinematic Orchestral", desc: "Epic string section and brass." },
+      { value: "Heavy Metal / Hard Rock", label: "Heavy Metal / Hard Rock", desc: "Intense distorted guitars and loud drums." },
+      { value: "Reggae / Dancehall", label: "Reggae / Dancehall", desc: "Upbeat tropical island vibe." },
+      { value: "No Music (Acapella)", label: "No Music (Acapella)", desc: "Vocals only, no instruments." }
     ]
   }
 ];
@@ -6110,7 +6154,13 @@ export default function IdeasPage() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const categoryEntries = Object.values(CATEGORIES);
+  const categoryEntries = Object.values(CATEGORIES).filter(cat => {
+    if (cat.id === "SONG" || cat.id === "POETRY") {
+      const name = currentUser?.name?.toLowerCase() || "";
+      return name === "hassan" || name === "adi";
+    }
+    return true;
+  });
 
   if (!isLoggedIn) {
     return (
