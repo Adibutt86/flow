@@ -421,16 +421,16 @@ ${
     ? "\n─── CHARACTER BIBLE CATEGORY: Generate a comprehensive locked Character & World Bible specifying exact facial features, age, body build, locked outfit, personality, voice guidelines, and prompt consistency rules. ───"
     : ""
 }
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
 ${input.fatherClothing && input.fatherClothing !== "AI Decides" ? `Locked Father Clothing: ${input.fatherClothing} (FATHER OUTFIT MANDATE: Father MUST be rendered wearing ${input.fatherClothing} throughout all scenes).` : ""}
 ${input.motherClothing && input.motherClothing !== "AI Decides" ? `Locked Mother Clothing: ${input.motherClothing} (MOTHER OUTFIT MANDATE: Mother MUST be rendered wearing ${input.motherClothing} throughout all scenes).` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
-${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
+${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.characterFaceType && input.characterFaceType !== "Any / AI Decides" ? `Facial Features & Face Archetype: ${input.characterFaceType} (FACIAL DIVERSITY MANDATE: Render the character with explicit ${input.characterFaceType} features, custom facial structure, distinct hair/beard styling, and unique facial identity).` : ""}
 ${input.includeCharacterBible === false ? "CHARACTER BIBLE MANDATE: Do NOT include the '📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE' section in the output. Omit the Bible header block and output ONLY the clean scene video prompt clips directly." : ""}
 ${
