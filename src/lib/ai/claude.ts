@@ -383,7 +383,7 @@ STRICT RULE: Do NOT include ANY spoken dialogue, speech, spoken words, spoken co
 STRICT RULE: Do NOT output any "Spoken Dialogue:" label, script text blocks, or spoken poetry lines in the prompt text.
 The concept MUST be structured as a clean, concise visual story (small idea format) communicated strictly through:
 - Character physical actions & body posture
-- Facial expressions & weeping/emotional reactions
+- Facial expressions & emotional reactions
 - Environment, room lighting & set design
 - Camera movement & slow framing
 - Scene progression & visual storytelling
