@@ -2561,6 +2561,11 @@ const CHARACTER_FACE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Western High-Fashion Model Face 💃", label: "Western High-Fashion Model Face 💃", desc: "Defined cheekbones, sharp jawline, modern chic hairstyle, glamour look." },
       { value: "Short Curly Hair & Chic Modern Face 👩‍🦱", label: "Short Curly Hair & Chic Modern Face 👩‍🦱", desc: "Trendy short curly hair, bright smile, modern stylish aesthetic." },
       { value: "Shy & Naughty Playful Expression 😏😳", label: "Shy & Naughty Playful Expression 😏😳", desc: "A mix of sweet shyness and a naughty, mischievous playful smile with expressive eyes." },
+      { value: "Playful laughter 😄", label: "Playful Laughter 😄", desc: "Laughing with a cute, charming attitude." },
+      { value: "Coy laugh 🤭", label: "Coy Laugh 🤭", desc: "A shy, flirtatious, slightly teasing laugh." },
+      { value: "Charming giggle 😊", label: "Charming Giggle 😊", desc: "Soft, cute, and graceful giggle." },
+      { value: "Playful smile with a soft laugh ☺️", label: "Playful Smile & Soft Laugh ☺️", desc: "Playful smile with a soft laugh - perfect for an aesthetic AI video." },
+      { value: "Ada-filled laugh (Urdu Ada) 💖", label: "Ada-filled Laugh (ادا) 💖", desc: "A graceful, stylish, or coquettish (Ada) mannered laugh." },
     ],
   },
 ];
