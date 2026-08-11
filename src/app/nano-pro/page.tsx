@@ -601,13 +601,14 @@ export default function NanoProGenerator() {
                     <div className="text-xs text-slate-500 mb-3 font-mono">{item.timestamp}</div>
                     {item.parameters && (
                       <div className="flex flex-wrap gap-2 mb-3 pr-12">
-                        {Object.entries(item.parameters).map(([key, value]) => (
-                          value && value !== "Any / AI Decides" && (
+                        {Object.entries(item.parameters || {}).map(([key, value]) => {
+                          if (!value || value === "Any / AI Decides") return null;
+                          return (
                             <span key={key} className="text-[10px] uppercase tracking-wider px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded">
-                              {key.replace(/([A-Z])/g, ' $1').trim()}: {value as string}
+                              {key.replace(/([A-Z])/g, ' $1').trim()}: {String(value)}
                             </span>
-                          )
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                     <div className="font-mono text-sm text-purple-200/90 leading-relaxed pr-12">
