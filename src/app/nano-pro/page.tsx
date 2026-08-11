@@ -4,6 +4,38 @@ import React, { useState, useEffect } from "react";
 import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 
+const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
+  // ─── Realistic / Cinematic ───
+  { value: "Photorealistic 8K Cinematic", label: "Photorealistic 8K Cinematic", desc: "Film-quality depth, bokeh, cinematic lighting — perfect for romantic & emotional Shayari scenes", tag: "⭐ Best for Poetry" },
+  { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch — great for moonlit palaces & Mughal courtyards", tag: "🏆 Top Pick" },
+  { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look ideal for product unboxing & ASMR sensory content" },
+  // ─── 3D Animation ───
+  { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders — ideal for emotional storytelling & Poet+Listener duos", tag: "💡 Highly Recommended" },
+  { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
+  { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions — great for comedy & kids' content" },
+  { value: "Claymation 3D", label: "Claymation 3D", desc: "Handcrafted clay-like textures with quirky charm — unique look for funny or whimsical stories" },
+  // ─── Anime ───
+  { value: "Studio Ghibli Anime", label: "Studio Ghibli Anime", desc: "Dreamy, painterly — moonlit lakes, autumn forests, snow cabins. Emotionally resonant for Shayari", tag: "🌸 Romantic Mood" },
+  { value: "Anime (Shonen / Modern)", label: "Anime (Shonen / Modern)", desc: "Dynamic action lines, vivid colors & intense expressions — great for adventure & drama" },
+  { value: "Chibi Anime Style", label: "Chibi Anime Style", desc: "Tiny adorable characters with oversized heads — best for cute, lighthearted & funny clips" },
+  // ─── Artistic ───
+  { value: "Oil Painting Masterpiece", label: "Oil Painting Masterpiece", desc: "Grand Mehfil & Mughal settings — rich painterly Urdu poetry aesthetic", tag: "🎨 Poetic Classic" },
+  { value: "Soft Pastel Watercolor", label: "Soft Pastel Watercolor", desc: "Delicate sakura blossoms, rose gardens — gentle romantic scenes with an airy dream-like quality" },
+  { value: "Pencil Sketch & Charcoal", label: "Pencil Sketch & Charcoal", desc: "Raw, expressive hand-drawn feel — perfect for introspective, artsy storytelling" },
+  { value: "Paper Cutout Art", label: "Paper Cutout Art", desc: "Layered paper-craft aesthetic — visually distinctive for educational or children's content" },
+  { value: "Vector Flat Art Animation", label: "Vector Flat Art Animation", desc: "Clean, modern flat design with bold shapes — ideal for explainer videos & infographics" },
+  // ─── Dark / Stylized ───
+  { value: "Noir Vintage Film", label: "Noir Vintage Film", desc: "Moody black & white cinematic feel — perfect for sad/heartbreak Shayari & mystery drama", tag: "💔 Heartbreak Mood" },
+  { value: "Dark Fantasy & Eerie Glow", label: "Dark Fantasy & Eerie Glow", desc: "Ominous gothic atmospheres with ethereal glow — great for supernatural & thriller narratives" },
+  { value: "Cyberpunk Neon", label: "Cyberpunk Neon", desc: "Electric neon-lit futuristic cityscape — best for sci-fi, tech & action-packed content" },
+  { value: "Retro 80s Synthwave", label: "Retro 80s Synthwave", desc: "Glowing grids, chrome retro aesthetics — nostalgic and high-energy for music-driven clips" },
+  // ─── Misc ───
+  { value: "Comic Book & Graphic Novel", label: "Comic Book & Graphic Novel", desc: "Bold outlines, halftone dots & action panels — dynamic look for superhero & drama shorts" },
+  { value: "Vintage 90s Cartoon", label: "Vintage 90s Cartoon", desc: "Nostalgic Saturday morning cartoon style — charming throwback for comedy & kids" },
+  { value: "Low Poly 3D World", label: "Low Poly 3D World", desc: "Geometric faceted 3D landscapes — minimalist artistic look, great for calm ambient content" },
+  { value: "Isometric 3D Architecture", label: "Isometric 3D Architecture", desc: "Top-down isometric cityscapes & rooms — ideal for architecture, city-builder & explainer clips" },
+];
+
 export default function NanoProGenerator() {
   const [activeTab, setActiveTab] = useState("character");
   const [generatedPrompt, setGeneratedPrompt] = useState("");
@@ -242,14 +274,9 @@ export default function NanoProGenerator() {
                           onChange={(e) => setVisualStyle(e.target.value)}
                           className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                         >
-                          <option value="3D Cartoon Style">3D Cartoon Style</option>
-                          <option value="Photorealistic">Photorealistic</option>
-                          <option value="Anime / Manga">Anime / Manga</option>
-                          <option value="Cinematic 8k">Cinematic 8k</option>
-                          <option value="Watercolor">Watercolor</option>
-                          <option value="Cyberpunk">Cyberpunk</option>
-                          <option value="Claymation">Claymation</option>
-                          <option value="Pencil Sketch">Pencil Sketch</option>
+                          {VISUAL_STYLES.map(style => (
+                            <option key={style.value} value={style.value}>{style.label}</option>
+                          ))}
                           <option value="Custom">Custom...</option>
                         </select>
                         {visualStyle === "Custom" && (
