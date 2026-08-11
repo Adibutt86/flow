@@ -1298,6 +1298,7 @@ const SONG_CROWD_FX_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+
 const SONG_PRESETS = [
   {
     icon: "🎵",
@@ -1927,7 +1928,7 @@ const SHORT_CLIP_PRESETS = [
   {
     icon: "🥺",
     title: "Emotional Story",
-    desc: "Silent Tears to Warm Embrace",
+    desc: "Silent Look to Warm Embrace",
     age: "Adult (25-35 yrs)",
     location: "Candlelit Solitary Room (Tanhai / Solitary Room) 🕯️",
     vibe: "Deep Emotional Devastation & Comfort",
@@ -2290,7 +2291,7 @@ const SONG_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Indoor Haveli Balcony with Diyas (Diwali / Night) 🪔", label: "Heritage Haveli Balcony with Diyas 🪔", desc: "Ornate Haveli balcony adorned with warm clay diyas, rose garlands, and carved jali screens." },
       { value: "Old Vintage Railway Platform at Dusk 🚂🌅", label: "Vintage Railway Platform at Dusk 🚂🌅", desc: "Antique wooden train platform with warm hanging lamps, soft dusk sky, and romantic nostalgia." },
       { value: "Glasshouse Botanical Conservatory 🌿🌸", label: "Glasshouse Botanical Conservatory 🌿🌸", desc: "Ornate Victorian glasshouse with tropical palms, blooming pink orchids, and romantic sunbeams." },
-      { value: "Seaside Lighthouse Balcony at Twilight 🗼🌊", label: "Seaside Lighthouse Balcony at Twilight 🗼🌊", desc: "High cliff lighthouse balcony with sweeping purple dusk sky and crashing ocean waves." },
+      { value: "Seaside Lighthouse Balcony at Twilight 🗼🌊", label: "Seaside Lighthouse Balcony at Twilight 🗼🌊", desc: "High cliff lighthouse balcony with slooking intently purple dusk sky and crashing ocean waves." },
       { value: "Kashmiri Apple Orchard in Bloom 🍎🌸", label: "Kashmiri Apple Orchard in Bloom 🍎🌸", desc: "Beautiful mountain valley apple orchard in pink bloom with morning mist and rustic wooden fence." },
       { value: "Candlelit Vine Covered Gazebo 🍇🕯️", label: "Candlelit Vine Covered Gazebo 🍇🕯️", desc: "Romantic outdoor wooden gazebo covered in green vines, hanging glass candle lanterns, and rose petals." },
       { value: "Heritage Library Window (Jharoka) 📚🪟", label: "Heritage Library Window (Jharoka) 📚🪟", desc: "Ornate carved Haveli jharoka window overlooking quiet stone courtyard with vintage poetry books." },
@@ -2306,12 +2307,12 @@ const SONG_VIBE_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Song & Shayari Moods",
     options: [
-      { value: "Very Sad & Heartbroken Mehfil (Shayari of Grief & Loss) 💔😭", label: "Very Sad & Heartbroken Mehfil 💔😭", desc: "Profound grief, tearful eyes, broken heart Shayari, and tragic emotional intensity." },
+      { value: "Very Sad & Heartbroken Mehfil (Shayari of Grief & Loss) 💔😭", label: "Very Sad & Heartbroken Mehfil 💔😭", desc: "Profound grief, deeply emotional eyes, broken heart Shayari, and tragic emotional intensity." },
       { value: "Lonely & Isolated Solitude (Tanhai / Solemn Isolation) 🌧️🥀", label: "Lonely & Isolated Solitude (تنہائی) 🌧️🥀", desc: "Solitary character sitting alone in quiet darkness reflecting on painful memories." },
       { value: "Melancholic Midnight Rain (Ghamgina Shayari) 🌙🌧️", label: "Melancholic Midnight Rain (غمگین شاعری) 🌙🌧️", desc: "Gloomy atmospheric midnight rain with sorrowful poetic recitation." },
       { value: "Funny & Humorous Shayari (Tanzo Mazah)", label: "Funny & Humorous Shayari (طنز و مزاح) 😂", desc: "Witty comedic Shayari, hilarious satire (Tanzo Mazah), and funny poetry punchlines." },
       { value: "Romantic & Soulful", label: "Romantic & Soulful", desc: "Deep romantic devotion, sweet glances, and heartwarming affection." },
-      { value: "Deep Emotional & Heartbroken (Sad Shayari)", label: "Deep Emotional & Sad Shayari 💔", desc: "Poetic sorrow, longing for lost love, and tearful gaze." },
+      { value: "Deep Emotional & Heartbroken (Sad Shayari)", label: "Deep Emotional & Sad Shayari 💔", desc: "Poetic sorrow, longing for lost love, and emotional gaze." },
       { value: "Aesthetic Lo-Fi Chill", label: "Aesthetic Lo-Fi Chill", desc: "Cozy, relaxed, aesthetic atmosphere with calm artistic focus." },
       { value: "Coke Studio Fusion Vibe", label: "Coke Studio Fusion Vibe", desc: "Dynamic vocal energy, rhythmic hand clapping, and musical passion." },
       { value: "Poetic Shayari Mehfil", label: "Poetic Shayari Mehfil", desc: "Classical literary gathering atmosphere with Urdu Shayari couplets." },
@@ -2326,7 +2327,7 @@ const SITUATION_CATEGORIES = [
     id: "TRAIN",
     label: "🚂 Train & Station Farewell",
     suggestions: [
-      "A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind.",
+      "A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.",
       "A man standing on a train doorway waving goodbye to a girl standing alone on a foggy rain-soaked railway platform.",
       "A couple sharing a last quiet glance through a rain-streaked train window as the train slowly starts moving.",
     ],
@@ -2379,7 +2380,7 @@ const SITUATION_CATEGORIES = [
 ];
 
 const QUICK_SITUATION_PILLS = [
-  { label: "🚂 Girl Running After Train", text: "A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind." },
+  { label: "🚂 Girl Running After Train", text: "A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind." },
   { label: "❤️ Sunset Rooftop Reunion", text: "A man and girl meeting unexpectedly at a sunset rooftop cafe after years apart, sharing an emotional embrace." },
   { label: "🌧️ Rainy Solitude on Bench", text: "A solitary man sitting on a park bench in heavy rainfall, staring at a faded photograph as autumn leaves wash away." },
   { label: "💃 Haveli Courtyard Rain Dance", text: "A couple performing a graceful, synchronized slow dance in a heritage haveli courtyard under hanging fairy lights." },
@@ -2444,6 +2445,10 @@ const SONG_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
       { value: "Female Heavily Embellished Lehenga Choli 👗", label: "Female Embellished Lehenga Choli 👗", desc: "Royal embroidered bridal/party Lehenga Choli with sheer Dupatta." },
       { value: "Female Elegant Silk Saree & Jewels 🥻", label: "Female Elegant Silk Saree & Jewels 🥻", desc: "Graceful Banarasi/silk saree with traditional jhumka earrings." },
       { value: "Female Stylish Anarkali Frock & Dupatta ✨", label: "Female Stylish Anarkali Frock & Dupatta ✨", desc: "Flowing floor-length Anarkali suit with heavy hand-embroidered borders." },
+      { value: "Female Elegant Abaya & Silk Hijab 🧕", label: "Female Elegant Abaya & Silk Hijab 🧕", desc: "Modest and graceful dark abaya with a beautifully draped silk hijab." },
+      { value: "Female Traditional Salwar Kameez with Hijab 🧕", label: "Female Salwar Kameez with Hijab 🧕", desc: "Modest ethnic Shalwar Kameez paired with a neatly styled matching hijab." },
+      { value: "Female Modest Long Gown with Chiffon Hijab 🧕", label: "Female Modest Gown with Chiffon Hijab 🧕", desc: "Flowing modest evening gown styled with a delicate chiffon hijab." },
+      { value: "Female Full Niqab (Only Eyes Showing) 🧕👁️", label: "Female Full Niqab (Only Eyes Showing) 🧕👁️", desc: "Traditional modest Niqab / Burqa where only the expressive eyes are visible." },
       { value: "Female Western Formal Evening Gown 💃", label: "Female Western Evening Gown 💃", desc: "Sophisticated floor-length Western silk evening gown with heels." },
       { value: "Female Western Chic Cocktail Dress 👠", label: "Female Western Cocktail Dress & Heels 👠", desc: "Modern Western cocktail dress with elegant jewelry and heels." },
       { value: "Female Casual Denim Jacket & Sundress 🌸", label: "Female Denim Jacket & Sundress 🌸", desc: "Breezy floral sundress paired with a light denim jacket." },
@@ -3084,6 +3089,99 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
 ];
 
 // 5. CHARACTERS PER SCENE OPTIONS
+
+// --- NEW POETRY AND SONG SPLIT GROUPS ---
+const POETRY_AGE_GROUPS = SONG_AGE_GROUPS; // Inheriting age groups
+const POETRY_LOCATION_GROUPS = SONG_LOCATION_GROUPS;
+const POETRY_VIBE_GROUPS = SONG_VIBE_GROUPS;
+const POETRY_CHARACTER_SETUP_GROUPS = SONG_CHARACTER_SETUP_GROUPS;
+const POETRY_CLOTHING_GROUPS = SONG_CLOTHING_GROUPS;
+const POETRY_STYLE_GROUPS = [
+  {
+    category: "Poetry & Satire Style",
+    options: [
+      { value: "Sufi Kalam", label: "Sufi Kalam", desc: "Deep spiritual and mystical Sufi poetry." },
+      { value: "Classic Ghazal", label: "Classic Ghazal", desc: "Traditional Ghazal format with deep romantic meaning." },
+      { value: "Nazm (Storytelling Poetry)", label: "Nazm (Storytelling Poetry)", desc: "Poetry that tells a continuous story or theme." },
+      { value: "Qataa (4-line short poetry)", label: "Qat'aa (4-line short)", desc: "Short, impactful four-line poetry." },
+      { value: "Urdu/Punjabi Tappe", label: "Urdu/Punjabi Tappe", desc: "Folk traditional Punjabi or Urdu poetic verses." },
+      { value: "Funny & Humorous Shayari (Tanzo Mazah)", label: "Funny & Humorous Shayari", desc: "Comedic and satirical poetry." },
+      { value: "Takhallus Reveal (Ending)", label: "Takhallus Reveal (Ending)", desc: "The final signature verse of a Ghazal." }
+    ]
+  }
+];
+const POETRY_CROWD_FX_GROUPS = SONG_CROWD_FX_GROUPS; // Wah Wah, etc.
+const POETRY_MUSIC_TYPE_GROUPS = [
+  {
+    category: "Background Music Instrument",
+    options: [
+      { value: "Tabla & Harmonium", label: "Tabla & Harmonium", desc: "Classic Mushaira instruments." },
+      { value: "Solo Flute", label: "Solo Flute", desc: "Soft, emotional background flute." },
+      { value: "Sad Sitar", label: "Sad Sitar", desc: "Melancholic sitar playing softly." },
+      { value: "No Music (Voice Only)", label: "No Music (Voice Only)", desc: "Pure voice recitation." }
+    ]
+  }
+];
+
+const NEW_SONG_LOCATION_GROUPS = [
+  {
+    category: "🎸 Music Video & Stage Settings",
+    options: [
+      { value: "Live Concert Arena 🎤", label: "Live Concert Arena 🎤", desc: "Massive indoor arena with lasers, stage lights, and cheering fans." },
+      { value: "Coke Studio Fusion Stage 🎸", label: "Coke Studio Stage 🎸", desc: "Modern lighting rig, oriental rugs, acoustic instruments, and electric vibe." },
+      { value: "Underground Indie Club 🪩", label: "Underground Indie Club 🪩", desc: "Intimate dark club with neon signs and a small stage for local bands." },
+      { value: "Modern Recording Studio Booth 🎧", label: "Recording Studio Booth 🎧", desc: "Professional studio booth with a condenser mic, soundproofing, and headphones." },
+      { value: "Acoustic Beach Bonfire 🔥🌊", label: "Acoustic Beach Bonfire 🔥🌊", desc: "Nighttime beach setting with a crackling bonfire and friends playing guitar." },
+      { value: "Neon Cyberpunk Street 🌃", label: "Neon Cyberpunk Street 🌃", desc: "Vibrant neon-lit rainy city street perfect for a modern pop music video." },
+    ],
+  },
+  {
+    category: "💕 Romantic & Aesthetic Locations",
+    options: [
+      { value: "Sunset Rooftop & City Skyline 🌇", label: "Sunset Rooftop & Skyline 🌇", desc: "Golden hour rooftop view of twinkling city lights under twilight sky." },
+      { value: "Vintage European Cobblestone Street 🇫🇷🌙", label: "Vintage European Alley 🌙", desc: "Romantic narrow cobblestone alley with gas lanterns, ivy walls, and rain puddles." },
+      { value: "Acoustic Music Studio 🎤", label: "Acoustic Music Studio 🎤", desc: "Studio stage with vintage ribbon microphones and warm spotlight bokeh." },
+    ],
+  }
+];
+
+const SONG_STYLE_GROUPS_NEW = [
+  {
+    category: "Song Genre / Style",
+    options: [
+      { value: "Pop / Acoustic", label: "Pop / Acoustic", desc: "Mainstream pop or acoustic guitar." },
+      { value: "Rock / Indie", label: "Rock / Indie", desc: "Energetic rock or indie style." },
+      { value: "Hip-Hop / Rap", label: "Hip-Hop / Rap", desc: "Rhythmic hip-hop and rap vocal style." },
+      { value: "Sufi / Folk", label: "Sufi / Folk", desc: "Traditional Sufi and folk fusion." },
+      { value: "Lofi / Chillhop", label: "Lofi / Chillhop", desc: "Relaxed lofi beat style." }
+    ]
+  }
+];
+
+const SONG_CROWD_FX_GROUPS_NEW = [
+  {
+    category: "Concert / Audience FX",
+    options: [
+      { value: "Concert Crowd Cheers", label: "Concert Crowd Cheers", desc: "Loud stadium cheers." },
+      { value: "Fans Singing Along", label: "Fans Singing Along", desc: "Crowd singing the chorus." },
+      { value: "Studio Silence", label: "Studio Silence", desc: "Pure studio environment with no crowd." }
+    ]
+  }
+];
+
+const SONG_MUSIC_TYPE_GROUPS = [
+  {
+    category: "Background Music Instrument",
+    options: [
+      { value: "Electric Guitar & Drums", label: "Electric Guitar & Drums", desc: "Full rock band setup." },
+      { value: "Synth Pop Beat", label: "Synth Pop Beat", desc: "Modern electronic synth beat." },
+      { value: "Acoustic Guitar", label: "Acoustic Guitar", desc: "Simple acoustic strumming." },
+      { value: "Piano Ballad", label: "Piano Ballad", desc: "Emotional piano accompaniment." }
+    ]
+  }
+];
+
+
 const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Characters Count & Combos",
@@ -4574,7 +4672,7 @@ export default function IdeasPage() {
   const [category, setCategory] = useState<CategoryId>(initialSettings.category || "FUNNY");
   const [language, setLanguage] = useState(initialSettings.language || "Urdu");
   const [visualStyle, setVisualStyle] = useState(
-    initialSettings.visualStyle || (initialSettings.category === "SONG" ? "Hyper-Realistic CGI" : "3D Cartoon Style")
+    initialSettings.visualStyle || ((initialSettings.category as string) === "SONG" ? "Hyper-Realistic CGI" : "3D Cartoon Style")
   );
   const [videoDuration, setVideoDuration] = useState<number>(initialSettings.videoDuration || 10);
   const [customDialogue, setCustomDialogue] = useState(initialSettings.customDialogue || "");
@@ -4731,13 +4829,13 @@ export default function IdeasPage() {
           language,
           customIdea,
           existingDialogue: customDialogue,
-          kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
-          kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
-          kidsClothing: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsClothing : undefined,
-          kidsVibe: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? characterSetup : undefined,
-          charactersPerScene: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           aiModel,
           seriousDialogueStyle,
           customSceneDescription,
@@ -4745,7 +4843,7 @@ export default function IdeasPage() {
           includeMic,
           performerAge: category === "LIVE_STAGE_METAMORPHOSIS" ? performerAge : undefined,
           stageLocation: category === "LIVE_STAGE_METAMORPHOSIS" ? stageLocation : undefined,
-          songCrowdFx: (category === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
+          songCrowdFx: ((category as string) === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
           characterFaceType: characterFaceType !== "Any / AI Decides" ? characterFaceType : undefined,
           kidsExpression: category === "CUTE_KIDS" && kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
           kidsFood: category === "CUTE_KIDS" && kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
@@ -5447,16 +5545,16 @@ export default function IdeasPage() {
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
-          kidsAge: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsAge : undefined,
-          kidsLocation: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
-          kidsClothing: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
           fatherClothing: fatherClothing === "Custom" ? (customFatherClothing || "Custom") : (fatherClothing !== "AI Decides" ? fatherClothing : undefined),
           motherClothing: motherClothing === "Custom" ? (customMotherClothing || "Custom") : (motherClothing !== "AI Decides" ? motherClothing : undefined),
-          kidsVibe: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? characterSetup : undefined,
-          charactersPerScene: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
-          kidsNationality: (category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") ? kidsNationality : undefined,
+          kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          kidsNationality: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsNationality : undefined,
           carboxBrand,
           carboxColor,
           carboxPackaging,
@@ -5476,7 +5574,7 @@ export default function IdeasPage() {
           lightingFx: category === "LIVE_STAGE_METAMORPHOSIS" ? lightingFx : undefined,
           performerAge: category === "LIVE_STAGE_METAMORPHOSIS" ? performerAge : undefined,
           stageLocation: category === "LIVE_STAGE_METAMORPHOSIS" ? stageLocation : undefined,
-          songCrowdFx: (category === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
+          songCrowdFx: ((category as string) === "SONG" || category === "POETRY") ? songCrowdFx : undefined,
           characterFaceType: characterFaceType !== "Any / AI Decides" ? characterFaceType : undefined,
           kidsExpression: category === "CUTE_KIDS" && kidsExpression !== "Any / AI Decides" ? kidsExpression : undefined,
           kidsFood: category === "CUTE_KIDS" && kidsFood !== "Any / AI Decides" ? kidsFood : undefined,
@@ -6493,7 +6591,7 @@ export default function IdeasPage() {
                   value={customSceneDescription}
                   onChange={(e) => setCustomSceneDescription(e.target.value)}
                   rows={3}
-                  placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, tears in her eyes as her silk dupatta flutters in the misty wind.`}
+                  placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.`}
                   className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
                 />
 
@@ -6528,7 +6626,7 @@ export default function IdeasPage() {
                 icon="🎵"
                 value={musicType}
                 onChange={(val) => setMusicType(val)}
-                groups={MUSIC_TYPE_GROUPS}
+                groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : POETRY_MUSIC_TYPE_GROUPS}
                 badgeTitle="Music Style"
               />
             </div>
@@ -7047,7 +7145,7 @@ export default function IdeasPage() {
           )}
 
           {/* SONG & SHAYARI (ADULT CLONE OF CUTE KIDS) OPTIONS */}
-          {category === "SONG" && (
+          {(category as string) === "SONG" && (
             <div className="p-4 sm:p-6 rounded-2xl bg-pink-950/20 border border-pink-500/25 space-y-5 shadow-xl relative z-30">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-pink-500/20 pb-3 gap-2">
                 <div>
@@ -7207,7 +7305,7 @@ export default function IdeasPage() {
                   icon="🎶"
                   value={seriousDialogueStyle}
                   onChange={setSeriousDialogueStyle}
-                  groups={SONG_STYLE_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_STYLE_GROUPS_NEW : POETRY_STYLE_GROUPS}
                 />
 
                 {/* 9. Time of Day / Lighting */}
@@ -7243,7 +7341,7 @@ export default function IdeasPage() {
                   icon="🔊"
                   value={songCrowdFx}
                   onChange={setSongCrowdFx}
-                  groups={SONG_CROWD_FX_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_CROWD_FX_GROUPS_NEW : POETRY_CROWD_FX_GROUPS}
                 />
 
                 {/* 13. Facial Features & Beard Style */}
@@ -7356,48 +7454,48 @@ export default function IdeasPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* 1. Pet Age  ↔  Baby / Toddler Age  ↔  Shayar / Poet Age */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Pet Age / Stage" : category === "FRUIT_DANCING" ? "Baby / Toddler Age" : "Shayar / Poet Age Range"}
+                  label={category === "ANIMAL_DANCING" ? "Pet Age / Stage" : category === "FRUIT_DANCING" ? "Baby / Toddler Age" : (category as string) === "SONG" ? "Singer / Artist Age Range" : "Shayar / Poet Age Range"}
                   icon={category === "ANIMAL_DANCING" ? "🐾" : category === "FRUIT_DANCING" ? "🍼" : "🎂"}
                   value={kidsAge}
                   onChange={setKidsAge}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_AGE_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_AGE_GROUPS : SONG_AGE_GROUPS}
+                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_AGE_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_AGE_GROUPS : (category as string) === "SONG" ? SONG_AGE_GROUPS : POETRY_AGE_GROUPS}
                 />
 
                 {/* 2. Dance Location  ↔  Mehfil & Poetry Location */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Location / Setting" : "Mehfil & Poetry Location"}
+                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Location / Setting" : (category as string) === "SONG" ? "Music Video Location" : "Mehfil & Poetry Location"}
                   icon={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "🌳" : "📍"}
                   value={kidsLocation}
                   onChange={setKidsLocation}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_LOCATION_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_LOCATION_GROUPS : SONG_LOCATION_GROUPS}
+                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_LOCATION_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_LOCATION_GROUPS : (category as string) === "SONG" ? NEW_SONG_LOCATION_GROUPS : POETRY_LOCATION_GROUPS}
                 />
 
                 {/* 3. Dance Style & Vibe  ↔  Poetry Vibe & Mood */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Style & Vibe" : "Poetry Vibe & Mood"}
+                  label={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "Dance Style & Vibe" : (category as string) === "SONG" ? "Musical Vibe & Mood" : "Poetry Vibe & Mood"}
                   icon={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? "🕺" : "✨"}
                   value={kidsVibe}
                   onChange={setKidsVibe}
-                  groups={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? FRUIT_DANCING_VIBE_GROUPS : SONG_VIBE_GROUPS}
+                  groups={category === "ANIMAL_DANCING" || category === "FRUIT_DANCING" ? FRUIT_DANCING_VIBE_GROUPS : (category as string) === "SONG" ? SONG_VIBE_GROUPS : POETRY_VIBE_GROUPS}
                 />
 
                 {/* 4. Cosplay Costume  ↔  Fruit Costume Type  ↔  Shayar Attire / Outfit */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Cosplay Costume & Outfit" : category === "FRUIT_DANCING" ? "Fruit Costume Type" : "Shayar Attire & Outfit"}
+                  label={category === "ANIMAL_DANCING" ? "Cosplay Costume & Outfit" : category === "FRUIT_DANCING" ? "Fruit Costume Type" : (category as string) === "SONG" ? "Singer Attire & Outfit" : "Shayar Attire & Outfit"}
                   icon={category === "ANIMAL_DANCING" ? "👗" : category === "FRUIT_DANCING" ? "🍉" : "👗"}
                   value={kidsClothing}
                   onChange={setKidsClothing}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_COSTUME_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_COSTUME_GROUPS : SONG_CLOTHING_GROUPS}
+                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_COSTUME_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_COSTUME_GROUPS : (category as string) === "SONG" ? SONG_CLOTHING_GROUPS : POETRY_CLOTHING_GROUPS}
                   keepOpenOnSelect={true}
                 />
 
                 {/* 5. Animal & Species Setup  ↔  Baby Character Setup  ↔  Shayar & Poet Setup */}
                 <CustomSelect
-                  label={category === "ANIMAL_DANCING" ? "Animal & Species Setup" : category === "FRUIT_DANCING" ? "Baby Character Setup" : "Shayar & Poet Setup"}
+                  label={category === "ANIMAL_DANCING" ? "Animal & Species Setup" : category === "FRUIT_DANCING" ? "Baby Character Setup" : (category as string) === "SONG" ? "Band & Vocal Setup" : "Shayar & Poet Setup"}
                   icon={category === "ANIMAL_DANCING" ? "🐱" : category === "FRUIT_DANCING" ? "👶" : "👥"}
                   value={characterSetup}
                   onChange={handleCharacterSetupChange}
-                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_SPECIES_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_CHARACTER_SETUP_GROUPS : SONG_CHARACTER_SETUP_GROUPS}
+                  groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_SPECIES_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_CHARACTER_SETUP_GROUPS : (category as string) === "SONG" ? SONG_CHARACTER_SETUP_GROUPS : POETRY_CHARACTER_SETUP_GROUPS}
                 />
 
                 {/* 6. Performers Per Scene */}
@@ -7432,11 +7530,11 @@ export default function IdeasPage() {
                 {/* 8. Poetry & Satire Style (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
                 {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
                 <CustomSelect
-                  label="Poetry & Satire Style"
+                  label={(category as string) === "SONG" ? "Song Genre / Style" : "Poetry & Satire Style"}
                   icon="📜"
                   value={seriousDialogueStyle}
                   onChange={setSeriousDialogueStyle}
-                  groups={SONG_STYLE_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_STYLE_GROUPS_NEW : POETRY_STYLE_GROUPS}
                 />
                 )}
 
@@ -7446,7 +7544,7 @@ export default function IdeasPage() {
                   icon="🎶"
                   value={musicType}
                   onChange={setMusicType}
-                  groups={MUSIC_TYPE_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : POETRY_MUSIC_TYPE_GROUPS}
                 />
 
                 {/* 10. Time of Day / Lighting */}
@@ -7470,11 +7568,11 @@ export default function IdeasPage() {
                 {/* 12. Background Audience Sound FX (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
                 {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
                 <CustomSelect
-                  label="Background Audience FX (Wah Wah)"
+                  label={(category as string) === "SONG" ? "Concert / Audience FX" : "Background Audience FX (Wah Wah)"}
                   icon="🔊"
                   value={songCrowdFx}
                   onChange={setSongCrowdFx}
-                  groups={SONG_CROWD_FX_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_CROWD_FX_GROUPS_NEW : POETRY_CROWD_FX_GROUPS}
                 />
                 )}
 
@@ -7873,7 +7971,7 @@ export default function IdeasPage() {
               )}
 
               {/* Character Categories */}
-              {(category === "CUTE_KIDS" || category === "SONG" || category === "POETRY") && (
+              {(category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") && (
                 <>
                   <div className="space-y-1">
                     <span className="text-slate-500 font-semibold block uppercase text-[10px]">Characters</span>
@@ -7979,7 +8077,7 @@ export default function IdeasPage() {
               )}
 
               {/* SONG & POETRY */}
-              {(category === "SONG" || category === "POETRY") && (
+              {((category as string) === "SONG" || category === "POETRY") && (
                 <div className="space-y-1">
                   <span className="text-slate-500 font-semibold block uppercase text-[10px]">Crowd FX</span>
                   <span className="text-indigo-200 font-bold">{songCrowdFx}</span>
