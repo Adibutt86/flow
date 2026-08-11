@@ -268,6 +268,9 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Feature ultra-cute 3D/CGI kittens, puppies, baby pandas, or bunnies standing upright on two hind legs",
       "Include detailed plush cosplay costumes (e.g. Strawberry hood hat & diaper with pink crocs, Yellow & black bumblebee suit with wings, Cowboy hat & boots, Dinosaur onesie, Pirate captain)",
       "Set the dance on clean polished living room hardwood floors with giant plush teddy bears in the background or sun-dappled outdoor settings",
+      "The animal must start dancing immediately on the first second",
+      "MUST NOT add any banners, text, subtitles, or typography on the video",
+      "The animal must complete three or four distinct dance moves within 10 seconds",
       "Perform synchronized on-beat dance choreography (side-to-side leg kicks, beat-drop butt wiggle, freeze-on-beat statue pose, arm pumps, spinning twirls)",
       "Sync dance movement with upbeat viral rhythm beats, cute baby animal giggles, and meows/barks"
     ],
