@@ -93,6 +93,12 @@ const KIDS_AGE_OPTIONS = [
 
 const KIDS_AGE_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "Default / AI Decides",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best age for the story automatically." },
+    ]
+  },
+  {
     category: "Babies & Toddlers (0-4 yrs)",
     options: [
       { value: "Newborn (0-6 mos)", label: "Newborn (0-6 mos)", desc: "Tiny newborn baby, soft blankets, gentle baby coos." },
@@ -773,7 +779,98 @@ const ANIMAL_DANCING_LOCATION_GROUPS: OptionGroupWithDesc[] = [
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Voice & Audio Atmosphere",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the most fitting audio style for the scene." },
+      { value: "Cute Baby Giggles & Babble SFX", label: "👶 Cute Baby Giggles & Babble", desc: "Adorable baby laughters, coos, giggles, and innocent babble sound FX." },
+      { value: "Innocent Toddler Speech", label: "🗣️ Innocent Toddler Speech", desc: "Natural toddler speaking voice with cute pronunciation and curiosity." },
+      { value: "Soft Mother/Father Narration", label: "🎙️ Soft Parent Narration (Voiceover)", desc: "Warm, loving parent story narration overlay with silent kid acting." },
+      { value: "Funny High-Pitch Cartoon Voice", label: "🤡 Funny High-Pitch Cartoon Voice", desc: "Silly, playful cartoon pitch voiceover for comedic kid clips." },
+    ]
+  }
+];
+
 const CUTE_KIDS_PRESET_GROUPS = [
+  {
+    groupName: "🔥 Viral Kid Moments",
+    presets: [
+      {
+        icon: "🍋",
+        title: "First Lemon Taste",
+        age: "Baby (1-2 yrs)",
+        location: "Modern Kitchen",
+        health: "Healthy",
+        vibe: "Innocent & Curious",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        food: "Fresh Yellow Lemon Slice 🍋",
+        prop: "Highchair & Bib 👶",
+        expression: "Giggles & Laughter 😄",
+        performance: "Cute Reactions",
+      },
+      {
+        icon: "🧁",
+        title: "Cupcake Theft",
+        age: "Toddler (2-4 yrs)",
+        location: "Modern Kitchen",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        food: "Frosted Chocolate Cupcake 🧁",
+        prop: "Plate & Frosting Marks 🎂",
+        expression: "Shocked & Surprised 😲",
+        performance: "Surprise Moments",
+      },
+      {
+        icon: "👟",
+        title: "Dad's Giant Shoes",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Sweet & Wholesome",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Oversized Leather Shoes 👞",
+        expression: "Proud & Happy 😁",
+        performance: "Funny Actions",
+      },
+      {
+        icon: "⛺",
+        title: "Secret Blanket Fort",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Bedroom Attic & Secret Fort",
+        health: "Healthy",
+        vibe: "Innocent & Curious",
+        setup: "Brother & Sister",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        food: "Chocolate Chip Cookies 🍪",
+        prop: "Flashlight & Pillows 🔦",
+        expression: "Giggles & Laughter 😄",
+        performance: "Cute Reactions",
+      },
+      {
+        icon: "🎨",
+        title: "Wall Paint Disaster",
+        age: "Toddler (2-4 yrs)",
+        location: "Art Studio & Paint Corner",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        prop: "Paint Brushes & Paint Cans 🎨",
+        expression: "Confused & Innocent 😕",
+        performance: "Mixed Performance",
+      },
+    ]
+  },
   {
     groupName: "Popular Combinations",
     presets: [
@@ -5008,7 +5105,8 @@ export default function IdeasPage() {
 
 
   // Cute Kids specific options
-  const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
+  const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Any / AI Decides");
+  const [kidsAudioStyle, setKidsAudioStyle] = useState(initialSettings.kidsAudioStyle || "Any / AI Decides");
   const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Any / AI Decides");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
@@ -5683,6 +5781,7 @@ export default function IdeasPage() {
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
           kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsAudioStyle: category === "CUTE_KIDS" && kidsAudioStyle !== "Any / AI Decides" ? kidsAudioStyle : undefined,
           kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
@@ -7089,6 +7188,15 @@ export default function IdeasPage() {
                   onChange={setKidsClothing}
                   groups={KIDS_CLOTHING_GROUPS}
                   keepOpenOnSelect={true}
+                />
+
+                {/* 4.6 Voice & Audio Style */}
+                <CustomSelect
+                  label="Voice & Audio Style"
+                  icon="🎙️"
+                  value={kidsAudioStyle}
+                  onChange={setKidsAudioStyle}
+                  groups={KIDS_AUDIO_STYLE_GROUPS}
                 />
 
                 {/* 4.6 Father Clothing & Outfit */}

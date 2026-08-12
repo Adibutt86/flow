@@ -448,6 +448,7 @@ The video CAN still use:
 ${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
 ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Effects: ${input.outroEffects}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsAudioStyle && input.kidsAudioStyle !== "Any / AI Decides" ? `Voice & Audio Style: ${input.kidsAudioStyle}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
 ${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.referenceCharacterInfo ? `\nCRITICAL CHARACTER REFERENCE: The character must perfectly match this exact description: ${input.referenceCharacterInfo}\n` : ""}
@@ -1216,6 +1217,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
   customIdea?: string;
   existingDialogue?: string;
   kidsAge?: string;
+  kidsAudioStyle?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsClothing?: string;
