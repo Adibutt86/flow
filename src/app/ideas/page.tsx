@@ -4737,6 +4737,7 @@ interface IdeasPageSettings {
   videoDuration?: number;
   customDialogue?: string;
   kidsAge?: string;
+  kidsAudioStyle?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
@@ -5203,7 +5204,7 @@ export default function IdeasPage() {
     }
   };
 
-  const applyCuteKidsPreset = (preset: typeof CUTE_KIDS_PRESET_GROUPS[0]["presets"][0] & { clothing?: string }) => {
+  const applyCuteKidsPreset = (preset: any) => {
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsHealth(preset.health);
@@ -7107,7 +7108,7 @@ export default function IdeasPage() {
                             {group.groupName}
                           </h4>
                           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                            {group.presets.map((preset) => {
+                            {group.presets.map((preset: any) => {
                               const isActive = 
                                 kidsAge === preset.age &&
                                 kidsLocation === preset.location &&
