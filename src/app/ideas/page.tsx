@@ -6346,7 +6346,7 @@ export default function IdeasPage() {
           {/* 🌟 BIG UNIFIED CATEGORY & PRIMARY CONTROLS CARD (Right after Generate New Video Concept) */}
           <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-950/60 via-indigo-950/70 to-purple-950/60 border-2 border-amber-500/50 shadow-2xl space-y-5">
             {/* Top Row: Big Active Category Display + Category Dropdown Selector */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/20 pb-4 w-full">
+            <div className="flex flex-col gap-4 border-b border-amber-500/20 pb-4 w-full">
               <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
                 <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-black/70 border border-amber-500/40 shadow-inner shrink-0 hidden sm:block">
                   {CATEGORIES[category]?.badge || "💡"}
@@ -9049,7 +9049,7 @@ export default function IdeasPage() {
       )}
 
       {/* 🚀 Floating Fixed Action Toolbar (Copy Prompt, Copy Script, Go to Top) */}
-      <div className="fixed bottom-6 right-5 sm:right-6 z-[99999] flex flex-col gap-3 items-end select-none">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[99999] flex flex-col gap-2 sm:gap-3 items-end select-none">
         
         {/* 0. Generate Script Floating Button (Red) */}
         <div className="relative group">
@@ -9057,15 +9057,15 @@ export default function IdeasPage() {
             type="button"
             onClick={handleGenerate}
             disabled={isGenerating}
-            className={`p-3.5 rounded-2xl bg-red-600/90 hover:bg-red-500 border border-red-400/50 text-white shadow-xl shadow-red-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-red-500/30 ${
+            className={`p-2.5 sm:p-3.5 rounded-2xl bg-red-600/90 hover:bg-red-500 border border-red-400/50 text-white shadow-xl shadow-red-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-red-500/30 ${
               isGenerating ? "opacity-50 cursor-not-allowed" : ""
             }`}
             title="Generate Script"
           >
             {isGenerating ? (
-              <Loader2 className="w-5 h-5 text-red-100 animate-spin" />
+              <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-red-100 animate-spin" />
             ) : (
-              <Sparkles className="w-5 h-5 text-red-100" />
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-red-100" />
             )}
           </button>
           <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-red-500/40 text-xs font-bold text-red-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
@@ -9080,13 +9080,13 @@ export default function IdeasPage() {
             <button
               type="button"
               onClick={handleCopyTopPrompt}
-              className="p-3.5 rounded-2xl bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/50 text-white shadow-xl shadow-indigo-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-indigo-500/30"
+              className="p-2.5 sm:p-3.5 rounded-2xl bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/50 text-white shadow-xl shadow-indigo-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-indigo-500/30"
               title="Copy Mobile Prompt (9:16)"
             >
               {copiedId?.startsWith("floating-prompt") ? (
-                <Check className="w-5 h-5 text-emerald-300 animate-bounce" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300 animate-bounce" />
               ) : (
-                <Smartphone className="w-5 h-5 text-indigo-100" />
+                <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-100" />
               )}
             </button>
             <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-indigo-500/40 text-xs font-bold text-indigo-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
@@ -9102,13 +9102,13 @@ export default function IdeasPage() {
             <button
               type="button"
               onClick={handleCopyTopScript}
-              className="p-3.5 rounded-2xl bg-purple-600/90 hover:bg-purple-500 border border-purple-400/50 text-white shadow-xl shadow-purple-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-purple-500/30"
+              className="p-2.5 sm:p-3.5 rounded-2xl bg-purple-600/90 hover:bg-purple-500 border border-purple-400/50 text-white shadow-xl shadow-purple-950/80 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-purple-500/30"
               title="Copy Generated Script"
             >
               {copiedId?.startsWith("floating-script") ? (
-                <Check className="w-5 h-5 text-emerald-300 animate-bounce" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300 animate-bounce" />
               ) : (
-                <FileText className="w-5 h-5 text-purple-100" />
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-purple-100" />
               )}
             </button>
             <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-purple-500/40 text-xs font-bold text-purple-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
@@ -9123,12 +9123,12 @@ export default function IdeasPage() {
           <button
             type="button"
             onClick={handleScrollToTop}
-            className={`p-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white shadow-xl shadow-slate-950/90 backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-slate-700/50 ${
+            className={`p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white shadow-xl shadow-slate-950/90 backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-slate-700/50 ${
               showScrollTop ? "opacity-100 scale-100" : "opacity-75 hover:opacity-100"
             }`}
             title="Go to Top"
           >
-            <ArrowUp className="w-5 h-5 text-slate-200 group-hover:-translate-y-0.5 transition-transform" />
+            <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 text-slate-200 group-hover:-translate-y-0.5 transition-transform" />
           </button>
           <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
             <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
