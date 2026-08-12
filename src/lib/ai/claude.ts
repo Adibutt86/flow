@@ -441,7 +441,7 @@ The video CAN still use:
 - Natural / environmental sounds (wind, rain, ambient atmosphere)
 - Sound effects / Foley (footsteps, object sounds, door sounds, animal sounds, physical impacts)
 - Diegetic audio elements`
-    : input.musicType && input.musicType !== "None"
+    : input.musicType && input.musicType !== "None" && input.musicType !== "AI Decides" && input.musicType !== "Any / AI Decides"
     ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).`
     : ""
 }

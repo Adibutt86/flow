@@ -3187,6 +3187,7 @@ const POETRY_MUSIC_TYPE_GROUPS = [
   {
     category: "Background Music Instrument & Genre",
     options: [
+      { value: "AI Decides", label: "🤖 AI Decides (Default)", desc: "Let the AI pick the most fitting background music style automatically." },
       { value: "Bollywood Romantic", label: "Bollywood Romantic", desc: "Flute, Violin, Soft Acoustic." },
       { value: "Bollywood Item Song", label: "Bollywood Item Song", desc: "Dholak, Synths, High Energy." },
       { value: "Bollywood 90s Melody", label: "Bollywood 90s Melody", desc: "Nostalgic Synth, Congas." },
@@ -3282,6 +3283,7 @@ const SONG_MUSIC_TYPE_GROUPS = [
   {
     category: "Background Music Instrument & Genre",
     options: [
+      { value: "AI Decides", label: "🤖 AI Decides (Default)", desc: "Let the AI pick the most fitting background music style automatically." },
       { value: "Bollywood Romantic", label: "Bollywood Romantic", desc: "Flute, Violin, Soft Acoustic." },
       { value: "Bollywood Item Song", label: "Bollywood Item Song", desc: "Dholak, Synths, High Energy." },
       { value: "Bollywood 90s Melody", label: "Bollywood 90s Melody", desc: "Nostalgic Synth, Congas." },
@@ -5011,7 +5013,7 @@ export default function IdeasPage() {
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
-  const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "None");
+  const [musicType, setMusicType] = useState<string>(initialSettings.musicType || "AI Decides");
   const [seriousDialogueStyle, setSeriousDialogueStyle] = useState<string>(initialSettings.seriousDialogueStyle || "None");
   const [customSceneDescription, setCustomSceneDescription] = useState(initialSettings.customSceneDescription || "");
   const [selectedSituationCat, setSelectedSituationCat] = useState("TRAIN");
@@ -5169,7 +5171,7 @@ export default function IdeasPage() {
     setWithoutMusic(preset.withoutMusic !== undefined ? preset.withoutMusic : false);
     setWithoutDialogue(preset.withoutDialogue !== undefined ? preset.withoutDialogue : false);
     if (preset.isShortIdea !== undefined) setIsShortIdea(preset.isShortIdea);
-    setMusicType("None");
+    setMusicType("AI Decides");
     setSongCrowdFx("DISABLED (Quiet Studio - Default)");
     showToast(`✅ Applied "${preset.title}" Short Clip preset!`, "success");
   };
@@ -5402,7 +5404,7 @@ export default function IdeasPage() {
     setCharPerformance("Any / AI Decides");
     setCharacterFaceType("Any / AI Decides");
     setSeriousDialogueStyle("Any / AI Decides");
-    setMusicType("None");
+    setMusicType("AI Decides");
     setSongCrowdFx("AI Decides");
     setCustomSceneDescription("");
 
@@ -5455,7 +5457,7 @@ export default function IdeasPage() {
     setCharactersPerScene("1 Character");
     setCustomCharactersPerScene("");
     setKidsNationality("Global / Any");
-    setMusicType("None");
+    setMusicType("AI Decides");
     setSeriousDialogueStyle("None");
     setCustomSceneDescription("");
     setOutroEffects("None");
@@ -6081,7 +6083,7 @@ export default function IdeasPage() {
       setCharPerformance("Any / AI Decides");
       setCharacterFaceType("Any / AI Decides");
       setSeriousDialogueStyle("Any / AI Decides");
-      setMusicType("None");
+      setMusicType("AI Decides");
       setKidsHealth("Healthy");
 
       if (cat === "CUTE_KIDS") {
