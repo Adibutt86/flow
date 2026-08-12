@@ -7412,6 +7412,42 @@ export default function IdeasPage() {
                   groups={SONG_CHARACTER_SETUP_GROUPS}
                 />
 
+                {/* Optional Character Reference Upload */}
+                <div className="space-y-1.5 mt-4 mb-4">
+                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                    <span>Character Reference Image (Optional)</span>
+                    <button 
+                      onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer"
+                    >
+                      🖼️ Browse Library
+                    </button>
+                  </label>
+                  <div className="flex flex-col gap-2">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      multiple
+                      onChange={handleImageUpload} 
+                      className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                    />
+                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
+                    {referenceImages.length > 0 && (
+                      <div className="flex flex-col gap-3 bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20">
+                        <div className="flex flex-wrap gap-2">
+                          {referenceImages.map((img, idx) => (
+                            <img key={idx} src={img} alt={`Reference ${idx + 1}`} className="w-12 h-12 rounded-lg object-cover border border-indigo-500/50" />
+                          ))}
+                        </div>
+                        {referenceCharacterInfo && !isAnalyzingImage && (
+                          <div className="text-xs text-indigo-300 whitespace-pre-wrap max-h-32 overflow-y-auto">{referenceCharacterInfo}</div>
+                        )}
+                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-400 hover:text-red-400 flex items-center gap-1 cursor-pointer"><X className="w-4 h-4"/> Clear All</button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* 6. Performers Per Scene */}
                 <div className="space-y-1.5">
                   <CustomSelect
@@ -7639,6 +7675,42 @@ export default function IdeasPage() {
                   onChange={handleCharacterSetupChange}
                   groups={category === "ANIMAL_DANCING" ? ANIMAL_DANCING_SPECIES_GROUPS : category === "FRUIT_DANCING" ? FRUIT_DANCING_CHARACTER_SETUP_GROUPS : (category as string) === "SONG" ? SONG_CHARACTER_SETUP_GROUPS : POETRY_CHARACTER_SETUP_GROUPS}
                 />
+
+                {/* Optional Character Reference Upload */}
+                <div className="space-y-1.5 mt-4 mb-4">
+                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                    <span>Character Reference Image (Optional)</span>
+                    <button 
+                      onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer"
+                    >
+                      🖼️ Browse Library
+                    </button>
+                  </label>
+                  <div className="flex flex-col gap-2">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      multiple
+                      onChange={handleImageUpload} 
+                      className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                    />
+                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
+                    {referenceImages.length > 0 && (
+                      <div className="flex flex-col gap-3 bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20">
+                        <div className="flex flex-wrap gap-2">
+                          {referenceImages.map((img, idx) => (
+                            <img key={idx} src={img} alt={`Reference ${idx + 1}`} className="w-12 h-12 rounded-lg object-cover border border-indigo-500/50" />
+                          ))}
+                        </div>
+                        {referenceCharacterInfo && !isAnalyzingImage && (
+                          <div className="text-xs text-indigo-300 whitespace-pre-wrap max-h-32 overflow-y-auto">{referenceCharacterInfo}</div>
+                        )}
+                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-400 hover:text-red-400 flex items-center gap-1 cursor-pointer"><X className="w-4 h-4"/> Clear All</button>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
                 {/* 6. Performers Per Scene */}
                 <div className="space-y-1.5">

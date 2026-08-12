@@ -450,7 +450,7 @@ ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Eff
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
-${input.category === "CUTE_KIDS" && input.referenceCharacterInfo ? `\nCRITICAL CHARACTER REFERENCE: The character must perfectly match this exact description: ${input.referenceCharacterInfo}\n` : ""}
+${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.referenceCharacterInfo ? `\nCRITICAL CHARACTER REFERENCE: The character must perfectly match this exact description: ${input.referenceCharacterInfo}\n` : ""}
 ${input.timeOfDay && input.timeOfDay !== "Any / AI Decides" ? `Time of Day/Lighting: ${input.timeOfDay}` : ""}
 ${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrative Moment: ${input.storyBeat}` : ""}
 ${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
