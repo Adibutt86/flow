@@ -1292,6 +1292,9 @@ const SONG_CROWD_FX_GROUPS: OptionGroupWithDesc[] = [
       { value: "Live Mushaira Crowd (Wah Wah & Irshad)", label: "👏 Live Mushaira Crowd (Wah Wah & Irshad)", desc: "Authentic audience reactions shouting Wah Wah! and Irshad! during pauses." },
       { value: "Concert Crowd Cheering & Clapping", label: "🏟️ Concert Crowd Cheering & Clapping", desc: "Live concert arena crowd cheering and applauding." },
       { value: "Desi Mehfil Dholak & Clapping", label: "🥁 Desi Mehfil Dholak & Clapping", desc: "Traditional rhythmic hand clapping and warm Dholak room ambience." },
+      { value: "Simple Rhythmic Claps", label: "👏 Simple Rhythmic Claps", desc: "Basic rhythmic hand clapping on the beat." },
+      { value: "Polite Applause", label: "👏 Polite Audience Applause", desc: "Soft, polite clapping from a small audience." },
+      { value: "Finger Snaps", label: "🫰 Finger Snaps & Acoustic Vibe", desc: "Acoustic café style finger snapping on beat." },
       { value: "Vintage Tape Hiss & Vinyl Crackle", label: "📻 Vintage Tape Hiss & Vinyl Crackle", desc: "Nostalgic retro lofi vinyl crackle and warm studio tape haze." },
       { value: "Rain & Cozy Fireside Ambience", label: "🌧️ Rain & Cozy Fireside Ambience", desc: "Gentle rain tapping on window and crackling fireplace warmth." },
     ],
@@ -3267,6 +3270,9 @@ const SONG_CROWD_FX_GROUPS_NEW = [
     options: [
       { value: "Concert Crowd Cheers", label: "Concert Crowd Cheers", desc: "Loud stadium cheers." },
       { value: "Fans Singing Along", label: "Fans Singing Along", desc: "Crowd singing the chorus." },
+      { value: "Simple Rhythmic Claps", label: "Simple Rhythmic Claps", desc: "Basic rhythmic hand clapping on the beat." },
+      { value: "Polite Applause", label: "Polite Applause", desc: "Soft, polite clapping." },
+      { value: "Finger Snaps", label: "Finger Snaps", desc: "Acoustic café style finger snapping." },
       { value: "Studio Silence", label: "Studio Silence", desc: "Pure studio environment with no crowd." }
     ]
   }
