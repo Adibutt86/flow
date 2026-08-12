@@ -7718,7 +7718,7 @@ export default function IdeasPage() {
                 />
                 )}
 
-                {/* 13. Facial Features & Beard Style (hidden for FRUIT_DANCING & ANIMAL_DANCING) */}
+                {/* 13. Facial Features & Beard Style (hidden for FRUIT_DANCING & ANIMAL DANCING) */}
                 {category !== "FRUIT_DANCING" && category !== "ANIMAL_DANCING" && (
                 <CustomSelect
                   label="Facial Features & Beard Style"
@@ -7728,6 +7728,15 @@ export default function IdeasPage() {
                   groups={CHARACTER_FACE_GROUPS}
                 />
                 )}
+
+                {/* 14. Performance Expression & Lip-Sync */}
+                <CustomSelect
+                  label="Performance Expression"
+                  icon="🎭"
+                  value={charPerformance}
+                  onChange={setCharPerformance}
+                  groups={CHARACTER_PERFORMANCE_GROUPS}
+                />
               </div>
             </div>
           )}
