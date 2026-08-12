@@ -3095,6 +3095,26 @@ export default function NanoProGenerator() {
     }
   };
 
+  const handleResetDefaults = () => {
+    setVisualStyle("3D Cartoon Style");
+    setAspectRatio("9:16");
+    setCharacterType("Any / AI Decides");
+    setClothing("Any / AI Decides");
+    setAge("Any / AI Decides");
+    setNationality("Any / AI Decides");
+    setComplexion("Any / AI Decides");
+    setBackgroundStyle("Any / AI Decides");
+    setCustomVisualStyle("");
+    setCustomAspectRatio("");
+    setCustomCharacterType("");
+    setCustomClothing("");
+    setCustomAge("");
+    setCustomNationality("");
+    setCustomComplexion("");
+    setCustomBackgroundStyle("");
+    localStorage.removeItem("nanoProState");
+  };
+
   const handleCopy = async () => {
     if (!generatedPrompt) return;
     try {
@@ -3206,14 +3226,24 @@ export default function NanoProGenerator() {
                      activeTab === "scene" ? "🎬 Scene Builder" :
                      activeTab === "shayari" ? "📖 Shayari Mood" : "🎵 Song Atmosphere"}
                   </h2>
-                  {activeTab === "character" && (
-                    <button 
-                      onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 text-xs font-bold hover:bg-indigo-500/20 transition-colors border border-indigo-500/20"
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleResetDefaults}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 hover:text-white transition-colors border border-white/10"
                     >
-                      <Library className="w-3.5 h-3.5" /> Reuse Saved Character
+                      <RotateCcw className="w-3.5 h-3.5" /> Reset Defaults
                     </button>
-                  )}
+                    {activeTab === "character" && (
+                      <button 
+                        type="button"
+                        onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 text-xs font-bold hover:bg-indigo-500/20 transition-colors border border-indigo-500/20"
+                      >
+                        <Library className="w-3.5 h-3.5" /> Reuse Saved Character
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {referenceImage && (
