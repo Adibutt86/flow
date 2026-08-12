@@ -2669,6 +2669,9 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Desi Mela & Festival Fairground", label: "Desi Mela / Festival (میلہ)", desc: "Festive carnival ground with colorful lights, toy stalls, and giant Ferris wheel." },
       { value: "Festive Eid & Chand Raat Market", label: "Eid & Chand Raat Market (عید بازار)", desc: "Night street market decorated with fairy lights, bangles, henna, and sweets." },
       { value: "Traditional Heritage Haveli", label: "Traditional Haveli & Courtyard (حویلی)", desc: "Grand heritage brick Haveli with carved wooden doors, archways, and jharokhas." },
+      { value: "Bollywood Festive Wedding Stage", label: "Bollywood Wedding / Shaadi Stage 🎉", desc: "Colorful marigold flowers, bright drapes, fairy lights, and festive Bollywood vibe." },
+      { value: "Bollywood Movie Set", label: "Bollywood Movie Set & Dancers 🎥", desc: "Vibrant Bollywood movie set with colorful background dancers and bright spotlights." },
+      { value: "Grand Mughal Palace", label: "Grand Royal Palace 🏰", desc: "Luxurious traditional palace courtyard with glowing lanterns and royal architecture." },
     ],
   },
   {
@@ -3230,6 +3233,18 @@ const NEW_SONG_LOCATION_GROUPS = [
       { value: "Vintage European Cobblestone Street 🇫🇷🌙", label: "Vintage European Alley 🌙", desc: "Romantic narrow cobblestone alley with gas lanterns, ivy walls, and rain puddles." },
       { value: "Acoustic Music Studio 🎤", label: "Acoustic Music Studio 🎤", desc: "Studio stage with vintage ribbon microphones and warm spotlight bokeh." },
     ],
+  },
+  {
+    category: "🎬 Bollywood & Desi Vibe Settings",
+    options: [
+      { value: "Grand Bollywood Palace / Haveli 🏰", label: "Bollywood Palace / Haveli 🏰", desc: "Luxurious traditional courtyard with glowing lanterns and royal architecture." },
+      { value: "Festive Desi Wedding / Mehndi Stage 🎉", label: "Mehndi / Wedding Stage 🎉", desc: "Colorful marigold flowers, bright drapes, and fairy lights for a festive vibe." },
+      { value: "Mustard Fields (Sarson ka Khet) 🌼", label: "Mustard Fields (Sarson ka Khet) 🌼", desc: "Endless bright yellow mustard fields under a sunny sky, classic Bollywood style." },
+      { value: "Vibrant Indian Mela (Carnival) 🎪", label: "Desi Mela (Carnival) 🎪", desc: "Colorful village fair with giant ferris wheels, balloons, and sweet stalls." },
+      { value: "Rainy Desi Street (Romantic Monsoon) 🌧️", label: "Monsoon Rainy Street 🌧️", desc: "Lush green trees and rain-soaked streets with a cinematic romantic Bollywood feel." },
+      { value: "Royal Rajasthani Desert Camp 🏜️", label: "Rajasthani Desert Camp 🏜️", desc: "Sand dunes, folk dancers, glowing fire pits, and colorful desert tents." },
+      { value: "Glitzy Bollywood Dance Floor 🪩", label: "Bollywood Disco Dance Floor 🪩", desc: "Retro or modern glitzy dance floor with flashing neon tiles and disco balls." }
+    ]
   }
 ];
 
