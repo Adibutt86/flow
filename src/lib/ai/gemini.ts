@@ -130,6 +130,7 @@ export interface SuggestIdeasInput {
   compactMode?: boolean;
   seed?: number;
   kidsAge?: string;
+  kidsAudioStyle?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
