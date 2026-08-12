@@ -3741,7 +3741,8 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Default Soundscape",
     options: [
-      { value: "None", label: "None (Default)", desc: "No background music specified. Pure ambient dialogue & sound effects." },
+      { value: "AI Decides", label: "🤖 AI Decides (Default)", desc: "Let the AI pick the most fitting background music style automatically." },
+      { value: "None", label: "None", desc: "No background music specified. Pure ambient dialogue & sound effects." },
     ],
   },
   {
@@ -6768,7 +6769,7 @@ export default function IdeasPage() {
                 icon="🎵"
                 value={musicType}
                 onChange={(val) => setMusicType(val)}
-                groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : POETRY_MUSIC_TYPE_GROUPS}
+                groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
                 badgeTitle="Music Style"
               />
             </div>
@@ -7758,7 +7759,7 @@ export default function IdeasPage() {
                   icon="🎶"
                   value={musicType}
                   onChange={setMusicType}
-                  groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : POETRY_MUSIC_TYPE_GROUPS}
+                  groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
                 />
 
                 {/* 10. Time of Day / Lighting */}
