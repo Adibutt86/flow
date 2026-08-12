@@ -456,6 +456,7 @@ ${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrat
 ${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
 ${input.cameraShot && /fixed|static|lock/i.test(input.cameraShot) ? `STRICT CAMERA LOCK MANDATE: The camera MUST stay 100% stationary and locked on the speaking character throughout the entire 10-second clip. NO camera panning, NO wild zooms, NO background cuts, NO camera rotation. The speaking character remains centered in frame from start to finish.` : ""}
 ${input.charPerformance && input.charPerformance !== "Any / AI Decides" ? `Character Performance Mode: ${input.charPerformance}` : ""}
+${input.charPerformance && /off-screen|no lip-sync|narration|voiceover/i.test(input.charPerformance) ? `STRICT NO LIP-SYNC MANDATE: The voiceover / narration / poem / song audio is played OFF-SCREEN. The character on camera MUST NOT move their lips or speak on camera. Render silent, expressive facial acting (smiles, gaze, deep emotional reactions, or dancing) while the background voiceover plays.` : ""}
 ${input.category === "CARBOX" && input.carboxBrand ? `Vehicle Type / Brand / Model: ${input.carboxBrand}` : ""}
 ${input.category === "CARBOX" && input.carboxColor ? `Vehicle Color: ${input.carboxColor}` : ""}
 ${input.category === "CARBOX" && input.carboxPackaging ? `Packaging Style: ${input.carboxPackaging}` : ""}

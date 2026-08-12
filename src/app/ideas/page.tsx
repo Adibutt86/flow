@@ -3669,6 +3669,7 @@ const CHARACTER_PERFORMANCE_GROUPS: OptionGroupWithDesc[] = [
     category: "Speech & Expression",
     options: [
       { value: "Dialogue", label: "🗣️ Dialogue", desc: "Kid speaks naturally — words, sentences, funny or heartfelt lines." },
+      { value: "Off-Screen Voiceover (No Lip-Sync)", label: "🎙️ Off-Screen Voiceover (No Lip-Sync)", desc: "Background narrator / voiceover plays audio while character acts silently with no mouth movement." },
       { value: "Silent Expressions", label: "🤫 Silent Expressions", desc: "No words — just powerful, expressive facial acting." },
       { value: "Cute Reactions", label: "😊 Cute Reactions", desc: "Responding to something with adorable non-verbal reactions." },
       { value: "Emotional Acting", label: "😭 Emotional Acting", desc: "Deep heartfelt performance — joy, sadness, pride, or love." },
