@@ -3045,6 +3045,7 @@ export default function NanoProGenerator() {
   const [fbNationality, setFbNationality] = useState("Pakistani");
   const [fbComplexion, setFbComplexion] = useState("Fair");
   const [fbDisableQuote, setFbDisableQuote] = useState(false);
+  const [fbDisableImage, setFbDisableImage] = useState(false);
   const [fbPostTitle, setFbPostTitle] = useState("");
   const [fbPostTags, setFbPostTags] = useState<string[]>([]);
 
@@ -3056,6 +3057,7 @@ export default function NanoProGenerator() {
   const [shyLayout, setShyLayout] = useState("Centered Poetry");
   const [shyFormat, setShyFormat] = useState("9:16 Mobile");
   const [shyDisableQuote, setShyDisableQuote] = useState(false);
+  const [shyDisableImage, setShyDisableImage] = useState(false);
   const [shyTextStyle, setShyTextStyle] = useState("Elegant Calligraphy & Serif Mix");
   const [shyMood, setShyMood] = useState("Melancholy & Romantic");
 
