@@ -3203,7 +3203,9 @@ export default function NanoProGenerator() {
     try {
       const res = await fetch("/api/characters");
       const data = await res.json();
-      if (Array.isArray(data)) setSavedCharacters(data);
+      if (data.characters) {
+        setSavedCharacters(data.characters);
+      }
     } catch (error) {
       console.error("Failed to load characters", error);
     } finally {
@@ -3812,6 +3814,25 @@ export default function NanoProGenerator() {
                         </label>
                       </div>
                     </div>
+{!fbDisableImage && (
+  <div className="space-y-1.5 mt-4 mb-4">
+    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+      <span>Character Reference Image (Optional)</span>
+      <button 
+        onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+        className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
+      >🖼️ Browse Library</button>
+    </label>
+    <div className="flex flex-col gap-2">
+      <input
+        accept="image/*"
+        multiple
+        className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+        type="file"
+      />
+    </div>
+  </div>
+)}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -4120,7 +4141,40 @@ export default function NanoProGenerator() {
                           Disable Quote (Image Only)
                         </span>
                       </label>
+                      <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableImage ? 'bg-rose-500 border-rose-500' : 'border-slate-600 group-hover:border-rose-500/50'}`}>
+                          {shyDisableImage && <span className="text-white text-[10px] font-bold">✓</span>}
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={shyDisableImage}
+                          onChange={(e) => setShyDisableImage(e.target.checked)}
+                          className="hidden"
+                        />
+                        <span className="text-xs font-semibold text-slate-300 group-hover:text-rose-300 transition-colors">
+                          Disable Image
+                        </span>
+                      </label>
                     </div>
+                    {!shyDisableImage && (
+                      <div className="space-y-1.5 mt-4 mb-4">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                          <span>Character Reference Image (Optional)</span>
+                          <button 
+                            onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                            className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
+                          >🖼️ Browse Library</button>
+                        </label>
+                        <div className="flex flex-col gap-2">
+                          <input
+                            accept="image/*"
+                            multiple
+                            className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                            type="file"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
