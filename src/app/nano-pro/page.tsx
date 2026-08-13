@@ -3050,6 +3050,7 @@ export default function NanoProGenerator() {
 
   // Shayari / Song Post Settings
   const [shyQuoteText, setShyQuoteText] = useState("");
+  const [shyCharacterStyle, setShyCharacterStyle] = useState("Any / AI Decides");
   const [shyArtStyle, setShyArtStyle] = useState("Cinematic Silhouette");
   const [shyColorTheme, setShyColorTheme] = useState("Moody Monochromatic");
   const [shyLayout, setShyLayout] = useState("Centered Poetry");
@@ -3116,16 +3117,19 @@ export default function NanoProGenerator() {
         if (parsed.fbNationality) setFbNationality(parsed.fbNationality);
         if (parsed.fbComplexion) setFbComplexion(parsed.fbComplexion);
         if (parsed.fbDisableQuote !== undefined) setFbDisableQuote(parsed.fbDisableQuote);
+        if (parsed.fbDisableImage !== undefined) setFbDisableImage(parsed.fbDisableImage);
         if (parsed.fbPostTitle !== undefined) setFbPostTitle(parsed.fbPostTitle);
         if (parsed.fbPostTags) setFbPostTags(parsed.fbPostTags);
 
         // Shayari Post Settings
         if (parsed.shyQuoteText !== undefined) setShyQuoteText(parsed.shyQuoteText);
+        if (parsed.shyCharacterStyle) setShyCharacterStyle(parsed.shyCharacterStyle);
         if (parsed.shyArtStyle) setShyArtStyle(parsed.shyArtStyle);
         if (parsed.shyColorTheme) setShyColorTheme(parsed.shyColorTheme);
         if (parsed.shyLayout) setShyLayout(parsed.shyLayout);
         if (parsed.shyFormat) setShyFormat(parsed.shyFormat);
         if (parsed.shyDisableQuote !== undefined) setShyDisableQuote(parsed.shyDisableQuote);
+        if (parsed.shyDisableImage !== undefined) setShyDisableImage(parsed.shyDisableImage);
         if (parsed.shyTextStyle) setShyTextStyle(parsed.shyTextStyle);
         if (parsed.shyMood) setShyMood(parsed.shyMood);
 
@@ -3165,14 +3169,17 @@ export default function NanoProGenerator() {
       fbNationality,
       fbComplexion,
       fbDisableQuote,
+      fbDisableImage,
       fbPostTitle,
       fbPostTags,
       shyQuoteText,
+      shyCharacterStyle,
       shyArtStyle,
       shyColorTheme,
       shyLayout,
       shyFormat,
       shyDisableQuote,
+      shyDisableImage,
       shyTextStyle,
       shyMood,
     };
@@ -3182,8 +3189,8 @@ export default function NanoProGenerator() {
     aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, 
     referenceImage, aiModel, activeTab, fbQuoteText, fbCharacterStyle, fbColorTheme, 
     fbLayout, fbFormat, fbTextStyle, fbDecorations, fbBackground, fbMood, fbAge, 
-    fbNationality, fbComplexion, fbDisableQuote, fbPostTitle, fbPostTags, shyQuoteText, shyArtStyle, shyColorTheme, 
-    shyLayout, shyFormat, shyDisableQuote, shyTextStyle, shyMood
+    fbNationality, fbComplexion, fbDisableQuote, fbDisableImage, fbPostTitle, fbPostTags, shyQuoteText, shyCharacterStyle, shyArtStyle, shyColorTheme, 
+    shyLayout, shyFormat, shyDisableQuote, shyDisableImage, shyTextStyle, shyMood
   ]);
 
   const fetchCharacterLibrary = async () => {
@@ -3231,23 +3238,29 @@ export default function NanoProGenerator() {
     setFbNationality("Pakistani");
     setFbComplexion("Fair");
     setFbDisableQuote(false);
+    setFbDisableImage(false);
     setFbPostTitle("");
     setFbPostTags([]);
 
     // Reset Shayari Post Fields
     setShyQuoteText("");
+    setShyCharacterStyle("Any / AI Decides");
     setShyArtStyle("Cinematic Silhouette");
     setShyColorTheme("Moody Monochromatic");
     setShyLayout("Centered Poetry");
     setShyFormat("9:16 Mobile");
     setShyDisableQuote(false);
+    setShyDisableImage(false);
     setShyTextStyle("Elegant Calligraphy & Serif Mix");
     setShyMood("Melancholy & Romantic");
 
     localStorage.removeItem("nanoProState");
   };
 
-  const handleCopy = async () => {
+  const handleCopy = async (e?: React.MouseEvent, suffix?: string) => {
+    if (e) {
+      e.stopPropagation();
+    }
     if (!generatedPrompt) return;
     try {
       let textToCopy = generatedPrompt;
@@ -3257,8 +3270,10 @@ export default function NanoProGenerator() {
         if (fbPostTitle) parts.push(fbPostTitle);
         if (fbPostTags.length > 0) parts.push(fbPostTags.join(" "));
         parts.push("---");
-        parts.push(generatedPrompt);
+        parts.push(generatedPrompt + (suffix || ""));
         textToCopy = parts.join("\n");
+      } else if (suffix) {
+        textToCopy += suffix;
       }
       await navigator.clipboard.writeText(textToCopy);
       setIsCopied(true);
@@ -3302,6 +3317,7 @@ export default function NanoProGenerator() {
           nationality: fbNationality,
           complexion: fbComplexion,
           disableQuote: fbDisableQuote,
+          disableImage: fbDisableImage,
         };
         res = await fetch("/api/generate-fb-post", {
           method: "POST",
@@ -3311,11 +3327,13 @@ export default function NanoProGenerator() {
       } else if (activeTab === "shayari-post") {
         parameters = {
           quoteText: shyQuoteText,
+          characterStyle: shyCharacterStyle,
           artStyle: shyArtStyle,
           colorTheme: shyColorTheme,
           layout: shyLayout,
           format: shyFormat,
           disableQuote: shyDisableQuote,
+          disableImage: shyDisableImage,
           textStyle: shyTextStyle,
           mood: shyMood,
         };
@@ -3771,20 +3789,22 @@ export default function NanoProGenerator() {
                         className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
                         disabled={fbDisableQuote}
                       />
-                      <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableQuote ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
-                          {fbDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
-                        </div>
-                        <input
-                          type="checkbox"
-                          checked={fbDisableQuote}
-                          onChange={(e) => setFbDisableQuote(e.target.checked)}
-                          className="hidden"
-                        />
-                        <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">
-                          Disable Quote (Image Only)
-                        </span>
-                      </label>
+                      <div className="flex gap-4 items-center">
+                        <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableQuote ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
+                            {fbDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
+                          </div>
+                          <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">Disable Quote</span>
+                          <input type="checkbox" checked={fbDisableQuote} onChange={(e) => setFbDisableQuote(e.target.checked)} className="hidden" />
+                        </label>
+                        <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableImage ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
+                            {fbDisableImage && <span className="text-white text-[10px] font-bold">✓</span>}
+                          </div>
+                          <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">Disable Image</span>
+                          <input type="checkbox" checked={fbDisableImage} onChange={(e) => setFbDisableImage(e.target.checked)} className="hidden" />
+                        </label>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -3805,6 +3825,11 @@ export default function NanoProGenerator() {
                           <option value="3D Cartoon Islamic Boy (Kufi)">3D Cartoon Islamic Boy (Kufi/Thobe)</option>
                           <option value="3D Cartoon Korean Girl">3D Cartoon Korean Girl (K-Pop Style)</option>
                           <option value="3D Cartoon Korean Boy">3D Cartoon Korean Boy (K-Pop Style)</option>
+                          <option value="Handsome Anime Boy">Handsome Anime Boy (Cool & Stylish)</option>
+                          <option value="Cute Gamer Boy">Cute Gamer Boy (Headphones, Hoodie)</option>
+                          <option value="3D Cartoon Desi Boy">3D Cartoon Desi Boy (Kurta/Shalwar Kameez)</option>
+                          <option value="Streetwear Swag Boy">Streetwear Swag Boy (Cap, Sneakers, Jacket)</option>
+                          <option value="Sad Heartbroken Boy">Sad/Heartbroken Boy (Moody, Aesthetic)</option>
                           <option value="Cute Little Chibi Doll">Cute Little Chibi Doll (Gender-neutral)</option>
                           <option value="Stylized Illustration Girl">Stylized Illustration Girl (Flat art)</option>
                           <option value="Stylized Illustration Boy">Stylized Illustration Boy (Flat art)</option>
@@ -4284,21 +4309,40 @@ export default function NanoProGenerator() {
                   </h3>
                   <div className="flex gap-2">
                     {generatedPrompt && (
-                      <button
-                        onClick={handleCopy}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
-                          isCopied
-                            ? "bg-green-500/20 border-green-500/40 text-green-400"
-                            : activeTab === "fb-post"
-                            ? "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
-                            : activeTab === "shayari-post"
-                            ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
-                            : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
-                        }`}
-                      >
-                        <Copy className="w-3.5 h-3.5" />
-                        {isCopied ? "✓ Copied!" : (activeTab === "fb-post" || activeTab === "shayari-post") ? "Copy All" : "Copy Prompt"}
-                      </button>
+                      <div className="flex gap-2 items-center flex-wrap">
+                        <button
+                          onClick={(e) => handleCopy(e)}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                            isCopied
+                              ? "bg-green-500/20 border-green-500/40 text-green-400"
+                              : activeTab === "fb-post"
+                              ? "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                              : activeTab === "shayari-post"
+                              ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
+                              : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
+                          }`}
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          {isCopied ? "✓ Copied!" : (activeTab === "fb-post" || activeTab === "shayari-post") ? "Copy All" : "Copy Prompt"}
+                        </button>
+                        
+                        <button
+                          onClick={(e) => handleCopy(e, " crop_16_9 16:9")}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/30 text-blue-300 hover:text-white"
+                          title="Copy with 16:9 aspect ratio"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          16:9
+                        </button>
+                        <button
+                          onClick={(e) => handleCopy(e, " crop_9_16 9:16")}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/30 text-blue-300 hover:text-white"
+                          title="Copy with 9:16 aspect ratio"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          9:16
+                        </button>
+                      </div>
                     )}
                     <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="Reset All">
                       <RotateCcw className="w-4 h-4" />
@@ -4357,7 +4401,7 @@ export default function NanoProGenerator() {
 
                 {/* Prompt text box */}
                 <div
-                  onClick={handleCopy}
+                  onClick={(e) => handleCopy(e)}
                   title={generatedPrompt ? "Click to copy" : undefined}
                   className={`bg-black/40 rounded-xl p-4 min-h-[200px] border border-white/5 font-mono text-sm text-purple-200/90 leading-relaxed shadow-inner transition-colors ${
                     generatedPrompt ? "cursor-pointer hover:bg-black/60 hover:border-purple-500/20 active:scale-[0.995]" : ""

@@ -18,7 +18,10 @@ export async function POST(req: Request) {
       age = "Child (6-10 yrs)",
       nationality = "Pakistani",
       complexion = "Fair",
-      disableQuote = false,
+      generateVideo = false,
+      videoVariation = "Simple Character Animation",
+      targetPlatform = "Both",
+      disableQuote = false, disableImage = false, referenceCharacterInfo,
     } = body;
 
     const anthropic = new Anthropic({
@@ -44,7 +47,7 @@ ${disableQuote ? "- Attitude-filled character expression and pose" : "- Attitude
 - Floating decorative elements that match the mood (e.g. glowing hearts, sparkles, stars)
 - Clean, colorful backgrounds (often soft gradients or bokeh)
 
-REFERENCE STYLE BREAKDOWN (from analyzed viral posts):
+${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}REFERENCE STYLE BREAKDOWN (from analyzed viral posts):
 1. "Don't Touch My Phone" style: Pink 3D stitched/puffy letters with black outlines, glitter effects on key words, chibi girl hugging phone, pink gradient bg, heart/butterfly decorations
 2. Quote poster style: Clean teal/white bg, mix of serif + script fonts, keyword highlight boxes, small chibi girl in corner, doodle stars/hearts scattered around
 3. Attitude girl poster: White bg, chibi girl standing with crossed arms/sunglasses, text beside character, some keywords in pink pill/highlighted boxes, minimal decorations
@@ -66,7 +69,7 @@ BACKGROUND: ${background}
 DECORATIVE ELEMENTS: ${decorations}
 ${disableQuote ? "QUOTE / MESSAGE TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT/TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `QUOTE / MESSAGE TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "QUOTE / MESSAGE TEXT: Create a fitting sassy/motivational/cute quote that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT (e.g. 'zindagi', not 'ज़िंदगी'). NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
 
-OUTPUT FORMAT — respond with ONLY this exact JSON structure, no extra text before or after:
+OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage is true, set the 'prompt' field to an empty string), no extra text before or after:
 {
   "prompt": "<the full detailed image generation prompt ending with --ar ${arParam}>",
   "title": "<a catchy, engaging Facebook post caption/title — 1-2 sentences, emoji-rich, viral-worthy, written in the voice of the quote's mood>",
@@ -82,6 +85,7 @@ ${disableQuote ? "2. Composition focuses entirely on the character and the envir
 7. CHARACTER IDENTITY: The character must look unmistakably ${nationality} and be a ${age} — include specific ethnic facial features, a ${complexion} complexion/skin tone, and culturally accurate details appropriate for ${nationality} children.
 8. IMAGE QUALITY: End the prompt with high-end render keywords (e.g., "8k resolution, highly detailed, octane render, Unreal Engine 5, masterpiece, vibrant studio lighting, sharp focus").
 9. Prompt ends with: --ar ${arParam}
+${generateVideo ? "10. VIDEO ANIMATION INSTRUCTIONS: The user wants to animate this image. MUST explicitly add '10 sec video, ' followed by cinematic camera movement, character motion, and environmental animation descriptions at the very end of the prompt, right before the --ar tag." : ""}
 
 TITLE REQUIREMENTS:
 - Create a VERY SHORT, punchy, and highly unique Facebook caption
@@ -143,3 +147,5 @@ TAGS REQUIREMENTS:
     );
   }
 }
+
+

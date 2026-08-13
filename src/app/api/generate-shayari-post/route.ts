@@ -7,13 +7,18 @@ export async function POST(req: Request) {
     const {
       aiModel = "claude-sonnet-4-6",
       quoteText,
+      characterStyle = "Any / AI Decides",
       artStyle = "Cinematic Silhouette",
       colorTheme = "Moody Monochromatic",
       layout = "Centered Poetry",
       format = "9:16 Mobile",
       textStyle = "Elegant Calligraphy & Serif Mix",
       mood = "Melancholy & Romantic",
-      disableQuote = false,
+      generateVideo = false,
+      videoVariation = "Simple Character Animation",
+      targetPlatform = "Both",
+      disableQuote = false, disableImage = false,
+      referenceCharacterInfo,
     } = body;
 
     const anthropic = new Anthropic({
@@ -40,7 +45,7 @@ ${disableQuote ? "- NO text overlay in the image, purely aesthetic and cinematic
 ${disableQuote ? "- The imagery speaks for itself through atmosphere and emotion, without any words." : "- The text must feel like a natural part of the art, perhaps glowing softly, written in the sky, reflecting on water, or floating elegantly in empty space."}
 - Perfect mobile portrait framing (9:16) for Reels/TikToks, or square for Instagram posts.
 
-REFERENCE STYLE BREAKDOWN:
+${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}REFERENCE STYLE BREAKDOWN:
 1. "Moody Rain" style: Cinematic shot of rain droplets on a window, blurred city lights in the background (bokeh)${disableQuote ? "" : ", delicate white serif text placed elegantly in the center"}.
 2. "Silhouette Sunset" style: Warm golden hour gradient, black silhouette of a solitary figure looking at the horizon${disableQuote ? "" : ", elegant cursive script floating in the sky"}.
 3. "Watercolor Dream" style: Soft, ethereal watercolor washes blending into each other${disableQuote ? "" : ", text appearing as if painted with ink"}.
@@ -50,6 +55,7 @@ ${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this g
 
     const userPrompt = `Generate a Shayari/Song artistic image prompt package with these specifications:
 
+CHARACTER STYLE: ${characterStyle}
 ART STYLE: ${artStyle}
 MOOD / FEELING: ${mood}
 COLOR THEME: ${colorTheme}
@@ -58,7 +64,7 @@ LAYOUT: ${layout}
 FORMAT: ${format} (aspect ratio --ar ${arParam})
 ${disableQuote ? "POETRY / LYRIC TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT OR TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `POETRY / LYRIC TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "POETRY / LYRIC TEXT: Create a fitting short romantic or deep shayari line that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT (e.g. 'zindagi', not 'ज़िंदगी'). NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
 
-OUTPUT FORMAT — respond with ONLY this exact JSON structure, no extra text before or after:
+OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage is true, set the 'prompt' field to an empty string), no extra text before or after:
 {
   "prompt": "<the full detailed image generation prompt ending with --ar ${arParam}>",
   "title": "<a poetic, aesthetic social media caption — 1-2 lines, using elegant emojis like 🥀, 🌙, ✨, 🌧️, written in a poetic tone>",
@@ -72,6 +78,7 @@ ${disableQuote ? "1. NO TYPOGRAPHY — Do not mention any text, fonts, or words 
 5. Make sure the scene feels "aesthetic" and deeply emotional.
 6. IMAGE QUALITY: End the prompt with high-end render keywords (e.g., "8k resolution, cinematic lighting, masterpiece, hyper-detailed photography, Unreal Engine 5, octane render, photorealistic").
 7. Prompt ends with: --ar ${arParam}
+${generateVideo ? "8. VIDEO ANIMATION INSTRUCTIONS: The user wants to animate this image. MUST explicitly add '10 sec video, ' followed by cinematic camera movement, character motion, and atmospheric animation descriptions at the very end of the prompt, right before the --ar tag." : ""}
 
 TITLE REQUIREMENTS:
 - Create a VERY SHORT, deeply poetic, and highly unique aesthetic caption
@@ -130,3 +137,4 @@ TAGS REQUIREMENTS:
     );
   }
 }
+
