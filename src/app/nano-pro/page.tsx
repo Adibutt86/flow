@@ -3009,6 +3009,7 @@ export default function NanoProGenerator() {
   const [isCopied, setIsCopied] = useState(false);
   const [isCopiedCaption, setIsCopiedCaption] = useState(false);
   const [aiModel, setAiModel] = useState("claude-sonnet-4-6");
+  const [generateVideo, setGenerateVideo] = useState(false);
 
   // Character Settings
   const [characterType, setCharacterType] = useState("Any / AI Decides");
@@ -3103,6 +3104,7 @@ export default function NanoProGenerator() {
         
         // Added for persistent AI model and tabs
         if (parsed.aiModel) setAiModel(parsed.aiModel);
+        if (parsed.generateVideo !== undefined) setGenerateVideo(parsed.generateVideo);
         if (parsed.activeTab) setActiveTab(parsed.activeTab);
 
         // FB Post Settings
@@ -3157,6 +3159,7 @@ export default function NanoProGenerator() {
       referenceCharacterInfo,
       referenceImage,
       aiModel,
+      generateVideo,
       activeTab,
       fbQuoteText,
       fbCharacterStyle,
@@ -3189,7 +3192,7 @@ export default function NanoProGenerator() {
   }, [
     generatedPrompt, characterType, clothing, age, nationality, complexion, visualStyle, 
     aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, 
-    referenceImage, aiModel, activeTab, fbQuoteText, fbCharacterStyle, fbColorTheme, 
+    referenceImage, aiModel, generateVideo, activeTab, fbQuoteText, fbCharacterStyle, fbColorTheme, 
     fbLayout, fbFormat, fbTextStyle, fbDecorations, fbBackground, fbMood, fbAge, 
     fbNationality, fbComplexion, fbDisableQuote, fbDisableImage, fbPostTitle, fbPostTags, shyQuoteText, shyCharacterStyle, shyArtStyle, shyColorTheme, 
     shyLayout, shyFormat, shyDisableQuote, shyDisableImage, shyTextStyle, shyMood
@@ -3359,6 +3362,7 @@ export default function NanoProGenerator() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             aiModel,
+            generateVideo,
             ...parameters,
             aspectRatio: aspectRatio === "Custom" ? customAspectRatio : aspectRatio,
             referenceCharacterInfo
@@ -4276,6 +4280,23 @@ export default function NanoProGenerator() {
                   <option value="claude-haiku-4-5-20251001">Claude 4.5 Haiku (Fastest)</option>
                   <option value="claude-opus-4-6">Claude 4.6 Opus (Complex Reasoning)</option>
                 </select>
+              </div>
+
+              {/* Video Generation Toggle */}
+              <div className="mb-6 bg-slate-900/50 border border-white/10 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <h4 className="text-white font-bold text-sm">Generate Animation Video Prompt</h4>
+                  <p className="text-xs text-slate-400 mt-0.5">Appends cinematic video motion instructions</p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    className="sr-only peer" 
+                    checked={generateVideo}
+                    onChange={(e) => setGenerateVideo(e.target.checked)}
+                  />
+                  <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
               </div>
 
               <button
