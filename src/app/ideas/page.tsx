@@ -4924,7 +4924,7 @@ export default function IdeasPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
   const [loadingSceneStepId, setLoadingSceneStepId] = useState<string | null>(null);
-  const [includeCharacterBible, setIncludeCharacterBible] = useState<boolean>(false);
+  const [includeCharacterBible, setIncludeCharacterBible] = useState<boolean>(true);
   const [compactMode, setCompactMode] = useState<boolean>(true);
   const [fatherClothing, setFatherClothing] = useState<string>("AI Decides");
   const [customFatherClothing, setCustomFatherClothing] = useState<string>("");
@@ -5168,6 +5168,7 @@ export default function IdeasPage() {
     setTriggerAction(preset.triggerAction);
     setTargetEntity(preset.targetEntity);
     setLightingFx(preset.lightingFx);
+    setIncludeCharacterBible(true);
     showToast(`Applied preset: ${preset.name}`, "success");
   };
 
@@ -5226,6 +5227,7 @@ export default function IdeasPage() {
 
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" preset!`, "success");
   };
 
@@ -5246,6 +5248,7 @@ export default function IdeasPage() {
     if (preset.faceType) setCharacterFaceType(preset.faceType);
     if (preset.musicType) setMusicType(preset.musicType);
     if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Song preset!`, "success");
   };
 
@@ -5261,6 +5264,7 @@ export default function IdeasPage() {
     if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
     if (preset.clothing) setKidsClothing(preset.clothing);
     if (preset.faceType) setCharacterFaceType(preset.faceType);
+    setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Poetry & Shayari preset!`, "success");
   };
 
@@ -5276,6 +5280,7 @@ export default function IdeasPage() {
     if (preset.isShortIdea !== undefined) setIsShortIdea(preset.isShortIdea);
     setMusicType("AI Decides");
     setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+    setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Short Clip preset!`, "success");
   };
 
@@ -5291,6 +5296,7 @@ export default function IdeasPage() {
     if (preset.customSceneDescription) setCustomSceneDescription(preset.customSceneDescription);
     setWithoutMusic(false);
     setWithoutDialogue(false);
+    setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Brand Ad preset!`, "success");
   };
 
@@ -5305,6 +5311,7 @@ export default function IdeasPage() {
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     setWithoutDialogue(true);
     setWithoutMusic(false);
+    setIncludeCharacterBible(true);
     showToast(`🍓 Applied "${preset.title}" Fruit Dancing preset!`, "success");
   };
 
@@ -5319,6 +5326,7 @@ export default function IdeasPage() {
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     setWithoutDialogue(true);
     setWithoutMusic(false);
+    setIncludeCharacterBible(true);
     showToast(`🐱 Applied "${preset.title}" Animal Dancing preset!`, "success");
   };
   

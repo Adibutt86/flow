@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { FB_POST_QUOTES } from "@/lib/data/fb-quotes";
 
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
   // ─── Realistic / Cinematic ───
@@ -3004,6 +3005,8 @@ export default function NanoProGenerator() {
   const [activeTab, setActiveTab] = useState("character");
   const [generatedPrompt, setGeneratedPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [isCopiedCaption, setIsCopiedCaption] = useState(false);
   const [aiModel, setAiModel] = useState("claude-sonnet-4-6");
 
   // Character Settings
@@ -3014,7 +3017,6 @@ export default function NanoProGenerator() {
   const [complexion, setComplexion] = useState("Any / AI Decides");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon Style");
   const [aspectRatio, setAspectRatio] = useState("9:16");
-  const [isCopied, setIsCopied] = useState(false);
 
   // Scene Settings
   const [backgroundStyle, setBackgroundStyle] = useState("Any / AI Decides");
@@ -3028,9 +3030,29 @@ export default function NanoProGenerator() {
   const [customBackgroundStyle, setCustomBackgroundStyle] = useState("");
   const [customAspectRatio, setCustomAspectRatio] = useState("");
 
+  // FB Post Settings
+  const [fbQuoteText, setFbQuoteText] = useState("");
+  const [fbCharacterStyle, setFbCharacterStyle] = useState("Chibi Anime Girl");
+  const [fbColorTheme, setFbColorTheme] = useState("Pink & Black");
+  const [fbLayout, setFbLayout] = useState("Character Left, Text Right");
+  const [fbFormat, setFbFormat] = useState("9:16 Mobile");
+  const [fbTextStyle, setFbTextStyle] = useState("Bold Chunky Display + Handwritten Mix");
+  const [fbDecorations, setFbDecorations] = useState("Hearts & Sparkles");
+  const [fbBackground, setFbBackground] = useState("Soft Gradient");
+  const [fbMood, setFbMood] = useState("Sassy & Confident");
+  const [fbAge, setFbAge] = useState("Child (6-10 yrs)");
+  const [fbNationality, setFbNationality] = useState("Pakistani");
+  const [fbPostTitle, setFbPostTitle] = useState("");
+  const [fbPostTags, setFbPostTags] = useState<string[]>([]);
+
   const [promptHistory, setPromptHistory] = useState<any[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
   const itemsPerPage = 5;
+
+  const handleRandomFbQuote = () => {
+    const randomIndex = Math.floor(Math.random() * FB_POST_QUOTES.length);
+    setFbQuoteText(FB_POST_QUOTES[randomIndex]);
+  };
 
   // Character Reference (Library)
   const [showCharacterLibrary, setShowCharacterLibrary] = useState(false);
@@ -3057,6 +3079,26 @@ export default function NanoProGenerator() {
         if (parsed.promptHistory) setPromptHistory(parsed.promptHistory);
         if (parsed.referenceCharacterInfo) setReferenceCharacterInfo(parsed.referenceCharacterInfo);
         if (parsed.referenceImage) setReferenceImage(parsed.referenceImage);
+        
+        // Added for persistent AI model and tabs
+        if (parsed.aiModel) setAiModel(parsed.aiModel);
+        if (parsed.activeTab) setActiveTab(parsed.activeTab);
+
+        // FB Post Settings
+        if (parsed.fbQuoteText !== undefined) setFbQuoteText(parsed.fbQuoteText);
+        if (parsed.fbCharacterStyle) setFbCharacterStyle(parsed.fbCharacterStyle);
+        if (parsed.fbColorTheme) setFbColorTheme(parsed.fbColorTheme);
+        if (parsed.fbLayout) setFbLayout(parsed.fbLayout);
+        if (parsed.fbFormat) setFbFormat(parsed.fbFormat);
+        if (parsed.fbTextStyle) setFbTextStyle(parsed.fbTextStyle);
+        if (parsed.fbDecorations) setFbDecorations(parsed.fbDecorations);
+        if (parsed.fbBackground) setFbBackground(parsed.fbBackground);
+        if (parsed.fbMood) setFbMood(parsed.fbMood);
+        if (parsed.fbAge) setFbAge(parsed.fbAge);
+        if (parsed.fbNationality) setFbNationality(parsed.fbNationality);
+        if (parsed.fbPostTitle !== undefined) setFbPostTitle(parsed.fbPostTitle);
+        if (parsed.fbPostTags) setFbPostTags(parsed.fbPostTags);
+
       } catch (e) {
         console.error("Failed to parse nanoProState", e);
       }
@@ -3078,9 +3120,30 @@ export default function NanoProGenerator() {
       promptHistory,
       referenceCharacterInfo,
       referenceImage,
+      aiModel,
+      activeTab,
+      fbQuoteText,
+      fbCharacterStyle,
+      fbColorTheme,
+      fbLayout,
+      fbFormat,
+      fbTextStyle,
+      fbDecorations,
+      fbBackground,
+      fbMood,
+      fbAge,
+      fbNationality,
+      fbPostTitle,
+      fbPostTags,
     };
     localStorage.setItem("nanoProState", JSON.stringify(state));
-  }, [generatedPrompt, characterType, clothing, age, nationality, complexion, visualStyle, aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, referenceImage]);
+  }, [
+    generatedPrompt, characterType, clothing, age, nationality, complexion, visualStyle, 
+    aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, 
+    referenceImage, aiModel, activeTab, fbQuoteText, fbCharacterStyle, fbColorTheme, 
+    fbLayout, fbFormat, fbTextStyle, fbDecorations, fbBackground, fbMood, fbAge, 
+    fbNationality, fbPostTitle, fbPostTags
+  ]);
 
   const fetchCharacterLibrary = async () => {
     setIsLoadingLibrary(true);
@@ -3112,13 +3175,39 @@ export default function NanoProGenerator() {
     setCustomNationality("");
     setCustomComplexion("");
     setCustomBackgroundStyle("");
+
+    // Reset FB Post Fields
+    setFbQuoteText("");
+    setFbCharacterStyle("Chibi Anime Girl");
+    setFbColorTheme("Pink & Black");
+    setFbLayout("Character Left, Text Right");
+    setFbFormat("9:16 Mobile");
+    setFbTextStyle("Bold Chunky Display + Handwritten Mix");
+    setFbDecorations("Hearts & Sparkles");
+    setFbBackground("Soft Gradient");
+    setFbMood("Sassy & Confident");
+    setFbAge("Child (6-10 yrs)");
+    setFbNationality("Pakistani");
+    setFbPostTitle("");
+    setFbPostTags([]);
+
     localStorage.removeItem("nanoProState");
   };
 
   const handleCopy = async () => {
     if (!generatedPrompt) return;
     try {
-      await navigator.clipboard.writeText(generatedPrompt);
+      let textToCopy = generatedPrompt;
+      if (activeTab === "fb-post") {
+        // For FB post: copy title + tags + prompt together
+        const parts: string[] = [];
+        if (fbPostTitle) parts.push(fbPostTitle);
+        if (fbPostTags.length > 0) parts.push(fbPostTags.join(" "));
+        parts.push("---");
+        parts.push(generatedPrompt);
+        textToCopy = parts.join("\n");
+      }
+      await navigator.clipboard.writeText(textToCopy);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
@@ -3126,40 +3215,82 @@ export default function NanoProGenerator() {
     }
   };
 
+  const handleCopyCaption = async () => {
+    try {
+      const parts: string[] = [];
+      if (fbPostTitle) parts.push(fbPostTitle);
+      if (fbPostTags.length > 0) parts.push(fbPostTags.join(" "));
+      await navigator.clipboard.writeText(parts.join("\n\n"));
+      setIsCopiedCaption(true);
+      setTimeout(() => setIsCopiedCaption(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy caption:", err);
+    }
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const res = await fetch("/api/generate-nano", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          aiModel,
+      let res: Response;
+      let parameters: Record<string, string>;
+
+      if (activeTab === "fb-post") {
+        parameters = {
+          quoteText: fbQuoteText,
+          characterStyle: fbCharacterStyle,
+          colorTheme: fbColorTheme,
+          layout: fbLayout,
+          format: fbFormat,
+          textStyle: fbTextStyle,
+          decorations: fbDecorations,
+          background: fbBackground,
+          mood: fbMood,
+          age: fbAge,
+          nationality: fbNationality,
+        };
+        res = await fetch("/api/generate-fb-post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ aiModel, ...parameters }),
+        });
+      } else {
+        parameters = {
           visualStyle: visualStyle === "Custom" ? customVisualStyle : visualStyle,
-          aspectRatio: aspectRatio === "Custom" ? customAspectRatio : aspectRatio,
           characterType: characterType === "Custom" ? customCharacterType : characterType,
           clothing: clothing === "Custom" ? customClothing : clothing,
           age: age === "Custom" ? customAge : age,
           nationality: nationality === "Custom" ? customNationality : nationality,
           complexion: complexion === "Custom" ? customComplexion : complexion,
           backgroundStyle: backgroundStyle === "Custom" ? customBackgroundStyle : backgroundStyle,
-          referenceCharacterInfo
-        }),
-      });
+        };
+        res = await fetch("/api/generate-nano", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            aiModel,
+            ...parameters,
+            aspectRatio: aspectRatio === "Custom" ? customAspectRatio : aspectRatio,
+            referenceCharacterInfo
+          }),
+        });
+      }
+
       const data = await res.json();
       if (data.prompt) {
         setGeneratedPrompt(data.prompt);
+        // Store FB-specific fields if present
+        if (activeTab === "fb-post") {
+          setFbPostTitle(data.title || "");
+          setFbPostTags(Array.isArray(data.tags) ? data.tags : []);
+        } else {
+          setFbPostTitle("");
+          setFbPostTags([]);
+        }
         setPromptHistory(prev => [{ 
           prompt: data.prompt, 
           timestamp: new Date().toLocaleTimeString(),
-          parameters: {
-            visualStyle: visualStyle === "Custom" ? customVisualStyle : visualStyle,
-            characterType: characterType === "Custom" ? customCharacterType : characterType,
-            clothing: clothing === "Custom" ? customClothing : clothing,
-            age: age === "Custom" ? customAge : age,
-            nationality: nationality === "Custom" ? customNationality : nationality,
-            complexion: complexion === "Custom" ? customComplexion : complexion,
-            backgroundStyle: backgroundStyle === "Custom" ? customBackgroundStyle : backgroundStyle,
-          }
+          parameters,
+          tab: activeTab,
         }, ...prev]);
         setHistoryPage(1);
       } else {
@@ -3216,6 +3347,16 @@ export default function NanoProGenerator() {
                     {tab} Settings
                   </button>
                 ))}
+                <button
+                  onClick={() => setActiveTab("fb-post")}
+                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                    activeTab === "fb-post"
+                      ? "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-900/30"
+                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                  }`}
+                >
+                  <span>📘</span> FB Post
+                </button>
               </div>
 
               {/* Settings Area (Placeholder) */}
@@ -3224,7 +3365,8 @@ export default function NanoProGenerator() {
                   <h2 className="text-xl font-bold text-white flex items-center gap-2">
                     {activeTab === "character" ? "👤 Character Builder" :
                      activeTab === "scene" ? "🎬 Scene Builder" :
-                     activeTab === "shayari" ? "📖 Shayari Mood" : "🎵 Song Atmosphere"}
+                     activeTab === "shayari" ? "📖 Shayari Mood" :
+                     activeTab === "fb-post" ? "📘 Facebook Post Image" : "🎵 Song Atmosphere"}
                   </h2>
                   <div className="flex items-center gap-2">
                     <button
@@ -3521,7 +3663,270 @@ export default function NanoProGenerator() {
                         )}
                       </div>
                     </div>
-                  </div>) : (
+                  </div>) : activeTab === "fb-post" ? (
+                  <div className="space-y-5">
+
+                    {/* Quote / Message Text */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                          Quote / Message Text
+                          <span className="ml-2 text-pink-400 font-normal normal-case hidden sm:inline">(the text that appears in the image)</span>
+                        </label>
+                        <button 
+                          onClick={handleRandomFbQuote}
+                          className="text-[10px] font-bold uppercase tracking-widest text-pink-300 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 px-2 py-1 rounded transition-colors"
+                        >
+                          🎲 Random Preset
+                        </button>
+                      </div>
+                      <textarea
+                        value={fbQuoteText}
+                        onChange={(e) => setFbQuoteText(e.target.value)}
+                        placeholder={`e.g. "Don't touch my phone. It's mine! 💕" or leave blank for AI to create`}
+                        rows={3}
+                        className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Character Style */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Character Style</label>
+                        <select
+                          value={fbCharacterStyle}
+                          onChange={(e) => setFbCharacterStyle(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Chibi Anime Girl">Chibi Anime Girl (Big eyes, tiny body)</option>
+                          <option value="Chibi Anime Boy">Chibi Anime Boy (Big eyes, tiny body)</option>
+                          <option value="3D Cartoon Doll Girl">3D Cartoon Doll Girl (Pixar-like)</option>
+                          <option value="3D Cartoon Doll Boy">3D Cartoon Doll Boy (Pixar-like)</option>
+                          <option value="Cute Little Chibi Doll">Cute Little Chibi Doll (Gender-neutral)</option>
+                          <option value="Stylized Illustration Girl">Stylized Illustration Girl (Flat art)</option>
+                          <option value="Stylized Illustration Boy">Stylized Illustration Boy (Flat art)</option>
+                          <option value="Realistic Cute Baby Doll">Realistic Cute Baby Doll</option>
+                          <option value="No Character - Text Only">No Character – Text Only</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Mood / Attitude */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Mood / Attitude</label>
+                        <select
+                          value={fbMood}
+                          onChange={(e) => setFbMood(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Sassy & Confident">😎 Sassy & Confident</option>
+                          <option value="Cute & Playful">🌸 Cute & Playful</option>
+                          <option value="Motivational & Empowering">💪 Motivational & Empowering</option>
+                          <option value="Chill & Unbothered">😌 Chill & Unbothered</option>
+                          <option value="Happy & Joyful">😄 Happy & Joyful</option>
+                          <option value="Angry & Protective">😤 Angry & Protective</option>
+                          <option value="Sad & Emotional">😢 Sad & Emotional</option>
+                          <option value="Mysterious & Cool">🕶️ Mysterious & Cool</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Character Age */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Character Age</label>
+                        <select
+                          value={fbAge}
+                          onChange={(e) => setFbAge(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Baby / Toddler (1-3 yrs)">👶 Baby / Toddler (1–3 yrs)</option>
+                          <option value="Child (4-7 yrs)">🧒 Child (4–7 yrs)</option>
+                          <option value="Child (6-10 yrs)">🧒 Child (6–10 yrs)</option>
+                          <option value="Preteen (10-12 yrs)">🧑 Preteen (10–12 yrs)</option>
+                          <option value="Teen (13-16 yrs)">🧑‍🦱 Teen (13–16 yrs)</option>
+                          <option value="Young Adult (18-25 yrs)">👩 Young Adult (18–25 yrs)</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Nationality / Ethnicity */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Nationality / Ethnicity</label>
+                        <select
+                          value={fbNationality}
+                          onChange={(e) => setFbNationality(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <optgroup label="South Asian">
+                            <option value="Pakistani">🇵🇰 Pakistani</option>
+                            <option value="Indian">🇮🇳 Indian</option>
+                            <option value="Bangladeshi">🇧🇩 Bangladeshi</option>
+                            <option value="Sri Lankan">🇱🇰 Sri Lankan</option>
+                          </optgroup>
+                          <optgroup label="Middle Eastern">
+                            <option value="Arab / Middle Eastern">🇸🇦 Arab / Middle Eastern</option>
+                            <option value="Turkish">🇹🇷 Turkish</option>
+                            <option value="Persian / Iranian">🇮🇷 Persian / Iranian</option>
+                          </optgroup>
+                          <optgroup label="East Asian">
+                            <option value="Korean">🇰🇷 Korean</option>
+                            <option value="Japanese">🇯🇵 Japanese</option>
+                            <option value="Chinese">🇨🇳 Chinese</option>
+                          </optgroup>
+                          <optgroup label="Western">
+                            <option value="American / Western">🇺🇸 American / Western</option>
+                            <option value="European">🇪🇺 European</option>
+                            <option value="Latin / Hispanic">🌎 Latin / Hispanic</option>
+                          </optgroup>
+                          <optgroup label="African">
+                            <option value="African">🌍 African</option>
+                          </optgroup>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Color Theme */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Color Theme</label>
+                        <select
+                          value={fbColorTheme}
+                          onChange={(e) => setFbColorTheme(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Pink & Black">🩷 Pink & Black (Girly Glam)</option>
+                          <option value="Teal & White">🩵 Teal & White (Fresh & Clean)</option>
+                          <option value="Green & Cream">💚 Green & Cream (Natural)</option>
+                          <option value="Black & White">🖤 Black & White (Edgy Minimal)</option>
+                          <option value="Purple & Gold">💜 Purple & Gold (Royal)</option>
+                          <option value="Red & White">❤️ Red & White (Bold Love)</option>
+                          <option value="Blue & Pink">💙 Blue & Pink (Kawaii Pastel)</option>
+                          <option value="Yellow & Black">💛 Yellow & Black (Energetic)</option>
+                          <option value="Rainbow / Multicolor">🌈 Rainbow / Multicolor</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Text Typography Style */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Typography Style</label>
+                        <select
+                          value={fbTextStyle}
+                          onChange={(e) => setFbTextStyle(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Bold Chunky Display + Handwritten Mix">Bold Chunky + Handwritten Mix</option>
+                          <option value="Glitter 3D Metallic Letters">✨ Glitter 3D Metallic Letters</option>
+                          <option value="Stitched / Embroidery Effect Letters">🧵 Stitched Embroidery Letters</option>
+                          <option value="Graffiti / Street Art Font">🎨 Graffiti / Street Art</option>
+                          <option value="Clean Sans-Serif Modern">🔤 Clean Sans-Serif Modern</option>
+                          <option value="Handwritten Brush Script">✍️ Handwritten Brush Script</option>
+                          <option value="Highlighted Keywords with Pastel Boxes">🖍️ Highlighted Keyword Boxes</option>
+                          <option value="Mixed Sizes - Large Key Words Small Others">Mixed Sizes (Large Keywords)</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Layout */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Layout</label>
+                        <select
+                          value={fbLayout}
+                          onChange={(e) => setFbLayout(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Character Left, Text Right">Character Left, Text Right</option>
+                          <option value="Character Right, Text Left">Character Right, Text Left</option>
+                          <option value="Text Top, Character Bottom">Text Top, Character Bottom</option>
+                          <option value="Character Bottom, Text Top Full Width">Character Bottom, Text Top Full Width</option>
+                          <option value="Character Center with Text Surrounding">Character Center, Text Surrounding</option>
+                          <option value="Full Background Character with Overlaid Text">Full BG Character + Text Overlay</option>
+                          <option value="Text Only - No Character">Text Only (No Character)</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Format */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Format / Aspect Ratio</label>
+                        <select
+                          value={fbFormat}
+                          onChange={(e) => setFbFormat(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="9:16 Mobile">📱 9:16 Mobile / Stories (Recommended)</option>
+                          <option value="4:5 Portrait">📸 4:5 Portrait (Facebook Feed)</option>
+                          <option value="1:1 Square">⬜ 1:1 Square (Instagram/Facebook)</option>
+                          <option value="16:9 Desktop">🖥️ 16:9 Desktop / Landscape</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Background */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Background</label>
+                        <select
+                          value={fbBackground}
+                          onChange={(e) => setFbBackground(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Soft Gradient">🌅 Soft Gradient</option>
+                          <option value="Textured Painted Canvas">🎨 Textured Painted Canvas</option>
+                          <option value="Clean White / Minimal">⬜ Clean White / Minimal</option>
+                          <option value="Bokeh Blurred">✨ Bokeh Blurred</option>
+                          <option value="Glitter / Sparkle Pattern">💎 Glitter / Sparkle Pattern</option>
+                          <option value="Watercolor Wash">🖌️ Watercolor Wash</option>
+                          <option value="Solid Bold Color">🟥 Solid Bold Color</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Decorative Elements */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Decorative Elements</label>
+                        <select
+                          value={fbDecorations}
+                          onChange={(e) => setFbDecorations(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Hearts & Sparkles">💕 Hearts & Sparkles</option>
+                          <option value="Butterflies & Flowers">🦋 Butterflies & Flowers</option>
+                          <option value="Stars & Crowns">⭐ Stars & Crowns</option>
+                          <option value="Doodles & Hand-drawn Icons">✏️ Doodles & Hand-drawn Icons</option>
+                          <option value="Balloons & Confetti">🎈 Balloons & Confetti</option>
+                          <option value="Lightning Bolts & Fire">⚡ Lightning & Fire</option>
+                          <option value="Minimal - No Decorations">✖️ Minimal – No Decorations</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    {/* Style reference note */}
+                    <div className="flex items-start gap-3 p-3 rounded-xl bg-pink-500/5 border border-pink-500/20">
+                      <span className="text-pink-400 text-lg mt-0.5">💡</span>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        Prompts are optimized for <span className="text-pink-300 font-semibold">Facebook post images</span> in the style of viral cute cartoon/chibi character posts — bold integrated typography, vibrant color themes, floating decorative elements, and attitude-filled quotes.
+                      </p>
+                    </div>
+
+                  </div>
+                ) : (
                   <div className="py-12 flex flex-col items-center justify-center text-center space-y-4 border-2 border-dashed border-slate-700/50 rounded-xl bg-slate-900/20">
                     <div className="p-4 bg-slate-800/50 rounded-full">
                       <Sparkles className="w-8 h-8 text-purple-400" />
@@ -3559,14 +3964,20 @@ export default function NanoProGenerator() {
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl shadow-purple-900/20 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
+                className={`w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border border-white/10 ${
+                  activeTab === "fb-post"
+                    ? "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-900/20"
+                    : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-900/20"
+                }`}
               >
                 {isGenerating ? (
                   <RefreshCw className="w-5 h-5 animate-spin" />
+                ) : activeTab === "fb-post" ? (
+                  <span className="text-lg">📘</span>
                 ) : (
                   <Sparkles className="w-5 h-5" />
                 )}
-                {isGenerating ? "Synthesizing Prompt..." : "Generate Prompt"}
+                {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : "Generate Prompt"}
               </button>
 
               <div className="bg-slate-900/60 border border-purple-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group">
@@ -3575,32 +3986,84 @@ export default function NanoProGenerator() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
                     Generated Output
+                    {generatedPrompt && <span className="text-[10px] text-slate-500 font-normal">(click to copy)</span>}
                   </h3>
                   <div className="flex gap-2">
-                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors tooltip-trigger" title="Reset All">
+                    {generatedPrompt && (
+                      <button
+                        onClick={handleCopy}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                          isCopied
+                            ? "bg-green-500/20 border-green-500/40 text-green-400"
+                            : activeTab === "fb-post"
+                            ? "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                            : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
+                        }`}
+                      >
+                        <Copy className="w-3.5 h-3.5" />
+                        {isCopied ? "✓ Copied!" : activeTab === "fb-post" ? "Copy All" : "Copy Prompt"}
+                      </button>
+                    )}
+                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="Reset All">
                       <RotateCcw className="w-4 h-4" />
                     </button>
-                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors tooltip-trigger" title="History">
+                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="History">
                       <Clock className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-black/40 rounded-xl p-4 min-h-[200px] border border-white/5 font-mono text-sm text-purple-200/90 leading-relaxed shadow-inner">
-                  {generatedPrompt || (
-                    <span className="text-slate-600 italic">Your generated Nano Pro prompt will appear here...</span>
+                {/* FB Post: Social Title & Tags */}
+                {activeTab === "fb-post" && (fbPostTitle || fbPostTags.length > 0) && (
+                  <div className="mb-3 p-3.5 rounded-xl bg-pink-950/30 border border-pink-500/20 space-y-2.5 relative">
+                    <button
+                      onClick={handleCopyCaption}
+                      className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold transition-all border ${
+                        isCopiedCaption
+                          ? "bg-green-500/20 border-green-500/40 text-green-400"
+                          : "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                      }`}
+                    >
+                      <Copy className="w-3 h-3" />
+                      {isCopiedCaption ? "✓ Copied!" : "Copy Text"}
+                    </button>
+                    {fbPostTitle && (
+                      <div className="pr-20">
+                        <span className="text-[10px] font-bold text-pink-400 uppercase tracking-wider block mb-1">📢 Post Caption / Title</span>
+                        <p className="text-sm text-pink-100 leading-snug font-medium">{fbPostTitle}</p>
+                      </div>
+                    )}
+                    {fbPostTags.length > 0 && (
+                      <div>
+                        <span className="text-[10px] font-bold text-pink-400 uppercase tracking-wider block mb-1.5">🏷️ Hashtags</span>
+                        <div className="flex flex-wrap gap-2">
+                          {fbPostTags.map((tag, i) => (
+                            <span key={i} className="text-xs font-bold text-pink-300 bg-pink-500/10 border border-pink-500/20 rounded-lg px-2.5 py-1">{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <p className="text-[10px] text-slate-500 italic">☝️ "Copy All" copies caption + tags + image prompt together</p>
+                  </div>
+                )}
+
+                {/* Prompt text box */}
+                <div
+                  onClick={handleCopy}
+                  title={generatedPrompt ? "Click to copy" : undefined}
+                  className={`bg-black/40 rounded-xl p-4 min-h-[200px] border border-white/5 font-mono text-sm text-purple-200/90 leading-relaxed shadow-inner transition-colors ${
+                    generatedPrompt ? "cursor-pointer hover:bg-black/60 hover:border-purple-500/20 active:scale-[0.995]" : ""
+                  }`}
+                >
+                  {activeTab === "fb-post" && generatedPrompt ? (
+                    <>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block mb-2">🖼️ Image Prompt</span>
+                      {generatedPrompt}
+                    </>
+                  ) : (
+                    generatedPrompt || <span className="text-slate-600 italic">Your generated Nano Pro prompt will appear here...</span>
                   )}
                 </div>
-
-                {generatedPrompt && (
-                  <button 
-                    onClick={handleCopy}
-                    className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-slate-300 hover:text-white transition-colors text-sm font-semibold border border-white/5"
-                  >
-                    <Copy className={`w-4 h-4 ${isCopied ? "text-green-400" : ""}`} /> 
-                    {isCopied ? "Copied!" : "Copy Image Prompt"}
-                  </button>
-                )}
               </div>
             </div>
 
