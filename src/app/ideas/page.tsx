@@ -2718,6 +2718,12 @@ export function getOptionDescription(groups: OptionGroupWithDesc[], currentValue
 // 1. LOCATION OPTIONS
 const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "Default / AI Decides",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best location automatically." },
+    ]
+  },
+  {
     category: "Indoor & Home Settings",
     options: [
       { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },

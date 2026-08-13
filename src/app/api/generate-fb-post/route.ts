@@ -17,6 +17,8 @@ export async function POST(req: Request) {
       mood = "Sassy & Confident",
       age = "Child (6-10 yrs)",
       nationality = "Pakistani",
+      complexion = "Fair",
+      disableQuote = false,
     } = body;
 
     const anthropic = new Anthropic({
@@ -36,21 +38,19 @@ export async function POST(req: Request) {
 
 You have deep knowledge of the specific visual style that goes viral on Facebook — characterized by:
 - Cute chibi/cartoon/anime-style characters with oversized expressive eyes, chubby cheeks, and small bodies
-- Bold, dynamic typography integrated naturally into the scene (NOT added as a separate overlay after)
-- Attitude-filled quotes and sassy/motivational messages rendered as part of the image composition
-- Vibrant, thematic color palettes that run through both the character and text
-- Floating decorative elements (hearts, sparkles, butterflies, stars, bows, etc.) scattered organically
-- Mixed font styles in the SAME image: chunky display fonts for key words, handwritten script for others
-- Highlighted/underlined keywords using colored boxes, paint strokes, or pill shapes
-- Clean or softly textured backgrounds that let the character and text pop
-- The character and text feel compositionally unified — not separate layers
-- Perfect mobile portrait framing (9:16) for Facebook Stories / Reels, or square for posts
+${disableQuote ? "- NO text overlay in the image, purely character and scene focus" : "- Bold, dynamic typography integrated naturally into the scene (NOT added as a separate overlay after)"}
+${disableQuote ? "- Attitude-filled character expression and pose" : "- Attitude-filled quotes and sassy/motivational messages rendered as part of the image composition"}
+- Highly vibrant, cohesive color themes
+- Floating decorative elements that match the mood (e.g. glowing hearts, sparkles, stars)
+- Clean, colorful backgrounds (often soft gradients or bokeh)
 
 REFERENCE STYLE BREAKDOWN (from analyzed viral posts):
 1. "Don't Touch My Phone" style: Pink 3D stitched/puffy letters with black outlines, glitter effects on key words, chibi girl hugging phone, pink gradient bg, heart/butterfly decorations
 2. Quote poster style: Clean teal/white bg, mix of serif + script fonts, keyword highlight boxes, small chibi girl in corner, doodle stars/hearts scattered around
 3. Attitude girl poster: White bg, chibi girl standing with crossed arms/sunglasses, text beside character, some keywords in pink pill/highlighted boxes, minimal decorations
-4. "My life / My choices" style: Split-color keywords (each word different accent color), chibi boy center, clean minimal bg, text arranged beside character`;
+4. "My life / My choices" style: Split-color keywords (each word different accent color), chibi boy center, clean minimal bg, text arranged beside character
+
+${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this generation. Do NOT include any typography, text, or letters in the image prompt. Focus entirely on the character and the aesthetic scene." : ""}`;
 
     const userPrompt = `Generate a Facebook post image prompt package with these specifications:
 
@@ -59,12 +59,12 @@ CHARACTER AGE: ${age}
 CHARACTER NATIONALITY / ETHNICITY: ${nationality}
 MOOD / ATTITUDE: ${mood}
 COLOR THEME: ${colorTheme}
-TYPOGRAPHY STYLE: ${textStyle}
+${disableQuote ? "" : `TYPOGRAPHY STYLE: ${textStyle}`}
 LAYOUT: ${layout}
 FORMAT: ${format} (aspect ratio --ar ${arParam})
 BACKGROUND: ${background}
 DECORATIVE ELEMENTS: ${decorations}
-${quoteText ? `QUOTE / MESSAGE TEXT TO INCLUDE: "${quoteText}"` : "QUOTE / MESSAGE TEXT: Create a fitting sassy/motivational/cute quote that matches the mood — make it short, punchy, and viral-worthy"}
+${disableQuote ? "QUOTE / MESSAGE TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT/TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `QUOTE / MESSAGE TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "QUOTE / MESSAGE TEXT: Create a fitting sassy/motivational/cute quote that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT (e.g. 'zindagi', not 'ज़िंदगी'). NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
 
 OUTPUT FORMAT — respond with ONLY this exact JSON structure, no extra text before or after:
 {
@@ -74,21 +74,23 @@ OUTPUT FORMAT — respond with ONLY this exact JSON structure, no extra text bef
 }
 
 PROMPT REQUIREMENTS:
-1. Typography described as PART OF THE IMAGE COMPOSITION — text exists within the illustrated scene
-2. Specific font characteristics: letter weight, stroke outlines, 3D depth, glitter/metallic effects, color fills, shadows
-3. Exact text placement relative to character
-4. Specific decorative element placement
-5. Character's exact pose, expression, and props that reinforce the quote's attitude
-6. FULL CHARACTER VISIBILITY: Explicitly state that the character is "fully in frame", "full body visible", or "zoomed out" to ensure they are NOT cropped or cut off at the edges, especially for vertical mobile formats
-7. CHARACTER IDENTITY: The character must look unmistakably ${nationality} and be a ${age} — include specific ethnic facial features, skin tone, and culturally accurate details appropriate for ${nationality} children
-8. Prompt ends with: --ar ${arParam}
+${disableQuote ? "1. NO TYPOGRAPHY — Do not mention any text, fonts, or words in the prompt." : "1. Typography described as PART OF THE IMAGE COMPOSITION — text exists within the illustrated scene."}
+${disableQuote ? "2. Composition focuses entirely on the character and the environment." : "2. Specific font characteristics: letter weight, stroke outlines, 3D depth, glitter/metallic effects, color fills, shadows\n3. Exact text placement relative to character"}
+4. Specific decorative element placement and environmental details.
+5. Character's exact pose, expression, and props that reinforce the quote's attitude.
+6. FULL CHARACTER VISIBILITY: Explicitly state that the character is "fully in frame", "full body visible", or "zoomed out" to ensure they are NOT cropped or cut off at the edges, especially for vertical mobile formats.
+7. CHARACTER IDENTITY: The character must look unmistakably ${nationality} and be a ${age} — include specific ethnic facial features, a ${complexion} complexion/skin tone, and culturally accurate details appropriate for ${nationality} children.
+8. IMAGE QUALITY: End the prompt with high-end render keywords (e.g., "8k resolution, highly detailed, octane render, Unreal Engine 5, masterpiece, vibrant studio lighting, sharp focus").
+9. Prompt ends with: --ar ${arParam}
 
 TITLE REQUIREMENTS:
-- Engaging, emotional, shareable Facebook caption
-- 1-2 short sentences
-- Use relevant emojis naturally
+- Create a VERY SHORT, punchy, and highly unique Facebook caption
+- Maximum 1 short sentence or phrase (under 10 words if possible)
+- Must be creative, interesting, and stand out from generic captions
+- Use 1-2 relevant emojis naturally
 - Match the mood: ${mood}
 - Written as if a real person is posting this (not marketing speak)
+- If the quote is provided in Urdu script, you may write the title in flawless Urdu. Otherwise, MUST ALWAYS BE IN ENGLISH SCRIPT (Roman/Latin letters only). NEVER write in Hindi (Devanagari) script.
 
 TAGS REQUIREMENTS:
 - Exactly 3 hashtags

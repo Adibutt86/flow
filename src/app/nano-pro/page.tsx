@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { FB_POST_QUOTES } from "@/lib/data/fb-quotes";
+import { SHAYARI_QUOTES } from "@/lib/data/shayari-quotes";
 
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
   // ─── Realistic / Cinematic ───
@@ -3042,8 +3043,20 @@ export default function NanoProGenerator() {
   const [fbMood, setFbMood] = useState("Sassy & Confident");
   const [fbAge, setFbAge] = useState("Child (6-10 yrs)");
   const [fbNationality, setFbNationality] = useState("Pakistani");
+  const [fbComplexion, setFbComplexion] = useState("Fair");
+  const [fbDisableQuote, setFbDisableQuote] = useState(false);
   const [fbPostTitle, setFbPostTitle] = useState("");
   const [fbPostTags, setFbPostTags] = useState<string[]>([]);
+
+  // Shayari / Song Post Settings
+  const [shyQuoteText, setShyQuoteText] = useState("");
+  const [shyArtStyle, setShyArtStyle] = useState("Cinematic Silhouette");
+  const [shyColorTheme, setShyColorTheme] = useState("Moody Monochromatic");
+  const [shyLayout, setShyLayout] = useState("Centered Poetry");
+  const [shyFormat, setShyFormat] = useState("9:16 Mobile");
+  const [shyDisableQuote, setShyDisableQuote] = useState(false);
+  const [shyTextStyle, setShyTextStyle] = useState("Elegant Calligraphy & Serif Mix");
+  const [shyMood, setShyMood] = useState("Melancholy & Romantic");
 
   const [promptHistory, setPromptHistory] = useState<any[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
@@ -3052,6 +3065,11 @@ export default function NanoProGenerator() {
   const handleRandomFbQuote = () => {
     const randomIndex = Math.floor(Math.random() * FB_POST_QUOTES.length);
     setFbQuoteText(FB_POST_QUOTES[randomIndex]);
+  };
+
+  const handleRandomShayariQuote = () => {
+    const randomIndex = Math.floor(Math.random() * SHAYARI_QUOTES.length);
+    setShyQuoteText(SHAYARI_QUOTES[randomIndex]);
   };
 
   // Character Reference (Library)
@@ -3096,8 +3114,20 @@ export default function NanoProGenerator() {
         if (parsed.fbMood) setFbMood(parsed.fbMood);
         if (parsed.fbAge) setFbAge(parsed.fbAge);
         if (parsed.fbNationality) setFbNationality(parsed.fbNationality);
+        if (parsed.fbComplexion) setFbComplexion(parsed.fbComplexion);
+        if (parsed.fbDisableQuote !== undefined) setFbDisableQuote(parsed.fbDisableQuote);
         if (parsed.fbPostTitle !== undefined) setFbPostTitle(parsed.fbPostTitle);
         if (parsed.fbPostTags) setFbPostTags(parsed.fbPostTags);
+
+        // Shayari Post Settings
+        if (parsed.shyQuoteText !== undefined) setShyQuoteText(parsed.shyQuoteText);
+        if (parsed.shyArtStyle) setShyArtStyle(parsed.shyArtStyle);
+        if (parsed.shyColorTheme) setShyColorTheme(parsed.shyColorTheme);
+        if (parsed.shyLayout) setShyLayout(parsed.shyLayout);
+        if (parsed.shyFormat) setShyFormat(parsed.shyFormat);
+        if (parsed.shyDisableQuote !== undefined) setShyDisableQuote(parsed.shyDisableQuote);
+        if (parsed.shyTextStyle) setShyTextStyle(parsed.shyTextStyle);
+        if (parsed.shyMood) setShyMood(parsed.shyMood);
 
       } catch (e) {
         console.error("Failed to parse nanoProState", e);
@@ -3133,8 +3163,18 @@ export default function NanoProGenerator() {
       fbMood,
       fbAge,
       fbNationality,
+      fbComplexion,
+      fbDisableQuote,
       fbPostTitle,
       fbPostTags,
+      shyQuoteText,
+      shyArtStyle,
+      shyColorTheme,
+      shyLayout,
+      shyFormat,
+      shyDisableQuote,
+      shyTextStyle,
+      shyMood,
     };
     localStorage.setItem("nanoProState", JSON.stringify(state));
   }, [
@@ -3142,7 +3182,8 @@ export default function NanoProGenerator() {
     aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, 
     referenceImage, aiModel, activeTab, fbQuoteText, fbCharacterStyle, fbColorTheme, 
     fbLayout, fbFormat, fbTextStyle, fbDecorations, fbBackground, fbMood, fbAge, 
-    fbNationality, fbPostTitle, fbPostTags
+    fbNationality, fbComplexion, fbDisableQuote, fbPostTitle, fbPostTags, shyQuoteText, shyArtStyle, shyColorTheme, 
+    shyLayout, shyFormat, shyDisableQuote, shyTextStyle, shyMood
   ]);
 
   const fetchCharacterLibrary = async () => {
@@ -3188,8 +3229,20 @@ export default function NanoProGenerator() {
     setFbMood("Sassy & Confident");
     setFbAge("Child (6-10 yrs)");
     setFbNationality("Pakistani");
+    setFbComplexion("Fair");
+    setFbDisableQuote(false);
     setFbPostTitle("");
     setFbPostTags([]);
+
+    // Reset Shayari Post Fields
+    setShyQuoteText("");
+    setShyArtStyle("Cinematic Silhouette");
+    setShyColorTheme("Moody Monochromatic");
+    setShyLayout("Centered Poetry");
+    setShyFormat("9:16 Mobile");
+    setShyDisableQuote(false);
+    setShyTextStyle("Elegant Calligraphy & Serif Mix");
+    setShyMood("Melancholy & Romantic");
 
     localStorage.removeItem("nanoProState");
   };
@@ -3198,8 +3251,8 @@ export default function NanoProGenerator() {
     if (!generatedPrompt) return;
     try {
       let textToCopy = generatedPrompt;
-      if (activeTab === "fb-post") {
-        // For FB post: copy title + tags + prompt together
+      if (activeTab === "fb-post" || activeTab === "shayari-post") {
+        // For FB post and Shayari: copy title + tags + prompt together
         const parts: string[] = [];
         if (fbPostTitle) parts.push(fbPostTitle);
         if (fbPostTags.length > 0) parts.push(fbPostTags.join(" "));
@@ -3232,7 +3285,7 @@ export default function NanoProGenerator() {
     setIsGenerating(true);
     try {
       let res: Response;
-      let parameters: Record<string, string>;
+      let parameters: Record<string, any>;
 
       if (activeTab === "fb-post") {
         parameters = {
@@ -3247,8 +3300,26 @@ export default function NanoProGenerator() {
           mood: fbMood,
           age: fbAge,
           nationality: fbNationality,
+          complexion: fbComplexion,
+          disableQuote: fbDisableQuote,
         };
         res = await fetch("/api/generate-fb-post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ aiModel, ...parameters }),
+        });
+      } else if (activeTab === "shayari-post") {
+        parameters = {
+          quoteText: shyQuoteText,
+          artStyle: shyArtStyle,
+          colorTheme: shyColorTheme,
+          layout: shyLayout,
+          format: shyFormat,
+          disableQuote: shyDisableQuote,
+          textStyle: shyTextStyle,
+          mood: shyMood,
+        };
+        res = await fetch("/api/generate-shayari-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ aiModel, ...parameters }),
@@ -3278,8 +3349,8 @@ export default function NanoProGenerator() {
       const data = await res.json();
       if (data.prompt) {
         setGeneratedPrompt(data.prompt);
-        // Store FB-specific fields if present
-        if (activeTab === "fb-post") {
+        // Store FB/Shayari specific fields if present
+        if (activeTab === "fb-post" || activeTab === "shayari-post") {
           setFbPostTitle(data.title || "");
           setFbPostTags(Array.isArray(data.tags) ? data.tags : []);
         } else {
@@ -3288,6 +3359,8 @@ export default function NanoProGenerator() {
         }
         setPromptHistory(prev => [{ 
           prompt: data.prompt, 
+          title: data.title || "",
+          tags: Array.isArray(data.tags) ? data.tags : [],
           timestamp: new Date().toLocaleTimeString(),
           parameters,
           tab: activeTab,
@@ -3334,7 +3407,7 @@ export default function NanoProGenerator() {
               
               {/* Category Tabs */}
               <div className="flex overflow-x-auto hide-scrollbar gap-2 p-1 bg-slate-900/50 rounded-xl border border-white/5">
-                {["Character", "Scene", "Shayari", "Song"].map(tab => (
+                {["Character", "Scene"].map(tab => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab.toLowerCase())}
@@ -3355,7 +3428,17 @@ export default function NanoProGenerator() {
                       : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                   }`}
                 >
-                  <span>📘</span> FB Post
+                  <span>📘</span> FB Quotes
+                </button>
+                <button
+                  onClick={() => setActiveTab("shayari-post")}
+                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                    activeTab === "shayari-post"
+                      ? "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-900/30"
+                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                  }`}
+                >
+                  <span>🥀</span> Shayari / Song
                 </button>
               </div>
 
@@ -3365,8 +3448,8 @@ export default function NanoProGenerator() {
                   <h2 className="text-xl font-bold text-white flex items-center gap-2">
                     {activeTab === "character" ? "👤 Character Builder" :
                      activeTab === "scene" ? "🎬 Scene Builder" :
-                     activeTab === "shayari" ? "📖 Shayari Mood" :
-                     activeTab === "fb-post" ? "📘 Facebook Post Image" : "🎵 Song Atmosphere"}
+                     activeTab === "shayari-post" ? "🥀 Shayari & Song Art" :
+                     activeTab === "fb-post" ? "📘 Facebook Post Image" : "✨ Nano Pro Builder"}
                   </h2>
                   <div className="flex items-center gap-2">
                     <button
@@ -3686,7 +3769,22 @@ export default function NanoProGenerator() {
                         placeholder={`e.g. "Don't touch my phone. It's mine! 💕" or leave blank for AI to create`}
                         rows={3}
                         className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
+                        disabled={fbDisableQuote}
                       />
+                      <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableQuote ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
+                          {fbDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={fbDisableQuote}
+                          onChange={(e) => setFbDisableQuote(e.target.checked)}
+                          className="hidden"
+                        />
+                        <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">
+                          Disable Quote (Image Only)
+                        </span>
+                      </label>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -3703,6 +3801,10 @@ export default function NanoProGenerator() {
                           <option value="Chibi Anime Boy">Chibi Anime Boy (Big eyes, tiny body)</option>
                           <option value="3D Cartoon Doll Girl">3D Cartoon Doll Girl (Pixar-like)</option>
                           <option value="3D Cartoon Doll Boy">3D Cartoon Doll Boy (Pixar-like)</option>
+                          <option value="3D Cartoon Islamic Girl (Hijab)">3D Cartoon Islamic Girl (Hijab)</option>
+                          <option value="3D Cartoon Islamic Boy (Kufi)">3D Cartoon Islamic Boy (Kufi/Thobe)</option>
+                          <option value="3D Cartoon Korean Girl">3D Cartoon Korean Girl (K-Pop Style)</option>
+                          <option value="3D Cartoon Korean Boy">3D Cartoon Korean Boy (K-Pop Style)</option>
                           <option value="Cute Little Chibi Doll">Cute Little Chibi Doll (Gender-neutral)</option>
                           <option value="Stylized Illustration Girl">Stylized Illustration Girl (Flat art)</option>
                           <option value="Stylized Illustration Boy">Stylized Illustration Boy (Flat art)</option>
@@ -3786,6 +3888,28 @@ export default function NanoProGenerator() {
                           <optgroup label="African">
                             <option value="African">🌍 African</option>
                           </optgroup>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Complexion / Skin Tone */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Complexion / Skin Tone</label>
+                        <select
+                          value={fbComplexion}
+                          onChange={(e) => setFbComplexion(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                        >
+                          <option value="Fair">Fair / Light Skin</option>
+                          <option value="Wheatish">Wheatish / Medium Skin</option>
+                          <option value="Olive">Olive / Tanned Skin</option>
+                          <option value="Brown">Brown / Dark Skin</option>
+                          <option value="Black">Black / Very Dark Skin</option>
+                          <option value="Pale">Pale / Porcelain</option>
                           <option value="Any / AI Decides">Any / AI Decides</option>
                         </select>
                       </div>
@@ -3926,6 +4050,172 @@ export default function NanoProGenerator() {
                     </div>
 
                   </div>
+                ) : activeTab === "shayari-post" ? (
+                  <div className="space-y-6 animate-in fade-in duration-300">
+                    
+                    {/* Lyric / Shayari Text */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                          Poetry / Lyric Text
+                          <span className="ml-2 text-rose-400 font-normal normal-case hidden sm:inline">(the text to display in the image)</span>
+                        </label>
+                        <button 
+                          onClick={handleRandomShayariQuote}
+                          className="text-[10px] font-bold uppercase tracking-widest text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 px-2 py-1 rounded transition-colors"
+                        >
+                          🎲 Random Preset
+                        </button>
+                      </div>
+                      <textarea
+                        value={shyQuoteText}
+                        onChange={(e) => setShyQuoteText(e.target.value)}
+                        placeholder={`e.g. "Tere bina zindagi adhoori lagti hai..." or leave blank for AI to create`}
+                        rows={3}
+                        className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500/50 resize-none"
+                        disabled={shyDisableQuote}
+                      />
+                      <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableQuote ? 'bg-rose-500 border-rose-500' : 'border-slate-600 group-hover:border-rose-500/50'}`}>
+                          {shyDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={shyDisableQuote}
+                          onChange={(e) => setShyDisableQuote(e.target.checked)}
+                          className="hidden"
+                        />
+                        <span className="text-xs font-semibold text-slate-300 group-hover:text-rose-300 transition-colors">
+                          Disable Quote (Image Only)
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Art Style */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Art Style</label>
+                        <select
+                          value={shyArtStyle}
+                          onChange={(e) => setShyArtStyle(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="Cinematic Silhouette">Cinematic Silhouette</option>
+                          <option value="Moody Rain & Window Drops">Moody Rain & Window Drops</option>
+                          <option value="Double Exposure Nature">Double Exposure Nature</option>
+                          <option value="Soft Ethereal Watercolor">Soft Ethereal Watercolor</option>
+                          <option value="Vintage Film & Light Leaks">Vintage Film & Light Leaks</option>
+                          <option value="Neon City Reflections">Neon City Reflections</option>
+                          <option value="Minimalist Line Art">Minimalist Line Art</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Mood / Feeling */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Mood / Feeling</label>
+                        <select
+                          value={shyMood}
+                          onChange={(e) => setShyMood(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="Melancholy & Romantic">🥀 Melancholy & Romantic</option>
+                          <option value="Deep & Philosophical">🌙 Deep & Philosophical</option>
+                          <option value="Heartbroken & Solitary">🌧️ Heartbroken & Solitary</option>
+                          <option value="Peaceful & Ethereal">✨ Peaceful & Ethereal</option>
+                          <option value="Nostalgic & Warm">🕰️ Nostalgic & Warm</option>
+                          <option value="Passionate & Intense">🔥 Passionate & Intense</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Color Theme */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Color Theme</label>
+                        <select
+                          value={shyColorTheme}
+                          onChange={(e) => setShyColorTheme(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="Moody Monochromatic">🖤 Moody Monochromatic (B&W)</option>
+                          <option value="Deep Blues & Cyan">🌌 Deep Blues & Cyan</option>
+                          <option value="Warm Golden Hour">🌇 Warm Golden Hour</option>
+                          <option value="Faded Vintage Sepia">🎞️ Faded Vintage Sepia</option>
+                          <option value="Dark Reds & Shadows">🍷 Dark Reds & Shadows</option>
+                          <option value="Muted Pastels">🌸 Muted Pastels</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Typography Style */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Typography Style</label>
+                        <select
+                          value={shyTextStyle}
+                          onChange={(e) => setShyTextStyle(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="Elegant Calligraphy & Serif Mix">Elegant Calligraphy & Serif Mix</option>
+                          <option value="Delicate Handwritten Script">Delicate Handwritten Script</option>
+                          <option value="Vintage Typewriter Ink">Vintage Typewriter Ink</option>
+                          <option value="Glowing Neon Sign">Glowing Neon Sign</option>
+                          <option value="Faded Distressed Stencil">Faded Distressed Stencil</option>
+                          <option value="Clean Minimalist Sans">Clean Minimalist Sans</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                      {/* Layout */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Layout / Composition</label>
+                        <select
+                          value={shyLayout}
+                          onChange={(e) => setShyLayout(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="Centered Poetry">Centered Poetry</option>
+                          <option value="Text in Negative Space (Sky/Water)">Text in Negative Space</option>
+                          <option value="Split Screen: Art Top, Text Bottom">Split Screen: Art Top, Text Bottom</option>
+                          <option value="Text Overlaid on Silhouettes">Text Overlaid on Silhouettes</option>
+                          <option value="Any / AI Decides">Any / AI Decides</option>
+                        </select>
+                      </div>
+
+                      {/* Format */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Format / Aspect Ratio</label>
+                        <select
+                          value={shyFormat}
+                          onChange={(e) => setShyFormat(e.target.value)}
+                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                        >
+                          <option value="9:16 Mobile">📱 9:16 Mobile / Reels</option>
+                          <option value="4:5 Portrait">📸 4:5 Portrait</option>
+                          <option value="1:1 Square">⬜ 1:1 Square</option>
+                          <option value="16:9 Desktop">🖥️ 16:9 Desktop</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    {/* Style reference note */}
+                    <div className="flex items-start gap-3 p-3 rounded-xl bg-rose-500/5 border border-rose-500/20">
+                      <span className="text-rose-400 text-lg mt-0.5">🥀</span>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        Prompts are optimized for <span className="text-rose-300 font-semibold">poetic and artistic imagery</span> (like Shayari or Song Lyric posts) — featuring atmospheric moods, elegant typography, and highly aesthetic compositions.
+                      </p>
+                    </div>
+
+                  </div>
                 ) : (
                   <div className="py-12 flex flex-col items-center justify-center text-center space-y-4 border-2 border-dashed border-slate-700/50 rounded-xl bg-slate-900/20">
                     <div className="p-4 bg-slate-800/50 rounded-full">
@@ -3967,6 +4257,8 @@ export default function NanoProGenerator() {
                 className={`w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border border-white/10 ${
                   activeTab === "fb-post"
                     ? "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-900/20"
+                    : activeTab === "shayari-post"
+                    ? "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-rose-900/20"
                     : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-900/20"
                 }`}
               >
@@ -3974,10 +4266,12 @@ export default function NanoProGenerator() {
                   <RefreshCw className="w-5 h-5 animate-spin" />
                 ) : activeTab === "fb-post" ? (
                   <span className="text-lg">📘</span>
+                ) : activeTab === "shayari-post" ? (
+                  <span className="text-lg">🥀</span>
                 ) : (
                   <Sparkles className="w-5 h-5" />
                 )}
-                {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : "Generate Prompt"}
+                {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : activeTab === "shayari-post" ? "Generate Poetry Art Prompt" : "Generate Prompt"}
               </button>
 
               <div className="bg-slate-900/60 border border-purple-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group">
@@ -3997,11 +4291,13 @@ export default function NanoProGenerator() {
                             ? "bg-green-500/20 border-green-500/40 text-green-400"
                             : activeTab === "fb-post"
                             ? "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                            : activeTab === "shayari-post"
+                            ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
                             : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
                         }`}
                       >
                         <Copy className="w-3.5 h-3.5" />
-                        {isCopied ? "✓ Copied!" : activeTab === "fb-post" ? "Copy All" : "Copy Prompt"}
+                        {isCopied ? "✓ Copied!" : (activeTab === "fb-post" || activeTab === "shayari-post") ? "Copy All" : "Copy Prompt"}
                       </button>
                     )}
                     <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="Reset All">
@@ -4013,14 +4309,18 @@ export default function NanoProGenerator() {
                   </div>
                 </div>
 
-                {/* FB Post: Social Title & Tags */}
-                {activeTab === "fb-post" && (fbPostTitle || fbPostTags.length > 0) && (
-                  <div className="mb-3 p-3.5 rounded-xl bg-pink-950/30 border border-pink-500/20 space-y-2.5 relative">
+                {/* FB Post / Shayari: Social Title & Tags */}
+                {(activeTab === "fb-post" || activeTab === "shayari-post") && (fbPostTitle || fbPostTags.length > 0) && (
+                  <div className={`mb-3 p-3.5 rounded-xl border space-y-2.5 relative ${
+                    activeTab === "shayari-post" ? "bg-rose-950/30 border-rose-500/20" : "bg-pink-950/30 border-pink-500/20"
+                  }`}>
                     <button
                       onClick={handleCopyCaption}
                       className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold transition-all border ${
                         isCopiedCaption
                           ? "bg-green-500/20 border-green-500/40 text-green-400"
+                          : activeTab === "shayari-post"
+                          ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
                           : "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
                       }`}
                     >
@@ -4029,16 +4329,24 @@ export default function NanoProGenerator() {
                     </button>
                     {fbPostTitle && (
                       <div className="pr-20">
-                        <span className="text-[10px] font-bold text-pink-400 uppercase tracking-wider block mb-1">📢 Post Caption / Title</span>
-                        <p className="text-sm text-pink-100 leading-snug font-medium">{fbPostTitle}</p>
+                        <span className={`text-[10px] font-bold uppercase tracking-wider block mb-1 ${
+                          activeTab === "shayari-post" ? "text-rose-400" : "text-pink-400"
+                        }`}>📢 Post Caption / Title</span>
+                        <p className={`text-sm leading-snug font-medium ${
+                          activeTab === "shayari-post" ? "text-rose-100" : "text-pink-100"
+                        }`}>{fbPostTitle}</p>
                       </div>
                     )}
                     {fbPostTags.length > 0 && (
                       <div>
-                        <span className="text-[10px] font-bold text-pink-400 uppercase tracking-wider block mb-1.5">🏷️ Hashtags</span>
+                        <span className={`text-[10px] font-bold uppercase tracking-wider block mb-1.5 ${
+                          activeTab === "shayari-post" ? "text-rose-400" : "text-pink-400"
+                        }`}>🏷️ Hashtags</span>
                         <div className="flex flex-wrap gap-2">
                           {fbPostTags.map((tag, i) => (
-                            <span key={i} className="text-xs font-bold text-pink-300 bg-pink-500/10 border border-pink-500/20 rounded-lg px-2.5 py-1">{tag}</span>
+                            <span key={i} className={`text-xs font-bold border rounded-lg px-2.5 py-1 ${
+                              activeTab === "shayari-post" ? "text-rose-300 bg-rose-500/10 border-rose-500/20" : "text-pink-300 bg-pink-500/10 border-pink-500/20"
+                            }`}>{tag}</span>
                           ))}
                         </div>
                       </div>
@@ -4092,17 +4400,46 @@ export default function NanoProGenerator() {
                         })}
                       </div>
                     )}
+                    
+                    {/* Social Title & Tags in History */}
+                    {(item.title || (item.tags && item.tags.length > 0)) && (
+                      <div className="mb-3 p-3 rounded-xl bg-purple-950/20 border border-purple-500/10 space-y-2 pr-12">
+                        {item.title && (
+                          <div>
+                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block mb-1">📢 Post Caption / Title</span>
+                            <p className="text-sm text-purple-200 leading-snug font-medium">{item.title}</p>
+                          </div>
+                        )}
+                        {item.tags && item.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {item.tags.map((tag: string, i: number) => (
+                              <span key={i} className="text-[10px] font-bold text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-md px-2 py-0.5">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="font-mono text-sm text-purple-200/90 leading-relaxed pr-12">
                       {item.prompt}
                     </div>
                     <button 
                       onClick={async () => {
-                        await navigator.clipboard.writeText(item.prompt);
+                        let textToCopy = item.prompt;
+                        if (item.title || (item.tags && item.tags.length > 0)) {
+                          const parts: string[] = [];
+                          if (item.title) parts.push(item.title);
+                          if (item.tags && item.tags.length > 0) parts.push(item.tags.join(" "));
+                          parts.push("---");
+                          parts.push(item.prompt);
+                          textToCopy = parts.join("\n");
+                        }
+                        await navigator.clipboard.writeText(textToCopy);
                         setIsCopied(true);
                         setTimeout(() => setIsCopied(false), 2000);
                       }}
                       className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
-                      title="Copy to clipboard"
+                      title="Copy All to clipboard"
                     >
                       <Copy className="w-4 h-4" />
                     </button>

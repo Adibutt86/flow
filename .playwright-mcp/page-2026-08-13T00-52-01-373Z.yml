@@ -1,0 +1,18 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - banner [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - link "AI Short Studio Flow Edition Short-form Video Prompts & Storyboards (8s Clips)" [ref=f1e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f1e10]:
+            - generic [ref=f1e11]:
+              - generic [ref=f1e12]: AI Short Studio
+              - generic [ref=f1e13]: Flow Edition
+            - paragraph [ref=f1e14]: Short-form Video Prompts & Storyboards (8s Clips)
+        - button "Login to Access Pages" [ref=f1e16] [cursor=pointer]
+    - main [ref=f1e21]:
+      - generic [ref=f1e26]:
+        - heading "🔒 Login Required" [level=1] [ref=f1e27]
+        - paragraph [ref=f1e28]: Please log in to your account (Hassan or Adi) to access saved workspace ideas and video projects.
+      - button "Login to Access Website" [ref=f1e29] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f1e35] [cursor=pointer]
