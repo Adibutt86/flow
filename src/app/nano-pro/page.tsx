@@ -3431,7 +3431,7 @@ export default function NanoProGenerator() {
                     onClick={() => setActiveTab(tab.toLowerCase())}
                     className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
                       activeTab === tab.toLowerCase() 
-                        ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20" 
+                        ? (generateVideo ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "bg-purple-600 text-white shadow-lg shadow-purple-900/20") 
                         : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                     }`}
                   >
@@ -3442,7 +3442,7 @@ export default function NanoProGenerator() {
                   onClick={() => setActiveTab("fb-post")}
                   className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
                     activeTab === "fb-post"
-                      ? "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-900/30"
+                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-900/30" : "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-900/30")
                       : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                   }`}
                 >
@@ -3452,7 +3452,7 @@ export default function NanoProGenerator() {
                   onClick={() => setActiveTab("shayari-post")}
                   className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
                     activeTab === "shayari-post"
-                      ? "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-900/30"
+                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-900/30" : "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-900/30")
                       : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                   }`}
                 >
@@ -4281,10 +4281,10 @@ export default function NanoProGenerator() {
                 disabled={isGenerating}
                 className={`w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border border-white/10 ${
                   activeTab === "fb-post"
-                    ? "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-900/20"
+                    ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-900/20")
                     : activeTab === "shayari-post"
-                    ? "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-rose-900/20"
-                    : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-900/20"
+                    ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-rose-900/20")
+                    : (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-900/20")
                 }`}
               >
                 {isGenerating ? (
@@ -4299,8 +4299,8 @@ export default function NanoProGenerator() {
                 {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : activeTab === "shayari-post" ? "Generate Poetry Art Prompt" : "Generate Prompt"}
               </button>
 
-              <div className="bg-slate-900/60 border border-purple-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
+              <div className={`bg-slate-900/60 border ${generateVideo ? 'border-blue-500/30' : 'border-purple-500/30'} rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group`}>
+                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${generateVideo ? 'from-blue-500 to-cyan-500' : 'from-purple-500 to-indigo-500'}`}></div>
                 
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
