@@ -45,12 +45,12 @@ import { copyToClipboard } from "@/lib/utils";
 const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
   // ─── Realistic / Cinematic ───
-  { value: "Photorealistic Natural Proportions", label: "Photorealistic Natural Proportions", desc: "100% realistic human facial proportions, natural eyes, lifelike skin textures & cinematic lighting", tag: "🌟 Natural & Lifelike" },
+  { value: "Photorealistic Natural Proportions", label: "🌟 Photorealistic Natural Proportions", desc: "100% realistic human facial proportions, natural eyes, lifelike skin textures & cinematic lighting", tag: "🔥 NEW / Natural Eyes" },
   { value: "Photorealistic 8K Cinematic", label: "Photorealistic 8K Cinematic", desc: "Film-quality depth, bokeh, cinematic lighting — perfect for romantic & emotional Shayari scenes", tag: "⭐ Best for Poetry" },
   { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch — great for moonlit palaces & Mughal courtyards", tag: "🏆 Top Pick" },
   { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look ideal for product unboxing & ASMR sensory content" },
   // ─── 3D Animation ───
-  { value: "Realistic 3D Character (Natural Eyes)", label: "Realistic 3D Character (Natural Eyes)", desc: "Polished 3D feature animation with natural human eyes, refined proportions & realistic lighting", tag: "✨ Recommended" },
+  { value: "Realistic 3D Character (Natural Eyes)", label: "✨ Realistic 3D Character (Natural Eyes)", desc: "Polished 3D feature animation with natural human eyes, refined proportions & realistic lighting", tag: "🔥 NEW / Natural Eyes" },
   { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, natural expressive features & Pixar skin shaders — ideal for emotional storytelling", tag: "💡 Popular" },
   { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
   { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with natural expressive facial features & lively animation" },
@@ -4941,7 +4941,9 @@ function VisualStyleDropdown({
                 </span>
                 {style.tag && (
                   <span className={`shrink-0 text-[10px] font-black px-2 py-0.5 rounded-full border whitespace-nowrap mt-0.5 ${
-                    isLight
+                    style.tag.includes("NEW")
+                      ? "bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 text-white border-amber-300/60 shadow-md shadow-rose-500/20 font-black animate-pulse"
+                      : isLight
                       ? "bg-indigo-100 text-indigo-900 border-indigo-300"
                       : "bg-indigo-500/15 text-indigo-300 border-indigo-500/25"
                   }`}>
