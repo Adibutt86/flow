@@ -5010,7 +5010,7 @@ export default function IdeasPage() {
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("ltr");
+  const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("rtl");
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
@@ -5049,6 +5049,18 @@ export default function IdeasPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Hotkey: Ctrl+Enter or Cmd+Enter to generate concept
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter" && !isGenerating) {
+        e.preventDefault();
+        handleGenerate();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isGenerating]);
 
   // Saved Dialogues
   interface SavedDialogueItem {
@@ -5213,30 +5225,17 @@ export default function IdeasPage() {
     setIsListening(true);
     showToast("🎙️ Listening… speak now. Click Mic again to stop.", "info");
 
-    let finalTranscript = "";
+    let initialDialogue = customDialogue;
+    if (initialDialogue && !initialDialogue.endsWith(" ") && !initialDialogue.endsWith("\n")) {
+      initialDialogue += " ";
+    }
 
     recognition.onresult = (event: any) => {
-      let interim = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += (finalTranscript ? "\n" : "") + transcript;
-        } else {
-          interim += transcript;
-        }
+      let currentSessionText = "";
+      for (let i = 0; i < event.results.length; i++) {
+        currentSessionText += event.results[i][0].transcript;
       }
-
-      const activeText = finalTranscript || interim;
-      if (activeText) {
-        setCustomDialogue((prev) => {
-          // If previous dialogue exists and doesn't end with activeText, append
-          if (!prev) return activeText;
-          const lines = prev.split("\n");
-          const lastLine = lines[lines.length - 1];
-          if (lastLine.trim() === activeText.trim()) return prev;
-          return prev + "\n" + activeText;
-        });
-      }
+      setCustomDialogue(initialDialogue + currentSessionText);
     };
 
     recognition.onend = () => {
@@ -9249,23 +9248,57 @@ export default function IdeasPage() {
               </span>
             </div>
 
-            <button
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-500/30 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 w-full sm:w-auto"
-            >
-              {isGenerating ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Sparkles className="w-5 h-5" />
-              )}
-              {isGenerating
-                ? "Generating Concept..."
-                : videoDuration === 20
-                ? "🎬 Generate First Scene (0-10s)"
-                : "✨ Generate 1 Idea"}
-            </button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-500/30 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 w-full sm:w-auto"
+                title="Press Ctrl + Enter to generate concept"
+              >
+                {isGenerating ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Sparkles className="w-5 h-5" />
+                )}
+                <span>
+                  {isGenerating
+                    ? "Generating Concept..."
+                    : videoDuration === 20
+                    ? "🎬 Generate First Scene (0-10s)"
+                    : "✨ Generate 1 Idea"}
+                </span>
+                <span className="hidden lg:inline-block text-[10px] font-black opacity-80 bg-black/20 px-2 py-0.5 rounded-md border border-white/20 ml-1">
+                  Ctrl + ↵
+                </span>
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Mobile Sticky Bottom Generate Floating Bar */}
+        <div className={`sm:hidden fixed bottom-0 left-0 right-0 z-40 p-3 border-t backdrop-blur-xl shadow-2xl flex items-center justify-between gap-3 transition-all ${
+          isLight ? "bg-white/95 border-slate-200 shadow-slate-400/20" : "bg-slate-950/95 border-slate-800 shadow-black/80"
+        }`}>
+          <div className="min-w-0 flex flex-col">
+            <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+              {videoDuration}s • {language}
+            </span>
+            <span className={`text-xs font-black truncate ${isLight ? "text-slate-900" : "text-white"}`}>
+              {categoryEntries.find((c) => c.id === category)?.name || "AI Idea"}
+            </span>
+          </div>
+          <button
+            onClick={handleGenerate}
+            disabled={isGenerating}
+            className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-extrabold text-xs shadow-lg shadow-indigo-500/30 active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
+          >
+            {isGenerating ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Sparkles className="w-4 h-4" />
+            )}
+            <span>{isGenerating ? "Generating..." : "✨ Generate"}</span>
+          </button>
         </div>
 
         {/* Saved Ideas Section */}
