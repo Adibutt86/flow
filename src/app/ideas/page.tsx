@@ -5015,6 +5015,7 @@ export default function IdeasPage() {
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("rtl");
+  const [showUrduKeyboard, setShowUrduKeyboard] = useState(false);
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
@@ -5190,6 +5191,24 @@ export default function IdeasPage() {
       }, 50);
     } else {
       setCustomDialogue((prev) => (prev ? prev + "\n" + label + " " : label + " "));
+    }
+  };
+
+  const insertUrduChar = (char: string) => {
+    const textarea = dialogueTextareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      const text = customDialogue;
+      const newText = text.substring(0, start) + char + text.substring(end);
+      setCustomDialogue(newText);
+      setTimeout(() => {
+        textarea.focus();
+        const newPos = start + char.length;
+        textarea.setSelectionRange(newPos, newPos);
+      }, 20);
+    } else {
+      setCustomDialogue((prev) => prev + char);
     }
   };
 
@@ -7095,6 +7114,20 @@ export default function IdeasPage() {
                       <span>{dialogueDir === "ltr" ? "⇒ LTR" : "⇐ RTL"}</span>
                     </button>
 
+                    {/* Urdu Soft Keyboard Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setShowUrduKeyboard(!showUrduKeyboard)}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        showUrduKeyboard
+                          ? (isLight ? "bg-indigo-600 border-indigo-700 text-white" : "bg-indigo-600 border-indigo-500 text-white")
+                          : (isLight ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" : "bg-indigo-950/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-900/80")
+                      }`}
+                      title="Toggle On-Screen Soft Urdu Keyboard"
+                    >
+                      <span>⌨️ Urdu Keyboard</span>
+                    </button>
+
                     {/* Voice mic button */}
                     <button
                       type="button"
@@ -7109,6 +7142,48 @@ export default function IdeasPage() {
                       <Mic className={`w-3.5 h-3.5 ${isListening ? "text-white animate-bounce" : (isLight ? "text-amber-900" : "text-slate-400")}`} />
                       <span>{isListening ? "Stop Mic" : "🎙️ Mic"}</span>
                     </button>
+                  </div>
+                )}
+
+                {/* Interactive On-Screen Soft Urdu Virtual Keyboard */}
+                {showUrduKeyboard && (
+                  <div dir="rtl" className={`p-3 rounded-xl border transition-all space-y-2 my-2 ${
+                    isLight ? "bg-indigo-50/90 border-indigo-200 shadow-sm" : "bg-slate-950 border-indigo-500/30"
+                  }`}>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs font-black ${isLight ? "text-indigo-950" : "text-indigo-300"}`}>
+                        ⌨️ اردو ماؤس کیبورڈ (Urdu Soft Keyboard):
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowUrduKeyboard(false)}
+                        className={`text-xs font-bold px-2 py-0.5 rounded hover:bg-rose-500 hover:text-white ${isLight ? "text-slate-500" : "text-slate-400"}`}
+                      >
+                        ✕ Close
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap gap-1 justify-start">
+                      {[
+                        "آ", "ا", "ب", "پ", "ت", "ٹ", "ث", "ج", "چ", "ح", "خ",
+                        "د", "ڈ", "ذ", "ر", "ڑ", "ز", "ژ", "س", "ش", "ص", "ض",
+                        "ط", "ظ", "ع", "غ", "ف", "ق", "ک", "گ", "ل", "م", "ن",
+                        "ں", "و", "ہ", "ھ", "ء", "ی", "ے", "۔", "؟", "!", " "
+                      ].map((key, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => insertUrduChar(key)}
+                          className={`min-w-[32px] h-9 px-2 rounded-lg border text-sm font-bold transition-all cursor-pointer active:scale-90 shadow-xs flex items-center justify-center font-urdu ${
+                            key === " "
+                              ? (isLight ? "bg-indigo-200 border-indigo-300 text-indigo-950 w-16" : "bg-indigo-900 border-indigo-700 text-white w-16")
+                              : (isLight ? "bg-white border-slate-300 text-slate-900 hover:bg-indigo-100 hover:border-indigo-400" : "bg-slate-900 border-slate-700 text-white hover:bg-indigo-950 hover:border-indigo-500")
+                          }`}
+                          title={`Insert ${key === " " ? "Space" : key}`}
+                        >
+                          {key === " " ? "Space" : key}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
 
