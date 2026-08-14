@@ -4971,10 +4971,27 @@ export default function IdeasPage() {
   const generatorParametersRef = useRef<HTMLDivElement>(null);
   const dialogueSectionRef = useRef<HTMLDivElement>(null);
   const generateButtonRef = useRef<HTMLDivElement>(null);
+  const presetsSectionRef = useRef<HTMLDivElement>(null);
+  const ucpSectionRef = useRef<HTMLDivElement>(null);
 
   const scrollToSection = (targetRef: React.RefObject<HTMLDivElement | null>) => {
     if (targetRef.current) {
       targetRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const scrollToPresets = () => {
+    setIsPresetsExpanded(true);
+    if (presetsSectionRef.current) {
+      presetsSectionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (generatorParametersRef.current) {
+      generatorParametersRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const scrollToUcp = () => {
+    if (ucpSectionRef.current) {
+      ucpSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -6782,13 +6799,13 @@ export default function IdeasPage() {
             : "bg-slate-950/70 border-indigo-500/20 text-slate-100"
         }`}>
           {/* 🧭 Sticky Floating Jump Navigation Bar (Pinned below navbar on mobile & desktop) */}
-          <div className={`sticky top-16 z-30 py-2.5 px-3 sm:px-4 mb-4 rounded-2xl border backdrop-blur-xl shadow-xl transition-all flex items-center justify-between gap-2 overflow-x-auto hide-scrollbar ${
+          <div className={`sticky top-16 z-30 py-2 px-2.5 sm:px-4 mb-4 rounded-2xl border backdrop-blur-xl shadow-xl transition-all flex items-center justify-between gap-1.5 sm:gap-2 overflow-x-auto hide-scrollbar ${
             isLight
               ? "bg-white/95 border-slate-200 text-slate-900 shadow-slate-300/30"
               : "bg-slate-950/95 border-slate-800 text-white shadow-black/80"
           }`}>
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className="p-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-500">
+              <span className="p-1 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-500">
                 <Sparkles className="w-3.5 h-3.5" />
               </span>
               <span className={`text-xs sm:text-sm font-black tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>
@@ -6796,40 +6813,82 @@ export default function IdeasPage() {
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 overflow-x-auto hide-scrollbar py-0.5">
+              {/* ⚡ One-Tap Presets */}
+              <button
+                type="button"
+                onClick={scrollToPresets}
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
+                  isLight ? "bg-cyan-100 hover:bg-cyan-200 border-cyan-300 text-cyan-950" : "bg-cyan-950/60 hover:bg-cyan-900/60 border-cyan-500/40 text-cyan-300"
+                }`}
+                title="Jump to One-Tap Presets"
+              >
+                <span>⚡</span>
+                <span className="hidden sm:inline">Presets</span>
+              </button>
+
+              {/* 🌐 Universal Concept Options (UCP) */}
+              <button
+                type="button"
+                onClick={scrollToUcp}
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
+                  isLight ? "bg-blue-100 hover:bg-blue-200 border-blue-300 text-blue-950" : "bg-blue-950/60 hover:bg-blue-900/60 border-blue-500/40 text-blue-300"
+                }`}
+                title="Jump to Universal Concept Options (UCP)"
+              >
+                <span>🌐</span>
+                <span className="hidden sm:inline">UCP</span>
+              </button>
+
+              {/* ⚙️ Parameters */}
               <button
                 type="button"
                 onClick={() => scrollToSection(generatorParametersRef)}
-                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
                   isLight ? "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-950" : "bg-purple-950/60 hover:bg-purple-900/60 border-purple-500/40 text-purple-300"
                 }`}
+                title="Jump to Parameters"
               >
-                ⚙️ Parameters
+                <span>⚙️</span>
+                <span className="hidden sm:inline">Parameters</span>
               </button>
+
+              {/* 💬 Custom Spoken Dialogue & Script */}
               <button
                 type="button"
                 onClick={() => scrollToSection(dialogueSectionRef)}
-                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
                   isLight ? "bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950" : "bg-amber-950/60 hover:bg-amber-900/60 border-amber-500/40 text-amber-300"
                 }`}
+                title="Jump to Custom Spoken Dialogue & Script"
               >
-                💬 Script
+                <span>💬</span>
+                <span className="hidden sm:inline">Script</span>
               </button>
+
+              {/* ✨ Generate */}
               <button
                 type="button"
                 onClick={() => scrollToSection(generateButtonRef)}
-                className="px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer active:scale-95 shadow-md bg-gradient-to-r from-red-600 to-rose-600 text-white border border-red-400 hover:opacity-95"
+                className="px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer active:scale-95 shadow-md bg-gradient-to-r from-red-600 to-rose-600 text-white border border-red-400 hover:opacity-95 flex items-center gap-1 shrink-0"
+                title="Jump to Generate Button"
               >
-                ✨ Generate
+                <span>✨</span>
+                <span className="hidden sm:inline">Generate</span>
               </button>
+
+              {/* 📁 Saved */}
               <button
                 type="button"
                 onClick={() => scrollToSection(savedIdeasSectionRef)}
-                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
                   isLight ? "bg-emerald-100 hover:bg-emerald-200 border-emerald-300 text-emerald-950" : "bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300"
                 }`}
+                title="Jump to Saved Ideas"
               >
-                📁 Saved ({savedIdeas.length})
+                <span>📁</span>
+                <span className="hidden sm:inline">Saved </span>
+                <span>({savedIdeas.length})</span>
               </button>
             </div>
           </div>
@@ -7537,7 +7596,7 @@ export default function IdeasPage() {
           </div>
 
           {/* Universal Concept Options: Short Idea, Without Dialogue, Without Music */}
-          <div className={`p-4 sm:p-5 rounded-2xl border space-y-3.5 relative z-30 transition-all ${
+          <div ref={ucpSectionRef} className={`p-4 sm:p-5 rounded-2xl border space-y-3.5 relative z-30 transition-all ${
             isLight
               ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
               : "bg-indigo-950/30 border border-indigo-500/30 text-slate-100 shadow-lg"
@@ -7729,7 +7788,7 @@ export default function IdeasPage() {
               </div>
 
               {/* One-Tap Mobile Presets Bar */}
-              <div className={`rounded-2xl border overflow-hidden transition-all ${
+              <div ref={presetsSectionRef} className={`rounded-2xl border overflow-hidden transition-all ${
                 isLight
                   ? "bg-white border-indigo-200 text-slate-900 shadow-md"
                   : "bg-indigo-950/40 border-indigo-500/30 text-slate-100"
