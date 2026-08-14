@@ -4048,8 +4048,12 @@ export default function NanoProGenerator() {
                               : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
                           }`}
                         >
-                          <option value="Chibi Anime Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Girl (Big eyes, tiny body)</option>
-                          <option value="Chibi Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Boy (Big eyes, tiny body)</option>
+                          <option value="Photorealistic Realistic Girl (Natural Eyes & Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌟 Photorealistic Realistic Girl (Natural Eyes & Proportions)</option>
+                          <option value="Photorealistic Realistic Boy (Natural Eyes & Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌟 Photorealistic Realistic Boy (Natural Eyes & Proportions)</option>
+                          <option value="3D Animation Girl (Natural Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ 3D Animation Girl (Natural Proportions)</option>
+                          <option value="3D Animation Boy (Natural Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ 3D Animation Boy (Natural Proportions)</option>
+                          <option value="Chibi Anime Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Girl (Anime style)</option>
+                          <option value="Chibi Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Boy (Anime style)</option>
                           <option value="3D Cartoon Doll Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Girl (Pixar-like)</option>
                           <option value="3D Cartoon Doll Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Boy (Pixar-like)</option>
                           <option value="3D Cartoon Islamic Girl (Hijab)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Islamic Girl (Hijab)</option>
