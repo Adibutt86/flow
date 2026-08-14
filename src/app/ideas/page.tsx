@@ -5420,99 +5420,68 @@ export default function IdeasPage() {
     }
   };
 
-  const applyCuteKidsPreset = (preset: any) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsHealth(preset.health);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    
-    // Smart mapping for kids clothing based on preset or location/culture
-    if (preset.clothing) {
-      setKidsClothing(preset.clothing);
-    } else if (preset.location.includes("School") || preset.location.includes("Classroom")) {
-      setKidsClothing("Desi School Uniform");
-    } else if (preset.nationality.includes("Pakistani") || preset.nationality.includes("Indian") || preset.title.includes("Desi") || preset.title.includes("Qawwal")) {
-      setKidsClothing("Desi Shalwar Kameez");
-    } else {
-      setKidsClothing("Colorful Casual");
-    }
+  const resetNonLocationSettingsToAIDefault = () => {
+    setKidsAge("Any / AI Decides");
+    setKidsHealth("AI Decides / Healthy");
+    setKidsVibe("AI Decides / Balanced");
+    setKidsClothing("AI Decides / Story Matching");
+    setKidsNationality("AI Decides / Culturally Authentic");
+    setCharacterFaceType("AI Decides / Naturally Proportioned");
+    setMusicType("AI Decides / Scene Dynamic");
+    setSeriousDialogueStyle("AI Decides / Emotional Match");
+    setSongCrowdFx("DISABLED (Quiet Studio - Default)");
+  };
 
-    if (preset.musicType) setMusicType(preset.musicType);
-    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+  const applyCuteKidsPreset = (preset: any) => {
+    if (preset.location) setKidsLocation(preset.location);
+    if (preset.perScene) setCharactersPerScene(preset.perScene);
+    if (preset.setup) setCharacterSetup(preset.setup);
+    resetNonLocationSettingsToAIDefault();
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" preset!`, "success");
+    showToast(`✅ Applied "${preset.title}" preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    
-    if (preset.clothing) {
-      setKidsClothing(preset.clothing);
-    } else {
-      setKidsClothing("Sherwani & Lehenga (Wedding / Royal)");
-    }
-    if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
-    if (preset.faceType) setCharacterFaceType(preset.faceType);
-    if (preset.musicType) setMusicType(preset.musicType);
-    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    if (preset.location) setKidsLocation(preset.location);
+    if (preset.perScene) setCharactersPerScene(preset.perScene);
+    if (preset.setup) setCharacterSetup(preset.setup);
+    resetNonLocationSettingsToAIDefault();
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" Song preset!`, "success");
+    showToast(`✅ Applied "${preset.title}" Song preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyPoetryPreset = (preset: typeof POETRY_PRESETS[0] & { clothing?: string; faceType?: string }) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    if (preset.musicType) setMusicType(preset.musicType);
-    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
-    if (preset.crowdFx) setSongCrowdFx(preset.crowdFx);
-    if (preset.clothing) setKidsClothing(preset.clothing);
-    if (preset.faceType) setCharacterFaceType(preset.faceType);
+    if (preset.location) setKidsLocation(preset.location);
+    if (preset.perScene) setCharactersPerScene(preset.perScene);
+    if (preset.setup) setCharacterSetup(preset.setup);
+    resetNonLocationSettingsToAIDefault();
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" Poetry & Shayari preset!`, "success");
+    showToast(`✅ Applied "${preset.title}" Poetry preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyShortClipPreset = (preset: typeof SHORT_CLIP_PRESETS[0]) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
+    if (preset.location) setKidsLocation(preset.location);
+    if (preset.perScene) setCharactersPerScene(preset.perScene);
+    if (preset.setup) setCharacterSetup(preset.setup);
+    resetNonLocationSettingsToAIDefault();
     setWithoutMusic(preset.withoutMusic !== undefined ? preset.withoutMusic : false);
     setWithoutDialogue(preset.withoutDialogue !== undefined ? preset.withoutDialogue : false);
     if (preset.isShortIdea !== undefined) setIsShortIdea(preset.isShortIdea);
-    setMusicType("AI Decides");
-    setSongCrowdFx("DISABLED (Quiet Studio - Default)");
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" Short Clip preset!`, "success");
+    showToast(`✅ Applied "${preset.title}" Short Clip preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyCommercialAdPreset = (preset: typeof COMMERCIAL_AD_PRESETS[0]) => {
-    setKidsAge(preset.age);
-    setKidsLocation(preset.location);
-    setKidsVibe(preset.vibe);
-    setCharacterSetup(preset.setup);
-    setCharactersPerScene(preset.perScene);
-    setKidsNationality(preset.nationality);
-    if (preset.clothing) setKidsClothing(preset.clothing);
+    if (preset.location) setKidsLocation(preset.location);
+    if (preset.perScene) setCharactersPerScene(preset.perScene);
+    if (preset.setup) setCharacterSetup(preset.setup);
+    resetNonLocationSettingsToAIDefault();
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     if (preset.customSceneDescription) setCustomSceneDescription(preset.customSceneDescription);
     setWithoutMusic(false);
     setWithoutDialogue(false);
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" Brand Ad preset!`, "success");
+    showToast(`✅ Applied "${preset.title}" Brand Ad preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyFruitDancingPreset = (preset: typeof FRUIT_DANCING_PRESETS[0]) => {
