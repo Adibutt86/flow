@@ -28,13 +28,16 @@ export async function POST(req: Request) {
     } = body;
 
     const resolveModel = (model: string) => {
-      if (model && (model.includes("opus") || model.includes("Opus"))) {
-        return "claude-opus-4-6";
+      if (model && (model.includes("3-7") || model.includes("3.7"))) {
+        return "claude-3-7-sonnet-20250219";
       }
       if (model && (model.includes("haiku") || model.includes("Haiku"))) {
-        return "claude-haiku-4-5-20251001";
+        return "claude-3-5-haiku-20241022";
       }
-      return "claude-sonnet-4-6";
+      if (model && (model.includes("opus") || model.includes("Opus"))) {
+        return "claude-3-opus-20240229";
+      }
+      return "claude-3-5-sonnet-20241022";
     };
 
     const preferredModel = resolveModel(aiModel);
