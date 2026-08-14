@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2 } from "lucide-react";
+import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2, Trash2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { useTheme } from "@/context/ThemeContext";
+import { useToast } from "@/components/ui/Toast";
 import { FB_POST_QUOTES } from "@/lib/data/fb-quotes";
 import { SHAYARI_QUOTES } from "@/lib/data/shayari-quotes";
 
@@ -3003,6 +3005,8 @@ const BACKGROUND_GROUPS = [
 
 
 export default function NanoProGenerator() {
+  const { isLight } = useTheme();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState("character");
   const [generatedPrompt, setGeneratedPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -3082,6 +3086,20 @@ export default function NanoProGenerator() {
   const [savedCharacters, setSavedCharacters] = useState<any[]>([]);
   const [referenceCharacterInfo, setReferenceCharacterInfo] = useState<string | null>(null);
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      setReferenceImage(dataUrl);
+      setReferenceCharacterInfo(`Character Reference Image (${file.name}): Maintain exact consistency for facial features, skin tone, hair, clothing, and body proportions based on this uploaded character.`);
+      showToast("📸 Reference Image uploaded! Character traits locked.", "success");
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem("nanoProState");
@@ -3213,6 +3231,22 @@ export default function NanoProGenerator() {
     }
   };
 
+  const handleDeleteCharacter = async (e: React.MouseEvent, charId: string) => {
+    e.stopPropagation();
+    try {
+      const res = await fetch(`/api/characters/${charId}`, { method: "DELETE" });
+      if (res.ok) {
+        setSavedCharacters((prev) => prev.filter((c) => c.id !== charId));
+        showToast("🗑️ Character deleted from library", "info");
+      } else {
+        showToast("Failed to delete character", "error");
+      }
+    } catch (err) {
+      console.error("Failed to delete character:", err);
+      showToast("Error deleting character", "error");
+    }
+  };
+
   const handleResetDefaults = () => {
     setVisualStyle("3D Cartoon Style");
     setAspectRatio("9:16");
@@ -3329,7 +3363,7 @@ export default function NanoProGenerator() {
         res = await fetch("/api/generate-fb-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ aiModel, ...parameters }),
+          body: JSON.stringify({ aiModel, referenceCharacterInfo, ...parameters }),
         });
       } else if (activeTab === "shayari-post") {
         parameters = {
@@ -3347,7 +3381,7 @@ export default function NanoProGenerator() {
         res = await fetch("/api/generate-shayari-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ aiModel, ...parameters }),
+          body: JSON.stringify({ aiModel, referenceCharacterInfo, ...parameters }),
         });
       } else {
         parameters = {
@@ -3405,22 +3439,32 @@ export default function NanoProGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-purple-500/30">
+    <div className={`min-h-screen font-sans selection:bg-purple-500/30 transition-colors duration-300 ${
+      isLight ? "bg-zinc-100 text-zinc-900" : "bg-slate-950 text-slate-200"
+    }`}>
       <Navbar />
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto space-y-8">
           
           {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/10 pb-6">
+          <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 ${
+            isLight ? "border-slate-200" : "border-white/10"
+          }`}>
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-3 border ${
+                isLight ? "bg-purple-50 border-purple-200 text-purple-800" : "bg-purple-500/10 border-purple-500/20 text-purple-400"
+              }`}>
                 <ImageIcon className="w-3.5 h-3.5" />
                 <span>New Feature</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+              <h1 className={`text-3xl md:text-4xl font-black tracking-tight ${
+                isLight ? "text-slate-900" : "text-white"
+              }`}>
                 Nano Pro Generator
               </h1>
-              <p className="text-slate-400 mt-2 text-sm md:text-base max-w-2xl">
+              <p className={`mt-2 text-sm md:text-base max-w-2xl ${
+                isLight ? "text-slate-600 font-medium" : "text-slate-400"
+              }`}>
                 Create highly optimized, perfect image prompts for Nano Pro. Customize characters, environments, and cinematic styles.
               </p>
             </div>
@@ -3432,56 +3476,62 @@ export default function NanoProGenerator() {
             <div className="lg:col-span-8 space-y-6">
               
               {/* Category Tabs */}
-              <div className="flex overflow-x-auto hide-scrollbar gap-2 p-1 bg-slate-900/50 rounded-xl border border-white/5">
-                {["Character", "Scene"].map(tab => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab.toLowerCase())}
-                    className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
-                      activeTab === tab.toLowerCase() 
-                        ? (generateVideo ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "bg-purple-600 text-white shadow-lg shadow-purple-900/20") 
-                        : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-                    }`}
-                  >
-                    {tab} Settings
-                  </button>
-                ))}
+              <div className={`flex overflow-x-auto hide-scrollbar gap-2 p-1.5 rounded-xl border transition-all ${
+                isLight ? "bg-slate-100 border-slate-300 shadow-inner" : "bg-slate-900/50 border-white/5"
+              }`}>
+                <button
+                  onClick={() => setActiveTab("character")}
+                  className={`flex-1 min-w-[140px] py-2.5 px-4 rounded-lg text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                    activeTab === "character" 
+                      ? (generateVideo ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "bg-purple-600 text-white shadow-lg shadow-purple-500/30") 
+                      : (isLight ? "text-slate-700 hover:bg-slate-200 hover:text-slate-950 font-bold" : "text-slate-400 hover:bg-slate-800 hover:text-slate-200")
+                  }`}
+                >
+                  <span>👤</span> Character Builder
+                </button>
                 <button
                   onClick={() => setActiveTab("fb-post")}
-                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     activeTab === "fb-post"
-                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-900/30" : "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-900/30")
-                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30" : "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-500/30")
+                      : (isLight ? "text-slate-700 hover:bg-slate-200 hover:text-slate-950 font-bold" : "text-slate-400 hover:bg-slate-800 hover:text-slate-200")
                   }`}
                 >
                   <span>📘</span> FB Quotes
                 </button>
                 <button
                   onClick={() => setActiveTab("shayari-post")}
-                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     activeTab === "shayari-post"
-                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-900/30" : "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-900/30")
-                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                      ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30" : "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-500/30")
+                      : (isLight ? "text-slate-700 hover:bg-slate-200 hover:text-slate-950 font-bold" : "text-slate-400 hover:bg-slate-800 hover:text-slate-200")
                   }`}
                 >
                   <span>🥀</span> Shayari / Song
                 </button>
               </div>
 
-              {/* Settings Area (Placeholder) */}
-              <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-6 backdrop-blur-xl">
+              {/* Settings Area */}
+              <div className={`rounded-2xl p-6 border transition-all ${
+                isLight
+                  ? "bg-white border-slate-200 text-slate-900 shadow-md"
+                  : "bg-slate-900/40 border-white/5 text-slate-100 backdrop-blur-xl"
+              }`}>
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h2 className={`text-xl font-black flex items-center gap-2 ${isLight ? "text-slate-900" : "text-white"}`}>
                     {activeTab === "character" ? "👤 Character Builder" :
-                     activeTab === "scene" ? "🎬 Scene Builder" :
                      activeTab === "shayari-post" ? "🥀 Shayari & Song Art" :
-                     activeTab === "fb-post" ? "📘 Facebook Post Image" : "✨ Nano Pro Builder"}
+                     activeTab === "fb-post" ? "📘 Facebook Post Image" : "👤 Character Builder"}
                   </h2>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={handleResetDefaults}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 hover:text-white transition-colors border border-white/10"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        isLight
+                          ? "bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300"
+                          : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border-white/10"
+                      }`}
                     >
                       <RotateCcw className="w-3.5 h-3.5" /> Reset Defaults
                     </button>
@@ -3489,7 +3539,11 @@ export default function NanoProGenerator() {
                       <button 
                         type="button"
                         onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 text-xs font-bold hover:bg-indigo-500/20 transition-colors border border-indigo-500/20"
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                          isLight
+                            ? "bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border-indigo-200"
+                            : "bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border-indigo-500/20"
+                        }`}
                       >
                         <Library className="w-3.5 h-3.5" /> Reuse Saved Character
                       </button>
@@ -3498,15 +3552,31 @@ export default function NanoProGenerator() {
                 </div>
 
                 {referenceImage && (
-                  <div className="mb-6 p-4 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-center gap-4">
-                    <img src={referenceImage} alt="Reference" className="w-16 h-16 object-cover rounded-lg shadow-md" />
-                    <div>
-                      <h4 className="text-white font-bold text-sm">Character Reference Active</h4>
-                      <p className="text-indigo-200 text-xs mt-1">Traits will be forcefully injected into your prompt.</p>
-                      <button onClick={() => { setReferenceImage(null); setReferenceCharacterInfo(null); }} className="text-xs text-red-400 mt-2 hover:underline">
-                        Remove Reference
-                      </button>
+                  <div className={`mb-6 p-4 rounded-xl flex items-center justify-between gap-4 border transition-all ${
+                    isLight
+                      ? "bg-indigo-50 border-2 border-indigo-300 text-indigo-950 shadow-sm"
+                      : "bg-indigo-500/10 border border-indigo-500/30 text-white"
+                  }`}>
+                    <div className="flex items-center gap-4">
+                      <img src={referenceImage} alt="Reference" className="w-16 h-16 object-cover rounded-xl shadow-md border border-indigo-300 shrink-0" />
+                      <div>
+                        <h4 className={`font-black text-sm ${isLight ? "text-indigo-950" : "text-white"}`}>✅ Character Reference Active</h4>
+                        <p className={`text-xs mt-1 ${isLight ? "text-indigo-900 font-bold" : "text-indigo-200 font-medium"}`}>
+                          Traits will be forcefully injected into your prompt.
+                        </p>
+                      </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => { setReferenceImage(null); setReferenceCharacterInfo(null); }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer border shrink-0 ${
+                        isLight
+                          ? "bg-rose-100 border-rose-300 text-rose-950 hover:bg-rose-200"
+                          : "bg-rose-950/40 border-rose-800/40 text-rose-300 hover:bg-rose-900/60"
+                      }`}
+                    >
+                      Remove Reference
+                    </button>
                   </div>
                 )}
 
@@ -3515,18 +3585,24 @@ export default function NanoProGenerator() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Visual Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Visual Style
                         </label>
                         <select
                           value={visualStyle}
                           onChange={(e) => setVisualStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
                           {VISUAL_STYLES.map(style => (
-                            <option key={style.value} value={style.value}>{style.label}</option>
+                            <option key={style.value} value={style.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>{style.label}</option>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {visualStyle === "Custom" && (
                           <input
@@ -3534,28 +3610,38 @@ export default function NanoProGenerator() {
                             value={customVisualStyle}
                             onChange={(e) => setCustomVisualStyle(e.target.value)}
                             placeholder="e.g. Vintage 1950s comic book style..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
                       
                       {/* Aspect Ratio */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Aspect Ratio
                         </label>
                         <select
                           value={aspectRatio}
                           onChange={(e) => setAspectRatio(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="9:16">9:16 (Vertical - Shorts/TikTok)</option>
-                          <option value="16:9">16:9 (Horizontal - YouTube)</option>
-                          <option value="1:1">1:1 (Square - Instagram)</option>
-                          <option value="4:3">4:3 (Standard)</option>
-                          <option value="21:9">21:9 (Ultrawide Cinematic)</option>
-                          <option value="4:5">4:5 (Instagram Portrait)</option>
-                          <option value="Custom">Custom...</option>
+                          <option value="9:16" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>9:16 (Vertical - Shorts/TikTok)</option>
+                          <option value="16:9" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>16:9 (Horizontal - YouTube)</option>
+                          <option value="1:1" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>1:1 (Square - Instagram)</option>
+                          <option value="4:3" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>4:3 (Standard)</option>
+                          <option value="21:9" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>21:9 (Ultrawide Cinematic)</option>
+                          <option value="4:5" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>4:5 (Instagram Portrait)</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {aspectRatio === "Custom" && (
                           <input
@@ -3563,7 +3649,11 @@ export default function NanoProGenerator() {
                             value={customAspectRatio}
                             onChange={(e) => setCustomAspectRatio(e.target.value)}
                             placeholder="e.g. 9:16 or 2:3..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
@@ -3572,25 +3662,31 @@ export default function NanoProGenerator() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Character Type */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Character Type
                         </label>
                         <select
                           value={characterType}
                           onChange={(e) => setCharacterType(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {CHARACTER_TYPE_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
+                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
                                   {opt.label}
                                 </option>
                               ))}
                             </optgroup>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {characterType === "Custom" && (
                           <input
@@ -3598,32 +3694,42 @@ export default function NanoProGenerator() {
                             value={customCharacterType}
                             onChange={(e) => setCustomCharacterType(e.target.value)}
                             placeholder="e.g. Candy boy..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
 
                       {/* Clothing / Dressing */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Clothing / Dressing
                         </label>
                         <select
                           value={clothing}
                           onChange={(e) => setClothing(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {CLOTHING_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
+                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
                                   {opt.label}
                                 </option>
                               ))}
                             </optgroup>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {clothing === "Custom" && (
                           <input
@@ -3631,7 +3737,11 @@ export default function NanoProGenerator() {
                             value={customClothing}
                             onChange={(e) => setCustomClothing(e.target.value)}
                             placeholder="e.g. Red hoodie and blue jeans..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
@@ -3640,25 +3750,31 @@ export default function NanoProGenerator() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Age */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Age
                         </label>
                         <select
                           value={age}
                           onChange={(e) => setAge(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {AGE_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
+                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
                                   {opt.label}
                                 </option>
                               ))}
                             </optgroup>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {age === "Custom" && (
                           <input
@@ -3666,32 +3782,42 @@ export default function NanoProGenerator() {
                             value={customAge}
                             onChange={(e) => setCustomAge(e.target.value)}
                             placeholder="e.g. Around 40 but looks 20..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
 
                       {/* Nationality / Ethnicity */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Nationality / Ethnicity
                         </label>
                         <select
                           value={nationality}
                           onChange={(e) => setNationality(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {NATIONALITY_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
+                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
                                   {opt.label}
                                 </option>
                               ))}
                             </optgroup>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {nationality === "Custom" && (
                           <input
@@ -3699,7 +3825,11 @@ export default function NanoProGenerator() {
                             value={customNationality}
                             onChange={(e) => setCustomNationality(e.target.value)}
                             placeholder="e.g. Cybernetic Martian..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
@@ -3708,25 +3838,31 @@ export default function NanoProGenerator() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Skin Tone / Complexion */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Skin Tone / Complexion
                         </label>
                         <select
                           value={complexion}
                           onChange={(e) => setComplexion(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {COMPLEXION_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
+                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
                                   {opt.label}
                                 </option>
                               ))}
                             </optgroup>
                           ))}
-                          <option value="Custom">Custom...</option>
+                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
                         </select>
                         {complexion === "Custom" && (
                           <input
@@ -3734,24 +3870,34 @@ export default function NanoProGenerator() {
                             value={customComplexion}
                             onChange={(e) => setCustomComplexion(e.target.value)}
                             placeholder="e.g. Pale with freckles..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+                              isLight
+                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
+                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
+                            }`}
                           />
                         )}
                       </div>
                       
                       {/* Background Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Background Style
                         </label>
                         <select
                           value={backgroundStyle}
                           onChange={(e) => setBackgroundStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                          }`}
                         >
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                           {BACKGROUND_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className="bg-slate-900 text-slate-300 font-bold">
+                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
                               {group.options.map(opt => (
                                 <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
                                   {opt.label}
@@ -3778,13 +3924,21 @@ export default function NanoProGenerator() {
                     {/* Quote / Message Text */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Quote / Message Text
-                          <span className="ml-2 text-pink-400 font-normal normal-case hidden sm:inline">(the text that appears in the image)</span>
+                          <span className={`ml-2 font-normal normal-case hidden sm:inline ${
+                            isLight ? "text-pink-700 font-semibold" : "text-pink-400"
+                          }`}>(the text that appears in the image)</span>
                         </label>
                         <button 
                           onClick={handleRandomFbQuote}
-                          className="text-[10px] font-bold uppercase tracking-widest text-pink-300 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 px-2 py-1 rounded transition-colors"
+                          className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded transition-colors ${
+                            isLight
+                              ? "text-pink-900 bg-pink-100 border border-pink-300 hover:bg-pink-200"
+                              : "text-pink-300 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30"
+                          }`}
                         >
                           🎲 Random Preset
                         </button>
@@ -3794,95 +3948,147 @@ export default function NanoProGenerator() {
                         onChange={(e) => setFbQuoteText(e.target.value)}
                         placeholder={`e.g. "Don't touch my phone. It's mine! 💕" or leave blank for AI to create`}
                         rows={3}
-                        className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
+                        className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold focus:outline-none resize-none transition-all ${
+                          isLight
+                            ? "bg-white border-2 border-slate-300 text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-pink-500/20 shadow-xs"
+                            : "bg-slate-950 border border-white/10 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500/50"
+                        }`}
                         disabled={fbDisableQuote}
                       />
                       <div className="flex gap-4 items-center">
                         <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
-                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableQuote ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableQuote ? 'bg-pink-500 border-pink-500' : (isLight ? 'border-slate-400' : 'border-slate-600')}`}>
                             {fbDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
                           </div>
-                          <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">Disable Quote</span>
+                          <span className={`text-xs font-black transition-colors ${
+                            isLight ? "text-slate-800" : "text-slate-300 group-hover:text-pink-300"
+                          }`}>Disable Quote</span>
                           <input type="checkbox" checked={fbDisableQuote} onChange={(e) => setFbDisableQuote(e.target.checked)} className="hidden" />
                         </label>
                         <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
-                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableImage ? 'bg-pink-500 border-pink-500' : 'border-slate-600 group-hover:border-pink-500/50'}`}>
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${fbDisableImage ? 'bg-pink-500 border-pink-500' : (isLight ? 'border-slate-400' : 'border-slate-600')}`}>
                             {fbDisableImage && <span className="text-white text-[10px] font-bold">✓</span>}
                           </div>
-                          <span className="text-xs font-semibold text-slate-300 group-hover:text-pink-300 transition-colors">Disable Image</span>
+                          <span className={`text-xs font-black transition-colors ${
+                            isLight ? "text-slate-800" : "text-slate-300 group-hover:text-pink-300"
+                          }`}>Disable Image</span>
                           <input type="checkbox" checked={fbDisableImage} onChange={(e) => setFbDisableImage(e.target.checked)} className="hidden" />
                         </label>
                       </div>
                     </div>
-{!fbDisableImage && (
-  <div className="space-y-1.5 mt-4 mb-4">
-    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-      <span>Character Reference Image (Optional)</span>
-      <button 
-        onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-        className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
-      >🖼️ Browse Library</button>
-    </label>
-    <div className="flex flex-col gap-2">
-      <input
-        accept="image/*"
-        multiple
-        className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
-        type="file"
-      />
-    </div>
-  </div>
-)}
+
+                    {!fbDisableImage && (
+                      <div className="space-y-3 mt-4 mb-4">
+                        {(referenceImage || referenceCharacterInfo) && (
+                          <div className={`p-3 rounded-xl flex items-center justify-between gap-3 border transition-all ${
+                            isLight ? "bg-indigo-50 border-indigo-200 text-indigo-950 shadow-xs" : "bg-indigo-950/60 border-indigo-500/40 text-white"
+                          }`}>
+                            <div className="flex items-center gap-3 min-w-0">
+                              {referenceImage ? (
+                                <img src={referenceImage} alt="Character Reference" className="w-12 h-12 object-cover rounded-lg shadow-xs border border-indigo-300 shrink-0" />
+                              ) : (
+                                <div className="w-12 h-12 rounded-lg bg-indigo-200 text-indigo-900 flex items-center justify-center font-black text-xl shrink-0">👤</div>
+                              )}
+                              <div className="min-w-0">
+                                <h4 className={`font-black text-xs ${isLight ? "text-indigo-950" : "text-white"}`}>✅ Character Reference Active</h4>
+                                <p className={`text-[11px] mt-0.5 truncate ${isLight ? "text-indigo-900 font-semibold" : "text-indigo-200"}`}>
+                                  {referenceCharacterInfo || "Traits locked for prompt generation"}
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => { setReferenceImage(null); setReferenceCharacterInfo(null); }}
+                              className="text-xs font-black text-rose-600 hover:text-rose-700 bg-rose-100 hover:bg-rose-200 border border-rose-300 px-2.5 py-1 rounded-lg transition-all shrink-0 cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        )}
+                        <label className={`text-xs font-black uppercase tracking-wider flex items-center justify-between ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
+                          <span>Character Reference Image (Optional)</span>
+                          <button 
+                            type="button"
+                            onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                            className="text-xs text-indigo-600 hover:text-indigo-700 flex items-center gap-1 font-black cursor-pointer"
+                          >🖼️ Browse Library</button>
+                        </label>
+                        <div className="flex flex-col gap-2">
+                          <input
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className={`w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer ${
+                              isLight ? "text-slate-800 font-bold" : "text-slate-300"
+                            }`}
+                            type="file"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                       {/* Character Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Character Style</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Character Style</label>
                         <select
                           value={fbCharacterStyle}
                           onChange={(e) => setFbCharacterStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Chibi Anime Girl">Chibi Anime Girl (Big eyes, tiny body)</option>
-                          <option value="Chibi Anime Boy">Chibi Anime Boy (Big eyes, tiny body)</option>
-                          <option value="3D Cartoon Doll Girl">3D Cartoon Doll Girl (Pixar-like)</option>
-                          <option value="3D Cartoon Doll Boy">3D Cartoon Doll Boy (Pixar-like)</option>
-                          <option value="3D Cartoon Islamic Girl (Hijab)">3D Cartoon Islamic Girl (Hijab)</option>
-                          <option value="3D Cartoon Islamic Boy (Kufi)">3D Cartoon Islamic Boy (Kufi/Thobe)</option>
-                          <option value="3D Cartoon Korean Girl">3D Cartoon Korean Girl (K-Pop Style)</option>
-                          <option value="3D Cartoon Korean Boy">3D Cartoon Korean Boy (K-Pop Style)</option>
-                          <option value="Handsome Anime Boy">Handsome Anime Boy (Cool & Stylish)</option>
-                          <option value="Cute Gamer Boy">Cute Gamer Boy (Headphones, Hoodie)</option>
-                          <option value="3D Cartoon Desi Boy">3D Cartoon Desi Boy (Kurta/Shalwar Kameez)</option>
-                          <option value="Streetwear Swag Boy">Streetwear Swag Boy (Cap, Sneakers, Jacket)</option>
-                          <option value="Sad Heartbroken Boy">Sad/Heartbroken Boy (Moody, Aesthetic)</option>
-                          <option value="Cute Little Chibi Doll">Cute Little Chibi Doll (Gender-neutral)</option>
-                          <option value="Stylized Illustration Girl">Stylized Illustration Girl (Flat art)</option>
-                          <option value="Stylized Illustration Boy">Stylized Illustration Boy (Flat art)</option>
-                          <option value="Realistic Cute Baby Doll">Realistic Cute Baby Doll</option>
-                          <option value="No Character - Text Only">No Character – Text Only</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Chibi Anime Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Girl (Big eyes, tiny body)</option>
+                          <option value="Chibi Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Boy (Big eyes, tiny body)</option>
+                          <option value="3D Cartoon Doll Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Girl (Pixar-like)</option>
+                          <option value="3D Cartoon Doll Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Boy (Pixar-like)</option>
+                          <option value="3D Cartoon Islamic Girl (Hijab)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Islamic Girl (Hijab)</option>
+                          <option value="3D Cartoon Islamic Boy (Kufi)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Islamic Boy (Kufi/Thobe)</option>
+                          <option value="3D Cartoon Korean Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Korean Girl (K-Pop Style)</option>
+                          <option value="3D Cartoon Korean Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Korean Boy (K-Pop Style)</option>
+                          <option value="Handsome Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Handsome Anime Boy (Cool & Stylish)</option>
+                          <option value="Cute Gamer Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cute Gamer Boy (Headphones, Hoodie)</option>
+                          <option value="3D Cartoon Desi Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Desi Boy (Kurta/Shalwar Kameez)</option>
+                          <option value="Streetwear Swag Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Streetwear Swag Boy (Cap, Sneakers, Jacket)</option>
+                          <option value="Sad Heartbroken Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Sad/Heartbroken Boy (Moody, Aesthetic)</option>
+                          <option value="Cute Little Chibi Doll" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cute Little Chibi Doll (Gender-neutral)</option>
+                          <option value="Stylized Illustration Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Stylized Illustration Girl (Flat art)</option>
+                          <option value="Stylized Illustration Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Stylized Illustration Boy (Flat art)</option>
+                          <option value="Realistic Cute Baby Doll" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Realistic Cute Baby Doll</option>
+                          <option value="No Character - Text Only" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>No Character – Text Only</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Mood / Attitude */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Mood / Attitude</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Mood / Attitude</label>
                         <select
                           value={fbMood}
                           onChange={(e) => setFbMood(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Sassy & Confident">😎 Sassy & Confident</option>
-                          <option value="Cute & Playful">🌸 Cute & Playful</option>
-                          <option value="Motivational & Empowering">💪 Motivational & Empowering</option>
-                          <option value="Chill & Unbothered">😌 Chill & Unbothered</option>
-                          <option value="Happy & Joyful">😄 Happy & Joyful</option>
-                          <option value="Angry & Protective">😤 Angry & Protective</option>
-                          <option value="Sad & Emotional">😢 Sad & Emotional</option>
-                          <option value="Mysterious & Cool">🕶️ Mysterious & Cool</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Sassy & Confident" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😎 Sassy & Confident</option>
+                          <option value="Cute & Playful" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌸 Cute & Playful</option>
+                          <option value="Motivational & Empowering" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💪 Motivational & Empowering</option>
+                          <option value="Chill & Unbothered" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😌 Chill & Unbothered</option>
+                          <option value="Happy & Joyful" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😄 Happy & Joyful</option>
+                          <option value="Angry & Protective" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😤 Angry & Protective</option>
+                          <option value="Sad & Emotional" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😢 Sad & Emotional</option>
+                          <option value="Mysterious & Cool" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🕶️ Mysterious & Cool</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -3892,55 +4098,67 @@ export default function NanoProGenerator() {
 
                       {/* Character Age */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Character Age</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Character Age</label>
                         <select
                           value={fbAge}
                           onChange={(e) => setFbAge(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Baby / Toddler (1-3 yrs)">👶 Baby / Toddler (1–3 yrs)</option>
-                          <option value="Child (4-7 yrs)">🧒 Child (4–7 yrs)</option>
-                          <option value="Child (6-10 yrs)">🧒 Child (6–10 yrs)</option>
-                          <option value="Preteen (10-12 yrs)">🧑 Preteen (10–12 yrs)</option>
-                          <option value="Teen (13-16 yrs)">🧑‍🦱 Teen (13–16 yrs)</option>
-                          <option value="Young Adult (18-25 yrs)">👩 Young Adult (18–25 yrs)</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Baby / Toddler (1-3 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>👶 Baby / Toddler (1–3 yrs)</option>
+                          <option value="Child (4-7 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧒 Child (4–7 yrs)</option>
+                          <option value="Child (6-10 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧒 Child (6–10 yrs)</option>
+                          <option value="Preteen (10-12 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧑 Preteen (10–12 yrs)</option>
+                          <option value="Teen (13-16 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧑‍🦱 Teen (13–16 yrs)</option>
+                          <option value="Young Adult (18-25 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>👩 Young Adult (18–25 yrs)</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Nationality / Ethnicity */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Nationality / Ethnicity</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Nationality / Ethnicity</label>
                         <select
                           value={fbNationality}
                           onChange={(e) => setFbNationality(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <optgroup label="South Asian">
-                            <option value="Pakistani">🇵🇰 Pakistani</option>
-                            <option value="Indian">🇮🇳 Indian</option>
-                            <option value="Bangladeshi">🇧🇩 Bangladeshi</option>
-                            <option value="Sri Lankan">🇱🇰 Sri Lankan</option>
+                          <optgroup label="South Asian" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
+                            <option value="Pakistani" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇵🇰 Pakistani</option>
+                            <option value="Indian" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇮🇳 Indian</option>
+                            <option value="Bangladeshi" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇧🇩 Bangladeshi</option>
+                            <option value="Sri Lankan" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇱🇰 Sri Lankan</option>
                           </optgroup>
-                          <optgroup label="Middle Eastern">
-                            <option value="Arab / Middle Eastern">🇸🇦 Arab / Middle Eastern</option>
-                            <option value="Turkish">🇹🇷 Turkish</option>
-                            <option value="Persian / Iranian">🇮🇷 Persian / Iranian</option>
+                          <optgroup label="Middle Eastern" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
+                            <option value="Arab / Middle Eastern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇸🇦 Arab / Middle Eastern</option>
+                            <option value="Turkish" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇹🇷 Turkish</option>
+                            <option value="Persian / Iranian" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇮🇷 Persian / Iranian</option>
                           </optgroup>
-                          <optgroup label="East Asian">
-                            <option value="Korean">🇰🇷 Korean</option>
-                            <option value="Japanese">🇯🇵 Japanese</option>
-                            <option value="Chinese">🇨🇳 Chinese</option>
+                          <optgroup label="East Asian" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
+                            <option value="Korean" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇰🇷 Korean</option>
+                            <option value="Japanese" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇯🇵 Japanese</option>
+                            <option value="Chinese" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇨🇳 Chinese</option>
                           </optgroup>
-                          <optgroup label="Western">
-                            <option value="American / Western">🇺🇸 American / Western</option>
-                            <option value="European">🇪🇺 European</option>
-                            <option value="Latin / Hispanic">🌎 Latin / Hispanic</option>
+                          <optgroup label="Western" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
+                            <option value="American / Western" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇺🇸 American / Western</option>
+                            <option value="European" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇪🇺 European</option>
+                            <option value="Latin / Hispanic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌎 Latin / Hispanic</option>
                           </optgroup>
-                          <optgroup label="African">
-                            <option value="African">🌍 African</option>
+                          <optgroup label="African" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
+                            <option value="African" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌍 African</option>
                           </optgroup>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -3950,19 +4168,25 @@ export default function NanoProGenerator() {
 
                       {/* Complexion / Skin Tone */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Complexion / Skin Tone</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Complexion / Skin Tone</label>
                         <select
                           value={fbComplexion}
                           onChange={(e) => setFbComplexion(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Fair">Fair / Light Skin</option>
-                          <option value="Wheatish">Wheatish / Medium Skin</option>
-                          <option value="Olive">Olive / Tanned Skin</option>
-                          <option value="Brown">Brown / Dark Skin</option>
-                          <option value="Black">Black / Very Dark Skin</option>
-                          <option value="Pale">Pale / Porcelain</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Fair" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Fair / Light Skin</option>
+                          <option value="Wheatish" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Wheatish / Medium Skin</option>
+                          <option value="Olive" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Olive / Tanned Skin</option>
+                          <option value="Brown" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Brown / Dark Skin</option>
+                          <option value="Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Black / Very Dark Skin</option>
+                          <option value="Pale" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Pale / Porcelain</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -3972,42 +4196,54 @@ export default function NanoProGenerator() {
 
                       {/* Color Theme */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Color Theme</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Color Theme</label>
                         <select
                           value={fbColorTheme}
                           onChange={(e) => setFbColorTheme(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Pink & Black">🩷 Pink & Black (Girly Glam)</option>
-                          <option value="Teal & White">🩵 Teal & White (Fresh & Clean)</option>
-                          <option value="Green & Cream">💚 Green & Cream (Natural)</option>
-                          <option value="Black & White">🖤 Black & White (Edgy Minimal)</option>
-                          <option value="Purple & Gold">💜 Purple & Gold (Royal)</option>
-                          <option value="Red & White">❤️ Red & White (Bold Love)</option>
-                          <option value="Blue & Pink">💙 Blue & Pink (Kawaii Pastel)</option>
-                          <option value="Yellow & Black">💛 Yellow & Black (Energetic)</option>
-                          <option value="Rainbow / Multicolor">🌈 Rainbow / Multicolor</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Pink & Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🩷 Pink & Black (Girly Glam)</option>
+                          <option value="Teal & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🩵 Teal & White (Fresh & Clean)</option>
+                          <option value="Green & Cream" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💚 Green & Cream (Natural)</option>
+                          <option value="Black & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖤 Black & White (Edgy Minimal)</option>
+                          <option value="Purple & Gold" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💜 Purple & Gold (Royal)</option>
+                          <option value="Red & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>❤️ Red & White (Bold Love)</option>
+                          <option value="Blue & Pink" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💙 Blue & Pink (Kawaii Pastel)</option>
+                          <option value="Yellow & Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💛 Yellow & Black (Energetic)</option>
+                          <option value="Rainbow / Multicolor" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌈 Rainbow / Multicolor</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Text Typography Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Typography Style</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Typography Style</label>
                         <select
                           value={fbTextStyle}
                           onChange={(e) => setFbTextStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Bold Chunky Display + Handwritten Mix">Bold Chunky + Handwritten Mix</option>
-                          <option value="Glitter 3D Metallic Letters">✨ Glitter 3D Metallic Letters</option>
-                          <option value="Stitched / Embroidery Effect Letters">🧵 Stitched Embroidery Letters</option>
-                          <option value="Graffiti / Street Art Font">🎨 Graffiti / Street Art</option>
-                          <option value="Clean Sans-Serif Modern">🔤 Clean Sans-Serif Modern</option>
-                          <option value="Handwritten Brush Script">✍️ Handwritten Brush Script</option>
-                          <option value="Highlighted Keywords with Pastel Boxes">🖍️ Highlighted Keyword Boxes</option>
-                          <option value="Mixed Sizes - Large Key Words Small Others">Mixed Sizes (Large Keywords)</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Bold Chunky Display + Handwritten Mix" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Bold Chunky + Handwritten Mix</option>
+                          <option value="Glitter 3D Metallic Letters" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Glitter 3D Metallic Letters</option>
+                          <option value="Stitched / Embroidery Effect Letters" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧵 Stitched Embroidery Letters</option>
+                          <option value="Graffiti / Street Art Font" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎨 Graffiti / Street Art</option>
+                          <option value="Clean Sans-Serif Modern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🔤 Clean Sans-Serif Modern</option>
+                          <option value="Handwritten Brush Script" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✍️ Handwritten Brush Script</option>
+                          <option value="Highlighted Keywords with Pastel Boxes" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖍️ Highlighted Keyword Boxes</option>
+                          <option value="Mixed Sizes - Large Key Words Small Others" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Mixed Sizes (Large Keywords)</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -4017,35 +4253,47 @@ export default function NanoProGenerator() {
 
                       {/* Layout */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Layout</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Layout</label>
                         <select
                           value={fbLayout}
                           onChange={(e) => setFbLayout(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Character Left, Text Right">Character Left, Text Right</option>
-                          <option value="Character Right, Text Left">Character Right, Text Left</option>
-                          <option value="Text Top, Character Bottom">Text Top, Character Bottom</option>
-                          <option value="Character Bottom, Text Top Full Width">Character Bottom, Text Top Full Width</option>
-                          <option value="Character Center with Text Surrounding">Character Center, Text Surrounding</option>
-                          <option value="Full Background Character with Overlaid Text">Full BG Character + Text Overlay</option>
-                          <option value="Text Only - No Character">Text Only (No Character)</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Character Left, Text Right" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Left, Text Right</option>
+                          <option value="Character Right, Text Left" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Right, Text Left</option>
+                          <option value="Text Top, Character Bottom" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Top, Character Bottom</option>
+                          <option value="Character Bottom, Text Top Full Width" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Bottom, Text Top Full Width</option>
+                          <option value="Character Center with Text Surrounding" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Center, Text Surrounding</option>
+                          <option value="Full Background Character with Overlaid Text" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Full BG Character + Text Overlay</option>
+                          <option value="Text Only - No Character" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Only (No Character)</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Format */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Format / Aspect Ratio</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Format / Aspect Ratio</label>
                         <select
                           value={fbFormat}
                           onChange={(e) => setFbFormat(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="9:16 Mobile">📱 9:16 Mobile / Stories (Recommended)</option>
-                          <option value="4:5 Portrait">📸 4:5 Portrait (Facebook Feed)</option>
-                          <option value="1:1 Square">⬜ 1:1 Square (Instagram/Facebook)</option>
-                          <option value="16:9 Desktop">🖥️ 16:9 Desktop / Landscape</option>
+                          <option value="9:16 Mobile" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📱 9:16 Mobile / Stories (Recommended)</option>
+                          <option value="4:5 Portrait" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📸 4:5 Portrait (Facebook Feed)</option>
+                          <option value="1:1 Square" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ 1:1 Square (Instagram/Facebook)</option>
+                          <option value="16:9 Desktop" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖥️ 16:9 Desktop / Landscape</option>
                         </select>
                       </div>
 
@@ -4055,49 +4303,63 @@ export default function NanoProGenerator() {
 
                       {/* Background */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Background</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Background</label>
                         <select
                           value={fbBackground}
                           onChange={(e) => setFbBackground(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Soft Gradient">🌅 Soft Gradient</option>
-                          <option value="Textured Painted Canvas">🎨 Textured Painted Canvas</option>
-                          <option value="Clean White / Minimal">⬜ Clean White / Minimal</option>
-                          <option value="Bokeh Blurred">✨ Bokeh Blurred</option>
-                          <option value="Glitter / Sparkle Pattern">💎 Glitter / Sparkle Pattern</option>
-                          <option value="Watercolor Wash">🖌️ Watercolor Wash</option>
-                          <option value="Solid Bold Color">🟥 Solid Bold Color</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Soft Gradient" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌅 Soft Gradient</option>
+                          <option value="Textured Painted Canvas" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎨 Textured Painted Canvas</option>
+                          <option value="Clean White / Minimal" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ Clean White / Minimal</option>
+                          <option value="Bokeh Blurred" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Bokeh Blurred</option>
+                          <option value="Glitter / Sparkle Pattern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💎 Glitter / Sparkle Pattern</option>
+                          <option value="Watercolor Wash" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖌️ Watercolor Wash</option>
+                          <option value="Solid Bold Color" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🟥 Solid Bold Color</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Decorative Elements */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Decorative Elements</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Decorative Elements</label>
                         <select
                           value={fbDecorations}
                           onChange={(e) => setFbDecorations(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
+                          }`}
                         >
-                          <option value="Hearts & Sparkles">💕 Hearts & Sparkles</option>
-                          <option value="Butterflies & Flowers">🦋 Butterflies & Flowers</option>
-                          <option value="Stars & Crowns">⭐ Stars & Crowns</option>
-                          <option value="Doodles & Hand-drawn Icons">✏️ Doodles & Hand-drawn Icons</option>
-                          <option value="Balloons & Confetti">🎈 Balloons & Confetti</option>
-                          <option value="Lightning Bolts & Fire">⚡ Lightning & Fire</option>
-                          <option value="Minimal - No Decorations">✖️ Minimal – No Decorations</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Hearts & Sparkles" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💕 Hearts & Sparkles</option>
+                          <option value="Butterflies & Flowers" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🦋 Butterflies & Flowers</option>
+                          <option value="Stars & Crowns" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⭐ Stars & Crowns</option>
+                          <option value="Doodles & Hand-drawn Icons" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✏️ Doodles & Hand-drawn Icons</option>
+                          <option value="Balloons & Confetti" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎈 Balloons & Confetti</option>
+                          <option value="Lightning Bolts & Fire" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⚡ Lightning & Fire</option>
+                          <option value="Minimal - No Decorations" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✖️ Minimal – No Decorations</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                     </div>
 
                     {/* Style reference note */}
-                    <div className="flex items-start gap-3 p-3 rounded-xl bg-pink-500/5 border border-pink-500/20">
-                      <span className="text-pink-400 text-lg mt-0.5">💡</span>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        Prompts are optimized for <span className="text-pink-300 font-semibold">Facebook post images</span> in the style of viral cute cartoon/chibi character posts — bold integrated typography, vibrant color themes, floating decorative elements, and attitude-filled quotes.
+                    <div className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                      isLight ? "bg-pink-50 border-pink-200 text-pink-950 font-semibold shadow-xs" : "bg-pink-500/5 border border-pink-500/20 text-slate-400"
+                    }`}>
+                      <span className="text-pink-500 text-lg mt-0.5">💡</span>
+                      <p className={`text-xs leading-relaxed ${isLight ? "text-pink-950 font-semibold" : "text-slate-400"}`}>
+                        Prompts are optimized for <span className="text-pink-600 font-black">Facebook post images</span> in the style of viral cute cartoon/chibi character posts — bold integrated typography, vibrant color themes, floating decorative elements, and attitude-filled quotes.
                       </p>
                     </div>
 
@@ -4108,13 +4370,21 @@ export default function NanoProGenerator() {
                     {/* Lyric / Shayari Text */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           Poetry / Lyric Text
-                          <span className="ml-2 text-rose-400 font-normal normal-case hidden sm:inline">(the text to display in the image)</span>
+                          <span className={`ml-2 font-normal normal-case hidden sm:inline ${
+                            isLight ? "text-rose-700 font-semibold" : "text-rose-400"
+                          }`}>(the text to display in the image)</span>
                         </label>
                         <button 
                           onClick={handleRandomShayariQuote}
-                          className="text-[10px] font-bold uppercase tracking-widest text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 px-2 py-1 rounded transition-colors"
+                          className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded transition-colors ${
+                            isLight
+                              ? "text-rose-900 bg-rose-100 border border-rose-300 hover:bg-rose-200"
+                              : "text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30"
+                          }`}
                         >
                           🎲 Random Preset
                         </button>
@@ -4124,11 +4394,15 @@ export default function NanoProGenerator() {
                         onChange={(e) => setShyQuoteText(e.target.value)}
                         placeholder={`e.g. "Tere bina zindagi adhoori lagti hai..." or leave blank for AI to create`}
                         rows={3}
-                        className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500/50 resize-none"
+                        className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold focus:outline-none resize-none transition-all ${
+                          isLight
+                            ? "bg-white border-2 border-slate-300 text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-rose-500/20 shadow-xs"
+                            : "bg-slate-950 border border-white/10 text-white placeholder-slate-500 focus:ring-2 focus:ring-rose-500/50"
+                        }`}
                         disabled={shyDisableQuote}
                       />
                       <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableQuote ? 'bg-rose-500 border-rose-500' : 'border-slate-600 group-hover:border-rose-500/50'}`}>
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableQuote ? 'bg-rose-500 border-rose-500' : (isLight ? 'border-slate-400' : 'border-slate-600')}`}>
                           {shyDisableQuote && <span className="text-white text-[10px] font-bold">✓</span>}
                         </div>
                         <input
@@ -4137,12 +4411,14 @@ export default function NanoProGenerator() {
                           onChange={(e) => setShyDisableQuote(e.target.checked)}
                           className="hidden"
                         />
-                        <span className="text-xs font-semibold text-slate-300 group-hover:text-rose-300 transition-colors">
+                        <span className={`text-xs font-black transition-colors ${
+                          isLight ? "text-slate-800" : "text-slate-300 group-hover:text-rose-300"
+                        }`}>
                           Disable Quote (Image Only)
                         </span>
                       </label>
                       <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit group">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableImage ? 'bg-rose-500 border-rose-500' : 'border-slate-600 group-hover:border-rose-500/50'}`}>
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${shyDisableImage ? 'bg-rose-500 border-rose-500' : (isLight ? 'border-slate-400' : 'border-slate-600')}`}>
                           {shyDisableImage && <span className="text-white text-[10px] font-bold">✓</span>}
                         </div>
                         <input
@@ -4151,25 +4427,58 @@ export default function NanoProGenerator() {
                           onChange={(e) => setShyDisableImage(e.target.checked)}
                           className="hidden"
                         />
-                        <span className="text-xs font-semibold text-slate-300 group-hover:text-rose-300 transition-colors">
+                        <span className={`text-xs font-black transition-colors ${
+                          isLight ? "text-slate-800" : "text-slate-300 group-hover:text-rose-300"
+                        }`}>
                           Disable Image
                         </span>
                       </label>
                     </div>
                     {!shyDisableImage && (
-                      <div className="space-y-1.5 mt-4 mb-4">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                      <div className="space-y-3 mt-4 mb-4">
+                        {(referenceImage || referenceCharacterInfo) && (
+                          <div className={`p-3 rounded-xl flex items-center justify-between gap-3 border transition-all ${
+                            isLight ? "bg-rose-50 border-rose-200 text-rose-950 shadow-xs" : "bg-rose-950/60 border-rose-500/40 text-white"
+                          }`}>
+                            <div className="flex items-center gap-3 min-w-0">
+                              {referenceImage ? (
+                                <img src={referenceImage} alt="Character Reference" className="w-12 h-12 object-cover rounded-lg shadow-xs border border-rose-300 shrink-0" />
+                              ) : (
+                                <div className="w-12 h-12 rounded-lg bg-rose-200 text-rose-900 flex items-center justify-center font-black text-xl shrink-0">👤</div>
+                              )}
+                              <div className="min-w-0">
+                                <h4 className={`font-black text-xs ${isLight ? "text-rose-950" : "text-white"}`}>✅ Character Reference Active</h4>
+                                <p className={`text-[11px] mt-0.5 truncate ${isLight ? "text-rose-900 font-semibold" : "text-rose-200"}`}>
+                                  {referenceCharacterInfo || "Traits locked for prompt generation"}
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => { setReferenceImage(null); setReferenceCharacterInfo(null); }}
+                              className="text-xs font-black text-rose-600 hover:text-rose-700 bg-rose-100 hover:bg-rose-200 border border-rose-300 px-2.5 py-1 rounded-lg transition-all shrink-0 cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        )}
+                        <label className={`text-xs font-black uppercase tracking-wider flex items-center justify-between ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>
                           <span>Character Reference Image (Optional)</span>
                           <button 
+                            type="button"
                             onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                            className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
+                            className="text-xs text-indigo-600 hover:text-indigo-700 flex items-center gap-1 font-black cursor-pointer"
                           >🖼️ Browse Library</button>
                         </label>
                         <div className="flex flex-col gap-2">
                           <input
                             accept="image/*"
-                            multiple
-                            className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                            onChange={handleImageUpload}
+                            className={`w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer ${
+                              isLight ? "text-slate-800 font-bold" : "text-slate-300"
+                            }`}
                             type="file"
                           />
                         </div>
@@ -4180,38 +4489,50 @@ export default function NanoProGenerator() {
 
                       {/* Art Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Art Style</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Art Style</label>
                         <select
                           value={shyArtStyle}
                           onChange={(e) => setShyArtStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="Cinematic Silhouette">Cinematic Silhouette</option>
-                          <option value="Moody Rain & Window Drops">Moody Rain & Window Drops</option>
-                          <option value="Double Exposure Nature">Double Exposure Nature</option>
-                          <option value="Soft Ethereal Watercolor">Soft Ethereal Watercolor</option>
-                          <option value="Vintage Film & Light Leaks">Vintage Film & Light Leaks</option>
-                          <option value="Neon City Reflections">Neon City Reflections</option>
-                          <option value="Minimalist Line Art">Minimalist Line Art</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Cinematic Silhouette" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cinematic Silhouette</option>
+                          <option value="Moody Rain & Window Drops" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Moody Rain & Window Drops</option>
+                          <option value="Double Exposure Nature" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Double Exposure Nature</option>
+                          <option value="Soft Ethereal Watercolor" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Soft Ethereal Watercolor</option>
+                          <option value="Vintage Film & Light Leaks" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Vintage Film & Light Leaks</option>
+                          <option value="Neon City Reflections" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Neon City Reflections</option>
+                          <option value="Minimalist Line Art" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Minimalist Line Art</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Mood / Feeling */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Mood / Feeling</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Mood / Feeling</label>
                         <select
                           value={shyMood}
                           onChange={(e) => setShyMood(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="Melancholy & Romantic">🥀 Melancholy & Romantic</option>
-                          <option value="Deep & Philosophical">🌙 Deep & Philosophical</option>
-                          <option value="Heartbroken & Solitary">🌧️ Heartbroken & Solitary</option>
-                          <option value="Peaceful & Ethereal">✨ Peaceful & Ethereal</option>
-                          <option value="Nostalgic & Warm">🕰️ Nostalgic & Warm</option>
-                          <option value="Passionate & Intense">🔥 Passionate & Intense</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Melancholy & Romantic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🥀 Melancholy & Romantic</option>
+                          <option value="Deep & Philosophical" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌙 Deep & Philosophical</option>
+                          <option value="Heartbroken & Solitary" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌧️ Heartbroken & Solitary</option>
+                          <option value="Peaceful & Ethereal" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Peaceful & Ethereal</option>
+                          <option value="Nostalgic & Warm" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🕰️ Nostalgic & Warm</option>
+                          <option value="Passionate & Intense" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🔥 Passionate & Intense</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -4221,37 +4542,49 @@ export default function NanoProGenerator() {
 
                       {/* Color Theme */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Color Theme</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Color Theme</label>
                         <select
                           value={shyColorTheme}
                           onChange={(e) => setShyColorTheme(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="Moody Monochromatic">🖤 Moody Monochromatic (B&W)</option>
-                          <option value="Deep Blues & Cyan">🌌 Deep Blues & Cyan</option>
-                          <option value="Warm Golden Hour">🌇 Warm Golden Hour</option>
-                          <option value="Faded Vintage Sepia">🎞️ Faded Vintage Sepia</option>
-                          <option value="Dark Reds & Shadows">🍷 Dark Reds & Shadows</option>
-                          <option value="Muted Pastels">🌸 Muted Pastels</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Moody Monochromatic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖤 Moody Monochromatic (B&W)</option>
+                          <option value="Deep Blues & Cyan" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌌 Deep Blues & Cyan</option>
+                          <option value="Warm Golden Hour" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌇 Warm Golden Hour</option>
+                          <option value="Faded Vintage Sepia" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎞️ Faded Vintage Sepia</option>
+                          <option value="Dark Reds & Shadows" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🍷 Dark Reds & Shadows</option>
+                          <option value="Muted Pastels" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌸 Muted Pastels</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Typography Style */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Typography Style</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Typography Style</label>
                         <select
                           value={shyTextStyle}
                           onChange={(e) => setShyTextStyle(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="Elegant Calligraphy & Serif Mix">Elegant Calligraphy & Serif Mix</option>
-                          <option value="Delicate Handwritten Script">Delicate Handwritten Script</option>
-                          <option value="Vintage Typewriter Ink">Vintage Typewriter Ink</option>
-                          <option value="Glowing Neon Sign">Glowing Neon Sign</option>
-                          <option value="Faded Distressed Stencil">Faded Distressed Stencil</option>
-                          <option value="Clean Minimalist Sans">Clean Minimalist Sans</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Elegant Calligraphy & Serif Mix" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Elegant Calligraphy & Serif Mix</option>
+                          <option value="Delicate Handwritten Script" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Delicate Handwritten Script</option>
+                          <option value="Vintage Typewriter Ink" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Vintage Typewriter Ink</option>
+                          <option value="Glowing Neon Sign" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Glowing Neon Sign</option>
+                          <option value="Faded Distressed Stencil" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Faded Distressed Stencil</option>
+                          <option value="Clean Minimalist Sans" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Clean Minimalist Sans</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
@@ -4261,42 +4594,56 @@ export default function NanoProGenerator() {
 
                       {/* Layout */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Layout / Composition</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Layout / Composition</label>
                         <select
                           value={shyLayout}
                           onChange={(e) => setShyLayout(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="Centered Poetry">Centered Poetry</option>
-                          <option value="Text in Negative Space (Sky/Water)">Text in Negative Space</option>
-                          <option value="Split Screen: Art Top, Text Bottom">Split Screen: Art Top, Text Bottom</option>
-                          <option value="Text Overlaid on Silhouettes">Text Overlaid on Silhouettes</option>
-                          <option value="Any / AI Decides">Any / AI Decides</option>
+                          <option value="Centered Poetry" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Centered Poetry</option>
+                          <option value="Text in Negative Space (Sky/Water)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text in Negative Space</option>
+                          <option value="Split Screen: Art Top, Text Bottom" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Split Screen: Art Top, Text Bottom</option>
+                          <option value="Text Overlaid on Silhouettes" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Overlaid on Silhouettes</option>
+                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
                         </select>
                       </div>
 
                       {/* Format */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Format / Aspect Ratio</label>
+                        <label className={`text-xs font-black uppercase tracking-wider block ${
+                          isLight ? "text-slate-900" : "text-slate-300"
+                        }`}>Format / Aspect Ratio</label>
                         <select
                           value={shyFormat}
                           onChange={(e) => setShyFormat(e.target.value)}
-                          className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
+                            isLight
+                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
+                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
+                          }`}
                         >
-                          <option value="9:16 Mobile">📱 9:16 Mobile / Reels</option>
-                          <option value="4:5 Portrait">📸 4:5 Portrait</option>
-                          <option value="1:1 Square">⬜ 1:1 Square</option>
-                          <option value="16:9 Desktop">🖥️ 16:9 Desktop</option>
+                          <option value="9:16 Mobile" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📱 9:16 Mobile / Reels</option>
+                          <option value="4:5 Portrait" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📸 4:5 Portrait</option>
+                          <option value="1:1 Square" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ 1:1 Square</option>
+                          <option value="16:9 Desktop" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖥️ 16:9 Desktop</option>
                         </select>
                       </div>
 
                     </div>
 
                     {/* Style reference note */}
-                    <div className="flex items-start gap-3 p-3 rounded-xl bg-rose-500/5 border border-rose-500/20">
-                      <span className="text-rose-400 text-lg mt-0.5">🥀</span>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        Prompts are optimized for <span className="text-rose-300 font-semibold">poetic and artistic imagery</span> (like Shayari or Song Lyric posts) — featuring atmospheric moods, elegant typography, and highly aesthetic compositions.
+                    <div className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                      isLight ? "bg-rose-50 border-rose-200 text-rose-950 font-semibold shadow-xs" : "bg-rose-500/5 border border-rose-500/20 text-slate-400"
+                    }`}>
+                      <span className="text-rose-500 text-lg mt-0.5">🥀</span>
+                      <p className={`text-xs leading-relaxed ${isLight ? "text-rose-950 font-semibold" : "text-slate-400"}`}>
+                        Prompts are optimized for <span className="text-rose-600 font-black">poetic and artistic imagery</span> (like Shayari or Song Lyric posts) — featuring atmospheric moods, elegant typography, and highly aesthetic compositions.
                       </p>
                     </div>
 
@@ -4320,27 +4667,37 @@ export default function NanoProGenerator() {
 
             {/* Right Column: Output */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-4 backdrop-blur-xl">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
+              <div className={`rounded-2xl p-4 border transition-all ${
+                isLight ? "bg-white border-slate-200 text-slate-900 shadow-md" : "bg-slate-900/40 border-white/5 text-slate-100 backdrop-blur-xl"
+              }`}>
+                <label className={`text-xs font-black uppercase tracking-wider block mb-2 ${
+                  isLight ? "text-slate-900" : "text-slate-300"
+                }`}>
                   AI Model
                 </label>
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm font-medium text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
+                    isLight
+                      ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
+                      : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
+                  }`}
                 >
-                  <option value="claude-sonnet-4-6">Claude 4.6 Sonnet (Most Capable)</option>
-                  <option value="claude-sonnet-4-5-20250929">Claude 4.5 Sonnet (Legacy)</option>
-                  <option value="claude-haiku-4-5-20251001">Claude 4.5 Haiku (Fastest)</option>
-                  <option value="claude-opus-4-6">Claude 4.6 Opus (Complex Reasoning)</option>
+                  <option value="claude-sonnet-4-6" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.6 Sonnet (Most Capable)</option>
+                  <option value="claude-sonnet-4-5-20250929" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.5 Sonnet (Legacy)</option>
+                  <option value="claude-haiku-4-5-20251001" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.5 Haiku (Fastest)</option>
+                  <option value="claude-opus-4-6" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.6 Opus (Complex Reasoning)</option>
                 </select>
               </div>
 
               {/* Video Generation Toggle */}
-              <div className="mb-6 bg-slate-900/50 border border-white/10 rounded-xl p-4 flex items-center justify-between">
+              <div className={`mb-6 rounded-xl p-4 flex items-center justify-between border transition-all ${
+                isLight ? "bg-white border-slate-200 text-slate-900 shadow-md" : "bg-slate-900/50 border-white/10 text-white"
+              }`}>
                 <div>
-                  <h4 className="text-white font-bold text-sm">Generate Animation Video Prompt</h4>
-                  <p className="text-xs text-slate-400 mt-0.5">Appends cinematic video motion instructions</p>
+                  <h4 className={`font-black text-sm ${isLight ? "text-slate-900" : "text-white"}`}>Generate Animation Video Prompt</h4>
+                  <p className={`text-xs mt-0.5 ${isLight ? "text-slate-600 font-medium" : "text-slate-400"}`}>Appends cinematic video motion instructions</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input 
@@ -4349,54 +4706,58 @@ export default function NanoProGenerator() {
                     checked={generateVideo}
                     onChange={(e) => setGenerateVideo(e.target.checked)}
                   />
-                  <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
 
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating}
-                className={`w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border border-white/10 ${
+                className={`w-full flex items-center justify-center gap-2 text-white font-black py-4 px-6 rounded-2xl shadow-xl transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed border ${
                   activeTab === "fb-post"
-                    ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-900/20")
+                    ? "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 shadow-pink-500/25 border-pink-400/40 text-white"
                     : activeTab === "shayari-post"
-                    ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-rose-900/20")
-                    : (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 shadow-blue-900/20" : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-900/20")
+                    ? "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-rose-500/25 border-rose-400/40 text-white"
+                    : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-purple-500/25 border-purple-400/40 text-white"
                 }`}
               >
                 {isGenerating ? (
-                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  <RefreshCw className="w-5 h-5 animate-spin text-white" />
                 ) : activeTab === "fb-post" ? (
                   <span className="text-lg">📘</span>
                 ) : activeTab === "shayari-post" ? (
                   <span className="text-lg">🥀</span>
                 ) : (
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-5 h-5 text-white" />
                 )}
                 {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : activeTab === "shayari-post" ? "Generate Poetry Art Prompt" : "Generate Prompt"}
               </button>
 
-              <div className={`bg-slate-900/60 border ${generateVideo ? 'border-blue-500/30' : 'border-purple-500/30'} rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group`}>
+              <div className={`rounded-2xl p-5 shadow-xl relative overflow-hidden group border transition-all ${
+                isLight
+                  ? "bg-white border-slate-200 text-slate-900 shadow-md"
+                  : "bg-slate-900/60 border-purple-500/30 text-slate-100 backdrop-blur-xl"
+              }`}>
                 <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${generateVideo ? 'from-blue-500 to-cyan-500' : 'from-purple-500 to-indigo-500'}`}></div>
                 
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                  <h3 className={`font-black text-sm flex items-center gap-2 ${isLight ? "text-slate-900" : "text-slate-200"}`}>
                     Generated Output
-                    {generatedPrompt && <span className="text-[10px] text-slate-500 font-normal">(click to copy)</span>}
+                    {generatedPrompt && <span className={`text-[10px] font-semibold ${isLight ? "text-slate-500" : "text-slate-400"}`}>(click to copy)</span>}
                   </h3>
                   <div className="flex gap-2">
                     {generatedPrompt && (
                       <div className="flex gap-2 items-center flex-wrap">
                         <button
                           onClick={(e) => handleCopy(e)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all border cursor-pointer ${
                             isCopied
-                              ? "bg-green-500/20 border-green-500/40 text-green-400"
+                              ? "bg-green-50 text-green-800 border-green-300"
                               : activeTab === "fb-post"
-                              ? "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                              ? "bg-pink-50 hover:bg-pink-100 border-pink-200 text-pink-900"
                               : activeTab === "shayari-post"
-                              ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
-                              : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
+                              ? "bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-900"
+                              : (isLight ? "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-900" : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white")
                           }`}
                         >
                           <Copy className="w-3.5 h-3.5" />
@@ -4405,7 +4766,7 @@ export default function NanoProGenerator() {
                         
                         <button
                           onClick={(e) => handleCopy(e, " crop_16_9 16:9")}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/30 text-blue-300 hover:text-white"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all border bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-900 cursor-pointer"
                           title="Copy with 16:9 aspect ratio"
                         >
                           <Copy className="w-3.5 h-3.5" />
@@ -4413,7 +4774,7 @@ export default function NanoProGenerator() {
                         </button>
                         <button
                           onClick={(e) => handleCopy(e, " crop_9_16 9:16")}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/30 text-blue-300 hover:text-white"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all border bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-900 cursor-pointer"
                           title="Copy with 9:16 aspect ratio"
                         >
                           <Copy className="w-3.5 h-3.5" />
@@ -4421,10 +4782,14 @@ export default function NanoProGenerator() {
                         </button>
                       </div>
                     )}
-                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="Reset All">
+                    <button className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                      isLight ? "text-slate-600 hover:bg-slate-100 hover:text-slate-950" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                    }`} title="Reset All">
                       <RotateCcw className="w-4 h-4" />
                     </button>
-                    <button className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors" title="History">
+                    <button className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                      isLight ? "text-slate-600 hover:bg-slate-100 hover:text-slate-950" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                    }`} title="History">
                       <Clock className="w-4 h-4" />
                     </button>
                   </div>
@@ -4433,16 +4798,18 @@ export default function NanoProGenerator() {
                 {/* FB Post / Shayari: Social Title & Tags */}
                 {(activeTab === "fb-post" || activeTab === "shayari-post") && (fbPostTitle || fbPostTags.length > 0) && (
                   <div className={`mb-3 p-3.5 rounded-xl border space-y-2.5 relative ${
-                    activeTab === "shayari-post" ? "bg-rose-950/30 border-rose-500/20" : "bg-pink-950/30 border-pink-500/20"
+                    activeTab === "shayari-post" 
+                      ? (isLight ? "bg-rose-50/80 border-rose-200 text-slate-900" : "bg-rose-950/30 border-rose-500/20")
+                      : (isLight ? "bg-pink-50/80 border-pink-200 text-slate-900" : "bg-pink-950/30 border-pink-500/20")
                   }`}>
                     <button
                       onClick={handleCopyCaption}
-                      className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold transition-all border ${
+                      className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black transition-all border cursor-pointer ${
                         isCopiedCaption
-                          ? "bg-green-500/20 border-green-500/40 text-green-400"
+                          ? "bg-green-50 border-green-300 text-green-900"
                           : activeTab === "shayari-post"
-                          ? "bg-rose-500/10 hover:bg-rose-500/20 border-rose-500/30 text-rose-300 hover:text-white"
-                          : "bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/30 text-pink-300 hover:text-white"
+                          ? "bg-rose-100 hover:bg-rose-200 border-rose-300 text-rose-900"
+                          : "bg-pink-100 hover:bg-pink-200 border-pink-300 text-pink-900"
                       }`}
                     >
                       <Copy className="w-3 h-3" />
@@ -4450,29 +4817,31 @@ export default function NanoProGenerator() {
                     </button>
                     {fbPostTitle && (
                       <div className="pr-20">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider block mb-1 ${
-                          activeTab === "shayari-post" ? "text-rose-400" : "text-pink-400"
+                        <span className={`text-[10px] font-black uppercase tracking-wider block mb-1 ${
+                          activeTab === "shayari-post" ? "text-rose-900" : "text-pink-900"
                         }`}>📢 Post Caption / Title</span>
-                        <p className={`text-sm leading-snug font-medium ${
-                          activeTab === "shayari-post" ? "text-rose-100" : "text-pink-100"
+                        <p className={`text-sm leading-snug font-bold ${
+                          isLight ? "text-slate-900" : (activeTab === "shayari-post" ? "text-rose-100" : "text-pink-100")
                         }`}>{fbPostTitle}</p>
                       </div>
                     )}
                     {fbPostTags.length > 0 && (
                       <div>
-                        <span className={`text-[10px] font-bold uppercase tracking-wider block mb-1.5 ${
-                          activeTab === "shayari-post" ? "text-rose-400" : "text-pink-400"
+                        <span className={`text-[10px] font-black uppercase tracking-wider block mb-1.5 ${
+                          activeTab === "shayari-post" ? "text-rose-900" : "text-pink-900"
                         }`}>🏷️ Hashtags</span>
                         <div className="flex flex-wrap gap-2">
                           {fbPostTags.map((tag, i) => (
-                            <span key={i} className={`text-xs font-bold border rounded-lg px-2.5 py-1 ${
-                              activeTab === "shayari-post" ? "text-rose-300 bg-rose-500/10 border-rose-500/20" : "text-pink-300 bg-pink-500/10 border-pink-500/20"
+                            <span key={i} className={`text-xs font-black border rounded-lg px-2.5 py-1 ${
+                              isLight
+                                ? "bg-white text-slate-900 border-slate-300 shadow-xs"
+                                : (activeTab === "shayari-post" ? "text-rose-300 bg-rose-500/10 border-rose-500/20" : "text-pink-300 bg-pink-500/10 border-pink-500/20")
                             }`}>{tag}</span>
                           ))}
                         </div>
                       </div>
                     )}
-                    <p className="text-[10px] text-slate-500 italic">☝️ "Copy All" copies caption + tags + image prompt together</p>
+                    <p className={`text-[10px] italic ${isLight ? "text-slate-600 font-medium" : "text-slate-500"}`}>☝️ "Copy All" copies caption + tags + image prompt together</p>
                   </div>
                 )}
 
@@ -4480,17 +4849,23 @@ export default function NanoProGenerator() {
                 <div
                   onClick={(e) => handleCopy(e)}
                   title={generatedPrompt ? "Click to copy" : undefined}
-                  className={`bg-black/40 rounded-xl p-4 min-h-[200px] border border-white/5 font-mono text-sm text-purple-200/90 leading-relaxed shadow-inner transition-colors ${
-                    generatedPrompt ? "cursor-pointer hover:bg-black/60 hover:border-purple-500/20 active:scale-[0.995]" : ""
+                  className={`rounded-xl p-4 min-h-[200px] border font-mono text-sm leading-relaxed shadow-inner transition-colors font-bold ${
+                    isLight
+                      ? "bg-slate-50 border-slate-300 text-slate-900"
+                      : "bg-black/40 border-white/5 text-purple-200/90"
+                  } ${
+                    generatedPrompt ? "cursor-pointer hover:border-purple-500/40 active:scale-[0.995]" : ""
                   }`}
                 >
                   {activeTab === "fb-post" && generatedPrompt ? (
                     <>
-                      <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block mb-2">🖼️ Image Prompt</span>
+                      <span className={`text-[10px] uppercase tracking-wider font-black block mb-2 ${
+                        isLight ? "text-slate-600" : "text-slate-500"
+                      }`}>🖼️ Image Prompt</span>
                       {generatedPrompt}
                     </>
                   ) : (
-                    generatedPrompt || <span className="text-slate-600 italic">Your generated Nano Pro prompt will appear here...</span>
+                    generatedPrompt || <span className={isLight ? "text-slate-500 italic font-semibold" : "text-slate-600 italic"}>Your generated Nano Pro prompt will appear here...</span>
                   )}
                 </div>
               </div>
@@ -4500,21 +4875,33 @@ export default function NanoProGenerator() {
 
           {/* History Section */}
           {promptHistory.length > 0 && (
-            <div className="mt-12 bg-slate-900/40 border border-white/5 rounded-2xl p-6 backdrop-blur-xl">
+            <div className={`mt-12 rounded-2xl sm:rounded-3xl p-5 sm:p-7 border shadow-xl space-y-5 relative z-0 transition-all duration-300 ${
+              isLight
+                ? "bg-white border-slate-200 text-slate-900 shadow-md"
+                : "bg-slate-900/40 border-white/5 text-slate-100 backdrop-blur-xl"
+            }`}>
               <div className="flex items-center gap-2 mb-6">
-                <Clock className="w-5 h-5 text-purple-400" />
-                <h2 className="text-xl font-bold text-white">Prompt History</h2>
+                <Clock className="w-5 h-5 text-purple-500" />
+                <h2 className={`text-xl font-black ${isLight ? "text-slate-900" : "text-white"}`}>Prompt History</h2>
               </div>
               <div className="space-y-4">
                 {promptHistory.slice((historyPage - 1) * itemsPerPage, historyPage * itemsPerPage).map((item, index) => (
-                  <div key={index} className="bg-black/40 rounded-xl p-4 border border-white/5 relative group">
-                    <div className="text-xs text-slate-500 mb-3 font-mono">{item.timestamp}</div>
+                  <div key={index} className={`rounded-xl p-4 border relative group transition-all ${
+                    isLight
+                      ? "bg-slate-50 border-slate-200 text-slate-900 shadow-sm"
+                      : "bg-black/40 border-white/5 text-slate-100"
+                  }`}>
+                    <div className={`text-xs mb-3 font-mono ${isLight ? "text-slate-500 font-semibold" : "text-slate-500"}`}>{item.timestamp}</div>
                     {item.parameters && (
                       <div className="flex flex-wrap gap-2 mb-3 pr-12">
                         {Object.entries(item.parameters || {}).map(([key, value]) => {
                           if (!value || value === "Any / AI Decides") return null;
                           return (
-                            <span key={key} className="text-[10px] uppercase tracking-wider px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded">
+                            <span key={key} className={`text-[10px] uppercase tracking-wider px-2 py-1 border rounded font-extrabold ${
+                              isLight
+                                ? "bg-purple-50 text-purple-900 border-purple-200 shadow-xs"
+                                : "bg-purple-500/10 text-purple-400 border-purple-500/20"
+                            }`}>
                               {key.replace(/([A-Z])/g, ' $1').trim()}: {String(value)}
                             </span>
                           );
@@ -4524,24 +4911,36 @@ export default function NanoProGenerator() {
                     
                     {/* Social Title & Tags in History */}
                     {(item.title || (item.tags && item.tags.length > 0)) && (
-                      <div className="mb-3 p-3 rounded-xl bg-purple-950/20 border border-purple-500/10 space-y-2 pr-12">
+                      <div className={`mb-3 p-3 rounded-xl border space-y-2 pr-12 ${
+                        isLight
+                          ? "bg-purple-50/80 border-purple-200 text-slate-900"
+                          : "bg-purple-950/20 border-purple-500/10 text-purple-200"
+                      }`}>
                         {item.title && (
                           <div>
-                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block mb-1">📢 Post Caption / Title</span>
-                            <p className="text-sm text-purple-200 leading-snug font-medium">{item.title}</p>
+                            <span className={`text-[10px] font-black uppercase tracking-wider block mb-1 ${
+                              isLight ? "text-purple-900" : "text-purple-400"
+                            }`}>📢 Post Caption / Title</span>
+                            <p className={`text-sm leading-snug font-bold ${isLight ? "text-slate-900" : "text-purple-200"}`}>{item.title}</p>
                           </div>
                         )}
                         {item.tags && item.tags.length > 0 && (
                           <div className="flex flex-wrap gap-2">
                             {item.tags.map((tag: string, i: number) => (
-                              <span key={i} className="text-[10px] font-bold text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-md px-2 py-0.5">{tag}</span>
+                              <span key={i} className={`text-[10px] font-black border rounded-md px-2 py-0.5 ${
+                                isLight
+                                  ? "bg-white text-purple-950 border-purple-200 shadow-xs"
+                                  : "text-purple-300 bg-purple-500/10 border-purple-500/20"
+                              }`}>{tag}</span>
                             ))}
                           </div>
                         )}
                       </div>
                     )}
 
-                    <div className="font-mono text-sm text-purple-200/90 leading-relaxed pr-12">
+                    <div className={`font-mono text-sm leading-relaxed pr-12 font-bold ${
+                      isLight ? "text-slate-900" : "text-purple-200/90"
+                    }`}>
                       {item.prompt}
                     </div>
                     <button 
@@ -4559,7 +4958,11 @@ export default function NanoProGenerator() {
                         setIsCopied(true);
                         setTimeout(() => setIsCopied(false), 2000);
                       }}
-                      className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
+                      className={`absolute top-4 right-4 p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100 ${
+                        isLight
+                          ? "bg-slate-200 hover:bg-slate-300 text-slate-800"
+                          : "bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white"
+                      }`}
                       title="Copy All to clipboard"
                     >
                       <Copy className="w-4 h-4" />
@@ -4569,22 +4972,32 @@ export default function NanoProGenerator() {
               </div>
               
               {promptHistory.length > itemsPerPage && (
-                <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5">
-                  <span className="text-sm text-slate-500">
+                <div className={`flex justify-between items-center mt-6 pt-4 border-t ${
+                  isLight ? "border-slate-200" : "border-white/5"
+                }`}>
+                  <span className={`text-sm ${isLight ? "text-slate-600 font-extrabold" : "text-slate-500 font-medium"}`}>
                     Showing {(historyPage - 1) * itemsPerPage + 1}-{Math.min(historyPage * itemsPerPage, promptHistory.length)} of {promptHistory.length}
                   </span>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={() => setHistoryPage(p => Math.max(1, p - 1))}
                       disabled={historyPage === 1}
-                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 rounded-lg text-sm text-slate-300 transition-colors"
+                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer font-bold disabled:opacity-40 ${
+                        isLight
+                          ? "bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800"
+                          : "bg-white/5 hover:bg-white/10 text-slate-300"
+                      }`}
                     >
                       Previous
                     </button>
                     <button 
                       onClick={() => setHistoryPage(p => Math.min(Math.ceil(promptHistory.length / itemsPerPage), p + 1))}
                       disabled={historyPage === Math.ceil(promptHistory.length / itemsPerPage)}
-                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 rounded-lg text-sm text-slate-300 transition-colors"
+                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer font-bold disabled:opacity-40 ${
+                        isLight
+                          ? "bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800"
+                          : "bg-white/5 hover:bg-white/10 text-slate-300"
+                      }`}
                     >
                       Next
                     </button>
@@ -4598,27 +5011,45 @@ export default function NanoProGenerator() {
 
       {/* Character Library Modal */}
       {showCharacterLibrary && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
-            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                📚 Character Library
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className={`rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh] border transition-all ${
+            isLight
+              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-slate-400/20"
+              : "bg-slate-900 border border-slate-800 text-white shadow-black/80"
+          }`}>
+            <div className={`p-4 border-b flex justify-between items-center ${
+              isLight ? "bg-slate-100/90 border-slate-200" : "bg-black/40 border-white/5"
+            }`}>
+              <h3 className={`text-lg font-black flex items-center gap-2 ${
+                isLight ? "text-slate-900" : "text-white"
+              }`}>
+                🖼️ Character Library
               </h3>
-              <button onClick={() => setShowCharacterLibrary(false)} className="text-slate-400 hover:text-white transition-colors">
-                <X className="w-6 h-6" />
+              <button 
+                type="button"
+                onClick={() => setShowCharacterLibrary(false)} 
+                className={`p-1 rounded-lg transition-colors cursor-pointer ${
+                  isLight ? "text-slate-500 hover:text-slate-900 hover:bg-slate-200" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                }`}
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
             
-            <div className="p-4 overflow-y-auto flex-1">
+            <div className="p-4 overflow-y-auto flex-1 custom-scrollbar">
               {isLoadingLibrary ? (
-                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                <div className="flex flex-col items-center justify-center h-48 gap-3">
                   <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-                  <span className="text-slate-400 text-sm">Loading characters...</span>
+                  <span className={`text-xs font-extrabold ${isLight ? "text-slate-600" : "text-slate-400"}`}>
+                    Loading character library...
+                  </span>
                 </div>
               ) : savedCharacters.length === 0 ? (
-                <div className="text-center py-12 text-slate-400">
-                  <p>No characters saved yet.</p>
-                  <p className="text-sm mt-2">Upload an image in the Idea Generator to save your first character!</p>
+                <div className="text-center py-16">
+                  <p className={`font-bold ${isLight ? "text-slate-700" : "text-slate-400"}`}>No saved characters found.</p>
+                  <p className={`text-xs mt-2 ${isLight ? "text-slate-500" : "text-slate-500"}`}>
+                    Upload an image or generate characters to save them to your library!
+                  </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -4629,18 +5060,41 @@ export default function NanoProGenerator() {
                         setReferenceImage(char.imageUrl);
                         setReferenceCharacterInfo(char.description);
                         setShowCharacterLibrary(false);
+                        showToast("✅ Character selected from library!", "success");
                       }}
-                      className="group cursor-pointer bg-black/40 rounded-xl border border-white/5 hover:border-indigo-500/50 transition-all overflow-hidden flex flex-col"
+                      className={`group relative cursor-pointer rounded-xl border transition-all overflow-hidden flex flex-col ${
+                        isLight
+                          ? "bg-slate-50 border-slate-200 hover:border-indigo-500 hover:shadow-md"
+                          : "bg-black/40 border-white/10 hover:border-indigo-500/60"
+                      }`}
                     >
                       <div className="aspect-square overflow-hidden relative">
                         <img 
                           src={char.imageUrl} 
                           alt={char.name} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
+
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteCharacter(e, char.id)}
+                          className="absolute top-2 right-2 p-1.5 rounded-lg bg-rose-600/90 text-white hover:bg-rose-700 hover:scale-105 transition-all shadow-md cursor-pointer opacity-90 sm:opacity-0 group-hover:opacity-100"
+                          title="Delete image from library"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
-                      <div className="p-2">
-                        <p className="text-white text-xs font-bold truncate">{char.name}</p>
+
+                      <div className={`p-2.5 flex items-center justify-between gap-1 border-t ${
+                        isLight ? "bg-white border-slate-200" : "bg-slate-900/90 border-white/5"
+                      }`}>
+                        <p className={`text-xs font-black truncate ${
+                          isLight ? "text-slate-900" : "text-white"
+                        }`}>
+                          {char.name}
+                        </p>
+                        <span className="text-[10px] font-bold text-indigo-500 shrink-0">Use ➔</span>
                       </div>
                     </div>
                   ))}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
@@ -15,14 +16,25 @@ export async function POST(req: Request) {
       complexion,
       backgroundStyle,
       referenceCharacterInfo,
-      generateVideo = false, generateImagePrompt = true,
+      generateVideo = false,
+      generateImagePrompt = true,
       videoVariation = "Simple Character Animation",
       targetPlatform = "Both"
     } = body;
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY || "",
-    });
+    const resolveModel = (model: string) => {
+      if (model && (model.includes("opus") || model.includes("Opus"))) {
+        return "claude-opus-4-6";
+      }
+      if (model && (model.includes("haiku") || model.includes("Haiku"))) {
+        return "claude-haiku-4-5-20251001";
+      }
+      return "claude-sonnet-4-6";
+    };
+
+    const preferredModel = resolveModel(aiModel);
+    const anthropicApiKey = process.env.ANTHROPIC_API_KEY || "";
+    const geminiApiKey = process.env.GEMINI_API_KEY || "";
 
     const prompt = `You are an expert prompt engineer for an AI generator. 
 Write detailed prompts based on the following parameters:
@@ -36,9 +48,9 @@ Write detailed prompts based on the following parameters:
 - Background/Environment: ${backgroundStyle}
 
 ${referenceCharacterInfo ? `CRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:
-\"\"\"
+"""
 ${referenceCharacterInfo}
-\"\"\"` : ""}
+"""` : ""}
 
 CRITICAL RULES:
 1. Provide ONLY a valid JSON object. Do not include any explanations, greetings, or markdown code blocks (e.g. \`\`\`json).
@@ -53,15 +65,55 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Google Flow
 ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? `   - "geminiVideoPrompt": A video animation prompt for Gemini using the exact same scene and character details. Follow the same explicit timing constraints as above.` : ''}
 `;
 
-    const response = await anthropic.messages.create({
-      model: aiModel,
-      max_tokens: 1000,
-      temperature: 0.7,
-      messages: [{ role: "user", content: prompt }],
-    });
+    let rawText = "";
+    let lastError: any = null;
 
-    const rawText = response.content[0].type === 'text' ? response.content[0].text : "";
-    
+    // Fallback list of models to try if the requested model returns 404
+    const modelsToTry = Array.from(new Set([
+      preferredModel,
+      "claude-sonnet-4-6",
+      "claude-sonnet-4-5-20250929",
+      "claude-haiku-4-5-20251001",
+      "claude-opus-4-6",
+    ]));
+
+    if (anthropicApiKey) {
+      const anthropic = new Anthropic({ apiKey: anthropicApiKey });
+      for (const modelName of modelsToTry) {
+        try {
+          const response = await anthropic.messages.create({
+            model: modelName,
+            max_tokens: 1000,
+            temperature: 0.7,
+            messages: [{ role: "user", content: prompt }],
+          });
+          rawText = response.content[0].type === "text" ? response.content[0].text : "";
+          if (rawText) break;
+        } catch (err: any) {
+          console.warn(`Anthropic model (${modelName}) error:`, err?.message || err);
+          lastError = err;
+        }
+      }
+    }
+
+    // Secondary fallback: Gemini API if Anthropic fails or 404
+    if (!rawText && geminiApiKey) {
+      try {
+        const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+        const response = await ai.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: prompt,
+        });
+        rawText = response.text || "";
+      } catch (gemErr: any) {
+        console.warn("Gemini fallback error:", gemErr?.message || gemErr);
+      }
+    }
+
+    if (!rawText) {
+      throw new Error(lastError?.message || "Failed to generate prompt. All model endpoints failed.");
+    }
+
     let result = { prompt: rawText };
     try {
       const jsonMatch = rawText.match(/\{[\s\S]*\}/);
@@ -69,7 +121,7 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
         result = JSON.parse(jsonMatch[0]);
       }
     } catch (e) {
-       // fallback if parsing fails
+      // fallback if parsing fails
     }
 
     return NextResponse.json(result);
@@ -78,4 +130,3 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
     return NextResponse.json({ error: error.message || "Failed to generate prompt" }, { status: 500 });
   }
 }
-

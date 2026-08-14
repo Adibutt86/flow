@@ -1,31 +1,39 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const {
-      aiModel = "claude-sonnet-4-6",
+      aiModel = "claude-3-5-sonnet-20241022",
       quoteText,
       characterStyle = "Any / AI Decides",
       artStyle = "Cinematic Silhouette",
       colorTheme = "Moody Monochromatic",
       layout = "Centered Poetry",
       format = "9:16 Mobile",
+      disableQuote = false,
+      disableImage = false,
       textStyle = "Elegant Calligraphy & Serif Mix",
       mood = "Melancholy & Romantic",
-      generateVideo = false,
-      videoVariation = "Simple Character Animation",
-      targetPlatform = "Both",
-      disableQuote = false, disableImage = false,
       referenceCharacterInfo,
     } = body;
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY || "",
-    });
+    const resolveModel = (model: string) => {
+      if (model && (model.includes("opus") || model.includes("Opus"))) {
+        return "claude-opus-4-6";
+      }
+      if (model && (model.includes("haiku") || model.includes("Haiku"))) {
+        return "claude-haiku-4-5-20251001";
+      }
+      return "claude-sonnet-4-6";
+    };
 
-    // Map format to aspect ratio parameter
+    const preferredModel = resolveModel(aiModel);
+    const anthropicApiKey = process.env.ANTHROPIC_API_KEY || "";
+    const geminiApiKey = process.env.GEMINI_API_KEY || "";
+
     const formatToAR: Record<string, string> = {
       "9:16 Mobile": "9:16",
       "4:5 Portrait": "4:5",
@@ -34,82 +42,82 @@ export async function POST(req: Request) {
     };
     const arParam = formatToAR[format] || "9:16";
 
-    const systemPrompt = `You are an expert AI image prompt engineer who specializes in generating artistic, poetic imagery for Shayari and Song lyrics.
+    const systemPrompt = `You are an expert AI image prompt engineer who specializes in generating poetic, romantic, and emotional Shayari/Song post image prompts.
 
-You have deep knowledge of the specific visual style for poetry and music aesthetics on social media — characterized by:
-- Deeply atmospheric, moody, and highly artistic visual compositions (silhouettes, double exposures, rainy windows, bokeh lights, misty landscapes).
-${disableQuote ? "- NO text overlay in the image, purely aesthetic and cinematic focus." : "- Elegant typography integrated naturally into the scene (delicate calligraphy, elegant serifs, handwritten scripts)."}
-- Emotional and cinematic lighting that matches the mood of the poetry.
-- Often featuring solitary figures, couples in the distance, or purely aesthetic nature/urban environments.
-- Muted, cinematic, or carefully curated color palettes (not overly saturated like typical FB posts).
-${disableQuote ? "- The imagery speaks for itself through atmosphere and emotion, without any words." : "- The text must feel like a natural part of the art, perhaps glowing softly, written in the sky, reflecting on water, or floating elegantly in empty space."}
-- Perfect mobile portrait framing (9:16) for Reels/TikToks, or square for Instagram posts.
+You have deep knowledge of aesthetic poetry visuals that go viral on social media — characterized by:
+- Deeply evocative artistic styles (Studio Ghibli, Oil Painting, Cinematic Silhouettes, Dark Moody Realism)
+- Poetic lighting (moonlit lakes, rainy windows, golden hour, lantern-lit Mehfil courtyards, autumn leaves)
+${disableQuote ? "- NO text overlay in the image, purely artistic scene focus" : "- Elegant Urdu/Arabic calligraphy or refined typography integrated seamlessly into the artwork"}
+- Rich emotional resonance matching classic & modern Urdu/Hindi poetry (Ghalib, Faiz, Jaun Elia, Rahat Indori)
 
-${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}REFERENCE STYLE BREAKDOWN:
-1. "Moody Rain" style: Cinematic shot of rain droplets on a window, blurred city lights in the background (bokeh)${disableQuote ? "" : ", delicate white serif text placed elegantly in the center"}.
-2. "Silhouette Sunset" style: Warm golden hour gradient, black silhouette of a solitary figure looking at the horizon${disableQuote ? "" : ", elegant cursive script floating in the sky"}.
-3. "Watercolor Dream" style: Soft, ethereal watercolor washes blending into each other${disableQuote ? "" : ", text appearing as if painted with ink"}.
-4. "Vintage Film" style: Grainy, nostalgic film aesthetic, light leaks, polaroid framing${disableQuote ? "" : ", typewriter font text"}.
+${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this generation. Do NOT include any typography, text, or letters in the image prompt." : ""}`;
 
-${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this generation. Do NOT include any typography, text, or letters in the image prompt. Focus entirely on the artistic imagery." : ""}`;
+    const userPrompt = `Generate a Shayari/Song post image prompt package with these specifications:
 
-    const userPrompt = `Generate a Shayari/Song artistic image prompt package with these specifications:
-
-CHARACTER STYLE: ${characterStyle}
-ART STYLE: ${artStyle}
-MOOD / FEELING: ${mood}
-COLOR THEME: ${colorTheme}
+ARTISTIC STYLE: ${artStyle}
+CHARACTER STYLE / CAST: ${characterStyle}
+POETRY MOOD: ${mood}
+COLOR PALETTE: ${colorTheme}
+LAYOUT COMPOSITION: ${layout}
 ${disableQuote ? "" : `TYPOGRAPHY STYLE: ${textStyle}`}
-LAYOUT: ${layout}
 FORMAT: ${format} (aspect ratio --ar ${arParam})
-${disableQuote ? "POETRY / LYRIC TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT OR TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `POETRY / LYRIC TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "POETRY / LYRIC TEXT: Create a fitting short romantic or deep shayari line that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT (e.g. 'zindagi', not 'ज़िंदगी'). NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
+${disableQuote ? "SHAYARI / SONG TEXT: NONE (DO NOT INCLUDE ANY TEXT IN THE IMAGE)" : (quoteText ? `SHAYARI / SONG TEXT: "${quoteText}"` : "SHAYARI / SONG TEXT: Select a beautiful, deeply moving Shayari line that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT. NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
 
-OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage is true, set the 'prompt' field to an empty string), no extra text before or after:
+OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage is true, set the 'prompt' field to an empty string), no extra text:
 {
   "prompt": "<the full detailed image generation prompt ending with --ar ${arParam}>",
-  "title": "<a poetic, aesthetic social media caption — 1-2 lines, using elegant emojis like 🥀, 🌙, ✨, 🌧️, written in a poetic tone>",
-  "tags": ["#tag1", "#tag2", "#tag3"]
-}
+  "title": "<a short, deeply poetic caption — 1 sentence, elegant emojis, perfect for Instagram/FB reel caption>",
+  "tags": ["#UrduShayari", "#PoetryLovers", "#DeepLines"]
+}`;
 
-PROMPT REQUIREMENTS:
-${disableQuote ? "1. NO TYPOGRAPHY — Do not mention any text, fonts, or words in the prompt. Do not describe text placements." : "1. Typography described as PART OF THE IMAGE COMPOSITION — text exists within the illustrated scene.\n2. Exact text placement relative to the background and figures."}
-3. Specific lighting, mood, and atmospheric details (e.g., volumetric fog, soft cinematic rain, lens flare).
-4. If figures are present, describe them artistically (e.g., silhouettes, out of focus, back-lit) to maintain a poetic, non-distracting focus on the overall mood.
-5. Make sure the scene feels "aesthetic" and deeply emotional.
-6. IMAGE QUALITY: End the prompt with high-end render keywords (e.g., "8k resolution, cinematic lighting, masterpiece, hyper-detailed photography, Unreal Engine 5, octane render, photorealistic").
-7. Prompt ends with: --ar ${arParam}
-${generateVideo ? "8. VIDEO ANIMATION INSTRUCTIONS: The user wants to animate this image. MUST explicitly add '10 sec video, ' followed by cinematic camera movement, character motion, and atmospheric animation descriptions at the very end of the prompt, right before the --ar tag." : ""}
+    let rawText = "";
+    let lastError: any = null;
 
-TITLE REQUIREMENTS:
-- Create a VERY SHORT, deeply poetic, and highly unique aesthetic caption
-- Maximum 1 short phrase or line (under 10 words if possible)
-- Must be creative, interesting, and deeply emotional (avoid generic cliches)
-- Use 1-2 aesthetic emojis (e.g., 🥀, 🌙, 🖤, ✨)
-- Match the mood: ${mood}
-- If the quote is provided in Urdu script, you may write the title in flawless Urdu. Otherwise, MUST ALWAYS BE IN ENGLISH SCRIPT (Roman/Latin letters only). NEVER write in Hindi (Devanagari) script.
+    const modelsToTry = Array.from(new Set([
+      preferredModel,
+      "claude-sonnet-4-6",
+      "claude-sonnet-4-5-20250929",
+      "claude-haiku-4-5-20251001",
+      "claude-opus-4-6",
+    ]));
 
-TAGS REQUIREMENTS:
-- Exactly 3 hashtags
-- Focus on poetry, aesthetic, shayari, song lyrics (e.g., #ShayariLovers, #AestheticVibes, #PoeticSoul)
-- No spaces in tags, use camelCase for multi-word`;
+    if (anthropicApiKey) {
+      const anthropic = new Anthropic({ apiKey: anthropicApiKey });
+      for (const modelName of modelsToTry) {
+        try {
+          const response = await anthropic.messages.create({
+            model: modelName,
+            max_tokens: 900,
+            temperature: 0.8,
+            system: systemPrompt,
+            messages: [{ role: "user", content: userPrompt }],
+          });
+          rawText = response.content[0].type === "text" ? response.content[0].text : "";
+          if (rawText) break;
+        } catch (err: any) {
+          console.warn(`Anthropic model (${modelName}) error:`, err?.message || err);
+          lastError = err;
+        }
+      }
+    }
 
-    const response = await anthropic.messages.create({
-      model: aiModel,
-      max_tokens: 900,
-      temperature: 0.8,
-      system: systemPrompt,
-      messages: [
-        {
-          role: "user",
-          content: userPrompt,
-        },
-      ],
-    });
+    if (!rawText && geminiApiKey) {
+      try {
+        const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+        const response = await ai.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: `${systemPrompt}\n\n${userPrompt}`,
+        });
+        rawText = response.text || "";
+      } catch (gemErr: any) {
+        console.warn("Gemini fallback error:", gemErr?.message || gemErr);
+      }
+    }
 
-    const rawText =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    if (!rawText) {
+      throw new Error(lastError?.message || "Failed to generate Shayari post prompt.");
+    }
 
-    // Parse the JSON response
     let prompt = "";
     let title = "";
     let tags: string[] = [];
@@ -137,4 +145,3 @@ TAGS REQUIREMENTS:
     );
   }
 }
-

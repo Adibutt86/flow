@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useUser } from "@/context/UserContext";
+import { useTheme } from "@/context/ThemeContext";
 import { User as UserIcon, X, ShieldCheck, ArrowRight, Lock, LogOut } from "lucide-react";
 
 export function AuthModal() {
@@ -14,6 +15,8 @@ export function AuthModal() {
     isLoggedIn,
     logout,
   } = useUser();
+
+  const { isLight } = useTheme();
 
   const [selectedUser, setSelectedUser] = useState<"hassan" | "adi" | "">("");
   const [inputPassword, setInputPassword] = useState("");
@@ -72,24 +75,38 @@ export function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-[#0b0e17] border border-indigo-500/30 shadow-2xl space-y-6 text-white overflow-hidden font-sans">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+      <div className={`relative w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6 overflow-hidden font-sans transition-all border ${
+        isLight
+          ? "bg-white border-slate-200 text-slate-900 shadow-2xl shadow-indigo-500/10"
+          : "bg-[#0b0e17] border-indigo-500/30 text-white"
+      }`}>
         {/* Decorative Background Glow */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-indigo-600/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-purple-600/10 blur-3xl pointer-events-none" />
+        <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl pointer-events-none ${
+          isLight ? "bg-indigo-400/20" : "bg-indigo-600/20"
+        }`} />
+        <div className={`absolute -bottom-24 -left-24 w-48 h-48 rounded-full blur-3xl pointer-events-none ${
+          isLight ? "bg-purple-400/20" : "bg-purple-600/10"
+        }`} />
 
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+              <span className={`p-1.5 rounded-xl border ${
+                isLight ? "bg-indigo-100 text-indigo-700 border-indigo-300" : "bg-indigo-500/20 text-indigo-400 border-indigo-500/30"
+              }`}>
                 <ShieldCheck className="w-5 h-5" />
               </span>
-              <h2 className="text-xl font-extrabold text-white tracking-tight">
+              <h2 className={`text-xl sm:text-2xl font-black tracking-tight ${
+                isLight ? "text-slate-900" : "text-white"
+              }`}>
                 {isLoggedIn ? "Account Workspace" : "Select Your Account"}
               </h2>
             </div>
-            <p className="text-xs text-gray-400">
+            <p className={`text-xs font-semibold ${
+              isLight ? "text-slate-600" : "text-gray-400"
+            }`}>
               {isLoggedIn
                 ? `Currently active in ${currentUser.name}'s private workspace.`
                 : "Select your account name below to open your workspace."}
@@ -98,7 +115,11 @@ export function AuthModal() {
           {isLoggedIn && (
             <button
               onClick={() => setIsAuthModalOpen(false)}
-              className="p-2 rounded-xl bg-gray-900/80 hover:bg-gray-800 text-gray-400 hover:text-white transition-all cursor-pointer"
+              className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                isLight
+                  ? "bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border-slate-300"
+                  : "bg-gray-900/80 hover:bg-gray-800 text-gray-400 hover:text-white border-slate-700"
+              }`}
               title="Close popup"
             >
               <X className="w-4 h-4" />
@@ -108,7 +129,9 @@ export function AuthModal() {
 
         {/* Account Selection Cards (Hassan & Adi) */}
         <div className="space-y-2.5">
-          <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider">
+          <label className={`block text-xs font-black uppercase tracking-wider ${
+            isLight ? "text-slate-700" : "text-gray-400"
+          }`}>
             Choose Workspace User
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -118,17 +141,25 @@ export function AuthModal() {
               onClick={() => handleUserSelect("hassan")}
               className={`p-4 rounded-2xl text-left transition-all cursor-pointer active:scale-95 space-y-1.5 select-none ${
                 selectedUser === "hassan" || (isLoggedIn && currentUser.name.toLowerCase() === "hassan" && !selectedUser)
-                  ? "bg-indigo-600/30 border-2 border-indigo-500 text-white shadow-lg shadow-indigo-500/20 ring-1 ring-indigo-500/50"
-                  : "bg-indigo-950/30 hover:bg-indigo-900/50 border border-indigo-500/30 text-gray-300"
+                  ? (isLight
+                      ? "bg-indigo-100 border-2 border-indigo-600 text-indigo-950 shadow-md shadow-indigo-500/20 ring-2 ring-indigo-400/50"
+                      : "bg-indigo-600/30 border-2 border-indigo-500 text-white shadow-lg shadow-indigo-500/20 ring-1 ring-indigo-500/50")
+                  : (isLight
+                      ? "bg-indigo-50/80 hover:bg-indigo-100 border-2 border-indigo-200 text-slate-900"
+                      : "bg-indigo-950/30 hover:bg-indigo-900/50 border border-indigo-500/30 text-gray-300")
               }`}
             >
-              <div className="flex items-center gap-2 font-bold text-base text-indigo-200">
-                <div className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400">
+              <div className="flex items-center gap-2 font-black text-base text-indigo-600 dark:text-indigo-200">
+                <div className={`p-1.5 rounded-lg ${
+                  isLight ? "bg-indigo-200 text-indigo-900" : "bg-indigo-500/20 text-indigo-400"
+                }`}>
                   <UserIcon className="w-4 h-4" />
                 </div>
                 <span>Hassan</span>
               </div>
-              <p className="text-[11px] text-gray-400 font-medium">Hassan&apos;s Workspace</p>
+              <p className={`text-[11px] font-bold ${
+                isLight ? "text-indigo-900/80" : "text-gray-400"
+              }`}>Hassan&apos;s Workspace</p>
             </button>
 
             {/* Adi Account Button */}
@@ -137,17 +168,25 @@ export function AuthModal() {
               onClick={() => handleUserSelect("adi")}
               className={`p-4 rounded-2xl text-left transition-all cursor-pointer active:scale-95 space-y-1.5 select-none ${
                 selectedUser === "adi" || (isLoggedIn && currentUser.name.toLowerCase() === "adi" && !selectedUser)
-                  ? "bg-cyan-600/30 border-2 border-cyan-500 text-white shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-500/50"
-                  : "bg-cyan-950/30 hover:bg-cyan-900/50 border border-cyan-500/30 text-gray-300"
+                  ? (isLight
+                      ? "bg-cyan-100 border-2 border-cyan-600 text-cyan-950 shadow-md shadow-cyan-500/20 ring-2 ring-cyan-400/50"
+                      : "bg-cyan-600/30 border-2 border-cyan-500 text-white shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-500/50")
+                  : (isLight
+                      ? "bg-cyan-50/80 hover:bg-cyan-100 border-2 border-cyan-200 text-slate-900"
+                      : "bg-cyan-950/30 hover:bg-cyan-900/50 border border-cyan-500/30 text-gray-300")
               }`}
             >
-              <div className="flex items-center gap-2 font-bold text-base text-cyan-200">
-                <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-400">
+              <div className="flex items-center gap-2 font-black text-base text-cyan-600 dark:text-cyan-200">
+                <div className={`p-1.5 rounded-lg ${
+                  isLight ? "bg-cyan-200 text-cyan-900" : "bg-cyan-500/20 text-cyan-400"
+                }`}>
                   <UserIcon className="w-4 h-4" />
                 </div>
                 <span>Adi</span>
               </div>
-              <p className="text-[11px] text-gray-400 font-medium">Adi&apos;s Workspace</p>
+              <p className={`text-[11px] font-bold ${
+                isLight ? "text-cyan-900/80" : "text-gray-400"
+              }`}>Adi&apos;s Workspace</p>
             </button>
           </div>
         </div>
@@ -156,17 +195,25 @@ export function AuthModal() {
         {selectedUser && (
           <form onSubmit={handleLogin} className="space-y-3.5 pt-1 animate-in slide-in-from-top-2">
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-amber-300 uppercase tracking-wider">
-                Enter Password for <span className="text-white capitalize">{selectedUser}</span>
+              <label className={`block text-xs font-black uppercase tracking-wider ${
+                isLight ? "text-amber-950" : "text-amber-300"
+              }`}>
+                Enter Password for <span className="capitalize">{selectedUser}</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-400" />
+                <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 ${
+                  isLight ? "text-amber-600" : "text-amber-400"
+                }`} />
                 <input
                   type="password"
                   value={inputPassword}
                   onChange={(e) => setInputPassword(e.target.value)}
                   placeholder={`Enter ${selectedUser}'s password...`}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/80 border-2 border-amber-500/50 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/20 transition-all font-sans"
+                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 text-sm font-bold focus:outline-none transition-all font-sans ${
+                    isLight
+                      ? "bg-white border-amber-300 text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 shadow-xs"
+                      : "bg-black/80 border-amber-500/50 text-white placeholder-gray-500 focus:border-amber-400 focus:ring-2 focus:ring-amber-500/20"
+                  }`}
                   autoFocus
                 />
               </div>
@@ -175,7 +222,7 @@ export function AuthModal() {
             <button
               type="submit"
               disabled={isSubmitting || !inputPassword.trim()}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl gradient-bg-primary text-white font-extrabold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl gradient-bg-primary text-white font-black text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <span>Login to {selectedUser === "hassan" ? "Hassan" : "Adi"}&apos;s Workspace</span>
               <ArrowRight className="w-4 h-4" />
@@ -183,13 +230,25 @@ export function AuthModal() {
           </form>
         )}
 
-        {error && <p className="text-xs text-rose-400 font-bold text-center bg-rose-950/40 p-2.5 rounded-xl border border-rose-800/40">{error}</p>}
+        {error && (
+          <p className={`text-xs font-extrabold text-center p-2.5 rounded-xl border ${
+            isLight
+              ? "bg-rose-50 text-rose-900 border-rose-200"
+              : "bg-rose-950/40 text-rose-400 border-rose-800/40"
+          }`}>
+            {error}
+          </p>
+        )}
 
         {/* Logout Option (Shown when currently logged in) */}
         {isLoggedIn && (
-          <div className="pt-3 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-medium">
-              Active: <strong className="text-white capitalize">{currentUser.name}</strong>
+          <div className={`pt-3 border-t flex items-center justify-between ${
+            isLight ? "border-slate-200" : "border-gray-800/80"
+          }`}>
+            <span className={`text-xs font-bold ${
+              isLight ? "text-slate-600" : "text-slate-400"
+            }`}>
+              Active: <strong className={`capitalize ${isLight ? "text-slate-900" : "text-white"}`}>{currentUser.name}</strong>
             </span>
             <button
               type="button"
@@ -198,7 +257,11 @@ export function AuthModal() {
                 setInputPassword("");
                 logout();
               }}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/50 text-rose-300 font-bold text-xs transition-all cursor-pointer active:scale-95 shadow-sm"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border font-black text-xs transition-all cursor-pointer active:scale-95 shadow-xs ${
+                isLight
+                  ? "bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-900"
+                  : "bg-rose-950/40 hover:bg-rose-900/60 border-rose-800/50 text-rose-300"
+              }`}
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Logout & Lock</span>

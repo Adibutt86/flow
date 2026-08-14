@@ -1123,6 +1123,12 @@ CRITICAL LANGUAGE RULE:
 Do NOT write any Hindi Devanagari script (like चिंटू, पप्पू).
 For Hindi or Urdu ideas, write strictly in natural conversational Roman Urdu / Roman Hindi (e.g., "Chintu dukaan par ja kar kehta hai: 'Uncle, 10 rupaye ka discount do!'").
 
+${input.customSceneDescription && input.customSceneDescription.trim() ? `
+🎬 SITUATION / SCENE DESCRIPTION (HIGH PRIORITY — USER-PROVIDED):
+The user has provided this specific scene/situation. You MUST use it as the PRIMARY narrative foundation for ALL 10 ideas:
+"${input.customSceneDescription.trim()}"
+Every generated idea MUST revolve around this scene description. Do NOT ignore it.
+` : ""}
 Return ONLY a valid JSON array of 10 distinct strings:
 [
   "Idea 1 description...",

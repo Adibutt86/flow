@@ -13,6 +13,7 @@ import { getCategoryConfig } from "@/lib/categories";
 import { copyToClipboard } from "@/lib/utils";
 import { StorySourceBadge } from "@/components/common/StorySourceBadge";
 import { useUser } from "@/context/UserContext";
+import { useTheme } from "@/context/ThemeContext";
 import {
   ArrowLeft,
   Wand2,
@@ -39,6 +40,7 @@ export default function ProjectEditorPage({
   const router = useRouter();
   const { showToast } = useToast();
   const { isLoggedIn, setIsAuthModalOpen } = useUser();
+  const { isLight } = useTheme();
 
   const [project, setProject] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -215,15 +217,21 @@ export default function ProjectEditorPage({
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+      <div className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+        isLight ? "bg-zinc-100 text-zinc-900" : "bg-[#07090e] text-slate-100"
+      }`}>
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6 max-w-md mx-auto my-auto">
-          <div className="w-20 h-20 rounded-3xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-2xl animate-pulse">
+          <div className={`w-20 h-20 rounded-3xl border flex items-center justify-center shadow-2xl animate-pulse ${
+            isLight
+              ? "bg-indigo-100 border-indigo-300 text-indigo-700"
+              : "bg-indigo-500/20 border-indigo-500/40 text-indigo-400"
+          }`}>
             <Lock className="w-10 h-10" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-white">🔒 Login Required</h1>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <h1 className={`text-2xl sm:text-3xl font-black ${isLight ? "text-slate-900" : "text-white"}`}>🔒 Login Required</h1>
+            <p className={`text-sm leading-relaxed ${isLight ? "text-slate-600 font-medium" : "text-slate-300"}`}>
               Please log in to your account (Hassan or Adi) to access video project details and storyboards.
             </p>
           </div>
@@ -241,12 +249,16 @@ export default function ProjectEditorPage({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col">
+      <div className={`min-h-screen flex flex-col transition-colors duration-300 ${
+        isLight ? "bg-zinc-100 text-zinc-900" : "bg-[#07090e] text-gray-100"
+      }`}>
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-12">
-          <div className="glass-card rounded-2xl p-8 text-center space-y-3">
-            <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mx-auto" />
-            <p className="text-sm font-medium text-gray-300">Loading Storyboard Blueprint...</p>
+          <div className={`rounded-2xl p-8 text-center space-y-3 border shadow-lg ${
+            isLight ? "bg-white border-slate-200 text-slate-900" : "glass-card text-slate-100"
+          }`}>
+            <Loader2 className="w-8 h-8 text-indigo-500 animate-spin mx-auto" />
+            <p className={`text-sm font-semibold ${isLight ? "text-slate-700" : "text-gray-300"}`}>Loading Storyboard Blueprint...</p>
           </div>
         </div>
       </div>
@@ -255,15 +267,19 @@ export default function ProjectEditorPage({
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col">
+      <div className={`min-h-screen flex flex-col transition-colors duration-300 ${
+        isLight ? "bg-zinc-100 text-zinc-900" : "bg-[#07090e] text-gray-100"
+      }`}>
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-12">
-          <div className="glass-card rounded-2xl p-8 text-center space-y-4 max-w-md">
-            <AlertCircle className="w-10 h-10 text-rose-400 mx-auto" />
-            <h2 className="text-lg font-bold text-white">Project Not Found</h2>
+          <div className={`rounded-2xl p-8 text-center space-y-4 max-w-md border shadow-lg ${
+            isLight ? "bg-white border-slate-200 text-slate-900" : "glass-card text-slate-100"
+          }`}>
+            <AlertCircle className="w-10 h-10 text-rose-500 mx-auto" />
+            <h2 className={`text-lg font-black ${isLight ? "text-slate-900" : "text-white"}`}>Project Not Found</h2>
             <Link
               href="/"
-              className="inline-block px-4 py-2 rounded-xl gradient-bg-primary text-white text-xs font-semibold"
+              className="inline-block px-4 py-2 rounded-xl gradient-bg-primary text-white text-xs font-bold"
             >
               Return to Dashboard
             </Link>
@@ -276,11 +292,12 @@ export default function ProjectEditorPage({
   const categoryConfig = getCategoryConfig(project.category);
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-gray-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+    <div className={`min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+      isLight ? "bg-zinc-100 text-zinc-900" : "bg-[#07090e] text-gray-100"
+    }`}>
       <Navbar onOpenWizard={() => setWizardOpen(true)} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Top Header Navigation */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"

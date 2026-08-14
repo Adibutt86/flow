@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useToast } from "@/components/ui/Toast";
 import { useUser } from "@/context/UserContext";
+import { useTheme } from "@/context/ThemeContext";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import {
@@ -35,6 +36,9 @@ import {
   ArrowUp,
   Smartphone,
   FileText,
+  Sun,
+  Moon,
+  Compass,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -4420,9 +4424,10 @@ interface CustomSelectProps {
   groups: OptionGroupWithDesc[];
   badgeTitle?: string;
   keepOpenOnSelect?: boolean;
+  isLight?: boolean;
 }
 
-function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = true }: CustomSelectProps) {
+function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = true, isLight = false }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
@@ -4520,7 +4525,9 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
 
   return (
     <div className="space-y-1.5 w-full">
-      <label className="text-[11px] sm:text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+      <label className={`text-[11px] sm:text-xs uppercase tracking-wider flex items-center justify-between ${
+        isLight ? "text-slate-900 font-black" : "text-slate-200 font-extrabold"
+      }`}>
         <span className="flex items-center gap-1.5">
           {icon && <span>{icon}</span>}
           <span>{label}</span>
@@ -4531,21 +4538,29 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="w-full p-3 sm:p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-left transition-all shadow-md touch-manipulation active:scale-[0.98] group flex flex-col justify-between gap-1 min-h-[58px]"
+        className={`w-full p-3 sm:p-3.5 rounded-2xl border text-left transition-all shadow-md touch-manipulation active:scale-[0.98] group flex flex-col justify-between gap-1 min-h-[58px] ${
+          isLight
+            ? "bg-white border-slate-300 hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-900 shadow-sm"
+            : "bg-slate-900/90 border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-white"
+        }`}
       >
         <div className="flex items-center justify-between gap-2 w-full">
-          <span className="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition-colors truncate">
+          <span className={`text-xs sm:text-sm truncate transition-colors ${
+            isLight ? "font-extrabold text-slate-900 group-hover:text-indigo-700" : "font-bold text-white group-hover:text-indigo-300"
+          }`}>
             {selectedLabel}
           </span>
           <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300">
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+              isLight ? "bg-indigo-50 border-indigo-200 text-indigo-800" : "bg-indigo-950/80 border-indigo-500/30 text-indigo-300"
+            }`}>
               Change
             </span>
-            <ChevronDown className="w-4 h-4 text-indigo-400 group-hover:translate-y-0.5 transition-transform" />
+            <ChevronDown className="w-4 h-4 text-indigo-500 group-hover:translate-y-0.5 transition-transform" />
           </div>
         </div>
         {selectedDesc && (
-          <p className="text-[11px] text-slate-400 truncate w-full font-normal">
+          <p className={`text-[11px] truncate w-full ${isLight ? "text-slate-600 font-semibold" : "text-slate-400 font-normal"}`}>
             {selectedDesc}
           </p>
         )}
@@ -4559,22 +4574,28 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
 
           <div
             ref={containerRef}
-            className="w-full sm:max-w-2xl sm:mx-auto h-[90vh] sm:h-[85vh] max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#080b14] border border-indigo-500/40 shadow-2xl flex flex-col overflow-hidden relative font-sans"
+            className={`w-full sm:max-w-2xl sm:mx-auto h-[90vh] sm:h-[85vh] max-h-[90vh] rounded-t-3xl sm:rounded-3xl border shadow-2xl flex flex-col overflow-hidden relative font-sans ${
+              isLight ? "bg-white border-zinc-300 text-zinc-900" : "bg-zinc-900 border-zinc-700 text-zinc-100"
+            }`}
           >
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b border-indigo-500/20 bg-[#0c101d] sticky top-0 z-30 space-y-3">
+            <div className={`p-4 sm:p-5 border-b sticky top-0 z-30 space-y-3 ${
+              isLight ? "bg-zinc-100 border-zinc-200 text-zinc-900" : "bg-zinc-950 border-zinc-800 text-white"
+            }`}>
               {/* Mobile handle */}
-              <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto sm:hidden -mt-1 mb-1" />
+              <div className={`w-12 h-1.5 rounded-full mx-auto sm:hidden -mt-1 mb-1 ${
+                isLight ? "bg-zinc-400" : "bg-zinc-700"
+              }`} />
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-xl sm:text-2xl">{icon || "✨"}</span>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-tight">
+                    <h3 className={`text-base sm:text-lg font-extrabold leading-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
                       Select {label}
                     </h3>
-                    <p className="text-[11px] sm:text-xs text-indigo-300/80 font-medium">
-                      Current: <span className="text-white font-bold">{selectedLabel}</span>
+                    <p className={`text-[11px] sm:text-xs font-semibold ${isLight ? "text-zinc-600" : "text-indigo-300/80"}`}>
+                      Current: <span className={`font-black ${isLight ? "text-zinc-950" : "text-white"}`}>{selectedLabel}</span>
                     </p>
                   </div>
                 </div>
@@ -4582,7 +4603,11 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="p-2 sm:p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer active:scale-95 shrink-0"
+                  className={`p-2 sm:p-2.5 rounded-full transition-colors cursor-pointer active:scale-95 shrink-0 ${
+                    isLight
+                      ? "bg-zinc-200 hover:bg-zinc-300 text-zinc-800"
+                      : "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white"
+                  }`}
                   title="Close option selector"
                 >
                   <X className="w-5 h-5" />
@@ -4591,7 +4616,7 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
 
               {/* Search Bar */}
               <div className="relative flex items-center">
-                <Search className="w-4 h-4 text-indigo-400 absolute left-3.5 pointer-events-none" />
+                <Search className="w-4 h-4 text-indigo-500 absolute left-3.5 pointer-events-none" />
                 <input
                   ref={searchInputRef}
                   type="search"
@@ -4603,13 +4628,17 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={`Search ${label.toLowerCase()} options...`}
-                  className="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-black/70 border border-indigo-500/30 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 font-medium"
+                  className={`w-full pl-10 pr-9 py-2.5 rounded-2xl border text-xs sm:text-sm font-bold transition-all focus:outline-none ${
+                    isLight
+                      ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm"
+                      : "bg-zinc-950 border-zinc-700 text-white placeholder-zinc-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                  }`}
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-3 p-1 text-xs text-slate-400 hover:text-white font-bold cursor-pointer"
+                    className="absolute right-3 p-1 text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-white font-bold cursor-pointer"
                   >
                     ✕
                   </button>
@@ -4625,7 +4654,9 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                       selectedCategoryFilter === "ALL"
                         ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/30"
-                        : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+                        : isLight
+                        ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 border border-zinc-300"
+                        : "bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700"
                     }`}
                   >
                     All ({groups.reduce((acc, g) => acc + g.options.length, 0)})
@@ -4638,7 +4669,9 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                       className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                         selectedCategoryFilter === g.category
                           ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/30"
-                          : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+                          : isLight
+                          ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 border border-zinc-300"
+                          : "bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700"
                       }`}
                     >
                       {g.category} ({g.options.length})
@@ -4667,9 +4700,11 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
               ) : (
                 filteredGroups.map((group) => (
                   <div key={group.category} className="space-y-2.5">
-                    <div className="px-3 py-2 text-xs font-extrabold uppercase tracking-wider text-indigo-400 border-b border-indigo-500/20 sticky top-0 bg-[#080b14]/95 backdrop-blur-md z-10 flex items-center justify-between">
+                    <div className={`px-3 py-2 text-xs font-extrabold uppercase tracking-wider border-b sticky top-0 backdrop-blur-md z-10 flex items-center justify-between ${
+                      isLight ? "bg-zinc-100/95 border-zinc-200 text-zinc-900" : "bg-zinc-900/95 border-zinc-800 text-indigo-400"
+                    }`}>
                       <span>{group.category}</span>
-                      <span className="text-[10px] text-indigo-300/70 font-medium">
+                      <span className={`text-[10px] font-semibold ${isLight ? "text-zinc-600" : "text-indigo-300/70"}`}>
                         {group.options.length} options
                       </span>
                     </div>
@@ -4686,22 +4721,28 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                             }}
                             className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all flex flex-col justify-between cursor-pointer select-none touch-manipulation active:scale-[0.98] ${
                               isSelected
-                                ? "bg-gradient-to-r from-indigo-950/90 to-slate-900/90 border-2 border-indigo-500 text-white shadow-xl shadow-indigo-500/20 ring-1 ring-indigo-500/50"
-                                : "bg-slate-900/60 border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900 text-slate-200"
+                                ? "bg-gradient-to-r from-indigo-600 to-indigo-700 border-2 border-indigo-500 text-white shadow-xl ring-2 ring-indigo-400"
+                                : isLight
+                                ? "bg-white border-2 border-zinc-200 hover:border-indigo-500 hover:bg-indigo-50/60 text-zinc-950 shadow-sm font-extrabold"
+                                : "bg-zinc-900/80 border border-zinc-800 hover:border-indigo-500/50 hover:bg-zinc-800 text-zinc-200"
                             }`}
                           >
                             <div className="flex items-start justify-between gap-3">
-                              <span className="text-xs sm:text-sm font-bold text-white leading-tight">
+                              <span className={`text-xs sm:text-sm leading-tight ${
+                                isSelected ? "font-black text-white" : isLight ? "font-black text-zinc-950" : "font-extrabold text-white"
+                              }`}>
                                 {opt.label}
                               </span>
                               {isSelected && (
-                                <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                                <div className="w-6 h-6 rounded-full bg-white text-indigo-600 flex items-center justify-center shrink-0 shadow-md">
                                   <Check className="w-3.5 h-3.5" />
                                 </div>
                               )}
                             </div>
                             {opt.desc && (
-                              <p className="text-[11px] sm:text-xs text-indigo-200/80 leading-relaxed font-normal mt-1.5">
+                              <p className={`text-[11px] sm:text-xs leading-relaxed mt-1.5 ${
+                                isSelected ? "text-indigo-100 font-medium" : isLight ? "text-zinc-700 font-semibold" : "text-indigo-200/80 font-normal"
+                              }`}>
                                 {opt.desc}
                               </p>
                             )}
@@ -4715,10 +4756,12 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
             </div>
 
             {/* Sticky Save & Close Footer Bar */}
-            <div className="p-3.5 sm:p-4 border-t border-indigo-500/20 bg-[#0c101d] flex items-center justify-between gap-3 sticky bottom-0 z-30 shadow-2xl shrink-0">
+            <div className={`p-3.5 sm:p-4 border-t flex items-center justify-between gap-3 sticky bottom-0 z-30 shadow-2xl shrink-0 ${
+              isLight ? "bg-zinc-100 border-zinc-200 text-zinc-900" : "bg-zinc-950 border-zinc-800 text-white"
+            }`}>
               <div className="flex flex-col truncate">
-                <span className="text-[10px] text-indigo-300/70 font-bold uppercase tracking-wider">Selected Choice</span>
-                <span className="text-xs sm:text-sm text-white font-extrabold truncate">{selectedLabel}</span>
+                <span className={`text-[10px] font-extrabold uppercase tracking-wider ${isLight ? "text-zinc-600" : "text-indigo-300/70"}`}>Selected Choice</span>
+                <span className={`text-xs sm:text-sm font-extrabold truncate ${isLight ? "text-zinc-900" : "text-white"}`}>{selectedLabel}</span>
               </div>
               <button
                 type="button"
@@ -4793,9 +4836,11 @@ interface IdeasPageSettings {
 function VisualStyleDropdown({
   value,
   onChange,
+  isLight = false,
 }: {
   value: string;
   onChange: (v: string) => void;
+  isLight?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -4816,26 +4861,42 @@ function VisualStyleDropdown({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-black/60 border border-slate-800 hover:border-indigo-500/60 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer group"
+        className={`w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl border focus:outline-none transition-all cursor-pointer group shadow-xs ${
+          isLight
+            ? "bg-white border-slate-300 hover:border-indigo-400 text-slate-900 focus:ring-2 focus:ring-indigo-500/20"
+            : "bg-black/60 border-slate-800 hover:border-indigo-500/60 text-white focus:ring-2 focus:ring-indigo-500/20"
+        }`}
       >
         <span className="flex flex-col items-start text-left min-w-0">
-          <span className="text-xs sm:text-sm font-semibold text-white truncate">
+          <span className={`text-xs sm:text-sm font-black truncate ${
+            isLight ? "text-slate-900" : "text-white"
+          }`}>
             {selected.label}
           </span>
-          <span className="text-[11px] text-slate-400 truncate max-w-[260px]">
+          <span className={`text-[11px] truncate max-w-[260px] ${
+            isLight ? "text-slate-600 font-medium" : "text-slate-400"
+          }`}>
             {selected.desc}
           </span>
         </span>
         <ChevronDown
-          className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
-            open ? "rotate-180 text-indigo-400" : "group-hover:text-slate-300"
+          className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+            open
+              ? "rotate-180 text-indigo-500"
+              : isLight
+              ? "text-slate-400 group-hover:text-slate-700"
+              : "text-slate-400 group-hover:text-slate-300"
           }`}
         />
       </button>
 
       {/* Dropdown list */}
       {open && (
-        <div className="absolute z-50 mt-2 w-full max-h-72 overflow-y-auto rounded-xl border border-slate-700 bg-[#0c0f1a] shadow-2xl shadow-black/60 scrollbar-thin">
+        <div className={`absolute z-50 mt-2 w-full max-h-72 overflow-y-auto rounded-xl border shadow-2xl scrollbar-thin ${
+          isLight
+            ? "bg-white border-slate-200 text-slate-900 shadow-slate-400/20"
+            : "bg-[#0c0f1a] border-slate-700 text-white shadow-black/60"
+        }`}>
           {VISUAL_STYLES.map((style) => {
             const isActive = style.value === value;
             return (
@@ -4846,26 +4907,42 @@ function VisualStyleDropdown({
                   onChange(style.value);
                   setOpen(false);
                 }}
-                className={`w-full flex items-start justify-between gap-2 px-4 py-3 text-left transition-colors hover:bg-indigo-950/50 ${
-                  isActive
-                    ? "bg-indigo-950/60 border-l-2 border-indigo-500"
-                    : "border-l-2 border-transparent"
+                className={`w-full flex items-start justify-between gap-2 px-4 py-3 text-left transition-colors ${
+                  isLight
+                    ? isActive
+                      ? "bg-indigo-50 border-l-4 border-indigo-600"
+                      : "hover:bg-slate-100 border-l-4 border-transparent"
+                    : isActive
+                    ? "bg-indigo-950/60 border-l-4 border-indigo-500"
+                    : "hover:bg-indigo-950/50 border-l-4 border-transparent"
                 }`}
               >
                 <span className="flex flex-col min-w-0">
                   <span
-                    className={`text-xs sm:text-sm font-semibold truncate ${
-                      isActive ? "text-indigo-300" : "text-white"
+                    className={`text-xs sm:text-sm font-black truncate ${
+                      isLight
+                        ? isActive
+                          ? "text-indigo-950"
+                          : "text-slate-900"
+                        : isActive
+                        ? "text-indigo-300"
+                        : "text-white"
                     }`}
                   >
                     {style.label}
                   </span>
-                  <span className="text-[11px] text-slate-400 leading-snug mt-0.5 line-clamp-2">
+                  <span className={`text-[11px] leading-snug mt-0.5 line-clamp-2 ${
+                    isLight ? "text-slate-600 font-semibold" : "text-slate-400"
+                  }`}>
                     {style.desc}
                   </span>
                 </span>
                 {style.tag && (
-                  <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 whitespace-nowrap mt-0.5">
+                  <span className={`shrink-0 text-[10px] font-black px-2 py-0.5 rounded-full border whitespace-nowrap mt-0.5 ${
+                    isLight
+                      ? "bg-indigo-100 text-indigo-900 border-indigo-300"
+                      : "bg-indigo-500/15 text-indigo-300 border-indigo-500/25"
+                  }`}>
                     {style.tag}
                   </span>
                 )}
@@ -4885,6 +4962,16 @@ export default function IdeasPage() {
 
   const savedIdeasSectionRef = useRef<HTMLDivElement>(null);
   const customIdeaOptimizerRef = useRef<HTMLDivElement>(null);
+  const categoryControlsRef = useRef<HTMLDivElement>(null);
+  const generatorParametersRef = useRef<HTMLDivElement>(null);
+  const dialogueSectionRef = useRef<HTMLDivElement>(null);
+  const generateButtonRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (targetRef: React.RefObject<HTMLDivElement | null>) => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   // Load saved settings from localStorage on initial render
   const getInitialSettings = (): IdeasPageSettings => {
@@ -4922,6 +5009,10 @@ export default function IdeasPage() {
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("ltr");
+  const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
     initialSettings.aiModel && ["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(initialSettings.aiModel)
       ? initialSettings.aiModel
@@ -4937,6 +5028,15 @@ export default function IdeasPage() {
   const [motherClothing, setMotherClothing] = useState<string>("AI Decides");
   const [customMotherClothing, setCustomMotherClothing] = useState<string>("");
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [paramSearchQuery, setParamSearchQuery] = useState<string>("");
+  const { theme, isLight, toggleTheme } = useTheme();
+  const [isOptimizeSectionOpen, setIsOptimizeSectionOpen] = useState(false);
+
+  const matchesParamFilter = (terms: string[]) => {
+    if (!paramSearchQuery.trim()) return true;
+    const q = paramSearchQuery.trim().toLowerCase();
+    return terms.some((t) => t.toLowerCase().includes(q));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -5055,6 +5155,114 @@ export default function IdeasPage() {
   const handleUseSavedDialogue = (text: string) => {
     setCustomDialogue(text);
     showToast("Loaded saved dialogue into input field!", "success");
+  };
+
+  const insertDialogueLabel = (label: string) => {
+    const textarea = dialogueTextareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      const text = customDialogue;
+      const needsNewLine = start > 0 && text[start - 1] !== "\n";
+      const insertion = (needsNewLine ? "\n" : "") + label + " ";
+      const newText = text.substring(0, start) + insertion + text.substring(end);
+      setCustomDialogue(newText);
+      setTimeout(() => {
+        textarea.focus();
+        const newPos = start + insertion.length;
+        textarea.setSelectionRange(newPos, newPos);
+      }, 50);
+    } else {
+      setCustomDialogue((prev) => (prev ? prev + "\n" + label + " " : label + " "));
+    }
+  };
+
+  const handleVoiceInput = () => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      showToast("🚫 Voice input needs Chrome browser (PC or Android).", "error");
+      return;
+    }
+
+    if (isListening) {
+      if (voiceRecognitionRef.current) {
+        try {
+          voiceRecognitionRef.current.stop();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      setIsListening(false);
+      showToast("⏹️ Voice recording stopped", "info");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    voiceRecognitionRef.current = recognition;
+
+    recognition.lang =
+      language === "Urdu" || language === "Roman Urdu" ? "ur-PK" :
+      language === "Punjabi" ? "pa-PK" :
+      language === "English" ? "en-US" : "ur-PK";
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    setIsListening(true);
+    showToast("🎙️ Listening… speak now. Click Mic again to stop.", "info");
+
+    let finalTranscript = "";
+
+    recognition.onresult = (event: any) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += (finalTranscript ? "\n" : "") + transcript;
+        } else {
+          interim += transcript;
+        }
+      }
+
+      const activeText = finalTranscript || interim;
+      if (activeText) {
+        setCustomDialogue((prev) => {
+          // If previous dialogue exists and doesn't end with activeText, append
+          if (!prev) return activeText;
+          const lines = prev.split("\n");
+          const lastLine = lines[lines.length - 1];
+          if (lastLine.trim() === activeText.trim()) return prev;
+          return prev + "\n" + activeText;
+        });
+      }
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      const friendlyErrors: Record<string, string> = {
+        "no-speech":       "🔇 No speech detected — make sure your mic is on and speak clearly.",
+        "audio-capture":   "🎤 Mic not found — check your microphone is connected and allowed.",
+        "not-allowed":     "🚫 Mic access denied — click the 🔒 icon in the address bar and allow microphone.",
+        "network":         "🌐 Network error — check your internet connection.",
+        "aborted":         "⏹️ Recording stopped.",
+        "service-not-allowed": "🚫 Speech service not allowed — try opening in Chrome.",
+      };
+      const msg = friendlyErrors[event.error] || `Voice error: ${event.error}`;
+      if (event.error !== "aborted" && event.error !== "no-speech") showToast(msg, "error");
+      setIsListening(false);
+    };
+
+    try {
+      recognition.start();
+    } catch (err) {
+      console.error("Failed to start speech recognition:", err);
+      setIsListening(false);
+    }
   };
 
   const handleSuggestDialogue = async () => {
@@ -5759,18 +5967,34 @@ export default function IdeasPage() {
     setIsAnalyzingImage(false);
   };
 
-  const fetchCharacterLibrary = async () => {
+  const fetchCharacterLibrary = async (force = false) => {
+    if (!force && savedCharacters.length > 0) return; // instant re-open from cache
     setIsLoadingLibrary(true);
     try {
       const res = await fetch("/api/characters");
       const data = await res.json();
-      if (data.characters) {
-        setSavedCharacters(data.characters);
-      }
+      if (data.characters) setSavedCharacters(data.characters);
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoadingLibrary(false);
+    }
+  };
+
+  const handleSelectCharacterFromLibrary = async (char: any) => {
+    try {
+      const res = await fetch(`/api/characters/${char.id}`);
+      const data = await res.json();
+      const fullImage = data.character?.imageUrl || char.imageUrl;
+      setReferenceImages((prev) => [...prev, fullImage]);
+      setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + char.description : char.description);
+      setShowCharacterLibrary(false);
+      showToast("Character selected from library!", "success");
+    } catch {
+      setReferenceImages((prev) => [...prev, char.imageUrl]);
+      setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + char.description : char.description);
+      setShowCharacterLibrary(false);
+      showToast("Character selected!", "success");
     }
   };
 
@@ -6305,22 +6529,28 @@ export default function IdeasPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-        <Navbar />
+      <div className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+        isLight ? "bg-zinc-100 text-zinc-900" : "bg-zinc-950 text-zinc-100"
+      }`}>
+        <Navbar isLight={isLight} onToggleTheme={toggleTheme} />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6 max-w-md mx-auto my-auto">
-          <div className="w-20 h-20 rounded-3xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-2xl animate-pulse">
+          <div className={`w-20 h-20 rounded-3xl border flex items-center justify-center shadow-2xl animate-pulse ${
+            isLight
+              ? "bg-indigo-100 border-indigo-300 text-indigo-700"
+              : "bg-indigo-500/20 border-indigo-500/40 text-indigo-400"
+          }`}>
             <Lock className="w-10 h-10" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-white">🔒 Login Required</h1>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <h1 className={`text-2xl sm:text-3xl font-black ${isLight ? "text-slate-900" : "text-white"}`}>🔒 Login Required</h1>
+            <p className={`text-sm leading-relaxed ${isLight ? "text-slate-600 font-semibold" : "text-zinc-300"}`}>
               Please log in to your account (Hassan or Adi) to access the AI Idea Generator.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setIsAuthModalOpen(true)}
-            className="px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-extrabold text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer w-full"
+            className="px-6 py-3.5 rounded-2xl gradient-bg-primary text-white font-black text-sm shadow-xl shadow-indigo-500/30 hover:opacity-95 transition-all active:scale-95 cursor-pointer w-full"
           >
             Login to Access Website
           </button>
@@ -6330,34 +6560,91 @@ export default function IdeasPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white font-sans">
-      <Navbar />
+    <div className={`min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white font-sans transition-colors duration-300 ${
+      isLight ? "bg-zinc-100 text-zinc-900" : "bg-zinc-950 text-zinc-100"
+    }`}>
+      <Navbar isLight={isLight} onToggleTheme={toggleTheme} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
         {/* Page Header / Hero Banner */}
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-indigo-950/60 via-purple-950/40 to-slate-950/80 p-5 sm:p-8 border border-indigo-500/20 shadow-2xl backdrop-blur-xl">
+        <div className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-8 border shadow-2xl transition-all duration-300 ${
+          isLight
+            ? "bg-gradient-to-r from-indigo-100 via-purple-100 to-amber-50 border-indigo-200 text-slate-900 shadow-lg"
+            : "bg-gradient-to-r from-indigo-950/60 via-purple-950/40 to-slate-950/80 border-indigo-500/20 text-slate-100 backdrop-blur-xl"
+        }`}>
           <div className="absolute top-0 right-0 -mt-12 -mr-12 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-xs font-bold text-indigo-300">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-xs font-bold text-indigo-400">
                 <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
                 <span>AI Video Concept & Prompt Engine</span>
               </div>
-              <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight flex items-center gap-3">
+              <h1 className={`text-2xl sm:text-4xl font-black tracking-tight flex items-center gap-3 ${
+                isLight ? "text-slate-900" : "text-white"
+              }`}>
                 <Lightbulb className="w-8 h-8 text-amber-400 shrink-0 filter drop-shadow-md" />
                 AI Idea Generator
               </h1>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className={`text-xs sm:text-sm leading-relaxed ${
+                isLight ? "text-slate-600 font-medium" : "text-slate-300"
+              }`}>
                 Generate production-ready video prompts with Claude AI, refine scripts, save dialogues, and copy 9:16 vertical concepts for video creation.
               </p>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 self-stretch sm:self-auto justify-end">
+            <div className="shrink-0 flex items-center gap-2.5 self-stretch sm:self-auto justify-end flex-wrap">
+              {/* Theme Switcher Button */}
               <button
+                type="button"
+                onClick={toggleTheme}
+                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
+                  isLight
+                    ? "bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-900"
+                    : "bg-slate-900/80 hover:bg-slate-800 border-slate-700/80 text-slate-200 hover:text-white"
+                }`}
+                title="Switch between Light and Dark mode"
+              >
+                {isLight ? (
+                  <>
+                    <Sun className="w-4 h-4 text-amber-600" />
+                    <span>☀️ Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-4 h-4 text-indigo-400" />
+                    <span>🌙 Dark Mode</span>
+                  </>
+                )}
+              </button>
+
+              {/* Optimize Idea Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsOptimizeSectionOpen((v) => !v)}
+                className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
+                  isOptimizeSectionOpen
+                    ? "bg-emerald-600 text-white border-emerald-400"
+                    : isLight
+                    ? "bg-emerald-50 hover:bg-emerald-100 border-emerald-300 text-emerald-800"
+                    : "bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300"
+                }`}
+                title="Toggle Custom Idea Rewriter / Optimizer section"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{isOptimizeSectionOpen ? "Hide Optimizer" : "✨ Rewrite Idea"}</span>
+              </button>
+
+              {/* Reset Defaults Button */}
+              <button
+                type="button"
                 onClick={handleResetSettings}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer shadow-md active:scale-95"
+                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
+                  isLight
+                    ? "bg-slate-200 hover:bg-slate-300 border-slate-300 text-slate-800"
+                    : "bg-slate-900/80 hover:bg-slate-800 border-slate-700/80 text-slate-200 hover:text-white"
+                }`}
                 title="Reset all generator settings, filters, and search to default"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
@@ -6367,120 +6654,208 @@ export default function IdeasPage() {
           </div>
         </div>
 
-        {/* Custom Idea Optimizer Section */}
-        <div ref={customIdeaOptimizerRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-emerald-500/20 shadow-xl backdrop-blur-xl space-y-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2.5">
-              <span className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                <Sparkles className="w-4 h-4" />
-              </span>
-              <span>Optimize Custom Idea <span className="text-xs font-normal text-slate-400 hidden sm:inline">(e.g. from ChatGPT or Scratch)</span></span>
-            </h2>
-          </div>
-          
-          <div className="space-y-3.5">
-            <textarea
-              value={customIdea}
-              onChange={(e) => setCustomIdea(e.target.value)}
-              placeholder="Paste your raw story idea here (e.g. A toddler girl finds a tiny green alien toy in the living room and asks if it likes biryani)..."
-              className="w-full h-32 px-4 py-3.5 rounded-xl bg-black/60 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all resize-none font-sans"
-            />
-            
-            <div className="flex justify-end">
+        {/* Custom Idea Optimizer Section (Collapsible) */}
+        {isOptimizeSectionOpen && (
+          <div ref={customIdeaOptimizerRef} className={`rounded-2xl sm:rounded-3xl p-5 sm:p-7 border shadow-xl transition-all duration-300 space-y-5 ${
+            isLight
+              ? "bg-white border-emerald-300 text-slate-900 shadow-md"
+              : "bg-slate-950/70 border-emerald-500/20 text-slate-100 backdrop-blur-xl"
+          }`}>
+            <div className="flex items-center justify-between">
+              <h2 className={`text-base sm:text-lg font-bold flex items-center gap-2.5 ${isLight ? "text-slate-900" : "text-white"}`}>
+                <span className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                  <Sparkles className="w-4 h-4" />
+                </span>
+                <span>Optimize Custom Idea <span className={`text-xs font-normal hidden sm:inline ${isLight ? "text-slate-500" : "text-slate-400"}`}>(e.g. from ChatGPT or Scratch)</span></span>
+              </h2>
               <button
-                onClick={handleOptimize}
-                disabled={isOptimizing || !customIdea.trim()}
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-600/20 transition-all active:scale-95 cursor-pointer disabled:opacity-50 w-full sm:w-auto"
+                type="button"
+                onClick={() => setIsOptimizeSectionOpen(false)}
+                className="text-xs text-slate-400 hover:text-slate-200 p-1"
+                title="Close section"
               >
-                {isOptimizing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                {isOptimizing ? "Optimizing & Splitting into Scenes..." : "Rewrite & Optimize into Video Script"}
+                <X className="w-4 h-4" />
               </button>
             </div>
-          </div>
-
-          {/* Optimized Output Card */}
-          {optimizedData && (
-            <div className="mt-6 space-y-4 pt-6 border-t border-slate-800/80">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="text-base sm:text-lg font-extrabold text-emerald-400">
-                  {optimizedData.title}
-                </h3>
-                <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 shadow-sm">
-                  <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
-                  <span>{(optimizedData as any).modelUsed ? getModelBadgeLabel((optimizedData as any).modelUsed) : getModelBadgeLabel(aiModel)}</span>
-                </span>
-              </div>
+            
+            <div className="space-y-3.5">
+              <textarea
+                value={customIdea}
+                onChange={(e) => setCustomIdea(e.target.value)}
+                placeholder="Paste your raw story idea here (e.g. A toddler girl finds a tiny green alien toy in the living room and asks if it likes biryani)..."
+                className={`w-full h-32 px-4 py-3.5 rounded-xl border text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all resize-none font-sans ${
+                  isLight
+                    ? "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400"
+                    : "bg-black/60 border-slate-800 text-white placeholder-slate-500"
+                }`}
+              />
               
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {optimizedData.scenes.map((scene) => (
-                  <button
-                    key={scene.sceneNumber}
-                    onClick={() => setActiveSceneTab(scene.sceneNumber)}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
-                      activeSceneTab === scene.sceneNumber
-                        ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
-                        : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
-                    }`}
-                  >
-                    Scene {scene.sceneNumber}
-                  </button>
-                ))}
-              </div>
-
-              <div className="p-4 sm:p-5 rounded-2xl bg-black/70 border border-slate-800 text-slate-200 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-sans shadow-inner">
-                {optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content}
-              </div>
-              
-              <div className="flex flex-wrap items-center justify-end gap-2.5">
+              <div className="flex justify-end">
                 <button
-                  onClick={handleSaveOptimizedIdea}
-                  disabled={isSavingOptimized}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition-all cursor-pointer shadow-sm active:scale-95 disabled:opacity-50"
+                  onClick={handleOptimize}
+                  disabled={isOptimizing || !customIdea.trim()}
+                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-600/20 transition-all active:scale-95 cursor-pointer disabled:opacity-50 w-full sm:w-auto"
                 >
-                  {isSavingOptimized ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Bookmark className="w-3.5 h-3.5" />}
-                  {isSavingOptimized ? "Saving..." : "Save to Saved Ideas"}
-                </button>
-                <button
-                  onClick={() => handleCopy(optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content || "", "opt-scene")}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 hover:text-white hover:border-emerald-500/40 transition-all cursor-pointer shadow-sm active:scale-95"
-                >
-                  {copiedId === "opt-scene" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
-                  {copiedId === "opt-scene" ? "Copied Scene Content!" : "Copy Scene Content"}
+                  {isOptimizing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  {isOptimizing ? "Optimizing & Splitting into Scenes..." : "Rewrite & Optimize into Video Script"}
                 </button>
               </div>
             </div>
-          )}
-        </div>
+
+            {/* Optimized Output Card */}
+            {optimizedData && (
+              <div className={`mt-6 space-y-4 pt-6 border-t ${isLight ? "border-slate-200" : "border-slate-800/80"}`}>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="text-base sm:text-lg font-extrabold text-emerald-500">
+                    {optimizedData.title}
+                  </h3>
+                  <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 shadow-sm">
+                    <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
+                    <span>{(optimizedData as any).modelUsed ? getModelBadgeLabel((optimizedData as any).modelUsed) : getModelBadgeLabel(aiModel)}</span>
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                  {optimizedData.scenes.map((scene) => (
+                    <button
+                      key={scene.sceneNumber}
+                      onClick={() => setActiveSceneTab(scene.sceneNumber)}
+                      className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
+                        activeSceneTab === scene.sceneNumber
+                          ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
+                          : isLight
+                          ? "bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300"
+                          : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
+                      }`}
+                    >
+                      Scene {scene.sceneNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <div className={`p-4 sm:p-5 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-sans shadow-inner border ${
+                  isLight
+                    ? "bg-slate-50 border-slate-200 text-slate-800"
+                    : "bg-black/70 border-slate-800 text-slate-200"
+                }`}>
+                  {optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content}
+                </div>
+                
+                <div className="flex flex-wrap items-center justify-end gap-2.5">
+                  <button
+                    onClick={handleSaveOptimizedIdea}
+                    disabled={isSavingOptimized}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition-all cursor-pointer shadow-sm active:scale-95 disabled:opacity-50"
+                  >
+                    {isSavingOptimized ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Bookmark className="w-3.5 h-3.5" />}
+                    {isSavingOptimized ? "Saving..." : "Save to Saved Ideas"}
+                  </button>
+                  <button
+                    onClick={() => handleCopy(optimizedData.scenes.find(s => s.sceneNumber === activeSceneTab)?.content || "", "opt-scene")}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer shadow-sm active:scale-95 ${
+                      isLight
+                        ? "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800"
+                        : "bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-200 hover:text-white"
+                    }`}
+                  >
+                    {copiedId === "opt-scene" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
+                    {copiedId === "opt-scene" ? "Copied Scene Content!" : "Copy Scene Content"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Generate New Ideas Form Controls */}
-        <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-indigo-500/20 shadow-xl relative z-30 space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-            <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2.5">
+        <div ref={categoryControlsRef} className={`rounded-2xl sm:rounded-3xl p-5 sm:p-7 border shadow-xl relative z-30 space-y-6 transition-all duration-300 ${
+          isLight
+            ? "bg-white border-indigo-200 text-slate-900 shadow-xl"
+            : "bg-slate-950/70 border-indigo-500/20 text-slate-100"
+        }`}>
+          <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-4 gap-3 ${isLight ? "border-slate-200" : "border-slate-800/80"}`}>
+            <h2 className={`text-base sm:text-lg font-extrabold flex items-center gap-2.5 ${isLight ? "text-slate-900" : "text-white"}`}>
               <span className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
                 <Sparkles className="w-4 h-4" />
               </span>
               <span>Generate New Video Concept</span>
             </h2>
+
+            {/* 🧭 Section Links Menu */}
+            <div className="flex flex-wrap items-center gap-1.5 self-stretch sm:self-auto">
+              <span className={`text-[10px] font-black uppercase tracking-wider mr-1 hidden sm:flex items-center gap-1 ${
+                isLight ? "text-indigo-900" : "text-indigo-300"
+              }`}>
+                <Compass className="w-3.5 h-3.5 text-indigo-500 animate-spin-slow" />
+                <span>Jump:</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => scrollToSection(generatorParametersRef)}
+                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                  isLight ? "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-950" : "bg-purple-950/60 hover:bg-purple-900/60 border-purple-500/40 text-purple-300"
+                }`}
+              >
+                ⚙️ Parameters
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection(dialogueSectionRef)}
+                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                  isLight ? "bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950" : "bg-amber-950/60 hover:bg-amber-900/60 border-amber-500/40 text-amber-300"
+                }`}
+              >
+                💬 Script
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection(generateButtonRef)}
+                className="px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer active:scale-95 shadow-md bg-gradient-to-r from-red-600 to-rose-600 text-white border border-red-400 hover:opacity-95"
+              >
+                ✨ Generate
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection(savedIdeasSectionRef)}
+                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                  isLight ? "bg-emerald-100 hover:bg-emerald-200 border-emerald-300 text-emerald-950" : "bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300"
+                }`}
+              >
+                📁 Saved ({savedIdeas.length})
+              </button>
+            </div>
           </div>
 
           {/* 🌟 BIG UNIFIED CATEGORY & PRIMARY CONTROLS CARD (Right after Generate New Video Concept) */}
-          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-950/60 via-indigo-950/70 to-purple-950/60 border-2 border-amber-500/50 shadow-2xl space-y-5">
+          <div className={`p-4 sm:p-6 rounded-2xl border-2 shadow-2xl space-y-5 transition-all ${
+            isLight
+              ? "bg-gradient-to-r from-amber-50 via-indigo-50 to-purple-50 border-amber-400 text-slate-900 shadow-md"
+              : "bg-gradient-to-r from-amber-950/60 via-indigo-950/70 to-purple-950/60 border-amber-500/50 text-white"
+          }`}>
             {/* Top Row: Big Active Category Display + Category Dropdown Selector */}
-            <div className="flex flex-col gap-4 border-b border-amber-500/20 pb-4 w-full">
+            <div className={`flex flex-col gap-4 border-b pb-4 w-full ${isLight ? "border-amber-400/50" : "border-amber-500/20"}`}>
               <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
-                <span className="text-3xl sm:text-4xl p-3 rounded-2xl bg-black/70 border border-amber-500/40 shadow-inner shrink-0 hidden sm:block">
+                <span className={`text-3xl sm:text-4xl p-3 rounded-2xl border shadow-inner shrink-0 hidden sm:block ${
+                  isLight ? "bg-white border-amber-300 text-slate-900 shadow-sm" : "bg-black/70 border-amber-500/40 text-white"
+                }`}>
                   {CATEGORIES[category]?.badge || "💡"}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest flex items-center gap-2 flex-wrap">
+                  <div className={`text-[11px] font-black uppercase tracking-widest flex items-center gap-2 flex-wrap ${
+                    isLight ? "text-amber-800" : "text-amber-400"
+                  }`}>
                     <span className="inline-block sm:hidden text-base leading-none">{CATEGORIES[category]?.badge || "💡"}</span>
                     <span>ACTIVE CATEGORY</span>
-                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping shrink-0" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight mt-0.5 break-words">
+                  <h3 className={`text-xl sm:text-2xl lg:text-3xl font-black tracking-tight leading-tight mt-0.5 break-words ${
+                    isLight ? "text-slate-900" : "text-white"
+                  }`}>
                     {CATEGORIES[category]?.name || category}
                   </h3>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-snug break-words whitespace-normal">
+                  <p className={`text-xs font-semibold mt-1 leading-snug break-words whitespace-normal ${
+                    isLight ? "text-slate-700" : "text-slate-300"
+                  }`}>
                     {CATEGORIES[category]?.description}
                   </p>
                 </div>
@@ -6488,16 +6863,22 @@ export default function IdeasPage() {
 
               {/* Category Dropdown Selector */}
               <div className="w-full md:w-auto md:min-w-[260px] shrink-0 max-w-full overflow-hidden">
-                <label className="text-[11px] font-extrabold text-amber-300 uppercase tracking-wider block mb-1">
+                <label className={`text-[11px] font-black uppercase tracking-wider block mb-1 ${
+                  isLight ? "text-amber-900" : "text-amber-300"
+                }`}>
                   Change Category:
                 </label>
                 <select
                   value={category}
                   onChange={(e) => handleCategoryChange(e.target.value as CategoryId)}
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border-2 border-amber-500/60 text-sm sm:text-base font-extrabold text-amber-200 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 cursor-pointer shadow-xl transition-all truncate text-ellipsis"
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-black cursor-pointer shadow-xl transition-all truncate text-ellipsis ${
+                    isLight
+                      ? "bg-white border-amber-400 text-amber-950 focus:border-amber-500 focus:ring-amber-500/20"
+                      : "bg-black/80 border-amber-500/60 text-amber-200 focus:border-amber-400 focus:ring-amber-500/20"
+                  }`}
                 >
                   {categoryEntries.map((cat) => (
-                    <option key={cat.id} value={cat.id} className="bg-slate-900 text-slate-100 font-bold py-1.5">
+                    <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900 font-bold py-1.5" : "bg-slate-900 text-slate-100 font-bold py-1.5"}>
                       {cat.name} ({cat.badge})
                     </option>
                   ))}
@@ -6509,18 +6890,20 @@ export default function IdeasPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Language */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Language</label>
+                <label className={`text-xs font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-300"}`}>Language</label>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-slate-700 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer disabled:opacity-50"
+                  className={`w-full px-3.5 py-3 rounded-xl border text-xs sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-bold cursor-pointer disabled:opacity-50 ${
+                    isLight ? "bg-white border-slate-300 text-slate-900 shadow-sm" : "bg-black/70 border-slate-700 text-white"
+                  }`}
                   disabled={category === "CARBOX"}
                 >
                   {category === "CARBOX" ? (
-                    <option value="ASMR Unboxing Effects" className="bg-slate-900 text-white">ASMR Unboxing Effects</option>
+                    <option value="ASMR Unboxing Effects" className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>ASMR Unboxing Effects</option>
                   ) : (
                     LANGUAGE_OPTIONS.map((l) => (
-                      <option key={l} value={l} className="bg-slate-900 text-white">
+                      <option key={l} value={l} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
                         {l}
                       </option>
                     ))
@@ -6530,36 +6913,40 @@ export default function IdeasPage() {
 
               {/* Visual Style */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Visual Style</label>
-                <VisualStyleDropdown value={visualStyle} onChange={setVisualStyle} />
+                <label className={`text-xs font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-300"}`}>Visual Style</label>
+                <VisualStyleDropdown value={visualStyle} onChange={setVisualStyle} isLight={isLight} />
               </div>
 
               {/* Duration */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1">
+                <label className={`text-xs font-black uppercase tracking-wider flex items-center gap-1 ${isLight ? "text-indigo-900" : "text-indigo-300"}`}>
                   <span>Duration</span>
                 </label>
                 <select
                   value={videoDuration}
                   onChange={(e) => setVideoDuration(Number(e.target.value))}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-indigo-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium cursor-pointer"
+                  className={`w-full px-3.5 py-3 rounded-xl border text-xs sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-bold cursor-pointer ${
+                    isLight ? "bg-white border-slate-300 text-slate-900 shadow-sm" : "bg-black/70 border-indigo-500/40 text-white"
+                  }`}
                 >
-                  <option value={8} className="bg-slate-900 text-white">8 Sec Story Clip</option>
-                  <option value={10} className="bg-slate-900 text-white">⚡ 10 Sec Fast & Energetic</option>
-                  <option value={20} className="bg-slate-900 text-white">⚡🎬 20 Sec Connected Story (2x 10s)</option>
-                  <option value={30} className="bg-slate-900 text-white">⚡🎬 30 Sec Connected Story (3x 10s)</option>
+                  <option value={8} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>8 Sec Story Clip</option>
+                  <option value={10} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>⚡ 10 Sec Fast & Energetic</option>
+                  <option value={20} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>⚡🎬 20 Sec Connected Story (2x 10s)</option>
+                  <option value={30} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>⚡🎬 30 Sec Connected Story (3x 10s)</option>
                 </select>
               </div>
 
               {/* AI Model Selector */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                <label className={`text-xs font-black uppercase tracking-wider flex items-center gap-1.5 ${isLight ? "text-purple-950" : "text-purple-300"}`}>
                   <span>🤖 AI Model</span>
                 </label>
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-black/70 border border-purple-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all font-semibold cursor-pointer"
+                  className={`w-full px-3.5 py-3 rounded-xl border text-xs sm:text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all font-extrabold cursor-pointer ${
+                    isLight ? "bg-white border-purple-300 text-purple-950 shadow-sm" : "bg-black/70 border-purple-500/40 text-white"
+                  }`}
                 >
                   {AI_MODEL_OPTIONS.map((m) => (
                     <option key={m.id} value={m.id} className="bg-slate-900 text-white">
@@ -6588,9 +6975,15 @@ export default function IdeasPage() {
                   </div>
                 </div>
               ) : (
-              <div className="space-y-3 p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30">
+              <div ref={dialogueSectionRef} className={`space-y-3 p-4 rounded-2xl border transition-all ${
+                isLight
+                  ? "bg-amber-50/80 border-2 border-amber-300 text-slate-900 shadow-sm"
+                  : "bg-amber-950/20 border border-amber-500/30 text-slate-100"
+              }`}>
                 <div className="flex flex-wrap items-center justify-between gap-2.5">
-                  <label className="text-xs font-extrabold text-amber-300 flex items-center gap-2">
+                  <label className={`text-xs uppercase flex items-center gap-2 ${
+                    isLight ? "text-amber-950 font-black" : "text-amber-300 font-extrabold"
+                  }`}>
                     <span>💬 Custom Spoken Dialogue (Optional)</span>
                   </label>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -6599,20 +6992,24 @@ export default function IdeasPage() {
                         <button
                           type="button"
                           onClick={handleSaveDialogue}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 border border-indigo-700/50 text-xs font-bold text-indigo-200 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isLight ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-700/50 text-indigo-200"
+                          }`}
                           title="Save dialogue for future reuse"
                         >
-                          <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                          <Bookmark className="w-3.5 h-3.5 text-indigo-500" />
                           <span>Save</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleCopy(customDialogue, "custom-dialogue-input")}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200"
+                          }`}
                           title="Copy spoken dialogue"
                         >
                           {copiedId === "custom-dialogue-input" ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                            <Check className="w-3.5 h-3.5 text-emerald-500" />
                           ) : (
                             <Copy className="w-3.5 h-3.5" />
                           )}
@@ -6624,10 +7021,12 @@ export default function IdeasPage() {
                             setCustomDialogue("");
                             showToast("Cleared dialogue text", "info");
                           }}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                          className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isLight ? "bg-rose-100 border-rose-300 text-rose-950 hover:bg-rose-200" : "bg-rose-950/40 hover:bg-rose-900/60 border-rose-800/40 text-rose-300"
+                          }`}
                           title="Clear dialogue"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-3.5 h-3.5 text-rose-500" />
                           <span>Clear</span>
                         </button>
                       </>
@@ -6635,7 +7034,9 @@ export default function IdeasPage() {
                     <button
                       type="button"
                       onClick={() => setIsDialogueExpanded(!isDialogueExpanded)}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                      className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/40 text-amber-300"
+                      }`}
                       title={isDialogueExpanded ? "Collapse to normal height" : "Expand field height for large script view"}
                     >
                       {isDialogueExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
@@ -6645,31 +7046,100 @@ export default function IdeasPage() {
                       type="button"
                       onClick={handleSuggestDialogue}
                       disabled={isSuggestingDialogue}
-                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm"
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm ${
+                        isLight
+                          ? "bg-amber-500 text-white border-amber-600 hover:bg-amber-600 shadow-amber-500/20"
+                          : "bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border-amber-500/40 text-amber-300"
+                      }`}
                       title="Automatically fix Urdu/Punjabi spelling, grammar, and Zair/Zabar/Pesh diacritics while preserving exact meaning"
                     >
                       {isSuggestingDialogue ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
                       ) : (
-                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        <Sparkles className="w-3.5 h-3.5 text-white" />
                       )}
                       {isSuggestingDialogue ? "Fixing Script..." : "✨ Fix Urdu & Punjabi Script"}
                     </button>
                   </div>
                 </div>
 
+                {/* Character Label Quick-Insert + Direction + Voice Input */}
+                {(videoDuration !== 20 && videoDuration !== 30) && (
+                  <div className="flex flex-wrap items-center gap-2 py-2">
+                    <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
+                    {[
+                      { label: "Boy:", color: "blue" },
+                      { label: "Girl:", color: "pink" },
+                      { label: "Abu:", color: "amber" },
+                      { label: "Baita:", color: "green" },
+                      { label: "Amma:", color: "purple" },
+                      { label: "Uncle:", color: "orange" },
+                    ].map(({ label, color }) => (
+                      <button
+                        key={label}
+                        type="button"
+                        onClick={() => insertDialogueLabel(label)}
+                        className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          color === "blue" ? (isLight ? "bg-blue-100 border-blue-300 text-blue-950 hover:bg-blue-200" : "bg-blue-950/50 border-blue-500/40 text-blue-300 hover:bg-blue-900/60") :
+                          color === "pink" ? (isLight ? "bg-pink-100 border-pink-300 text-pink-950 hover:bg-pink-200" : "bg-pink-950/50 border-pink-500/40 text-pink-300 hover:bg-pink-900/60") :
+                          color === "amber" ? (isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/50 border-amber-500/40 text-amber-300 hover:bg-amber-900/60") :
+                          color === "green" ? (isLight ? "bg-emerald-100 border-emerald-300 text-emerald-950 hover:bg-emerald-200" : "bg-green-950/50 border-green-500/40 text-green-300 hover:bg-green-900/60") :
+                          color === "purple" ? (isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/50 border-purple-500/40 text-purple-300 hover:bg-purple-900/60") :
+                          (isLight ? "bg-orange-100 border-orange-300 text-orange-950 hover:bg-orange-200" : "bg-orange-950/50 border-orange-500/40 text-orange-300 hover:bg-orange-900/60")
+                        }`}
+                        title={`Insert "${label}" at cursor`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+
+                    {/* LTR / RTL direction toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setDialogueDir((d) => (d === "ltr" ? "rtl" : "ltr"))}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        dialogueDir === "rtl"
+                          ? (isLight ? "bg-teal-100 border-teal-300 text-teal-950" : "bg-teal-900/60 border-teal-500/50 text-teal-200")
+                          : (isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800/80 border-slate-600/50 text-slate-300 hover:bg-slate-700")
+                      }`}
+                      title={dialogueDir === "ltr" ? "Switch to Right-to-Left (Urdu)" : "Switch to Left-to-Right (English/Labels)"}
+                    >
+                      <span>{dialogueDir === "ltr" ? "⇒ LTR" : "⇐ RTL"}</span>
+                    </button>
+
+                    {/* Voice mic button */}
+                    <button
+                      type="button"
+                      onClick={handleVoiceInput}
+                      className={`ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isListening
+                          ? "bg-rose-600 border-rose-400 text-white animate-pulse"
+                          : (isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-slate-800 border-slate-600/50 text-slate-300 hover:bg-slate-700 hover:text-white")
+                      }`}
+                      title={isListening ? "Listening — click to stop" : "Click to speak voice input (Chrome PC & Android)"}
+                    >
+                      <Mic className={`w-3.5 h-3.5 ${isListening ? "text-white animate-bounce" : (isLight ? "text-amber-900" : "text-slate-400")}`} />
+                      <span>{isListening ? "Stop Mic" : "🎙️ Mic"}</span>
+                    </button>
+                  </div>
+                )}
+
                 {(videoDuration === 20 || videoDuration === 30) ? (
                   <div className="space-y-4 pt-1">
-                    <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 space-y-2">
+                    <div className={`p-3.5 rounded-xl border space-y-2 transition-all ${
+                      isLight ? "bg-white border-2 border-amber-300 shadow-sm" : "bg-amber-950/40 border border-amber-500/40"
+                    }`}>
                       <div className="flex items-center justify-between">
-                        <label className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
+                        <label className={`text-xs font-black flex items-center gap-1.5 ${
+                          isLight ? "text-amber-950" : "text-amber-300"
+                        }`}>
                           <span>🎬 Sequence 1 Spoken Dialogue (First 10s Clip — 0-10s)</span>
                         </label>
                         {customDialogueSeq1 && (
                           <button
                             type="button"
                             onClick={() => setCustomDialogueSeq1("")}
-                            className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                            className="text-[10px] font-black text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
                           >
                             Clear Seq 1
                           </button>
@@ -6681,20 +7151,28 @@ export default function IdeasPage() {
                         dir={customDialogueSeq1 && /[\u0600-\u06FF]/.test(customDialogueSeq1) ? "rtl" : "auto"}
                         rows={3}
                         placeholder={`Spoken dialogue for first 10s clip, e.g.:\nابو دیکھو! میں نے ایک نیا کھیل دریافت کر لیا ہے!`}
-                        className="w-full px-4 py-3 rounded-xl bg-black/80 border border-amber-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-all resize-y custom-scrollbar"
+                        className={`w-full px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold focus:outline-none transition-all resize-y custom-scrollbar ${
+                          isLight
+                            ? "bg-white border-amber-300 text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+                            : "bg-black/80 border-amber-500/50 text-white placeholder-slate-500 focus:border-amber-400"
+                        }`}
                       />
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/40 space-y-2">
+                    <div className={`p-3.5 rounded-xl border space-y-2 transition-all ${
+                      isLight ? "bg-white border-2 border-indigo-300 shadow-sm" : "bg-indigo-950/40 border border-indigo-500/40"
+                    }`}>
                       <div className="flex items-center justify-between">
-                        <label className="text-xs font-extrabold text-indigo-300 flex items-center gap-1.5">
+                        <label className={`text-xs font-black flex items-center gap-1.5 ${
+                          isLight ? "text-indigo-950" : "text-indigo-300"
+                        }`}>
                           <span>🎬 Sequence 2 Spoken Dialogue (Second 10s Clip — 10-20s Continuation)</span>
                         </label>
                         {customDialogueSeq2 && (
                           <button
                             type="button"
                             onClick={() => setCustomDialogueSeq2("")}
-                            className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                            className="text-[10px] font-black text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
                           >
                             Clear Seq 2
                           </button>
@@ -6706,21 +7184,29 @@ export default function IdeasPage() {
                         dir={customDialogueSeq2 && /[\u0600-\u06FF]/.test(customDialogueSeq2) ? "rtl" : "auto"}
                         rows={3}
                         placeholder={`Spoken dialogue for second 10s clip, e.g.:\nارے یہ کیا ہو گیا! لیکن کتنا مزہ آیا!`}
-                        className="w-full px-4 py-3 rounded-xl bg-black/80 border border-indigo-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 transition-all resize-y custom-scrollbar"
+                        className={`w-full px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold focus:outline-none transition-all resize-y custom-scrollbar ${
+                          isLight
+                            ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                            : "bg-black/80 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400"
+                        }`}
                       />
                     </div>
 
                     {videoDuration === 30 && (
-                      <div className="p-3.5 rounded-xl bg-fuchsia-950/40 border border-fuchsia-500/40 space-y-2 mt-4">
+                      <div className={`p-3.5 rounded-xl border space-y-2 mt-4 transition-all ${
+                        isLight ? "bg-white border-2 border-fuchsia-300 shadow-sm" : "bg-fuchsia-950/40 border border-fuchsia-500/40"
+                      }`}>
                         <div className="flex items-center justify-between">
-                          <label className="text-xs font-extrabold text-fuchsia-300 flex items-center gap-1.5">
+                          <label className={`text-xs font-black flex items-center gap-1.5 ${
+                            isLight ? "text-fuchsia-950" : "text-fuchsia-300"
+                          }`}>
                             <span>✨ Sequence 3 Spoken Dialogue (Third 10s Clip - 20-30s)</span>
                           </label>
                           {customDialogueSeq3 && (
                             <button
                               type="button"
                               onClick={() => setCustomDialogueSeq3("")}
-                              className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                              className="text-[10px] font-black text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
                             >
                               Clear Seq 3
                             </button>
@@ -6732,28 +7218,44 @@ export default function IdeasPage() {
                           dir={customDialogueSeq3 && /[\u0600-\u06FF]/.test(customDialogueSeq3) ? "rtl" : "auto"}
                           rows={3}
                           placeholder={`Spoken dialogue for third 10s clip, e.g.:\nLook what happened!`}
-                          className="w-full px-4 py-3 rounded-xl bg-black/80 border border-fuchsia-500/50 text-sm sm:text-base font-bold text-white placeholder-slate-500 focus:outline-none focus:border-fuchsia-400 transition-all resize-y custom-scrollbar"
+                          className={`w-full px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold focus:outline-none transition-all resize-y custom-scrollbar ${
+                            isLight
+                              ? "bg-white border-fuchsia-300 text-slate-900 placeholder-slate-400 focus:border-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500/20"
+                              : "bg-black/80 border-fuchsia-500/50 text-white placeholder-slate-500 focus:border-fuchsia-400"
+                          }`}
                         />
                       </div>
                     )}
                   </div>
                 ) : (
                   <textarea
+                    ref={dialogueTextareaRef}
                     value={customDialogue}
                     onChange={(e) => setCustomDialogue(e.target.value)}
-                    dir={customDialogue && /[\u0600-\u06FF]/.test(customDialogue) ? "rtl" : "auto"}
+                    dir={dialogueDir}
                     rows={isDialogueExpanded ? 8 : 4}
-                    placeholder={`Paste your Urdu or Punjabi script here, e.g.:\nابو: چپس کہاں گئے؟\nبچہ: تحقیقات جاری ہیں!\n(Then click ✨ Fix Urdu & Punjabi Script)`}
-                    className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-amber-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
+                    placeholder={dialogueDir === "ltr"
+                      ? `e.g.:\nBoy: کتنے سال کی ہو؟\nGirl: ایج پہ مت جانا، سمجھدار ہوں۔\nBoy: چائے پہ چلو گی؟\nGirl: نہیں — چائے گرم ہے، پیر جل جائیں گے! 😂`
+                      : `مثلاً:\nلڑکا: کتنے سال کی ہو؟\nلڑکی: ایج پہ مت جانا، سمجھدار ہوں۔`
+                    }
+                    className={`w-full px-4.5 py-3.5 rounded-2xl border-2 text-base sm:text-lg lg:text-xl font-extrabold focus:outline-none transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans ${
+                      isLight
+                        ? "bg-white border-amber-400 text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/20"
+                        : "bg-black/80 border-amber-500/50 text-white placeholder-slate-500 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20"
+                    }`}
                   />
                 )}
 
                 {/* Saved Dialogues Tag List */}
                 {savedDialogues.length > 0 && (
-                  <div className="mt-3 p-3.5 rounded-xl bg-black/40 border border-indigo-500/20 space-y-2">
+                  <div className={`mt-3 p-3.5 rounded-xl border space-y-2 ${
+                    isLight ? "bg-indigo-50/80 border-indigo-200 text-slate-900" : "bg-black/40 border-indigo-500/20 text-white"
+                  }`}>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                        <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        isLight ? "text-indigo-950" : "text-indigo-300"
+                      }`}>
+                        <Bookmark className="w-3.5 h-3.5 text-indigo-500" />
                         Saved Dialogues ({savedDialogues.length})
                       </span>
                     </div>
@@ -6761,25 +7263,31 @@ export default function IdeasPage() {
                       {savedDialogues.map((item) => (
                         <div
                           key={item.id}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-sm"
+                          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs shadow-sm ${
+                            isLight
+                              ? "bg-white border-slate-300 text-slate-900 font-bold"
+                              : "bg-slate-900/90 border-slate-800 text-slate-200"
+                          }`}
                         >
                           <span
                             dir={language === "Urdu" || language === "Punjabi" ? "rtl" : "ltr"}
-                            className="truncate max-w-[180px] sm:max-w-xs font-medium"
+                            className="truncate max-w-[180px] sm:max-w-xs font-bold"
                           >
                             {item.text}
                           </span>
                           <button
                             type="button"
                             onClick={() => handleUseSavedDialogue(item.text)}
-                            className="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] transition-all cursor-pointer active:scale-95"
+                            className="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-black text-[10px] transition-all cursor-pointer active:scale-95"
                           >
                             Use
                           </button>
                           <button
                             type="button"
                             onClick={() => handleDeleteSavedDialogue(item.id)}
-                            className="p-0.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+                            className={`p-0.5 transition-colors cursor-pointer ${
+                              isLight ? "text-slate-500 hover:text-rose-600" : "text-slate-400 hover:text-rose-400"
+                            }`}
                             title="Delete saved dialogue"
                           >
                             <Trash2 className="w-3 h-3" />
@@ -6793,9 +7301,15 @@ export default function IdeasPage() {
               )}
 
               {/* Situation/Scene Description Section */}
-              <div className="space-y-3 p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/30">
+              <div className={`space-y-3 p-4 rounded-2xl border transition-all ${
+                isLight
+                  ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
+                  : "bg-indigo-950/20 border border-indigo-500/30 text-white"
+              }`}>
                 <div className="flex flex-wrap items-center justify-between gap-2.5">
-                  <label className="text-xs font-extrabold text-indigo-300 flex items-center gap-2">
+                  <label className={`text-xs font-black flex items-center gap-2 ${
+                    isLight ? "text-slate-900" : "text-indigo-300"
+                  }`}>
                     <span>🎬 Situation / Scene Description (Optional)</span>
                   </label>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -6806,11 +7320,15 @@ export default function IdeasPage() {
                         setSelectedSituationCat(e.target.value);
                         handleSuggestSituation(e.target.value);
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-indigo-950/80 border border-indigo-500/40 text-xs font-bold text-indigo-200 focus:outline-none focus:border-indigo-400 cursor-pointer shadow-sm"
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-extrabold focus:outline-none cursor-pointer shadow-sm ${
+                        isLight
+                          ? "bg-white border-slate-300 text-slate-900"
+                          : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
+                      }`}
                       title="Select a situation category to get AI scene suggestions"
                     >
                       {SITUATION_CATEGORIES.map((cat) => (
-                        <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
+                        <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
                           {cat.label}
                         </option>
                       ))}
@@ -6820,7 +7338,7 @@ export default function IdeasPage() {
                     <button
                       type="button"
                       onClick={() => handleSuggestSituation()}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600/80 to-purple-600/80 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
                       title="Suggest a new random scenario for the selected situation category"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-amber-300" />
@@ -6834,7 +7352,7 @@ export default function IdeasPage() {
                           setCustomSceneDescription("");
                           showToast("Cleared situation description", "info");
                         }}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-bold text-rose-300 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm"
                         title="Clear description"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -6849,12 +7367,18 @@ export default function IdeasPage() {
                   onChange={(e) => setCustomSceneDescription(e.target.value)}
                   rows={3}
                   placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.`}
-                  className="w-full px-4.5 py-3.5 rounded-2xl bg-black/80 border-2 border-indigo-500/50 text-base sm:text-lg lg:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20 transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans"
+                  className={`w-full px-4.5 py-3.5 rounded-2xl border-2 text-base sm:text-lg lg:text-xl font-bold focus:outline-none transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans ${
+                    isLight
+                      ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20"
+                      : "bg-black/80 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20"
+                  }`}
                 />
 
                 {/* One-Tap Quick Situation Suggestions Pills */}
                 <div className="space-y-1.5 pt-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">⚡ One-Tap Quick Situations:</span>
+                  <span className={`text-[10px] uppercase tracking-wider ${
+                    isLight ? "text-slate-900 font-black" : "text-slate-400 font-bold"
+                  }`}>⚡ One-Tap Quick Situations:</span>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_SITUATION_PILLS.map((pill) => (
                       <button
@@ -6864,7 +7388,11 @@ export default function IdeasPage() {
                           setCustomSceneDescription(pill.text);
                           showToast(`Applied situation: "${pill.label}"`, "info");
                         }}
-                        className="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-indigo-900/60 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold text-slate-300 hover:text-indigo-200 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight
+                            ? "bg-white hover:bg-indigo-50 text-slate-900 border-slate-300"
+                            : "bg-slate-900/90 hover:bg-indigo-900/60 border-slate-800 text-slate-300 hover:text-indigo-200"
+                        }`}
                       >
                         {pill.label}
                       </button>
@@ -6885,6 +7413,7 @@ export default function IdeasPage() {
                 onChange={(val) => setMusicType(val)}
                 groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
                 badgeTitle="Music Style"
+                isLight={isLight}
               />
             </div>
 
@@ -6897,6 +7426,7 @@ export default function IdeasPage() {
                 onChange={(val) => setSeriousDialogueStyle(val)}
                 groups={SERIOUS_DIALOGUE_GROUPS}
                 badgeTitle="Dialogue Tone"
+                isLight={isLight}
               />
             </div>
 
@@ -6909,6 +7439,7 @@ export default function IdeasPage() {
                 onChange={(val) => setOutroEffects(val)}
                 groups={OUTRO_EFFECTS_GROUPS}
                 badgeTitle="Outro Effects"
+                isLight={isLight}
               />
             </div>
 
@@ -6942,13 +7473,23 @@ export default function IdeasPage() {
           </div>
 
           {/* Universal Concept Options: Short Idea, Without Dialogue, Without Music */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 space-y-3.5 shadow-lg relative z-30">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/20 pb-2.5 gap-1.5">
-              <span className="text-xs font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+          <div className={`p-4 sm:p-5 rounded-2xl border space-y-3.5 relative z-30 transition-all ${
+            isLight
+              ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
+              : "bg-indigo-950/30 border border-indigo-500/30 text-slate-100 shadow-lg"
+          }`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b pb-2.5 gap-1.5 ${
+              isLight ? "border-indigo-200" : "border-indigo-500/20"
+            }`}>
+              <span className={`text-xs font-black uppercase tracking-wider flex items-center gap-2 ${
+                isLight ? "text-slate-900" : "text-indigo-300"
+              }`}>
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
                 Universal Concept Options (Applies to All Categories)
               </span>
-              <span className="text-[10px] text-slate-400 font-medium">All options OFF by default</span>
+              <span className={`text-[10px] font-extrabold ${isLight ? "text-slate-600" : "text-slate-400 font-medium"}`}>
+                All options OFF by default
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
@@ -6957,12 +7498,16 @@ export default function IdeasPage() {
                 onClick={() => setIsShortIdea(!isShortIdea)}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
                   isShortIdea
-                    ? "bg-amber-950/50 border-amber-500/80 text-amber-200 shadow-md shadow-amber-500/20 ring-1 ring-amber-500/40"
+                    ? "bg-amber-500/10 border-amber-500 text-amber-900 dark:text-amber-200 shadow-md ring-2 ring-amber-500/40"
+                    : isLight
+                    ? "bg-white border-2 border-zinc-200 hover:border-amber-400 text-zinc-900 shadow-sm font-bold"
                     : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span className={`text-xs font-black flex items-center gap-1.5 ${
+                    isShortIdea ? "text-amber-900 dark:text-amber-200" : isLight ? "text-zinc-950" : "text-white"
+                  }`}>
                     <span className="text-base">⚡</span>
                     <span>Short Idea</span>
                   </span>
@@ -6970,7 +7515,9 @@ export default function IdeasPage() {
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${isShortIdea ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
+                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                }`}>
                   {isShortIdea ? "ON: Generates 3-4 clip short concept + Full Idea" : "OFF: Generates normal/full idea only"}
                 </p>
               </div>
@@ -6980,12 +7527,16 @@ export default function IdeasPage() {
                 onClick={() => setWithoutDialogue(!withoutDialogue)}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
                   withoutDialogue
-                    ? "bg-purple-950/50 border-purple-500/80 text-purple-200 shadow-md shadow-purple-500/20 ring-1 ring-purple-500/40"
+                    ? "bg-purple-500/10 border-purple-500 text-purple-900 dark:text-purple-200 shadow-md ring-2 ring-purple-500/40"
+                    : isLight
+                    ? "bg-white border-2 border-zinc-200 hover:border-purple-400 text-zinc-900 shadow-sm font-bold"
                     : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span className={`text-xs font-black flex items-center gap-1.5 ${
+                    withoutDialogue ? "text-purple-900 dark:text-purple-200" : isLight ? "text-zinc-950" : "text-white"
+                  }`}>
                     <span className="text-base">🔇</span>
                     <span>Without Dialogue</span>
                   </span>
@@ -6993,7 +7544,9 @@ export default function IdeasPage() {
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutDialogue ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
+                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                }`}>
                   {withoutDialogue ? "ON: Dialogue & Spoken Script DISABLED (Silent Visual Storytelling)" : "OFF: Dialogue & Character Script ENABLED"}
                 </p>
               </div>
@@ -7003,12 +7556,16 @@ export default function IdeasPage() {
                 onClick={() => setWithoutMusic(!withoutMusic)}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
                   withoutMusic
-                    ? "bg-rose-950/50 border-rose-500/80 text-rose-200 shadow-md shadow-rose-500/20 ring-1 ring-rose-500/40"
+                    ? "bg-rose-500/10 border-rose-500 text-rose-900 dark:text-rose-200 shadow-md ring-2 ring-rose-500/40"
+                    : isLight
+                    ? "bg-white border-2 border-zinc-200 hover:border-rose-400 text-zinc-900 shadow-sm font-bold"
                     : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span className={`text-xs font-black flex items-center gap-1.5 ${
+                    withoutMusic ? "text-rose-900 dark:text-rose-200" : isLight ? "text-zinc-950" : "text-white"
+                  }`}>
                     <span className="text-base">🚫🎵</span>
                     <span>Without Music</span>
                   </span>
@@ -7016,7 +7573,9 @@ export default function IdeasPage() {
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutMusic ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
+                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                }`}>
                   {withoutMusic ? "ON: No background music. Diegetic SFX only" : "OFF: Can include background music"}
                 </p>
               </div>
@@ -7026,12 +7585,16 @@ export default function IdeasPage() {
                 onClick={() => setIncludeCharacterBible(!includeCharacterBible)}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
                   includeCharacterBible
-                    ? "bg-indigo-950/50 border-indigo-500/80 text-indigo-200 shadow-md shadow-indigo-500/20 ring-1 ring-indigo-500/40"
+                    ? "bg-indigo-500/10 border-indigo-500 text-indigo-900 dark:text-indigo-200 shadow-md ring-2 ring-indigo-500/40"
+                    : isLight
+                    ? "bg-white border-2 border-zinc-200 hover:border-indigo-400 text-zinc-900 shadow-sm font-bold"
                     : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span className={`text-xs font-black flex items-center gap-1.5 ${
+                    includeCharacterBible ? "text-indigo-900 dark:text-indigo-200" : isLight ? "text-zinc-950" : "text-white"
+                  }`}>
                     <span className="text-base">📋🔒</span>
                     <span>Continuity Bible</span>
                   </span>
@@ -7039,7 +7602,9 @@ export default function IdeasPage() {
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeCharacterBible ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
+                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                }`}>
                   {includeCharacterBible ? "ENABLED: Includes locked facial identity & outfit specs" : "DISABLED: Skips Bible header & outputs scene prompts directly"}
                 </p>
               </div>
@@ -7049,12 +7614,16 @@ export default function IdeasPage() {
                 onClick={() => setCompactMode(!compactMode)}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
                   compactMode
-                    ? "bg-emerald-950/50 border-emerald-500/80 text-emerald-200 shadow-md shadow-emerald-500/20 ring-1 ring-emerald-500/40"
+                    ? "bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-emerald-200 shadow-md ring-2 ring-emerald-500/40"
+                    : isLight
+                    ? "bg-white border-2 border-zinc-200 hover:border-emerald-400 text-zinc-900 shadow-sm font-bold"
                     : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span className={`text-xs font-black flex items-center gap-1.5 ${
+                    compactMode ? "text-emerald-900 dark:text-emerald-200" : isLight ? "text-zinc-950" : "text-white"
+                  }`}>
                     <span className="text-base">⚡📱</span>
                     <span>9:16 Credit Saver</span>
                   </span>
@@ -7062,7 +7631,9 @@ export default function IdeasPage() {
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${compactMode ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium mt-1 leading-snug">
+                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                }`}>
                   {compactMode ? "ON: Generates lean 9:16 prompt only (Saves ~75% credits)" : "OFF: Generates extended detailed description"}
                 </p>
               </div>
@@ -7071,24 +7642,34 @@ export default function IdeasPage() {
 
           {/* Cute Kids Options */}
           {category === "CUTE_KIDS" && (
-            <div className="p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 space-y-5 shadow-xl relative z-30">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/20 pb-3 gap-2">
+            <div ref={generatorParametersRef} className={`p-4 sm:p-6 rounded-2xl border space-y-5 shadow-xl relative z-30 transition-all duration-300 ${
+              isLight ? "bg-slate-50 border-indigo-200 text-slate-900" : "bg-indigo-950/20 border-indigo-500/25 text-slate-100"
+            }`}>
+              <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 gap-2 ${isLight ? "border-indigo-200" : "border-indigo-500/20"}`}>
                 <div>
-                  <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+                  <span className={`text-xs uppercase tracking-wider flex items-center gap-2 ${
+                    isLight ? "text-indigo-950 font-black" : "text-indigo-300 font-bold"
+                  }`}>
+                    <Sparkles className="w-4 h-4 text-indigo-500 animate-pulse" />
                     Cute Kids Generator Parameters (Mobile Optimized)
                   </span>
-                  <p className="text-[11px] text-slate-400 font-normal mt-0.5">
+                  <p className={`text-[11px] font-medium mt-0.5 ${isLight ? "text-slate-700" : "text-slate-400"}`}>
                     Tap any option below to open a full-screen, touch-friendly bottom selector for fast navigation on Android.
                   </p>
                 </div>
-                <span className="text-[10px] text-indigo-300/80 font-semibold px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-500/20 self-start sm:self-auto">
+                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border self-start sm:self-auto ${
+                  isLight ? "bg-indigo-100 text-indigo-900 border-indigo-300" : "bg-indigo-950/60 text-indigo-300/80 border-indigo-500/20"
+                }`}>
                   Touch-Friendly Selectors
                 </span>
               </div>
 
               {/* One-Tap Mobile Presets Bar */}
-              <div className="rounded-2xl bg-indigo-950/40 border border-indigo-500/30 overflow-hidden">
+              <div className={`rounded-2xl border overflow-hidden transition-all ${
+                isLight
+                  ? "bg-white border-indigo-200 text-slate-900 shadow-md"
+                  : "bg-indigo-950/40 border-indigo-500/30 text-slate-100"
+              }`}>
                 <div
                   role="button"
                   tabIndex={0}
@@ -7096,8 +7677,10 @@ export default function IdeasPage() {
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsPresetsExpanded((v) => !v); }}
                   className="w-full flex items-center justify-between p-3.5 sm:p-4 cursor-pointer touch-manipulation select-none"
                 >
-                  <span className="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span className={`text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 ${
+                    isLight ? "text-indigo-950" : "text-indigo-300"
+                  }`}>
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     One-Tap Mobile Presets
                   </span>
                   <div className="flex items-center gap-2">
@@ -7105,12 +7688,16 @@ export default function IdeasPage() {
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("CUTE_KIDS"); }}
                       title="Reset Cute Kids settings to default values"
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 touch-manipulation"
+                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 touch-manipulation ${
+                        isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300 hover:text-white"
+                      }`}
                     >
-                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      <RotateCcw className="w-3 h-3 text-amber-500" />
                       <span>Reset</span>
                     </button>
-                    <ChevronDown className={`w-4 h-4 text-indigo-400 transition-transform duration-200 ${isPresetsExpanded ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
+                      isLight ? "text-indigo-600" : "text-indigo-400"
+                    } ${isPresetsExpanded ? "rotate-180" : ""}`} />
                   </div>
                 </div>
                 {isPresetsExpanded && (
@@ -7118,7 +7705,9 @@ export default function IdeasPage() {
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
                       {CUTE_KIDS_PRESET_GROUPS.map((group) => (
                         <div key={group.groupName} className="space-y-2">
-                          <h4 className="text-[11px] font-bold text-indigo-300/80 uppercase tracking-wider px-1">
+                          <h4 className={`text-[11px] font-black uppercase tracking-wider px-1 ${
+                            isLight ? "text-indigo-950" : "text-indigo-300/80"
+                          }`}>
                             {group.groupName}
                           </h4>
                           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -7139,10 +7728,10 @@ export default function IdeasPage() {
                                   key={preset.title}
                                   type="button"
                                   onClick={() => applyCuteKidsPreset(preset)}
-                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
                                     isActive 
-                                      ? "bg-indigo-600 border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400" 
-                                      : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40"
+                                      ? (isLight ? "bg-indigo-600 text-white border-indigo-700 shadow-indigo-500/30 ring-2 ring-indigo-400" : "bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400")
+                                      : (isLight ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-950" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40 text-white")
                                   }`}
                                 >
                                   <span className="text-base shrink-0">{preset.icon}</span>
@@ -7158,254 +7747,426 @@ export default function IdeasPage() {
                 )}
               </div>
 
+              {/* Quick Search & Parameter Filter Bar */}
+              <div className={`p-3 sm:p-4 rounded-xl border space-y-2.5 transition-all ${
+                isLight
+                  ? "bg-white border-2 border-indigo-200 text-zinc-900 shadow-sm"
+                  : "bg-black/60 border border-indigo-500/30 text-white"
+              }`}>
+                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all ${
+                  isLight
+                    ? "bg-slate-50 border-slate-300 focus-within:border-indigo-500 text-zinc-900 shadow-inner"
+                    : "bg-slate-900/90 border-indigo-500/40 text-white"
+                }`}>
+                  <Search className="w-4 h-4 text-indigo-500 shrink-0" />
+                  <input
+                    type="text"
+                    value={paramSearchQuery}
+                    onChange={(e) => setParamSearchQuery(e.target.value)}
+                    placeholder="🔍 Fast Search parameters (e.g. Location, Clothing, Setup, Audio, Age, Food)..."
+                    className={`w-full bg-transparent text-xs focus:outline-none font-extrabold ${
+                      isLight ? "text-zinc-950 placeholder-zinc-500" : "text-white placeholder-slate-400 font-medium"
+                    }`}
+                  />
+                  {paramSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setParamSearchQuery("")}
+                      className={`text-xs px-2 py-0.5 rounded font-bold cursor-pointer ${
+                        isLight ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-300" : "bg-slate-800 text-slate-300 hover:text-white"
+                      }`}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+
+                {/* Quick Jump Chips */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className={`text-[10px] uppercase tracking-wider mr-1 ${
+                    isLight ? "text-zinc-950 font-black" : "text-slate-400 font-extrabold"
+                  }`}>
+                    Quick Jump:
+                  </span>
+                  {[
+                    { label: "📍 Location", search: "location" },
+                    { label: "👶 Age", search: "age" },
+                    { label: "👕 Clothing", search: "clothing" },
+                    { label: "👥 Setup", search: "setup" },
+                    { label: "🖼️ Reference Img", search: "reference" },
+                    { label: "🎙️ Audio", search: "audio" },
+                    { label: "😄 Expression", search: "expression" },
+                    { label: "🍭 Food", search: "food" },
+                    { label: "🎈 Props", search: "props" },
+                    { label: "🌅 Lighting", search: "lighting" },
+                    { label: "🎬 Story", search: "story" },
+                    { label: "🎥 Camera", search: "camera" },
+                    { label: "🎭 Performance", search: "performance" },
+                  ].map((chip) => {
+                    const isSelected = paramSearchQuery.toLowerCase() === chip.search;
+                    return (
+                      <button
+                        key={chip.label}
+                        type="button"
+                        onClick={() => setParamSearchQuery(isSelected ? "" : chip.search)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer active:scale-95 ${
+                          isSelected
+                            ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400"
+                            : isLight
+                            ? "bg-white hover:bg-indigo-50 text-zinc-900 border-2 border-zinc-200 shadow-sm"
+                            : "bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60"
+                        }`}
+                      >
+                        {chip.label}
+                      </button>
+                    );
+                  })}
+                  {paramSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setParamSearchQuery("")}
+                      className="px-2 py-1 rounded-lg text-[10px] font-black text-rose-600 bg-rose-100 hover:bg-rose-200 border border-rose-300 transition-all cursor-pointer"
+                    >
+                      Show All (15)
+                    </button>
+                  )}
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* 1. Characters Age */}
-                <CustomSelect
-                  label="Characters Age"
-                  icon="👶"
-                  value={kidsAge}
-                  onChange={setKidsAge}
-                  groups={KIDS_AGE_GROUPS}
-                />
+                {matchesParamFilter(["age", "characters age", "kids age", "toddler", "child"]) && (
+                  <CustomSelect
+                    label="Characters Age"
+                    icon="👶"
+                    value={kidsAge}
+                    onChange={setKidsAge}
+                    groups={KIDS_AGE_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 2. Scene Location */}
-                <CustomSelect
-                  label="Scene Location"
-                  icon="📍"
-                  value={kidsLocation}
-                  onChange={setKidsLocation}
-                  groups={KIDS_LOCATION_GROUPS}
-                />
+                {matchesParamFilter(["location", "scene location", "place", "setting", "room", "park", "kitchen"]) && (
+                  <CustomSelect
+                    label="Scene Location"
+                    icon="📍"
+                    value={kidsLocation}
+                    onChange={setKidsLocation}
+                    groups={KIDS_LOCATION_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 3. Kids Health */}
-                <CustomSelect
-                  label="Kids Health"
-                  icon="❤️"
-                  value={kidsHealth}
-                  onChange={setKidsHealth}
-                  groups={KIDS_HEALTH_GROUPS}
-                />
+                {matchesParamFilter(["health", "kids health", "active", "chubby"]) && (
+                  <CustomSelect
+                    label="Kids Health"
+                    icon="❤️"
+                    value={kidsHealth}
+                    onChange={setKidsHealth}
+                    groups={KIDS_HEALTH_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 4. Kids Vibe */}
-                <CustomSelect
-                  label="Kids Vibe"
-                  icon="✨"
-                  value={kidsVibe}
-                  onChange={setKidsVibe}
-                  groups={KIDS_VIBE_GROUPS}
-                />
+                {matchesParamFilter(["vibe", "mood", "feeling", "kids vibe"]) && (
+                  <CustomSelect
+                    label="Kids Vibe"
+                    icon="✨"
+                    value={kidsVibe}
+                    onChange={setKidsVibe}
+                    groups={KIDS_VIBE_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 4.5 Kids Clothing / Outfit Style */}
-                <CustomSelect
-                  label="Kids Clothing / Outfit"
-                  icon="👕"
-                  value={kidsClothing}
-                  onChange={setKidsClothing}
-                  groups={KIDS_CLOTHING_GROUPS}
-                  keepOpenOnSelect={true}
-                />
+                {matchesParamFilter(["clothing", "outfit", "kids clothing", "dress", "kurta", "frock"]) && (
+                  <CustomSelect
+                    label="Kids Clothing / Outfit"
+                    icon="👕"
+                    value={kidsClothing}
+                    onChange={setKidsClothing}
+                    groups={KIDS_CLOTHING_GROUPS}
+                    keepOpenOnSelect={true}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 4.6 Voice & Audio Style */}
-                <CustomSelect
-                  label="Voice & Audio Style"
-                  icon="🎙️"
-                  value={kidsAudioStyle}
-                  onChange={setKidsAudioStyle}
-                  groups={KIDS_AUDIO_STYLE_GROUPS}
-                />
+                {matchesParamFilter(["voice", "audio", "sound", "music", "dubbing", "audio style"]) && (
+                  <CustomSelect
+                    label="Voice & Audio Style"
+                    icon="🎙️"
+                    value={kidsAudioStyle}
+                    onChange={setKidsAudioStyle}
+                    groups={KIDS_AUDIO_STYLE_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 4.6 Father Clothing & Outfit */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>👨</span>
-                    <span>Father Clothing</span>
-                  </label>
-                  <select
-                    value={fatherClothing}
-                    onChange={(e) => setFatherClothing(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-slate-800 text-xs font-bold text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
-                  >
-                    {FATHER_CLOTHING_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-slate-900 text-slate-200">
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                  {fatherClothing === "Custom" && (
-                    <input
-                      type="text"
-                      value={customFatherClothing}
-                      onChange={(e) => setCustomFatherClothing(e.target.value)}
-                      placeholder="e.g. White Waistcoat over Navy Blue Kurta..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
-                    />
-                  )}
-                </div>
-
-                {/* 4.7 Mother Clothing & Outfit */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>👩</span>
-                    <span>Mother Clothing</span>
-                  </label>
-                  <select
-                    value={motherClothing}
-                    onChange={(e) => setMotherClothing(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-slate-800 text-xs font-bold text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
-                  >
-                    {MOTHER_CLOTHING_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-slate-900 text-slate-200">
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                  {motherClothing === "Custom" && (
-                    <input
-                      type="text"
-                      value={customMotherClothing}
-                      onChange={(e) => setCustomMotherClothing(e.target.value)}
-                      placeholder="e.g. Emerald Green Silk Suit with Embroidered Dupatta..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
-                    />
-                  )}
-                </div>
-
-                {/* 5. Character Setup */}
-                <CustomSelect
-                  label="Character Setup"
-                  icon="👥"
-                  value={characterSetup}
-                  onChange={handleCharacterSetupChange}
-                  groups={CHARACTER_SETUP_GROUPS}
-                />
-
-                {/* Optional Character Reference Upload */}
-                <div className="space-y-1.5 mt-4 mb-4">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-                    <span>Character Reference Image (Optional)</span>
-                    <button 
-                      onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold"
+                {matchesParamFilter(["clothing", "father", "father clothing", "father outfit", "abu"]) && (
+                  <div className="space-y-1.5">
+                    <label className={`text-xs uppercase tracking-wider flex items-center gap-1.5 ${
+                      isLight ? "text-zinc-950 font-black" : "text-slate-300 font-bold"
+                    }`}>
+                      <span>👨</span>
+                      <span>Father Clothing</span>
+                    </label>
+                    <select
+                      value={fatherClothing}
+                      onChange={(e) => setFatherClothing(e.target.value)}
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
+                        isLight ? "bg-white border-zinc-300 text-zinc-950 shadow-sm" : "bg-black/60 border-slate-800 text-indigo-300"
+                      }`}
                     >
-                      🖼️ Browse Library
-                    </button>
-                  </label>
-                  <div className="flex flex-col gap-2">
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      multiple
-                      onChange={handleImageUpload} 
-                      className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
-                    />
-                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
-                    {referenceImages.length > 0 && (
-                      <div className="flex flex-col gap-3 bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20">
-                        <div className="flex flex-wrap gap-2">
-                          {referenceImages.map((img, idx) => (
-                            <img key={idx} src={img} alt={`Reference ${idx + 1}`} className="w-12 h-12 rounded-lg object-cover border border-indigo-500/50" />
-                          ))}
-                        </div>
-                        {referenceCharacterInfo && !isAnalyzingImage && (
-                          <div className="text-xs text-indigo-300 whitespace-pre-wrap max-h-32 overflow-y-auto">{referenceCharacterInfo}</div>
-                        )}
-                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-400 hover:text-red-400 flex items-center gap-1"><X className="w-4 h-4"/> Clear All</button>
-                      </div>
+                      {FATHER_CLOTHING_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt} className={isLight ? "bg-white text-zinc-900" : "bg-slate-900 text-slate-200"}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    {fatherClothing === "Custom" && (
+                      <input
+                        type="text"
+                        value={customFatherClothing}
+                        onChange={(e) => setCustomFatherClothing(e.target.value)}
+                        placeholder="e.g. White Waistcoat over Navy Blue Kurta..."
+                        className={`w-full mt-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold shadow-inner ${
+                          isLight ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
+                        }`}
+                      />
                     )}
                   </div>
-                </div>
+                )}
+
+                {/* 4.7 Mother Clothing & Outfit */}
+                {matchesParamFilter(["clothing", "mother", "mother clothing", "mother outfit", "amma"]) && (
+                  <div className="space-y-1.5">
+                    <label className={`text-xs uppercase tracking-wider flex items-center gap-1.5 ${
+                      isLight ? "text-zinc-950 font-black" : "text-slate-300 font-bold"
+                    }`}>
+                      <span>👩</span>
+                      <span>Mother Clothing</span>
+                    </label>
+                    <select
+                      value={motherClothing}
+                      onChange={(e) => setMotherClothing(e.target.value)}
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
+                        isLight ? "bg-white border-zinc-300 text-zinc-950 shadow-sm" : "bg-black/60 border-slate-800 text-indigo-300"
+                      }`}
+                    >
+                      {MOTHER_CLOTHING_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt} className={isLight ? "bg-white text-zinc-900" : "bg-slate-900 text-slate-200"}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    {motherClothing === "Custom" && (
+                      <input
+                        type="text"
+                        value={customMotherClothing}
+                        onChange={(e) => setCustomMotherClothing(e.target.value)}
+                        placeholder="e.g. Emerald Green Silk Suit with Embroidered Dupatta..."
+                        className={`w-full mt-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold shadow-inner ${
+                          isLight ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
+                        }`}
+                      />
+                    )}
+                  </div>
+                )}
+
+                {/* 5. Character Setup */}
+                {matchesParamFilter(["setup", "character setup", "father son", "kids duo", "solo kid"]) && (
+                  <CustomSelect
+                    label="Character Setup"
+                    icon="👥"
+                    value={characterSetup}
+                    onChange={handleCharacterSetupChange}
+                    groups={CHARACTER_SETUP_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* Optional Character Reference Upload */}
+                {matchesParamFilter(["reference", "character reference image", "library", "image upload", "browse library", "image"]) && (
+                  <div className="space-y-1.5 mt-4 mb-4">
+                    <label className={`text-xs uppercase tracking-wider flex items-center justify-between ${
+                      isLight ? "text-zinc-950 font-black" : "text-slate-300 font-bold"
+                    }`}>
+                      <span>Character Reference Image (Optional)</span>
+                      <button 
+                        onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
+                        className={`text-xs flex items-center gap-1 font-bold ${
+                          isLight ? "text-indigo-700 hover:text-indigo-900" : "text-indigo-400 hover:text-indigo-300"
+                        }`}
+                      >
+                        🖼️ Browse Library
+                      </button>
+                    </label>
+                    <div className="flex flex-col gap-2">
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        multiple
+                        onChange={handleImageUpload} 
+                        className={`w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer ${
+                          isLight ? "text-zinc-900" : "text-slate-300"
+                        }`}
+                      />
+                      {isAnalyzingImage && <div className="text-xs text-indigo-500 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
+                      {referenceImages.length > 0 && (
+                        <div className={`flex flex-col gap-3 p-3 rounded-xl border ${
+                          isLight ? "bg-indigo-50 border-indigo-200" : "bg-indigo-900/30 border-indigo-500/20"
+                        }`}>
+                          <div className="flex flex-wrap gap-2">
+                            {referenceImages.map((img, idx) => (
+                              <div key={idx} className="relative group/img">
+                                <img src={img} alt={`Reference ${idx + 1}`} className="w-14 h-14 rounded-lg object-cover border border-indigo-500/50" />
+                                <button
+                                  type="button"
+                                  onClick={() => { setReferenceImages((prev) => prev.filter((_, i) => i !== idx)); showToast(`Removed image ${idx + 1}`, "info"); }}
+                                  className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-600 hover:bg-rose-500 border border-rose-400 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity shadow-lg"
+                                  title={`Remove image ${idx + 1}`}
+                                >
+                                  <X className="w-3 h-3 text-white" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          {referenceCharacterInfo && !isAnalyzingImage && (
+                            <div className={`text-xs whitespace-pre-wrap max-h-32 overflow-y-auto ${isLight ? "text-zinc-900 font-semibold" : "text-indigo-300"}`}>{referenceCharacterInfo}</div>
+                          )}
+                          <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-500 hover:text-red-500 flex items-center gap-1"><X className="w-4 h-4"/> Clear All</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* 6. Characters Per Scene */}
-                <div className="space-y-1.5">
-                  <CustomSelect
-                    label="Characters Per Scene"
-                    icon="🔢"
-                    value={charactersPerScene}
-                    onChange={setCharactersPerScene}
-                    groups={CHARACTERS_PER_SCENE_GROUPS}
-                  />
-                  {charactersPerScene === "Custom" && (
-                    <input
-                      type="text"
-                      value={customCharactersPerScene}
-                      onChange={(e) => setCustomCharactersPerScene(e.target.value)}
-                      placeholder="e.g. 5 Characters (3 Kids + 2 Adults)..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-indigo-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-medium shadow-inner"
+                {matchesParamFilter(["per scene", "characters per scene", "count", "number of kids"]) && (
+                  <div className="space-y-1.5">
+                    <CustomSelect
+                      label="Characters Per Scene"
+                      icon="🔢"
+                      value={charactersPerScene}
+                      onChange={setCharactersPerScene}
+                      groups={CHARACTERS_PER_SCENE_GROUPS}
+                      isLight={isLight}
                     />
-                  )}
-                </div>
+                    {charactersPerScene === "Custom" && (
+                      <input
+                        type="text"
+                        value={customCharactersPerScene}
+                        onChange={(e) => setCustomCharactersPerScene(e.target.value)}
+                        placeholder="e.g. 5 Characters (3 Kids + 2 Adults)..."
+                        className={`w-full mt-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold shadow-inner ${
+                          isLight ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
+                        }`}
+                      />
+                    )}
+                  </div>
+                )}
 
                 {/* 7. Nationality */}
-                <CustomSelect
-                  label="Nationality / Culture"
-                  icon="🌍"
-                  value={kidsNationality}
-                  onChange={setKidsNationality}
-                  groups={KIDS_NATIONALITY_GROUPS}
-                />
+                {matchesParamFilter(["nationality", "culture", "pakistani", "indian", "desi", "country"]) && (
+                  <CustomSelect
+                    label="Nationality / Culture"
+                    icon="🌍"
+                    value={kidsNationality}
+                    onChange={setKidsNationality}
+                    groups={KIDS_NATIONALITY_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 8. Kids Expression / Reaction Style */}
-                <CustomSelect
-                  label="Expression / Reaction Style"
-                  icon="😄"
-                  value={kidsExpression}
-                  onChange={setKidsExpression}
-                  groups={KIDS_EXPRESSION_GROUPS}
-                />
+                {matchesParamFilter(["expression", "reaction", "funny", "laughing", "surprised", "style"]) && (
+                  <CustomSelect
+                    label="Expression / Reaction Style"
+                    icon="😄"
+                    value={kidsExpression}
+                    onChange={setKidsExpression}
+                    groups={KIDS_EXPRESSION_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 9. Food / Snack in Scene */}
-                <CustomSelect
-                  label="Food / Snack in Scene"
-                  icon="🍭"
-                  value={kidsFood}
-                  onChange={setKidsFood}
-                  groups={KIDS_FOOD_GROUPS}
-                />
+                {matchesParamFilter(["food", "snack", "ice cream", "biscuit", "eating"]) && (
+                  <CustomSelect
+                    label="Food / Snack in Scene"
+                    icon="🍭"
+                    value={kidsFood}
+                    onChange={setKidsFood}
+                    groups={KIDS_FOOD_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 10. Props / Object in Hand */}
-                <CustomSelect
-                  label="Props / Object in Hand"
-                  icon="🎈"
-                  value={kidsProp}
-                  onChange={setKidsProp}
-                  groups={KIDS_PROP_GROUPS}
-                />
+                {matchesParamFilter(["props", "object", "hand", "toy", "balloon", "phone"]) && (
+                  <CustomSelect
+                    label="Props / Object in Hand"
+                    icon="🎈"
+                    value={kidsProp}
+                    onChange={setKidsProp}
+                    groups={KIDS_PROP_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 11. Time of Day / Lighting */}
-                <CustomSelect
-                  label="Time of Day / Lighting"
-                  icon="🌅"
-                  value={timeOfDay}
-                  onChange={setTimeOfDay}
-                  groups={TIME_OF_DAY_GROUPS}
-                />
+                {matchesParamFilter(["time", "lighting", "day", "night", "golden hour", "sunset"]) && (
+                  <CustomSelect
+                    label="Time of Day / Lighting"
+                    icon="🌅"
+                    value={timeOfDay}
+                    onChange={setTimeOfDay}
+                    groups={TIME_OF_DAY_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 12. Story Beat / Narrative Moment */}
-                <CustomSelect
-                  label="Story Beat / Narrative"
-                  icon="🎬"
-                  value={storyBeat}
-                  onChange={setStoryBeat}
-                  groups={STORY_BEAT_GROUPS}
-                />
+                {matchesParamFilter(["story", "narrative", "beat", "climax", "ending"]) && (
+                  <CustomSelect
+                    label="Story Beat / Narrative"
+                    icon="🎬"
+                    value={storyBeat}
+                    onChange={setStoryBeat}
+                    groups={STORY_BEAT_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 13. Camera Shot Style */}
-                <CustomSelect
-                  label="Camera Shot Style"
-                  icon="🎥"
-                  value={cameraShot}
-                  onChange={setCameraShot}
-                  groups={CAMERA_SHOT_GROUPS}
-                />
+                {matchesParamFilter(["camera", "shot", "cinematic", "close up", "wide shot"]) && (
+                  <CustomSelect
+                    label="Camera Shot Style"
+                    icon="🎥"
+                    value={cameraShot}
+                    onChange={setCameraShot}
+                    groups={CAMERA_SHOT_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
 
                 {/* 14. Character Performance */}
-                <CustomSelect
-                  label="Character Performance"
-                  icon="🎭"
-                  value={charPerformance}
-                  onChange={setCharPerformance}
-                  groups={CHARACTER_PERFORMANCE_GROUPS}
-                />
+                {matchesParamFilter(["performance", "acting", "silent", "reaction", "dance"]) && (
+                  <CustomSelect
+                    label="Character Performance"
+                    icon="🎭"
+                    value={charPerformance}
+                    onChange={setCharPerformance}
+                    groups={CHARACTER_PERFORMANCE_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
               </div>
             </div>
           )}
@@ -7497,6 +8258,7 @@ export default function IdeasPage() {
                   value={kidsAge}
                   onChange={setKidsAge}
                   groups={SONG_AGE_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 2. Song Scene Location */}
@@ -7506,6 +8268,7 @@ export default function IdeasPage() {
                   value={kidsLocation}
                   onChange={setKidsLocation}
                   groups={SONG_LOCATION_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 3. Song Vibe & Mood */}
@@ -7515,6 +8278,7 @@ export default function IdeasPage() {
                   value={kidsVibe}
                   onChange={setKidsVibe}
                   groups={SONG_VIBE_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 4. Performers Clothing / Outfit */}
@@ -7525,6 +8289,7 @@ export default function IdeasPage() {
                   onChange={setKidsClothing}
                   groups={SONG_CLOTHING_GROUPS}
                   keepOpenOnSelect={true}
+                  isLight={isLight}
                 />
 
                 {/* 5. Performer / Character Setup */}
@@ -7534,15 +8299,20 @@ export default function IdeasPage() {
                   value={characterSetup}
                   onChange={handleCharacterSetupChange}
                   groups={SONG_CHARACTER_SETUP_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* Optional Character Reference Upload */}
                 <div className="space-y-1.5 mt-4 mb-4">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                  <label className={`text-xs uppercase tracking-wider flex items-center justify-between ${
+                    isLight ? "text-zinc-950 font-black" : "text-slate-300 font-bold"
+                  }`}>
                     <span>Character Reference Image (Optional)</span>
                     <button 
                       onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer"
+                      className={`text-xs flex items-center gap-1 font-bold cursor-pointer ${
+                        isLight ? "text-indigo-700 hover:text-indigo-900" : "text-indigo-400 hover:text-indigo-300"
+                      }`}
                     >
                       🖼️ Browse Library
                     </button>
@@ -7553,20 +8323,24 @@ export default function IdeasPage() {
                       accept="image/*" 
                       multiple
                       onChange={handleImageUpload} 
-                      className="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                      className={`w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer ${
+                        isLight ? "text-zinc-900" : "text-slate-300"
+                      }`}
                     />
-                    {isAnalyzingImage && <div className="text-xs text-indigo-400 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
+                    {isAnalyzingImage && <div className="text-xs text-indigo-500 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin"/> Analyzing image(s) and saving character info...</div>}
                     {referenceImages.length > 0 && (
-                      <div className="flex flex-col gap-3 bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20">
+                      <div className={`flex flex-col gap-3 p-3 rounded-xl border ${
+                        isLight ? "bg-indigo-50 border-indigo-200" : "bg-indigo-900/30 border-indigo-500/20"
+                      }`}>
                         <div className="flex flex-wrap gap-2">
                           {referenceImages.map((img, idx) => (
                             <img key={idx} src={img} alt={`Reference ${idx + 1}`} className="w-12 h-12 rounded-lg object-cover border border-indigo-500/50" />
                           ))}
                         </div>
                         {referenceCharacterInfo && !isAnalyzingImage && (
-                          <div className="text-xs text-indigo-300 whitespace-pre-wrap max-h-32 overflow-y-auto">{referenceCharacterInfo}</div>
+                          <div className={`text-xs whitespace-pre-wrap max-h-32 overflow-y-auto ${isLight ? "text-zinc-900 font-semibold" : "text-indigo-300"}`}>{referenceCharacterInfo}</div>
                         )}
-                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-400 hover:text-red-400 flex items-center gap-1 cursor-pointer"><X className="w-4 h-4"/> Clear All</button>
+                        <button onClick={() => { setReferenceImages([]); setReferenceCharacterInfo(""); }} className="self-end text-xs text-slate-500 hover:text-red-500 flex items-center gap-1 cursor-pointer"><X className="w-4 h-4"/> Clear All</button>
                       </div>
                     )}
                   </div>
@@ -7580,6 +8354,7 @@ export default function IdeasPage() {
                     value={charactersPerScene}
                     onChange={setCharactersPerScene}
                     groups={CHARACTERS_PER_SCENE_GROUPS}
+                    isLight={isLight}
                   />
                   {charactersPerScene === "Custom" && (
                     <input
@@ -7587,7 +8362,9 @@ export default function IdeasPage() {
                       value={customCharactersPerScene}
                       onChange={(e) => setCustomCharactersPerScene(e.target.value)}
                       placeholder="e.g. 4 Performers (2 Singers + 2 Musicians)..."
-                      className="w-full mt-2 px-3.5 py-2.5 rounded-xl bg-black/80 border border-pink-500/40 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-400 font-medium shadow-inner"
+                      className={`w-full mt-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold shadow-inner ${
+                        isLight ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-pink-500/40 text-white placeholder-slate-500"
+                      }`}
                     />
                   )}
                 </div>
@@ -7599,6 +8376,7 @@ export default function IdeasPage() {
                   value={kidsNationality}
                   onChange={setKidsNationality}
                   groups={KIDS_NATIONALITY_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 8. Vocal / Song Style */}
@@ -7608,6 +8386,7 @@ export default function IdeasPage() {
                   value={seriousDialogueStyle}
                   onChange={setSeriousDialogueStyle}
                   groups={(category as string) === "SONG" ? SONG_STYLE_GROUPS_NEW : POETRY_STYLE_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 9. Time of Day / Lighting */}
@@ -7617,6 +8396,7 @@ export default function IdeasPage() {
                   value={timeOfDay}
                   onChange={setTimeOfDay}
                   groups={TIME_OF_DAY_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 10. Camera Shot Style */}
@@ -7626,6 +8406,7 @@ export default function IdeasPage() {
                   value={cameraShot}
                   onChange={setCameraShot}
                   groups={CAMERA_SHOT_GROUPS}
+                  isLight={isLight}
                 />
 
                 {/* 11. Character Performance */}
@@ -8232,88 +9013,94 @@ export default function IdeasPage() {
           )}
 
           {/* Quick View Summary */}
-          <div className="mt-8 mb-6 p-4 sm:p-6 rounded-2xl bg-indigo-950/20 border border-indigo-500/30 shadow-inner relative z-10">
-            <h3 className="text-sm font-bold text-indigo-300 mb-4 flex items-center gap-2 uppercase tracking-wider">
-              <Eye className="w-4 h-4 text-indigo-400" />
+          <div className={`mt-8 mb-6 p-4 sm:p-6 rounded-2xl border shadow-sm relative z-10 transition-all ${
+            isLight
+              ? "bg-slate-50 border-2 border-slate-300 text-slate-900"
+              : "bg-zinc-900/60 border border-zinc-700/80 text-zinc-100"
+          }`}>
+            <h3 className={`text-sm font-black mb-4 flex items-center gap-2 uppercase tracking-wider ${
+              isLight ? "text-slate-900" : "text-indigo-300"
+            }`}>
+              <Eye className="w-4 h-4 text-indigo-500" />
               Quick View: Selected Configuration
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 gap-x-3 text-[11px] sm:text-xs">
               
               {/* Global Settings */}
               <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Category</span>
-                <span className="text-indigo-200 font-bold">{category}</span>
+                <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Category</span>
+                <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{category}</span>
               </div>
               <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Language</span>
-                <span className="text-indigo-200 font-bold">{language}</span>
+                <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Language</span>
+                <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{language}</span>
               </div>
               <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Visual Style</span>
-                <span className="text-indigo-200 font-bold">{visualStyle}</span>
+                <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Visual Style</span>
+                <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{visualStyle}</span>
               </div>
               <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">AI Model</span>
-                <span className="text-indigo-200 font-bold">{aiModel}</span>
+                <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>AI Model</span>
+                <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{aiModel}</span>
               </div>
               <div className="space-y-1">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px]">Duration</span>
-                <span className="text-indigo-200 font-bold">{videoDuration}</span>
+                <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Duration</span>
+                <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{videoDuration}s</span>
               </div>
               {isShortIdea && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Short Idea</span>
-                  <span className="text-amber-300 font-bold">ON (3-4 Clips Concept)</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Short Idea</span>
+                  <span className="text-amber-600 dark:text-amber-300 font-extrabold">ON (3-4 Clips Concept)</span>
                 </div>
               )}
               {withoutDialogue && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Dialogue</span>
-                  <span className="text-purple-300 font-bold">WITHOUT DIALOGUE</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Dialogue</span>
+                  <span className="text-purple-600 dark:text-purple-300 font-extrabold">WITHOUT DIALOGUE</span>
                 </div>
               )}
               {withoutMusic && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Music</span>
-                  <span className="text-rose-300 font-bold">WITHOUT MUSIC (SFX Only)</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Music</span>
+                  <span className="text-rose-600 dark:text-rose-300 font-extrabold">WITHOUT MUSIC (SFX Only)</span>
                 </div>
               )}
 
               {/* Shared Settings */}
               {musicType !== "None" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Music</span>
-                  <span className="text-indigo-200 font-bold">{musicType}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Music</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{musicType}</span>
                 </div>
               )}
               {seriousDialogueStyle !== "None" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Dialogue Style</span>
-                  <span className="text-indigo-200 font-bold">{seriousDialogueStyle}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Dialogue Style</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{seriousDialogueStyle}</span>
                 </div>
               )}
               {outroEffects !== "None" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Outro Effect</span>
-                  <span className="text-indigo-200 font-bold">{outroEffects}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Outro Effect</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{outroEffects}</span>
                 </div>
               )}
               {characterFaceType !== "Any / AI Decides" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Face Type</span>
-                  <span className="text-indigo-200 font-bold">{characterFaceType}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Face Type</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{characterFaceType}</span>
                 </div>
               )}
               {timeOfDay !== "Any / AI Decides" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Time of Day</span>
-                  <span className="text-indigo-200 font-bold">{timeOfDay}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Time of Day</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{timeOfDay}</span>
                 </div>
               )}
               {cameraShot !== "Any / AI Decides" && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Camera Shot</span>
-                  <span className="text-indigo-200 font-bold">{cameraShot}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Camera Shot</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{cameraShot}</span>
                 </div>
               )}
 
@@ -8321,32 +9108,32 @@ export default function IdeasPage() {
               {(category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") && (
                 <>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Characters</span>
-                    <span className="text-indigo-200 font-bold">{charactersPerScene === "Custom" ? customCharactersPerScene : charactersPerScene}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Characters</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{charactersPerScene === "Custom" ? customCharactersPerScene : charactersPerScene}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Setup</span>
-                    <span className="text-indigo-200 font-bold">{characterSetup}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Setup</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{characterSetup}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Age</span>
-                    <span className="text-indigo-200 font-bold">{kidsAge}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Age</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsAge}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Location</span>
-                    <span className="text-indigo-200 font-bold">{kidsLocation}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Location</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsLocation}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Clothing</span>
-                    <span className="text-indigo-200 font-bold">{kidsClothing}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Clothing</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsClothing}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Vibe</span>
-                    <span className="text-indigo-200 font-bold">{kidsVibe}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Vibe</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsVibe}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Nationality</span>
-                    <span className="text-indigo-200 font-bold">{kidsNationality}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Nationality</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsNationality}</span>
                   </div>
                 </>
               )}
@@ -8355,25 +9142,25 @@ export default function IdeasPage() {
               {category === "CUTE_KIDS" && (
                 <>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Health</span>
-                    <span className="text-indigo-200 font-bold">{kidsHealth}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Health</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsHealth}</span>
                   </div>
                   {kidsExpression !== "Any / AI Decides" && (
                     <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Expression</span>
-                      <span className="text-indigo-200 font-bold">{kidsExpression}</span>
+                      <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Expression</span>
+                      <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsExpression}</span>
                     </div>
                   )}
                   {kidsFood !== "Any / AI Decides" && (
                     <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Food</span>
-                      <span className="text-indigo-200 font-bold">{kidsFood}</span>
+                      <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Food</span>
+                      <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsFood}</span>
                     </div>
                   )}
                   {kidsProp !== "Any / AI Decides" && (
                     <div className="space-y-1">
-                      <span className="text-slate-500 font-semibold block uppercase text-[10px]">Prop</span>
-                      <span className="text-indigo-200 font-bold">{kidsProp}</span>
+                      <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Prop</span>
+                      <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{kidsProp}</span>
                     </div>
                   )}
                 </>
@@ -8383,20 +9170,20 @@ export default function IdeasPage() {
               {category === "CARBOX" && (
                 <>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Brand</span>
-                    <span className="text-indigo-200 font-bold">{carboxBrand}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Brand</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{carboxBrand}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Color</span>
-                    <span className="text-indigo-200 font-bold">{carboxColor}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Color</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{carboxColor}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Packaging</span>
-                    <span className="text-indigo-200 font-bold">{carboxPackaging}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Packaging</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{carboxPackaging}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Background</span>
-                    <span className="text-indigo-200 font-bold">{carboxBackground}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Background</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{carboxBackground}</span>
                   </div>
                 </>
               )}
@@ -8405,20 +9192,20 @@ export default function IdeasPage() {
               {category === "LIVE_STAGE_METAMORPHOSIS" && (
                 <>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Performer</span>
-                    <span className="text-indigo-200 font-bold">{initialPerformer}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Performer</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{initialPerformer}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Target Entity</span>
-                    <span className="text-indigo-200 font-bold">{targetEntity}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Target Entity</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{targetEntity}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Action</span>
-                    <span className="text-indigo-200 font-bold">{triggerAction}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Action</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{triggerAction}</span>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-semibold block uppercase text-[10px]">Environment</span>
-                    <span className="text-indigo-200 font-bold">{stageEnvironment}</span>
+                    <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Environment</span>
+                    <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{stageEnvironment}</span>
                   </div>
                 </>
               )}
@@ -8426,32 +9213,38 @@ export default function IdeasPage() {
               {/* SONG & POETRY */}
               {((category as string) === "SONG" || category === "POETRY") && (
                 <div className="space-y-1">
-                  <span className="text-slate-500 font-semibold block uppercase text-[10px]">Crowd FX</span>
-                  <span className="text-indigo-200 font-bold">{songCrowdFx}</span>
+                  <span className={`font-black block uppercase text-[10px] ${isLight ? "text-slate-600" : "text-slate-400"}`}>Crowd FX</span>
+                  <span className={`font-extrabold ${isLight ? "text-slate-950" : "text-zinc-100"}`}>{songCrowdFx}</span>
                 </div>
               )}
             </div>
             
             {customDialogue && customDialogue.trim() && (
-              <div className="mt-4 pt-3 border-t border-indigo-500/20">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Dialogue</span>
-                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customDialogue}"</p>
+              <div className={`mt-4 pt-3 border-t ${isLight ? "border-slate-300" : "border-indigo-500/20"}`}>
+                <span className={`font-black block uppercase text-[10px] mb-1 ${isLight ? "text-slate-700" : "text-slate-400"}`}>Custom Dialogue</span>
+                <p className={`text-xs italic line-clamp-2 ${isLight ? "text-amber-950 font-black" : "text-amber-200"}`}>"{customDialogue}"</p>
               </div>
             )}
             {customSceneDescription && customSceneDescription.trim() && (
-              <div className="mt-3 pt-3 border-t border-indigo-500/20">
-                <span className="text-slate-500 font-semibold block uppercase text-[10px] mb-1">Custom Scene Description</span>
-                <p className="text-indigo-100/90 text-xs italic line-clamp-2">"{customSceneDescription}"</p>
+              <div className={`mt-3 pt-3 border-t ${isLight ? "border-slate-300" : "border-indigo-500/20"}`}>
+                <span className={`font-black block uppercase text-[10px] mb-1 ${isLight ? "text-slate-700" : "text-slate-400"}`}>Custom Scene Description</span>
+                <p className={`text-xs italic line-clamp-2 ${isLight ? "text-indigo-950 font-black" : "text-indigo-100/90"}`}>"{customSceneDescription}"</p>
               </div>
             )}
           </div>
 
           {/* Generator Action Footer */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t border-slate-800/80">
-            <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 shadow-inner w-full sm:w-auto">
+          <div ref={generateButtonRef} className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t ${
+            isLight ? "border-slate-200" : "border-slate-800/80"
+          }`}>
+            <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-xs shadow-xs w-full sm:w-auto transition-all ${
+              isLight
+                ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold"
+                : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+            }`}>
               <span className="text-sm">✨</span>
               <span>
-                <strong>Clean Video Mandate:</strong> Completely clean & unobstructed video (no text, logos, or UI overlays).
+                <strong className={isLight ? "text-emerald-950 font-black" : "text-white font-bold"}>Clean Video Mandate:</strong> Completely clean & unobstructed video (no text, logos, or UI overlays).
                 {category === "CARBOX" && " Model branding permitted for car videos."}
               </span>
             </div>
@@ -8476,9 +9269,11 @@ export default function IdeasPage() {
         </div>
 
         {/* Saved Ideas Section */}
-        <div ref={savedIdeasSectionRef} className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 bg-slate-950/70 border border-slate-800/80 shadow-xl backdrop-blur-xl space-y-5 relative z-0">
+        <div ref={savedIdeasSectionRef} className={`rounded-2xl sm:rounded-3xl p-5 sm:p-7 border shadow-xl space-y-5 relative z-0 transition-all duration-300 ${
+          isLight ? "bg-white border-slate-200 text-slate-900 shadow-md" : "bg-slate-950/70 border-slate-800/80 text-slate-100 backdrop-blur-xl"
+        }`}>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            <h2 className={`text-base sm:text-lg font-black flex items-center gap-2 ${isLight ? "text-slate-900" : "text-white"}`}>
               <span>Saved Ideas ({filteredIdeas.length})</span>
             </h2>
 
@@ -8494,12 +9289,16 @@ export default function IdeasPage() {
                     setCurrentPage(1);
                   }}
                   placeholder="Search by filename or prompt..."
-                  className="w-full pl-10 pr-8 py-2 rounded-xl bg-black/60 border border-indigo-500/40 text-xs text-indigo-100 placeholder-slate-500 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 transition-all font-mono shadow-inner"
+                  className={`w-full pl-10 pr-8 py-2 rounded-xl border text-xs font-mono shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all ${
+                    isLight
+                      ? "bg-slate-100 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500"
+                      : "bg-black/60 border-indigo-500/40 text-indigo-100 placeholder-slate-500 focus:border-indigo-400"
+                  }`}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold p-1"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold p-1"
                   >
                     ✕
                   </button>
@@ -8507,19 +9306,23 @@ export default function IdeasPage() {
               </div>
 
               {/* Sort By Dropdown */}
-              <div className="flex items-center gap-1.5 bg-black/60 border border-slate-700 px-3 py-2 rounded-xl text-xs text-slate-300">
-                <ArrowUpDown className="w-3.5 h-3.5 text-indigo-400" />
+              <div className={`flex items-center gap-1.5 border px-3 py-2 rounded-xl text-xs font-bold ${
+                isLight ? "bg-white border-slate-300 text-slate-900 shadow-sm" : "bg-black/60 border-slate-700 text-slate-300"
+              }`}>
+                <ArrowUpDown className="w-3.5 h-3.5 text-indigo-500" />
                 <select
                   value={sortBy}
                   onChange={(e) => {
                     setSortBy(e.target.value as any);
                     setCurrentPage(1);
                   }}
-                  className="bg-transparent text-xs text-white focus:outline-none cursor-pointer font-medium"
+                  className={`bg-transparent text-xs focus:outline-none cursor-pointer font-bold ${
+                    isLight ? "text-slate-900" : "text-white"
+                  }`}
                 >
-                  <option value="NEWEST" className="bg-slate-900 text-white">Newest First</option>
-                  <option value="OLDEST" className="bg-slate-900 text-white">Oldest First</option>
-                  <option value="FAVORITES_FIRST" className="bg-slate-900 text-white">Favorites First</option>
+                  <option value="NEWEST" className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>Newest First</option>
+                  <option value="OLDEST" className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>Oldest First</option>
+                  <option value="FAVORITES_FIRST" className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>Favorites First</option>
                 </select>
               </div>
             </div>
@@ -8529,9 +9332,11 @@ export default function IdeasPage() {
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
               onClick={() => { setFilterCategory("ALL"); setCurrentPage(1); }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer shrink-0 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer shrink-0 ${
                 filterCategory === "ALL"
                   ? "bg-indigo-600 border-indigo-400 text-white shadow-md shadow-indigo-600/30"
+                  : isLight
+                  ? "bg-white hover:bg-indigo-50 text-slate-900 border-2 border-slate-200 shadow-sm"
                   : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800"
               }`}
             >
@@ -8539,22 +9344,26 @@ export default function IdeasPage() {
             </button>
             <button
               onClick={() => { setFilterCategory("FAVORITES"); setCurrentPage(1); }}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer shrink-0 ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer shrink-0 ${
                 filterCategory === "FAVORITES"
                   ? "bg-rose-600 border-rose-400 text-white shadow-md shadow-rose-600/30"
+                  : isLight
+                  ? "bg-white hover:bg-rose-50 text-slate-900 border-2 border-slate-200 shadow-sm"
                   : "bg-slate-900 border-slate-800 text-slate-400 hover:text-rose-400 hover:bg-slate-800"
               }`}
             >
-              <Heart className="w-3 h-3 fill-current" />
+              <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
               Favorites ({savedIdeas.filter(i => i.isFavorite).length})
             </button>
             {categoryEntries.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => { setFilterCategory(cat.id); setCurrentPage(1); }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer shrink-0 ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer shrink-0 ${
                   filterCategory === cat.id
                     ? "bg-indigo-600 border-indigo-400 text-white shadow-md shadow-indigo-600/30"
+                    : isLight
+                    ? "bg-white hover:bg-indigo-50 text-slate-900 border-2 border-slate-200 shadow-sm"
                     : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800"
                 }`}
               >
@@ -8577,13 +9386,19 @@ export default function IdeasPage() {
                 return (
                   <div
                     key={idea.id}
-                    className="group flex flex-col items-start justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-black/40 border border-slate-800 hover:border-indigo-500/30 transition-all shadow-md hover:shadow-xl w-full"
+                    className={`group flex flex-col items-start justify-between gap-4 p-5 sm:p-6 rounded-2xl border transition-all shadow-md hover:shadow-xl w-full ${
+                      isLight
+                        ? "bg-slate-50 border-slate-200 text-slate-900 hover:border-indigo-400"
+                        : "bg-black/40 border-slate-800 text-slate-100 hover:border-indigo-500/30"
+                    }`}
                   >
                     {/* Action Toolbar — Placed at TOP for immediate mobile access */}
-                    <div className="flex items-center gap-1.5 flex-wrap w-full pb-1 border-b border-slate-800/80">
+                    <div className={`flex items-center gap-1.5 flex-wrap w-full pb-1 border-b ${isLight ? "border-slate-200" : "border-slate-800/80"}`}>
                       <button
                         onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-action-dialogue`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-xs font-bold text-amber-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/60 border-amber-500/40 text-amber-300 hover:text-white"
+                        }`}
                         title="Copy Spoken Dialogue"
                       >
                         {copiedId === `${idea.id}-action-dialogue` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
@@ -8682,7 +9497,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-900 border-slate-700 text-slate-200 hover:text-white"
+                        }`}
                         title="Copy Clean Video Prompt"
                       >
                         {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
@@ -8691,7 +9508,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(getPrompt916(idea.text), `${idea.id}-mobile`)}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 text-xs font-bold text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-indigo-50 border-indigo-200 text-indigo-950 hover:bg-indigo-100" : "bg-indigo-950/60 border-indigo-700/50 text-indigo-300 hover:text-white"
+                        }`}
                         title="Copy 9:16 Mobile Vertical Aspect Ratio Prompt"
                       >
                         {copiedId === `${idea.id}-mobile` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
@@ -8700,7 +9519,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(getPrompt169(idea.text), `${idea.id}-full`)}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
+                        }`}
                         title="Copy 16:9 Full Widescreen Aspect Ratio Prompt"
                       >
                         {copiedId === `${idea.id}-full` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
@@ -8709,7 +9530,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-action-title`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-950/40 border border-blue-500/40 text-xs font-bold text-blue-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-blue-50 border-blue-200 text-blue-950 hover:bg-blue-100" : "bg-blue-950/40 border-blue-500/40 text-blue-300 hover:text-white"
+                        }`}
                         title="Copy Video Title"
                       >
                         {copiedId === `${idea.id}-action-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
@@ -8718,7 +9541,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-action-desc`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 text-xs font-bold text-purple-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-purple-50 border-purple-200 text-purple-950 hover:bg-purple-100" : "bg-purple-950/40 border-purple-500/40 text-purple-300 hover:text-white"
+                        }`}
                         title="Copy Description"
                       >
                         {copiedId === `${idea.id}-action-desc` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
@@ -8727,7 +9552,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-action-tags`)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs font-bold text-emerald-300 hover:text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-emerald-50 border-emerald-200 text-emerald-950 hover:bg-emerald-100" : "bg-emerald-950/40 border-emerald-500/40 text-emerald-300 hover:text-white"
+                        }`}
                         title="Copy Hashtags"
                       >
                         {copiedId === `${idea.id}-action-tags` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-emerald-400" />}
@@ -8737,7 +9564,9 @@ export default function IdeasPage() {
                       <button
                         onClick={() => handleGenerateSocial(idea)}
                         disabled={generatingSocialId === idea.id}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/60 border border-blue-600/50 text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-900/80 transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50"
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm disabled:opacity-50 ${
+                          isLight ? "bg-blue-100 border-blue-300 text-blue-950 hover:bg-blue-200" : "bg-blue-950/60 border-blue-600/50 text-blue-300 hover:text-white"
+                        }`}
                         title="Generate Social Media Assets"
                       >
                         {generatingSocialId === idea.id ? (
@@ -8750,7 +9579,9 @@ export default function IdeasPage() {
 
                       <button
                         onClick={() => handleRemake(idea)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-950/60 border border-purple-600/50 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-900/80 transition-all cursor-pointer active:scale-95 shadow-sm"
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/60 border-purple-600/50 text-purple-300 hover:text-white"
+                        }`}
                         title="Load settings to remake this script"
                       >
                         <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
@@ -8827,14 +9658,22 @@ export default function IdeasPage() {
 
                     {/* Full Width Prompt Area */}
                     <div className="w-full space-y-3">
-                      <div className="w-full p-3.5 sm:p-4 rounded-xl bg-black/30 border border-slate-800/80 text-xs sm:text-sm text-slate-100 leading-relaxed font-sans select-text max-h-48 overflow-y-auto whitespace-pre-wrap space-y-1">
+                      <div className={`w-full p-3.5 sm:p-4 rounded-xl border text-xs sm:text-sm leading-relaxed font-sans select-text max-h-48 overflow-y-auto whitespace-pre-wrap space-y-1 transition-all ${
+                        isLight
+                          ? "bg-white border-slate-300 text-slate-900 shadow-sm"
+                          : "bg-black/30 border-slate-800/80 text-slate-100"
+                      }`}>
                         {cleanPromptText(idea.text).split("\n").map((line, idx) => {
                           const isUrduLine = /[\u0600-\u06FF]/.test(line);
                           return (
                             <div
                               key={`line-${idx}-${line.slice(0, 8)}`}
                               dir={isUrduLine ? "rtl" : "ltr"}
-                              className={isUrduLine ? "text-right font-medium text-amber-200 py-0.5 tracking-wide" : "text-left text-slate-200"}
+                              className={
+                                isUrduLine
+                                  ? (isLight ? "text-right font-black text-amber-950 py-0.5 tracking-wide" : "text-right font-medium text-amber-200 py-0.5 tracking-wide")
+                                  : (isLight ? "text-left text-slate-900 font-bold" : "text-left text-slate-200")
+                              }
                             >
                               {line}
                             </div>
@@ -8845,51 +9684,71 @@ export default function IdeasPage() {
                       {/* Badges & Filename Toolbar */}
                       <div className="flex items-center justify-between gap-2 flex-wrap pt-1 w-full">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${
+                            isLight ? "bg-indigo-50 text-indigo-950 border-indigo-200" : "bg-indigo-950 text-indigo-300 border-indigo-500/30"
+                          }`}>
                             {CATEGORIES[idea.category]?.name || idea.category}
                           </span>
-                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30">
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${
+                            isLight ? "bg-emerald-50 text-emerald-950 border-emerald-200" : "bg-emerald-950 text-emerald-300 border-emerald-500/30"
+                          }`}>
                             {idea.language}
                           </span>
-                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30">
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${
+                            isLight ? "bg-purple-50 text-purple-950 border-purple-200" : "bg-purple-950 text-purple-300 border-purple-500/30"
+                          }`}>
                             {idea.visualStyle}
                           </span>
-                          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                            <Sparkles className="w-2.5 h-2.5 text-amber-400 shrink-0" />
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                            isLight ? "bg-amber-50 text-amber-950 border-amber-200" : "bg-amber-950/80 text-amber-300 border-amber-500/30"
+                          }`}>
+                            <Sparkles className="w-2.5 h-2.5 text-amber-500 shrink-0" />
                             <span>{getModelBadgeLabel(idea.aiModel)}</span>
                           </span>
                           {(idea.videoDuration === 20 || (idea.text && (idea.text.includes("20-SECOND CONNECTED KIDS STORY") || idea.text.includes("2x 10s SEQUENCES")))) && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-emerald-50 text-emerald-950 border-emerald-200" : "bg-emerald-950/90 text-emerald-300 border-emerald-500/40"
+                            }`}>
                               <span>⚡🎬</span>
                               <span>20s (2x 10s Sequences)</span>
                             </span>
                           )}
                           {idea.isShortIdea && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-950/90 text-amber-300 border border-amber-500/40 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-amber-50 text-amber-950 border-amber-200" : "bg-amber-950/90 text-amber-300 border-amber-500/40"
+                            }`}>
                               <span>⚡</span>
                               <span>Short Idea</span>
                             </span>
                           )}
                           {idea.withoutDialogue && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-950/90 text-purple-300 border border-purple-500/40 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-purple-50 text-purple-950 border-purple-200" : "bg-purple-950/90 text-purple-300 border-purple-500/40"
+                            }`}>
                               <span>🔇</span>
                               <span>No Dialogue</span>
                             </span>
                           )}
                           {idea.withoutMusic && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/90 text-rose-300 border border-rose-500/40 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-rose-50 text-rose-950 border-rose-200" : "bg-rose-950/90 text-rose-300 border-rose-500/40"
+                            }`}>
                               <span>🚫🎵</span>
                               <span>No Music</span>
                             </span>
                           )}
                           {idea.musicType && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-950/80 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-rose-50 text-rose-950 border-rose-200" : "bg-rose-950/80 text-rose-300 border-rose-500/30"
+                            }`}>
                               <span>🎵</span>
                               <span>{idea.musicType}</span>
                             </span>
                           )}
                           {idea.seriousDialogueStyle && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border flex items-center gap-1 ${
+                              isLight ? "bg-cyan-50 text-cyan-950 border-cyan-200" : "bg-cyan-950/80 text-cyan-300 border-cyan-500/30"
+                            }`}>
                               <span>🎭</span>
                               <span>{idea.seriousDialogueStyle}</span>
                             </span>
@@ -8898,8 +9757,10 @@ export default function IdeasPage() {
 
                         {/* Unique Video Filename Badge & Inline Editor */}
                         {editingFileNameId === idea.id ? (
-                          <div className="flex items-center gap-1.5 bg-black border border-indigo-500 rounded-xl px-2.5 py-1 text-xs shadow-md">
-                            <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                          <div className={`flex items-center gap-1.5 rounded-xl px-2.5 py-1 text-xs shadow-md border ${
+                            isLight ? "bg-white border-indigo-300 text-slate-900" : "bg-black border-indigo-500 text-indigo-200"
+                          }`}>
+                            <FileVideo className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
                             <input
                               type="text"
                               value={editingFileNameText}
@@ -8908,21 +9769,27 @@ export default function IdeasPage() {
                                 if (e.key === "Enter") handleSaveFileName(idea.id);
                                 if (e.key === "Escape") setEditingFileNameId(null);
                               }}
-                              className="bg-transparent text-indigo-200 text-xs font-mono focus:outline-none w-48 sm:w-56"
+                              className={`bg-transparent text-xs font-mono font-bold focus:outline-none w-48 sm:w-56 ${
+                                isLight ? "text-slate-900 placeholder-slate-400" : "text-indigo-200 placeholder-slate-500"
+                              }`}
                               placeholder="carbox_bmw_01"
                               autoFocus
                             />
                             <button
                               onClick={() => handleSaveFileName(idea.id)}
-                              className="text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-2.5 py-1 transition-colors cursor-pointer active:scale-95"
+                              className="text-[10px] font-black bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-2.5 py-1 transition-colors cursor-pointer active:scale-95"
                             >
                               Save
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1.5 bg-indigo-950/40 border border-indigo-500/30 rounded-xl px-3 py-1 text-xs text-indigo-200">
-                            <FileVideo className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                            <span className="font-mono text-[11px] text-indigo-300 font-semibold select-all">
+                          <div className={`flex items-center gap-1.5 rounded-xl px-3 py-1 text-xs border ${
+                            isLight ? "bg-indigo-50 border-indigo-200 text-indigo-950" : "bg-indigo-950/40 border-indigo-500/30 text-indigo-200"
+                          }`}>
+                            <FileVideo className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                            <span className={`font-mono text-[11px] font-black select-all ${
+                              isLight ? "text-indigo-950" : "text-indigo-300"
+                            }`}>
                               {getFallbackFileName(idea)}
                             </span>
                             <button
@@ -8930,7 +9797,7 @@ export default function IdeasPage() {
                                 setEditingFileNameId(idea.id);
                                 setEditingFileNameText(getFallbackFileName(idea));
                               }}
-                              className="text-slate-400 hover:text-indigo-300 p-0.5 transition-colors cursor-pointer"
+                              className="text-slate-400 hover:text-indigo-600 p-0.5 transition-colors cursor-pointer"
                               title="Edit Video Filename"
                             >
                               <Edit3 className="w-3 h-3" />
@@ -8961,15 +9828,23 @@ export default function IdeasPage() {
                           <span className="text-[10px] text-slate-500">Visuals & Music Only</span>
                         </div>
                       ) : (
-                        <div className="mt-3 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border border-amber-500/40 space-y-2 w-full shadow-lg">
+                        <div className={`mt-3 p-3.5 sm:p-4 rounded-xl border space-y-2 w-full shadow-lg transition-all ${
+                          isLight
+                            ? "bg-amber-50/90 border-amber-300 text-slate-900"
+                            : "bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/40 border-amber-500/40 text-amber-300"
+                        }`}>
                           <div className="flex items-center justify-between flex-wrap gap-2">
                             <div className="flex items-center gap-2">
-                              <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
+                              <span className={`text-xs font-black flex items-center gap-1.5 uppercase tracking-wider ${
+                                isLight ? "text-amber-950" : "text-amber-300"
+                              }`}>
                                 <span>💬</span>
                                 <span>{idea.customDialogue ? "Custom Spoken Dialogue" : "Spoken Dialogue & Script"}</span>
                               </span>
                               {idea.customDialogue && (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                                  isLight ? "bg-amber-100 text-amber-900 border-amber-300" : "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                                }`}>
                                   User Custom Input
                                 </span>
                               )}
@@ -8978,7 +9853,11 @@ export default function IdeasPage() {
                             <div className="flex items-center gap-2 flex-wrap">
                               <button
                                 onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-card-dialogue`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-500/30 shadow-sm"
+                                className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${
+                                  isLight
+                                    ? "bg-amber-100 text-amber-950 border-amber-300 hover:bg-amber-200"
+                                    : "bg-amber-950/80 text-amber-300 border-amber-500/30 hover:text-white"
+                                }`}
                                 title="Copy Spoken Dialogue"
                               >
                                 {copiedId === `${idea.id}-card-dialogue` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-amber-400" />}
@@ -8990,19 +9869,27 @@ export default function IdeasPage() {
                                   setCustomDialogue(getIdeaDialogue(idea));
                                   showToast("Loaded custom dialogue into generator form!", "info");
                                 }}
-                                className="flex items-center gap-1 text-[11px] font-bold text-emerald-300 hover:text-white transition-colors cursor-pointer bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/30 shadow-sm"
+                                className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${
+                                  isLight
+                                    ? "bg-emerald-100 text-emerald-950 border-emerald-300 hover:bg-emerald-200"
+                                    : "bg-emerald-950/80 text-emerald-300 border-emerald-500/30 hover:text-white"
+                                }`}
                                 title="Use this dialogue in the generator form above"
                               >
-                                <Sparkles className="w-3 h-3 text-emerald-400" />
+                                <Sparkles className="w-3 h-3 text-emerald-500" />
                                 <span>Use in Generator</span>
                               </button>
 
                               <button
                                 onClick={() => handleOpenScriptModal(idea)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
+                                className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${
+                                  isLight
+                                    ? "bg-indigo-100 text-indigo-950 border-indigo-300 hover:bg-indigo-200"
+                                    : "bg-indigo-950/80 text-indigo-300 border-indigo-500/40 hover:text-white"
+                                }`}
                                 title="Open Full Dialogue Box Modal"
                               >
-                                <MessageSquare className="w-3 h-3 text-indigo-400" />
+                                <MessageSquare className="w-3 h-3 text-indigo-500" />
                                 <span>Open Dialog Box</span>
                               </button>
                             </div>
@@ -9010,12 +9897,16 @@ export default function IdeasPage() {
 
                           <div
                             dir={isRtl ? "rtl" : "ltr"}
-                            className={`p-3 rounded-xl bg-black/80 border border-amber-500/40 text-sm sm:text-base font-bold text-amber-100 leading-snug tracking-wide max-h-28 sm:max-h-36 overflow-y-auto ${
+                            className={`p-3 rounded-xl border text-sm sm:text-base font-extrabold leading-snug tracking-wide max-h-28 sm:max-h-36 overflow-y-auto ${
                               isRtl ? "text-right" : "text-left"
+                            } ${
+                              isLight
+                                ? "bg-white border-amber-300 text-slate-900 shadow-sm"
+                                : "bg-black/80 border-amber-500/40 text-amber-100"
                             }`}
                           >
                             {getIdeaDialogue(idea) || (
-                              <span className="text-slate-400 italic">No custom spoken dialogue specified yet. Click &quot;Open Dialog Box&quot; to add dialogue.</span>
+                              <span className={isLight ? "text-slate-500 italic font-semibold" : "text-slate-400 italic"}>No custom spoken dialogue specified yet. Click &quot;Open Dialog Box&quot; to add dialogue.</span>
                             )}
                           </div>
                         </div>
@@ -9023,29 +9914,39 @@ export default function IdeasPage() {
 
                       {/* Social Media Content — Prominent CTA when not yet generated */}
                       {!idea.socialContent && (
-                        <div className="mt-4 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-950/50 via-indigo-950/40 to-black/60 shadow-xl overflow-hidden">
+                        <div className={`mt-4 rounded-2xl border shadow-xl overflow-hidden transition-all ${
+                          isLight
+                            ? "bg-blue-50 border-blue-200 text-slate-900"
+                            : "border-blue-500/40 bg-gradient-to-br from-blue-950/50 via-indigo-950/40 to-black/60 text-slate-100"
+                        }`}>
                           <button
                             onClick={() => handleGenerateSocial(idea)}
                             disabled={generatingSocialId === idea.id}
                             className="w-full flex flex-col items-center justify-center gap-3 py-6 px-4 text-center active:scale-[0.98] transition-transform disabled:opacity-60 cursor-pointer"
                           >
-                            <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-500/50 shadow-lg">
+                            <div className={`flex items-center justify-center w-12 h-12 rounded-2xl border shadow-lg ${
+                              isLight ? "bg-white border-blue-300 text-blue-600" : "bg-blue-600/30 border-blue-500/50 text-blue-400"
+                            }`}>
                               {generatingSocialId === idea.id ? (
-                                <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+                                <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
                               ) : (
-                                <Share2 className="w-6 h-6 text-blue-400" />
+                                <Share2 className="w-6 h-6 text-blue-500" />
                               )}
                             </div>
                             <div>
-                              <p className="text-sm font-extrabold text-blue-200 tracking-wide">
+                              <p className={`text-sm font-black tracking-wide ${
+                                isLight ? "text-blue-950" : "text-blue-200"
+                              }`}>
                                 {generatingSocialId === idea.id ? "Generating Social Assets…" : "📣 Generate Social Media Titles & Assets"}
                               </p>
-                              <p className="text-[11px] text-blue-400/80 mt-0.5">
+                              <p className={`text-[11px] mt-0.5 ${
+                                isLight ? "text-blue-700 font-bold" : "text-blue-400/80"
+                              }`}>
                                 YouTube Shorts · Facebook Reels · TikTok · IG · Hashtags · Trending Tags
                               </p>
                             </div>
                             {generatingSocialId !== idea.id && (
-                              <span className="px-5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition-colors">
+                              <span className="px-5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black shadow-md transition-colors">
                                 Tap to Generate
                               </span>
                             )}
@@ -9055,27 +9956,39 @@ export default function IdeasPage() {
 
                       {/* Social Media Content Display Box */}
                       {idea.socialContent && (
-                        <div className="mt-4 p-4 rounded-2xl bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-black/50 border border-blue-500/40 space-y-4 w-full shadow-xl font-sans">
-                          <div className="flex items-center justify-between border-b border-blue-500/20 pb-3 flex-wrap gap-2">
-                            <div className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-blue-300 uppercase tracking-wider">
-                              <Share2 className="w-4 h-4 text-blue-400" />
+                        <div className={`mt-4 p-4 rounded-2xl border space-y-4 w-full shadow-xl font-sans transition-all ${
+                          isLight
+                            ? "bg-blue-50/80 border-blue-200 text-slate-900 shadow-md"
+                            : "bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-black/50 border-blue-500/40 text-slate-100"
+                        }`}>
+                          <div className={`flex items-center justify-between border-b pb-3 flex-wrap gap-2 ${
+                            isLight ? "border-blue-200" : "border-blue-500/20"
+                          }`}>
+                            <div className={`flex items-center gap-2 text-xs sm:text-sm font-black uppercase tracking-wider ${
+                              isLight ? "text-blue-950" : "text-blue-300"
+                            }`}>
+                              <Share2 className="w-4 h-4 text-blue-500" />
                               <span>Social Media Titles & Trending Assets</span>
                             </div>
                             <div className="flex items-center gap-2 flex-wrap">
                               <button
                                 onClick={() => handleCopy(`🎬 VIDEO TITLE:\n${getIdeaShortsTitle(idea) || getIdeaTitle(idea)}\n\n📝 DESCRIPTION:\n${getIdeaDescription(idea)}\n\n🏷️ HASHTAGS:\n${getIdeaHashtags(idea)}\n\n🔥 TRENDING TAGS & SUGGESTIONS:\n${getIdeaTrendingTags(idea)}`, `${idea.id}-social-all`)}
-                                className="px-3 py-1.5 rounded-xl bg-blue-600/40 border border-blue-500/50 hover:bg-blue-600/60 text-xs font-bold text-white transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md"
+                                className={`px-3 py-1.5 rounded-xl border text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md ${
+                                  isLight ? "bg-blue-600 text-white border-blue-700 hover:bg-blue-700 shadow-blue-500/20" : "bg-blue-600/40 border-blue-500/50 hover:bg-blue-600/60 text-white"
+                                }`}
                                 title="Copy all platform titles, description, hashtags and trending tags together"
                               >
-                                {copiedId === `${idea.id}-social-all` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-300" />}
+                                {copiedId === `${idea.id}-social-all` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-200" />}
                                 <span>Copy All Social Assets</span>
                               </button>
                               <button
                                 onClick={() => handleGenerateSocial(idea)}
                                 disabled={generatingSocialId === idea.id}
-                                className="text-xs font-bold text-slate-400 hover:text-blue-200 transition-colors flex items-center gap-1 cursor-pointer bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-700"
+                                className={`text-xs font-black transition-colors flex items-center gap-1 cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${
+                                  isLight ? "bg-white text-slate-900 border-slate-300 hover:bg-slate-100" : "bg-slate-900/80 text-slate-400 hover:text-blue-200 border-slate-700"
+                                }`}
                               >
-                                <RotateCcw className="w-3 h-3 text-blue-400" />
+                                <RotateCcw className="w-3 h-3 text-blue-500" />
                                 <span>Regenerate Titles</span>
                               </button>
                             </div>
@@ -9083,34 +9996,46 @@ export default function IdeasPage() {
 
                           {/* 🎬 Universal Video Title (All Platforms: YouTube Shorts, FB Reels, TikTok & IG) */}
                           <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-indigo-300">
+                            <div className={`flex items-center justify-between text-xs font-black ${
+                              isLight ? "text-indigo-950" : "text-indigo-300"
+                            }`}>
                               <span>🎬 Universal Video Title (Fits YouTube Shorts, FB Reels, TikTok & IG)</span>
                               <button
                                 onClick={() => handleCopy(getIdeaShortsTitle(idea) || getIdeaTitle(idea), `${idea.id}-universal-title`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 hover:text-white transition-colors cursor-pointer bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/40 shadow-sm"
+                                className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${
+                                  isLight ? "bg-indigo-100 text-indigo-950 border-indigo-300 hover:bg-indigo-200" : "bg-indigo-950/80 text-indigo-300 border-indigo-500/40 hover:text-white"
+                                }`}
                               >
-                                {copiedId === `${idea.id}-universal-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-400" />}
+                                {copiedId === `${idea.id}-universal-title` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-500" />}
                                 Copy Video Title
                               </button>
                             </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-3 rounded-xl bg-black/80 border border-indigo-500/40 text-sm sm:text-base text-white font-bold tracking-wide ${isRtl ? "text-right" : "text-left"}`}>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-3 rounded-xl border text-sm sm:text-base font-extrabold tracking-wide ${isRtl ? "text-right" : "text-left"} ${
+                              isLight ? "bg-white border-indigo-200 text-slate-900 shadow-xs" : "bg-black/80 border-indigo-500/40 text-white"
+                            }`}>
                               {getIdeaShortsTitle(idea) || getIdeaTitle(idea)}
                             </div>
                           </div>
 
                           {/* 📝 Video Description */}
                           <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+                            <div className={`flex items-center justify-between text-xs font-black ${
+                              isLight ? "text-slate-900" : "text-slate-300"
+                            }`}>
                               <span>📝 Video Description</span>
                               <button
                                 onClick={() => handleCopy(getIdeaDescription(idea), `${idea.id}-social-desc`)}
-                                className="flex items-center gap-1 text-[11px] font-bold text-slate-300 hover:text-white transition-colors cursor-pointer bg-slate-900 px-2 py-0.5 rounded border border-slate-700"
+                                className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2 py-0.5 rounded border shadow-xs ${
+                                  isLight ? "bg-white text-slate-900 border-slate-300 hover:bg-slate-100" : "bg-slate-900 text-slate-300 border-slate-700 hover:text-white"
+                                }`}
                               >
                                 {copiedId === `${idea.id}-social-desc` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                                 Copy Description
                               </button>
                             </div>
-                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl bg-black/70 border border-slate-800 text-xs text-slate-200 font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                            <div dir={isRtl ? "rtl" : "ltr"} className={`p-2.5 rounded-xl border text-xs font-bold ${isRtl ? "text-right" : "text-left"} ${
+                              isLight ? "bg-white border-slate-200 text-slate-900 shadow-xs" : "bg-black/70 border-slate-800 text-slate-200 font-medium"
+                            }`}>
                               {getIdeaDescription(idea)}
                             </div>
                           </div>
@@ -9119,34 +10044,46 @@ export default function IdeasPage() {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                             {/* Core Hashtags */}
                             <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs font-bold text-indigo-300">
+                              <div className={`flex items-center justify-between text-xs font-black ${
+                                isLight ? "text-indigo-950" : "text-indigo-300"
+                              }`}>
                                 <span>🏷️ Core Hashtags (4-5)</span>
                                 <button
                                   onClick={() => handleCopy(getIdeaHashtags(idea), `${idea.id}-social-tags`)}
-                                  className="flex items-center gap-1 text-[11px] font-bold text-indigo-400 hover:text-white transition-colors cursor-pointer bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-500/30"
+                                  className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2 py-0.5 rounded border shadow-xs ${
+                                    isLight ? "bg-indigo-100 text-indigo-950 border-indigo-300 hover:bg-indigo-200" : "bg-indigo-950/60 text-indigo-400 border-indigo-500/30 hover:text-white"
+                                  }`}
                                 >
-                                  {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-400" />}
+                                  {copiedId === `${idea.id}-social-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-indigo-500" />}
                                   Copy Tags
                                 </button>
                               </div>
-                              <div dir="ltr" className="p-2.5 rounded-xl bg-black/70 border border-indigo-500/30 text-xs text-indigo-300 font-mono">
+                              <div dir="ltr" className={`p-2.5 rounded-xl border text-xs font-mono font-bold ${
+                                isLight ? "bg-white border-indigo-200 text-indigo-950 shadow-xs" : "bg-black/70 border-indigo-500/30 text-indigo-300"
+                              }`}>
                                 {getIdeaHashtags(idea)}
                               </div>
                             </div>
 
                             {/* Trending Tags & Suggestions */}
                             <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs font-bold text-emerald-300">
+                              <div className={`flex items-center justify-between text-xs font-black ${
+                                isLight ? "text-emerald-950" : "text-emerald-300"
+                              }`}>
                                 <span>🔥 Trending Tags & Growth</span>
                                 <button
                                   onClick={() => handleCopy(getIdeaTrendingTags(idea), `${idea.id}-trending-tags`)}
-                                  className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-white transition-colors cursor-pointer bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30"
+                                  className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2 py-0.5 rounded border shadow-xs ${
+                                    isLight ? "bg-emerald-100 text-emerald-950 border-emerald-300 hover:bg-emerald-200" : "bg-emerald-950/60 text-emerald-400 border-emerald-500/30 hover:text-white"
+                                  }`}
                                 >
-                                  {copiedId === `${idea.id}-trending-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-emerald-400" />}
+                                  {copiedId === `${idea.id}-trending-tags` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-emerald-500" />}
                                   Copy Trending Tags
                                 </button>
                               </div>
-                              <div dir="ltr" className="p-2.5 rounded-xl bg-black/70 border border-emerald-500/30 text-xs text-emerald-300 font-mono">
+                              <div dir="ltr" className={`p-2.5 rounded-xl border text-xs font-mono font-bold ${
+                                isLight ? "bg-white border-emerald-200 text-emerald-950 shadow-xs" : "bg-black/70 border-emerald-500/30 text-emerald-300"
+                              }`}>
                                 {getIdeaTrendingTags(idea)}
                               </div>
                             </div>
@@ -9162,22 +10099,28 @@ export default function IdeasPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-3 pt-4 border-t border-slate-800/80">
+            <div className={`flex items-center justify-center gap-3 pt-4 border-t ${
+              isLight ? "border-slate-300" : "border-slate-800/80"
+            }`}>
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white disabled:opacity-30 transition-all cursor-pointer active:scale-95"
+                className={`flex items-center gap-1 px-4 py-2 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 disabled:opacity-40 ${
+                  isLight ? "bg-white hover:bg-slate-100 border-slate-300 text-slate-900 shadow-xs" : "bg-slate-900 border-slate-700 text-slate-200 hover:text-white"
+                }`}
               >
                 <ChevronLeft className="w-4 h-4" />
                 Prev
               </button>
-              <span className="text-xs text-slate-400 font-bold px-2">
+              <span className={`text-xs font-black px-2 ${isLight ? "text-slate-700" : "text-slate-400"}`}>
                 Page {currentPage} of {totalPages}
               </span>
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:text-white disabled:opacity-30 transition-all cursor-pointer active:scale-95"
+                className={`flex items-center gap-1 px-4 py-2 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 disabled:opacity-40 ${
+                  isLight ? "bg-white hover:bg-slate-100 border-slate-300 text-slate-900 shadow-xs" : "bg-slate-900 border-slate-700 text-slate-200 hover:text-white"
+                }`}
               >
                 Next
                 <ChevronRight className="w-4 h-4" />
@@ -9344,63 +10287,72 @@ export default function IdeasPage() {
             <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
             <span>Go to Top</span>
           </div>
-      {/* Character Library Modal */}
-      {showCharacterLibrary && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
-            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                🖼️ Character Library
-              </h3>
-              <button onClick={() => setShowCharacterLibrary(false)} className="text-slate-400 hover:text-white transition-colors">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            
-            <div className="p-4 overflow-y-auto flex-1">
-              {isLoadingLibrary ? (
-                <div className="flex flex-col items-center justify-center h-40 gap-3">
-                  <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-                  <span className="text-slate-400 text-sm">Loading characters...</span>
+        </div>
+
+        {/* Character Library Modal */}
+        {showCharacterLibrary && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+              <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  🖼️ Character Library
+                  {savedCharacters.length > 0 && <span className="text-xs text-slate-400 font-normal">({savedCharacters.length} saved)</span>}
+                </h3>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => fetchCharacterLibrary(true)}
+                    className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold px-2 py-1 rounded-lg hover:bg-indigo-900/30 transition-colors"
+                    title="Reload library"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Refresh
+                  </button>
+                  <button onClick={() => setShowCharacterLibrary(false)} className="text-slate-400 hover:text-white transition-colors">
+                    <X className="w-6 h-6" />
+                  </button>
                 </div>
-              ) : savedCharacters.length === 0 ? (
-                <div className="text-center py-12 text-slate-400">
-                  <p>No characters saved yet.</p>
-                  <p className="text-sm mt-2">Upload an image to save your first character!</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {savedCharacters.map((char) => (
-                    <div 
-                      key={char.id} 
-                      onClick={() => {
-                        setReferenceImages((prev) => [...prev, char.imageUrl]);
-                        setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + char.description : char.description);
-                        setShowCharacterLibrary(false);
-                        showToast("Character selected from library!", "success");
-                      }}
-                      className="group cursor-pointer bg-black/40 rounded-xl border border-white/5 hover:border-indigo-500/50 transition-all overflow-hidden flex flex-col"
-                    >
-                      <div className="aspect-square overflow-hidden relative">
-                        <img 
-                          src={char.imageUrl} 
-                          alt={char.name} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
+              </div>
+              <div className="p-4 overflow-y-auto flex-1">
+                {isLoadingLibrary ? (
+                  <div className="flex flex-col items-center justify-center h-40 gap-3">
+                    <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                    <span className="text-slate-400 text-sm">Loading characters...</span>
+                  </div>
+                ) : savedCharacters.length === 0 ? (
+                  <div className="text-center py-12 text-slate-400">
+                    <p>No characters saved yet.</p>
+                    <p className="text-sm mt-2">Upload an image to save your first character!</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                    {savedCharacters.map((char) => (
+                      <div key={char.id} className="group bg-black/40 rounded-xl border border-white/5 hover:border-indigo-500/50 transition-all overflow-hidden flex flex-col">
+                        <div className="aspect-square overflow-hidden relative bg-slate-800">
+                          <img
+                            src={char.imageUrl}
+                            alt={char.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="p-1.5 flex flex-col gap-1">
+                          <p className="text-[10px] text-slate-300 font-semibold truncate">{char.name || "Character"}</p>
+                          <button
+                            type="button"
+                            onClick={() => handleSelectCharacterFromLibrary(char)}
+                            className="w-full py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold transition-colors active:scale-95 cursor-pointer"
+                          >
+                            Use
+                          </button>
+                        </div>
                       </div>
-                      <div className="p-2">
-                        <p className="text-xs text-slate-300 font-medium truncate">{char.name || "Character"}</p>
-                        <p className="text-[10px] text-slate-500 truncate mt-0.5">{char.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-        </div>
+        )}
       </div>
     </div>
   );

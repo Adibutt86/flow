@@ -394,7 +394,45 @@ The user selected Character Performance Mode: "${input.charPerformance}".
 STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue lines in the prompt!
 The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
     : input.customDialogue
-    ? `🔴 CRITICAL MANDATE FOR USER CUSTOM DIALOGUE:
+    ? (() => {
+        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل/.test(input.customDialogue);
+        if (isMultiChar) {
+          return `🔴 CRITICAL MANDATE FOR USER MULTI-CHARACTER DIALOGUE SCRIPT:
+The user has provided a MULTI-CHARACTER BACK-AND-FORTH DIALOGUE SCRIPT with labelled speakers:
+"""
+${input.customDialogue}
+"""
+
+THIS IS A CONVERSATION BETWEEN MULTIPLE CHARACTERS. STRICT VIDEO GENERATOR RULES:
+
+━━━ CHARACTER SPATIAL LOCK (PREVENT MIXING) ━━━
+To prevent the video generator from mixing up characters, you MUST lock each character to a fixed screen position throughout the ENTIRE video:
+- CHARACTER 1 (Boy / لڑکا / Abu / ابو / Uncle / انکل): PERMANENTLY anchored to the LEFT SIDE of the 9:16 frame. Camera ALWAYS frames this character from the LEFT when they speak.
+- CHARACTER 2 (Girl / لڑکی / Baita / بیٹا / Amma / امی): PERMANENTLY anchored to the RIGHT SIDE of the 9:16 frame. Camera ALWAYS frames this character from the RIGHT when they speak.
+- Both characters are VISUALLY DISTINCT with clearly different appearance, clothing color, and hairstyle so the video generator never confuses them.
+
+━━━ PER-LINE VISUAL CUE FORMAT ━━━
+For EACH dialogue line in the script, the generated video prompt MUST include an explicit visual camera instruction immediately before the 💬 dialogue line:
+  [Camera shifts LEFT — Boy speaks] 💬 Boy: [verbatim text]
+  [Camera shifts RIGHT — Girl reacts with a subtle smile] 💬 Girl: [verbatim text]
+  [Camera shifts LEFT — Boy raises an eyebrow] 💬 Boy: [verbatim text]
+  [Camera shifts RIGHT — Girl laughs softly] 💬 Girl: [verbatim text]
+  (Apply this pattern for EVERY line in the user's script, in order)
+
+━━━ STRICT RULES ━━━
+1. Label mapping (NEVER swap these):
+   - "Boy:" or "لڑکا" = LEFT-side male character ONLY
+   - "Girl:" or "لڑکی" = RIGHT-side female character ONLY
+   - "Abu:" or "ابو" = LEFT-side father character ONLY
+   - "Baita:" or "بیٹا" = RIGHT-side son/child character ONLY
+   - "Amma:" or "امی" = RIGHT-side mother character ONLY
+   - "Uncle:" or "انکل" = LEFT-side uncle character ONLY
+2. Output ALL lines in EXACT user order — do NOT reorder, skip, or merge any lines.
+3. NEVER put two different characters' dialogue on the same 💬 line.
+4. NEVER translate, rephrase, or modify any Urdu/native script text.
+5. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
+        } else {
+          return `🔴 CRITICAL MANDATE FOR USER CUSTOM DIALOGUE:
 The user typed/pasted EXACT custom spoken dialogue in Urdu/native script:
 "${input.customDialogue}"
 
@@ -405,7 +443,9 @@ STRICT RULES:
 1. Do NOT translate "${input.customDialogue}" to English!
 2. Do NOT summarize, modify, or rephrase the Urdu/native script text!
 3. Output "${input.customDialogue}" 100% UNCHANGED on the "💬 Spoken Dialogue:" line!
-4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!`
+4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!`;
+        }
+      })()
     : "Dialogue Mandate: Include authentic, hilarious dialogue in the selected language with funny Desi timing and comic punchlines."
 }
 ${
@@ -447,6 +487,15 @@ The video CAN still use:
 }
 ${input.seriousDialogueStyle && input.seriousDialogueStyle !== "None" ? `Serious Dialogue Style: ${input.seriousDialogueStyle} (DO NOT use slapstick or comedic jokes. Craft a focused ${input.seriousDialogueStyle} tone)` : ""}
 ${input.outroEffects && input.outroEffects !== "None" ? `Ending/Outro Visual Effects: ${input.outroEffects}` : ""}
+${input.customSceneDescription && input.customSceneDescription.trim() ? `
+🎬 SITUATION / SCENE DESCRIPTION MANDATE (HIGH PRIORITY — USER-PROVIDED SCENE INSTRUCTIONS):
+The user has provided the following specific scene/situation description. You MUST use this as the PRIMARY narrative foundation and visual scenario for the generated idea:
+"${input.customSceneDescription.trim()}"
+STRICT RULES:
+1. The generated video prompt MUST be directly based on and revolve around this exact scene description.
+2. Incorporate the described situation, actions, environment, and emotional context into the visual storytelling.
+3. Do NOT ignore, override, or replace this scene with a random unrelated scenario.
+4. All other settings (character setup, clothing, vibe, location) should enhance and complement this scene description, not contradict it.` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsAudioStyle && input.kidsAudioStyle !== "Any / AI Decides" ? `Voice & Audio Style: ${input.kidsAudioStyle}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
@@ -1279,6 +1328,7 @@ STRICT SCRIPT CORRECTION & DIALOGUE RULES:
 3. PRESERVE MEANING: Keep the original meaning, joke timing, and intent 100% intact. Do NOT change the story or punchline, only refine and elevate the script quality.
 4. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Punjabi dialogue matching the category "${input.category}".
 5. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
+${input.customSceneDescription && input.customSceneDescription.trim() ? `6. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}
 ${
   (input.category === "POETRY" || input.category === "SONG")
     ? `

@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const {
-      aiModel = "claude-sonnet-4-6",
+      aiModel = "claude-3-5-sonnet-20241022",
       quoteText,
       characterStyle = "Chibi Anime Girl",
       colorTheme = "Pink & Black",
@@ -21,12 +22,24 @@ export async function POST(req: Request) {
       generateVideo = false,
       videoVariation = "Simple Character Animation",
       targetPlatform = "Both",
-      disableQuote = false, disableImage = false, referenceCharacterInfo,
+      disableQuote = false,
+      disableImage = false,
+      referenceCharacterInfo,
     } = body;
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY || "",
-    });
+    const resolveModel = (model: string) => {
+      if (model && (model.includes("opus") || model.includes("Opus"))) {
+        return "claude-opus-4-6";
+      }
+      if (model && (model.includes("haiku") || model.includes("Haiku"))) {
+        return "claude-haiku-4-5-20251001";
+      }
+      return "claude-sonnet-4-6";
+    };
+
+    const preferredModel = resolveModel(aiModel);
+    const anthropicApiKey = process.env.ANTHROPIC_API_KEY || "";
+    const geminiApiKey = process.env.GEMINI_API_KEY || "";
 
     // Map format to aspect ratio parameter
     const formatToAR: Record<string, string> = {
@@ -101,21 +114,53 @@ TAGS REQUIREMENTS:
 - Mix of broad reach + niche (e.g. #cutekids + #pakikids + #kidsquotes)
 - No spaces in tags, use camelCase for multi-word`;
 
-    const response = await anthropic.messages.create({
-      model: aiModel,
-      max_tokens: 900,
-      temperature: 0.8,
-      system: systemPrompt,
-      messages: [
-        {
-          role: "user",
-          content: userPrompt,
-        },
-      ],
-    });
+    let rawText = "";
+    let lastError: any = null;
 
-    const rawText =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    const modelsToTry = Array.from(new Set([
+      preferredModel,
+      "claude-sonnet-4-6",
+      "claude-sonnet-4-5-20250929",
+      "claude-haiku-4-5-20251001",
+      "claude-opus-4-6",
+    ]));
+
+    if (anthropicApiKey) {
+      const anthropic = new Anthropic({ apiKey: anthropicApiKey });
+      for (const modelName of modelsToTry) {
+        try {
+          const response = await anthropic.messages.create({
+            model: modelName,
+            max_tokens: 900,
+            temperature: 0.8,
+            system: systemPrompt,
+            messages: [{ role: "user", content: userPrompt }],
+          });
+          rawText = response.content[0].type === "text" ? response.content[0].text : "";
+          if (rawText) break;
+        } catch (err: any) {
+          console.warn(`Anthropic model (${modelName}) error:`, err?.message || err);
+          lastError = err;
+        }
+      }
+    }
+
+    if (!rawText && geminiApiKey) {
+      try {
+        const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+        const response = await ai.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: `${systemPrompt}\n\n${userPrompt}`,
+        });
+        rawText = response.text || "";
+      } catch (gemErr: any) {
+        console.warn("Gemini fallback error:", gemErr?.message || gemErr);
+      }
+    }
+
+    if (!rawText) {
+      throw new Error(lastError?.message || "Failed to generate FB post prompt.");
+    }
 
     // Parse the JSON response
     let prompt = "";
@@ -123,7 +168,6 @@ TAGS REQUIREMENTS:
     let tags: string[] = [];
 
     try {
-      // Extract JSON from the response (handle any extra whitespace/text)
       const jsonMatch = rawText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
@@ -131,7 +175,6 @@ TAGS REQUIREMENTS:
         title = parsed.title || "";
         tags = Array.isArray(parsed.tags) ? parsed.tags.slice(0, 3) : [];
       } else {
-        // Fallback: treat whole response as prompt
         prompt = rawText;
       }
     } catch {
@@ -147,5 +190,3 @@ TAGS REQUIREMENTS:
     );
   }
 }
-
-
