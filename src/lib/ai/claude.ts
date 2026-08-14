@@ -616,7 +616,7 @@ ${
   input.category === "FRUIT_DANCING"
     ? `
 VIRAL INSTAGRAM FRUIT DANCING BABY MANDATE (CRITICAL):
-1. CHARACTER IDENTITY & AGE: Feature an ultra-cute, adorable 3D cartoon baby or toddler (1-3 years old) with large expressive round eyes, soft flushed rosy cheeks, locked cute facial identity, and innocent cheerful expression.
+1. CHARACTER IDENTITY & AGE: Feature an ultra-cute, adorable 3D cartoon baby or toddler (1-3 years old) with naturally proportioned expressive eyes, soft flushed rosy cheeks, locked cute facial identity, and innocent cheerful expression.
 2. FRUIT COSTUME DETAIL: The baby MUST wear a plush, fuzzy 3D fruit onesie costume hood suit (e.g. Kiwi fruit with fuzzy textured brown skin and a vibrant green sliced kiwi belly showing black seeds; or Watermelon with green striped rind and red sliced belly with seeds; or Strawberry with plush red dotted fruit suit; or Mango / Pineapple / Banana). The fruit onesie has a cute hood framed around the baby's adorable face.
 3. CUTE DANCING ANIMATION: The baby performs an energetic, rhythmic, cute dance choreography (hip-hop bounce, wobbly toddler wiggle, hand waving, foot tapping, spinning around, ending with a cheerful arm-up pose).
 4. VIBRANT FRUIT ORCHARD ENVIRONMENT: Set the dance in a lush, magical fruit garden or sun-dappled orchard filled with giant sliced fruits scattered on soft green grass, warm golden bokeh sunlight, floating light particles, and vibrant pastel colors.
@@ -629,7 +629,7 @@ ${
   input.category === "ANIMAL_DANCING"
     ? `
 VIRAL INSTAGRAM ANIMAL DANCING PETS MANDATE (CRITICAL):
-1. CHARACTER IDENTITY & SPECIES: Feature ultra-cute, adorable 3D cartoon or CGI kittens, puppies, baby pandas, or bunnies standing upright on two hind legs with large round glossy eyes, fluffy fur, and charming facial expressions.
+1. CHARACTER IDENTITY & SPECIES: Feature ultra-cute, adorable 3D cartoon or CGI kittens, puppies, baby pandas, or bunnies standing upright on two hind legs with naturally proportioned glossy eyes, fluffy fur, and charming facial expressions.
 2. COSPLAY COSTUME DETAIL: The animals MUST wear detailed plush cosplay costumes (e.g. Strawberry hood hat with diaper shorts & tiny pink crocs; Yellow & black bumblebee suit with wings; Brown cowboy hat & leather vest; Green dinosaur onesie with back spikes; Pirate captain hat with skull & crossbones; Baby Shark onesie; Chef hat & apron).
 3. ON-BEAT DANCE ANIMATION: The animals perform synchronized on-beat dance choreography standing upright on two legs (side-to-side leg kicks, beat-drop butt wiggle, freeze-on-beat statue pose, arm pumps, head bobs, spinning twirls).
 4. ENVIRONMENT: Set the performance on a clean polished living room hardwood floor with plush stuffed teddy bears sitting in the background, or sun-dappled outdoor patio with warm indoor lighting.

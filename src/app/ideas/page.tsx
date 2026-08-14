@@ -45,18 +45,20 @@ import { copyToClipboard } from "@/lib/utils";
 const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
   // ─── Realistic / Cinematic ───
+  { value: "Photorealistic Natural Proportions", label: "Photorealistic Natural Proportions", desc: "100% realistic human facial proportions, natural eyes, lifelike skin textures & cinematic lighting", tag: "🌟 Natural & Lifelike" },
   { value: "Photorealistic 8K Cinematic", label: "Photorealistic 8K Cinematic", desc: "Film-quality depth, bokeh, cinematic lighting — perfect for romantic & emotional Shayari scenes", tag: "⭐ Best for Poetry" },
   { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch — great for moonlit palaces & Mughal courtyards", tag: "🏆 Top Pick" },
   { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look ideal for product unboxing & ASMR sensory content" },
   // ─── 3D Animation ───
-  { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders — ideal for emotional storytelling & Poet+Listener duos", tag: "💡 Highly Recommended" },
+  { value: "Realistic 3D Character (Natural Eyes)", label: "Realistic 3D Character (Natural Eyes)", desc: "Polished 3D feature animation with natural human eyes, refined proportions & realistic lighting", tag: "✨ Recommended" },
+  { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, natural expressive features & Pixar skin shaders — ideal for emotional storytelling", tag: "💡 Popular" },
   { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
-  { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions — great for comedy & kids' content" },
+  { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with natural expressive facial features & lively animation" },
   { value: "Claymation 3D", label: "Claymation 3D", desc: "Handcrafted clay-like textures with quirky charm — unique look for funny or whimsical stories" },
   // ─── Anime ───
   { value: "Studio Ghibli Anime", label: "Studio Ghibli Anime", desc: "Dreamy, painterly — moonlit lakes, autumn forests, snow cabins. Emotionally resonant for Shayari", tag: "🌸 Romantic Mood" },
   { value: "Anime (Shonen / Modern)", label: "Anime (Shonen / Modern)", desc: "Dynamic action lines, vivid colors & intense expressions — great for adventure & drama" },
-  { value: "Chibi Anime Style", label: "Chibi Anime Style", desc: "Tiny adorable characters with oversized heads — best for cute, lighthearted & funny clips" },
+  { value: "Chibi Anime Style", label: "Chibi Anime Style", desc: "Cute anime-inspired characters with adorable expressions & lighthearted charm" },
   // ─── Artistic ───
   { value: "Oil Painting Masterpiece", label: "Oil Painting Masterpiece", desc: "Grand Mehfil & Mughal settings — rich painterly Urdu poetry aesthetic", tag: "🎨 Poetic Classic" },
   { value: "Soft Pastel Watercolor", label: "Soft Pastel Watercolor", desc: "Delicate sakura blossoms, rose gardens — gentle romantic scenes with an airy dream-like quality" },
@@ -5997,6 +5999,22 @@ export default function IdeasPage() {
     }
   };
 
+  const handleDeleteCharacterFromLibrary = async (e: React.MouseEvent, charId: string) => {
+    e.stopPropagation();
+    try {
+      const res = await fetch(`/api/characters/${charId}`, { method: "DELETE" });
+      if (res.ok) {
+        setSavedCharacters((prev) => prev.filter((c) => c.id !== charId));
+        showToast("🗑️ Character deleted from library", "info");
+      } else {
+        showToast("Failed to delete character", "error");
+      }
+    } catch (err) {
+      console.error("Delete character error", err);
+      showToast("Error deleting character", "error");
+    }
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
@@ -7998,9 +8016,12 @@ export default function IdeasPage() {
                     }`}>
                       <span>Character Reference Image (Optional)</span>
                       <button 
+                        type="button"
                         onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                        className={`text-xs flex items-center gap-1 font-bold ${
-                          isLight ? "text-indigo-700 hover:text-indigo-900" : "text-indigo-400 hover:text-indigo-300"
+                        className={`text-xs flex items-center gap-1 font-black px-2.5 py-1 rounded-lg border transition-all cursor-pointer shadow-xs active:scale-95 ${
+                          isLight 
+                            ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" 
+                            : "bg-indigo-900/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-800/80"
                         }`}
                       >
                         🖼️ Browse Library
@@ -8308,9 +8329,12 @@ export default function IdeasPage() {
                   }`}>
                     <span>Character Reference Image (Optional)</span>
                     <button 
+                      type="button"
                       onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                      className={`text-xs flex items-center gap-1 font-bold cursor-pointer ${
-                        isLight ? "text-indigo-700 hover:text-indigo-900" : "text-indigo-400 hover:text-indigo-300"
+                      className={`text-xs flex items-center gap-1 font-black px-2.5 py-1 rounded-lg border transition-all cursor-pointer shadow-xs active:scale-95 ${
+                        isLight 
+                          ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" 
+                          : "bg-indigo-900/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-800/80"
                       }`}
                     >
                       🖼️ Browse Library
@@ -8585,8 +8609,13 @@ export default function IdeasPage() {
                   <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
                     <span>Character Reference Image (Optional)</span>
                     <button 
+                      type="button"
                       onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer"
+                      className={`text-xs flex items-center gap-1 font-black px-2.5 py-1 rounded-lg border transition-all cursor-pointer shadow-xs active:scale-95 ${
+                        isLight 
+                          ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" 
+                          : "bg-indigo-900/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-800/80"
+                      }`}
                     >
                       🖼️ Browse Library
                     </button>
@@ -10321,72 +10350,121 @@ export default function IdeasPage() {
             <span>Go to Top</span>
           </div>
         </div>
+      </div>
 
-        {/* Character Library Modal */}
-        {showCharacterLibrary && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
-              <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  🖼️ Character Library
-                  {savedCharacters.length > 0 && <span className="text-xs text-slate-400 font-normal">({savedCharacters.length} saved)</span>}
-                </h3>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => fetchCharacterLibrary(true)}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold px-2 py-1 rounded-lg hover:bg-indigo-900/30 transition-colors"
-                    title="Reload library"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" /> Refresh
-                  </button>
-                  <button onClick={() => setShowCharacterLibrary(false)} className="text-slate-400 hover:text-white transition-colors">
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-              </div>
-              <div className="p-4 overflow-y-auto flex-1">
-                {isLoadingLibrary ? (
-                  <div className="flex flex-col items-center justify-center h-40 gap-3">
-                    <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-                    <span className="text-slate-400 text-sm">Loading characters...</span>
-                  </div>
-                ) : savedCharacters.length === 0 ? (
-                  <div className="text-center py-12 text-slate-400">
-                    <p>No characters saved yet.</p>
-                    <p className="text-sm mt-2">Upload an image to save your first character!</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-                    {savedCharacters.map((char) => (
-                      <div key={char.id} className="group bg-black/40 rounded-xl border border-white/5 hover:border-indigo-500/50 transition-all overflow-hidden flex flex-col">
-                        <div className="aspect-square overflow-hidden relative bg-slate-800">
-                          <img
-                            src={char.imageUrl}
-                            alt={char.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="p-1.5 flex flex-col gap-1">
-                          <p className="text-[10px] text-slate-300 font-semibold truncate">{char.name || "Character"}</p>
-                          <button
-                            type="button"
-                            onClick={() => handleSelectCharacterFromLibrary(char)}
-                            className="w-full py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold transition-colors active:scale-95 cursor-pointer"
-                          >
-                            Use
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+      {/* Character Library Modal */}
+      {showCharacterLibrary && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className={`rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh] border transition-all ${
+            isLight
+              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-slate-400/20"
+              : "bg-slate-900 border border-slate-800 text-white shadow-black/80"
+          }`}>
+            <div className={`p-4 border-b flex justify-between items-center ${
+              isLight ? "bg-slate-100/90 border-slate-200" : "bg-black/40 border-white/5"
+            }`}>
+              <h3 className={`text-lg font-black flex items-center gap-2 ${
+                isLight ? "text-slate-900" : "text-white"
+              }`}>
+                🖼️ Character Library
+                {savedCharacters.length > 0 && (
+                  <span className={`text-xs font-semibold ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                    ({savedCharacters.length} saved)
+                  </span>
                 )}
+              </h3>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => fetchCharacterLibrary(true)}
+                  className={`text-xs flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                    isLight
+                      ? "text-indigo-700 hover:text-indigo-900 hover:bg-indigo-50 border border-indigo-200"
+                      : "text-indigo-400 hover:text-indigo-300 hover:bg-indigo-900/30 border border-indigo-500/20"
+                  }`}
+                  title="Reload library"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" /> Refresh
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setShowCharacterLibrary(false)} 
+                  className={`p-1 rounded-lg transition-colors cursor-pointer ${
+                    isLight ? "text-slate-500 hover:text-slate-900 hover:bg-slate-200" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                  }`}
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
             </div>
+            <div className="p-4 overflow-y-auto flex-1 custom-scrollbar">
+              {isLoadingLibrary ? (
+                <div className="flex flex-col items-center justify-center h-48 gap-3">
+                  <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                  <span className={`text-xs font-bold ${isLight ? "text-slate-600" : "text-slate-400"}`}>
+                    Loading character library...
+                  </span>
+                </div>
+              ) : savedCharacters.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className={`font-bold ${isLight ? "text-slate-700" : "text-slate-400"}`}>No characters saved yet.</p>
+                  <p className={`text-xs mt-2 ${isLight ? "text-slate-500" : "text-slate-500"}`}>
+                    Upload an image in the generator to save your first character!
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {savedCharacters.map((char) => (
+                    <div 
+                      key={char.id} 
+                      className={`group relative rounded-xl border transition-all overflow-hidden flex flex-col ${
+                        isLight
+                          ? "bg-slate-50 border-slate-200 hover:border-indigo-500 hover:shadow-md"
+                          : "bg-black/40 border-white/10 hover:border-indigo-500/60"
+                      }`}
+                    >
+                      <div className="aspect-square overflow-hidden relative bg-slate-800">
+                        <img
+                          src={char.imageUrl}
+                          alt={char.name || "Character"}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteCharacterFromLibrary(e, char.id)}
+                          className="absolute top-2 right-2 p-1.5 rounded-lg bg-rose-600/90 text-white hover:bg-rose-700 hover:scale-105 transition-all shadow-md cursor-pointer opacity-90 sm:opacity-0 group-hover:opacity-100"
+                          title="Delete character"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className={`p-2.5 flex items-center justify-between gap-1 border-t ${
+                        isLight ? "bg-white border-slate-200" : "bg-slate-900/90 border-white/5"
+                      }`}>
+                        <p className={`text-xs font-black truncate ${
+                          isLight ? "text-slate-900" : "text-white"
+                        }`}>
+                          {char.name || "Character"}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectCharacterFromLibrary(char)}
+                          className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black transition-colors active:scale-95 cursor-pointer shrink-0"
+                        >
+                          Use ➔
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

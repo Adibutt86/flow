@@ -4012,7 +4012,11 @@ export default function NanoProGenerator() {
                           <button 
                             type="button"
                             onClick={() => { setShowCharacterLibrary(true); fetchCharacterLibrary(); }}
-                            className="text-xs text-indigo-600 hover:text-indigo-700 flex items-center gap-1 font-black cursor-pointer"
+                            className={`text-xs flex items-center gap-1 font-black px-2.5 py-1 rounded-lg border transition-all cursor-pointer shadow-xs active:scale-95 ${
+                              isLight 
+                                ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" 
+                                : "bg-indigo-900/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-800/80"
+                            }`}
                           >🖼️ Browse Library</button>
                         </label>
                         <div className="flex flex-col gap-2">
