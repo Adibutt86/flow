@@ -134,3 +134,19 @@ body {
 .animate-glow {
   animation: pulseGlow 4s infinite ease-in-out;
 }
+
+/* Urdu & Punjabi Calligraphic Nastaliq & Naskh Typography */
+[dir="rtl"],
+[lang="ur"],
+[lang="pa"],
+.font-urdu {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', 'Gulzar', var(--font-arabic), 'Noto Naskh Arabic', -apple-system, sans-serif !important;
+  line-height: 2.1 !important;
+}
+
+textarea[dir="rtl"],
+input[dir="rtl"] {
+  font-family: var(--font-urdu), 'Noto Nastaliq Urdu', 'Gulzar', var(--font-arabic), 'Noto Naskh Arabic', sans-serif !important;
+  line-height: 2.1 !important;
+  letter-spacing: 0px !important;
+}

@@ -10234,8 +10234,8 @@ export default function IdeasPage() {
         </div>
       )}
 
-      {/* 🚀 Floating Fixed Action Toolbar (Copy Prompt, Copy Script, Go to Top) */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[99999] flex flex-col gap-2 sm:gap-3 items-end select-none">
+      {/* 🚀 Floating Fixed Action Toolbar (Left-Center Screen) */}
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-[99999] flex flex-col gap-2 sm:gap-3 items-start select-none">
         
         {/* 0. Generate Script Floating Button (Red) */}
         <div className="relative group">
@@ -10254,7 +10254,7 @@ export default function IdeasPage() {
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-red-100" />
             )}
           </button>
-          <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-red-500/40 text-xs font-bold text-red-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
+          <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-red-500/40 text-xs font-bold text-red-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-red-400" />
             <span>Generate Script</span>
           </div>
@@ -10275,7 +10275,7 @@ export default function IdeasPage() {
                 <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-100" />
               )}
             </button>
-            <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-indigo-500/40 text-xs font-bold text-indigo-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-indigo-500/40 text-xs font-bold text-indigo-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
               <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
               <span>Copy Mobile Prompt (9:16)</span>
             </div>
@@ -10297,7 +10297,7 @@ export default function IdeasPage() {
                 <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-purple-100" />
               )}
             </button>
-            <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-purple-500/40 text-xs font-bold text-purple-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-purple-500/40 text-xs font-bold text-purple-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
               <FileText className="w-3.5 h-3.5 text-purple-400" />
               <span>Copy Generated Script</span>
             </div>
@@ -10316,7 +10316,7 @@ export default function IdeasPage() {
           >
             <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 text-slate-200 group-hover:-translate-y-0.5 transition-transform" />
           </button>
-          <div className="absolute right-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
+          <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/95 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap shadow-2xl backdrop-blur-md">
             <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
             <span>Go to Top</span>
           </div>

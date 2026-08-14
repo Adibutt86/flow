@@ -83,18 +83,6 @@ export function Navbar({ onOpenWizard, isLight: isLightProp, onToggleTheme: onTo
                 <span>Nano Pro</span>
               </Link>
 
-              <Link
-                href="/projects"
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-black transition-colors ${
-                  isLight
-                    ? "text-slate-700 hover:text-slate-950 hover:bg-slate-100"
-                    : "text-gray-300 hover:text-white hover:bg-gray-800/50"
-                }`}
-              >
-                <Film className="w-4 h-4 text-indigo-500" />
-                <span>Projects (Backup)</span>
-              </Link>
-
               {/* Theme Switcher Button in Header */}
               {onToggleTheme && (
                 <button
@@ -236,17 +224,6 @@ export function Navbar({ onOpenWizard, isLight: isLightProp, onToggleTheme: onTo
           >
             <ImageIcon className="w-4 h-4 text-purple-500" />
             <span>Nano Pro Generator</span>
-          </Link>
-
-          <Link
-            href="/projects"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-black transition-colors ${
-              isLight ? "text-slate-700 hover:bg-slate-100" : "text-gray-200 hover:bg-gray-800/60"
-            }`}
-          >
-            <Film className="w-4 h-4 text-indigo-500" />
-            <span>Projects Dashboard (Backup)</span>
           </Link>
 
           <button
