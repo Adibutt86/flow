@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useTheme } from "@/context/ThemeContext";
 import { User as UserIcon, X, ShieldCheck, ArrowRight, Lock, LogOut } from "lucide-react";
+import { safeJsonResponse } from "@/lib/utils";
 
 export function AuthModal() {
   const {
@@ -54,10 +55,10 @@ export function AuthModal() {
           password: inputPassword.trim(),
         }),
       });
-      const data = await res.json();
+      const data = await safeJsonResponse(res);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Invalid password");
+      if (!res.ok || !data || !data.success) {
+        throw new Error(data?.error || "Invalid password");
       }
 
       if (data.user) {

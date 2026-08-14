@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { safeJsonResponse } from "@/lib/utils";
 
 export interface User {
   id: string;
@@ -191,8 +192,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: cleanName, password: password ? password.trim() : undefined }),
       });
-      const data = await res.json();
-      if (data.success && data.user) {
+      const data = await safeJsonResponse(res);
+      if (data && data.success && data.user) {
         updateCurrentUser(data.user);
         updateAllUsersList(data.user);
         return data.user;
@@ -220,8 +221,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isMaster: true }),
       });
-      const data = await res.json();
-      if (data.success && data.user) {
+      const data = await safeJsonResponse(res);
+      if (data && data.success && data.user) {
         updateCurrentUser(data.user);
         updateAllUsersList(data.user);
         setIsAuthModalOpen(false);

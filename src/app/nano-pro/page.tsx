@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2, Trash2 } from "lucide-react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { Sparkles, Image as ImageIcon, Copy, RefreshCw, RotateCcw, Clock, Library, X, Loader2, Trash2, Search, ChevronDown, Check } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useTheme } from "@/context/ThemeContext";
 import { useToast } from "@/components/ui/Toast";
+import { safeJsonResponse } from "@/lib/utils";
 import { FB_POST_QUOTES } from "@/lib/data/fb-quotes";
 import { SHAYARI_QUOTES } from "@/lib/data/shayari-quotes";
 
@@ -3002,7 +3003,751 @@ const BACKGROUND_GROUPS = [
   }
 ];
 
+const ASPECT_RATIO_GROUPS = [
+  {
+    category: "Vertical & Portrait",
+    options: [
+      { value: "9:16", label: "9:16 (Vertical - Shorts/TikTok)", desc: "Full mobile screen — best for Reels, Shorts, TikTok", tag: "📱 Recommended" },
+      { value: "4:5", label: "4:5 (Instagram Portrait)", desc: "Optimized for Instagram & Facebook feeds" },
+    ],
+  },
+  {
+    category: "Horizontal & Landscape",
+    options: [
+      { value: "16:9", label: "16:9 (Horizontal - YouTube)", desc: "Standard widescreen for YouTube videos & TV" },
+      { value: "21:9", label: "21:9 (Ultrawide Cinematic)", desc: "Super wide cinematic aspect ratio" },
+    ],
+  },
+  {
+    category: "Square & Standard",
+    options: [
+      { value: "1:1", label: "1:1 (Square - Instagram)", desc: "Square format for posts & grid media" },
+      { value: "4:3", label: "4:3 (Standard)", desc: "Traditional 4:3 display ratio" },
+    ],
+  },
+];
 
+const VISUAL_STYLE_GROUPS = [
+  {
+    category: "Realistic / Cinematic",
+    options: [
+      { value: "Photorealistic 8K Cinematic", label: "Photorealistic 8K Cinematic", desc: "Film-quality depth, bokeh, cinematic lighting", tag: "⭐ Best for Poetry" },
+      { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch", tag: "🏆 Top Pick" },
+      { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look" },
+    ],
+  },
+  {
+    category: "3D Animation",
+    options: [
+      { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders", tag: "💡 Recommended" },
+      { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors" },
+      { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions" },
+      { value: "Claymation 3D", label: "Claymation 3D", desc: "Handcrafted clay-like textures with quirky charm" },
+    ],
+  },
+  {
+    category: "Anime",
+    options: [
+      { value: "Studio Ghibli Anime", label: "Studio Ghibli Anime", desc: "Dreamy, painterly — moonlit lakes, autumn forests", tag: "🌸 Romantic Mood" },
+      { value: "Anime (Shonen / Modern)", label: "Anime (Shonen / Modern)", desc: "Dynamic action lines, vivid colors & intense expressions" },
+      { value: "Chibi Anime Style", label: "Chibi Anime Style", desc: "Tiny adorable characters with oversized heads" },
+    ],
+  },
+  {
+    category: "Artistic",
+    options: [
+      { value: "Oil Painting Masterpiece", label: "Oil Painting Masterpiece", desc: "Grand Mehfil & Mughal settings", tag: "🎨 Poetic Classic" },
+      { value: "Soft Pastel Watercolor", label: "Soft Pastel Watercolor", desc: "Delicate sakura blossoms, rose gardens" },
+      { value: "Pencil Sketch & Charcoal", label: "Pencil Sketch & Charcoal", desc: "Raw, expressive hand-drawn feel" },
+      { value: "Paper Cutout Art", label: "Paper Cutout Art", desc: "Layered paper-craft aesthetic" },
+      { value: "Vector Flat Art Animation", label: "Vector Flat Art Animation", desc: "Clean, modern flat design with bold shapes" },
+    ],
+  },
+  {
+    category: "Dark / Stylized",
+    options: [
+      { value: "Noir Vintage Film", label: "Noir Vintage Film", desc: "Moody black & white cinematic feel", tag: "💔 Heartbreak Mood" },
+      { value: "Dark Fantasy & Eerie Glow", label: "Dark Fantasy & Eerie Glow", desc: "Ominous gothic atmospheres" },
+      { value: "Cyberpunk Neon", label: "Cyberpunk Neon", desc: "Electric neon-lit futuristic cityscape" },
+      { value: "Retro 80s Synthwave", label: "Retro 80s Synthwave", desc: "Glowing grids, chrome retro aesthetics" },
+    ],
+  },
+  {
+    category: "Misc / Graphic",
+    options: [
+      { value: "Comic Book & Graphic Novel", label: "Comic Book & Graphic Novel", desc: "Bold outlines, halftone dots & action panels" },
+      { value: "Vintage 90s Cartoon", label: "Vintage 90s Cartoon", desc: "Nostalgic Saturday morning cartoon style" },
+      { value: "Low Poly 3D World", label: "Low Poly 3D World", desc: "Geometric faceted 3D landscapes" },
+      { value: "Isometric 3D Architecture", label: "Isometric 3D Architecture", desc: "Top-down isometric cityscapes & rooms" },
+    ],
+  },
+];
+
+const FB_CHARACTER_STYLE_GROUPS = [
+  {
+    category: "Photorealistic",
+    options: [
+      { value: "Photorealistic Realistic Girl (Natural Eyes & Proportions)", label: "Photorealistic Realistic Girl", desc: "Natural eyes & lifelike human proportions", tag: "🌟 Popular" },
+      { value: "Photorealistic Realistic Boy (Natural Eyes & Proportions)", label: "Photorealistic Realistic Boy", desc: "Natural eyes & lifelike human proportions" },
+    ],
+  },
+  {
+    category: "3D Animation & Doll",
+    options: [
+      { value: "3D Cartoon Doll Girl", label: "3D Cartoon Doll Girl", desc: "Pixar-like adorable doll girl character" },
+      { value: "3D Cartoon Doll Boy", label: "3D Cartoon Doll Boy", desc: "Pixar-like adorable doll boy character" },
+      { value: "3D Animation Girl (Natural Proportions)", label: "3D Animation Girl", desc: "Clean 3D animation style with natural proportions" },
+      { value: "3D Animation Boy (Natural Proportions)", label: "3D Animation Boy", desc: "Clean 3D animation style with natural proportions" },
+      { value: "3D Cartoon Islamic Girl (Hijab)", label: "3D Cartoon Islamic Girl (Hijab)", desc: "Cute 3D hijab girl character" },
+      { value: "3D Cartoon Islamic Boy (Kufi)", label: "3D Cartoon Islamic Boy (Kufi/Thobe)", desc: "Cute 3D Islamic boy in kufi & thobe" },
+      { value: "3D Cartoon Korean Girl", label: "3D Cartoon Korean Girl", desc: "K-Pop aesthetic cute 3D girl" },
+      { value: "3D Cartoon Korean Boy", label: "3D Cartoon Korean Boy", desc: "K-Pop aesthetic cute 3D boy" },
+      { value: "3D Cartoon Desi Boy", label: "3D Cartoon Desi Boy", desc: "Desi style boy in Kurta / Shalwar Kameez" },
+      { value: "Cute Little Chibi Doll", label: "Cute Little Chibi Doll", desc: "Gender-neutral cute chibi doll" },
+    ],
+  },
+  {
+    category: "Anime & Chibi",
+    options: [
+      { value: "Chibi Anime Girl", label: "Chibi Anime Girl", desc: "Cute anime chibi girl with big eyes" },
+      { value: "Chibi Anime Boy", label: "Chibi Anime Boy", desc: "Cute anime chibi boy with big eyes" },
+      { value: "Handsome Anime Boy", label: "Handsome Anime Boy", desc: "Cool, stylish anime protagonist" },
+      { value: "Cute Gamer Boy", label: "Cute Gamer Boy", desc: "Headphones, hoodie gamer aesthetic" },
+      { value: "Sad Heartbroken Boy", label: "Sad / Heartbroken Boy", desc: "Moody, aesthetic heartbreak style" },
+    ],
+  },
+  {
+    category: "Stylized & Text Only",
+    options: [
+      { value: "Streetwear Swag Boy", label: "Streetwear Swag Boy", desc: "Cap, sneakers & streetwear jacket" },
+      { value: "Stylized Illustration Girl", label: "Stylized Illustration Girl", desc: "Flat modern vector illustration" },
+      { value: "Stylized Illustration Boy", label: "Stylized Illustration Boy", desc: "Flat modern vector illustration" },
+      { value: "Realistic Cute Baby Doll", label: "Realistic Cute Baby Doll", desc: "Cute baby doll character" },
+      { value: "No Character - Text Only", label: "No Character – Text Only", desc: "Typography only without character artwork" },
+    ],
+  },
+];
+
+const FB_MOOD_GROUPS = [
+  {
+    category: "Attitude & Vibe",
+    options: [
+      { value: "Sassy & Confident", label: "😎 Sassy & Confident", desc: "Bold, cheeky & confident tone" },
+      { value: "Cute & Playful", label: "🌸 Cute & Playful", desc: "Sweet, charming & fun mood" },
+      { value: "Motivational & Empowering", label: "💪 Motivational & Empowering", desc: "Inspiring & strong energetic vibe" },
+      { value: "Chill & Unbothered", label: "😌 Chill & Unbothered", desc: "Relaxed, cool & laid-back" },
+      { value: "Happy & Joyful", label: "😄 Happy & Joyful", desc: "Bright, smiling & optimistic" },
+      { value: "Angry & Protective", label: "😤 Angry & Protective", desc: "Fiery, intense & protective stance" },
+      { value: "Sad & Emotional", label: "😢 Sad & Emotional", desc: "Tearful, melancholic & deep" },
+      { value: "Mysterious & Cool", label: "🕶️ Mysterious & Cool", desc: "Dark, stylish & intriguing" },
+    ],
+  },
+];
+
+const FB_COLOR_THEME_GROUPS = [
+  {
+    category: "Color Palettes",
+    options: [
+      { value: "Pink & Black", label: "🩷 Pink & Black", desc: "Girly glam with high-contrast text" },
+      { value: "Teal & White", label: "🩵 Teal & White", desc: "Fresh & clean modern aesthetic" },
+      { value: "Green & Cream", label: "💚 Green & Cream", desc: "Natural organic color tones" },
+      { value: "Black & White", label: "🖤 Black & White", desc: "Edgy minimal monochrome" },
+      { value: "Purple & Gold", label: "💜 Purple & Gold", desc: "Royal & luxurious theme" },
+      { value: "Red & White", label: "❤️ Red & White", desc: "Bold passionate love theme" },
+      { value: "Blue & Pink", label: "💙 Blue & Pink", desc: "Kawaii pastel duo theme" },
+      { value: "Yellow & Black", label: "💛 Yellow & Black", desc: "High contrast energetic theme" },
+      { value: "Rainbow / Multicolor", label: "🌈 Rainbow / Multicolor", desc: "Vibrant multicolored artwork" },
+    ],
+  },
+];
+
+const FB_TYPOGRAPHY_GROUPS = [
+  {
+    category: "Typography Styles",
+    options: [
+      { value: "Bold Chunky Display + Handwritten Mix", label: "Bold Chunky + Handwritten Mix", desc: "Popular Facebook quote font combination" },
+      { value: "Glitter 3D Metallic Letters", label: "✨ Glitter 3D Metallic Letters", desc: "Sparkly 3D metallic text render" },
+      { value: "Stitched / Embroidery Effect Letters", label: "🧵 Stitched Embroidery Letters", desc: "Hand-stitched fabric typography effect" },
+      { value: "Graffiti / Street Art Font", label: "🎨 Graffiti / Street Art", desc: "Urban spray paint & graffiti letter style" },
+      { value: "Clean Sans-Serif Modern", label: "🔤 Clean Sans-Serif Modern", desc: "Minimalist bold sans-serif text" },
+      { value: "Handwritten Brush Script", label: "✍️ Handwritten Brush Script", desc: "Expressive artistic brush strokes" },
+      { value: "Highlighted Keywords with Pastel Boxes", label: "🖍️ Highlighted Keyword Boxes", desc: "Words highlighted inside pastel badge boxes" },
+      { value: "Mixed Sizes - Large Key Words Small Others", label: "Mixed Sizes (Large Keywords)", desc: "Dynamic word size scaling for emphasis" },
+    ],
+  },
+];
+
+const FB_LAYOUT_GROUPS = [
+  {
+    category: "Layout Compositions",
+    options: [
+      { value: "Character Left, Text Right", label: "Character Left, Text Right", desc: "Split side-by-side layout" },
+      { value: "Character Right, Text Left", label: "Character Right, Text Left", desc: "Reversed split layout" },
+      { value: "Text Top, Character Bottom", label: "Text Top, Character Bottom", desc: "Stacked vertical layout" },
+      { value: "Character Bottom, Text Top Full Width", label: "Character Bottom, Text Top Full Width", desc: "Full-width headline at top" },
+      { value: "Character Center with Text Surrounding", label: "Character Center, Text Surrounding", desc: "Centered subject surrounded by text" },
+      { value: "Full Background Character with Overlaid Text", label: "Full BG Character + Text Overlay", desc: "Background artwork with text overlay" },
+      { value: "Text Only - No Character", label: "Text Only (No Character)", desc: "Pure typography post" },
+    ],
+  },
+];
+
+const FB_FORMAT_GROUPS = [
+  {
+    category: "Aspect Ratio Formats",
+    options: [
+      { value: "9:16 Mobile", label: "📱 9:16 Mobile / Stories", desc: "Recommended for Reels & Stories" },
+      { value: "4:5 Portrait", label: "📸 4:5 Portrait", desc: "Facebook Feed optimized portrait" },
+      { value: "1:1 Square", label: "⬜ 1:1 Square", desc: "Square format for Instagram & Facebook" },
+      { value: "16:9 Desktop", label: "🖥️ 16:9 Desktop", desc: "Widescreen desktop format" },
+    ],
+  },
+];
+
+const FB_BACKGROUND_GROUPS = [
+  {
+    category: "Background Patterns",
+    options: [
+      { value: "Soft Gradient", label: "🌅 Soft Gradient", desc: "Smooth color transition background" },
+      { value: "Textured Painted Canvas", label: "🎨 Textured Painted Canvas", desc: "Artistic oil/acrylic canvas texture" },
+      { value: "Clean White / Minimal", label: "⬜ Clean White / Minimal", desc: "Pure clean background" },
+      { value: "Bokeh Blurred", label: "✨ Bokeh Blurred", desc: "Out-of-focus bokeh light circles" },
+      { value: "Glitter / Sparkle Pattern", label: "💎 Glitter / Sparkle Pattern", desc: "Shimmering glitter background" },
+      { value: "Watercolor Wash", label: "🖌️ Watercolor Wash", desc: "Soft painted watercolor textures" },
+      { value: "Solid Bold Color", label: "🟥 Solid Bold Color", desc: "Flat solid color backdrop" },
+    ],
+  },
+];
+
+const FB_DECORATION_GROUPS = [
+  {
+    category: "Decorative Floating Elements",
+    options: [
+      { value: "Hearts & Sparkles", label: "💕 Hearts & Sparkles", desc: "Floating heart icons & shiny sparkles" },
+      { value: "Butterflies & Flowers", label: "🦋 Butterflies & Flowers", desc: "Spring flowers & colorful butterflies" },
+      { value: "Stars & Crowns", label: "⭐ Stars & Crowns", desc: "Floating golden stars & mini crowns" },
+      { value: "Doodles & Hand-drawn Icons", label: "✏️ Doodles & Hand-drawn Icons", desc: "Cute notebook doodle drawings" },
+      { value: "Balloons & Confetti", label: "🎈 Balloons & Confetti", desc: "Party balloons & celebration confetti" },
+      { value: "Lightning Bolts & Fire", label: "⚡ Lightning & Fire", desc: "High energy lightning bolts & flame effects" },
+      { value: "Minimal - No Decorations", label: "✖️ Minimal – No Decorations", desc: "Clean layout without floating icons" },
+    ],
+  },
+];
+
+const SHY_ART_STYLE_GROUPS = [
+  {
+    category: "Shayari & Song Aesthetics",
+    options: [
+      { value: "Cinematic Silhouette", label: "Cinematic Silhouette", desc: "Dark silhouette figure against sunset/moonlight backdrop", tag: "⭐ Popular" },
+      { value: "Moody Rain & Window Drops", label: "Moody Rain & Window Drops", desc: "Melancholic rain drops on glass with soft light bokeh" },
+      { value: "Double Exposure Nature", label: "Double Exposure Nature", desc: "Subject merged with pine forest, starry night or ocean waves" },
+      { value: "Soft Ethereal Watercolor", label: "Soft Ethereal Watercolor", desc: "Gentle pastel wash, sakura petals & dreamlike atmosphere" },
+      { value: "Vintage Film & Light Leaks", label: "Vintage Film & Light Leaks", desc: "Retro 35mm grain, warm light leaks & faded film colors" },
+      { value: "Neon City Reflections", label: "Neon City Reflections", desc: "Night city streets, glowing neon signs & wet pavement" },
+      { value: "Minimalist Line Art", label: "Minimalist Line Art", desc: "Elegant line drawing on textured parchment paper" },
+    ],
+  },
+];
+
+const SHY_MOOD_GROUPS = [
+  {
+    category: "Poetic Moods",
+    options: [
+      { value: "Melancholy & Romantic", label: "🥀 Melancholy & Romantic", desc: "Soft longing, love & poetic sadness" },
+      { value: "Deep & Philosophical", label: "🌙 Deep & Philosophical", desc: "Thoughtful, reflective & atmospheric" },
+      { value: "Heartbroken & Solitary", label: "🌧️ Heartbroken & Solitary", desc: "Painful heartbreak & lone traveler theme" },
+      { value: "Peaceful & Ethereal", label: "✨ Peaceful & Ethereal", desc: "Calm, serene & spiritual feeling" },
+      { value: "Nostalgic & Warm", label: "🕰️ Nostalgic & Warm", desc: "Faded memories & cozy golden hour" },
+      { value: "Passionate & Intense", label: "🔥 Passionate & Intense", desc: "Fiery devotion & powerful emotions" },
+    ],
+  },
+];
+
+const SHY_COLOR_THEME_GROUPS = [
+  {
+    category: "Shayari Color Palettes",
+    options: [
+      { value: "Moody Monochromatic", label: "🖤 Moody Monochromatic (B&W)", desc: "Classic black and white photography look" },
+      { value: "Deep Blues & Cyan", label: "🌌 Deep Blues & Cyan", desc: "Nighttime, twilight & oceanic blue hues" },
+      { value: "Warm Golden Hour", label: "🌇 Warm Golden Hour", desc: "Sunset orange, amber & warm glow" },
+      { value: "Faded Vintage Sepia", label: "🎞️ Faded Vintage Sepia", desc: "Antique sepia tone & faded brown paper" },
+      { value: "Dark Reds & Shadows", label: "🍷 Dark Reds & Shadows", desc: "Deep crimson, burgundy & dark shadows" },
+      { value: "Muted Pastels", label: "🌸 Muted Pastels", desc: "Soft rose, lavendar & cream pastel tones" },
+    ],
+  },
+];
+
+const SHY_TYPOGRAPHY_GROUPS = [
+  {
+    category: "Poetry Typography",
+    options: [
+      { value: "Elegant Calligraphy & Serif Mix", label: "Elegant Calligraphy & Serif Mix", desc: "Traditional Urdu/Hindi poetry calligraphic font mix" },
+      { value: "Delicate Handwritten Script", label: "Delicate Handwritten Script", desc: "Personal diary handwriting font style" },
+      { value: "Vintage Typewriter Ink", label: "Vintage Typewriter Ink", desc: "Authentic mechanical typewriter ink font" },
+      { value: "Glowing Neon Sign", label: "Glowing Neon Sign", desc: "Luminous neon tube letters" },
+      { value: "Faded Distressed Stencil", label: "Faded Distressed Stencil", desc: "Aesthetic worn stencil lettering" },
+      { value: "Clean Minimalist Sans", label: "Clean Minimalist Sans", desc: "Modern clean typography" },
+    ],
+  },
+];
+
+const SHY_CHARACTER_STYLE_GROUPS = [
+  {
+    category: "Poet / Character Subjects",
+    options: [
+      { value: "Photorealistic Realistic Couple", label: "Photorealistic Realistic Couple", desc: "Romantic couple in cinematic lighting" },
+      { value: "Photorealistic Solitary Poet", label: "Photorealistic Solitary Poet", desc: "Single person looking at horizon/sky" },
+      { value: "3D Anime Poet Girl", label: "3D Anime Poet Girl", desc: "Expressive 3D anime girl character" },
+      { value: "3D Anime Poet Boy", label: "3D Anime Poet Boy", desc: "Expressive 3D anime boy character" },
+      { value: "Vintage Pencil Portrait", label: "Vintage Pencil Portrait", desc: "Sketched portrait artwork" },
+      { value: "No Character (Atmosphere Only)", label: "No Character (Atmosphere Only)", desc: "Scenery, rain or candles without human figure" },
+    ],
+  },
+];
+
+const SHY_LAYOUT_GROUPS = [
+  {
+    category: "Poetry Layouts",
+    options: [
+      { value: "Centered Poetry", label: "Centered Poetry", desc: "Centered text block alignment" },
+      { value: "Text in Negative Space (Sky/Water)", label: "Text in Negative Space", desc: "Text placed in uncluttered negative space" },
+      { value: "Split Screen: Art Top, Text Bottom", label: "Split Screen: Art Top, Text Bottom", desc: "Artistic split layout" },
+      { value: "Text Overlaid on Silhouettes", label: "Text Overlaid on Silhouettes", desc: "Overlay text across background silhouette" },
+    ],
+  },
+];
+
+const SHY_FORMAT_GROUPS = [
+  {
+    category: "Aspect Ratio Formats",
+    options: [
+      { value: "9:16 Mobile", label: "📱 9:16 Mobile / Reels", desc: "Full mobile height ratio" },
+      { value: "4:5 Portrait", label: "📸 4:5 Portrait", desc: "Social feed portrait ratio" },
+      { value: "1:1 Square", label: "⬜ 1:1 Square", desc: "Square format ratio" },
+      { value: "16:9 Desktop", label: "🖥️ 16:9 Desktop", desc: "Widescreen video ratio" },
+    ],
+  },
+];
+
+interface OptionWithDesc {
+  value: string;
+  label: string;
+  desc?: string;
+  tag?: string;
+}
+
+interface OptionGroup {
+  category: string;
+  options: OptionWithDesc[];
+}
+
+interface CustomSelectProps {
+  label: string;
+  icon?: string | React.ReactNode;
+  value: string;
+  onChange: (value: string) => void;
+  groups: (OptionGroup | OptionWithDesc)[];
+  customValue?: string;
+  onCustomChange?: (val: string) => void;
+  customPlaceholder?: string;
+  isLight?: boolean;
+  showDefaultAi?: boolean;
+  showCustom?: boolean;
+}
+
+function CustomSelect({
+  label,
+  icon,
+  value,
+  onChange,
+  groups: rawGroups,
+  customValue,
+  onCustomChange,
+  customPlaceholder,
+  isLight = false,
+  showDefaultAi = true,
+  showCustom = true,
+}: CustomSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const groups: OptionGroup[] = useMemo(() => {
+    let normalized: OptionGroup[] = [];
+    if (rawGroups.length > 0 && "category" in rawGroups[0]) {
+      normalized = (rawGroups as OptionGroup[]).map((g) => ({
+        category: g.category,
+        options: [...g.options],
+      }));
+    } else {
+      normalized = [
+        {
+          category: "Options",
+          options: (rawGroups as OptionWithDesc[]).map((opt) => ({ ...opt })),
+        },
+      ];
+    }
+
+    const hasDefault = normalized.some((g) => g.options.some((o) => o.value === "Any / AI Decides"));
+    if (showDefaultAi && !hasDefault) {
+      if (normalized.length > 0) {
+        normalized[0].options.unshift({
+          value: "Any / AI Decides",
+          label: "Any / AI Decides",
+          desc: "Let AI dynamically select the best option for your prompt",
+          tag: "🤖 Default",
+        });
+      }
+    }
+
+    const hasCustom = normalized.some((g) => g.options.some((o) => o.value === "Custom"));
+    if (showCustom && !hasCustom) {
+      if (normalized.length > 0) {
+        normalized[normalized.length - 1].options.push({
+          value: "Custom",
+          label: "Custom...",
+          desc: "Specify custom text instructions",
+          tag: "✍️ Custom",
+        });
+      }
+    }
+
+    return normalized;
+  }, [rawGroups, showDefaultAi, showCustom]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      if (!isTouchDevice) {
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
+      }
+    } else {
+      document.body.style.overflow = "";
+      setSearchQuery("");
+      setSelectedCategoryFilter("ALL");
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    let isPushed = true;
+    history.pushState({ customSelectOpen: true }, "");
+
+    const handlePopState = () => {
+      isPushed = false;
+      setIsOpen(false);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      if (isPushed && history.state?.customSelectOpen) {
+        history.back();
+      }
+    };
+  }, [isOpen]);
+
+  let selectedOption: OptionWithDesc | undefined;
+  for (const g of groups) {
+    const found = g.options.find((o) => o.value === value);
+    if (found) {
+      selectedOption = found;
+      break;
+    }
+  }
+
+  const selectedLabel = selectedOption ? selectedOption.label : (value === "Custom" && customValue ? `Custom: ${customValue}` : value);
+  const selectedDesc = selectedOption ? selectedOption.desc : (value === "Custom" ? "Custom user input" : "");
+
+  const filteredGroups = groups
+    .map((group) => {
+      if (selectedCategoryFilter !== "ALL" && group.category !== selectedCategoryFilter) {
+        return { ...group, options: [] };
+      }
+      const filteredOptions = group.options.filter((opt) => {
+        const q = searchQuery.toLowerCase().trim();
+        if (!q) return true;
+        return (
+          opt.label.toLowerCase().includes(q) ||
+          opt.value.toLowerCase().includes(q) ||
+          (opt.desc && opt.desc.toLowerCase().includes(q))
+        );
+      });
+      return { ...group, options: filteredOptions };
+    })
+    .filter((group) => group.options.length > 0);
+
+  const totalFilteredCount = filteredGroups.reduce((acc, g) => acc + g.options.length, 0);
+
+  return (
+    <div className="space-y-1.5 w-full">
+      <label className={`text-xs font-black uppercase tracking-wider block ${
+        isLight ? "text-slate-900" : "text-slate-300"
+      }`}>
+        <span className="flex items-center gap-1.5">
+          {icon && <span>{icon}</span>}
+          <span>{label}</span>
+        </span>
+      </label>
+
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={`w-full p-3 sm:p-3.5 rounded-2xl border text-left transition-all shadow-md touch-manipulation active:scale-[0.98] group flex flex-col justify-between gap-1 min-h-[58px] ${
+          isLight
+            ? "bg-white border-slate-300 hover:border-purple-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-slate-900 shadow-xs"
+            : "bg-slate-950 border-white/10 hover:border-purple-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 text-white"
+        }`}
+      >
+        <div className="flex items-center justify-between gap-2 w-full">
+          <span className={`text-xs sm:text-sm truncate transition-colors ${
+            isLight ? "font-extrabold text-slate-900 group-hover:text-purple-700" : "font-bold text-white group-hover:text-purple-300"
+          }`}>
+            {selectedLabel}
+          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+              isLight ? "bg-purple-50 border-purple-200 text-purple-800" : "bg-purple-950/80 border-purple-500/30 text-purple-300"
+            }`}>
+              Change
+            </span>
+            <ChevronDown className="w-4 h-4 text-purple-500 group-hover:translate-y-0.5 transition-transform" />
+          </div>
+        </div>
+        {selectedDesc && (
+          <p className={`text-[11px] truncate w-full ${isLight ? "text-slate-600 font-semibold" : "text-slate-400 font-normal"}`}>
+            {selectedDesc}
+          </p>
+        )}
+      </button>
+
+      {value === "Custom" && onCustomChange && (
+        <input
+          type="text"
+          value={customValue || ""}
+          onChange={(e) => onCustomChange(e.target.value)}
+          placeholder={customPlaceholder || `Type custom ${label.toLowerCase()}...`}
+          className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
+            isLight
+              ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-xs focus:ring-2 focus:ring-purple-500/20"
+              : "bg-slate-950 border-white/10 text-white placeholder-slate-500 focus:ring-2 focus:ring-purple-500/50"
+          }`}
+        />
+      )}
+
+      {isOpen && (
+        <div className="fixed inset-0 z-[999999] flex flex-col justify-end sm:justify-center bg-black/80 backdrop-blur-md p-0 sm:p-4 animate-in fade-in duration-200">
+          <div className="absolute inset-0 -z-10" onClick={() => setIsOpen(false)} />
+
+          <div
+            ref={containerRef}
+            className={`w-full sm:max-w-2xl sm:mx-auto h-[90vh] sm:h-[85vh] max-h-[90vh] rounded-t-3xl sm:rounded-3xl border shadow-2xl flex flex-col overflow-hidden relative font-sans ${
+              isLight ? "bg-white border-zinc-300 text-zinc-900" : "bg-zinc-900 border-zinc-700 text-zinc-100"
+            }`}
+          >
+            <div className={`p-4 sm:p-5 border-b sticky top-0 z-30 space-y-3 ${
+              isLight ? "bg-zinc-100 border-zinc-200 text-zinc-900" : "bg-zinc-950 border-zinc-800 text-white"
+            }`}>
+              <div className={`w-12 h-1.5 rounded-full mx-auto sm:hidden -mt-1 mb-1 ${
+                isLight ? "bg-zinc-400" : "bg-zinc-700"
+              }`} />
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl sm:text-2xl">{icon || "✨"}</span>
+                  <div>
+                    <h3 className={`text-base sm:text-lg font-extrabold leading-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
+                      Select {label}
+                    </h3>
+                    <p className={`text-[11px] sm:text-xs font-semibold ${isLight ? "text-zinc-600" : "text-purple-300/80"}`}>
+                      Current: <span className={`font-black ${isLight ? "text-zinc-950" : "text-white"}`}>{selectedLabel}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className={`p-2 sm:p-2.5 rounded-full transition-colors cursor-pointer active:scale-95 shrink-0 ${
+                    isLight
+                      ? "bg-zinc-200 hover:bg-zinc-300 text-zinc-800"
+                      : "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white"
+                  }`}
+                  title="Close option selector"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="relative flex items-center">
+                <Search className="w-4 h-4 text-purple-500 absolute left-3.5 pointer-events-none" />
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  inputMode="search"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={`Search ${label.toLowerCase()} options...`}
+                  className={`w-full pl-10 pr-9 py-2.5 rounded-2xl border text-xs sm:text-sm font-bold transition-all focus:outline-none ${
+                    isLight
+                      ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 shadow-xs"
+                      : "bg-zinc-950 border-zinc-700 text-white placeholder-zinc-500 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20"
+                  }`}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 p-1 text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-white font-bold cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {groups.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar scroll-smooth touch-pan-x">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategoryFilter("ALL")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      selectedCategoryFilter === "ALL"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-500/30"
+                        : isLight
+                        ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 border border-zinc-300"
+                        : "bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700"
+                    }`}
+                  >
+                    All ({groups.reduce((acc, g) => acc + g.options.length, 0)})
+                  </button>
+                  {groups.map((g) => (
+                    <button
+                      key={g.category}
+                      type="button"
+                      onClick={() => setSelectedCategoryFilter(g.category)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                        selectedCategoryFilter === g.category
+                          ? "bg-purple-600 text-white shadow-md shadow-purple-500/30"
+                          : isLight
+                          ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 border border-zinc-300"
+                          : "bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700"
+                      }`}
+                    >
+                      {g.category} ({g.options.length})
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div
+              className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-5 overscroll-contain scrollbar-thin scrollbar-thumb-purple-500/40 pb-36 sm:pb-8 touch-pan-y"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
+              {totalFilteredCount === 0 ? (
+                <div className="p-8 text-center text-sm text-slate-400 font-medium space-y-3">
+                  <p>No matching options for &quot;{searchQuery}&quot;</p>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-bold"
+                  >
+                    Clear Search
+                  </button>
+                </div>
+              ) : (
+                filteredGroups.map((group) => (
+                  <div key={group.category} className="space-y-2.5">
+                    {groups.length > 1 && (
+                      <div className={`px-3 py-2 text-xs font-extrabold uppercase tracking-wider border-b sticky top-0 backdrop-blur-md z-10 flex items-center justify-between ${
+                        isLight ? "bg-zinc-100/95 border-zinc-200 text-zinc-900" : "bg-zinc-900/95 border-zinc-800 text-purple-400"
+                      }`}>
+                        <span>{group.category}</span>
+                        <span className={`text-[10px] font-semibold ${isLight ? "text-zinc-600" : "text-purple-300/70"}`}>
+                          {group.options.length} options
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {group.options.map((opt) => {
+                        const isSelected = opt.value === value;
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => {
+                              onChange(opt.value);
+                              setIsOpen(false);
+                            }}
+                            className={`p-3.5 rounded-2xl border text-left transition-all duration-150 flex flex-col justify-between gap-1.5 cursor-pointer touch-manipulation active:scale-[0.97] ${
+                              isSelected
+                                ? "bg-gradient-to-r from-purple-600 to-indigo-600 border-purple-400 text-white shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/50"
+                                : isLight
+                                ? "bg-zinc-50 hover:bg-zinc-100 border-zinc-300 text-zinc-900 hover:border-purple-400"
+                                : "bg-zinc-950/80 hover:bg-zinc-800/90 border-zinc-800 text-zinc-100 hover:border-purple-500/50"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-2 w-full">
+                              <span className={`text-xs sm:text-sm font-bold leading-snug ${isSelected ? "text-white" : isLight ? "text-zinc-900" : "text-white"}`}>
+                                {opt.label}
+                              </span>
+                              <div className="flex items-center gap-1 shrink-0">
+                                {opt.tag && (
+                                  <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
+                                    isSelected
+                                      ? "bg-white/20 border-white/30 text-white"
+                                      : isLight
+                                      ? "bg-purple-50 border-purple-200 text-purple-800"
+                                      : "bg-purple-950/80 border-purple-500/30 text-purple-300"
+                                  }`}>
+                                    {opt.tag}
+                                  </span>
+                                )}
+                                {isSelected && <Check className="w-4 h-4 text-white shrink-0" />}
+                              </div>
+                            </div>
+                            {opt.desc && (
+                              <p className={`text-[11px] leading-tight ${isSelected ? "text-purple-100" : isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                                {opt.desc}
+                              </p>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function NanoProGenerator() {
   const { isLight } = useTheme();
@@ -3065,6 +3810,27 @@ export default function NanoProGenerator() {
   const [shyDisableImage, setShyDisableImage] = useState(false);
   const [shyTextStyle, setShyTextStyle] = useState("Elegant Calligraphy & Serif Mix");
   const [shyMood, setShyMood] = useState("Melancholy & Romantic");
+
+  // Custom Input States for FB & Shayari Tabs
+  const [customFbCharacterStyle, setCustomFbCharacterStyle] = useState("");
+  const [customFbColorTheme, setCustomFbColorTheme] = useState("");
+  const [customFbLayout, setCustomFbLayout] = useState("");
+  const [customFbFormat, setCustomFbFormat] = useState("");
+  const [customFbTextStyle, setCustomFbTextStyle] = useState("");
+  const [customFbDecorations, setCustomFbDecorations] = useState("");
+  const [customFbBackground, setCustomFbBackground] = useState("");
+  const [customFbMood, setCustomFbMood] = useState("");
+  const [customFbAge, setCustomFbAge] = useState("");
+  const [customFbNationality, setCustomFbNationality] = useState("");
+  const [customFbComplexion, setCustomFbComplexion] = useState("");
+
+  const [customShyCharacterStyle, setCustomShyCharacterStyle] = useState("");
+  const [customShyArtStyle, setCustomShyArtStyle] = useState("");
+  const [customShyColorTheme, setCustomShyColorTheme] = useState("");
+  const [customShyLayout, setCustomShyLayout] = useState("");
+  const [customShyFormat, setCustomShyFormat] = useState("");
+  const [customShyTextStyle, setCustomShyTextStyle] = useState("");
+  const [customShyMood, setCustomShyMood] = useState("");
 
   const [promptHistory, setPromptHistory] = useState<any[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
@@ -3220,8 +3986,8 @@ export default function NanoProGenerator() {
     setIsLoadingLibrary(true);
     try {
       const res = await fetch("/api/characters");
-      const data = await res.json();
-      if (data.characters) {
+      const data = await safeJsonResponse(res);
+      if (data && data.characters) {
         setSavedCharacters(data.characters);
       }
     } catch (error) {
@@ -3346,17 +4112,17 @@ export default function NanoProGenerator() {
       if (activeTab === "fb-post") {
         parameters = {
           quoteText: fbQuoteText,
-          characterStyle: fbCharacterStyle,
-          colorTheme: fbColorTheme,
-          layout: fbLayout,
-          format: fbFormat,
-          textStyle: fbTextStyle,
-          decorations: fbDecorations,
-          background: fbBackground,
-          mood: fbMood,
-          age: fbAge,
-          nationality: fbNationality,
-          complexion: fbComplexion,
+          characterStyle: fbCharacterStyle === "Custom" ? customFbCharacterStyle : fbCharacterStyle,
+          colorTheme: fbColorTheme === "Custom" ? customFbColorTheme : fbColorTheme,
+          layout: fbLayout === "Custom" ? customFbLayout : fbLayout,
+          format: fbFormat === "Custom" ? customFbFormat : fbFormat,
+          textStyle: fbTextStyle === "Custom" ? customFbTextStyle : fbTextStyle,
+          decorations: fbDecorations === "Custom" ? customFbDecorations : fbDecorations,
+          background: fbBackground === "Custom" ? customFbBackground : fbBackground,
+          mood: fbMood === "Custom" ? customFbMood : fbMood,
+          age: fbAge === "Custom" ? customFbAge : fbAge,
+          nationality: fbNationality === "Custom" ? customFbNationality : fbNationality,
+          complexion: fbComplexion === "Custom" ? customFbComplexion : fbComplexion,
           disableQuote: fbDisableQuote,
           disableImage: fbDisableImage,
         };
@@ -3368,15 +4134,15 @@ export default function NanoProGenerator() {
       } else if (activeTab === "shayari-post") {
         parameters = {
           quoteText: shyQuoteText,
-          characterStyle: shyCharacterStyle,
-          artStyle: shyArtStyle,
-          colorTheme: shyColorTheme,
-          layout: shyLayout,
-          format: shyFormat,
+          characterStyle: shyCharacterStyle === "Custom" ? customShyCharacterStyle : shyCharacterStyle,
+          artStyle: shyArtStyle === "Custom" ? customShyArtStyle : shyArtStyle,
+          colorTheme: shyColorTheme === "Custom" ? customShyColorTheme : shyColorTheme,
+          layout: shyLayout === "Custom" ? customShyLayout : shyLayout,
+          format: shyFormat === "Custom" ? customShyFormat : shyFormat,
           disableQuote: shyDisableQuote,
           disableImage: shyDisableImage,
-          textStyle: shyTextStyle,
-          mood: shyMood,
+          textStyle: shyTextStyle === "Custom" ? customShyTextStyle : shyTextStyle,
+          mood: shyMood === "Custom" ? customShyMood : shyMood,
         };
         res = await fetch("/api/generate-shayari-post", {
           method: "POST",
@@ -3406,8 +4172,8 @@ export default function NanoProGenerator() {
         });
       }
 
-      const data = await res.json();
-      if (data.prompt) {
+      const data = await safeJsonResponse(res);
+      if (data && data.prompt) {
         setGeneratedPrompt(data.prompt);
         // Store FB/Shayari specific fields if present
         if (activeTab === "fb-post" || activeTab === "shayari-post") {
@@ -3583,342 +4349,107 @@ export default function NanoProGenerator() {
                 {activeTab === "character" ? (
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Visual Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Visual Style
-                        </label>
-                        <select
-                          value={visualStyle}
-                          onChange={(e) => setVisualStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          {VISUAL_STYLES.map(style => (
-                            <option key={style.value} value={style.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>{style.label}</option>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {visualStyle === "Custom" && (
-                          <input
-                            type="text"
-                            value={customVisualStyle}
-                            onChange={(e) => setCustomVisualStyle(e.target.value)}
-                            placeholder="e.g. Vintage 1950s comic book style..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
-                      
-                      {/* Aspect Ratio */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Aspect Ratio
-                        </label>
-                        <select
-                          value={aspectRatio}
-                          onChange={(e) => setAspectRatio(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="9:16" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>9:16 (Vertical - Shorts/TikTok)</option>
-                          <option value="16:9" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>16:9 (Horizontal - YouTube)</option>
-                          <option value="1:1" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>1:1 (Square - Instagram)</option>
-                          <option value="4:3" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>4:3 (Standard)</option>
-                          <option value="21:9" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>21:9 (Ultrawide Cinematic)</option>
-                          <option value="4:5" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>4:5 (Instagram Portrait)</option>
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {aspectRatio === "Custom" && (
-                          <input
-                            type="text"
-                            value={customAspectRatio}
-                            onChange={(e) => setCustomAspectRatio(e.target.value)}
-                            placeholder="e.g. 9:16 or 2:3..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
+                      <CustomSelect
+                        label="Visual Style"
+                        icon="🎨"
+                        value={visualStyle}
+                        onChange={setVisualStyle}
+                        groups={VISUAL_STYLE_GROUPS}
+                        customValue={customVisualStyle}
+                        onCustomChange={setCustomVisualStyle}
+                        customPlaceholder="e.g. Vintage 1950s comic book style..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Aspect Ratio"
+                        icon="📐"
+                        value={aspectRatio}
+                        onChange={setAspectRatio}
+                        groups={ASPECT_RATIO_GROUPS}
+                        customValue={customAspectRatio}
+                        onCustomChange={setCustomAspectRatio}
+                        customPlaceholder="e.g. 9:16 or 2:3..."
+                        isLight={isLight}
+                        showDefaultAi={false}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Character Type */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Character Type
-                        </label>
-                        <select
-                          value={characterType}
-                          onChange={(e) => setCharacterType(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {CHARACTER_TYPE_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {characterType === "Custom" && (
-                          <input
-                            type="text"
-                            value={customCharacterType}
-                            onChange={(e) => setCustomCharacterType(e.target.value)}
-                            placeholder="e.g. Candy boy..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
-
-                      {/* Clothing / Dressing */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Clothing / Dressing
-                        </label>
-                        <select
-                          value={clothing}
-                          onChange={(e) => setClothing(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {CLOTHING_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {clothing === "Custom" && (
-                          <input
-                            type="text"
-                            value={customClothing}
-                            onChange={(e) => setCustomClothing(e.target.value)}
-                            placeholder="e.g. Red hoodie and blue jeans..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
+                      <CustomSelect
+                        label="Character Type"
+                        icon="👤"
+                        value={characterType}
+                        onChange={setCharacterType}
+                        groups={CHARACTER_TYPE_GROUPS}
+                        customValue={customCharacterType}
+                        onCustomChange={setCustomCharacterType}
+                        customPlaceholder="e.g. Candy boy..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Clothing / Dressing"
+                        icon="👕"
+                        value={clothing}
+                        onChange={setClothing}
+                        groups={CLOTHING_GROUPS}
+                        customValue={customClothing}
+                        onCustomChange={setCustomClothing}
+                        customPlaceholder="e.g. Red hoodie and blue jeans..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Age */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Age
-                        </label>
-                        <select
-                          value={age}
-                          onChange={(e) => setAge(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {AGE_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {age === "Custom" && (
-                          <input
-                            type="text"
-                            value={customAge}
-                            onChange={(e) => setCustomAge(e.target.value)}
-                            placeholder="e.g. Around 40 but looks 20..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
-
-                      {/* Nationality / Ethnicity */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Nationality / Ethnicity
-                        </label>
-                        <select
-                          value={nationality}
-                          onChange={(e) => setNationality(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {NATIONALITY_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {nationality === "Custom" && (
-                          <input
-                            type="text"
-                            value={customNationality}
-                            onChange={(e) => setCustomNationality(e.target.value)}
-                            placeholder="e.g. Cybernetic Martian..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
+                      <CustomSelect
+                        label="Age"
+                        icon="🎂"
+                        value={age}
+                        onChange={setAge}
+                        groups={AGE_GROUPS}
+                        customValue={customAge}
+                        onCustomChange={setCustomAge}
+                        customPlaceholder="e.g. Around 40 but looks 20..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Nationality / Ethnicity"
+                        icon="🌍"
+                        value={nationality}
+                        onChange={setNationality}
+                        groups={NATIONALITY_GROUPS}
+                        customValue={customNationality}
+                        onCustomChange={setCustomNationality}
+                        customPlaceholder="e.g. Cybernetic Martian..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Skin Tone / Complexion */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Skin Tone / Complexion
-                        </label>
-                        <select
-                          value={complexion}
-                          onChange={(e) => setComplexion(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {COMPLEXION_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white font-normal"}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Custom...</option>
-                        </select>
-                        {complexion === "Custom" && (
-                          <input
-                            type="text"
-                            value={customComplexion}
-                            onChange={(e) => setCustomComplexion(e.target.value)}
-                            placeholder="e.g. Pale with freckles..."
-                            className={`w-full mt-2 rounded-xl px-3 py-2.5 text-sm border font-bold ${
-                              isLight
-                                ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 shadow-sm"
-                                : "bg-slate-950 border-white/10 text-white placeholder-slate-500"
-                            }`}
-                          />
-                        )}
-                      </div>
-                      
-                      {/* Background Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>
-                          Background Style
-                        </label>
-                        <select
-                          value={backgroundStyle}
-                          onChange={(e) => setBackgroundStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-bold border transition-all appearance-none focus:outline-none ${
-                            isLight
-                              ? "bg-white border-slate-300 text-slate-900 shadow-sm focus:ring-2 focus:ring-purple-500/20"
-                              : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
-                          }`}
-                        >
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                          {BACKGROUND_GROUPS.map((group, idx) => (
-                            <optgroup key={idx} label={group.category} className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300 font-bold"}>
-                              {group.options.map(opt => (
-                                <option key={opt.value} value={opt.value} className="bg-slate-950 text-white font-normal">
-                                  {opt.label}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
-                          <option value="Custom">Custom...</option>
-                        </select>
-                        {backgroundStyle === "Custom" && (
-                          <input
-                            type="text"
-                            value={customBackgroundStyle}
-                            onChange={(e) => setCustomBackgroundStyle(e.target.value)}
-                            placeholder="e.g. A busy futuristic street..."
-                            className="w-full mt-2 bg-slate-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                          />
-                        )}
-                      </div>
+                      <CustomSelect
+                        label="Skin Tone / Complexion"
+                        icon="✨"
+                        value={complexion}
+                        onChange={setComplexion}
+                        groups={COMPLEXION_GROUPS}
+                        customValue={customComplexion}
+                        onCustomChange={setCustomComplexion}
+                        customPlaceholder="e.g. Pale with freckles..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Background Style"
+                        icon="🏙️"
+                        value={backgroundStyle}
+                        onChange={setBackgroundStyle}
+                        groups={BACKGROUND_GROUPS}
+                        customValue={customBackgroundStyle}
+                        onCustomChange={setCustomBackgroundStyle}
+                        customPlaceholder="e.g. A busy futuristic street..."
+                        isLight={isLight}
+                      />
                     </div>
-                  </div>) : activeTab === "fb-post" ? (
+                  </div>
+                ) : activeTab === "fb-post" ? (
                   <div className="space-y-5">
 
                     {/* Quote / Message Text */}
@@ -4033,332 +4564,143 @@ export default function NanoProGenerator() {
                     )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Character Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Character Style</label>
-                        <select
-                          value={fbCharacterStyle}
-                          onChange={(e) => setFbCharacterStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Photorealistic Realistic Girl (Natural Eyes & Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌟 Photorealistic Realistic Girl (Natural Eyes & Proportions)</option>
-                          <option value="Photorealistic Realistic Boy (Natural Eyes & Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌟 Photorealistic Realistic Boy (Natural Eyes & Proportions)</option>
-                          <option value="3D Animation Girl (Natural Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ 3D Animation Girl (Natural Proportions)</option>
-                          <option value="3D Animation Boy (Natural Proportions)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ 3D Animation Boy (Natural Proportions)</option>
-                          <option value="Chibi Anime Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Girl (Anime style)</option>
-                          <option value="Chibi Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Chibi Anime Boy (Anime style)</option>
-                          <option value="3D Cartoon Doll Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Girl (Pixar-like)</option>
-                          <option value="3D Cartoon Doll Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Doll Boy (Pixar-like)</option>
-                          <option value="3D Cartoon Islamic Girl (Hijab)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Islamic Girl (Hijab)</option>
-                          <option value="3D Cartoon Islamic Boy (Kufi)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Islamic Boy (Kufi/Thobe)</option>
-                          <option value="3D Cartoon Korean Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Korean Girl (K-Pop Style)</option>
-                          <option value="3D Cartoon Korean Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Korean Boy (K-Pop Style)</option>
-                          <option value="Handsome Anime Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Handsome Anime Boy (Cool & Stylish)</option>
-                          <option value="Cute Gamer Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cute Gamer Boy (Headphones, Hoodie)</option>
-                          <option value="3D Cartoon Desi Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>3D Cartoon Desi Boy (Kurta/Shalwar Kameez)</option>
-                          <option value="Streetwear Swag Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Streetwear Swag Boy (Cap, Sneakers, Jacket)</option>
-                          <option value="Sad Heartbroken Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Sad/Heartbroken Boy (Moody, Aesthetic)</option>
-                          <option value="Cute Little Chibi Doll" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cute Little Chibi Doll (Gender-neutral)</option>
-                          <option value="Stylized Illustration Girl" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Stylized Illustration Girl (Flat art)</option>
-                          <option value="Stylized Illustration Boy" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Stylized Illustration Boy (Flat art)</option>
-                          <option value="Realistic Cute Baby Doll" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Realistic Cute Baby Doll</option>
-                          <option value="No Character - Text Only" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>No Character – Text Only</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Mood / Attitude */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Mood / Attitude</label>
-                        <select
-                          value={fbMood}
-                          onChange={(e) => setFbMood(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Sassy & Confident" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😎 Sassy & Confident</option>
-                          <option value="Cute & Playful" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌸 Cute & Playful</option>
-                          <option value="Motivational & Empowering" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💪 Motivational & Empowering</option>
-                          <option value="Chill & Unbothered" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😌 Chill & Unbothered</option>
-                          <option value="Happy & Joyful" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😄 Happy & Joyful</option>
-                          <option value="Angry & Protective" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😤 Angry & Protective</option>
-                          <option value="Sad & Emotional" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>😢 Sad & Emotional</option>
-                          <option value="Mysterious & Cool" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🕶️ Mysterious & Cool</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Character Style"
+                        icon="👤"
+                        value={fbCharacterStyle}
+                        onChange={setFbCharacterStyle}
+                        groups={FB_CHARACTER_STYLE_GROUPS}
+                        customValue={customFbCharacterStyle}
+                        onCustomChange={setCustomFbCharacterStyle}
+                        customPlaceholder="e.g. Cute anime fairy girl..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Mood / Attitude"
+                        icon="😎"
+                        value={fbMood}
+                        onChange={setFbMood}
+                        groups={FB_MOOD_GROUPS}
+                        customValue={customFbMood}
+                        onCustomChange={setCustomFbMood}
+                        customPlaceholder="e.g. Super mischievous..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Character Age */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Character Age</label>
-                        <select
-                          value={fbAge}
-                          onChange={(e) => setFbAge(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Baby / Toddler (1-3 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>👶 Baby / Toddler (1–3 yrs)</option>
-                          <option value="Child (4-7 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧒 Child (4–7 yrs)</option>
-                          <option value="Child (6-10 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧒 Child (6–10 yrs)</option>
-                          <option value="Preteen (10-12 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧑 Preteen (10–12 yrs)</option>
-                          <option value="Teen (13-16 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧑‍🦱 Teen (13–16 yrs)</option>
-                          <option value="Young Adult (18-25 yrs)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>👩 Young Adult (18–25 yrs)</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Nationality / Ethnicity */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Nationality / Ethnicity</label>
-                        <select
-                          value={fbNationality}
-                          onChange={(e) => setFbNationality(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <optgroup label="South Asian" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
-                            <option value="Pakistani" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇵🇰 Pakistani</option>
-                            <option value="Indian" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇮🇳 Indian</option>
-                            <option value="Bangladeshi" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇧🇩 Bangladeshi</option>
-                            <option value="Sri Lankan" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇱🇰 Sri Lankan</option>
-                          </optgroup>
-                          <optgroup label="Middle Eastern" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
-                            <option value="Arab / Middle Eastern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇸🇦 Arab / Middle Eastern</option>
-                            <option value="Turkish" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇹🇷 Turkish</option>
-                            <option value="Persian / Iranian" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇮🇷 Persian / Iranian</option>
-                          </optgroup>
-                          <optgroup label="East Asian" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
-                            <option value="Korean" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇰🇷 Korean</option>
-                            <option value="Japanese" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇯🇵 Japanese</option>
-                            <option value="Chinese" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇨🇳 Chinese</option>
-                          </optgroup>
-                          <optgroup label="Western" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
-                            <option value="American / Western" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇺🇸 American / Western</option>
-                            <option value="European" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🇪🇺 European</option>
-                            <option value="Latin / Hispanic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌎 Latin / Hispanic</option>
-                          </optgroup>
-                          <optgroup label="African" className={isLight ? "bg-white text-slate-900 font-black" : "bg-slate-900 text-slate-300"}>
-                            <option value="African" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌍 African</option>
-                          </optgroup>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Character Age"
+                        icon="🎂"
+                        value={fbAge}
+                        onChange={setFbAge}
+                        groups={AGE_GROUPS}
+                        customValue={customFbAge}
+                        onCustomChange={setCustomFbAge}
+                        customPlaceholder="e.g. Toddler..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Nationality / Ethnicity"
+                        icon="🌍"
+                        value={fbNationality}
+                        onChange={setFbNationality}
+                        groups={NATIONALITY_GROUPS}
+                        customValue={customFbNationality}
+                        onCustomChange={setCustomFbNationality}
+                        customPlaceholder="e.g. Pakistani..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Complexion / Skin Tone */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Complexion / Skin Tone</label>
-                        <select
-                          value={fbComplexion}
-                          onChange={(e) => setFbComplexion(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Fair" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Fair / Light Skin</option>
-                          <option value="Wheatish" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Wheatish / Medium Skin</option>
-                          <option value="Olive" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Olive / Tanned Skin</option>
-                          <option value="Brown" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Brown / Dark Skin</option>
-                          <option value="Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Black / Very Dark Skin</option>
-                          <option value="Pale" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Pale / Porcelain</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Complexion / Skin Tone"
+                        icon="✨"
+                        value={fbComplexion}
+                        onChange={setFbComplexion}
+                        groups={COMPLEXION_GROUPS}
+                        customValue={customFbComplexion}
+                        onCustomChange={setCustomFbComplexion}
+                        customPlaceholder="e.g. Tanned skin..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Color Theme"
+                        icon="🎨"
+                        value={fbColorTheme}
+                        onChange={setFbColorTheme}
+                        groups={FB_COLOR_THEME_GROUPS}
+                        customValue={customFbColorTheme}
+                        onCustomChange={setCustomFbColorTheme}
+                        customPlaceholder="e.g. Rose Gold & Midnight Blue..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Color Theme */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Color Theme</label>
-                        <select
-                          value={fbColorTheme}
-                          onChange={(e) => setFbColorTheme(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Pink & Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🩷 Pink & Black (Girly Glam)</option>
-                          <option value="Teal & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🩵 Teal & White (Fresh & Clean)</option>
-                          <option value="Green & Cream" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💚 Green & Cream (Natural)</option>
-                          <option value="Black & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖤 Black & White (Edgy Minimal)</option>
-                          <option value="Purple & Gold" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💜 Purple & Gold (Royal)</option>
-                          <option value="Red & White" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>❤️ Red & White (Bold Love)</option>
-                          <option value="Blue & Pink" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💙 Blue & Pink (Kawaii Pastel)</option>
-                          <option value="Yellow & Black" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💛 Yellow & Black (Energetic)</option>
-                          <option value="Rainbow / Multicolor" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌈 Rainbow / Multicolor</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Text Typography Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Typography Style</label>
-                        <select
-                          value={fbTextStyle}
-                          onChange={(e) => setFbTextStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Bold Chunky Display + Handwritten Mix" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Bold Chunky + Handwritten Mix</option>
-                          <option value="Glitter 3D Metallic Letters" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Glitter 3D Metallic Letters</option>
-                          <option value="Stitched / Embroidery Effect Letters" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🧵 Stitched Embroidery Letters</option>
-                          <option value="Graffiti / Street Art Font" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎨 Graffiti / Street Art</option>
-                          <option value="Clean Sans-Serif Modern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🔤 Clean Sans-Serif Modern</option>
-                          <option value="Handwritten Brush Script" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✍️ Handwritten Brush Script</option>
-                          <option value="Highlighted Keywords with Pastel Boxes" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖍️ Highlighted Keyword Boxes</option>
-                          <option value="Mixed Sizes - Large Key Words Small Others" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Mixed Sizes (Large Keywords)</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Typography Style"
+                        icon="🔤"
+                        value={fbTextStyle}
+                        onChange={setFbTextStyle}
+                        groups={FB_TYPOGRAPHY_GROUPS}
+                        customValue={customFbTextStyle}
+                        onCustomChange={setCustomFbTextStyle}
+                        customPlaceholder="e.g. Neon glowing font..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Layout"
+                        icon="🖼️"
+                        value={fbLayout}
+                        onChange={setFbLayout}
+                        groups={FB_LAYOUT_GROUPS}
+                        customValue={customFbLayout}
+                        onCustomChange={setCustomFbLayout}
+                        customPlaceholder="e.g. Text top character bottom..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Layout */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Layout</label>
-                        <select
-                          value={fbLayout}
-                          onChange={(e) => setFbLayout(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Character Left, Text Right" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Left, Text Right</option>
-                          <option value="Character Right, Text Left" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Right, Text Left</option>
-                          <option value="Text Top, Character Bottom" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Top, Character Bottom</option>
-                          <option value="Character Bottom, Text Top Full Width" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Bottom, Text Top Full Width</option>
-                          <option value="Character Center with Text Surrounding" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Character Center, Text Surrounding</option>
-                          <option value="Full Background Character with Overlaid Text" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Full BG Character + Text Overlay</option>
-                          <option value="Text Only - No Character" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Only (No Character)</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Format */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Format / Aspect Ratio</label>
-                        <select
-                          value={fbFormat}
-                          onChange={(e) => setFbFormat(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="9:16 Mobile" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📱 9:16 Mobile / Stories (Recommended)</option>
-                          <option value="4:5 Portrait" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📸 4:5 Portrait (Facebook Feed)</option>
-                          <option value="1:1 Square" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ 1:1 Square (Instagram/Facebook)</option>
-                          <option value="16:9 Desktop" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖥️ 16:9 Desktop / Landscape</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Format / Aspect Ratio"
+                        icon="📱"
+                        value={fbFormat}
+                        onChange={setFbFormat}
+                        groups={FB_FORMAT_GROUPS}
+                        customValue={customFbFormat}
+                        onCustomChange={setCustomFbFormat}
+                        customPlaceholder="e.g. 9:16 Mobile..."
+                        isLight={isLight}
+                        showDefaultAi={false}
+                      />
+                      <CustomSelect
+                        label="Background"
+                        icon="🌅"
+                        value={fbBackground}
+                        onChange={setFbBackground}
+                        groups={FB_BACKGROUND_GROUPS}
+                        customValue={customFbBackground}
+                        onCustomChange={setCustomFbBackground}
+                        customPlaceholder="e.g. Blurred city lights..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Background */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Background</label>
-                        <select
-                          value={fbBackground}
-                          onChange={(e) => setFbBackground(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Soft Gradient" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌅 Soft Gradient</option>
-                          <option value="Textured Painted Canvas" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎨 Textured Painted Canvas</option>
-                          <option value="Clean White / Minimal" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ Clean White / Minimal</option>
-                          <option value="Bokeh Blurred" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Bokeh Blurred</option>
-                          <option value="Glitter / Sparkle Pattern" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💎 Glitter / Sparkle Pattern</option>
-                          <option value="Watercolor Wash" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖌️ Watercolor Wash</option>
-                          <option value="Solid Bold Color" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🟥 Solid Bold Color</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Decorative Elements */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Decorative Elements</label>
-                        <select
-                          value={fbDecorations}
-                          onChange={(e) => setFbDecorations(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-pink-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-pink-500/50"
-                          }`}
-                        >
-                          <option value="Hearts & Sparkles" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>💕 Hearts & Sparkles</option>
-                          <option value="Butterflies & Flowers" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🦋 Butterflies & Flowers</option>
-                          <option value="Stars & Crowns" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⭐ Stars & Crowns</option>
-                          <option value="Doodles & Hand-drawn Icons" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✏️ Doodles & Hand-drawn Icons</option>
-                          <option value="Balloons & Confetti" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎈 Balloons & Confetti</option>
-                          <option value="Lightning Bolts & Fire" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⚡ Lightning & Fire</option>
-                          <option value="Minimal - No Decorations" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✖️ Minimal – No Decorations</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Decorative Elements"
+                        icon="✨"
+                        value={fbDecorations}
+                        onChange={setFbDecorations}
+                        groups={FB_DECORATION_GROUPS}
+                        customValue={customFbDecorations}
+                        onCustomChange={setCustomFbDecorations}
+                        customPlaceholder="e.g. Floating red roses..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     {/* Style reference note */}
@@ -4494,155 +4836,79 @@ export default function NanoProGenerator() {
                     )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Art Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Art Style</label>
-                        <select
-                          value={shyArtStyle}
-                          onChange={(e) => setShyArtStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="Cinematic Silhouette" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Cinematic Silhouette</option>
-                          <option value="Moody Rain & Window Drops" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Moody Rain & Window Drops</option>
-                          <option value="Double Exposure Nature" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Double Exposure Nature</option>
-                          <option value="Soft Ethereal Watercolor" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Soft Ethereal Watercolor</option>
-                          <option value="Vintage Film & Light Leaks" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Vintage Film & Light Leaks</option>
-                          <option value="Neon City Reflections" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Neon City Reflections</option>
-                          <option value="Minimalist Line Art" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Minimalist Line Art</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Mood / Feeling */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Mood / Feeling</label>
-                        <select
-                          value={shyMood}
-                          onChange={(e) => setShyMood(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="Melancholy & Romantic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🥀 Melancholy & Romantic</option>
-                          <option value="Deep & Philosophical" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌙 Deep & Philosophical</option>
-                          <option value="Heartbroken & Solitary" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌧️ Heartbroken & Solitary</option>
-                          <option value="Peaceful & Ethereal" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>✨ Peaceful & Ethereal</option>
-                          <option value="Nostalgic & Warm" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🕰️ Nostalgic & Warm</option>
-                          <option value="Passionate & Intense" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🔥 Passionate & Intense</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Art Style"
+                        icon="🎨"
+                        value={shyArtStyle}
+                        onChange={setShyArtStyle}
+                        groups={SHY_ART_STYLE_GROUPS}
+                        customValue={customShyArtStyle}
+                        onCustomChange={setCustomShyArtStyle}
+                        customPlaceholder="e.g. Moonlight oil painting..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Mood / Feeling"
+                        icon="🥀"
+                        value={shyMood}
+                        onChange={setShyMood}
+                        groups={SHY_MOOD_GROUPS}
+                        customValue={customShyMood}
+                        onCustomChange={setCustomShyMood}
+                        customPlaceholder="e.g. Bittersweet nostalgic longing..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Color Theme */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Color Theme</label>
-                        <select
-                          value={shyColorTheme}
-                          onChange={(e) => setShyColorTheme(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="Moody Monochromatic" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖤 Moody Monochromatic (B&W)</option>
-                          <option value="Deep Blues & Cyan" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌌 Deep Blues & Cyan</option>
-                          <option value="Warm Golden Hour" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌇 Warm Golden Hour</option>
-                          <option value="Faded Vintage Sepia" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🎞️ Faded Vintage Sepia</option>
-                          <option value="Dark Reds & Shadows" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🍷 Dark Reds & Shadows</option>
-                          <option value="Muted Pastels" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🌸 Muted Pastels</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Typography Style */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Typography Style</label>
-                        <select
-                          value={shyTextStyle}
-                          onChange={(e) => setShyTextStyle(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="Elegant Calligraphy & Serif Mix" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Elegant Calligraphy & Serif Mix</option>
-                          <option value="Delicate Handwritten Script" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Delicate Handwritten Script</option>
-                          <option value="Vintage Typewriter Ink" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Vintage Typewriter Ink</option>
-                          <option value="Glowing Neon Sign" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Glowing Neon Sign</option>
-                          <option value="Faded Distressed Stencil" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Faded Distressed Stencil</option>
-                          <option value="Clean Minimalist Sans" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Clean Minimalist Sans</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Color Theme"
+                        icon="🌌"
+                        value={shyColorTheme}
+                        onChange={setShyColorTheme}
+                        groups={SHY_COLOR_THEME_GROUPS}
+                        customValue={customShyColorTheme}
+                        onCustomChange={setCustomShyColorTheme}
+                        customPlaceholder="e.g. Midnight Violet & Gold..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Typography Style"
+                        icon="✍️"
+                        value={shyTextStyle}
+                        onChange={setShyTextStyle}
+                        groups={SHY_TYPOGRAPHY_GROUPS}
+                        customValue={customShyTextStyle}
+                        onCustomChange={setCustomShyTextStyle}
+                        customPlaceholder="e.g. Gold foil calligraphic..."
+                        isLight={isLight}
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                      {/* Layout */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Layout / Composition</label>
-                        <select
-                          value={shyLayout}
-                          onChange={(e) => setShyLayout(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="Centered Poetry" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Centered Poetry</option>
-                          <option value="Text in Negative Space (Sky/Water)" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text in Negative Space</option>
-                          <option value="Split Screen: Art Top, Text Bottom" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Split Screen: Art Top, Text Bottom</option>
-                          <option value="Text Overlaid on Silhouettes" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Text Overlaid on Silhouettes</option>
-                          <option value="Any / AI Decides" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>Any / AI Decides</option>
-                        </select>
-                      </div>
-
-                      {/* Format */}
-                      <div className="space-y-1.5">
-                        <label className={`text-xs font-black uppercase tracking-wider block ${
-                          isLight ? "text-slate-900" : "text-slate-300"
-                        }`}>Format / Aspect Ratio</label>
-                        <select
-                          value={shyFormat}
-                          onChange={(e) => setShyFormat(e.target.value)}
-                          className={`w-full rounded-xl px-3 py-2.5 text-sm font-black appearance-none focus:outline-none transition-all ${
-                            isLight
-                              ? "bg-white border-2 border-slate-300 text-slate-900 shadow-xs focus:ring-2 focus:ring-rose-500/20"
-                              : "bg-slate-950 border border-white/10 text-white focus:ring-2 focus:ring-rose-500/50"
-                          }`}
-                        >
-                          <option value="9:16 Mobile" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📱 9:16 Mobile / Reels</option>
-                          <option value="4:5 Portrait" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>📸 4:5 Portrait</option>
-                          <option value="1:1 Square" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>⬜ 1:1 Square</option>
-                          <option value="16:9 Desktop" className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>🖥️ 16:9 Desktop</option>
-                        </select>
-                      </div>
-
+                      <CustomSelect
+                        label="Layout / Composition"
+                        icon="🖼️"
+                        value={shyLayout}
+                        onChange={setShyLayout}
+                        groups={SHY_LAYOUT_GROUPS}
+                        customValue={customShyLayout}
+                        onCustomChange={setCustomShyLayout}
+                        customPlaceholder="e.g. Diagonal text overlay..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Format / Aspect Ratio"
+                        icon="📱"
+                        value={shyFormat}
+                        onChange={setShyFormat}
+                        groups={SHY_FORMAT_GROUPS}
+                        customValue={customShyFormat}
+                        onCustomChange={setCustomShyFormat}
+                        customPlaceholder="e.g. 9:16 Mobile..."
+                        isLight={isLight}
+                        showDefaultAi={false}
+                      />
                     </div>
 
                     {/* Style reference note */}

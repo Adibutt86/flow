@@ -10,7 +10,7 @@ import { VariationsModal } from "@/components/storyboard/VariationsModal";
 import { CreationWizard } from "@/components/wizard/CreationWizard";
 import { useToast } from "@/components/ui/Toast";
 import { getCategoryConfig } from "@/lib/categories";
-import { copyToClipboard } from "@/lib/utils";
+import { copyToClipboard, safeJsonResponse } from "@/lib/utils";
 import { StorySourceBadge } from "@/components/common/StorySourceBadge";
 import { useUser } from "@/context/UserContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -53,11 +53,11 @@ export default function ProjectEditorPage({
   const fetchProject = async () => {
     try {
       const res = await fetch(`/api/projects/${id}`);
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const data = await safeJsonResponse(res);
+      if (res.ok && data?.success) {
         setProject(data.project);
       } else {
-        throw new Error(data.error || "Failed to load project");
+        throw new Error(data?.error || "Failed to load project");
       }
     } catch (e: any) {
       showToast(e.message || "Failed to load project details", "error");
@@ -76,9 +76,9 @@ export default function ProjectEditorPage({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userPromptToRegen: prompt }),
     });
-    const data = await res.json();
-    if (!res.ok || !data.success) {
-      throw new Error(data.error || "Scene regeneration failed");
+    const data = await safeJsonResponse(res);
+    if (!res.ok || !data?.success) {
+      throw new Error(data?.error || "Scene regeneration failed");
     }
     // Update local scene state
     setProject((prev: any) => ({
@@ -93,9 +93,9 @@ export default function ProjectEditorPage({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
     });
-    const data = await res.json();
-    if (!res.ok || !data.success) {
-      throw new Error(data.error || "Failed to update scene");
+    const data = await safeJsonResponse(res);
+    if (!res.ok || !data?.success) {
+      throw new Error(data?.error || "Failed to update scene");
     }
     setProject((prev: any) => ({
       ...prev,
@@ -109,8 +109,8 @@ export default function ProjectEditorPage({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ locked: !currentLock }),
     });
-    const data = await res.json();
-    if (res.ok && data.success) {
+    const data = await safeJsonResponse(res);
+    if (res.ok && data?.success) {
       setProject((prev: any) => ({
         ...prev,
         characters: prev.characters.map((c: any) => (c.id === charId ? data.character : c)),
@@ -124,9 +124,9 @@ export default function ProjectEditorPage({
     setIsRegeneratingAll(true);
     try {
       const res = await fetch(`/api/projects/${id}/generate`, { method: "POST" });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Regeneration failed");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.error || "Regeneration failed");
       }
       setProject(data.project);
       showToast("Full project blueprint regenerated successfully!", "success");
@@ -148,11 +148,11 @@ export default function ProjectEditorPage({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatePayload),
     });
-    const data = await res.json();
-    if (res.ok && data.success) {
+    const data = await safeJsonResponse(res);
+    if (res.ok && data?.success) {
       setProject(data.project);
     } else {
-      throw new Error(data.error || "Failed to update project variation");
+      throw new Error(data?.error || "Failed to update project variation");
     }
   };
 

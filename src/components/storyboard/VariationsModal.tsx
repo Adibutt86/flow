@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Sparkles, Loader2, Check, X, Wand2, RefreshCw } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
+import { safeJsonResponse } from "@/lib/utils";
 
 interface VariationsModalProps {
   isOpen: boolean;
@@ -49,9 +50,9 @@ export function VariationsModal({
           currentValue: type === "hooks" ? currentHook : type === "endings" ? currentEnding : undefined,
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to generate variations");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success) {
+        throw new Error(data?.error || "Failed to generate variations");
       }
       setVariations(data.variations || []);
     } catch (e: any) {

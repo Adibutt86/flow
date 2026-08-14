@@ -6,6 +6,7 @@ import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import { useToast } from "@/components/ui/Toast";
 import { useUser } from "@/context/UserContext";
+import { safeJsonResponse } from "@/lib/utils";
 import { StorySourceBadge } from "@/components/common/StorySourceBadge";
 import {
   Ghost,
@@ -168,10 +169,10 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
         }),
       });
 
-      const data = await res.json().catch(() => ({
+      const data = (await safeJsonResponse(res)) || {
         success: false,
         error: `Server response error (${res.status})`,
-      }));
+      };
 
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to generate project");

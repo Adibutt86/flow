@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { useToast } from "@/components/ui/Toast";
 import { useUser } from "@/context/UserContext";
 import { useTheme } from "@/context/ThemeContext";
+import { safeJsonResponse } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
 import {
@@ -5325,12 +5326,12 @@ export default function IdeasPage() {
           charPerformance: charPerformance !== "Any / AI Decides" ? charPerformance : undefined,
         }),
       });
-      const data = await res.json();
-      if (data.success && data.dialogue) {
+      const data = await safeJsonResponse(res);
+      if (data && data.success && data.dialogue) {
         setCustomDialogue(data.dialogue);
         showToast("Refined & corrected script!", "success");
       } else {
-        throw new Error(data.error || "Failed to suggest dialogue");
+        throw new Error(data?.error || "Failed to suggest dialogue");
       }
     } catch (err: any) {
       showToast(err?.message || "Failed to suggest dialogue", "error");
@@ -5577,9 +5578,9 @@ export default function IdeasPage() {
     fetch(`/api/ideas?userId=${encodeURIComponent(currentUser.id)}`, {
       headers: { "x-user-id": currentUser.id },
     })
-      .then((res) => res.json())
+      .then((res) => safeJsonResponse(res))
       .then((data) => {
-        if (data.success && Array.isArray(data.ideas)) {
+        if (data && data.success && Array.isArray(data.ideas)) {
           setSavedIdeas(data.ideas);
           if (typeof window !== "undefined") {
             try {
@@ -5868,9 +5869,9 @@ export default function IdeasPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ rawIdea: customIdea, aiModel }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to optimize idea");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success) {
+        throw new Error(data?.error || "Failed to optimize idea");
       }
       setOptimizedData({ ...data.optimized, modelUsed: aiModel });
       setActiveSceneTab(1);
@@ -5912,12 +5913,12 @@ export default function IdeasPage() {
         },
         body: JSON.stringify(ideaData),
       });
-      const data = await res.json();
-      if (data.success && data.idea) {
+      const data = await safeJsonResponse(res);
+      if (data && data.success && data.idea) {
         setSavedIdeas((prev) => [data.idea, ...prev]);
         showToast("Optimized idea saved to your saved list!", "success");
       } else {
-        throw new Error(data.error || "Failed to save optimized idea");
+        throw new Error(data?.error || "Failed to save optimized idea");
       }
     } catch (e: any) {
       showToast(e.message || "Failed to save optimized idea", "error");
@@ -5943,12 +5944,12 @@ export default function IdeasPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imageBase64: base64 })
         });
-        const data = await res.json();
-        if (data.character?.description) {
+        const data = await safeJsonResponse(res);
+        if (data && data.character?.description) {
           setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + data.character.description : data.character.description);
           showToast("Character reference analyzed and saved!", "success");
         } else {
-          showToast(`Failed: ${data.error || "Could not analyze image"}`, "error");
+          showToast(`Failed: ${data?.error || "Could not analyze image"}`, "error");
         }
       } catch (err: any) {
         console.error("Image upload fetch error:", err);
@@ -5963,8 +5964,8 @@ export default function IdeasPage() {
     setIsLoadingLibrary(true);
     try {
       const res = await fetch("/api/characters");
-      const data = await res.json();
-      if (data.characters) setSavedCharacters(data.characters);
+      const data = await safeJsonResponse(res);
+      if (data && data.characters) setSavedCharacters(data.characters);
     } catch (err) {
       console.error(err);
     } finally {
@@ -5975,8 +5976,8 @@ export default function IdeasPage() {
   const handleSelectCharacterFromLibrary = async (char: any) => {
     try {
       const res = await fetch(`/api/characters/${char.id}`);
-      const data = await res.json();
-      const fullImage = data.character?.imageUrl || char.imageUrl;
+      const data = await safeJsonResponse(res);
+      const fullImage = data?.character?.imageUrl || char.imageUrl;
       setReferenceImages((prev) => [...prev, fullImage]);
       setReferenceCharacterInfo((prev) => prev ? prev + "\n\n" + char.description : char.description);
       setShowCharacterLibrary(false);
@@ -6070,9 +6071,9 @@ export default function IdeasPage() {
           withoutMusic,
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.reason || data.error || "Failed to generate ideas");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success) {
+        throw new Error(data?.reason || data?.error || "Failed to generate ideas");
       }
       
       const createdIdeasRaw = await Promise.all(data.ideas.map(async (text: string) => {
@@ -6119,12 +6120,12 @@ export default function IdeasPage() {
             keepalive: true,
             body: JSON.stringify(ideaData),
           });
-          const ideaRes = await res.json();
-          if (ideaRes.success && ideaRes.idea) {
+          const ideaRes = await safeJsonResponse(res);
+          if (ideaRes && ideaRes.success && ideaRes.idea) {
             return ideaRes.idea;
           } else {
-            console.error("API failed to save idea:", ideaRes.error);
-            showToast(`Idea saved locally (${ideaRes.error || "DB error"})`, "info");
+            console.error("API failed to save idea:", ideaRes?.error);
+            showToast(`Idea saved locally (${ideaRes?.error || "DB error"})`, "info");
           }
         } catch (err) {
           console.error("Error saving generated idea to database:", err);
@@ -6183,9 +6184,9 @@ export default function IdeasPage() {
           aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success || !data.ideas?.[0]) {
-        throw new Error(data.reason || data.error || "Failed to generate Scene 2");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success || !data.ideas?.[0]) {
+        throw new Error(data?.reason || data?.error || "Failed to generate Scene 2");
       }
 
       const updatedText = data.ideas[0];
@@ -6231,9 +6232,9 @@ export default function IdeasPage() {
           aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success || !data.ideas?.[0]) {
-        throw new Error(data.reason || data.error || "Failed to generate Scene 3");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success || !data.ideas?.[0]) {
+        throw new Error(data?.reason || data?.error || "Failed to generate Scene 3");
       }
 
       const updatedText = data.ideas[0];
@@ -6276,9 +6277,9 @@ export default function IdeasPage() {
           aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success || !data.ideas?.[0]) {
-        throw new Error(data.reason || data.error || "Failed to regenerate Scene 1");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success || !data.ideas?.[0]) {
+        throw new Error(data?.reason || data?.error || "Failed to regenerate Scene 1");
       }
 
       const updatedText = data.ideas[0];
@@ -6348,9 +6349,9 @@ export default function IdeasPage() {
           aiModel,
         }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to generate social content");
+      const data = await safeJsonResponse(res);
+      if (!res.ok || !data || !data.success) {
+        throw new Error(data?.error || "Failed to generate social content");
       }
 
       setSavedIdeas((prev) => prev.map((i) =>
@@ -9350,32 +9351,6 @@ export default function IdeasPage() {
           </div>
         </div>
 
-        {/* Mobile Sticky Bottom Generate Floating Bar */}
-        <div className={`sm:hidden fixed bottom-0 left-0 right-0 z-40 p-3 border-t backdrop-blur-xl shadow-2xl flex items-center justify-between gap-3 transition-all ${
-          isLight ? "bg-white/95 border-slate-200 shadow-slate-400/20" : "bg-slate-950/95 border-slate-800 shadow-black/80"
-        }`}>
-          <div className="min-w-0 flex flex-col">
-            <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-500" : "text-slate-400"}`}>
-              {videoDuration}s • {language}
-            </span>
-            <span className={`text-xs font-black truncate ${isLight ? "text-slate-900" : "text-white"}`}>
-              {categoryEntries.find((c) => c.id === category)?.name || "AI Idea"}
-            </span>
-          </div>
-          <button
-            onClick={handleGenerate}
-            disabled={isGenerating}
-            className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-extrabold text-xs shadow-lg shadow-indigo-500/30 active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
-          >
-            {isGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
-            <span>{isGenerating ? "Generating..." : "✨ Generate"}</span>
-          </button>
-        </div>
-
         {/* Saved Ideas Section */}
         <div ref={savedIdeasSectionRef} className={`rounded-2xl sm:rounded-3xl p-5 sm:p-7 border shadow-xl space-y-5 relative z-0 transition-all duration-300 ${
           isLight ? "bg-white border-slate-200 text-slate-900 shadow-md" : "bg-slate-950/70 border-slate-800/80 text-slate-100 backdrop-blur-xl"
@@ -10310,7 +10285,7 @@ export default function IdeasPage() {
       )}
 
       {/* 🚀 Floating Fixed Action Toolbar (Left-Center Screen) */}
-      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-[99999] flex flex-col gap-2 sm:gap-3 items-start select-none">
+      <div className="hidden sm:flex fixed left-4 top-1/2 -translate-y-1/2 z-[99999] flex-col gap-2 sm:gap-3 items-start select-none">
         
         {/* 0. Generate Script Floating Button (Red) */}
         <div className="relative group">

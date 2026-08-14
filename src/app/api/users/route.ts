@@ -88,7 +88,7 @@ export async function POST(request: Request) {
   try {
     await seedDefaultUsers();
 
-    const body = await request.json();
+    const body = await request.json().catch(() => ({}));
     const { name, email, password, isMaster } = body;
 
     if (!name && !email && !isMaster) {
@@ -193,7 +193,7 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json().catch(() => ({}));
     const { userId, newPassword, currentPassword } = body;
 
     if (!userId) {
