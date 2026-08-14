@@ -6780,26 +6780,26 @@ export default function IdeasPage() {
             ? "bg-white border-indigo-200 text-slate-900 shadow-xl"
             : "bg-slate-950/70 border-indigo-500/20 text-slate-100"
         }`}>
-          <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-4 gap-3 ${isLight ? "border-slate-200" : "border-slate-800/80"}`}>
-            <h2 className={`text-base sm:text-lg font-extrabold flex items-center gap-2.5 ${isLight ? "text-slate-900" : "text-white"}`}>
-              <span className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                <Sparkles className="w-4 h-4" />
+          {/* 🧭 Sticky Floating Jump Navigation Bar (Pinned below navbar on mobile & desktop) */}
+          <div className={`sticky top-16 z-30 py-2.5 px-3 sm:px-4 mb-4 rounded-2xl border backdrop-blur-xl shadow-xl transition-all flex items-center justify-between gap-2 overflow-x-auto hide-scrollbar ${
+            isLight
+              ? "bg-white/95 border-slate-200 text-slate-900 shadow-slate-300/30"
+              : "bg-slate-950/95 border-slate-800 text-white shadow-black/80"
+          }`}>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="p-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-500">
+                <Sparkles className="w-3.5 h-3.5" />
               </span>
-              <span>Generate New Video Concept</span>
-            </h2>
+              <span className={`text-xs sm:text-sm font-black tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>
+                Jump:
+              </span>
+            </div>
 
-            {/* 🧭 Section Links Menu */}
-            <div className="flex flex-wrap items-center gap-1.5 self-stretch sm:self-auto">
-              <span className={`text-[10px] font-black uppercase tracking-wider mr-1 hidden sm:flex items-center gap-1 ${
-                isLight ? "text-indigo-900" : "text-indigo-300"
-              }`}>
-                <Compass className="w-3.5 h-3.5 text-indigo-500 animate-spin-slow" />
-                <span>Jump:</span>
-              </span>
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => scrollToSection(generatorParametersRef)}
-                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
                   isLight ? "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-950" : "bg-purple-950/60 hover:bg-purple-900/60 border-purple-500/40 text-purple-300"
                 }`}
               >
@@ -6808,7 +6808,7 @@ export default function IdeasPage() {
               <button
                 type="button"
                 onClick={() => scrollToSection(dialogueSectionRef)}
-                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
                   isLight ? "bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950" : "bg-amber-950/60 hover:bg-amber-900/60 border-amber-500/40 text-amber-300"
                 }`}
               >
@@ -6817,14 +6817,14 @@ export default function IdeasPage() {
               <button
                 type="button"
                 onClick={() => scrollToSection(generateButtonRef)}
-                className="px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer active:scale-95 shadow-md bg-gradient-to-r from-red-600 to-rose-600 text-white border border-red-400 hover:opacity-95"
+                className="px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer active:scale-95 shadow-md bg-gradient-to-r from-red-600 to-rose-600 text-white border border-red-400 hover:opacity-95"
               >
                 ✨ Generate
               </button>
               <button
                 type="button"
                 onClick={() => scrollToSection(savedIdeasSectionRef)}
-                className={`px-2.5 py-1 rounded-lg border text-xs font-extrabold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                className={`px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
                   isLight ? "bg-emerald-100 hover:bg-emerald-200 border-emerald-300 text-emerald-950" : "bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300"
                 }`}
               >
