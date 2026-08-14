@@ -28,27 +28,28 @@ export function Navbar({ onOpenWizard, isLight: isLightProp, onToggleTheme: onTo
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
         {/* Logo & Product Name */}
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl gradient-bg-primary flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl gradient-bg-primary flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform shrink-0">
             <Video className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className={`font-bold text-base sm:text-lg tracking-tight ${
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className={`font-black text-sm sm:text-lg tracking-tight truncate ${
                 isLight ? "text-slate-900" : "text-white"
               }`}>
-                AI Short Studio
+                <span className="sm:hidden">AI Studio</span>
+                <span className="hidden sm:inline">AI Short Studio</span>
               </span>
-              <span className={`text-[9px] sm:text-[10px] uppercase font-semibold px-1.5 sm:px-2 py-0.5 rounded-full border ${
+              <span className={`text-[9px] sm:text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded-full border shrink-0 ${
                 isLight
-                  ? "bg-indigo-50 text-indigo-700 border-indigo-200 font-bold"
+                  ? "bg-indigo-50 text-indigo-700 border-indigo-200"
                   : "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
               }`}>
-                Flow Edition
+                Flow
               </span>
             </div>
-            <p className={`text-[11px] font-normal hidden sm:block ${
-              isLight ? "text-slate-600 font-medium" : "text-gray-400"
+            <p className={`text-[11px] font-medium hidden md:block truncate ${
+              isLight ? "text-slate-600" : "text-gray-400"
             }`}>
               Short-form Video Prompts & Storyboards (8s Clips)
             </p>
