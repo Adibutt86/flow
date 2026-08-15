@@ -2707,6 +2707,7 @@ export interface OptionWithDesc {
   value: string;
   label: string;
   desc: string;
+  tag?: string;
 }
 
 export interface OptionGroupWithDesc {
@@ -3538,33 +3539,49 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
     ]
   },
   {
-    category: "Cute & Heartwarming",
+    category: "👁️ Eye Reactions (Funny Eyes)",
     options: [
-      { value: "Wide Eyes Surprise", label: "Wide Eyes Surprise", desc: "Big adorable surprised eyes with an open mouth." },
-      { value: "Burst Out Laughing", label: "Burst Out Laughing", desc: "Uncontrollable giggles with head thrown back." },
-      { value: "Sunshine Beam Smile", label: "Sunshine Beam Smile", desc: "Ear-to-ear heart-melting beam of pure joy." },
-      { value: "Shy Hide Face", label: "Shy Hide Face", desc: "Hiding face in hands or looking away with rosy cheeks." },
-      { value: "Adorable Head Tilt", label: "Adorable Head Tilt", desc: "Cute tilted head with a puzzled or wondering expression." },
+      { value: "Cross-Eyed Silly Face", label: "Cross-Eyed Silly Face 🤪", desc: "Silly cross-eyed look focusing on their own nose with a tiny tongue poke.", tag: "👦 Best for Boys" },
+      { value: "Giant Anime Heart Eyes", label: "Giant Anime Heart Eyes 😍", desc: "Wide glittering heart-pupils when seeing sweets, toys, or mama.", tag: "👧 Best for Girls" },
+      { value: "Slow Suspicious Eye Roll", label: "Slow Suspicious Eye Roll 🙄", desc: "Dramatic funny eye-roll when adults say something predictable.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Wide-Eyed Cartoon Pop-Out", label: "Wide-Eyed Cartoon Pop-Out 👁️", desc: "Oversized bulging wide eyes in hilarious cartoon-style shock.", tag: "🔥 Viral Trend" },
+      { value: "Wink & Cheeky Tongue Out", label: "Wink & Cheeky Tongue Out 😉", desc: "One-eye wink with a playful mischievous grin.", tag: "👧 Best for Girls" },
+      { value: "Confused Blink", label: "Confused Blink 😑", desc: "Slow double blink with a deeply puzzled, blank expression.", tag: "👨‍👩‍👧 Adults & Family" },
     ]
   },
   {
-    category: "Funny & Viral",
+    category: "😂 Funny & Viral Reactions",
     options: [
-      { value: "Pouty Lip About to Cry", label: "Pouty Lip / About to Cry", desc: "Quivering lip and glistening eyes — maximum cute drama." },
-      { value: "Sneaky Side-Eye", label: "Sneaky Side-Eye", desc: "Mischievous glance sideways, clearly plotting something." },
-      { value: "Disgusted Face", label: "Disgusted Face", desc: "Dramatic disgust at food or something they dislike." },
-      { value: "Mini Lecture Mode", label: "Mini Lecture Mode", desc: "Wagging finger seriously, explaining something with authority." },
-      { value: "Confused Blink", label: "Confused Blink", desc: "Slow blink with a deeply puzzled expression." },
-      { value: "Dramatic Gasp", label: "Dramatic Gasp", desc: "Over-the-top shocked gasp with hand on cheek." },
+      { value: "Mouth Agape Jaw-Drop", label: "Mouth Agape Jaw-Drop 😲", desc: "Jaw dropped all the way open in complete frozen disbelief.", tag: "🔥 Viral Trend" },
+      { value: "Epic Dramatic Facepalm", label: "Epic Dramatic Facepalm 🤦", desc: "Tiny hands slapped over eyes in comical exaggerated frustration.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Home Alone Scream Reaction", label: "Home Alone Scream Reaction 😱", desc: "Both hands pressed on cheeks, mouth open in iconic funny shock.", tag: "👦 Best for Boys" },
+      { value: "Fake Serious Boss Face", label: "Fake Serious Boss Face 🥸", desc: "Trying to look super tough and serious while fighting back a giggle.", tag: "👦 Best for Boys" },
+      { value: "Drooling Food Craving Face", label: "Drooling Food Craving Face 🤤", desc: "Starry-eyed gaze with tongue out anticipating chocolate or cake.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Mischievous Evil Genius Smirk", label: "Mischievous Evil Genius Smirk 😈", desc: "Rubbing tiny hands together with a sly plotting smile.", tag: "👦 Best for Boys" },
+      { value: "Pouty Lip About to Cry", label: "Pouty Lip / About to Cry 🥺", desc: "Quivering lip and glistening eyes — maximum cute drama.", tag: "👧 Best for Girls" },
+      { value: "Sneaky Side-Eye", label: "Sneaky Side-Eye 👀", desc: "Mischievous glance sideways, clearly plotting something sneaky.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Disgusted Face", label: "Disgusted Face 🤢", desc: "Dramatic disgusted face at broccoli or something they dislike.", tag: "👦 Best for Boys" },
+      { value: "Mini Lecture Mode", label: "Mini Lecture Mode ☝️", desc: "Wagging finger seriously, explaining something with cute authority.", tag: "👧 Best for Girls" },
+      { value: "Dramatic Gasp", label: "Dramatic Gasp 😮", desc: "Over-the-top shocked gasp with hand on cheek.", tag: "👧 Best for Girls" },
     ]
   },
   {
-    category: "Triumphant & Proud",
+    category: "🌸 Cute & Heartwarming",
     options: [
-      { value: "Victory Fist Pump", label: "Victory Fist Pump", desc: "Triumphant celebration arms raised high." },
-      { value: "Proud Arms Crossed", label: "Proud Arms Crossed", desc: "Confident pose with arms crossed and satisfied smile." },
-      { value: "Embarrassed Red Cheeks", label: "Embarrassed Red Cheeks", desc: "Red cheeks, looking down, covering face with a shy smile." },
-      { value: "None / Natural", label: "None / Natural (AI decides)", desc: "Let the AI choose the most fitting natural expression." },
+      { value: "Wide Eyes Surprise", label: "Wide Eyes Surprise 😯", desc: "Big adorable surprised eyes with an open mouth.", tag: "👧 Best for Girls" },
+      { value: "Burst Out Laughing", label: "Burst Out Laughing 😂", desc: "Uncontrollable giggles with head thrown back.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Sunshine Beam Smile", label: "Sunshine Beam Smile 😁", desc: "Ear-to-ear heart-melting beam of pure joy.", tag: "👧 Best for Girls" },
+      { value: "Shy Hide Face", label: "Shy Hide Face 🙈", desc: "Hiding face in hands or looking away with rosy cheeks.", tag: "👧 Best for Girls" },
+      { value: "Adorable Head Tilt", label: "Adorable Head Tilt 🥺", desc: "Cute tilted head with a puzzled or wondering expression.", tag: "👧 Best for Girls" },
+    ]
+  },
+  {
+    category: "🏆 Triumphant & Proud",
+    options: [
+      { value: "Victory Fist Pump", label: "Victory Fist Pump ✊", desc: "Triumphant celebration arms raised high.", tag: "👦 Best for Boys" },
+      { value: "Proud Arms Crossed", label: "Proud Arms Crossed 😎", desc: "Confident pose with arms crossed and satisfied smile.", tag: "👦 Best for Boys" },
+      { value: "Embarrassed Red Cheeks", label: "Embarrassed Red Cheeks 😳", desc: "Red cheeks, looking down, covering face with a shy smile.", tag: "👧 Best for Girls" },
+      { value: "None / Natural", label: "None / Natural (AI decides)", desc: "Let the AI choose the most fitting natural expression.", tag: "👨‍👩‍👧 Adults & Family" },
     ]
   },
 ];
@@ -4735,11 +4752,28 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
                             }`}
                           >
                             <div className="flex items-start justify-between gap-3">
-                              <span className={`text-xs sm:text-sm leading-tight ${
-                                isSelected ? "font-black text-white" : isLight ? "font-black text-zinc-950" : "font-extrabold text-white"
-                              }`}>
-                                {opt.label}
-                              </span>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className={`text-xs sm:text-sm leading-tight ${
+                                  isSelected ? "font-black text-white" : isLight ? "font-black text-zinc-950" : "font-extrabold text-white"
+                                }`}>
+                                  {opt.label}
+                                </span>
+                                {opt.tag && (
+                                  <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border whitespace-nowrap ${
+                                    isSelected
+                                      ? "bg-white/20 border-white/40 text-white"
+                                      : opt.tag.includes("Girls")
+                                      ? "bg-pink-500/15 border-pink-500/30 text-pink-700 dark:text-pink-300"
+                                      : opt.tag.includes("Boys")
+                                      ? "bg-blue-500/15 border-blue-500/30 text-blue-700 dark:text-blue-300"
+                                      : opt.tag.includes("Adults")
+                                      ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
+                                      : "bg-amber-500/15 border-amber-500/30 text-amber-700 dark:text-amber-300"
+                                  }`}>
+                                    {opt.tag}
+                                  </span>
+                                )}
+                              </div>
                               {isSelected && (
                                 <div className="w-6 h-6 rounded-full bg-white text-indigo-600 flex items-center justify-center shrink-0 shadow-md">
                                   <Check className="w-3.5 h-3.5" />
