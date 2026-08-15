@@ -925,6 +925,48 @@ const CUTE_KIDS_PRESET_GROUPS = [
         expression: "Sneaky Side-Eye",
         performance: "Funny Actions",
       },
+      {
+        icon: "🎙️",
+        title: "Girl Doing Podcast",
+        age: "Child (5-8 yrs)",
+        location: "Modern Podcast Studio",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Studio Microphone & Headphones 🎧",
+        expression: "Confident & Expressive 🎤",
+        performance: "Cute Voiceover & Speech",
+      },
+      {
+        icon: "🎙️",
+        title: "Boy Doing Podcast",
+        age: "Child (5-8 yrs)",
+        location: "Modern Podcast Studio",
+        health: "Healthy & Active",
+        vibe: "Funny & Mischievous",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Studio Microphone & Headphones 🎧",
+        expression: "Mischievous Evil Genius Smirk",
+        performance: "Funny Dialogue & Reactions",
+      },
+      {
+        icon: "🎙️",
+        title: "Kids Duo Podcast (Boy & Girl)",
+        age: "Child (5-8 yrs)",
+        location: "Modern Podcast Studio",
+        health: "Healthy & Active",
+        vibe: "Cheerful & Energetic",
+        setup: "One Girl & One Boy",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        prop: "Dual Studio Mics & Headphones 🎧",
+        expression: "Giggles & Laughter 😄",
+        performance: "Interactive Duet Speech",
+      },
     ]
   },
   {
@@ -2786,6 +2828,14 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     options: [
       { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best location automatically." },
     ]
+  },
+  {
+    category: "🎙️ Podcast & Media Studio Settings",
+    options: [
+      { value: "Modern Podcast Studio", label: "Modern Podcast & Media Studio 🎙️", desc: "Professional high-tech studio with dual neon studio lights, boom microphones, acoustic soundproofing, and studio headphones." },
+      { value: "Cozy Home Podcast Nook", label: "Cozy Home Podcast Corner 🎧", desc: "Warm aesthetic home podcast setup with glowing neon sign, condenser mic on arm, and acoustic foam panels." },
+      { value: "Colorful Kids Podcast Studio", label: "Colorful Kids Podcast Studio 🎙️👶", desc: "Vibrant, playful kids podcast studio with colorful neon desk lights, plush mic covers, and soft ambient studio lighting." },
+    ],
   },
   {
     category: "Indoor & Home Settings",
