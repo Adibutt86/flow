@@ -584,6 +584,13 @@ const FRUIT_DANCING_COSTUME_GROUPS: OptionGroupWithDesc[] = [
 
 const FRUIT_DANCING_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "🤖 Default & Custom",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best character setup automatically for your fruit dance.", tag: "🤖 Default" },
+      { value: "Custom", label: "✨ Custom Character Setup...", desc: "Specify your own custom fruit dance character setup.", tag: "✏️ Custom Input" },
+    ],
+  },
+  {
     category: "👶 Baby Character Setup",
     options: [
       { value: "One Cute 3D Baby/Toddler in Fruit Suit", label: "👶 Single Cute Toddler (Most Viral)", desc: "One adorable 3D baby or toddler dancing solo in a fruit onesie — the classic viral format." },
@@ -2557,6 +2564,13 @@ const QUICK_SITUATION_PILLS = [
 
 const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "🤖 Default & Custom",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best character setup automatically for your performance.", tag: "🤖 Default" },
+      { value: "Custom", label: "✨ Custom Character Setup...", desc: "Specify your own custom performer setup description.", tag: "✏️ Custom Input" },
+    ],
+  },
+  {
     category: "Adult Performers & Duet Combos",
     options: [
       { value: "Man & Girl Combo (Duet Performers) 👫", label: "Man & Girl Combo (Duet Performers) 👫", desc: "Dual performance clip featuring a man and a girl performing together." },
@@ -2992,6 +3006,13 @@ export function createSingerWithAnimalGroup(
 
 // 4. CHARACTER SETUP GROUPS (EXPANDED WITH PREDEFINED COMBOS)
 const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🤖 Default & Custom",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best character setup automatically for your story.", tag: "🤖 Default" },
+      { value: "Custom", label: "✨ Custom Character Setup...", desc: "Specify your own custom character setup description.", tag: "✏️ Custom Input" },
+    ],
+  },
   {
     category: "🤖 AI Robot & Tech Companions",
     options: [
@@ -4851,6 +4872,7 @@ interface IdeasPageSettings {
   cameraShot?: string;
   charPerformance?: string;
   characterSetup?: string;
+  customCharacterSetup?: string;
   charactersPerScene?: string;
   customCharactersPerScene?: string;
   kidsNationality?: string;
@@ -5598,7 +5620,7 @@ export default function IdeasPage() {
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
           kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
           charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           aiModel,
           seriousDialogueStyle,
@@ -5642,6 +5664,7 @@ export default function IdeasPage() {
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "Any / AI Decides");
+  const [customCharacterSetup, setCustomCharacterSetup] = useState(initialSettings.customCharacterSetup || "");
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
   const [kidsNationality, setKidsNationality] = useState(initialSettings.kidsNationality || "Global / Any");
@@ -6327,7 +6350,7 @@ export default function IdeasPage() {
           fatherClothing: fatherClothing === "Custom" ? (customFatherClothing || "Custom") : (fatherClothing !== "AI Decides" ? fatherClothing : undefined),
           motherClothing: motherClothing === "Custom" ? (customMotherClothing || "Custom") : (motherClothing !== "AI Decides" ? motherClothing : undefined),
           kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? characterSetup : undefined,
+          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
           charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           kidsNationality: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsNationality : undefined,
           carboxBrand,
@@ -8362,14 +8385,27 @@ export default function IdeasPage() {
 
                 {/* 5. Character Setup */}
                 {matchesParamFilter(["setup", "character setup", "father son", "kids duo", "solo kid"]) && (
-                  <CustomSelect
-                    label="Character Setup"
-                    icon="👥"
-                    value={characterSetup}
-                    onChange={handleCharacterSetupChange}
-                    groups={CHARACTER_SETUP_GROUPS}
-                    isLight={isLight}
-                  />
+                  <div className="space-y-2">
+                    <CustomSelect
+                      label="Character Setup"
+                      icon="👥"
+                      value={characterSetup}
+                      onChange={handleCharacterSetupChange}
+                      groups={CHARACTER_SETUP_GROUPS}
+                      isLight={isLight}
+                    />
+                    {(characterSetup === "Custom" || characterSetup.startsWith("Custom")) && (
+                      <input
+                        type="text"
+                        value={customCharacterSetup}
+                        onChange={(e) => setCustomCharacterSetup(e.target.value)}
+                        placeholder="Type custom character setup (e.g. 1 Little Girl & 2 Cute AI Companion Robots)..."
+                        className={`w-full mt-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold shadow-inner ${
+                          isLight ? "bg-white border-zinc-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
+                        }`}
+                      />
+                    )}
+                  </div>
                 )}
 
                 {/* Optional Character Reference Upload */}
