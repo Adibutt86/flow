@@ -71,13 +71,15 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
     let rawText = "";
     let lastError: any = null;
 
-    // Fallback list of models to try if the requested model returns 404
     const modelsToTry = Array.from(new Set([
       preferredModel,
       "claude-3-5-sonnet-20241022",
       "claude-3-5-sonnet-latest",
       "claude-3-7-sonnet-20250219",
       "claude-3-5-haiku-20241022",
+      "claude-3-5-haiku-latest",
+      "claude-3-haiku-20240307",
+      "claude-3-opus-20240229",
     ]));
 
     if (aiModel.startsWith("gemini") && geminiApiKey) {
@@ -127,7 +129,8 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
     }
 
     if (!rawText) {
-      throw new Error(lastError?.message || "Failed to generate prompt. All model endpoints failed.");
+      const errMsg = lastError?.error?.message || lastError?.message || "Failed to generate prompt. All model endpoints failed.";
+      throw new Error(errMsg);
     }
 
     let result = { prompt: rawText };
@@ -143,6 +146,7 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
     return NextResponse.json(result);
   } catch (error: any) {
     console.error("Error generating nano prompt:", error);
-    return NextResponse.json({ error: error.message || "Failed to generate prompt" }, { status: 500 });
+    const msg = error?.error?.message || error?.message || "Failed to generate prompt";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

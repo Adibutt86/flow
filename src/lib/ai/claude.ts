@@ -20,6 +20,8 @@ const CLAUDE_MODELS = [
   "claude-3-5-sonnet-latest",
   "claude-3-7-sonnet-20250219",
   "claude-3-5-haiku-20241022",
+  "claude-3-5-haiku-latest",
+  "claude-3-haiku-20240307",
   "claude-3-opus-20240229",
 ];
 
@@ -335,10 +337,7 @@ export async function generateIdeaSuggestionsWithClaude(
 
   const modelsToTry = Array.from(new Set([
     ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
-    "claude-sonnet-4-6",
-    "claude-sonnet-4-5-20250929",
-    "claude-haiku-4-5-20251001",
-    "claude-opus-4-6",
+    ...CLAUDE_MODELS,
   ]));
 
   for (const modelName of modelsToTry) {
@@ -1234,10 +1233,7 @@ Return ONLY a valid JSON object matching this exact structure:
 
   const modelsToTry = Array.from(new Set([
     ...(aiModel && CLAUDE_MODELS.includes(aiModel) ? [aiModel] : []),
-    "claude-sonnet-4-6",
-    "claude-sonnet-4-5-20250929",
-    "claude-haiku-4-5-20251001",
-    "claude-opus-4-6",
+    ...CLAUDE_MODELS,
   ]));
 
   for (const modelName of modelsToTry) {
@@ -1303,10 +1299,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
 
   const modelsToTry = Array.from(new Set([
     ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
-    "claude-sonnet-4-6",
-    "claude-sonnet-4-5-20250929",
-    "claude-haiku-4-5-20251001",
-    "claude-opus-4-6",
+    ...CLAUDE_MODELS,
   ]));
 
   for (const modelName of modelsToTry) {
@@ -1408,10 +1401,7 @@ export async function generateSocialContentWithClaude(input: {
 
   const modelsToTry = Array.from(new Set([
     ...(input.aiModel && CLAUDE_MODELS.includes(input.aiModel) ? [input.aiModel] : []),
-    "claude-sonnet-4-6",
-    "claude-sonnet-4-5-20250929",
-    "claude-haiku-4-5-20251001",
-    "claude-opus-4-6",
+    ...CLAUDE_MODELS,
   ]));
 
   const prompt = `You are a world-class viral social media strategist for YouTube Shorts, Facebook Reels, TikTok, and Instagram Reels.

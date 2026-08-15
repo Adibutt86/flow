@@ -4193,8 +4193,9 @@ export default function NanoProGenerator() {
         }, ...prev]);
         setHistoryPage(1);
       } else {
-        console.error(data.error);
-        setGeneratedPrompt("Error generating prompt: " + data.error);
+        const errorMsg = typeof data?.error === "object" ? (data.error.message || JSON.stringify(data.error)) : (data?.error || "Unknown error occurred.");
+        console.error(errorMsg);
+        setGeneratedPrompt("Error generating prompt: " + errorMsg);
       }
     } catch (error) {
       console.error(error);

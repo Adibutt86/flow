@@ -27,32 +27,55 @@ export async function POST(req: Request) {
     
     const base64Data = imageBase64.includes(",") ? imageBase64.split(",")[1] : imageBase64;
 
-    const response = await anthropic.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 500,
-      temperature: 0.2,
-      messages: [
-        {
-          role: "user",
-          content: [
+    const modelsToTry = [
+      "claude-3-5-sonnet-20241022",
+      "claude-3-5-sonnet-latest",
+      "claude-3-7-sonnet-20250219",
+      "claude-3-5-haiku-20241022",
+      "claude-3-haiku-20240307",
+    ];
+
+    let description = "";
+    let lastError: any = null;
+
+    for (const modelName of modelsToTry) {
+      try {
+        const response = await anthropic.messages.create({
+          model: modelName,
+          max_tokens: 500,
+          temperature: 0.2,
+          messages: [
             {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: mimeType as any,
-                data: base64Data,
-              },
-            },
-            {
-              type: "text",
-              text: "Analyze this image of a child. Extract and describe their facial features, hair style, clothing, and overall vibe in high detail. This description will be used as a character reference in a video generation prompt. Be descriptive but concise.",
+              role: "user",
+              content: [
+                {
+                  type: "image",
+                  source: {
+                    type: "base64",
+                    media_type: mimeType as any,
+                    data: base64Data,
+                  },
+                },
+                {
+                  type: "text",
+                  text: "Analyze this image of a child. Extract and describe their facial features, hair style, clothing, and overall vibe in high detail. This description will be used as a character reference in a video generation prompt. Be descriptive but concise.",
+                },
+              ],
             },
           ],
-        },
-      ],
-    });
+        });
+        description = response.content[0].type === 'text' ? response.content[0].text : "";
+        if (description) break;
+      } catch (err: any) {
+        console.warn(`Anthropic model (${modelName}) error in analyze-character:`, err?.message || err);
+        lastError = err;
+      }
+    }
 
-    const description = response.content[0].type === 'text' ? response.content[0].text : "";
+    if (!description) {
+      const msg = lastError?.error?.message || lastError?.message || "Failed to analyze image with AI models.";
+      return NextResponse.json({ error: msg }, { status: 500 });
+    }
 
     // Save to database
     const savedCharacter = await db.referenceCharacter.create({

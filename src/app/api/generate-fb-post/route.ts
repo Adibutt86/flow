@@ -122,10 +122,13 @@ TAGS REQUIREMENTS:
 
     const modelsToTry = Array.from(new Set([
       preferredModel,
-      "claude-sonnet-4-6",
-      "claude-sonnet-4-5-20250929",
-      "claude-haiku-4-5-20251001",
-      "claude-opus-4-6",
+      "claude-3-5-sonnet-20241022",
+      "claude-3-5-sonnet-latest",
+      "claude-3-7-sonnet-20250219",
+      "claude-3-5-haiku-20241022",
+      "claude-3-5-haiku-latest",
+      "claude-3-haiku-20240307",
+      "claude-3-opus-20240229",
     ]));
 
     if (anthropicApiKey) {
@@ -162,7 +165,8 @@ TAGS REQUIREMENTS:
     }
 
     if (!rawText) {
-      throw new Error(lastError?.message || "Failed to generate FB post prompt.");
+      const errMsg = lastError?.error?.message || lastError?.message || "Failed to generate FB post prompt.";
+      throw new Error(errMsg);
     }
 
     // Parse the JSON response
@@ -176,20 +180,18 @@ TAGS REQUIREMENTS:
         const parsed = JSON.parse(jsonMatch[0]);
         prompt = parsed.prompt || rawText;
         title = parsed.title || "";
-        tags = Array.isArray(parsed.tags) ? parsed.tags.slice(0, 3) : [];
+        tags = Array.isArray(parsed.tags) ? parsed.tags : [];
       } else {
         prompt = rawText;
       }
-    } catch {
+    } catch (e) {
       prompt = rawText;
     }
 
     return NextResponse.json({ prompt, title, tags });
   } catch (error: any) {
     console.error("Error generating FB post prompt:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to generate prompt" },
-      { status: 500 }
-    );
+    const msg = error?.error?.message || error?.message || "Failed to generate FB post prompt";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

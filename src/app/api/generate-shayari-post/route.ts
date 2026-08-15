@@ -82,6 +82,9 @@ OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage i
       "claude-3-5-sonnet-latest",
       "claude-3-7-sonnet-20250219",
       "claude-3-5-haiku-20241022",
+      "claude-3-5-haiku-latest",
+      "claude-3-haiku-20240307",
+      "claude-3-opus-20240229",
     ]));
 
     if (anthropicApiKey) {
@@ -118,7 +121,8 @@ OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage i
     }
 
     if (!rawText) {
-      throw new Error(lastError?.message || "Failed to generate Shayari post prompt.");
+      const errMsg = lastError?.error?.message || lastError?.message || "Failed to generate Shayari post prompt.";
+      throw new Error(errMsg);
     }
 
     let prompt = "";
@@ -142,8 +146,9 @@ OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage i
     return NextResponse.json({ prompt, title, tags });
   } catch (error: any) {
     console.error("Error generating Shayari post prompt:", error);
+    const msg = error?.error?.message || error?.message || "Failed to generate prompt";
     return NextResponse.json(
-      { error: error.message || "Failed to generate prompt" },
+      { error: msg },
       { status: 500 }
     );
   }
