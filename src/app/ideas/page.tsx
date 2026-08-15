@@ -4839,6 +4839,228 @@ interface IdeasPageSettings {
   withoutMusic?: boolean;
 }
 
+const KIDS_CATEGORY_IDS: CategoryId[] = [
+  "CUTE_KIDS",
+  "KIDS_FUNNY",
+  "CARBOX",
+  "FRUIT_DANCING",
+  "FUNNY_ANIMALS",
+  "ANIMAL_DANCING",
+];
+
+// ─── Searchable Category Dropdown ─────────────────────────────────────────────
+function CategorySearchDropdown({
+  value,
+  onChange,
+  isLight = false,
+}: {
+  value: CategoryId;
+  onChange: (v: CategoryId) => void;
+  isLight?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [filterTab, setFilterTab] = useState<"all" | "kids">("all");
+  const ref = useRef<HTMLDivElement>(null);
+
+  const selected = CATEGORIES[value] || CATEGORIES.CUTE_KIDS;
+
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const allCategories = Object.values(CATEGORIES);
+
+  const filteredCategories = allCategories.filter((cat) => {
+    const isKids = KIDS_CATEGORY_IDS.includes(cat.id);
+    if (filterTab === "kids" && !isKids) return false;
+
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      cat.name.toLowerCase().includes(q) ||
+      cat.badge.toLowerCase().includes(q) ||
+      cat.description.toLowerCase().includes(q) ||
+      cat.id.toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <div ref={ref} className="relative w-full md:w-auto md:min-w-[280px] shrink-0 max-w-full">
+      <label className={`text-[11px] font-black uppercase tracking-wider block mb-1 ${
+        isLight ? "text-amber-900" : "text-amber-300"
+      }`}>
+        Change Category:
+      </label>
+
+      {/* Trigger button */}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border-2 text-left focus:outline-none transition-all cursor-pointer group shadow-xl ${
+          isLight
+            ? "bg-white border-amber-400 text-amber-950 hover:border-amber-500 focus:ring-amber-500/20"
+            : "bg-black/80 border-amber-500/60 text-amber-200 hover:border-amber-400 focus:ring-amber-500/20"
+        }`}
+      >
+        <span className="flex items-center gap-2.5 min-w-0">
+          <span className="text-base sm:text-lg shrink-0">
+            {KIDS_CATEGORY_IDS.includes(selected.id) ? "🧸" : "🎬"}
+          </span>
+          <span className="flex flex-col min-w-0">
+            <span className="text-xs sm:text-sm font-black truncate flex items-center gap-1.5">
+              {selected.name}
+              {KIDS_CATEGORY_IDS.includes(selected.id) && (
+                <span className="text-[10px] bg-amber-500/20 text-amber-700 dark:text-amber-300 px-1.5 py-0.2 rounded-md border border-amber-500/30 font-extrabold shrink-0">
+                  🧸 Kids Choice
+                </span>
+              )}
+            </span>
+            <span className={`text-[11px] truncate ${isLight ? "text-slate-600" : "text-slate-400"}`}>
+              {selected.badge}
+            </span>
+          </span>
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+            open
+              ? "rotate-180 text-amber-500"
+              : isLight
+              ? "text-slate-500 group-hover:text-amber-700"
+              : "text-slate-400 group-hover:text-amber-300"
+          }`}
+        />
+      </button>
+
+      {/* Popover Dropdown Panel */}
+      {open && (
+        <div className={`absolute left-0 right-0 md:right-auto md:w-[350px] z-50 mt-2 p-3 rounded-2xl border shadow-2xl transition-all ${
+          isLight
+            ? "bg-white border-amber-200 text-slate-900 shadow-amber-900/15 ring-1 ring-slate-900/5"
+            : "bg-[#0f121d] border-amber-500/30 text-white shadow-black/80 ring-1 ring-white/10"
+        }`}>
+          {/* Search Box */}
+          <div className="relative mb-2">
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${
+              isLight ? "text-slate-400" : "text-slate-500"
+            }`} />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search categories (e.g. Kids, Funny)..."
+              autoFocus
+              className={`w-full pl-9 pr-8 py-2 rounded-xl text-xs font-bold border transition-all focus:outline-none ${
+                isLight
+                  ? "bg-slate-50 border-slate-300 text-slate-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+                  : "bg-slate-900/80 border-slate-700 text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20"
+              }`}
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Quick Filter Tabs */}
+          <div className="flex items-center gap-1.5 mb-2 pb-2 border-b border-slate-200 dark:border-slate-800 overflow-x-auto scrollbar-none">
+            <button
+              type="button"
+              onClick={() => setFilterTab("all")}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-black transition-all shrink-0 cursor-pointer ${
+                filterTab === "all"
+                  ? "bg-amber-500 text-white shadow-xs"
+                  : isLight
+                  ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+              }`}
+            >
+              All ({allCategories.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterTab("kids")}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-black transition-all shrink-0 flex items-center gap-1 cursor-pointer ${
+                filterTab === "kids"
+                  ? "bg-amber-500 text-white shadow-xs ring-2 ring-amber-400/50"
+                  : "bg-amber-500/15 text-amber-800 dark:text-amber-300 hover:bg-amber-500/25 border border-amber-500/30"
+              }`}
+            >
+              <span>🧸 Best for Kids</span>
+              <span className="px-1.5 py-0.2 bg-amber-400/30 rounded text-[10px] font-extrabold">
+                {allCategories.filter((c) => KIDS_CATEGORY_IDS.includes(c.id)).length}
+              </span>
+            </button>
+          </div>
+
+          {/* Category Items List */}
+          <div className="max-h-60 overflow-y-auto space-y-1 pr-1 scrollbar-thin">
+            {filteredCategories.length === 0 ? (
+              <div className="text-center py-6 text-xs text-slate-400 font-semibold">
+                No categories found matching "{search}"
+              </div>
+            ) : (
+              filteredCategories.map((cat) => {
+                const isActive = cat.id === value;
+                const isKids = KIDS_CATEGORY_IDS.includes(cat.id);
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => {
+                      onChange(cat.id);
+                      setOpen(false);
+                      setSearch("");
+                    }}
+                    className={`w-full text-left p-2.5 rounded-xl transition-all flex items-start justify-between gap-2 border cursor-pointer ${
+                      isActive
+                        ? isLight
+                          ? "bg-amber-50 border-amber-400 text-amber-950 font-bold"
+                          : "bg-amber-950/50 border-amber-500/70 text-amber-200 font-bold"
+                        : isKids
+                        ? isLight
+                          ? "bg-amber-50/60 border-amber-200/80 hover:bg-amber-100 text-slate-900"
+                          : "bg-amber-950/25 border-amber-500/30 hover:bg-amber-900/40 text-slate-200"
+                        : isLight
+                        ? "bg-transparent border-transparent hover:bg-slate-100 text-slate-900"
+                        : "bg-transparent border-transparent hover:bg-slate-800/60 text-slate-300"
+                    }`}
+                  >
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-black truncate">{cat.name}</span>
+                        {isKids && (
+                          <span className="shrink-0 text-[9px] font-black px-1.5 py-0.2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-xs">
+                            🧸 Best for Kids
+                          </span>
+                        )}
+                      </div>
+                      <span className={`text-[10px] line-clamp-1 mt-0.5 ${
+                        isLight ? "text-slate-500" : "text-slate-400"
+                      }`}>
+                        {cat.badge} — {cat.description}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Visual Style Custom Dropdown ───────────────────────────────────────────
 function VisualStyleDropdown({
   value,
@@ -6937,28 +7159,11 @@ export default function IdeasPage() {
               </div>
 
               {/* Category Dropdown Selector */}
-              <div className="w-full md:w-auto md:min-w-[260px] shrink-0 max-w-full overflow-hidden">
-                <label className={`text-[11px] font-black uppercase tracking-wider block mb-1 ${
-                  isLight ? "text-amber-900" : "text-amber-300"
-                }`}>
-                  Change Category:
-                </label>
-                <select
-                  value={category}
-                  onChange={(e) => handleCategoryChange(e.target.value as CategoryId)}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-black cursor-pointer shadow-xl transition-all truncate text-ellipsis ${
-                    isLight
-                      ? "bg-white border-amber-400 text-amber-950 focus:border-amber-500 focus:ring-amber-500/20"
-                      : "bg-black/80 border-amber-500/60 text-amber-200 focus:border-amber-400 focus:ring-amber-500/20"
-                  }`}
-                >
-                  {categoryEntries.map((cat) => (
-                    <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900 font-bold py-1.5" : "bg-slate-900 text-slate-100 font-bold py-1.5"}>
-                      {cat.name} ({cat.badge})
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <CategorySearchDropdown
+                value={category}
+                onChange={handleCategoryChange}
+                isLight={isLight}
+              />
             </div>
 
             {/* Bottom Row: Grouped Primary Options (Language, Visual Style, Duration, AI Model) */}
@@ -9505,21 +9710,29 @@ export default function IdeasPage() {
               <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
               Favorites ({savedIdeas.filter(i => i.isFavorite).length})
             </button>
-            {categoryEntries.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => { setFilterCategory(cat.id); setCurrentPage(1); }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer shrink-0 ${
-                  filterCategory === cat.id
-                    ? "bg-indigo-600 border-indigo-400 text-white shadow-md shadow-indigo-600/30"
-                    : isLight
-                    ? "bg-white hover:bg-indigo-50 text-slate-900 border-2 border-slate-200 shadow-sm"
-                    : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
+            {categoryEntries.map((cat) => {
+              const isKids = KIDS_CATEGORY_IDS.includes(cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => { setFilterCategory(cat.id); setCurrentPage(1); }}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer shrink-0 flex items-center gap-1 ${
+                    filterCategory === cat.id
+                      ? "bg-indigo-600 border-indigo-400 text-white shadow-md shadow-indigo-600/30"
+                      : isKids
+                      ? isLight
+                        ? "bg-amber-50 hover:bg-amber-100 text-amber-950 border-2 border-amber-300 shadow-sm"
+                        : "bg-amber-950/40 border-amber-500/50 text-amber-200 hover:bg-amber-900/60"
+                      : isLight
+                      ? "bg-white hover:bg-indigo-50 text-slate-900 border-2 border-slate-200 shadow-sm"
+                      : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800"
+                  }`}
+                >
+                  <span>{cat.name}</span>
+                  {isKids && <span className="text-[10px]">🧸</span>}
+                </button>
+              );
+            })}
           </div>
 
           {/* Cards Display Grid */}
