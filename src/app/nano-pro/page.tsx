@@ -3757,7 +3757,7 @@ export default function NanoProGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isCopiedCaption, setIsCopiedCaption] = useState(false);
-  const [aiModel, setAiModel] = useState("claude-3-5-sonnet-20241022");
+  const [aiModel, setAiModel] = useState("claude-sonnet-4-6");
   const [generateVideo, setGenerateVideo] = useState(false);
 
   // Character Settings
@@ -4959,10 +4959,8 @@ export default function NanoProGenerator() {
                       : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
                   }`}
                 >
-                  <option value="claude-3-5-sonnet-20241022" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.5 Sonnet (Recommended)</option>
-                  <option value="claude-3-7-sonnet-20250219" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.7 Sonnet (Reasoning)</option>
+                  <option value="claude-sonnet-4-6" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.6 Sonnet (Recommended)</option>
                   <option value="claude-sonnet-4-5-20250929" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.5 Sonnet (Balanced)</option>
-                  <option value="claude-sonnet-4-6" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.6 Sonnet (Most Capable)</option>
                   <option value="claude-haiku-4-5-20251001" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.5 Haiku (Fastest)</option>
                   <option value="claude-opus-4-6" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 4.6 Opus (Max Power)</option>
                   <option value="gemini-2.0-flash" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Google Gemini 2.0 Flash (Fast Backup)</option>

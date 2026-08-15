@@ -4015,10 +4015,8 @@ const OUTRO_EFFECTS_GROUPS: OptionGroupWithDesc[] = [
 ];
 
 const AI_MODEL_OPTIONS = [
-  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Recommended)", badge: "Recommended" },
-  { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Reasoning)", badge: "Reasoning" },
+  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Recommended)", badge: "Recommended" },
   { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
-  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Most Capable)", badge: "Most Capable" },
   { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku (Fastest)", badge: "Fastest" },
   { id: "claude-opus-4-6", label: "Claude 4.6 Opus (Max Power)", badge: "Max Power" },
   { id: "gemini-2.0-flash", label: "Google Gemini 2.0 Flash (Fast Backup)", badge: "Gemini" },
