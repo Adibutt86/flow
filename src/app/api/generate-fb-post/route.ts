@@ -31,10 +31,10 @@ export async function POST(req: Request) {
       if (model && (model.includes("3-7") || model.includes("3.7"))) {
         return "claude-3-7-sonnet-20250219";
       }
-      if (model && (model.includes("haiku") || model.includes("Haiku"))) {
+      if (model && (model.includes("haiku") || model.includes("Haiku") || model.includes("4-5-haiku"))) {
         return "claude-3-5-haiku-20241022";
       }
-      if (model && (model.includes("opus") || model.includes("Opus"))) {
+      if (model && (model.includes("opus") || model.includes("Opus") || model.includes("4-6-opus"))) {
         return "claude-3-opus-20240229";
       }
       return "claude-3-5-sonnet-20241022";

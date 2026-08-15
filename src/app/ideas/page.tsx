@@ -4017,8 +4017,10 @@ const OUTRO_EFFECTS_GROUPS: OptionGroupWithDesc[] = [
 const AI_MODEL_OPTIONS = [
   { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Recommended)", badge: "Recommended" },
   { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Reasoning)", badge: "Reasoning" },
-  { id: "claude-3-5-haiku-20241022", label: "Claude 3.5 Haiku (Fast & Cheap)", badge: "Fast & Cheap" },
-  { id: "claude-3-opus-20240229", label: "Claude 3 Opus (Complex Logic)", badge: "Complex Logic" },
+  { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
+  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Most Capable)", badge: "Most Capable" },
+  { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku (Fastest)", badge: "Fastest" },
+  { id: "claude-opus-4-6", label: "Claude 4.6 Opus (Max Power)", badge: "Max Power" },
   { id: "gemini-2.0-flash", label: "Google Gemini 2.0 Flash (Fast Backup)", badge: "Gemini" },
   { id: "gemini-1.5-pro", label: "Google Gemini 1.5 Pro (Pro Backup)", badge: "Gemini Pro" },
 ];
@@ -5013,10 +5015,12 @@ export default function IdeasPage() {
   const initialSettings = getInitialSettings();
 
   const getModelBadgeLabel = (modelId?: string) => {
-    if (!modelId || modelId.includes("3-5-sonnet") || modelId.includes("sonnet-4-6")) return "Claude 3.5 Sonnet";
+    if (!modelId || modelId.includes("3-5-sonnet")) return "Claude 3.5 Sonnet";
     if (modelId.includes("3-7-sonnet")) return "Claude 3.7 Sonnet";
-    if (modelId.includes("3-5-haiku") || modelId.includes("haiku-4-5")) return "Claude 3.5 Haiku";
-    if (modelId.includes("3-opus") || modelId.includes("opus-4-6")) return "Claude 3 Opus";
+    if (modelId.includes("sonnet-4-5")) return "Claude 4.5 Sonnet";
+    if (modelId.includes("sonnet-4-6")) return "Claude 4.6 Sonnet";
+    if (modelId.includes("haiku-4-5") || modelId.includes("3-5-haiku")) return "Claude 4.5 Haiku";
+    if (modelId.includes("opus-4-6") || modelId.includes("3-opus")) return "Claude 4.6 Opus";
     if (modelId.includes("gemini-2.0")) return "Gemini 2.0 Flash";
     if (modelId.includes("gemini-1.5")) return "Gemini 1.5 Pro";
     return "Claude 3.5 Sonnet";
@@ -5041,7 +5045,7 @@ export default function IdeasPage() {
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
-    initialSettings.aiModel && ["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219", "claude-3-5-haiku-20241022", "claude-3-opus-20240229", "gemini-2.0-flash", "gemini-1.5-pro"].includes(initialSettings.aiModel)
+    initialSettings.aiModel && ["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219", "claude-sonnet-4-5-20250929", "claude-sonnet-4-6", "claude-haiku-4-5-20251001", "claude-opus-4-6", "gemini-2.0-flash", "gemini-1.5-pro"].includes(initialSettings.aiModel)
       ? initialSettings.aiModel
       : "claude-3-5-sonnet-20241022"
   );
