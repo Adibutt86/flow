@@ -80,7 +80,20 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
       "claude-3-5-haiku-20241022",
     ]));
 
-    if (anthropicApiKey) {
+    if (aiModel.startsWith("gemini") && geminiApiKey) {
+      try {
+        const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+        const response = await ai.models.generateContent({
+          model: aiModel.includes("1.5") ? "gemini-1.5-pro" : "gemini-2.0-flash",
+          contents: prompt,
+        });
+        rawText = response.text || "";
+      } catch (gemErr: any) {
+        console.warn("Direct Gemini error:", gemErr?.message || gemErr);
+      }
+    }
+
+    if (!rawText && anthropicApiKey) {
       const anthropic = new Anthropic({ apiKey: anthropicApiKey });
       for (const modelName of modelsToTry) {
         try {
@@ -99,7 +112,7 @@ ${generateVideo && (targetPlatform === 'Both' || targetPlatform === 'Gemini') ? 
       }
     }
 
-    // Secondary fallback: Gemini API if Anthropic fails or 404
+    // Secondary fallback: Gemini API if Anthropic fails or not executed
     if (!rawText && geminiApiKey) {
       try {
         const ai = new GoogleGenAI({ apiKey: geminiApiKey });

@@ -4958,10 +4958,12 @@ export default function NanoProGenerator() {
                       : "bg-slate-950 border-white/10 text-white focus:ring-2 focus:ring-purple-500/50"
                   }`}
                 >
-                  <option value="claude-3-5-sonnet-20241022" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.5 Sonnet (Most Capable)</option>
+                  <option value="claude-3-5-sonnet-20241022" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.5 Sonnet (Recommended)</option>
                   <option value="claude-3-7-sonnet-20250219" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.7 Sonnet (Reasoning & Speed)</option>
-                  <option value="claude-3-5-haiku-20241022" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.5 Haiku (Fastest)</option>
+                  <option value="claude-3-5-haiku-20241022" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3.5 Haiku (Fast & Cheap)</option>
                   <option value="claude-3-opus-20240229" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Claude 3 Opus (Complex Logic)</option>
+                  <option value="gemini-2.0-flash" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Google Gemini 2.0 Flash (Fast Backup)</option>
+                  <option value="gemini-1.5-pro" className={isLight ? "bg-white text-slate-900 font-semibold" : "bg-slate-950 text-white"}>Google Gemini 1.5 Pro (Pro Backup)</option>
                 </select>
               </div>
 
