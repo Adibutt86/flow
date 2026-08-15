@@ -2993,9 +2993,19 @@ export function createSingerWithAnimalGroup(
 // 4. CHARACTER SETUP GROUPS (EXPANDED WITH PREDEFINED COMBOS)
 const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "🤖 AI Robot & Tech Companions",
+    options: [
+      { value: "Little Girl & AI Robot", label: "Little Girl & AI Robot 🤖👧", desc: "Cute little girl playing with a friendly, glowing futuristic 3D AI companion robot.", tag: "👧 Best for Girls" },
+      { value: "Little Boy & AI Robot", label: "Little Boy & AI Robot 🤖👦", desc: "Cool little boy with a friendly, glowing futuristic 3D AI companion robot.", tag: "👦 Best for Boys" },
+      { value: "Two Kids & AI Robot", label: "Two Kids & AI Robot 🤖👫", desc: "Boy & girl siblings playing happily with a futuristic 3D AI robot buddy.", tag: "👨‍👩‍👧 Family Favorites" },
+      { value: "Baby & Cute Mini AI Robot", label: "Baby & Mini AI Robot 🤖👶", desc: "Adorable baby playing with a cute glowing mini pet robot.", tag: "🧸 Cute Favorite" },
+    ],
+  },
+  {
     category: "Girl Characters",
     options: [
       { value: "One Cute Little Girl", label: "One Cute Little Girl", desc: "Single cute little girl protagonist." },
+      { value: "Little Girl & AI Robot", label: "Little Girl & AI Robot 🤖👧", desc: "Cute little girl playing with a friendly, glowing futuristic 3D AI companion robot." },
       { value: "Dulhan Girl / Desi Bride", label: "Dulhan Girl / Desi Bride (دلہن)", desc: "Beautiful Desi bride girl (Dulhan) in traditional bridal dress, heavy jewelry, and veil." },
       { value: "Mehndi / Mayun Bride Girl", label: "Mehndi / Mayun Bride Girl", desc: "Cute Mehndi bride girl in vibrant yellow outfit with floral jewelry." },
       { value: "Cute Hijabi Little Girl", label: "Cute Hijabi Little Girl", desc: "Adorable little girl wearing a neat cute hijab." },
@@ -3066,6 +3076,7 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     category: "Boy Characters",
     options: [
       { value: "One Cute Little Boy", label: "One Cute Little Boy", desc: "Single cute little boy protagonist." },
+      { value: "Little Boy & AI Robot", label: "Little Boy & AI Robot 🤖👦", desc: "Cool little boy with a friendly, glowing futuristic 3D AI companion robot." },
       { value: "Dulha Boy / Desi Groom", label: "Dulha Boy / Desi Groom (دولہا)", desc: "Handsome Desi groom boy (Dulha) in royal Sherwani, turban (Pagri), and Sehra." },
       { value: "Little Boy in Traditional Kurta Pajama", label: "Little Boy in Kurta Pajama", desc: "Handsome little boy in neat traditional Kurta-Pajama." },
       { value: "Little Boy in Kurta & Waistcoat", label: "Little Boy in Kurta & Waistcoat", desc: "Handsome boy wearing an embroidered waistcoat over Kurta." },
