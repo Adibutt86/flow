@@ -4015,10 +4015,10 @@ const OUTRO_EFFECTS_GROUPS: OptionGroupWithDesc[] = [
 ];
 
 const AI_MODEL_OPTIONS = [
-  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet (Best Quality)", badge: "Best Quality" },
-  { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet (Balanced)", badge: "Balanced" },
-  { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku (Fastest)", badge: "Fastest" },
-  { id: "claude-opus-4-6", label: "Claude 4.6 Opus (Max Power)", badge: "Max Power" },
+  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet (Best Quality)", badge: "Best Quality" },
+  { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet (Reasoning)", badge: "Reasoning" },
+  { id: "claude-3-5-haiku-20241022", label: "Claude 3.5 Haiku (Fastest)", badge: "Fastest" },
+  { id: "claude-3-opus-20240229", label: "Claude 3 Opus (Complex Logic)", badge: "Complex Logic" },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -5011,11 +5011,11 @@ export default function IdeasPage() {
   const initialSettings = getInitialSettings();
 
   const getModelBadgeLabel = (modelId?: string) => {
-    if (!modelId || modelId.includes("claude-sonnet-4-6")) return "Claude 4.6 Sonnet";
-    if (modelId === "claude-sonnet-4-5-20250929") return "Claude 4.5 Sonnet";
-    if (modelId === "claude-haiku-4-5-20251001") return "Claude 4.5 Haiku";
-    if (modelId === "claude-opus-4-6") return "Claude 4.6 Opus";
-    return "Claude 4.6 Sonnet";
+    if (!modelId || modelId.includes("3-5-sonnet") || modelId.includes("sonnet-4-6")) return "Claude 3.5 Sonnet";
+    if (modelId.includes("3-7-sonnet")) return "Claude 3.7 Sonnet";
+    if (modelId.includes("3-5-haiku") || modelId.includes("haiku-4-5")) return "Claude 3.5 Haiku";
+    if (modelId.includes("3-opus") || modelId.includes("opus-4-6")) return "Claude 3 Opus";
+    return "Claude 3.5 Sonnet";
   };
 
   // Generation controls
@@ -5037,9 +5037,9 @@ export default function IdeasPage() {
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
-    initialSettings.aiModel && ["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(initialSettings.aiModel)
+    initialSettings.aiModel && ["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219", "claude-3-5-haiku-20241022", "claude-3-opus-20240229"].includes(initialSettings.aiModel)
       ? initialSettings.aiModel
-      : "claude-sonnet-4-6"
+      : "claude-3-5-sonnet-20241022"
   );
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
@@ -5823,7 +5823,7 @@ export default function IdeasPage() {
     setSearchQuery("");
     setSortBy("NEWEST");
     setCurrentPage(1);
-    setAiModel("claude-sonnet-4-6");
+    setAiModel("claude-3-5-sonnet-20241022");
     if (typeof window !== "undefined") {
       localStorage.removeItem("flow-ideas-page-settings");
     }
@@ -5919,7 +5919,7 @@ export default function IdeasPage() {
         visualStyle,
         videoFileName,
         userId: currentUser.id,
-        aiModel: (optimizedData as any).modelUsed || aiModel || "claude-sonnet-4-6",
+        aiModel: (optimizedData as any).modelUsed || aiModel || "claude-3-5-sonnet-20241022",
       };
 
       const res = await fetch("/api/ideas", {
@@ -6108,7 +6108,7 @@ export default function IdeasPage() {
           visualStyle,
           videoFileName,
           userId: currentUser.id,
-          aiModel: aiModel || "claude-sonnet-4-6",
+          aiModel: aiModel || "claude-3-5-sonnet-20241022",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
@@ -6155,7 +6155,7 @@ export default function IdeasPage() {
           language,
           visualStyle,
           videoFileName,
-          aiModel: aiModel || "claude-sonnet-4-6",
+          aiModel: aiModel || "claude-3-5-sonnet-20241022",
           customDialogue: customDialogue && customDialogue.trim() ? customDialogue.trim() : undefined,
           musicType: musicType !== "None" ? musicType : undefined,
           seriousDialogueStyle: seriousDialogueStyle !== "None" ? seriousDialogueStyle : undefined,
@@ -6198,7 +6198,7 @@ export default function IdeasPage() {
           scene1Text: idea.text,
           scene1Clothing: extractScene1Clothing(idea.text),
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
-          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
+          aiModel: idea.aiModel || aiModel || "claude-3-5-sonnet-20241022",
         }),
       });
       const data = await safeJsonResponse(res);
@@ -6246,7 +6246,7 @@ export default function IdeasPage() {
           scene2Text: idea.text, // Scene 1&2 Bible is passed down
           scene1Clothing: extractScene1Clothing(idea.text),
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
-          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
+          aiModel: idea.aiModel || aiModel || "claude-3-5-sonnet-20241022",
         }),
       });
       const data = await safeJsonResponse(res);
@@ -6291,7 +6291,7 @@ export default function IdeasPage() {
           videoDuration: idea.videoDuration === 30 ? 30 : 20,
           kids20sStep: "SCENE_1_ONLY",
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
-          aiModel: idea.aiModel || aiModel || "claude-sonnet-4-6",
+          aiModel: idea.aiModel || aiModel || "claude-3-5-sonnet-20241022",
         }),
       });
       const data = await safeJsonResponse(res);
