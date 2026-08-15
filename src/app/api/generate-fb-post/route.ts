@@ -28,16 +28,23 @@ export async function POST(req: Request) {
     } = body;
 
     const resolveModel = (model: string) => {
-      if (model && (model.includes("3-7") || model.includes("3.7"))) {
-        return "claude-3-7-sonnet-20250219";
+      if (!model) return "claude-sonnet-4-6";
+      if (model.includes("haiku") || model.includes("Haiku") || model.includes("fastest")) {
+        return "claude-haiku-4-5-20251001";
       }
-      if (model && (model.includes("haiku") || model.includes("Haiku") || model.includes("4-5-haiku"))) {
-        return "claude-3-5-haiku-20241022";
+      if (model.includes("opus") || model.includes("Opus") || model.includes("max")) {
+        return "claude-opus-4-6";
       }
-      if (model && (model.includes("opus") || model.includes("Opus") || model.includes("4-6-opus"))) {
-        return "claude-3-opus-20240229";
+      if (model.includes("4-5") || model.includes("4.5") || model.includes("balanced")) {
+        return "claude-sonnet-4-5-20250929";
       }
-      return "claude-3-5-sonnet-20241022";
+      if (model.includes("sonnet") || model.includes("Sonnet") || model.includes("3-7") || model.includes("4-6")) {
+        return "claude-sonnet-4-6";
+      }
+      if (["claude-sonnet-4-6", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001", "claude-opus-4-6"].includes(model)) {
+        return model;
+      }
+      return "claude-sonnet-4-6";
     };
 
     const preferredModel = resolveModel(aiModel);

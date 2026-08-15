@@ -28,11 +28,10 @@ export async function POST(req: Request) {
     const base64Data = imageBase64.includes(",") ? imageBase64.split(",")[1] : imageBase64;
 
     const modelsToTry = [
-      "claude-3-5-sonnet-20241022",
-      "claude-3-5-sonnet-latest",
-      "claude-3-7-sonnet-20250219",
-      "claude-3-5-haiku-20241022",
-      "claude-3-haiku-20240307",
+      "claude-haiku-4-5-20251001",
+      "claude-sonnet-4-6",
+      "claude-sonnet-4-5-20250929",
+      "claude-opus-4-6",
     ];
 
     let description = "";
