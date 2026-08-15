@@ -129,6 +129,8 @@ TAGS REQUIREMENTS:
 
     const modelsToTry = Array.from(new Set([
       preferredModel,
+      "claude-3-5-sonnet-20241022",
+      "claude-3-7-sonnet-20250219",
       "claude-sonnet-4-6",
       "claude-sonnet-4-5-20250929",
       "claude-haiku-4-5-20251001",

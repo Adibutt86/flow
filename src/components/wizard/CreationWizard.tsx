@@ -88,7 +88,9 @@ const VISUAL_STYLES = [
 ];
 
 const AI_MODEL_OPTIONS = [
-  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet", badge: "Best Quality", desc: "Default — Highest quality storytelling & prompt details" },
+  { id: "claude-3-5-sonnet-20241022", label: "Claude 3.5 Sonnet", badge: "Recommended", desc: "Default — Highest quality storytelling & prompt details" },
+  { id: "claude-3-7-sonnet-20250219", label: "Claude 3.7 Sonnet", badge: "Reasoning", desc: "Advanced reasoning & script optimization" },
+  { id: "claude-sonnet-4-6", label: "Claude 4.6 Sonnet", badge: "Best Quality", desc: "Most capable storytelling & prompt details" },
   { id: "claude-sonnet-4-5-20250929", label: "Claude 4.5 Sonnet", badge: "Balanced", desc: "Balanced performance & fast script generation" },
   { id: "claude-haiku-4-5-20251001", label: "Claude 4.5 Haiku", badge: "Fastest", desc: "Lightweight & high speed script execution" },
   { id: "claude-opus-4-6", label: "Claude 4.6 Opus", badge: "Max Power", desc: "Deep reasoning & maximum creative control" },
