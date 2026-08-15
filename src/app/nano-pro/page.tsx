@@ -4582,6 +4582,102 @@ export default function NanoProGenerator() {
                       </div>
                     )}
 
+                    {/* Quick Preset Packs */}
+                    <div className="space-y-2 mb-4">
+                      <label className={`text-xs font-black uppercase tracking-wider block ${
+                        isLight ? "text-slate-900" : "text-slate-300"
+                      }`}>
+                        ⚡ Quick Post Style Presets:
+                      </label>
+                      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("3D Cute Baby & Teddy Bear");
+                            setFbMood("Cute & Playful");
+                            setFbColorTheme("Pink & Black");
+                            setFbTextStyle("Bold Chunky Display + Handwritten Mix");
+                            setFbLayout("Character Left, Text Right");
+                            setFbBackground("Soft Gradient");
+                            setFbDecorations("Hearts & Sparkles");
+                            setFbQuoteText("Little star with big dreams. ✨🧸");
+                            showToast("🧸 Applied 'Cute Baby & Teddy' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🧸 Cute Baby & Teddy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("3D Cartoon Doll Girl");
+                            setFbMood("Sassy & Confident");
+                            setFbColorTheme("Pink & Black");
+                            setFbTextStyle("Highlighted Keywords with Pastel Boxes");
+                            setFbLayout("Character Left, Text Right");
+                            setFbBackground("Frosted Glassmorphism Ambient");
+                            setFbDecorations("Stars & Crowns");
+                            setFbQuoteText("Too glam to give a damn. 💅👑");
+                            showToast("👑 Applied 'Sassy Queen' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          😎 Sassy Queen
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Streetwear Swag Boy");
+                            setFbMood("Mysterious & Cool");
+                            setFbColorTheme("Yellow & Black");
+                            setFbTextStyle("Graffiti / Street Art Font");
+                            setFbLayout("Character Right, Text Left");
+                            setFbBackground("Solid Bold Color");
+                            setFbDecorations("Lightning Bolts & Fire");
+                            setFbQuoteText("My life, my rules, my attitude. 😎💥");
+                            showToast("🔥 Applied 'Attitude Swag Boy' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          ⚡ Attitude Swag
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Royal Desi Prince / Princess");
+                            setFbMood("Motivational & Empowering");
+                            setFbColorTheme("Purple & Gold");
+                            setFbTextStyle("Gold Foil & Embossed Leaf Text");
+                            setFbLayout("Magazine Cover Editorial Layout");
+                            setFbBackground("White Marble & Gold Veins");
+                            setFbDecorations("Stars & Crowns");
+                            setFbQuoteText("Queen of my own kingdom. 👑✨");
+                            showToast("👑 Applied 'Royal Desi Empire' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          👑 Royal Desi
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Cute Gamer Boy");
+                            setFbMood("Chill & Unbothered");
+                            setFbColorTheme("Teal & White");
+                            setFbTextStyle("Neon Tube 3D Glowing Text");
+                            setFbLayout("Floating Glassmorphism Quote Card");
+                            setFbBackground("Moonlit Starry Night Sky");
+                            setFbDecorations("Glowing Musical Notes & Feathers");
+                            setFbQuoteText("Mastering the art of unbothered. 😌💡");
+                            showToast("💡 Applied 'Neon Tube Vibe' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          💡 Neon Vibe
+                        </button>
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <CustomSelect
                         label="Character Style"
@@ -4736,6 +4832,81 @@ export default function NanoProGenerator() {
                 ) : activeTab === "shayari-post" ? (
                   <div className="space-y-6 animate-in fade-in duration-300">
                     
+                    {/* Quick Preset Packs */}
+                    <div className="space-y-2 mb-2">
+                      <label className={`text-xs font-black uppercase tracking-wider block ${
+                        isLight ? "text-slate-900" : "text-slate-300"
+                      }`}>
+                        🌹 Quick Song & Shayari Presets:
+                      </label>
+                      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShyArtStyle("Soft Ethereal Watercolor");
+                            setShyMood("Passionate & Dreamy");
+                            setShyColorTheme("Sunset Pastel & Soft Gold");
+                            setShyCharacterStyle("Photorealistic Realistic Girl (Natural Eyes & Proportions)");
+                            setShyLayout("Poetic Center Quote with Soft Artwork Backdrop");
+                            setShyTextStyle("Classic Elegant Serif & Script Mix");
+                            setShyQuoteText("Tum mile toh mil gaya yeh jahan... ❤️✨");
+                            showToast("🌸 Applied 'Romantic Ghazal' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🌸 Romantic Ghazal
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShyArtStyle("Moody Rain & Window Drops");
+                            setShyMood("Melancholic & Sad (Breakup/Heartbreak)");
+                            setShyColorTheme("Midnight Monochromatic & Teal Accent");
+                            setShyCharacterStyle("Sad / Heartbroken Boy");
+                            setShyLayout("Full Page Image + Bottom Centered Overlay Quote");
+                            setShyTextStyle("Handwritten Calligraphy Brush Script");
+                            setShyQuoteText("Tere bina zindagi adhoori lagti hai... 🌧️💔");
+                            showToast("🌧️ Applied 'Heartbreak Rain' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-slate-700 to-indigo-900 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🌧️ Heartbreak Rain
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShyArtStyle("Cinematic Silhouette");
+                            setShyMood("Deep, Mystical & Philosophical");
+                            setShyColorTheme("Royal Blue & Emerald Gold");
+                            setShyCharacterStyle("Classic Urdu Shayar Full Beard");
+                            setShyLayout("Side-by-Side Split Artwork & Typography");
+                            setShyTextStyle("Gold Foil Embossed Royal Typography");
+                            setShyQuoteText("Khamoshiyan bhi bahut kuch keh jaati hain... 🌙📜");
+                            showToast("🌙 Applied 'Moonlit Mehfil' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-indigo-600 to-purple-800 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🌙 Moonlit Mehfil
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShyArtStyle("Vintage Film & Light Leaks");
+                            setShyMood("Soulful & Melodic (Acoustic Vibes)");
+                            setShyColorTheme("Warm Amber & Crimson");
+                            setShyCharacterStyle("Handsome Anime Boy");
+                            setShyLayout("Full Page Image + Bottom Centered Overlay Quote");
+                            setShyTextStyle("Modern Minimalist Sans-Serif");
+                            setShyQuoteText("Har dhadkan mein bas tu hi tu hai... 🎵✨");
+                            showToast("🎵 Applied 'Song Reel Melody' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-rose-600 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🎵 Song Reel Melody
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Lyric / Shayari Text */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
