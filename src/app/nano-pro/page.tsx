@@ -3765,7 +3765,7 @@ export default function NanoProGenerator() {
   const [clothing, setClothing] = useState("Any / AI Decides");
   const [age, setAge] = useState("Any / AI Decides");
   const [nationality, setNationality] = useState("Any / AI Decides");
-  const [complexion, setComplexion] = useState("Any / AI Decides");
+  const [complexion, setComplexion] = useState("Fair");
   const [visualStyle, setVisualStyle] = useState("3D Cartoon Style");
   const [aspectRatio, setAspectRatio] = useState("9:16");
 
@@ -4020,7 +4020,7 @@ export default function NanoProGenerator() {
     setClothing("Any / AI Decides");
     setAge("Any / AI Decides");
     setNationality("Any / AI Decides");
-    setComplexion("Any / AI Decides");
+    setComplexion("Fair");
     setBackgroundStyle("Any / AI Decides");
     setCustomVisualStyle("");
     setCustomAspectRatio("");

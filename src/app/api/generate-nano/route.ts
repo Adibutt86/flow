@@ -53,7 +53,7 @@ Write detailed prompts based on the following parameters:
 - Character Type: ${characterType}
 - Age: ${age}
 - Nationality/Ethnicity: ${nationality}
-- Skin Tone / Complexion: ${complexion || "Any / AI Decides"}
+- Skin Tone / Complexion: ${complexion || "Fair"}
 - Clothing: ${clothing}
 - Background/Environment: ${backgroundStyle}
 
