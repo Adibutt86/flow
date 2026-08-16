@@ -3946,51 +3946,76 @@ export default function NanoProGenerator() {
   }, []);
 
   useEffect(() => {
-    const state = {
-      generatedPrompt,
-      characterType,
-      clothing,
-      age,
-      nationality,
-      complexion,
-      visualStyle,
-      aspectRatio,
-      backgroundStyle,
-      customAspectRatio,
-      promptHistory,
-      referenceCharacterInfo,
-      referenceImage,
-      aiModel,
-      generateVideo,
-      activeTab,
-      fbQuoteText,
-      fbCharacterStyle,
-      fbColorTheme,
-      fbLayout,
-      fbFormat,
-      fbTextStyle,
-      fbDecorations,
-      fbBackground,
-      fbMood,
-      fbAge,
-      fbNationality,
-      fbComplexion,
-      fbDisableQuote,
-      fbDisableImage,
-      fbPostTitle,
-      fbPostTags,
-      shyQuoteText,
-      shyCharacterStyle,
-      shyArtStyle,
-      shyColorTheme,
-      shyLayout,
-      shyFormat,
-      shyDisableQuote,
-      shyDisableImage,
-      shyTextStyle,
-      shyMood,
-    };
-    localStorage.setItem("nanoProState", JSON.stringify(state));
+    try {
+      // Don't save large base64 data URLs to localStorage to avoid QuotaExceededError
+      const safeReferenceImage =
+        referenceImage && referenceImage.startsWith("data:")
+          ? ""
+          : referenceImage;
+
+      const state = {
+        generatedPrompt,
+        characterType,
+        clothing,
+        age,
+        nationality,
+        complexion,
+        visualStyle,
+        aspectRatio,
+        backgroundStyle,
+        customAspectRatio,
+        promptHistory: promptHistory ? promptHistory.slice(0, 30) : [],
+        referenceCharacterInfo,
+        referenceImage: safeReferenceImage,
+        aiModel,
+        generateVideo,
+        activeTab,
+        fbQuoteText,
+        fbCharacterStyle,
+        fbColorTheme,
+        fbLayout,
+        fbFormat,
+        fbTextStyle,
+        fbDecorations,
+        fbBackground,
+        fbMood,
+        fbAge,
+        fbNationality,
+        fbComplexion,
+        fbDisableQuote,
+        fbDisableImage,
+        fbPostTitle,
+        fbPostTags,
+        shyQuoteText,
+        shyCharacterStyle,
+        shyArtStyle,
+        shyColorTheme,
+        shyLayout,
+        shyFormat,
+        shyDisableQuote,
+        shyDisableImage,
+        shyTextStyle,
+        shyMood,
+      };
+      localStorage.setItem("nanoProState", JSON.stringify(state));
+    } catch (error) {
+      console.warn("Failed to save nanoProState to localStorage:", error);
+      try {
+        // Fallback minimal state save
+        const minimalState = {
+          characterType,
+          visualStyle,
+          aspectRatio,
+          backgroundStyle,
+          aiModel,
+          generateVideo,
+          activeTab,
+        };
+        localStorage.setItem("nanoProState", JSON.stringify(minimalState));
+      } catch (fallbackError) {
+        // Silently ignore if browser localStorage is completely full
+      }
+    }
   }, [
     generatedPrompt, characterType, clothing, age, nationality, complexion, visualStyle, 
     aspectRatio, backgroundStyle, customAspectRatio, promptHistory, referenceCharacterInfo, 

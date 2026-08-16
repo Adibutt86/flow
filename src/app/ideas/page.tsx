@@ -5496,7 +5496,11 @@ export default function IdeasPage() {
   const saveDialoguesToStorage = (dialogues: SavedDialogueItem[]) => {
     setSavedDialogues(dialogues);
     if (typeof window !== "undefined") {
-      localStorage.setItem("flow-saved-dialogues", JSON.stringify(dialogues));
+      try {
+        localStorage.setItem("flow-saved-dialogues", JSON.stringify(dialogues));
+      } catch (e) {
+        console.warn("Failed to save dialogues to localStorage", e);
+      }
     }
   };
 
@@ -6065,7 +6069,11 @@ export default function IdeasPage() {
         withoutDialogue,
         withoutMusic,
       };
-      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+      try {
+        localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+      } catch (e) {
+        console.warn("Failed to save flow-ideas-page-settings to localStorage", e);
+      }
     }
   }, [
     category,
