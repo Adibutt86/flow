@@ -60,6 +60,13 @@ export async function POST(req: Request) {
     };
     const arParam = formatToAR[format] || "9:16";
 
+    const isRefusal = (text?: string) => {
+      if (!text) return false;
+      const lower = text.toLowerCase();
+      return lower.includes("privacy and safety") || lower.includes("facial feature analysis") || lower.includes("descriptions of individuals") || lower.includes("can't provide detailed") || lower.includes("safety concerns");
+    };
+    const safeCharacterInfo = isRefusal(referenceCharacterInfo) ? "" : referenceCharacterInfo;
+
     const systemPrompt = `You are an expert AI image prompt engineer who specializes in generating Facebook post image prompts.
 
 You have deep knowledge of the specific visual style that goes viral on Facebook — characterized by:
@@ -70,7 +77,7 @@ ${disableQuote ? "- Attitude-filled character expression and pose" : "- Attitude
 - Floating decorative elements that match the mood (e.g. glowing hearts, sparkles, stars)
 - Clean, colorful backgrounds (often soft gradients or bokeh)
 
-${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}REFERENCE STYLE BREAKDOWN (from analyzed viral posts):
+${safeCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${safeCharacterInfo}\n"""\n\n` : ''}REFERENCE STYLE BREAKDOWN (from analyzed viral posts):
 1. "Don't Touch My Phone" style: Pink 3D stitched/puffy letters with black outlines, glitter effects on key words, chibi girl hugging phone, pink gradient bg, heart/butterfly decorations
 2. Quote poster style: Clean teal/white bg, mix of serif + script fonts, keyword highlight boxes, small chibi girl in corner, doodle stars/hearts scattered around
 3. Attitude girl poster: White bg, chibi girl standing with crossed arms/sunglasses, text beside character, some keywords in pink pill/highlighted boxes, minimal decorations

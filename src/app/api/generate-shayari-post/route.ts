@@ -52,6 +52,13 @@ export async function POST(req: Request) {
     };
     const arParam = formatToAR[format] || "9:16";
 
+    const isRefusal = (text?: string) => {
+      if (!text) return false;
+      const lower = text.toLowerCase();
+      return lower.includes("privacy and safety") || lower.includes("facial feature analysis") || lower.includes("descriptions of individuals") || lower.includes("can't provide detailed") || lower.includes("safety concerns");
+    };
+    const safeCharacterInfo = isRefusal(referenceCharacterInfo) ? "" : referenceCharacterInfo;
+
     const systemPrompt = `You are an expert AI image prompt engineer who specializes in generating poetic, romantic, and emotional Shayari/Song post image prompts.
 
 You have deep knowledge of aesthetic poetry visuals that go viral on social media — characterized by:
@@ -60,7 +67,7 @@ You have deep knowledge of aesthetic poetry visuals that go viral on social medi
 ${disableQuote ? "- NO text overlay in the image, purely artistic scene focus" : "- Elegant Urdu/Arabic calligraphy or refined typography integrated seamlessly into the artwork"}
 - Rich emotional resonance matching classic & modern Urdu/Hindi poetry (Ghalib, Faiz, Jaun Elia, Rahat Indori)
 
-${referenceCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${referenceCharacterInfo}\n"""\n\n` : ''}${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this generation. Do NOT include any typography, text, or letters in the image prompt." : ""}`;
+${safeCharacterInfo ? `\nCRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:\n"""\n${safeCharacterInfo}\n"""\n\n` : ''}${disableQuote ? "NOTE: The user has requested to DISABLE quotes/text for this generation. Do NOT include any typography, text, or letters in the image prompt." : ""}`;
 
     const userPrompt = `Generate a Shayari/Song post image prompt package with these specifications:
 

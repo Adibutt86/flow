@@ -46,6 +46,13 @@ export async function POST(req: Request) {
     const anthropicApiKey = process.env.ANTHROPIC_API_KEY || "";
     const geminiApiKey = process.env.GEMINI_API_KEY || "";
 
+    const isRefusal = (text?: string) => {
+      if (!text) return false;
+      const lower = text.toLowerCase();
+      return lower.includes("privacy and safety") || lower.includes("facial feature analysis") || lower.includes("descriptions of individuals") || lower.includes("can't provide detailed") || lower.includes("safety concerns");
+    };
+    const safeCharacterInfo = isRefusal(referenceCharacterInfo) ? "" : referenceCharacterInfo;
+
     const prompt = `You are an expert prompt engineer for an AI generator. 
 Write detailed prompts based on the following parameters:
 
@@ -57,9 +64,9 @@ Write detailed prompts based on the following parameters:
 - Clothing: ${clothing}
 - Background/Environment: ${backgroundStyle}
 
-${referenceCharacterInfo ? `CRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:
+${safeCharacterInfo ? `CRITICAL CHARACTER REUSE: The user wants to reuse a previously generated character. MUST include ALL of the following physical traits explicitly in your prompt to ensure the character looks exactly the same:
 """
-${referenceCharacterInfo}
+${safeCharacterInfo}
 """` : ""}
 
 CRITICAL RULES:
