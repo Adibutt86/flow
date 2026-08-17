@@ -5600,6 +5600,7 @@ export default function IdeasPage() {
   // Script & Dialogue Modal State
   const [scriptModalIdea, setScriptModalIdea] = useState<SavedIdea | null>(null);
   const [editedScriptText, setEditedScriptText] = useState("");
+  const [showReactionModal, setShowReactionModal] = useState(false);
 
   const handleOpenScriptModal = (idea: SavedIdea) => {
     setScriptModalIdea(idea);
@@ -7686,54 +7687,20 @@ export default function IdeasPage() {
                       </button>
                     ))}
 
-                    <span className={`text-[10px] font-black uppercase tracking-wider ml-1 ${isLight ? "text-amber-950" : "text-amber-400"}`}>🎭 Action Emojis:</span>
-                    {[
-                      { emoji: "😡", desc: "Angry / Pouting" },
-                      { emoji: "😂", desc: "Laughing / Giggling" },
-                      { emoji: "😭", desc: "Crying / Sad Tantrum" },
-                      { emoji: "🤫", desc: "Whisper / Secret" },
-                      { emoji: "🏃‍♂️", desc: "Running / Dashing" },
-                      { emoji: "🍦", desc: "Eating Ice Cream" },
-                      { emoji: "📱", desc: "Holding Phone" },
-                      { emoji: "😤", desc: "Huffing / Annoyed" },
-                      { emoji: "🧸", desc: "Teddy Bear Prop" },
-                      { emoji: "🍋", desc: "Sour Lemon Reaction" },
-                      { emoji: "🏆", desc: "Holding Trophy / Victory Celebration" },
-                    ].map(({ emoji, desc }) => (
-                      <button
-                        key={emoji}
-                        type="button"
-                        onClick={() => insertEmoji(emoji)}
-                        className={`px-2 py-1 rounded-lg border text-xs transition-all cursor-pointer active:scale-95 shadow-sm ${
-                          isLight ? "bg-amber-100/70 border-amber-300 hover:bg-amber-200 text-amber-950 font-bold" : "bg-amber-950/50 border-amber-500/40 hover:bg-amber-900/70 text-amber-300"
-                        }`}
-                        title={`Insert ${emoji} (${desc}) — AI translates this into character expression & physical action`}
-                      >
-                        {emoji}
-                      </button>
-                    ))}
-
-                    <span className={`text-[10px] font-black uppercase tracking-wider ml-1 ${isLight ? "text-indigo-950" : "text-indigo-400"}`}>🔊 Vocal Sound Cues:</span>
-                    {[
-                      { cue: "(Loud snoring sound: خررر... 💤)", label: "💤 Snoring" },
-                      { cue: "(Splashes water & gasping: 🌊😱)", label: "🌊 Water Splash" },
-                      { cue: "(Mischievous giggling: 😂)", label: "😂 Giggling" },
-                      { cue: "(Crying tantrum: 😭)", label: "😭 Crying" },
-                      { cue: "(Quiet whisper: 🤫)", label: "🤫 Whisper" },
-                      { cue: "(Shocked gasp: 😱)", label: "😱 Gasp" },
-                    ].map(({ cue, label }) => (
-                      <button
-                        key={label}
-                        type="button"
-                        onClick={() => insertEmoji(cue)}
-                        className={`px-2 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
-                          isLight ? "bg-indigo-100/80 border-indigo-300 hover:bg-indigo-200 text-indigo-950" : "bg-indigo-950/60 border-indigo-500/40 hover:bg-indigo-900/80 text-indigo-200"
-                        }`}
-                        title={`Insert "${cue}" at cursor`}
-                      >
-                        {label}
-                      </button>
-                    ))}
+                    {/* Reactions & Vocal Sound Effects Popup Trigger */}
+                    <button
+                      type="button"
+                      onClick={() => setShowReactionModal(true)}
+                      className={`flex items-center gap-1.5 px-3 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight
+                          ? "bg-amber-400 border-amber-500 text-amber-950 hover:bg-amber-500 hover:text-white"
+                          : "bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/50 text-amber-300"
+                      }`}
+                      title="Open Reaction Emojis & Vocal Sound Effects Picker Popup"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>😃 Reactions & Sounds Popup</span>
+                    </button>
 
                     {/* LTR / RTL direction toggle */}
                     <button
@@ -11187,6 +11154,153 @@ export default function IdeasPage() {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 😃 Reaction Emojis & Vocal Sound Effects Picker Popup Modal */}
+      {showReactionModal && (
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+          <div className={`w-full max-w-lg rounded-2xl border p-4 sm:p-5 shadow-2xl space-y-4 max-h-[85vh] flex flex-col ${
+            isLight ? "bg-white border-amber-300 text-slate-900" : "bg-slate-950 border-amber-500/40 text-white"
+          }`}>
+            {/* Header */}
+            <div className="flex items-center justify-between pb-2.5 border-b border-amber-500/20">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🎭</span>
+                <div>
+                  <h3 className={`text-sm font-black uppercase tracking-wider ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                    Reaction Emojis & Vocal Sound Cues
+                  </h3>
+                  <p className="text-[11px] text-slate-400 font-medium">Tap any emoji or sound cue to insert directly into your script!</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowReactionModal(false)}
+                className="p-1.5 rounded-xl hover:bg-rose-500/20 text-rose-500 font-bold transition-all cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Categories & Emojis Scroll View */}
+            <div className="overflow-y-auto space-y-4 pr-1 custom-scrollbar flex-1">
+              {/* Category 1: Facial Expressions */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-black uppercase tracking-wider text-amber-500">😃 Facial Expressions & Reactions</h4>
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                  {[
+                    { emoji: "😡", label: "Angry / Pouting" },
+                    { emoji: "😂", label: "Laughing" },
+                    { emoji: "😭", label: "Crying" },
+                    { emoji: "🤫", label: "Whisper" },
+                    { emoji: "😤", label: "Annoyed Huff" },
+                    { emoji: "🍋", label: "Sour Lemon" },
+                    { emoji: "😱", label: "Shocked Gasp" },
+                    { emoji: "😲", label: "Surprised" },
+                    { emoji: "😴", label: "Sleepy Snore" },
+                    { emoji: "😋", label: "Yummy Taste" },
+                    { emoji: "😉", label: "Wink" },
+                    { emoji: "🙄", label: "Eye Roll" },
+                  ].map(({ emoji, label }) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => {
+                        insertEmoji(emoji);
+                        showToast(`Inserted ${emoji} (${label})`, "info");
+                      }}
+                      className={`p-2 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer active:scale-90 hover:scale-105 shadow-sm ${
+                        isLight ? "bg-amber-50 hover:bg-amber-100 border-amber-300" : "bg-amber-950/40 hover:bg-amber-900/60 border-amber-500/30"
+                      }`}
+                      title={label}
+                    >
+                      <span className="text-2xl">{emoji}</span>
+                      <span className="text-[9px] font-bold text-slate-400 truncate max-w-full">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category 2: Physical Actions & Props */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">🏃 Action Emojis & Props</h4>
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                  {[
+                    { emoji: "🏃‍♂️", label: "Running" },
+                    { emoji: "🍦", label: "Ice Cream" },
+                    { emoji: "📱", label: "Holding Phone" },
+                    { emoji: "🧸", label: "Teddy Bear" },
+                    { emoji: "🏆", label: "Holding Trophy" },
+                    { emoji: "🛍️", label: "Shopping Bag" },
+                    { emoji: "🍪", label: "Cookie" },
+                    { emoji: "🚗", label: "Car Ride" },
+                    { emoji: "🎈", label: "Toy Balloon" },
+                    { emoji: "🎁", label: "Gift Box" },
+                  ].map(({ emoji, label }) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => {
+                        insertEmoji(emoji);
+                        showToast(`Inserted ${emoji} (${label})`, "info");
+                      }}
+                      className={`p-2 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer active:scale-90 hover:scale-105 shadow-sm ${
+                        isLight ? "bg-emerald-50 hover:bg-emerald-100 border-emerald-300" : "bg-emerald-950/40 hover:bg-emerald-900/60 border-emerald-500/30"
+                      }`}
+                      title={label}
+                    >
+                      <span className="text-2xl">{emoji}</span>
+                      <span className="text-[9px] font-bold text-slate-400 truncate max-w-full">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category 3: Vocal Sound Effects */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-black uppercase tracking-wider text-indigo-500">🔊 Vocal Sound Effects Cues</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { cue: "(Loud snoring sound: خررر... 💤)", label: "💤 Loud Snoring" },
+                    { cue: "(Splashes water & gasping: 🌊😱)", label: "🌊 Water Splash" },
+                    { cue: "(Mischievous giggling: 😂)", label: "😂 Giggling" },
+                    { cue: "(Crying tantrum: 😭)", label: "😭 Crying Tantrum" },
+                    { cue: "(Quiet whisper: 🤫)", label: "🤫 Quiet Whisper" },
+                    { cue: "(Shocked gasp: 😱)", label: "😱 Shocked Gasp" },
+                  ].map(({ cue, label }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => {
+                        insertEmoji(cue);
+                        showToast(`Inserted "${label}"`, "info");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-300 text-indigo-950" : "bg-indigo-950/40 hover:bg-indigo-900/60 border-indigo-500/30 text-indigo-200"
+                      }`}
+                    >
+                      <span className="text-xs font-black">{label}</span>
+                      <span className="text-[10px] opacity-60">Tap to insert ➔</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="pt-2 border-t border-amber-500/20 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowReactionModal(false)}
+                className={`px-4 py-2 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+                  isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800 border-slate-700 text-white hover:bg-slate-700"
+                }`}
+              >
+                Close Popup Modal
+              </button>
             </div>
           </div>
         </div>
