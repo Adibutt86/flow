@@ -829,6 +829,67 @@ const KIDS_TALKING_SPEED_GROUPS: OptionGroupWithDesc[] = [
 
 const CUTE_KIDS_PRESET_GROUPS = [
   {
+    groupName: "🎭 1-Click Cast Presets",
+    presets: [
+      {
+        icon: "🛍️",
+        title: "Girl & Shopkeeper",
+        age: "Toddler (2-4 yrs)",
+        location: "Bustling Desi Bazaar & Street Market",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "Girl & Shopkeeper",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+      },
+      {
+        icon: "👨‍👦",
+        title: "Abu & Baita",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "Father & Son (Abu & Baita)",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+      },
+      {
+        icon: "👩‍👧",
+        title: "Amma & Beti",
+        age: "Toddler (2-4 yrs)",
+        location: "Modern Kitchen",
+        health: "Healthy",
+        vibe: "Sweet & Wholesome",
+        setup: "Mother & Daughter",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+      },
+      {
+        icon: "👫",
+        title: "2 Toddler Friends",
+        age: "Toddler (2-4 yrs)",
+        location: "Sunny Playground",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Toddler Friends",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+      },
+      {
+        icon: "🐈",
+        title: "Kid & Pet",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Sweet & Wholesome",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Cute Plush Kitten / Puppy 🐱",
+      },
+    ],
+  },
+  {
     groupName: "🔥 Viral Kid Moments",
     presets: [
       {
