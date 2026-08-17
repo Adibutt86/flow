@@ -798,10 +798,17 @@ const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
     category: "Voice & Audio Atmosphere",
     options: [
       { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the most fitting audio style for the scene." },
+      { value: "Toddler Snoring & Sleep Noises", label: "💤 Toddler Snoring & Sleep Noises (خررر... 💤)", desc: "Cute open-mouth toddler snoring, sleeping coos, and startled wake-up gasps." },
+      { value: "Water Splash & Sputtering SFX", label: "🌊 Water Splash & Sputtering (🌊💦)", desc: "Realistic water splashing, choking/gasping on water, wet towel slaps." },
       { value: "Cute Baby Giggles & Babble SFX", label: "👶 Cute Baby Giggles & Babble", desc: "Adorable baby laughters, coos, giggles, and innocent babble sound FX." },
       { value: "Innocent Toddler Speech", label: "🗣️ Innocent Toddler Speech", desc: "Natural toddler speaking voice with cute pronunciation and curiosity." },
-      { value: "Soft Mother/Father Narration", label: "🎙️ Soft Parent Narration (Voiceover)", desc: "Warm, loving parent story narration overlay with silent kid acting." },
       { value: "Funny High-Pitch Cartoon Voice", label: "🤡 Funny High-Pitch Cartoon Voice", desc: "Silly, playful cartoon pitch voiceover for comedic kid clips." },
+      { value: "Dramatic Crying & Sad Tantrum", label: "😭 Dramatic Crying & Sad Tantrum (😭🥺)", desc: "Trembling lip, crying wails, and dramatic toddler tantrum sobbing." },
+      { value: "Sneaky Whispers & Tip-Toe SFX", label: "🤫 Sneaky Whispers & Tip-Toe (🤫👣)", desc: "Quiet sneaky footsteps, finger-on-lip shh, and whispered secret audio cues." },
+      { value: "Shocked Gasp & Screaming SFX", label: "😱 Shocked Gasp & Sudden Scream (😱😮)", desc: "Loud toddler gasp, sudden scream of surprise, and scared squeaks." },
+      { value: "Angry Huffing & Foot Stomp", label: "😤 Angry Huffing & Foot Stomp (😤😡)", desc: "Annoyed huffing, foot stamping sound FX, and grumpy pouting huffs." },
+      { value: "Yummy Munching & Slurp SFX", label: "🍦 Yummy Munching & Slurp (🍦😋)", desc: "Munching, chewing sound FX, slurping ice cream, milk, or chocolates." },
+      { value: "Soft Mother/Father Narration", label: "🎙️ Soft Parent Narration (Voiceover)", desc: "Warm, loving parent story narration overlay with silent kid acting." },
     ]
   }
 ];
@@ -7600,6 +7607,28 @@ export default function IdeasPage() {
                         title={`Insert ${emoji} (${desc}) — AI translates this into character expression & physical action`}
                       >
                         {emoji}
+                      </button>
+                    ))}
+
+                    <span className={`text-[10px] font-black uppercase tracking-wider ml-1 ${isLight ? "text-indigo-950" : "text-indigo-400"}`}>🔊 Vocal Sound Cues:</span>
+                    {[
+                      { cue: "(Loud snoring sound: خررر... 💤)", label: "💤 Snoring" },
+                      { cue: "(Splashes water & gasping: 🌊😱)", label: "🌊 Water Splash" },
+                      { cue: "(Mischievous giggling: 😂)", label: "😂 Giggling" },
+                      { cue: "(Crying tantrum: 😭)", label: "😭 Crying" },
+                      { cue: "(Quiet whisper: 🤫)", label: "🤫 Whisper" },
+                      { cue: "(Shocked gasp: 😱)", label: "😱 Gasp" },
+                    ].map(({ cue, label }) => (
+                      <button
+                        key={label}
+                        type="button"
+                        onClick={() => insertEmoji(cue)}
+                        className={`px-2 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-indigo-100/80 border-indigo-300 hover:bg-indigo-200 text-indigo-950" : "bg-indigo-950/60 border-indigo-500/40 hover:bg-indigo-900/80 text-indigo-200"
+                        }`}
+                        title={`Insert "${cue}" at cursor`}
+                      >
+                        {label}
                       </button>
                     ))}
 
