@@ -5631,21 +5631,35 @@ export default function IdeasPage() {
       return;
     }
 
-    const textToRead = customDialogue.replace(/(\(.*?\)|[^\w\s\u0600-\u06FF])/gi, " ").trim();
+    // Clean speaker labels and sound cues in parentheses for clear speech synthesis
+    const textToRead = customDialogue
+      .replace(/\(.*?\)/g, "")
+      .replace(/(Boy|Girl|Abu|Baita|Amma|Uncle|Shopkeeper|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار):/gi, "")
+      .trim();
+
     if (!textToRead) {
-      showToast("Please enter some dialogue text to listen to voice preview!", "info");
+      showToast("Please enter some spoken dialogue text to listen to voice preview!", "info");
       return;
     }
 
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(textToRead);
-    utterance.pitch = 1.4; // High pitch for toddler voice effect
-    utterance.rate = 0.95;
+    const isUrdu = /[\u0600-\u06FF]/.test(textToRead);
+
+    utterance.lang = isUrdu ? "ur-PK" : "en-US";
+    utterance.volume = 1.0; // Maximum clear volume
+    utterance.rate = 0.9;
+    utterance.pitch = isUrdu ? 1.15 : 1.35; // Cute kid pitch
 
     const voices = window.speechSynthesis.getVoices();
-    const urduVoice = voices.find((v) => /ur|hi|urdu|hindi/i.test(v.lang || v.name));
-    if (urduVoice) {
-      utterance.voice = urduVoice;
+    if (voices && voices.length > 0) {
+      const matchVoice = isUrdu
+        ? voices.find((v) => v.lang.startsWith("ur") || /ur|urdu/i.test(v.name || v.lang)) ||
+          voices.find((v) => v.lang.startsWith("hi") || /hi|hindi/i.test(v.name || v.lang))
+        : voices.find((v) => v.lang.startsWith("en"));
+      if (matchVoice) {
+        utterance.voice = matchVoice;
+      }
     }
 
     utterance.onend = () => setIsPlayingAudio(false);
