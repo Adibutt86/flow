@@ -901,6 +901,70 @@ const CUTE_KIDS_PRESET_GROUPS = [
     ],
   },
   {
+    groupName: "👶 Early Toddler Playtime (1.5-2.5 yrs)",
+    presets: [
+      {
+        icon: "👟",
+        title: "Giant Shoes Explorer",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Playful & Wobbly Explorer (1.5-2.5 yrs)",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Oversized Leather Shoes 👞",
+      },
+      {
+        icon: "🫧",
+        title: "Bubble Chasing Adventure",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Sunny Outdoor Garden & Lawn",
+        health: "Healthy",
+        vibe: "Playful & Wobbly Explorer (1.5-2.5 yrs)",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Soap Bubble Blower 🫧",
+      },
+      {
+        icon: "🖐️",
+        title: "Peek-a-Boo Surprise",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Cozy Bedroom Attic & Secret Fort",
+        health: "Healthy",
+        vibe: "Peek-a-Boo & Mischievous (1.5-2.5 yrs)",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+      },
+      {
+        icon: "📦",
+        title: "Cardboard Box Rocket",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Playful & Wobbly Explorer (1.5-2.5 yrs)",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        prop: "Cardboard Box Car 📦",
+      },
+      {
+        icon: "🍋",
+        title: "Sour Lemon Reaction",
+        age: "Early Toddler (1.5-2.5 yrs)",
+        location: "Modern Kitchen",
+        health: "Healthy",
+        vibe: "Playful & Wobbly Explorer (1.5-2.5 yrs)",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        food: "Fresh Yellow Lemon Slice 🍋",
+      },
+    ],
+  },
+  {
     groupName: "🔥 Viral Kid Moments",
     presets: [
       {
@@ -3118,6 +3182,8 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Sunshine Smile", label: "Sunshine Smile", desc: "Radiating warmth, sweetness, and happy expressions." },
       { value: "Big Smiles", label: "Big Smiles", desc: "Heartwarming, wide beam of pure joy." },
       { value: "Positive Energy", label: "Positive Energy", desc: "Spreading wholesome optimism and cheerful vibes." },
+      { value: "Playful & Wobbly Explorer (1.5-2.5 yrs)", label: "🫧 Playful & Wobbly Explorer (1.5-2.5 yrs)", desc: "Wobbly toddler steps, bubble chasing, curiosity, and soft bum-plopping." },
+      { value: "Peek-a-Boo & Mischievous (1.5-2.5 yrs)", label: "🖐️ Peek-a-Boo & Mischievous (1.5-2.5 yrs)", desc: "Hiding behind curtains, peek-a-boo giggles, and mischievous toddler pranks." },
       { value: "Confidence Boost", label: "Confidence Boost", desc: "Brave, proud, and self-assured stance." },
       { value: "Self-Love", label: "Self-Love", desc: "Happy in their own skin and feeling proud." },
     ],
@@ -11211,12 +11277,12 @@ export default function IdeasPage() {
                     { emoji: "🤫", label: "Whisper" },
                     { emoji: "😤", label: "Annoyed Huff" },
                     { emoji: "🍋", label: "Sour Lemon" },
+                    { emoji: "🥺", label: "Puppy Eyes" },
+                    { emoji: "😁", label: "Gummy Smile" },
                     { emoji: "😱", label: "Shocked Gasp" },
                     { emoji: "😲", label: "Surprised" },
                     { emoji: "😴", label: "Sleepy Snore" },
                     { emoji: "😋", label: "Yummy Taste" },
-                    { emoji: "😉", label: "Wink" },
-                    { emoji: "🙄", label: "Eye Roll" },
                   ].map(({ emoji, label }) => (
                     <button
                       key={emoji}
@@ -11242,6 +11308,9 @@ export default function IdeasPage() {
                 <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">🏃 Action Emojis & Props</h4>
                 <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
                   {[
+                    { emoji: "🫧", label: "Soap Bubbles" },
+                    { emoji: "👟", label: "Giant Shoes" },
+                    { emoji: "📦", label: "Box Car" },
                     { emoji: "🏃‍♂️", label: "Running" },
                     { emoji: "🍦", label: "Ice Cream" },
                     { emoji: "📱", label: "Holding Phone" },
@@ -11249,9 +11318,6 @@ export default function IdeasPage() {
                     { emoji: "🏆", label: "Holding Trophy" },
                     { emoji: "🛍️", label: "Shopping Bag" },
                     { emoji: "🍪", label: "Cookie" },
-                    { emoji: "🚗", label: "Car Ride" },
-                    { emoji: "🎈", label: "Toy Balloon" },
-                    { emoji: "🎁", label: "Gift Box" },
                   ].map(({ emoji, label }) => (
                     <button
                       key={emoji}
@@ -11277,6 +11343,7 @@ export default function IdeasPage() {
                 <h4 className="text-xs font-black uppercase tracking-wider text-indigo-500">🔊 Vocal Sound Effects Cues</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
+                    { cue: "(Cute baby babbles: Dada... Mama... Baba! 👶)", label: "👶 Baby Babbles" },
                     { cue: "(Loud snoring sound: خررر... 💤)", label: "💤 Loud Snoring" },
                     { cue: "(Splashes water & gasping: 🌊😱)", label: "🌊 Water Splash" },
                     { cue: "(Mischievous giggling: 😂)", label: "😂 Giggling" },
