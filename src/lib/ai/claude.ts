@@ -394,7 +394,7 @@ STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue l
 The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
     : input.customDialogue
     ? (() => {
-        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل/.test(input.customDialogue);
+        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|Shopkeeper:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار/.test(input.customDialogue);
         if (isMultiChar) {
           return `🔴 CRITICAL MANDATE FOR USER MULTI-CHARACTER DIALOGUE SCRIPT:
 The user has provided a MULTI-CHARACTER BACK-AND-FORTH DIALOGUE SCRIPT with labelled speakers:
@@ -406,20 +406,21 @@ THIS IS A CONVERSATION BETWEEN MULTIPLE CHARACTERS. STRICT VIDEO GENERATOR RULES
 
 ━━━ CHARACTER SPATIAL LOCK (PREVENT MIXING) ━━━
 To prevent the video generator from mixing up characters, you MUST lock each character to a fixed screen position throughout the ENTIRE video:
-- CHARACTER 1 (Boy / لڑکا / Abu / ابو / Uncle / انکل): PERMANENTLY anchored to the LEFT SIDE of the 9:16 frame. Camera ALWAYS frames this character from the LEFT when they speak.
-- CHARACTER 2 (Girl / لڑکی / Baita / بیٹا / Amma / امی): PERMANENTLY anchored to the RIGHT SIDE of the 9:16 frame. Camera ALWAYS frames this character from the RIGHT when they speak.
+- CHARACTER 1 (Shopkeeper / دکاندار / Boy / Abu / Uncle): PERMANENTLY anchored to the LEFT SIDE behind counter or left frame. Camera ALWAYS frames this character when they speak.
+- CHARACTER 2 (Girl / لڑکی / Baita / Amma): PERMANENTLY anchored to the RIGHT SIDE of the 9:16 frame. Camera ALWAYS frames this character when she speaks.
 - Both characters are VISUALLY DISTINCT with clearly different appearance, clothing color, and hairstyle so the video generator never confuses them.
 
 ━━━ PER-LINE VISUAL CUE FORMAT ━━━
 For EACH dialogue line in the script, the generated video prompt MUST include an explicit visual camera instruction immediately before the 💬 dialogue line:
-  [Camera shifts LEFT — Boy speaks] 💬 Boy: [verbatim text]
-  [Camera shifts RIGHT — Girl reacts with a subtle smile] 💬 Girl: [verbatim text]
-  [Camera shifts LEFT — Boy raises an eyebrow] 💬 Boy: [verbatim text]
+  [Camera shifts LEFT — Shopkeeper speaks behind counter] 💬 Shopkeeper: [verbatim text]
+  [Camera shifts RIGHT — Girl reacts with a pouting expression] 💬 Girl: [verbatim text]
+  [Camera shifts LEFT — Shopkeeper smiles] 💬 Shopkeeper: [verbatim text]
   [Camera shifts RIGHT — Girl laughs softly] 💬 Girl: [verbatim text]
   (Apply this pattern for EVERY line in the user's script, in order)
 
 ━━━ STRICT RULES ━━━
 1. Label mapping (NEVER swap these):
+   - "Shopkeeper:" or "دکاندار" = LEFT-side shopkeeper behind counter ONLY
    - "Boy:" or "لڑکا" = LEFT-side male character ONLY
    - "Girl:" or "لڑکی" = RIGHT-side female character ONLY
    - "Abu:" or "ابو" = LEFT-side father character ONLY

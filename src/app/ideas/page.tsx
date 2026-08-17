@@ -7574,6 +7574,7 @@ export default function IdeasPage() {
                       { label: "Baita:", color: "green" },
                       { label: "Amma:", color: "purple" },
                       { label: "Uncle:", color: "orange" },
+                      { label: "Shopkeeper:", color: "teal" },
                     ].map(({ label, color }) => (
                       <button
                         key={label}
@@ -7585,6 +7586,7 @@ export default function IdeasPage() {
                           color === "amber" ? (isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/50 border-amber-500/40 text-amber-300 hover:bg-amber-900/60") :
                           color === "green" ? (isLight ? "bg-emerald-100 border-emerald-300 text-emerald-950 hover:bg-emerald-200" : "bg-green-950/50 border-green-500/40 text-green-300 hover:bg-green-900/60") :
                           color === "purple" ? (isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/50 border-purple-500/40 text-purple-300 hover:bg-purple-900/60") :
+                          color === "teal" ? (isLight ? "bg-teal-100 border-teal-300 text-teal-950 hover:bg-teal-200" : "bg-teal-950/50 border-teal-500/40 text-teal-300 hover:bg-teal-900/60") :
                           (isLight ? "bg-orange-100 border-orange-300 text-orange-950 hover:bg-orange-200" : "bg-orange-950/50 border-orange-500/40 text-orange-300 hover:bg-orange-900/60")
                         }`}
                         title={`Insert "${label}" at cursor`}
