@@ -394,32 +394,37 @@ STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue l
 The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
     : input.customDialogue
     ? (() => {
-        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|Shopkeeper:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار/.test(input.customDialogue);
+        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|Shopkeeper:|Wife:|Husband:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بیوی|شوہر|میاں/.test(input.customDialogue);
         if (isMultiChar) {
+          const isPhoneCall = /phone|mobile|call|فون|کال|موبائل/i.test(input.customDialogue);
           return `🔴 CRITICAL MANDATE FOR USER MULTI-CHARACTER DIALOGUE SCRIPT:
 The user has provided a MULTI-CHARACTER BACK-AND-FORTH DIALOGUE SCRIPT with labelled speakers:
 """
 ${input.customDialogue}
 """
 
-THIS IS A CONVERSATION BETWEEN MULTIPLE CHARACTERS. STRICT VIDEO GENERATOR RULES:
+THIS IS A CONVERSATION BETWEEN MULTIPLE CHARACTERS${isPhoneCall ? " (PHONE CONVERSATION SCENE)" : ""}. STRICT VIDEO GENERATOR RULES:
 
-━━━ CHARACTER SPATIAL LOCK (PREVENT MIXING) ━━━
-To prevent the video generator from mixing up characters, you MUST lock each character to a fixed screen position throughout the ENTIRE video:
-- CHARACTER 1 (Shopkeeper / دکاندار / Boy / Abu / Uncle): PERMANENTLY anchored to the LEFT SIDE behind counter or left frame. Camera ALWAYS frames this character when they speak.
-- CHARACTER 2 (Girl / لڑکی / Baita / Amma): PERMANENTLY anchored to the RIGHT SIDE of the 9:16 frame. Camera ALWAYS frames this character when she speaks.
+━━━ CHARACTER SPATIAL LOCK & PHONE CALL CUTS ━━━
+To prevent the video generator from mixing up characters, you MUST lock each character to a fixed screen position/location throughout the ENTIRE video:
+- CHARACTER 1 (Husband / شوہر / میاں / Shopkeeper / Boy / Abu / Uncle): PERMANENTLY anchored to the LEFT SIDE frame (e.g. driving car or office with phone 📱🚗). Camera ALWAYS frames this character when speaking.
+- CHARACTER 2 (Wife / بیوی / Girl / Baita / Amma): PERMANENTLY anchored to the RIGHT SIDE frame (e.g. living room holding phone to ear 📱). Camera ALWAYS frames this character when she speaks.
 - Both characters are VISUALLY DISTINCT with clearly different appearance, clothing color, and hairstyle so the video generator never confuses them.
 
 ━━━ PER-LINE VISUAL CUE FORMAT ━━━
 For EACH dialogue line in the script, the generated video prompt MUST include an explicit visual camera instruction immediately before the 💬 dialogue line:
-  [Camera shifts LEFT — Shopkeeper speaks behind counter] 💬 Shopkeeper: [verbatim text]
-  [Camera shifts RIGHT — Girl reacts with a pouting expression] 💬 Girl: [verbatim text]
-  [Camera shifts LEFT — Shopkeeper smiles] 💬 Shopkeeper: [verbatim text]
-  [Camera shifts RIGHT — Girl laughs softly] 💬 Girl: [verbatim text]
+  ${isPhoneCall 
+    ? `[Camera cuts to RIGHT — Wife holding smartphone to ear in living room] 💬 Wife: [verbatim text]
+  [Camera cuts to LEFT — Husband driving car holding steering wheel, talking on speaker 📱🚗] 💬 Husband: [verbatim text]`
+    : `[Camera shifts LEFT — Shopkeeper / Husband speaks] 💬 Husband: [verbatim text]
+  [Camera shifts RIGHT — Wife / Girl reacts with an expression] 💬 Wife: [verbatim text]`
+  }
   (Apply this pattern for EVERY line in the user's script, in order)
 
 ━━━ STRICT RULES ━━━
 1. Label mapping (NEVER swap these):
+   - "Wife:" or "بیوی" = RIGHT-side wife (holding phone or in room) ONLY
+   - "Husband:" or "شوہر" or "میاں" = LEFT-side husband (in car/office or left frame) ONLY
    - "Shopkeeper:" or "دکاندار" = LEFT-side shopkeeper behind counter ONLY
    - "Boy:" or "لڑکا" = LEFT-side male character ONLY
    - "Girl:" or "لڑکی" = RIGHT-side female character ONLY

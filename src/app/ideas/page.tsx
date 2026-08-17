@@ -887,6 +887,17 @@ const CUTE_KIDS_PRESET_GROUPS = [
         nationality: "Global / Any",
         prop: "Cute Plush Kitten / Puppy 🐱",
       },
+      {
+        icon: "📞",
+        title: "Wife & Husband (Phone)",
+        age: "Adults (25-35 yrs)",
+        location: "Miya Biwi in Car",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "Wife & Husband (Phone Call)",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+      },
     ],
   },
   {
@@ -7667,6 +7678,8 @@ export default function IdeasPage() {
                       { label: "Amma:", color: "purple" },
                       { label: "Uncle:", color: "orange" },
                       { label: "Shopkeeper:", color: "teal" },
+                      { label: "Wife:", color: "pink" },
+                      { label: "Husband:", color: "blue" },
                     ].map(({ label, color }) => (
                       <button
                         key={label}
