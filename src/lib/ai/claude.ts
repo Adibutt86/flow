@@ -452,7 +452,7 @@ STRICT RULES:
 }
 ${
   input.category === "CUTE_KIDS"
-    ? "\n─── CUTE KIDS CATEGORY: Main protagonist MUST be a cute innocent child/toddler (3-6yo). If a Father & Son setup is selected, Abu is the adult father (28-35yo) and Baita is the cute toddler. Keep spoken dialogue on dedicated separate lines starting with 💬 Spoken Dialogue. ───"
+    ? "\n─── CUTE KIDS CATEGORY (STRICT AI SAFETY & POLICY COMPLIANCE MANDATE):\n1. STYLIZED 3D ANIMATION FORMAT: Render the scene and characters in a charming 3D Pixar/Disney animated cartoon style or high-end 3D digital art style. Stylized 3D animation guarantees 100% safety compliance across all video generation platforms (Kling, Runway Gen-3, Sora, Luma, Pika).\n2. SAFE CHARACTER TERMS: Never use adult roleplay titles like 'husband', 'wife', 'married', or 'minor' in the generated prompt text. Always describe characters safely as 'playful 3D animated little boy character' and 'cute 3D animated little girl character' or 'innocent toddler'.\n3. SAFE PLAYFUL ANIMATION: Describe all funny pranks as innocent cartoon comedy (e.g. 'playful morning wake-up surprise with water droplets in a cozy cartoon bedroom under bright warm sunshine'). Keep spoken dialogue on dedicated separate lines starting with 💬 Spoken Dialogue. ───"
     : input.category === "SONG"
     ? "\n─── SONG CATEGORY: Characters MUST be adult vocalists/singers ONLY. NO children, NO toddlers, NO cute kids. ───"
     : input.category === "POETRY"
