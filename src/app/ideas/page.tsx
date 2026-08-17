@@ -5617,58 +5617,6 @@ export default function IdeasPage() {
     showToast("Loaded saved dialogue into input field!", "success");
   };
 
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-
-  const handlePlayVoicePreview = () => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      showToast("Text-to-speech audio is not supported in this browser.", "info");
-      return;
-    }
-
-    if (isPlayingAudio) {
-      window.speechSynthesis.cancel();
-      setIsPlayingAudio(false);
-      return;
-    }
-
-    // Clean speaker labels and sound cues in parentheses for clear speech synthesis
-    const textToRead = customDialogue
-      .replace(/\(.*?\)/g, "")
-      .replace(/(Boy|Girl|Abu|Baita|Amma|Uncle|Shopkeeper|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار):/gi, "")
-      .trim();
-
-    if (!textToRead) {
-      showToast("Please enter some spoken dialogue text to listen to voice preview!", "info");
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(textToRead);
-    const isUrdu = /[\u0600-\u06FF]/.test(textToRead);
-
-    utterance.lang = isUrdu ? "ur-PK" : "en-US";
-    utterance.volume = 1.0; // Maximum clear volume
-    utterance.rate = 0.9;
-    utterance.pitch = isUrdu ? 1.15 : 1.35; // Cute kid pitch
-
-    const voices = window.speechSynthesis.getVoices();
-    if (voices && voices.length > 0) {
-      const matchVoice = isUrdu
-        ? voices.find((v) => v.lang.startsWith("ur") || /ur|urdu/i.test(v.name || v.lang)) ||
-          voices.find((v) => v.lang.startsWith("hi") || /hi|hindi/i.test(v.name || v.lang))
-        : voices.find((v) => v.lang.startsWith("en"));
-      if (matchVoice) {
-        utterance.voice = matchVoice;
-      }
-    }
-
-    utterance.onend = () => setIsPlayingAudio(false);
-    utterance.onerror = () => setIsPlayingAudio(false);
-
-    setIsPlayingAudio(true);
-    window.speechSynthesis.speak(utterance);
-  };
-
   const handleApplyCastPreset = (presetId: string) => {
     if (presetId === "girl-shopkeeper") {
       setKidsLocation("Bustling Desi Bazaar & Street Market");
@@ -7571,21 +7519,6 @@ export default function IdeasPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     {customDialogue && (
                       <>
-                        <button
-                          type="button"
-                          onClick={handlePlayVoicePreview}
-                          className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
-                            isPlayingAudio
-                              ? "bg-rose-600 text-white border-rose-700 animate-pulse"
-                              : isLight
-                              ? "bg-emerald-100 border-emerald-300 text-emerald-950 hover:bg-emerald-200"
-                              : "bg-emerald-950/60 border-emerald-500/40 text-emerald-200 hover:bg-emerald-900/80"
-                          }`}
-                          title="Listen to high-pitch voice audio preview of your script"
-                        >
-                          <Volume2 className="w-3.5 h-3.5" />
-                          <span>{isPlayingAudio ? "⏹️ Stop Voice" : "🔊 Listen Voice"}</span>
-                        </button>
                         <button
                           type="button"
                           onClick={handleSaveDialogue}
