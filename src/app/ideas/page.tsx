@@ -7656,34 +7656,8 @@ export default function IdeasPage() {
 
                 {/* Character Label Quick-Insert + Direction + Voice Input */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
-                  <div className="space-y-2 py-1">
-                    {category === "CUTE_KIDS" && (
-                      <div className="flex flex-wrap items-center gap-1.5 pb-1 border-b border-amber-500/20">
-                        <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-amber-950" : "text-amber-300"}`}>🎭 1-Click Cast Presets:</span>
-                        {[
-                          { id: "girl-shopkeeper", label: "🛍️ Girl & Shopkeeper" },
-                          { id: "abu-baita", label: "👨‍👦 Abu & Baita" },
-                          { id: "amma-beti", label: "👩‍👧 Amma & Beti" },
-                          { id: "toddler-friends", label: "👫 2 Toddler Friends" },
-                          { id: "kid-pet", label: "🐈 Kid & Pet" },
-                        ].map((preset) => (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => handleApplyCastPreset(preset.id)}
-                            className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
-                              isLight
-                                ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200"
-                                : "bg-amber-950/60 border-amber-500/40 text-amber-200 hover:bg-amber-900/80"
-                            }`}
-                          >
-                            {preset.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    <div className="flex flex-wrap items-center gap-2 py-1">
-                      <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
+                  <div className="flex flex-wrap items-center gap-2 py-2">
+                    <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
                     {[
                       { label: "Boy:", color: "blue" },
                       { label: "Girl:", color: "pink" },
@@ -7803,7 +7777,6 @@ export default function IdeasPage() {
                       <Mic className={`w-3.5 h-3.5 ${isListening ? "text-white animate-bounce" : (isLight ? "text-amber-900" : "text-slate-400")}`} />
                       <span>{isListening ? "Stop Mic" : "🎙️ Mic"}</span>
                     </button>
-                    </div>
                   </div>
                 )}
 
