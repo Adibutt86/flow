@@ -5793,7 +5793,7 @@ export default function IdeasPage() {
 
 
   // Cute Kids specific options
-  const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Any / AI Decides");
+  const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
   const [kidsAudioStyle, setKidsAudioStyle] = useState(initialSettings.kidsAudioStyle || "Any / AI Decides");
   const [kidsTalkingSpeed, setKidsTalkingSpeed] = useState(initialSettings.kidsTalkingSpeed || "Any / AI Decides");
   const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
@@ -5895,7 +5895,7 @@ export default function IdeasPage() {
   };
 
   const resetNonLocationSettingsToAIDefault = () => {
-    setKidsAge("Any / AI Decides");
+    setKidsAge("Toddler (2-4 yrs)");
     setKidsHealth("AI Decides / Healthy");
     setKidsVibe("AI Decides / Balanced");
     setKidsClothing("AI Decides / Story Matching");
