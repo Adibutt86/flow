@@ -40,6 +40,7 @@ import {
   Sun,
   Moon,
   Compass,
+  Volume2,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -5616,6 +5617,73 @@ export default function IdeasPage() {
     showToast("Loaded saved dialogue into input field!", "success");
   };
 
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  const handlePlayVoicePreview = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      showToast("Text-to-speech audio is not supported in this browser.", "info");
+      return;
+    }
+
+    if (isPlayingAudio) {
+      window.speechSynthesis.cancel();
+      setIsPlayingAudio(false);
+      return;
+    }
+
+    const textToRead = customDialogue.replace(/(\(.*?\)|[^\w\s\u0600-\u06FF])/gi, " ").trim();
+    if (!textToRead) {
+      showToast("Please enter some dialogue text to listen to voice preview!", "info");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    utterance.pitch = 1.4; // High pitch for toddler voice effect
+    utterance.rate = 0.95;
+
+    const voices = window.speechSynthesis.getVoices();
+    const urduVoice = voices.find((v) => /ur|hi|urdu|hindi/i.test(v.lang || v.name));
+    if (urduVoice) {
+      utterance.voice = urduVoice;
+    }
+
+    utterance.onend = () => setIsPlayingAudio(false);
+    utterance.onerror = () => setIsPlayingAudio(false);
+
+    setIsPlayingAudio(true);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleApplyCastPreset = (presetId: string) => {
+    if (presetId === "girl-shopkeeper") {
+      setKidsLocation("Bustling Desi Bazaar & Street Market");
+      setCharactersPerScene("2 Characters");
+      setKidsAge("Toddler (2-4 yrs)");
+      showToast("🎭 Applied 'Girl & Shopkeeper' cast preset!", "success");
+    } else if (presetId === "abu-baita") {
+      setCharacterSetup("Father & Son (Abu & Baita)");
+      setCharactersPerScene("2 Characters");
+      setKidsAge("Toddler (2-4 yrs)");
+      showToast("👨‍👦 Applied 'Abu & Baita' cast preset!", "success");
+    } else if (presetId === "amma-beti") {
+      setKidsLocation("Modern Kitchen");
+      setCharactersPerScene("2 Characters");
+      setKidsAge("Toddler (2-4 yrs)");
+      showToast("👩‍👧 Applied 'Amma & Beti' cast preset!", "success");
+    } else if (presetId === "toddler-friends") {
+      setKidsLocation("Sunny Playground");
+      setCharactersPerScene("2 Characters");
+      setKidsAge("Toddler (2-4 yrs)");
+      showToast("👫 Applied 'Two Toddler Friends' cast preset!", "success");
+    } else if (presetId === "kid-pet") {
+      setKidsProp("Cute Plush Kitten / Puppy 🐱");
+      setCharactersPerScene("1 Character");
+      setKidsAge("Toddler (2-4 yrs)");
+      showToast("🐈 Applied 'Kid & Pet' cast preset!", "success");
+    }
+  };
+
   const insertDialogueLabel = (label: string) => {
     const textarea = dialogueTextareaRef.current;
     if (textarea) {
@@ -7491,6 +7559,21 @@ export default function IdeasPage() {
                       <>
                         <button
                           type="button"
+                          onClick={handlePlayVoicePreview}
+                          className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isPlayingAudio
+                              ? "bg-rose-600 text-white border-rose-700 animate-pulse"
+                              : isLight
+                              ? "bg-emerald-100 border-emerald-300 text-emerald-950 hover:bg-emerald-200"
+                              : "bg-emerald-950/60 border-emerald-500/40 text-emerald-200 hover:bg-emerald-900/80"
+                          }`}
+                          title="Listen to high-pitch voice audio preview of your script"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                          <span>{isPlayingAudio ? "⏹️ Stop Voice" : "🔊 Listen Voice"}</span>
+                        </button>
+                        <button
+                          type="button"
                           onClick={handleSaveDialogue}
                           className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                             isLight ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-700/50 text-indigo-200"
@@ -7565,8 +7648,34 @@ export default function IdeasPage() {
 
                 {/* Character Label Quick-Insert + Direction + Voice Input */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
-                  <div className="flex flex-wrap items-center gap-2 py-2">
-                    <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
+                  <div className="space-y-2 py-1">
+                    {category === "CUTE_KIDS" && (
+                      <div className="flex flex-wrap items-center gap-1.5 pb-1 border-b border-amber-500/20">
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-amber-950" : "text-amber-300"}`}>🎭 1-Click Cast Presets:</span>
+                        {[
+                          { id: "girl-shopkeeper", label: "🛍️ Girl & Shopkeeper" },
+                          { id: "abu-baita", label: "👨‍👦 Abu & Baita" },
+                          { id: "amma-beti", label: "👩‍👧 Amma & Beti" },
+                          { id: "toddler-friends", label: "👫 2 Toddler Friends" },
+                          { id: "kid-pet", label: "🐈 Kid & Pet" },
+                        ].map((preset) => (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() => handleApplyCastPreset(preset.id)}
+                            className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                              isLight
+                                ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200"
+                                : "bg-amber-950/60 border-amber-500/40 text-amber-200 hover:bg-amber-900/80"
+                            }`}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex flex-wrap items-center gap-2 py-1">
+                      <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
                     {[
                       { label: "Boy:", color: "blue" },
                       { label: "Girl:", color: "pink" },
@@ -7686,6 +7795,7 @@ export default function IdeasPage() {
                       <Mic className={`w-3.5 h-3.5 ${isListening ? "text-white animate-bounce" : (isLight ? "text-amber-900" : "text-slate-400")}`} />
                       <span>{isListening ? "Stop Mic" : "🎙️ Mic"}</span>
                     </button>
+                    </div>
                   </div>
                 )}
 
@@ -7851,6 +7961,43 @@ export default function IdeasPage() {
                         : "bg-black/80 border-amber-500/50 text-white placeholder-slate-500 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20"
                     }`}
                   />
+                )}
+
+                {/* 💬 Interactive Visual Chat Script Preview */}
+                {customDialogue && customDialogue.trim() && (
+                  <div className={`p-3.5 rounded-xl border space-y-2 mt-2 ${
+                    isLight ? "bg-amber-100/50 border-amber-300" : "bg-black/60 border-amber-500/30"
+                  }`}>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        isLight ? "text-amber-950" : "text-amber-300"
+                      }`}>
+                        <span>💬 Visual Script Chat Preview:</span>
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-bold">
+                        {customDialogue.split("\n").filter((l) => l.trim()).length} Spoken Line(s)
+                      </span>
+                    </div>
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                      {customDialogue.split("\n").filter((l) => l.trim()).map((line, idx) => {
+                        const isRightChar = /Girl:|لڑکی|Baita:|بیٹا|Amma:|امی/.test(line);
+                        return (
+                          <div
+                            key={idx}
+                            className={`flex ${isRightChar ? "justify-end" : "justify-start"}`}
+                          >
+                            <div className={`px-3 py-1.5 rounded-xl text-xs font-bold max-w-[85%] border shadow-xs ${
+                              isRightChar
+                                ? (isLight ? "bg-pink-100 border-pink-300 text-pink-950" : "bg-pink-950/80 border-pink-500/40 text-pink-200")
+                                : (isLight ? "bg-teal-100 border-teal-300 text-teal-950" : "bg-teal-950/80 border-teal-500/40 text-teal-200")
+                            }`}>
+                              {line}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 )}
 
                 {/* Saved Dialogues Tag List */}
