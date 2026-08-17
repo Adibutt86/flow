@@ -131,6 +131,7 @@ export interface SuggestIdeasInput {
   seed?: number;
   kidsAge?: string;
   kidsAudioStyle?: string;
+  kidsTalkingSpeed?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;

@@ -442,7 +442,8 @@ STRICT RULES:
 1. Do NOT translate "${input.customDialogue}" to English!
 2. Do NOT summarize, modify, or rephrase the Urdu/native script text!
 3. Output "${input.customDialogue}" 100% UNCHANGED on the "💬 Spoken Dialogue:" line!
-4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!`;
+4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!
+5. EMOJI TO ACTION & EXPRESSION TRANSLATION: If the dialogue text contains emojis (e.g. 😡, 😂, 😭, 🤫, 🏃‍♂️, 🍦, 📱, 😤, 😠, 🧸, 🏆), you MUST interpret each emoji as a direct visual instruction for the character's facial expression, emotional reaction, gesture, or physical action/prop in the visual 9:16 video prompt description (e.g. 😡 = angry pouting face & foot stomp, 😂 = uncontrollable giggling & belly laugh, 😭 = dramatic crying expression, 🤫 = finger on lips whisper, 🏃‍♂️ = dashing/running away, 🍦 = holding/eating ice cream, 🏆 = proudly holding a shiny gold trophy & cheering victory).`;
         }
       })()
     : "Dialogue Mandate: Include authentic, hilarious dialogue in the selected language with funny Desi timing and comic punchlines."
@@ -497,6 +498,12 @@ STRICT RULES:
 4. All other settings (character setup, clothing, vibe, location) should enhance and complement this scene description, not contradict it.` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsAudioStyle && input.kidsAudioStyle !== "Any / AI Decides" ? `Voice & Audio Style: ${input.kidsAudioStyle}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsTalkingSpeed && input.kidsTalkingSpeed !== "Any / AI Decides" ? `Script Talking / Delivery Speed: ${input.kidsTalkingSpeed}` : ""}
+${input.category === "CUTE_KIDS" && input.kidsTalkingSpeed && /super fast|rapid rant|10s burst/i.test(input.kidsTalkingSpeed) ? `CRITICAL RAPID TALKING & DIALOGUE BURST MANDATE:
+- High Word Density Script: Generate a dense, rapid-fire spoken dialogue script (35-45 words per 10-second scene) continuous without long pauses (e.g. rapid-fire kid ranting / complaining / excited chatter like: "یہ لو بزی رہنے کا نام- ہاں- ہر وقت بزی ہوں بزی ہوں اب رہو بزی میں بھی ویٹ نہیں کروں گی تمہارا- بات نہیں کرنا اب مجھ سے اب میں کٹی ہوں").
+- Rapid Lip-Sync & Animation: The child speaks continuous rapid-fire words with zero pauses, fast energetic mouth movements, dynamic cute hand gestures, and expressive toddler reactions throughout the entire 10-second clip.` : ""}
+${input.category === "CUTE_KIDS" && input.kidsTalkingSpeed && /fast & energetic|1.25x/i.test(input.kidsTalkingSpeed) ? `RAPID SCRIPT SPEED MANDATE: High-energy, quick speaking pace with brisk lip-sync movement (~25-30 words per 10s scene).` : ""}
+${input.category === "CUTE_KIDS" && input.kidsTalkingSpeed && /slow & dramatic|0.75x/i.test(input.kidsTalkingSpeed) ? `SLOW SCRIPT SPEED MANDATE: Cute slow baby/toddler speaking style with dramatic pauses between phrases (~8-12 words per 10s scene).` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsFood && input.kidsFood !== "Any / AI Decides" ? `Food/Snack in Scene: ${input.kidsFood}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsProp && input.kidsProp !== "Any / AI Decides" ? `Prop/Object in Hand: ${input.kidsProp}` : ""}
 ${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category === "POETRY" || input.category === "SHORT_CLIP") && input.referenceCharacterInfo ? `\nCRITICAL CHARACTER REFERENCE: The character must perfectly match this exact description: ${input.referenceCharacterInfo}\n` : ""}
@@ -1263,6 +1270,7 @@ export async function generateDialogueSuggestionWithClaude(input: {
   existingDialogue?: string;
   kidsAge?: string;
   kidsAudioStyle?: string;
+  kidsTalkingSpeed?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsClothing?: string;

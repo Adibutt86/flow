@@ -806,6 +806,19 @@ const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
   }
 ];
 
+const KIDS_TALKING_SPEED_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Script Talking / Delivery Speed",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI decide the dialogue speed based on scene mood." },
+      { value: "Super Fast / Rapid Rant (10s Burst)", label: "⚡ Super Fast / Rapid Rant (10s Burst)", desc: "Dense, rapid-fire script (35-45 words in 10s clip like angry/excited kid rant)." },
+      { value: "Fast & Energetic (1.25x)", label: "🏎️ Fast & Energetic (1.25x)", desc: "Quick, lively speaking speed with high energy and fast lip-sync (~25-30 words per 10s)." },
+      { value: "Normal / Natural (1.0x)", label: "🗣️ Normal / Natural (1.0x)", desc: "Standard conversational speech pace (~15-20 words per 10s)." },
+      { value: "Slow & Dramatic / Toddler Pause (0.75x)", label: "🐢 Slow & Dramatic / Toddler Pause (0.75x)", desc: "Cute slow baby/toddler dialogue with dramatic pauses between phrases (~8-12 words per 10s)." },
+    ]
+  }
+];
+
 const CUTE_KIDS_PRESET_GROUPS = [
   {
     groupName: "🔥 Viral Kid Moments",
@@ -4952,6 +4965,7 @@ interface IdeasPageSettings {
   customDialogue?: string;
   kidsAge?: string;
   kidsAudioStyle?: string;
+  kidsTalkingSpeed?: string;
   kidsLocation?: string;
   kidsHealth?: string;
   kidsVibe?: string;
@@ -5605,6 +5619,25 @@ export default function IdeasPage() {
     }
   };
 
+  const insertEmoji = (emoji: string) => {
+    const textarea = dialogueTextareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      const text = customDialogue;
+      const insertion = emoji + " ";
+      const newText = text.substring(0, start) + insertion + text.substring(end);
+      setCustomDialogue(newText);
+      setTimeout(() => {
+        textarea.focus();
+        const newPos = start + insertion.length;
+        textarea.setSelectionRange(newPos, newPos);
+      }, 50);
+    } else {
+      setCustomDialogue((prev) => (prev ? prev + " " + emoji + " " : emoji + " "));
+    }
+  };
+
   const insertUrduChar = (char: string) => {
     const textarea = dialogueTextareaRef.current;
     if (textarea) {
@@ -5755,6 +5788,7 @@ export default function IdeasPage() {
   // Cute Kids specific options
   const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Any / AI Decides");
   const [kidsAudioStyle, setKidsAudioStyle] = useState(initialSettings.kidsAudioStyle || "Any / AI Decides");
+  const [kidsTalkingSpeed, setKidsTalkingSpeed] = useState(initialSettings.kidsTalkingSpeed || "Any / AI Decides");
   const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Any / AI Decides");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
@@ -6444,6 +6478,7 @@ export default function IdeasPage() {
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
           kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
           kidsAudioStyle: category === "CUTE_KIDS" && kidsAudioStyle !== "Any / AI Decides" ? kidsAudioStyle : undefined,
+          kidsTalkingSpeed: category === "CUTE_KIDS" && kidsTalkingSpeed !== "Any / AI Decides" ? kidsTalkingSpeed : undefined,
           kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
@@ -7541,6 +7576,33 @@ export default function IdeasPage() {
                       </button>
                     ))}
 
+                    <span className={`text-[10px] font-black uppercase tracking-wider ml-1 ${isLight ? "text-amber-950" : "text-amber-400"}`}>🎭 Action Emojis:</span>
+                    {[
+                      { emoji: "😡", desc: "Angry / Pouting" },
+                      { emoji: "😂", desc: "Laughing / Giggling" },
+                      { emoji: "😭", desc: "Crying / Sad Tantrum" },
+                      { emoji: "🤫", desc: "Whisper / Secret" },
+                      { emoji: "🏃‍♂️", desc: "Running / Dashing" },
+                      { emoji: "🍦", desc: "Eating Ice Cream" },
+                      { emoji: "📱", desc: "Holding Phone" },
+                      { emoji: "😤", desc: "Huffing / Annoyed" },
+                      { emoji: "🧸", desc: "Teddy Bear Prop" },
+                      { emoji: "🍋", desc: "Sour Lemon Reaction" },
+                      { emoji: "🏆", desc: "Holding Trophy / Victory Celebration" },
+                    ].map(({ emoji, desc }) => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        onClick={() => insertEmoji(emoji)}
+                        className={`px-2 py-1 rounded-lg border text-xs transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          isLight ? "bg-amber-100/70 border-amber-300 hover:bg-amber-200 text-amber-950 font-bold" : "bg-amber-950/50 border-amber-500/40 hover:bg-amber-900/70 text-amber-300"
+                        }`}
+                        title={`Insert ${emoji} (${desc}) — AI translates this into character expression & physical action`}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+
                     {/* LTR / RTL direction toggle */}
                     <button
                       type="button"
@@ -8299,6 +8361,7 @@ export default function IdeasPage() {
                     { label: "👥 Setup", search: "setup" },
                     { label: "🖼️ Reference Img", search: "reference" },
                     { label: "🎙️ Audio", search: "audio" },
+                    { label: "⚡ Speed", search: "speed" },
                     { label: "😄 Expression", search: "expression" },
                     { label: "🍭 Food", search: "food" },
                     { label: "🎈 Props", search: "props" },
@@ -8407,6 +8470,18 @@ export default function IdeasPage() {
                     value={kidsAudioStyle}
                     onChange={setKidsAudioStyle}
                     groups={KIDS_AUDIO_STYLE_GROUPS}
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* 4.6.1 Script Talking / Delivery Speed */}
+                {matchesParamFilter(["speed", "talking speed", "speech speed", "pace", "pacing", "rate", "fast talking", "rant"]) && (
+                  <CustomSelect
+                    label="Script / Talking Speed"
+                    icon="⚡"
+                    value={kidsTalkingSpeed}
+                    onChange={setKidsTalkingSpeed}
+                    groups={KIDS_TALKING_SPEED_GROUPS}
                     isLight={isLight}
                   />
                 )}
