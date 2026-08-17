@@ -2850,6 +2850,16 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ]
   },
   {
+    category: "🚗 Vehicles, Rides & Travel Settings",
+    options: [
+      { value: "Two Friends Riding Motorbike", label: "🏍️ Two Friends on Motorbike / Scooter Ride", desc: "Two cute kid friends riding together on a colorful motor scooter / bike down a sunny scenic road." },
+      { value: "Miya Biwi Husband & Wife inside Car", label: "🚗 Miya Biwi (Husband & Wife) inside Car Drive", desc: "Cute little husband and wife roleplay sitting inside a car (front seats or backseat) on a fun road trip drive." },
+      { value: "Miya Biwi Husband & Wife on Motorbike", label: "🏍️ Miya Biwi (Husband & Wife) on Motorbike / Scooter", desc: "Cute little husband driving a scooter / motorbike with his little wife sitting behind him on a sunny street." },
+      { value: "Friend Riding Bicycle on Street", label: "🚲 Friend riding Bicycle / Bike in Park", desc: "Cute kid friend riding a colorful bicycle with a basket through a sunny park path or neighborhood street." },
+      { value: "Desi Auto-Rickshaw Ride", label: "🛺 Desi Auto-Rickshaw Ride in Market", desc: "Fun colorful auto-rickshaw ride through a vibrant street market with wind in their hair." },
+    ],
+  },
+  {
     category: "🎙️ Podcast & Media Studio Settings",
     options: [
       { value: "Modern Podcast Studio", label: "Modern Podcast & Media Studio 🎙️", desc: "Professional high-tech studio with dual neon studio lights, boom microphones, acoustic soundproofing, and studio headphones." },
@@ -5796,7 +5806,7 @@ export default function IdeasPage() {
   const [kidsAge, setKidsAge] = useState(initialSettings.kidsAge || "Toddler (2-4 yrs)");
   const [kidsAudioStyle, setKidsAudioStyle] = useState(initialSettings.kidsAudioStyle || "Any / AI Decides");
   const [kidsTalkingSpeed, setKidsTalkingSpeed] = useState(initialSettings.kidsTalkingSpeed || "Any / AI Decides");
-  const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Cozy Home Living Room");
+  const [kidsLocation, setKidsLocation] = useState(initialSettings.kidsLocation || "Any / AI Decides");
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Any / AI Decides");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
