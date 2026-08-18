@@ -457,15 +457,20 @@ STRICT RULES:
 }
 ${
   input.category === "CUTE_KIDS"
-    ? "\n─── CUTE KIDS CATEGORY (STRICT AI SAFETY & POLICY COMPLIANCE MANDATE):\n1. STYLIZED 3D ANIMATION FORMAT: Render the scene and characters in a charming 3D Pixar/Disney animated cartoon style or high-end 3D digital art style. Stylized 3D animation guarantees 100% safety compliance across all video generation platforms (Kling, Runway Gen-3, Sora, Luma, Pika).\n2. SAFE CHARACTER TERMS: Never use adult roleplay titles like 'husband', 'wife', 'married', or 'minor' in the generated prompt text. Always describe characters safely as 'playful 3D animated little boy character' and 'cute 3D animated little girl character' or 'innocent toddler'.\n3. SAFE PLAYFUL ANIMATION: Describe all funny pranks as innocent cartoon comedy (e.g. 'playful morning wake-up surprise with water droplets in a cozy cartoon bedroom under bright warm sunshine'). Keep spoken dialogue on dedicated separate lines starting with 💬 Spoken Dialogue. ───"
+    ? "\n─── CUTE KIDS CATEGORY (STRICT AI SAFETY & POLICY COMPLIANCE MANDATE):\n1. STYLIZED 3D ANIMATION FORMAT: Render the scene and characters in a charming 3D Pixar/Disney animated cartoon style or high-end 3D digital art style. Stylized 3D animation guarantees 100% safety compliance across all video generation platforms (Kling, Runway Gen-3, Sora, Luma, Pika).\n2. SAFE CHARACTER TERMS: Never use adult roleplay titles like 'husband', 'wife', 'married', or 'minor' in the generated prompt text. Always describe characters safely as 'playful 3D animated little boy character' and 'cute 3D animated little girl character' or 'innocent toddler'.\n3. SAFE PLAYFUL ANIMATION: Describe all funny pranks as innocent cartoon comedy (e.g. 'playful morning wake-up surprise with water droplets in a cozy cartoon bedroom under bright warm sunshine'). Keep spoken dialogue on dedicated separate lines starting with 💬 Spoken Dialogue.\n4. SCRIPT DIALOGUE PRESERVATION: DO NOT change, edit, summarize, translate, or rewrite the spoken script dialogue! Output dialogue 100% UNCHANGED verbatim.\n5. PAKISTANI PUNJABI MANDATE: If Punjabi language/culture is used, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ). ───"
     : input.category === "SONG"
-    ? "\n─── SONG CATEGORY: Characters MUST be adult vocalists/singers ONLY. NO children, NO toddlers, NO cute kids. ───"
+    ? "\n─── SONG CATEGORY:\n1. Characters MUST be adult vocalists/singers ONLY. NO children, NO toddlers, NO cute kids.\n2. SCRIPT DIALOGUE PRESERVATION: DO NOT change, edit, summarize, translate, or rewrite the spoken script dialogue! Output lyrics/dialogue 100% UNCHANGED verbatim.\n3. PAKISTANI PUNJABI MANDATE: If Punjabi language/culture is used, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ). ───"
     : input.category === "POETRY"
-    ? "\n─── POETRY CATEGORY: Characters MUST be adult Shayars/poets ONLY. NO children, NO toddlers, NO cute kids. ───"
+    ? "\n─── POETRY CATEGORY:\n1. Characters MUST be adult Shayars/poets ONLY. NO children, NO toddlers, NO cute kids.\n2. SCRIPT DIALOGUE PRESERVATION: DO NOT change, edit, summarize, translate, or rewrite the spoken script dialogue or Shayari! Output poetry dialogue 100% UNCHANGED verbatim.\n3. PAKISTANI PUNJABI MANDATE: If Punjabi language/culture is used, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ). ───"
     : input.category === "SHORT_CLIP"
     ? "\n─── SHORT CLIP CATEGORY: 10s Connected Video Clips with 100% Locked Character Consistency Across Clips. ───"
     : input.category === "CHARACTER_BIBLE"
     ? "\n─── CHARACTER BIBLE CATEGORY: Generate a comprehensive locked Character & World Bible specifying exact facial features, age, body build, locked outfit, personality, voice guidelines, and prompt consistency rules. ───"
+    : ""
+}
+${
+  input.characterSetup && /news\s*caster|news\s*anchor|news\s*studio/i.test(input.characterSetup)
+    ? "\n─── NEWS CASTER CHARACTER SETUP & NO TICKER MANDATE:\n1. NEWS STUDIO SETTING: Place character(s) at an anchor desk inside a modern high-end TV News Broadcast Studio with professional microphones, studio cameras, and newsroom backdrop.\n2. STRICT NO TICKER MANDATE: DO NOT add any news ticker, lower-third text crawl, breaking news banner, or ticker text at the bottom of the screen. Render ONLY the clean news studio environment. ───\n"
     : ""
 }
 ${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
@@ -1333,17 +1338,18 @@ Text to fix: "${input.existingDialogue || input.customIdea || ""}"
 STRICT SCRIPT CORRECTION & DIALOGUE RULES:
 1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi).
 2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
-3. PRESERVE MEANING: Keep the original meaning, joke timing, and intent 100% intact. Do NOT change the story or punchline, only refine and elevate the script quality.
-4. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Punjabi dialogue matching the category "${input.category}".
-5. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
-${input.customSceneDescription && input.customSceneDescription.trim() ? `6. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}
+3. PRESERVE MEANING & DIALOGUE: For Cute Kids, Poetry, and Song categories, keep original spoken dialogue 100% intact. Do NOT change, rewrite, or paraphrase user's original words or lines.
+4. PAKISTANI PUNJABI MANDATE: For Cute Kids, Poetry, and Song categories, whenever Punjabi language is requested or generated, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ).
+5. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Pakistani Punjabi dialogue matching the category "${input.category}".
+6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
+${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}
 ${
-  (input.category === "POETRY" || input.category === "SONG")
+  (input.category === "POETRY" || input.category === "SONG" || input.category === "CUTE_KIDS")
     ? `
-POETRY & SONG — STRICT 10-SECOND SCRIPT RULES (CRITICAL):
-6. NO LINE REPETITION: NEVER repeat the same Shayari couplet, lyric line, or phrase more than once. Every line must be unique and forward-moving.
-7. FIT IN 10 SECONDS: The entire script must be readable/speakable in a natural, expressive 10-second delivery. Max 2-3 lines or 1 complete Shayari sher (couplet) only.
-8. COMPLETE THOUGHT: The script must have a clear opening line, a middle build, and a final climactic word or line — all within the 10-second window.`
+POETRY, SONG & CUTE KIDS — STRICT 10-SECOND SCRIPT RULES (CRITICAL):
+8. NO LINE REPETITION: NEVER repeat the same Shayari couplet, lyric line, or phrase more than once. Every line must be unique and forward-moving.
+9. FIT IN 10 SECONDS: The entire script must be readable/speakable in a natural, expressive 10-second delivery. Max 2-3 lines or 1 complete Shayari sher (couplet) only.
+10. COMPLETE THOUGHT: The script must have a clear opening line, a middle build, and a final climactic word or line — all within the 10-second window.`
     : ""
 }`,
           },

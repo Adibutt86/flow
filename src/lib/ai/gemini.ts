@@ -996,11 +996,11 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 4. VISUAL COMEDY & CAMERA MANDATE:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
-5. DIALOGUE RULES (MAX 8 WORDS PER DIALOGUE LINE):
-   - Natural conversational Desi style without textbook or cringe language.
-   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Punjabi / Roman Punjabi (e.g. "Oye paji!", "Yaar ye kya scene hai?", "Haye rabba!", "Tu mera lassi da glass kyu peeta?").
-   - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu (e.g. "Allah khair kare!", "Doctor saab!", "Aap ne ye kya kar diya?").
-   - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi (e.g. "Chintu dukaan par ja kar kehta hai...", "Uncle, discount do!").
+5. DIALOGUE & SCRIPT RULES:
+   - For Cute Kids, Poetry (Shayari), and Song categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (ਪੰਜਾਬੀ).
+   - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
+   - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.
    - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.

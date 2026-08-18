@@ -2812,6 +2812,14 @@ const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "📺 News Caster & Studio Anchors",
+    options: [
+      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background without news tickers.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background without news tickers.", tag: "📺 News Studio" },
+      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background without any news ticker.", tag: "📺 News Studio" },
+    ],
+  },
+  {
     category: "Adult Performers & Duet Combos",
     options: [
       { value: "Man & Girl Combo (Duet Performers) 👫", label: "Man & Girl Combo (Duet Performers) 👫", desc: "Dual performance clip featuring a man and a girl performing together." },
@@ -2999,6 +3007,7 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "🎙️ Podcast & Media Studio Settings",
     options: [
+      { value: "Modern TV News Broadcast Studio", label: "Modern TV News Broadcast Studio 📺", desc: "High-end television news broadcast studio with anchor desk, studio microphones, backdrop monitors, and lighting. Clean news studio setup without news tickers." },
       { value: "Modern Podcast Studio", label: "Modern Podcast & Media Studio 🎙️", desc: "Professional high-tech studio with dual neon studio lights, boom microphones, acoustic soundproofing, and studio headphones." },
       { value: "Cozy Home Podcast Nook", label: "Cozy Home Podcast Corner 🎧", desc: "Warm aesthetic home podcast setup with glowing neon sign, condenser mic on arm, and acoustic foam panels." },
       { value: "Colorful Kids Podcast Studio", label: "Colorful Kids Podcast Studio 🎙️👶", desc: "Vibrant, playful kids podcast studio with colorful neon desk lights, plush mic covers, and soft ambient studio lighting." },
@@ -3272,6 +3281,14 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     options: [
       { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best character setup automatically for your story.", tag: "🤖 Default" },
       { value: "Custom", label: "✨ Custom Character Setup...", desc: "Specify your own custom character setup description.", tag: "✏️ Custom Input" },
+    ],
+  },
+  {
+    category: "📺 News Caster & Studio Anchors",
+    options: [
+      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background without news tickers.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background without news tickers.", tag: "📺 News Studio" },
+      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background without any news ticker.", tag: "📺 News Studio" },
     ],
   },
   {
@@ -6058,6 +6075,7 @@ export default function IdeasPage() {
     { pattern: /shopkeeper/i, location: "Bustling Desi Bazaar & Street Market", toastName: "Bustling Bazaar 🛍️" },
     { pattern: /fairy wings|cloud/i, location: "Magical Cloud Kingdom", toastName: "Cloud Kingdom ✨" },
     { pattern: /soccer player|sports/i, location: "Sunny Playground", toastName: "Playground ⚽" },
+    { pattern: /news\s*caster|news\s*anchor|news\s*studio/i, location: "Modern TV News Broadcast Studio", toastName: "News Studio 📺" },
     { pattern: /reading|library/i, location: "Cozy Library & Book Nook", toastName: "Library 📚" },
   ];
 
