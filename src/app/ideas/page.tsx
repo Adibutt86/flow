@@ -44,7 +44,7 @@ import {
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
-const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Punjabi"];
+const LANGUAGE_OPTIONS = ["English", "Hindi", "Urdu", "Roman Urdu", "Pakistani Punjabi", "Punjabi"];
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
   // ─── Realistic / Cinematic ───
   { value: "Photorealistic Natural Proportions", label: "🌟 Photorealistic Natural Proportions", desc: "100% realistic human facial proportions, natural eyes, lifelike skin textures & cinematic lighting", tag: "🔥 NEW / Natural Eyes" },
@@ -5885,7 +5885,7 @@ export default function IdeasPage() {
 
     recognition.lang =
       language === "Urdu" || language === "Roman Urdu" ? "ur-PK" :
-      language === "Punjabi" ? "pa-PK" :
+      language?.includes("Punjabi") ? "pa-PK" :
       language === "English" ? "en-US" : "ur-PK";
 
     recognition.continuous = true;
@@ -6185,7 +6185,7 @@ export default function IdeasPage() {
     showToast(`🐱 Applied "${preset.title}" Animal Dancing preset!`, "success");
   };
   
-  const isRtl = language === "Urdu" || language === "Punjabi";
+  const isRtl = language === "Urdu" || /Punjabi/i.test(language);
   
   // Carbox specific options
   const [carboxBrand, setCarboxBrand] = useState(initialSettings.carboxBrand || "Premium BMW");
@@ -8069,7 +8069,7 @@ export default function IdeasPage() {
                           }`}
                         >
                           <span
-                            dir={language === "Urdu" || language === "Punjabi" ? "rtl" : "ltr"}
+                            dir={language === "Urdu" || /Punjabi/i.test(language) ? "rtl" : "ltr"}
                             className="truncate max-w-[180px] sm:max-w-xs font-bold"
                           >
                             {item.text}
@@ -10234,7 +10234,7 @@ export default function IdeasPage() {
           ) : (
             <div className="space-y-4">
               {paginatedIdeas.map((idea) => {
-                const isRtl = idea.language === "Urdu" || idea.language === "Punjabi";
+                const isRtl = idea.language === "Urdu" || /Punjabi/i.test(idea.language || "");
                 return (
                   <div
                     key={idea.id}
