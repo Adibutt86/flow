@@ -1197,7 +1197,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "One Cute Little Girl",
         perScene: "1 Character",
         nationality: "Pakistani (General / Desi)",
-        musicType: "None",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "Monologue",
       },
       {
@@ -1210,7 +1210,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "One Cute Little Boy",
         perScene: "1 Character",
         nationality: "Pakistani (General / Desi)",
-        musicType: "None",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "Monologue",
       },
       {
@@ -1223,7 +1223,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "One Cute Little Girl",
         perScene: "1 Character",
         nationality: "Global / Any",
-        musicType: "None",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "None",
       },
       {
@@ -1236,7 +1236,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "One Cute Little Girl",
         perScene: "2 Characters",
         nationality: "Pakistani Punjabi",
-        musicType: "Punjabi Beats & Bhangra",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
         dialogueStyle: "None",
       },
       {
@@ -1249,7 +1249,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "Little Girl with Fairy Wings",
         perScene: "1 Character",
         nationality: "Global / Any",
-        musicType: "Orchestral & Grand Symphony",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "None",
       },
       {
@@ -1262,7 +1262,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "Little Boy Astronaut",
         perScene: "1 Character",
         nationality: "Global / Any",
-        musicType: "Cinematic Epic & Dramatic",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "Narration Style",
       },
       {
@@ -1275,7 +1275,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "Reading Little Girl",
         perScene: "1 Character",
         nationality: "Global / Any",
-        musicType: "Lo-Fi Chill & Chillhop",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
         dialogueStyle: "Narration Style",
       },
       {
@@ -1288,7 +1288,47 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "Punjabi Folk Singer (Jugni & Tappa)",
         perScene: "1 Character",
         nationality: "Pakistani Punjabi",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
         dialogueStyle: "Poetic/Shayari",
+      },
+      {
+        icon: "🕌",
+        title: "Islamic Storyteller",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Peaceful & Calm",
+        setup: "Cute Hijabi Little Girl",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
+        dialogueStyle: "Narration Style",
+      },
+      {
+        icon: "🧸",
+        title: "Bedtime Pajama Kid",
+        age: "Toddler (2-4 yrs)",
+        location: "Colorful Kids Bedroom",
+        health: "Healthy",
+        vibe: "Soft Pastel Style",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "Monologue",
+      },
+      {
+        icon: "🎨",
+        title: "Little Artist",
+        age: "Child (5-8 yrs)",
+        location: "Art Studio & Paint Corner",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "Monologue",
       },
     ]
   },
@@ -2814,9 +2854,9 @@ const SONG_CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "📺 News Caster & Studio Anchors",
     options: [
-      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background without news tickers.", tag: "📺 News Studio" },
-      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background without news tickers.", tag: "📺 News Studio" },
-      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background without any news ticker.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background.", tag: "📺 News Studio" },
+      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background.", tag: "📺 News Studio" },
     ],
   },
   {
@@ -3007,10 +3047,21 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "🎙️ Podcast & Media Studio Settings",
     options: [
-      { value: "Modern TV News Broadcast Studio", label: "Modern TV News Broadcast Studio 📺", desc: "High-end television news broadcast studio with anchor desk, studio microphones, backdrop monitors, and lighting. Clean news studio setup without news tickers." },
+      { value: "Modern TV News Broadcast Studio", label: "Modern TV News Broadcast Studio 📺", desc: "High-end television news broadcast studio with anchor desk, studio microphones, backdrop monitors, and lighting. Clean news studio setup." },
       { value: "Modern Podcast Studio", label: "Modern Podcast & Media Studio 🎙️", desc: "Professional high-tech studio with dual neon studio lights, boom microphones, acoustic soundproofing, and studio headphones." },
       { value: "Cozy Home Podcast Nook", label: "Cozy Home Podcast Corner 🎧", desc: "Warm aesthetic home podcast setup with glowing neon sign, condenser mic on arm, and acoustic foam panels." },
       { value: "Colorful Kids Podcast Studio", label: "Colorful Kids Podcast Studio 🎙️👶", desc: "Vibrant, playful kids podcast studio with colorful neon desk lights, plush mic covers, and soft ambient studio lighting." },
+    ],
+  },
+  {
+    category: "📜 Mushaira Mehfil & Poetic Settings",
+    options: [
+      { value: "Traditional Urdu Mushaira Stage", label: "Traditional Urdu Mushaira Stage 📜", desc: "A traditional Urdu Mushaira stage with a small decorated platform, warm lighting, floor cushions, a poetic backdrop, and an intimate audience setting." },
+      { value: "Elegant Indoor Mehfil", label: "Elegant Indoor Mehfil 🛋️", desc: "An elegant indoor mehfil with plush floor seating, Persian rugs, and soft warm lighting." },
+      { value: "Royal Mughal-style Hall", label: "Royal Mughal-style Hall 🏰", desc: "A grand Royal Mughal-style hall with arched pillars, intricate carvings, and glowing chandeliers." },
+      { value: "Rooftop Mehfil under Night Sky", label: "Rooftop Mehfil 🌙", desc: "A serene rooftop mehfil under the night sky with glowing string lights and a crescent moon." },
+      { value: "Outdoor Garden Mehfil", label: "Outdoor Garden Mehfil 🏮", desc: "An outdoor garden mehfil decorated with warm lanterns hanging from trees and floor cushions." },
+      { value: "Modern Comedy Mushaira Stage", label: "Modern Comedy Mushaira Stage 🎤", desc: "A modern, well-lit stage setting perfect for a comedy Mushaira with a stand-up vibe." },
     ],
   },
   {
@@ -3284,11 +3335,22 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "📜 Mushaira Mehfil & Poetic Performances",
+    options: [
+      { value: "Girl Reciting Shayari at Mushaira", label: "Girl Reciting Shayari at Mushaira 🧕📜", desc: "A girl sitting on a decorated stage reciting poetic Shayari with elegant gestures in a Mushaira setting." },
+      { value: "Boy Reciting Shayari at Mushaira", label: "Boy Reciting Shayari at Mushaira 👦📜", desc: "A boy sitting on a decorated stage reciting emotional Shayari with deep expressions in a Mushaira setting." },
+      { value: "Boy & Girl Duet Reciting Shayari", label: "Boy & Girl Shayari Duet 👦🧕", desc: "A boy and a girl sitting together on a decorated stage taking turns reciting Shayari in a Mushaira Mehfil." },
+      { value: "Boy Shayar with Friends in Background", label: "Boy Shayar with Friends 👦👥", desc: "A boy reciting Shayari on stage while a group of supportive friends sits in the background cheering him on." },
+      { value: "Girl Shayar with Friends in Background", label: "Girl Shayar with Friends 🧕👥", desc: "A girl reciting elegant Shayari on stage with a group of friends sitting in the background listening warmly." },
+      { value: "Funny Shayar with Laughing Friends", label: "Funny Shayar with Laughing Friends 😂👥", desc: "A funny Shayar reciting comedic poetry on stage while friends in the background laugh uncontrollably." },
+    ],
+  },
+  {
     category: "📺 News Caster & Studio Anchors",
     options: [
-      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background without news tickers.", tag: "📺 News Studio" },
-      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background without news tickers.", tag: "📺 News Studio" },
-      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background without any news ticker.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background.", tag: "📺 News Studio" },
+      { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background.", tag: "📺 News Studio" },
+      { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background.", tag: "📺 News Studio" },
     ],
   },
   {
@@ -3702,6 +3764,13 @@ const SONG_CROWD_FX_GROUPS_NEW = [
 ];
 
 const SONG_MUSIC_TYPE_GROUPS = [
+  {
+    category: "🧸 Cute Kids Music",
+    options: [
+      { value: "Cute Kids Melody (Ukulele & Toy Bells)", label: "Cute Kids Melody (Ukulele & Bells) 🧸", desc: "Cute, playful, innocent music for short 2-line songs. Soft ukulele, gentle piano, toy bells, light flute, and soft claps. Clear vocals and soft wholesome background." },
+      { value: "Cute Desi Kids Melody (Tabla & Dholak)", label: "Cute Desi Kids Melody (Tabla/Dholak) 🪘", desc: "Warm and playful cute kids melody featuring subtle tabla/dholak elements mixed with ukulele and toy bells. Cute and modern, best for 2-line Urdu/Hindi/Punjabi songs." },
+    ]
+  },
   {
     category: "Background Music Instrument & Genre",
     options: [
@@ -4181,6 +4250,13 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
       { value: "AI Decides", label: "🤖 AI Decides (Default)", desc: "Let the AI pick the most fitting background music style automatically." },
       { value: "None", label: "None", desc: "No background music specified. Pure ambient dialogue & sound effects." },
     ],
+  },
+  {
+    category: "🧸 Cute Kids Music",
+    options: [
+      { value: "Cute Kids Melody (Ukulele & Toy Bells)", label: "Cute Kids Melody (Ukulele & Bells) 🧸", desc: "Cute, playful, innocent music for short 2-line songs or clips. Soft ukulele, gentle piano, toy bells, light flute, and soft claps. Short memorable hooks." },
+      { value: "Cute Desi Kids Melody (Tabla & Dholak)", label: "Cute Desi Kids Melody (Tabla/Dholak) 🪘", desc: "Warm and playful cute kids melody featuring subtle tabla/dholak elements mixed with ukulele and toy bells. Cute and modern, best for 2-line Urdu/Hindi/Punjabi songs." },
+    ]
   },
   {
     category: "🪘 Dholki & Percussion Rhythms (ڈھولک اور بیٹس)",

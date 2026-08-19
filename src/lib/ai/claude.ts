@@ -470,7 +470,7 @@ ${
 }
 ${
   input.characterSetup && /news\s*caster|news\s*anchor|news\s*studio/i.test(input.characterSetup)
-    ? "\n─── NEWS CASTER CHARACTER SETUP & NO TICKER MANDATE:\n1. NEWS STUDIO SETTING: Place character(s) at an anchor desk inside a modern high-end TV News Broadcast Studio with professional microphones, studio cameras, and newsroom backdrop.\n2. STRICT NO TICKER MANDATE: DO NOT add any news ticker, lower-third text crawl, breaking news banner, or ticker text at the bottom of the screen. Render ONLY the clean news studio environment. ───\n"
+    ? "\n─── NEWS CASTER CHARACTER SETUP:\n1. NEWS STUDIO SETTING: Place character(s) at an anchor desk inside a modern high-end TV News Broadcast Studio with professional microphones, studio cameras, and newsroom backdrop. ───\n"
     : ""
 }
 ${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
@@ -493,6 +493,8 @@ The video CAN still use:
 - Natural / environmental sounds (wind, rain, ambient atmosphere)
 - Sound effects / Foley (footsteps, object sounds, door sounds, animal sounds, physical impacts)
 - Diegetic audio elements`
+    : input.musicType && /Cute Kids Melody/i.test(input.musicType)
+    ? `Background Music Type: ${input.musicType} (CUTE KIDS MUSIC MANDATE: The music MUST be a cute children's melody with ukulele + toy bells + soft flute + light percussion, with a warm and playful feel. ${/Tabla/i.test(input.musicType) ? "Add subtle tabla/dholak elements while keeping the overall sound cute and modern. " : ""}Ensure it is designed specifically for short 2-line songs with short, memorable melodic hooks, clear and dominant vocals, soft instrumental background (no heavy bass or aggressive drums), and creates a natural ending within a short video.)`
     : input.musicType && input.musicType !== "None" && input.musicType !== "AI Decides" && input.musicType !== "Any / AI Decides"
     ? `Background Music Type: ${input.musicType} (BACKGROUND MUSIC MANDATE: The scene is driven by ${input.musicType} soundtrack. Characters must groove, sway, dance, or move rhythmically in perfect beat sync with this music style).`
     : ""
