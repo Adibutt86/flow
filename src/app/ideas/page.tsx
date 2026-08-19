@@ -6093,37 +6093,6 @@ export default function IdeasPage() {
   const [targetEntity, setTargetEntity] = useState(initialSettings.targetEntity || "Majestic male lion");
   const [lightingFx, setLightingFx] = useState(initialSettings.lightingFx || "Bright overhead spotlights");
 
-  // Auto-save settings to localStorage whenever they change
-  useEffect(() => {
-    const settings: IdeasPageSettings = {
-      category, language, visualStyle, videoDuration, customDialogue,
-      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
-      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
-      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
-      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
-      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
-      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
-      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
-      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
-      isShortIdea, withoutDialogue, withoutMusic
-    };
-    try {
-      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
-    } catch (e) {
-      // ignore
-    }
-  }, [
-    category, language, visualStyle, videoDuration, customDialogue,
-    kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
-    kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
-    storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
-    charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
-    carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
-    seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
-    audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
-    lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
-    isShortIdea, withoutDialogue, withoutMusic
-  ]);
 
   const applyStageMetamorphosisPreset = (preset: typeof STAGE_METAMORPHOSIS_PRESETS[0]) => {
     setPerformerAge(preset.performerAge);
@@ -6739,6 +6708,90 @@ export default function IdeasPage() {
       showToast("Error deleting character", "error");
     }
   };
+
+  const saveCurrentSettings = () => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+      showToast("Settings Saved", "Your current configuration has been saved as default.", "success");
+    } catch (e) {
+      console.error(e);
+      showToast("Error", "Failed to save settings.", "error");
+    }
+  };
+
+  const matchesParamFilter = (terms: string[]) => {
+    if (!paramSearchQuery.trim()) return true;
+    const q = paramSearchQuery.trim().toLowerCase();
+    return terms.some((t) => t.toLowerCase().includes(q));
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 250) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Hotkey: Ctrl+Enter or Cmd+Enter to generate concept
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter" && !isGenerating) {
+        e.preventDefault();
+        handleGenerate();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isGenerating]);
+
+  // Auto-save settings to localStorage whenever they change
+  useEffect(() => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+    } catch (e) {
+      // ignore
+    }
+  }, [
+    category, language, visualStyle, videoDuration, customDialogue,
+    kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+    kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+    storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+    charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+    carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+    seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+    audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+    lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+    isShortIdea, withoutDialogue, withoutMusic
+  ]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
