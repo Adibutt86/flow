@@ -5708,57 +5708,7 @@ export default function IdeasPage() {
   const [isOptimizeSectionOpen, setIsOptimizeSectionOpen] = useState(false);
   const [isSituationSectionOpen, setIsSituationSectionOpen] = useState(false);
 
-  const saveCurrentSettings = () => {
-    const settings: IdeasPageSettings = {
-      category, language, visualStyle, videoDuration, customDialogue,
-      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
-      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
-      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
-      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
-      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
-      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
-      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
-      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
-      isShortIdea, withoutDialogue, withoutMusic
-    };
-    try {
-      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
-      showToast("Settings Saved", "Your current configuration has been saved as default.", "success");
-    } catch (e) {
-      console.error(e);
-      showToast("Error", "Failed to save settings.", "error");
-    }
-  };
 
-  const matchesParamFilter = (terms: string[]) => {
-    if (!paramSearchQuery.trim()) return true;
-    const q = paramSearchQuery.trim().toLowerCase();
-    return terms.some((t) => t.toLowerCase().includes(q));
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 250) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Hotkey: Ctrl+Enter or Cmd+Enter to generate concept
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "Enter" && !isGenerating) {
-        e.preventDefault();
-        handleGenerate();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isGenerating]);
 
   // Saved Dialogues
   interface SavedDialogueItem {
