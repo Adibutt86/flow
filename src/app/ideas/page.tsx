@@ -6724,10 +6724,10 @@ export default function IdeasPage() {
     };
     try {
       localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
-      showToast("Settings Saved", "Your current configuration has been saved as default.", "success");
+      showToast("Your current configuration has been saved as default.", "success");
     } catch (e) {
       console.error(e);
-      showToast("Error", "Failed to save settings.", "error");
+      showToast("Failed to save settings.", "error");
     }
   };
 
