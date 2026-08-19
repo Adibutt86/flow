@@ -8321,53 +8321,6 @@ export default function IdeasPage() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-5">
-            {/* Background Music Type */}
-            {matchesParamFilter(["music", "background"]) && (
-              <div className="space-y-2">
-                <CustomSelect
-                  label="Background Music Type"
-                  icon="🎵"
-                  value={musicType}
-                  onChange={(val) => setMusicType(val)}
-                  groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
-                  badgeTitle="Music Style"
-                  isLight={isLight}
-                />
-              </div>
-            )}
-
-            {/* Serious Dialogue Style */}
-            {matchesParamFilter(["dialogue style", "serious"]) && (
-              <div className="space-y-2">
-                <CustomSelect
-                  label="Serious Dialogue Style"
-                  icon="🎭"
-                  value={seriousDialogueStyle}
-                  onChange={(val) => setSeriousDialogueStyle(val)}
-                  groups={SERIOUS_DIALOGUE_GROUPS}
-                  badgeTitle="Dialogue Tone"
-                  isLight={isLight}
-                />
-              </div>
-            )}
-
-            {/* Ending Outro Visual Effects */}
-            {matchesParamFilter(["outro", "effects"]) && (
-              <div className="space-y-2">
-                <CustomSelect
-                  label="Ending Outro Visual Effects"
-                  icon="🎬"
-                  value={outroEffects}
-                  onChange={(val) => setOutroEffects(val)}
-                  groups={OUTRO_EFFECTS_GROUPS}
-                  badgeTitle="Outro Effects"
-                  isLight={isLight}
-                />
-              </div>
-            )}
-          </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             {/* Include Microphone Toggle Switch */}
             <div className="space-y-2 sm:col-span-2 lg:col-span-1">
@@ -9124,6 +9077,45 @@ export default function IdeasPage() {
                     isLight={isLight}
                   />
                 )}
+
+                {/* 15. Background Music Type */}
+                {matchesParamFilter(["music", "background"]) && (
+                  <CustomSelect
+                    label="Background Music Type"
+                    icon="🎵"
+                    value={musicType}
+                    onChange={(val) => setMusicType(val)}
+                    groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
+                    badgeTitle="Music Style"
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* 16. Serious Dialogue Style */}
+                {matchesParamFilter(["dialogue style", "serious"]) && (
+                  <CustomSelect
+                    label="Serious Dialogue Style"
+                    icon="🎭"
+                    value={seriousDialogueStyle}
+                    onChange={(val) => setSeriousDialogueStyle(val)}
+                    groups={SERIOUS_DIALOGUE_GROUPS}
+                    badgeTitle="Dialogue Tone"
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* 17. Ending Outro Visual Effects */}
+                {matchesParamFilter(["outro", "effects"]) && (
+                  <CustomSelect
+                    label="Ending Outro Visual Effects"
+                    icon="🎬"
+                    value={outroEffects}
+                    onChange={(val) => setOutroEffects(val)}
+                    groups={OUTRO_EFFECTS_GROUPS}
+                    badgeTitle="Outro Effects"
+                    isLight={isLight}
+                  />
+                )}
               </div>
             </div>
           )}
@@ -9395,6 +9387,45 @@ export default function IdeasPage() {
                   onChange={setCharacterFaceType}
                   groups={CHARACTER_FACE_GROUPS}
                 />
+
+                {/* 14. Background Music Type */}
+                {matchesParamFilter(["music", "background"]) && (
+                  <CustomSelect
+                    label="Background Music Type"
+                    icon="🎵"
+                    value={musicType}
+                    onChange={(val) => setMusicType(val)}
+                    groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
+                    badgeTitle="Music Style"
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* 15. Serious Dialogue Style */}
+                {matchesParamFilter(["dialogue style", "serious"]) && (
+                  <CustomSelect
+                    label="Serious Dialogue Style"
+                    icon="🎭"
+                    value={seriousDialogueStyle}
+                    onChange={(val) => setSeriousDialogueStyle(val)}
+                    groups={SERIOUS_DIALOGUE_GROUPS}
+                    badgeTitle="Dialogue Tone"
+                    isLight={isLight}
+                  />
+                )}
+
+                {/* 16. Ending Outro Visual Effects */}
+                {matchesParamFilter(["outro", "effects"]) && (
+                  <CustomSelect
+                    label="Ending Outro Visual Effects"
+                    icon="🎬"
+                    value={outroEffects}
+                    onChange={(val) => setOutroEffects(val)}
+                    groups={OUTRO_EFFECTS_GROUPS}
+                    badgeTitle="Outro Effects"
+                    isLight={isLight}
+                  />
+                )}
               </div>
             </div>
           )}
