@@ -5706,6 +5706,30 @@ export default function IdeasPage() {
   const [paramSearchQuery, setParamSearchQuery] = useState<string>("");
   const { theme, isLight, toggleTheme } = useTheme();
   const [isOptimizeSectionOpen, setIsOptimizeSectionOpen] = useState(false);
+  const [isSituationSectionOpen, setIsSituationSectionOpen] = useState(false);
+
+  const saveCurrentSettings = () => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+      showToast("Settings Saved", "Your current configuration has been saved as default.", "success");
+    } catch (e) {
+      console.error(e);
+      showToast("Error", "Failed to save settings.", "error");
+    }
+  };
+
 
   const matchesParamFilter = (terms: string[]) => {
     if (!paramSearchQuery.trim()) return true;
@@ -8175,149 +8199,176 @@ export default function IdeasPage() {
               </div>
               )}
 
-              {/* Situation/Scene Description Section */}
+              {/* Situation/Scene Description & Extra Settings Section */}
               <div className={`space-y-3 p-4 rounded-2xl border transition-all ${
                 isLight
                   ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
                   : "bg-indigo-950/20 border border-indigo-500/30 text-white"
               }`}>
                 <div className="flex flex-wrap items-center justify-between gap-2.5">
-                  <label className={`text-xs font-black flex items-center gap-2 ${
-                    isLight ? "text-slate-900" : "text-indigo-300"
-                  }`}>
-                    <span>🎬 Situation / Scene Description (Optional)</span>
-                  </label>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {/* Situation Category Selector Dropdown */}
-                    <select
-                      value={selectedSituationCat}
-                      onChange={(e) => {
-                        setSelectedSituationCat(e.target.value);
-                        handleSuggestSituation(e.target.value);
-                      }}
-                      className={`px-3 py-1.5 rounded-lg border text-xs font-extrabold focus:outline-none cursor-pointer shadow-sm ${
-                        isLight
-                          ? "bg-white border-slate-300 text-slate-900"
-                          : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
-                      }`}
-                      title="Select a situation category to get AI scene suggestions"
-                    >
-                      {SITUATION_CATEGORIES.map((cat) => (
-                        <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
-                          {cat.label}
-                        </option>
-                      ))}
-                    </select>
-
-                    {/* AI Suggest Situation Button */}
-                    <button
-                      type="button"
-                      onClick={() => handleSuggestSituation()}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                      title="Suggest a new random scenario for the selected situation category"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>✨ AI Suggest Situation</span>
-                    </button>
-
-                    {customSceneDescription && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCustomSceneDescription("");
-                          showToast("Cleared situation description", "info");
-                        }}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Clear description"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Clear</span>
-                      </button>
-                    )}
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsSituationSectionOpen(!isSituationSectionOpen)}
+                    className={`text-sm sm:text-base font-black flex items-center gap-2 transition-all ${
+                      isLight ? "text-slate-900 hover:text-indigo-600" : "text-indigo-300 hover:text-indigo-100"
+                    }`}
+                  >
+                    <span>{isSituationSectionOpen ? "▼" : "▶"} 🎬 Situation / Scene Description & Extra Settings (Optional)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveCurrentSettings}
+                    title="Save current selections as default"
+                    className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
+                      isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
+                    }`}
+                  >
+                    💾 Save Settings
+                  </button>
                 </div>
 
-                <textarea
-                  value={customSceneDescription}
-                  onChange={(e) => setCustomSceneDescription(e.target.value)}
-                  rows={3}
-                  placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.`}
-                  className={`w-full px-4.5 py-3.5 rounded-2xl border-2 text-base sm:text-lg lg:text-xl font-bold focus:outline-none transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans ${
-                    isLight
-                      ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20"
-                      : "bg-black/80 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20"
-                  }`}
-                />
-
-                {/* One-Tap Quick Situation Suggestions Pills */}
-                <div className="space-y-1.5 pt-1">
-                  <span className={`text-[10px] uppercase tracking-wider ${
-                    isLight ? "text-slate-900 font-black" : "text-slate-400 font-bold"
-                  }`}>⚡ One-Tap Quick Situations:</span>
-                  <div className="flex flex-wrap gap-2">
-                    {QUICK_SITUATION_PILLS.map((pill) => (
-                      <button
-                        key={pill.label}
-                        type="button"
-                        onClick={() => {
-                          setCustomSceneDescription(pill.text);
-                          showToast(`Applied situation: "${pill.label}"`, "info");
+                {isSituationSectionOpen && (
+                  <div className="pt-2 space-y-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {/* Situation Category Selector Dropdown */}
+                      <select
+                        value={selectedSituationCat}
+                        onChange={(e) => {
+                          setSelectedSituationCat(e.target.value);
+                          handleSuggestSituation(e.target.value);
                         }}
-                        className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-extrabold focus:outline-none cursor-pointer shadow-sm ${
                           isLight
-                            ? "bg-white hover:bg-indigo-50 text-slate-900 border-slate-300"
-                            : "bg-slate-900/90 hover:bg-indigo-900/60 border-slate-800 text-slate-300 hover:text-indigo-200"
+                            ? "bg-white border-slate-300 text-slate-900"
+                            : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
                         }`}
+                        title="Select a situation category to get AI scene suggestions"
                       >
-                        {pill.label}
+                        {SITUATION_CATEGORIES.map((cat) => (
+                          <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
+                            {cat.label}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* AI Suggest Situation Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleSuggestSituation()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                        title="Suggest a new random scenario for the selected situation category"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                        <span>✨ AI Suggest Situation</span>
                       </button>
-                    ))}
+
+                      {customSceneDescription && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomSceneDescription("");
+                            showToast("Cleared situation description", "info");
+                          }}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm"
+                          title="Clear description"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Clear</span>
+                        </button>
+                      )}
+                    </div>
+
+                    <textarea
+                      value={customSceneDescription}
+                      onChange={(e) => setCustomSceneDescription(e.target.value)}
+                      rows={3}
+                      placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.`}
+                      className={`w-full px-4.5 py-3.5 rounded-2xl border-2 text-base sm:text-lg lg:text-xl font-bold focus:outline-none transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans ${
+                        isLight
+                          ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20"
+                          : "bg-black/80 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20"
+                      }`}
+                    />
+
+                    {/* One-Tap Quick Situation Suggestions Pills */}
+                    <div className="space-y-1.5 pt-1">
+                      <span className={`text-[10px] uppercase tracking-wider ${
+                        isLight ? "text-slate-900 font-black" : "text-slate-400 font-bold"
+                      }`}>⚡ One-Tap Quick Situations:</span>
+                      <div className="flex flex-wrap gap-2">
+                        {QUICK_SITUATION_PILLS.map((pill) => (
+                          <button
+                            key={pill.label}
+                            type="button"
+                            onClick={() => {
+                              setCustomSceneDescription(pill.text);
+                              showToast(`Applied situation: "${pill.label}"`, "info");
+                            }}
+                            className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm ${
+                              isLight
+                                ? "bg-white hover:bg-indigo-50 text-slate-900 border-slate-300"
+                                : "bg-slate-900/90 hover:bg-indigo-900/60 border-slate-800 text-slate-300 hover:text-indigo-200"
+                            }`}
+                          >
+                            {pill.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-5">
+            {/* Background Music Type */}
+            {matchesParamFilter(["music", "background"]) && (
+              <div className="space-y-2">
+                <CustomSelect
+                  label="Background Music Type"
+                  icon="🎵"
+                  value={musicType}
+                  onChange={(val) => setMusicType(val)}
+                  groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
+                  badgeTitle="Music Style"
+                  isLight={isLight}
+                />
+              </div>
+            )}
+
+            {/* Serious Dialogue Style */}
+            {matchesParamFilter(["dialogue style", "serious"]) && (
+              <div className="space-y-2">
+                <CustomSelect
+                  label="Serious Dialogue Style"
+                  icon="🎭"
+                  value={seriousDialogueStyle}
+                  onChange={(val) => setSeriousDialogueStyle(val)}
+                  groups={SERIOUS_DIALOGUE_GROUPS}
+                  badgeTitle="Dialogue Tone"
+                  isLight={isLight}
+                />
+              </div>
+            )}
+
+            {/* Ending Outro Visual Effects */}
+            {matchesParamFilter(["outro", "effects"]) && (
+              <div className="space-y-2">
+                <CustomSelect
+                  label="Ending Outro Visual Effects"
+                  icon="🎬"
+                  value={outroEffects}
+                  onChange={(val) => setOutroEffects(val)}
+                  groups={OUTRO_EFFECTS_GROUPS}
+                  badgeTitle="Outro Effects"
+                  isLight={isLight}
+                />
+              </div>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Background Music Type Dropdown */}
-            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
-              <CustomSelect
-                label="Background Music Type"
-                icon="🎵"
-                value={musicType}
-                onChange={(val) => setMusicType(val)}
-                groups={(category as string) === "SONG" ? SONG_MUSIC_TYPE_GROUPS : (category as string) === "POETRY" ? POETRY_MUSIC_TYPE_GROUPS : MUSIC_TYPE_GROUPS}
-                badgeTitle="Music Style"
-                isLight={isLight}
-              />
-            </div>
-
-            {/* Serious Dialogue Style Dropdown */}
-            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
-              <CustomSelect
-                label="Serious Dialogue Style"
-                icon="🎭"
-                value={seriousDialogueStyle}
-                onChange={(val) => setSeriousDialogueStyle(val)}
-                groups={SERIOUS_DIALOGUE_GROUPS}
-                badgeTitle="Dialogue Tone"
-                isLight={isLight}
-              />
-            </div>
-
-            {/* Ending/Outro Visual Effects Dropdown */}
-            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
-              <CustomSelect
-                label="Ending Outro Visual Effects"
-                icon="🎬"
-                value={outroEffects}
-                onChange={(val) => setOutroEffects(val)}
-                groups={OUTRO_EFFECTS_GROUPS}
-                badgeTitle="Outro Effects"
-                isLight={isLight}
-              />
-            </div>
-
             {/* Include Microphone Toggle Switch */}
             <div className="space-y-2 sm:col-span-2 lg:col-span-1">
               <label className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center justify-between">
@@ -8344,7 +8395,6 @@ export default function IdeasPage() {
                 </div>
               </button>
             </div>
-
           </div>
 
           {/* Universal Concept Options: Short Idea, Without Dialogue, Without Music */}
@@ -8678,6 +8728,9 @@ export default function IdeasPage() {
                     { label: "🎬 Story", search: "story" },
                     { label: "🎥 Camera", search: "camera" },
                     { label: "🎭 Performance", search: "performance" },
+                    { label: "🎵 Music", search: "music" },
+                    { label: "💬 Dialogue Style", search: "dialogue style" },
+                    { label: "✨ Outro", search: "outro" },
                   ].map((chip) => {
                     const isSelected = paramSearchQuery.toLowerCase() === chip.search;
                     return (

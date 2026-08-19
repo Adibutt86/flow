@@ -1,0 +1,37 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "AI Short Studio Flow Edition Short-form Video Prompts & Storyboards (8s Clips)" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e10]:
+            - generic [ref=e11]:
+              - generic [ref=e12]: AI Short Studio
+              - generic [ref=e13]: Flow Edition
+            - paragraph [ref=e14]: Short-form Video Prompts & Storyboards (8s Clips)
+        - button "Login to Access Pages" [ref=e16] [cursor=pointer]
+    - main [ref=e21]:
+      - generic [ref=e26]:
+        - heading "🔒 Login Required" [level=1] [ref=e27]
+        - paragraph [ref=e28]: Please log in to your account (Hassan or Adi) to access the AI Idea Generator.
+      - button "Login to Access Website" [ref=e29] [cursor=pointer]
+  - generic [ref=e40]:
+    - generic [ref=e42]:
+      - heading "Select Your Account" [level=2] [ref=e48]
+      - paragraph [ref=e49]: Select your account name below to open your workspace.
+    - generic [ref=e50]:
+      - generic [ref=e51]: Choose Workspace User
+      - generic [ref=e52]:
+        - button "Hassan Hassan's Workspace" [active] [ref=e53] [cursor=pointer]:
+          - generic [ref=e54]: Hassan
+          - paragraph [ref=e60]: Hassan's Workspace
+        - button "Adi Adi's Workspace" [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]: Adi
+          - paragraph [ref=e68]: Adi's Workspace
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: Enter Password for hassan
+        - textbox "Enter hassan's password..." [ref=e77]
+      - button "Login to Hassan's Workspace" [disabled] [ref=e78] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e35] [cursor=pointer]
+  - alert [ref=e69]
