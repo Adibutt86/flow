@@ -5730,38 +5730,6 @@ export default function IdeasPage() {
     }
   };
 
-  // Auto-save settings to localStorage whenever they change
-  useEffect(() => {
-    const settings: IdeasPageSettings = {
-      category, language, visualStyle, videoDuration, customDialogue,
-      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
-      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
-      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
-      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
-      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
-      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
-      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
-      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
-      isShortIdea, withoutDialogue, withoutMusic
-    };
-    try {
-      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
-    } catch (e) {
-      // ignore
-    }
-  }, [
-    category, language, visualStyle, videoDuration, customDialogue,
-    kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
-    kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
-    storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
-    charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
-    carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
-    seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
-    audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
-    lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
-    isShortIdea, withoutDialogue, withoutMusic
-  ]);
-
   const matchesParamFilter = (terms: string[]) => {
     if (!paramSearchQuery.trim()) return true;
     const q = paramSearchQuery.trim().toLowerCase();
@@ -6174,6 +6142,38 @@ export default function IdeasPage() {
   const [triggerAction, setTriggerAction] = useState(initialSettings.triggerAction || "Tossing a red cape upward");
   const [targetEntity, setTargetEntity] = useState(initialSettings.targetEntity || "Majestic male lion");
   const [lightingFx, setLightingFx] = useState(initialSettings.lightingFx || "Bright overhead spotlights");
+
+  // Auto-save settings to localStorage whenever they change
+  useEffect(() => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+    } catch (e) {
+      // ignore
+    }
+  }, [
+    category, language, visualStyle, videoDuration, customDialogue,
+    kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+    kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+    storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+    charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+    carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+    seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+    audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+    lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+    isShortIdea, withoutDialogue, withoutMusic
+  ]);
 
   const applyStageMetamorphosisPreset = (preset: typeof STAGE_METAMORPHOSIS_PRESETS[0]) => {
     setPerformerAge(preset.performerAge);
