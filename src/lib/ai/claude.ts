@@ -581,8 +581,8 @@ ${
    (input.seriousDialogueStyle && /funny|tanzo|mazah|satirical/i.test(input.seriousDialogueStyle)))
     ? `
 FUNNY SHAYAR & COMEDIC POETRY MANDATE:
-1. Character & Tone: Depict a witty, hilarious Shayar (comedy poet) delivering satirical comedic Shayari (Tanzo Mazah) with expressive Desi facial reactions, animated hand gestures, and funny comic timing.
-2. Audio & Reactions: Include authentic audience chuckles, laughter, and enthusiastic applause during pauses as the funny Shayar drops the comedic poetry punchlines.`
+1. Character & Tone: Depict a witty Shayar delivering funny Shayari. Keep the character's movements simple and natural (avoid exaggerated or extra physical movements).
+2. Audio & Reactions: Keep audience reactions very simple and subtle. Do NOT add extra uncontrollable laughing or over-the-top reactions.`
     : ""
 }
 ${

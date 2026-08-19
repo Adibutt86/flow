@@ -3342,7 +3342,7 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Boy & Girl Duet Reciting Shayari", label: "Boy & Girl Shayari Duet 👦🧕", desc: "A boy and a girl sitting together on a decorated stage taking turns reciting Shayari in a Mushaira Mehfil." },
       { value: "Boy Shayar with Friends in Background", label: "Boy Shayar with Friends 👦👥", desc: "A boy reciting Shayari on stage while a group of supportive friends sits in the background cheering him on." },
       { value: "Girl Shayar with Friends in Background", label: "Girl Shayar with Friends 🧕👥", desc: "A girl reciting elegant Shayari on stage with a group of friends sitting in the background listening warmly." },
-      { value: "Funny Boy Shayar with Laughing Boy Friends", label: "Funny Boy Shayar & Boy Friends 😂👦", desc: "A funny boy Shayar reciting comedic poetry on stage while boy friends in the background laugh uncontrollably." }, { value: "Funny Girl Shayar with Laughing Girl Friends", label: "Funny Girl Shayar & Girl Friends 😂🧕", desc: "A funny girl Shayar reciting comedic poetry on stage while girl friends in the background laugh uncontrollably." },
+      { value: "Funny Boy Shayar with Laughing Boy Friends", label: "Funny Boy Shayar & Boy Friends 😂👦", desc: "A funny boy Shayar reciting comedic poetry on stage while boy friends in the background laugh naturally." }, { value: "Funny Girl Shayar with Laughing Girl Friends", label: "Funny Girl Shayar & Girl Friends 😂🧕", desc: "A funny girl Shayar reciting comedic poetry on stage while girl friends in the background laugh naturally." },
     ],
   },
   {
