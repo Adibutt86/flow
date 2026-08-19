@@ -5730,6 +5730,37 @@ export default function IdeasPage() {
     }
   };
 
+  // Auto-save settings to localStorage whenever they change
+  useEffect(() => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+    } catch (e) {
+      // ignore
+    }
+  }, [
+    category, language, visualStyle, videoDuration, customDialogue,
+    kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+    kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+    storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+    charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+    carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+    seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+    audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+    lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+    isShortIdea, withoutDialogue, withoutMusic
+  ]);
 
   const matchesParamFilter = (terms: string[]) => {
     if (!paramSearchQuery.trim()) return true;
@@ -9975,6 +10006,21 @@ export default function IdeasPage() {
                     onChange={(val) => setOutroEffects(val)}
                     groups={OUTRO_EFFECTS_GROUPS}
                     badgeTitle="Outro Effects"
+                    isLight={isLight}
+                  />
+                </div>
+              )}
+
+              {/* Background Noise & Audience FX */}
+              {(category as string) !== "SONG" && matchesParamFilter(["audience", "crowd", "noise", "wah wah", "fx", "sound effects"]) && (
+                <div className="space-y-2">
+                  <CustomSelect
+                    label="Background Audience FX (Wah Wah)"
+                    icon="🔊"
+                    value={songCrowdFx}
+                    onChange={(val) => setSongCrowdFx(val)}
+                    groups={POETRY_CROWD_FX_GROUPS}
+                    badgeTitle="Crowd FX"
                     isLight={isLight}
                   />
                 </div>
