@@ -3886,7 +3886,12 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "✨ Girls — Traditional & Cultural",
     options: [
-      { value: "Girl — Desi Shalwar Kameez", label: "Desi Shalwar Kameez (شلوار قمیض)", desc: "Traditional clean shalwar kameez with dupatta for girls." },
+      { value: "Girl — White Shalwar Kameez", label: "White Shalwar Kameez (سفید)", desc: "Crisp white traditional shalwar kameez with dupatta for girls." },
+      { value: "Girl — Black Shalwar Kameez", label: "Black Shalwar Kameez (کالا)", desc: "Elegant black traditional shalwar kameez with dupatta for girls." },
+      { value: "Girl — Pink Shalwar Kameez", label: "Pink Shalwar Kameez (گلابی)", desc: "Cute soft pink traditional shalwar kameez with dupatta for girls." },
+      { value: "Girl — Red Shalwar Kameez", label: "Red Shalwar Kameez (لال)", desc: "Vibrant red traditional shalwar kameez with dupatta for girls." },
+      { value: "Girl — Yellow/Mustard Shalwar Kameez", label: "Yellow Shalwar Kameez (پیلا)", desc: "Bright yellow/mustard traditional shalwar kameez with dupatta for girls." },
+      { value: "Girl — Green Shalwar Kameez", label: "Green Shalwar Kameez (سبز)", desc: "Beautiful emerald green traditional shalwar kameez with dupatta for girls." },
       { value: "Girl — Embroidered Frocksuit / Lawn Frock", label: "Embroidered Frock / Lawn Suit", desc: "Colorful embroidered frock suit with lace trim and churidar." },
       { value: "Girl — Fancy Eid Festive Dress", label: "Fancy Eid Dress (عید لباس)", desc: "Festive embroidered dress with glitter and bright colors." },
       { value: "Girl — Sindhi / Phulkari Embroidered Outfit", label: "Sindhi / Phulkari Embroidered Outfit", desc: "Vibrant folk embroidery outfit with mirror-work and bright thread." },
@@ -3922,7 +3927,12 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "🧕 Boys — Traditional & Cultural",
     options: [
-      { value: "Boy — Desi Shalwar Kameez", label: "Desi Shalwar Kameez (شلوار قمیض)", desc: "Traditional clean shalwar kameez for boys." },
+      { value: "Boy — White Shalwar Kameez", label: "White Shalwar Kameez (سفید)", desc: "Crisp white traditional shalwar kameez for boys." },
+      { value: "Boy — Black Shalwar Kameez", label: "Black Shalwar Kameez (کالا)", desc: "Elegant black traditional shalwar kameez for boys." },
+      { value: "Boy — Navy Blue Shalwar Kameez", label: "Navy Blue Shalwar Kameez (نیلا)", desc: "Deep navy blue traditional shalwar kameez for boys." },
+      { value: "Boy — Emerald Green Shalwar Kameez", label: "Green Shalwar Kameez (سبز)", desc: "Vibrant emerald green traditional shalwar kameez for boys." },
+      { value: "Boy — Maroon Shalwar Kameez", label: "Maroon Shalwar Kameez (مہرون)", desc: "Rich maroon/dark red traditional shalwar kameez for boys." },
+      { value: "Boy — Mustard/Yellow Shalwar Kameez", label: "Mustard Shalwar Kameez (پیلا)", desc: "Bright mustard yellow traditional shalwar kameez for boys." },
       { value: "Boy — Kurta & Pajama", label: "Desi Kurta & Pajama", desc: "Vibrant embroidered traditional boys kurta with pajama." },
       { value: "Boy — Fancy Eid Sherwani", label: "Fancy Eid Sherwani (شیروانی)", desc: "Elegant sherwani with khussa shoes for Eid occasion." },
       { value: "Boy — Sindhi / Punjabi Folk Attire", label: "Sindhi / Punjabi Folk Attire", desc: "Cultural clothes with traditional embroidery or Phulkari work." },
