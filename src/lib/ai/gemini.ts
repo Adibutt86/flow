@@ -88,6 +88,7 @@ export interface GenerateProjectInput {
   idea: string;
   customInstructions?: string;
   userCharacters?: string;
+  characterSetup?: string;
 }
 
 export interface SingleSceneRegenInput {
@@ -997,7 +998,7 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
 5. DIALOGUE & SCRIPT RULES:
-   - For Cute Kids, Poetry (Shayari), and Song categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
+   - For CUTE_KIDS, POETRY, and SONG categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
    - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (ਪੰਜਾਬੀ).
    - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
    - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.
@@ -1005,6 +1006,16 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 6. CHARACTER PERSONALITIES:
    - Use distinct archetypes: Funny Sardar, Strict Amma, Overconfident Uncle, Lazy Husband, Smart Wife, Confused Grandpa, Innocent Child, Greedy Shopkeeper, Forgetful Doctor.
 7. Image prompt MUST start with: "CHARACTER CONSISTENCY LOCK: Maintain exact features of ${ctx.mainCharacterName}. (NO TEXT, NO TITLES, NO BANNERS, NO LOGOS, NO WATERMARKS, CLEAN VISUAL RENDER)."
+${
+  input.category === "LOCATION_NEWS"
+    ? `8. LOCATION_NEWS CATEGORY: Ensure a news-channel-style setup where a boy or girl acts as the interviewer/host, asking questions, while a separate character answers. Both characters must remain visually consistent. DO NOT add a news ticker, channel logo, watermark, lower-third graphics, or any other news-channel branding.`
+    : ""
+}
+${
+  input.characterSetup && /Friends.*Speaker.*Listener/i.test(input.characterSetup)
+    ? `9. FRIENDS CHARACTER SETUP MANDATE: Character 1 is the active speaker and delivers the complete dialogue. Character 2 ONLY listens and reacts naturally. Character 2 MUST NOT speak or have any dialogue. The system MUST clearly identify which friend is speaking and which friend is only listening in the video prompts.`
+    : ""
+}
 
 Return ONLY valid JSON matching:
 {

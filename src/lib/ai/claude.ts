@@ -473,16 +473,26 @@ ${
     ? "\n─── NEWS CASTER CHARACTER SETUP:\n1. NEWS STUDIO SETTING: Place character(s) at an anchor desk inside a modern high-end TV News Broadcast Studio with professional microphones, studio cameras, and newsroom backdrop. ───\n"
     : ""
 }
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
+${
+  input.category === "LOCATION_NEWS"
+    ? "\n─── LOCATION_NEWS CATEGORY:\n1. Ensure a news-channel-style setup where a boy or girl acts as the interviewer/host, asking questions, while a separate character answers in a news setting.\n2. Both characters must remain visually consistent throughout the video.\n3. Location should be a professional news studio, outdoor reporting location, or street interview area.\n4. DO NOT add a news ticker, channel logo, watermark, lower-third graphics, or any other news-channel branding. ───\n"
+    : ""
+}
+${
+  input.characterSetup && /Friends.*Speaker.*Listener/i.test(input.characterSetup)
+    ? "\n─── FRIENDS CHARACTER SETUP MANDATE:\n1. Character 1 is the active speaker and delivers the complete dialogue.\n2. Character 2 ONLY listens and reacts naturally through facial expressions, gestures, or body language.\n3. Character 2 MUST NOT speak or have any dialogue.\n4. The system MUST clearly identify which friend is speaking and which friend is only listening in the video prompts. ───\n"
+    : ""
+}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsAge ? `${input.category === "CUTE_KIDS" ? "Kids Age" : input.category === "SONG" ? "Vocalist/Performer Age" : "Character Age"}: ${input.kidsAge}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
 ${input.fatherClothing && input.fatherClothing !== "AI Decides" ? `Locked Father Clothing: ${input.fatherClothing} (FATHER OUTFIT MANDATE: Father MUST be rendered wearing ${input.fatherClothing} throughout all scenes).` : ""}
 ${input.motherClothing && input.motherClothing !== "AI Decides" ? `Locked Mother Clothing: ${input.motherClothing} (MOTHER OUTFIT MANDATE: Mother MUST be rendered wearing ${input.motherClothing} throughout all scenes).` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
-${["CUTE_KIDS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.characterSetup ? `Character Setup: ${input.characterSetup}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.charactersPerScene ? `Characters Per Scene: ${input.charactersPerScene}` : ""}
+${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsNationality && input.kidsNationality !== "Global / Any" ? `Nationality/Culture: ${input.kidsNationality}` : ""}
 ${input.characterFaceType && input.characterFaceType !== "Any / AI Decides" ? `Facial Features & Face Archetype: ${input.characterFaceType} (FACIAL DIVERSITY MANDATE: Render the character with explicit ${input.characterFaceType} features, custom facial structure, distinct hair/beard styling, and unique facial identity).` : ""}
 ${input.includeCharacterBible === false ? "CHARACTER BIBLE MANDATE: Do NOT include the '📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE' section in the output. Omit the Bible header block and output ONLY the clean scene video prompt clips directly." : ""}
 ${
@@ -1340,8 +1350,8 @@ Text to fix: "${input.existingDialogue || input.customIdea || ""}"
 STRICT SCRIPT CORRECTION & DIALOGUE RULES:
 1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi).
 2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
-3. PRESERVE MEANING & DIALOGUE: For Cute Kids, Poetry, and Song categories, keep original spoken dialogue 100% intact. Do NOT change, rewrite, or paraphrase user's original words or lines.
-4. PAKISTANI PUNJABI MANDATE: For Cute Kids, Poetry, and Song categories, whenever Punjabi language is requested or generated, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ).
+3. PRESERVE MEANING & DIALOGUE: For CUTE_KIDS, POETRY, and SONG categories, keep original spoken dialogue 100% intact. Do NOT change, rewrite, or paraphrase user's original words or lines.
+4. PAKISTANI PUNJABI MANDATE: For CUTE_KIDS, POETRY, and SONG categories, whenever Punjabi language is requested or generated, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ).
 5. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Pakistani Punjabi dialogue matching the category "${input.category}".
 6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
 ${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}

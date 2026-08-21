@@ -17,6 +17,7 @@ export type CategoryId =
   | "COMMERCIAL_AD"
   | "CHARACTER_BIBLE"
   | "FRUIT_DANCING"
+  | "LOCATION_NEWS"
   | "CUSTOM";
 
 export interface CategoryConfig {

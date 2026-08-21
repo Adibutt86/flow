@@ -42,7 +42,7 @@ export function convertLibraryScriptToOutput(
     const isFinal = i === clipCount;
 
     let narration = "";
-    let dialogue = script.dialogue[i - 1]?.text || script.dialogue[0]?.text || "Let's see what happens!";
+    const dialogue = script.dialogue[i - 1]?.text || script.dialogue[0]?.text || "Let's see what happens!";
     let motion0to2 = "";
     let motion2to4 = "";
     let motion4to6 = "";

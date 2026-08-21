@@ -138,7 +138,7 @@ export default function ProjectEditorPage({
   };
 
   const handleApplyVariation = async (type: string, selectedValue: string) => {
-    let updatePayload: any = {};
+    const updatePayload: any = {};
     if (type === "hooks") updatePayload.hook = selectedValue;
     else if (type === "endings" || type === "punchlines") updatePayload.ending = selectedValue;
     else if (type === "story_ideas") updatePayload.summary = selectedValue;

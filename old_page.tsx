@@ -3588,7 +3588,7 @@ export default function IdeasPage() {
   const [generatingSocialId, setGeneratingSocialId] = useState<string | null>(null);
 
   const getFallbackFileName = (idea: SavedIdea) => {
-    let name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
+    const name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
     if (name) return name;
     const cleanId = idea.id.slice(-4).toLowerCase();
     if (idea.category === "CARBOX") {
@@ -3600,7 +3600,7 @@ export default function IdeasPage() {
   };
 
   const handleSaveFileName = async (id: string) => {
-    let formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
+    const formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
     if (!formatted) {
       setEditingFileNameId(null);
       return;

@@ -527,6 +527,36 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
       "Emphasize plush fuzzy fruit costume textures, sliced fruit belly with seeds, big shiny baby eyes, chubby cheeks, vibrant outdoor orchard setting, and energetic toddler dance choreography.",
   },
 
+  LOCATION_NEWS: {
+    id: "LOCATION_NEWS",
+    name: "Location-Based News",
+    badge: "News Studio & Interview",
+    iconName: "Mic",
+    description: "News-channel-style setup where a boy or girl acts as the interviewer/host, asking questions, while a separate character answers in a news setting.",
+    storytellingRules: [
+      "Interviewer acts as a news host (boy or girl) asking questions",
+      "A separate character responds to the interviewer",
+      "Both characters remain visually consistent throughout the video",
+      "Character appearance, clothing, age, expressions, and personality must be consistent",
+      "Location should be a professional news studio, outdoor reporting location, or street interview area",
+      "Maintain location and background consistency throughout the video",
+      "DO NOT add a news ticker, channel logo, watermark, lower-third graphics, or any other news-channel branding"
+    ],
+    tone: "Professional, engaging, interview-style, informative or humorous",
+    pacing: "Moderate, mimicking a natural back-and-forth news interview",
+    hookStyle: "News anchor introduces the topic or directly asks a compelling question",
+    endingStyle: "Anchor signs off or gives a final reaction to the answer",
+    characterStyle: "Sharp, professional, expressive news anchor (boy or girl) and a visually distinct guest",
+    visualStyleSuggestions: [
+      "Photorealistic 8K Cinematic",
+      "Hyper-Realistic CGI",
+      "3D Cartoon",
+      "Anime"
+    ],
+    dialogueStyle: "News reporter style questions and conversational or dramatic guest answers",
+    promptInstructions: "Emphasize a clean news environment (studio, street, or outdoor reporting) with proper lighting. Keep the anchor and guest visually consistent across shots. ABSOLUTELY NO lower-thirds, news tickers, logos, or watermarks."
+  },
+
   CUSTOM: {
     id: "CUSTOM",
     name: "Custom Rules",

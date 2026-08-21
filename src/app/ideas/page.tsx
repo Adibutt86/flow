@@ -809,6 +809,7 @@ const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Shocked Gasp & Screaming SFX", label: "😱 Shocked Gasp & Sudden Scream (😱😮)", desc: "Loud toddler gasp, sudden scream of surprise, and scared squeaks." },
       { value: "Angry Huffing & Foot Stomp", label: "😤 Angry Huffing & Foot Stomp (😤😡)", desc: "Annoyed huffing, foot stamping sound FX, and grumpy pouting huffs." },
       { value: "Yummy Munching & Slurp SFX", label: "🍦 Yummy Munching & Slurp (🍦😋)", desc: "Munching, chewing sound FX, slurping ice cream, milk, or chocolates." },
+      { value: "Cute Kid Singing & Humming", label: "🎤 Cute Kid Singing & Humming", desc: "Adorable child singing a song, humming a sweet melody, or doing vocal runs." },
       { value: "Soft Mother/Father Narration", label: "🎙️ Soft Parent Narration (Voiceover)", desc: "Warm, loving parent story narration overlay with silent kid acting." },
     ]
   }
@@ -3026,6 +3027,24 @@ export function getOptionDescription(groups: OptionGroupWithDesc[], currentValue
   return "";
 }
 
+const NEWS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "Default / AI Decides",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best news location automatically." },
+    ]
+  },
+  {
+    category: "📺 News Studio & Reporting",
+    options: [
+      { value: "Professional TV News Studio", label: "Professional TV News Studio 📺", desc: "High-end television news broadcast studio with anchor desk, studio microphones, backdrop monitors, and lighting." },
+      { value: "Outdoor Reporting Location", label: "Outdoor Reporting Location 🎤", desc: "Dynamic outdoor live-reporting location, such as a busy city square or landmark background, holding a reporter mic." },
+      { value: "Street Interview Area", label: "Street Interview Area 🛣️", desc: "Casual street interview setup with blurred pedestrians in the background and natural daylight." },
+      { value: "Breaking News Desk", label: "Breaking News Desk 🚨", desc: "Urgent breaking news desk setup with red accents and dramatic studio lighting." }
+    ],
+  }
+];
+
 // 1. LOCATION OPTIONS
 const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
@@ -3361,6 +3380,23 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Two Kids & AI Robot", label: "Two Kids & AI Robot 🤖👫", desc: "Boy & girl siblings playing happily with a futuristic 3D AI robot buddy.", tag: "👨‍👩‍👧 Family Favorites" },
       { value: "Baby & Cute Mini AI Robot", label: "Baby & Mini AI Robot 🤖👶", desc: "Adorable baby playing with a cute glowing mini pet robot.", tag: "🧸 Cute Favorite" },
     ],
+  },
+  {
+    category: "👫 Friends & Conversational Duos",
+    options: [
+      { value: "Two Boy Friends (Speaker & Listener)", label: "Two Boy Friends (Speaker & Listener) 👦👦", desc: "Two boys chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👦 Best for Boys" },
+      { value: "Two Girl Friends (Speaker & Listener)", label: "Two Girl Friends (Speaker & Listener) 👧👧", desc: "Two girls chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👧 Best for Girls" },
+      { value: "Boy & Girl Friends (Speaker & Listener)", label: "Boy & Girl Friends (Speaker & Listener) 👦👧", desc: "A boy and a girl chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👨‍👩‍👧 Mix" },
+    ]
+  },
+  {
+    category: "🎤 Kids Singing & Musical Performances",
+    options: [
+      { value: "Solo Boy Singing Song", label: "Solo Boy Singing Song 👦🎤", desc: "Cute little boy holding a microphone and singing a cheerful song. Visuals should show him performing playfully.", tag: "👦 Best for Boys" },
+      { value: "Solo Girl Singing Song", label: "Solo Girl Singing Song 👧🎤", desc: "Cute little girl holding a microphone and singing a sweet song. Visuals should show her performing playfully.", tag: "👧 Best for Girls" },
+      { value: "Boy & Girl Duet Singing", label: "Boy & Girl Duet Singing 👦👧🎤", desc: "A boy and a girl singing together playfully, acting as a cute musical duet.", tag: "👨‍👩‍👧 Mix" },
+      { value: "Kids Music Band", label: "Kids Music Band 🥁🎸", desc: "A group of cute kids playing toy instruments (like ukulele, toy drums) and singing together.", tag: "🧸 Cute Favorite" },
+    ]
   },
   {
     category: "Girl Characters",
@@ -4256,6 +4292,8 @@ const MUSIC_TYPE_GROUPS: OptionGroupWithDesc[] = [
     options: [
       { value: "Cute Kids Melody (Ukulele & Toy Bells)", label: "Cute Kids Melody (Ukulele & Bells) 🧸", desc: "Cute, playful, innocent music for short 2-line songs or clips. Soft ukulele, gentle piano, toy bells, light flute, and soft claps. Short memorable hooks." },
       { value: "Cute Desi Kids Melody (Tabla & Dholak)", label: "Cute Desi Kids Melody (Tabla/Dholak) 🪘", desc: "Warm and playful cute kids melody featuring subtle tabla/dholak elements mixed with ukulele and toy bells. Cute and modern, best for 2-line Urdu/Hindi/Punjabi songs." },
+      { value: "Cute Kids Bollywood Clap", label: "Cute Kids Bollywood Clap 👏", desc: "Playful Bollywood style rhythm with cheerful hand clapping and light acoustic beats." },
+      { value: "Cute Kids Punjabi", label: "Cute Kids Punjabi 🥁", desc: "Energetic and joyful kids Punjabi rhythm with light dholak and vibrant folk elements." },
     ]
   },
   {
@@ -5996,13 +6034,13 @@ export default function IdeasPage() {
           language,
           customIdea,
           existingDialogue: customDialogue,
-          kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
-          kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsAge: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
-          kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
-          kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
-          charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          kidsClothing: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsVibe: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
+          charactersPerScene: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           aiModel,
           seriousDialogueStyle,
           customSceneDescription,
@@ -6525,7 +6563,7 @@ export default function IdeasPage() {
   const [generatingSocialId, setGeneratingSocialId] = useState<string | null>(null);
 
   const getFallbackFileName = (idea: SavedIdea) => {
-    let name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
+    const name = idea.videoFileName ? idea.videoFileName.replace(/\.mp4$/i, "") : "";
     if (name) return name;
     const cleanId = idea.id.slice(-4).toLowerCase();
     if (idea.category === "CARBOX") {
@@ -6537,7 +6575,7 @@ export default function IdeasPage() {
   };
 
   const handleSaveFileName = async (id: string) => {
-    let formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
+    const formatted = editingFileNameText.trim().replace(/\.mp4$/i, "");
     if (!formatted) {
       setEditingFileNameId(null);
       return;
@@ -6814,18 +6852,18 @@ export default function IdeasPage() {
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
-          kidsAge: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsAge: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
           kidsAudioStyle: category === "CUTE_KIDS" && kidsAudioStyle !== "Any / AI Decides" ? kidsAudioStyle : undefined,
           kidsTalkingSpeed: category === "CUTE_KIDS" && kidsTalkingSpeed !== "Any / AI Decides" ? kidsTalkingSpeed : undefined,
-          kidsLocation: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsLocation: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
-          kidsClothing: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsClothing: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
           fatherClothing: fatherClothing === "Custom" ? (customFatherClothing || "Custom") : (fatherClothing !== "AI Decides" ? fatherClothing : undefined),
           motherClothing: motherClothing === "Custom" ? (customMotherClothing || "Custom") : (motherClothing !== "AI Decides" ? motherClothing : undefined),
-          kidsVibe: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
-          charactersPerScene: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
-          kidsNationality: (category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsNationality : undefined,
+          kidsVibe: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
+          charactersPerScene: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          kidsNationality: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsNationality : undefined,
           carboxBrand,
           carboxColor,
           carboxPackaging,
@@ -8769,7 +8807,7 @@ export default function IdeasPage() {
                     icon="📍"
                     value={kidsLocation}
                     onChange={setKidsLocation}
-                    groups={KIDS_LOCATION_GROUPS}
+                    groups={category === "LOCATION_NEWS" ? NEWS_LOCATION_GROUPS : KIDS_LOCATION_GROUPS}
                     isLight={isLight}
                   />
                 )}
@@ -9967,7 +10005,7 @@ export default function IdeasPage() {
           )}
 
           {/* Global Quick-Jump Compatible Extra Settings (Fallback for generic categories & CUTE_KIDS/SONG) */}
-          {(category === "CUTE_KIDS" || (category as string) === "SONG" || category === "FUNNY" || category === "KIDS_FUNNY" || category === "ABSTRACT" || category === "CINEMATIC" || category === "HORROR" || category === "HINDI_JOKE" || category === "PUNJABI_JOKE") && (
+          {(category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "FUNNY" || category === "KIDS_FUNNY" || category === "ABSTRACT" || category === "CINEMATIC" || category === "HORROR" || category === "HINDI_JOKE" || category === "PUNJABI_JOKE") && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-5 mt-4">
               {/* Background Music Type */}
               {matchesParamFilter(["music", "background"]) && (
