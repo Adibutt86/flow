@@ -8590,8 +8590,8 @@ export default function IdeasPage() {
             </div>
           </div>
 
-          {/* Cute Kids Options */}
-          {category === "CUTE_KIDS" && (
+          {/* Cute Kids & News Options */}
+          {(category === "CUTE_KIDS" || category === "LOCATION_NEWS") && (
             <div ref={generatorParametersRef} className={`p-4 sm:p-6 rounded-2xl border space-y-5 shadow-xl relative z-30 transition-all duration-300 ${
               isLight ? "bg-slate-50 border-indigo-200 text-slate-900" : "bg-indigo-950/20 border-indigo-500/25 text-slate-100"
             }`}>
@@ -8636,8 +8636,8 @@ export default function IdeasPage() {
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings("CUTE_KIDS"); }}
-                      title="Reset Cute Kids settings to default values"
+                      onClick={(e) => { e.stopPropagation(); handleResetCategorySettings(category); }}
+                      title="Reset settings to default values"
                       className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 touch-manipulation ${
                         isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300 hover:text-white"
                       }`}
