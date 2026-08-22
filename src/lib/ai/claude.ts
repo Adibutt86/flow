@@ -426,19 +426,18 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
   }
   (Apply this pattern for EVERY line in the user's script, in order)
 
-━━━ STRICT RULES ━━━
-1. Label mapping (NEVER swap these):
-   - "Wife:" or "بیوی" = RIGHT-side wife (holding phone or in room) ONLY
-   - "Husband:" or "شوہر" or "میاں" = LEFT-side husband (in car/office or left frame) ONLY
-   - "Shopkeeper:" or "دکاندار" = LEFT-side shopkeeper behind counter ONLY
-   - "Boy:" or "لڑکا" = LEFT-side male character ONLY
-   - "Girl:" or "لڑکی" = RIGHT-side female character ONLY
-   - "Abu:" or "ابو" = LEFT-side father character ONLY
-   - "Baita:" or "بیٹا" = RIGHT-side son/child character ONLY
-   - "Amma:" or "امی" = RIGHT-side mother character ONLY
-   - "Uncle:" or "انکل" = LEFT-side uncle character ONLY
-2. Output ALL lines in EXACT user order — do NOT reorder, skip, or merge any lines.
-3. NEVER put two different characters' dialogue on the same 💬 line.
+━━━ STRICT CHARACTER-TO-DIALOGUE MATCHING RULES (CRITICAL MANDATE) ━━━
+1. READ THE LEADING SPEAKER PREFIX (e.g. "لڑکا:", "ابو:", "بیٹا:", "لڑکی:", "امی:", "Boy:", "Girl:", "Abu:", "Baita:") ON EACH LINE OF THE USER'S SCRIPT TO IDENTIFY WHO SPEAKS THAT SPECIFIC LINE:
+   - Line starts with "لڑکا:" / "بیٹا:" / "Baita:" / "Boy:" ➔ Speaker is Baita (Boy) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [clean dialogue without prefix]"
+   - Line starts with "ابو:" / "Abu:" / "Father:" ➔ Speaker is Abu (Father) on the LEFT side frame. Use: "[Camera shifts LEFT — Father (Abu) speaks] 💬 Abu: [clean dialogue without prefix]"
+   - Line starts with "لڑکی:" / "Beti:" / "Girl:" ➔ Speaker is Girl on the RIGHT side frame. Use: "[Camera shifts RIGHT — Girl speaks] 💬 Girl: [clean dialogue without prefix]"
+   - Line starts with "امی:" / "Amma:" / "Mother:" ➔ Speaker is Amma (Mother) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Amma (Mother) speaks] 💬 Amma: [clean dialogue without prefix]"
+   - Line starts with "دکاندار:" / "Shopkeeper:" ➔ Speaker is Shopkeeper on the LEFT side frame. Use: "[Camera shifts LEFT — Shopkeeper speaks] 💬 Shopkeeper: [clean dialogue without prefix]"
+   - Line starts with "شوہر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [clean dialogue without prefix]"
+   - Line starts with "بیوی:" / "Wife:" ➔ Speaker is Wife on the RIGHT side frame. Use: "[Camera shifts RIGHT — Wife speaks] 💬 Wife: [clean dialogue without prefix]"
+
+2. ABSOLUTELY DO NOT SWAP SPEAKERS! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Baita:" TO ABU!
+3. Output ALL lines in EXACT user order — do NOT reorder, skip, or swap speaker lines.
 4. NEVER translate, rephrase, or modify any Urdu/native script text.
 5. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
         } else {

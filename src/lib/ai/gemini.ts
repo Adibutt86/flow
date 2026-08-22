@@ -1381,6 +1381,19 @@ Return ONLY a valid JSON array of 3 strings:
   ];
 }
 
+export function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "RIGHT" } {
+  const s = rawSpeaker.trim().toLowerCase();
+  if (/لڑکا|بیٹا|baita|boy|son/i.test(s)) return { name: "Baita", side: "RIGHT" };
+  if (/ابو|father|abu|dad/i.test(s)) return { name: "Abu", side: "LEFT" };
+  if (/لڑکی|girl|beti|daughter/i.test(s)) return { name: "Girl", side: "RIGHT" };
+  if (/امی|mother|amma|mom/i.test(s)) return { name: "Amma", side: "RIGHT" };
+  if (/شوہر|میاں|husband/i.test(s)) return { name: "Husband", side: "LEFT" };
+  if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT" };
+  if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT" };
+  if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT" };
+  return { name: rawSpeaker.trim(), side: "LEFT" };
+}
+
 export function parseDialogueScriptLines(customDialogue?: string): { rawLine: string; speaker: string; cleanText: string }[] {
   if (!customDialogue || !customDialogue.trim()) return [];
   const lines = customDialogue.trim().split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -1407,12 +1420,30 @@ export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string)
       if (scriptLine && scriptLine.cleanText) {
         scene.dialogue = scriptLine.cleanText;
         if (scriptLine.speaker) {
-          scene.speakingCharacter = scriptLine.speaker;
-          if (typeof scene.videoPrompt === "string" && !scene.videoPrompt.includes(scriptLine.speaker)) {
-            scene.videoPrompt = `[Character "${scriptLine.speaker}" speaks dialogue: "${scriptLine.cleanText}"] ${scene.videoPrompt}`;
+          const norm = normalizeSpeaker(scriptLine.speaker);
+          scene.speakingCharacter = norm.name;
+
+          if (typeof scene.videoPrompt === "string") {
+            let promptText = scene.videoPrompt;
+
+            const cameraCutRegex = /\[Camera (?:shifts|cuts) (?:LEFT|RIGHT)[^\]]*\]\s*\n*\s*💬\s*[\w\s\(\)\u0600-\u06FF]+:\s*.*$/m;
+            const correctCameraCut = `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${scriptLine.cleanText}`;
+
+            if (cameraCutRegex.test(promptText)) {
+              promptText = promptText.replace(cameraCutRegex, correctCameraCut);
+            } else {
+              const singleDialogueRegex = /💬\s*[\w\s\(\)\u0600-\u06FF]+:\s*.*$/m;
+              if (singleDialogueRegex.test(promptText)) {
+                promptText = promptText.replace(singleDialogueRegex, correctCameraCut);
+              } else {
+                promptText = `${promptText}\n\n${correctCameraCut}`;
+              }
+            }
+            scene.videoPrompt = promptText;
           }
-          if (typeof scene.imagePrompt === "string" && !scene.imagePrompt.includes(scriptLine.speaker)) {
-            scene.imagePrompt = scene.imagePrompt.replace(/(CHARACTER CONSISTENCY LOCK:)/i, `$1 Character "${scriptLine.speaker}" is actively speaking.`);
+
+          if (typeof scene.imagePrompt === "string") {
+            scene.imagePrompt = scene.imagePrompt.replace(/(CHARACTER CONSISTENCY LOCK:)/i, `$1 Character "${norm.name}" on ${norm.side} frame is actively speaking.`);
           }
         }
       }
