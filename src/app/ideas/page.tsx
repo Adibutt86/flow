@@ -6991,10 +6991,11 @@ export default function IdeasPage() {
     setActivePresetTitle(preset.title);
     setPresetDialogueIndex(0);
 
-    // Populate Custom Spoken Dialogue box
+    // Populate Custom Spoken Dialogue box (preserve user's active custom dialogue script if already typed)
+    const hasActiveUserDialogue = customDialogue && customDialogue.trim() && !/^(Boy|Girl|Abu|Amma|Larka|Larki|Son|Father|Mother):\s*$/i.test(customDialogue.trim());
     if (preset.customDialogue !== undefined) {
       setCustomDialogue(preset.customDialogue);
-    } else {
+    } else if (!hasActiveUserDialogue) {
       const labels = getPresetCharacterLabels(preset.title);
       if (labels) {
         setCustomDialogue(labels);
@@ -7655,9 +7656,9 @@ export default function IdeasPage() {
           includeCharacterBible,
           compactMode,
           kids20sStep: (videoDuration === 20 || videoDuration === 30) ? "SCENE_1_ONLY" : undefined,
-          customDialogue: (videoDuration === 20 || videoDuration === 30)
+          customDialogue: withoutDialogue ? undefined : ((videoDuration === 20 || videoDuration === 30)
             ? (customDialogueSeq1 || customDialogueSeq2 || customDialogueSeq3 ? `First Sequence (0-10s): "${customDialogueSeq1.trim()}"\nSecond Sequence (10-20s): "${customDialogueSeq2.trim()}"${videoDuration === 30 ? `\nThird Sequence (20-30s): "${customDialogueSeq3.trim()}"` : ""}` : customDialogue)
-            : customDialogue,
+            : customDialogue),
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
@@ -9258,71 +9259,7 @@ export default function IdeasPage() {
                   );
                 })()}
 
-                {/* 💡 Suggested Urdu Dialogue Script Box for Active Preset */}
-                {(() => {
-                  const suggested = getPresetSuggestedDialogueScript(activePresetTitle || "Boy + Father", presetDialogueIndex, customDialogue);
-                  return (
-                    <div className={`p-3.5 rounded-xl border space-y-2.5 mt-3 transition-all ${
-                      isLight ? "bg-emerald-50/90 border-emerald-300 shadow-sm" : "bg-emerald-950/40 border-emerald-500/40"
-                    }`}>
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className={`text-xs font-black flex items-center gap-1.5 ${
-                          isLight ? "text-emerald-950" : "text-emerald-300"
-                        }`}>
-                          <Sparkles className="w-4 h-4 text-emerald-500" />
-                          <span>💡 Suggested Urdu Dialogue Script ({activePresetTitle || "Current Preset"}):</span>
-                        </span>
-                        <div className="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onClick={() => setPresetDialogueIndex((prev) => prev + 1)}
-                            className={`px-2.5 py-1 rounded-lg border text-[11px] font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 shadow-xs ${
-                              isLight ? "bg-white hover:bg-emerald-100 border-emerald-300 text-emerald-950" : "bg-emerald-900/60 hover:bg-emerald-800 border-emerald-500/50 text-emerald-200"
-                            }`}
-                            title="Cycle alternative Urdu dialogue lines"
-                          >
-                            <span>🎲 Cycle Line</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomDialogue(suggested.urduText);
-                              showToast(`✨ Applied suggested Urdu script for ${activePresetTitle || "Preset"}`, "success", 2500);
-                            }}
-                            className={`px-3 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 shadow-xs ${
-                              isLight ? "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-700 shadow-emerald-500/30" : "bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400"
-                            }`}
-                          >
-                            <span>✨ Use This Dialogue</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomDialogue((prev) => prev ? prev + "\n" + suggested.urduText : suggested.urduText);
-                              showToast(`➕ Appended suggested Urdu dialogue!`, "success", 2500);
-                            }}
-                            className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 ${
-                              isLight ? "bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border-emerald-300" : "bg-emerald-900/40 hover:bg-emerald-800 text-emerald-200 border-emerald-500/40"
-                            }`}
-                          >
-                            <span>➕ Append</span>
-                          </button>
-                        </div>
-                      </div>
 
-                      <div className={`p-3 rounded-xl border text-sm sm:text-base font-extrabold leading-relaxed font-sans ${
-                        isLight ? "bg-white border-emerald-200 text-emerald-950 shadow-inner" : "bg-black/80 border-emerald-500/30 text-emerald-100"
-                      }`} dir="rtl">
-                        {suggested.urduText}
-                      </div>
-
-                      <div className="flex flex-wrap items-center justify-between text-[11px] font-bold text-slate-400 gap-2 pt-0.5 border-t border-emerald-200/40">
-                        <span>🇬🇧 English Meaning: "{suggested.translation}"</span>
-                        <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-black">Click "Use This Dialogue" to load into script box</span>
-                      </div>
-                    </div>
-                  );
-                })()}
 
                 {/* Saved Dialogues Tag List */}
                 {savedDialogues.length > 0 && (

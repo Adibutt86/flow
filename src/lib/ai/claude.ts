@@ -393,14 +393,9 @@ The concept MUST be structured as a clean, concise visual story (small idea form
 - Camera movement & slow framing
 - Scene progression & visual storytelling
 Do NOT write any spoken speech or dialogue lines anywhere in the prompt.`
-    : input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue
-    ? `CRITICAL SILENT MANDATE (NO SPOKEN DIALOGUE):
-The user selected Character Performance Mode: "${input.charPerformance}".
-STRICT RULE: Do NOT include ANY spoken words, speech, or Urdu/English dialogue lines in the prompt!
-The character must NOT speak. Focus 100% on facial expressions, physical acting, dancing, body movement, and sound effects.`
     : input.customDialogue
     ? (() => {
-        const isMultiChar = /Boy:|Girl:|Abu:|Baita:|Amma:|Uncle:|Shopkeeper:|Wife:|Husband:|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بیوی|شوہر|میاں/.test(input.customDialogue);
+        const isMultiChar = /Boy:|Girl:|Father:|Dad:|Papa:|Son:|Baita:|Beti:|Mother:|Mom:|Amma:|Ammi:|Mummy:|Uncle:|Aunt:|Shopkeeper:|Wife:|Husband:|Dadi:|Nani:|Grandma:|Grandpa:|Larka:|Larki:|Cat:|Billi:|Dog:|Kutta:|Parrot:|Tota:|Speaker\s*\d+:|Character\s*\d+:|لڑکا|لڑکی|ابو|بیٹا|بیٹی|امی|اماں|ممی|پاپا|دادا|دادی|نانا|نانی|انکل|چچا|دکاندار|بیوی|شوہر|میاں|بلی|کتا|طوطا/i.test(input.customDialogue) || (input.customDialogue.includes("\n") && !/First Sequence|Second Sequence|Sequence 1|Sequence 2/.test(input.customDialogue));
         if (isMultiChar) {
           const isPhoneCall = /phone|mobile|call|فون|کال|موبائل/i.test(input.customDialogue);
           return `🔴 CRITICAL MANDATE FOR USER MULTI-CHARACTER DIALOGUE SCRIPT:
@@ -411,10 +406,15 @@ ${input.customDialogue}
 
 THIS IS A CONVERSATION BETWEEN MULTIPLE CHARACTERS${isPhoneCall ? " (PHONE CONVERSATION SCENE)" : ""}. STRICT VIDEO GENERATOR RULES:
 
+━━━ ABSOLUTE 100% VERBATIM SCRIPT PRESERVATION MANDATE (STRICTEST RULE) ━━━
+1. YOU MUST USE THE USER'S EXACT SPOKEN WORDS 100% VERBATIM AND UNCHANGED FOR EVERY SINGLE LINE IN THE SCRIPT!
+2. ABSOLUTELY DO NOT REWRITE, DO NOT PARAPHRASE, DO NOT TRANSLATE TO ENGLISH, DO NOT INVENT A DIFFERENT SCRIPT, AND DO NOT ALTER ANY WORDS IN THE SPOKEN DIALOGUE LINES!
+3. EVERY "💬 [Speaker]: [verbatim text]" LINE MUST CONTAIN THE EXACT SCRIPT TEXT PROVIDED BY THE USER ABOVE!
+
 ━━━ CHARACTER SPATIAL LOCK & PHONE CALL CUTS ━━━
 To prevent the video generator from mixing up characters, you MUST lock each character to a fixed screen position/location throughout the ENTIRE video:
-- CHARACTER 1 (Husband / شوہر / میاں / Shopkeeper / Boy / Abu / Uncle): PERMANENTLY anchored to the LEFT SIDE frame (e.g. driving car or office with phone 📱🚗). Camera ALWAYS frames this character when speaking.
-- CHARACTER 2 (Wife / بیوی / Girl / Baita / Amma): PERMANENTLY anchored to the RIGHT SIDE frame (e.g. living room holding phone to ear 📱). Camera ALWAYS frames this character when she speaks.
+- CHARACTER 1 (Husband / شوہر / میاں / Shopkeeper / Boy / Abu / Father / Uncle): PERMANENTLY anchored to the LEFT SIDE frame (e.g. driving car or office or sofa 📱🚗). Camera ALWAYS frames this character when speaking.
+- CHARACTER 2 (Wife / بیوی / Girl / Baita / Beti / Amma / Mother): PERMANENTLY anchored to the RIGHT SIDE frame (e.g. living room or kitchen 📱). Camera ALWAYS frames this character when she speaks.
 - Both characters are VISUALLY DISTINCT with clearly different appearance, clothing color, and hairstyle so the video generator never confuses them.
 
 ━━━ PER-LINE VISUAL CUE FORMAT ━━━
@@ -422,25 +422,29 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
   ${isPhoneCall 
     ? `[Camera cuts to RIGHT — Wife holding smartphone to ear in living room] 💬 Wife: [verbatim text]
   [Camera cuts to LEFT — Husband driving car holding steering wheel, talking on speaker 📱🚗] 💬 Husband: [verbatim text]`
-    : `[Camera shifts LEFT — Shopkeeper / Husband speaks] 💬 Husband: [verbatim text]
-  [Camera shifts RIGHT — Wife / Girl reacts with an expression] 💬 Wife: [verbatim text]`
+    : `[Camera shifts LEFT — Father / Abu speaks] 💬 Abu: [verbatim text]
+  [Camera shifts RIGHT — Boy / Baita speaks] 💬 Baita: [verbatim text]`
   }
   (Apply this pattern for EVERY line in the user's script, in order)
 
 ━━━ STRICT CHARACTER-TO-DIALOGUE MATCHING RULES (CRITICAL MANDATE) ━━━
-1. READ THE LEADING SPEAKER PREFIX (e.g. "لڑکا:", "ابو:", "بیٹا:", "لڑکی:", "امی:", "Boy:", "Girl:", "Abu:", "Baita:") ON EACH LINE OF THE USER'S SCRIPT TO IDENTIFY WHO SPEAKS THAT SPECIFIC LINE:
-   - Line starts with "لڑکا:" / "بیٹا:" / "Baita:" / "Boy:" ➔ Speaker is Baita (Boy) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [clean dialogue without prefix]"
-   - Line starts with "ابو:" / "Abu:" / "Father:" ➔ Speaker is Abu (Father) on the LEFT side frame. Use: "[Camera shifts LEFT — Father (Abu) speaks] 💬 Abu: [clean dialogue without prefix]"
-   - Line starts with "لڑکی:" / "Beti:" / "Girl:" ➔ Speaker is Girl on the RIGHT side frame. Use: "[Camera shifts RIGHT — Girl speaks] 💬 Girl: [clean dialogue without prefix]"
-   - Line starts with "امی:" / "Amma:" / "Mother:" ➔ Speaker is Amma (Mother) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Amma (Mother) speaks] 💬 Amma: [clean dialogue without prefix]"
-   - Line starts with "دکاندار:" / "Shopkeeper:" ➔ Speaker is Shopkeeper on the LEFT side frame. Use: "[Camera shifts LEFT — Shopkeeper speaks] 💬 Shopkeeper: [clean dialogue without prefix]"
-   - Line starts with "شوہر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [clean dialogue without prefix]"
-   - Line starts with "بیوی:" / "Wife:" ➔ Speaker is Wife on the RIGHT side frame. Use: "[Camera shifts RIGHT — Wife speaks] 💬 Wife: [clean dialogue without prefix]"
+1. READ THE LEADING SPEAKER PREFIX (e.g. "لڑکا:", "ابو:", "بیٹا:", "لڑکی:", "امی:", "Boy:", "Father:", "Son:", "Dad:", "Girl:", "Abu:", "Baita:") ON EACH LINE OF THE USER'S SCRIPT TO IDENTIFY WHO SPEAKS THAT SPECIFIC LINE:
+   - Line starts with "لڑکا:" / "بیٹا:" / "Baita:" / "Boy:" / "Son:" ➔ Speaker is Baita (Boy) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [exact verbatim dialogue without speaker label]"
+   - Line starts with "ابو:" / "Abu:" / "Father:" / "Dad:" / "Papa:" ➔ Speaker is Abu (Father) on the LEFT side frame. Use: "[Camera shifts LEFT — Father (Abu) speaks] 💬 Abu: [exact verbatim dialogue without speaker label]"
+   - Line starts with "لڑکی:" / "Beti:" / "Girl:" / "Daughter:" ➔ Speaker is Girl on the RIGHT side frame. Use: "[Camera shifts RIGHT — Girl speaks] 💬 Girl: [exact verbatim dialogue without speaker label]"
+   - Line starts with "امی:" / "Amma:" / "Mother:" / "Mom:" ➔ Speaker is Amma (Mother) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Amma (Mother) speaks] 💬 Amma: [exact verbatim dialogue without speaker label]"
+   - Line starts with "دکاندار:" / "Shopkeeper:" ➔ Speaker is Shopkeeper on the LEFT side frame. Use: "[Camera shifts LEFT — Shopkeeper speaks] 💬 Shopkeeper: [exact verbatim dialogue without speaker label]"
+   - Line starts with "شوہر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [exact verbatim dialogue without speaker label]"
+   - Line starts with "بیوی:" / "Wife:" ➔ Speaker is Wife on the RIGHT side frame. Use: "[Camera shifts RIGHT — Wife speaks] 💬 Wife: [exact verbatim dialogue without speaker label]"
 
-2. ABSOLUTELY DO NOT SWAP SPEAKERS! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Baita:" TO ABU!
+2. ABSOLUTELY DO NOT SWAP SPEAKERS! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Baita:" OR "Son:" TO ABU / FATHER!
 3. Output ALL lines in EXACT user order — do NOT reorder, skip, or swap speaker lines.
-4. NEVER translate, rephrase, expand, or modify any Urdu/native script text.
-5. VISUAL SCENE DIALOGUE MATCHING MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST describe the EXACT visual actions, props, and comedic situation of the user's spoken dialogue! (e.g. If Father asks for a TV remote and Son says it is in his hand, the visual prompt MUST describe Father searching the sofa for the remote and Son pointing at Father's own hand holding the remote).
+4. NEVER translate, rephrase, expand, or modify any Urdu/native script text. Output 100% UNCHANGED verbatim.
+5. VISUAL SCENE DIALOGUE MATCHING & EMOTION MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST describe the EXACT visual actions, emotional reaction, props, and comedic situation of the user's spoken dialogue!
+   - EMOTION OVERRIDE: The emotional tone of the user's custom dialogue ALWAYS OVERRIDES any preset vibe or default background music vibe!
+   - If the user's script is ANGRY or UPSET (e.g. "ناراض ہوں", "کٹی ہوں", "angry", "katti", "100 saal", "نہیں کھانا", "ناراض"): The character MUST be rendered with an angry pouting face, crossed arms, dramatic upset glare, foot stomp, or pouting cheeks in HOOK, ESCALATION, and PUNCHLINE! NEVER describe a smiling, laughing, excited, joyful, or giggling scene!
+   - If the user's script is SAD or TEARFUL (e.g. "رو رہی ہوں", "sad", "cry"): Describe a tearful, pouting, sad expression.
+   - If Father asks for a TV remote and Son says it is in his hand, the visual prompt MUST describe Father searching the sofa for the remote and Son pointing at Father's own hand holding the remote.
 6. NO UNRELATED PROPS OR RANDOM ACTION: Do NOT introduce random, unrelated props (such as lemon slices, pet cat toys, water buckets, or random food) unless explicitly mentioned in the user's custom dialogue!
 7. EXACT LINE COUNT LOCK: Output ONLY the exact number of dialogue lines provided by the user. If the user provided 2 lines, output EXACTLY 2 lines of dialogue! Never add extra lines 3 or 4!
 8. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
@@ -457,8 +461,12 @@ STRICT RULES:
 2. Do NOT summarize, modify, or rephrase the Urdu/native script text!
 3. Output "${input.customDialogue}" 100% UNCHANGED on the "💬 Spoken Dialogue:" line!
 4. The visual 9:16 video prompt paragraph above it must be in clean English, but the "💬 Spoken Dialogue:" line MUST contain "${input.customDialogue}" verbatim!
-5. EMOJI TO ACTION & EXPRESSION TRANSLATION: If the dialogue text contains emojis (e.g. 😡, 😂, 😭, 🤫, 🏃‍♂️, 🍦, 📱, 😤, 😠, 🧸, 🏆), you MUST interpret each emoji as a direct visual instruction for the character's facial expression, emotional reaction, gesture, or physical action/prop in the visual 9:16 video prompt description (e.g. 😡 = angry pouting face & foot stomp, 😂 = natural chuckle & soft smile, 😭 = dramatic crying expression, 🤫 = finger on lips whisper, 🏃‍♂️ = dashing/running away, 🍦 = holding/eating ice cream, 🏆 = proudly holding a shiny gold trophy & cheering victory).
-6. VOCAL SOUND FX & AUDIO COMMAND TRANSLATION: If the dialogue contains sound cues in parentheses or asterisks (e.g. "(Loud snoring sound: خررر... 💤)", "(Splashes water & gasping: 🌊😱)", "(Mischievous giggling: 😂)", "(Shocked gasp: 😱)"), you MUST translate these into explicit visual acting & audio soundscape instructions in the video prompt (e.g. open-mouth toddler snoring with snore bubbles, sudden water splash with sputtering gasp, or mischievous toddler giggling).`;
+5. VISUAL EMOTION & ACTION ALIGNMENT MANDATE: The visual 9:16 scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST 100% MATCH the emotional tone, facial expression, and action of the user's custom dialogue script!
+   - EMOTION OVERRIDE: The emotion in the user's custom dialogue ALWAYS OVERRIDES any preset vibe or default background music vibe!
+   - ANGRY / UPSET SCRIPT MANDATE: If the custom dialogue expresses anger, annoyance, or protest (e.g. "ناراض ہوں", "کٹی ہوں", "angry", "katti", "100 saal", "نہیں کھانا", "ناراض", "angry girl", "tantrum"): The character's facial expression, body language, and visual actions in HOOK (0-3s), ESCALATION (3-7s), and PUNCHLINE (7-10s) MUST be ANGRY and POUTING (e.g. dramatic pouting face, folded arms, angry toddler glare, foot stomp)! ABSOLUTELY NEVER describe a smiling, laughing, excited, joyful, or giggling scene when the script is angry or upset!
+   - SAD / TEARFUL SCRIPT MANDATE: If the dialogue expresses sadness or crying (e.g. "رو رہی ہوں", "sad", "cry"), describe tearful eyes, trembling lip, and sad body language.
+6. EMOJI TO ACTION & EXPRESSION TRANSLATION: If the dialogue text contains emojis (e.g. 😡, 😂, 😭, 🤫, 🏃‍♂️, 🍦, 📱, 😤, 😠, 🧸, 🏆), you MUST interpret each emoji as a direct visual instruction for the character's facial expression, emotional reaction, gesture, or physical action/prop in the visual 9:16 video prompt description (e.g. 😡 = angry pouting face & foot stomp, 😂 = natural chuckle & soft smile, 😭 = dramatic crying expression, 🤫 = finger on lips whisper, 🏃‍♂️ = dashing/running away, 🍦 = holding/eating ice cream, 🏆 = proudly holding a shiny gold trophy & cheering victory).
+7. VOCAL SOUND FX & AUDIO COMMAND TRANSLATION: If the dialogue contains sound cues in parentheses or asterisks (e.g. "(Loud snoring sound: خررر... 💤)", "(Splashes water & gasping: 🌊😱)", "(Mischievous giggling: 😂)", "(Shocked gasp: 😱)"), you MUST translate these into explicit visual acting & audio soundscape instructions in the video prompt (e.g. open-mouth toddler snoring with snore bubbles, sudden water splash with sputtering gasp, or mischievous toddler giggling).`;
         }
       })()
     : "Dialogue Mandate: Include authentic, hilarious dialogue in the selected language with funny Desi timing and comic punchlines."
@@ -883,7 +891,7 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
     : `STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
 
@@ -901,7 +909,7 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" || (input.charPerformance && /silent|reaction|dance|surprise|funny action|emotional/i.test(input.charPerformance) && !input.customDialogue) ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
 }
 ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label, script paragraph, or spoken monologue anywhere in the prompt text. Keep the generated concept concise and visual-only." : ""}
 
