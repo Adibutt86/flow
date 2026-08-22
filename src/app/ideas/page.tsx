@@ -4581,6 +4581,19 @@ interface SavedIdea {
   };
 }
 
+function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "RIGHT" } {
+  const s = rawSpeaker.trim().toLowerCase();
+  if (/لڑکا|بیٹا|baita|boy|son/i.test(s)) return { name: "Baita", side: "RIGHT" };
+  if (/ابو|father|abu|dad/i.test(s)) return { name: "Abu", side: "LEFT" };
+  if (/لڑکی|girl|beti|daughter/i.test(s)) return { name: "Girl", side: "RIGHT" };
+  if (/امی|mother|amma|mom/i.test(s)) return { name: "Amma", side: "RIGHT" };
+  if (/شوہر|میاں|husband/i.test(s)) return { name: "Husband", side: "LEFT" };
+  if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT" };
+  if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT" };
+  if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT" };
+  return { name: rawSpeaker.trim(), side: "LEFT" };
+}
+
 function cleanPromptText(text: string): string {
   if (!text) return "";
   return text.replace(/\[FORMAT:[^\]]+\]\s*/gi, "").trim();
@@ -8501,7 +8514,10 @@ export default function IdeasPage() {
                     </div>
                     <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                       {customDialogue.split("\n").filter((l) => l.trim()).map((line, idx) => {
-                        const isRightChar = /Girl:|لڑکی|Baita:|بیٹا|Amma:|امی/.test(line);
+                        const colonIdx = line.indexOf(":");
+                        const leadingPrefix = colonIdx !== -1 && colonIdx < 30 ? line.substring(0, colonIdx).trim() : "";
+                        const norm = normalizeSpeaker(leadingPrefix || (idx % 2 === 0 ? "Baita" : "Abu"));
+                        const isRightChar = norm.side === "RIGHT";
                         return (
                           <div
                             key={idx}

@@ -1400,11 +1400,20 @@ export function parseDialogueScriptLines(customDialogue?: string): { rawLine: st
   return lines.map(line => {
     let speaker = "";
     let cleanText = line.replace(/^💬\s*/, "");
-    const match = cleanText.match(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu);
-    if (match) {
-      speaker = match[0].replace(/:/g, "").trim();
-      cleanText = cleanText.substring(match[0].length).trim();
+    
+    // Extract leading speaker prefix before the colon (e.g. "لڑکا:", "ابو:", "Girl:", "Baita:")
+    const colonIdx = cleanText.indexOf(":");
+    if (colonIdx !== -1 && colonIdx < 35) {
+      speaker = cleanText.substring(0, colonIdx).trim();
+      cleanText = cleanText.substring(colonIdx + 1).trim();
+    } else {
+      const match = cleanText.match(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu);
+      if (match) {
+        speaker = match[0].replace(/:/g, "").trim();
+        cleanText = cleanText.substring(match[0].length).trim();
+      }
     }
+    
     cleanText = cleanText.replace(/^["'«»“”]|["'«»“”]$/g, "").trim();
     return { rawLine: line, speaker, cleanText };
   });
