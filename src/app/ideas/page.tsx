@@ -938,6 +938,16 @@ const CUTE_KIDS_PRESET_GROUPS = [
     ]
   },
   {
+    groupName: "🌾 Pakistani Punjabi Village Duos (پنجابی پنڈ)",
+    presets: [
+      { icon: "🌾👦👦", title: "Punjabi Friends (Boy + Boy)", age: "Toddler (2-4 yrs)", location: "Pakistani Punjabi Village Fields & Mud Houses", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Boy Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Traditional Punjabi Kurta Pajama & Turban" },
+      { icon: "🌾👦👧", title: "Punjabi Friends (Boy + Girl)", age: "Toddler (2-4 yrs)", location: "Pakistani Punjabi Village Courtyard & Tubewell", health: "Healthy", vibe: "Funny & Mischievous", setup: "Boy & Girl Pair", perScene: "2 Characters", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Traditional Punjabi Kurta & Shalwar Kameez" },
+      { icon: "🌾👦👴", title: "Punjabi Boy + Father", age: "Toddler (2-4 yrs)", location: "Pakistani Punjabi Village Haveli & Charpai", health: "Healthy", vibe: "Funny & Mischievous", setup: "Boy & Father (Abu)", perScene: "2 Characters", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Traditional Punjabi Kurta & Chador" },
+      { icon: "🌾👧👵", title: "Punjabi Girl + Mother", age: "Toddler (2-4 yrs)", location: "Pakistani Punjabi Village Courtyard & Clay Stove (تندور)", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Girl & Mother (Amma)", perScene: "2 Characters", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Traditional Punjabi Shalwar Kameez & Phulkari Dupatta" },
+      { icon: "🌾👧👧", title: "Punjabi Friends (Girl + Girl)", age: "Toddler (2-4 yrs)", location: "Pakistani Punjabi Village Fields & Mustard Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Two Girl Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Colorful Punjabi Phulkari Shalwar Suits" },
+    ]
+  },
+  {
     groupName: "👶 Early Toddler Playtime (1.5-2.5 yrs)",
     presets: [
       {
@@ -4607,6 +4617,13 @@ function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "R
 
 function getPresetCharacterLabels(presetTitle: string): string {
   if (!presetTitle) return "";
+
+  if (/punjabi friends \(boy \+ boy\)/i.test(presetTitle)) return "لڑکا 1:\n\nلڑکا 2:\n";
+  if (/punjabi friends \(girl \+ girl\)/i.test(presetTitle)) return "لڑکی 1:\n\nلڑکی 2:\n";
+  if (/punjabi friends \(boy \+ girl\)/i.test(presetTitle)) return "لڑکا:\n\nلڑکی:\n";
+  if (/punjabi boy \+ father/i.test(presetTitle)) return "لڑکا:\n\nابو:\n";
+  if (/punjabi girl \+ mother/i.test(presetTitle)) return "لڑکی:\n\nامی:\n";
+
   const parts = presetTitle.split(/\s*\+\s*/);
   if (parts.length >= 2) {
     let char1 = parts[0].trim();
