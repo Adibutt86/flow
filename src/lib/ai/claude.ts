@@ -438,8 +438,11 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
 
 2. ABSOLUTELY DO NOT SWAP SPEAKERS! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Baita:" TO ABU!
 3. Output ALL lines in EXACT user order — do NOT reorder, skip, or swap speaker lines.
-4. NEVER translate, rephrase, or modify any Urdu/native script text.
-5. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
+4. NEVER translate, rephrase, expand, or modify any Urdu/native script text.
+5. VISUAL SCENE DIALOGUE MATCHING MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST describe the EXACT visual actions, props, and comedic situation of the user's spoken dialogue! (e.g. If Father asks for a TV remote and Son says it is in his hand, the visual prompt MUST describe Father searching the sofa for the remote and Son pointing at Father's own hand holding the remote).
+6. NO UNRELATED PROPS OR RANDOM ACTION: Do NOT introduce random, unrelated props (such as lemon slices, pet cat toys, water buckets, or random food) unless explicitly mentioned in the user's custom dialogue!
+7. EXACT LINE COUNT LOCK: Output ONLY the exact number of dialogue lines provided by the user. If the user provided 2 lines, output EXACTLY 2 lines of dialogue! Never add extra lines 3 or 4!
+8. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
         } else {
           return `🔴 CRITICAL MANDATE FOR USER CUSTOM DIALOGUE:
 The user typed/pasted EXACT custom spoken dialogue in Urdu/native script:

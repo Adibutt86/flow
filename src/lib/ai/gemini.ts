@@ -1423,9 +1423,13 @@ export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string)
   if (!parsed || !Array.isArray(parsed.scenes)) return parsed;
   const scriptLines = parseDialogueScriptLines(customDialogue);
 
+  if (scriptLines.length > 0 && parsed.scenes.length > scriptLines.length) {
+    parsed.scenes = parsed.scenes.slice(0, scriptLines.length);
+  }
+
   parsed.scenes = parsed.scenes.map((scene: any, idx: number) => {
     if (scriptLines.length > 0) {
-      const scriptLine = scriptLines[idx % scriptLines.length];
+      const scriptLine = scriptLines[idx];
       if (scriptLine && scriptLine.cleanText) {
         scene.dialogue = scriptLine.cleanText;
         if (scriptLine.speaker) {
