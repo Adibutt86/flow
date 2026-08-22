@@ -833,6 +833,16 @@ const KIDS_TALKING_SPEED_GROUPS: OptionGroupWithDesc[] = [
 
 const CUTE_KIDS_PRESET_GROUPS = [
   {
+    groupName: "🎤 Stand-Up Comedy & Stage Presets",
+    presets: [
+      { icon: "🎤", title: "Toddler Stand-Up Comedian", age: "Toddler (2-4 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Mini Blazer & Sneakers", prop: "Vintage Mic & Stand 🎤", customDialogue: "Suno bhai! Shaadi ke baad bandey ki life mein kya hota hai? Pata hai? 🎤😂" },
+      { icon: "🎭", title: "Open-Mic Roasted Toddler", age: "Toddler (2-4 yrs)", location: "Underground Open-Mic Pub Stage 🍻", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Denim Jacket & Leather Stool", prop: "Wooden Bar Stool & Mic 🎤", customDialogue: "Aaj main aapko mere papa ki funny habits bataungi! 📜😂" },
+      { icon: "📺", title: "Late-Night TV Roast Comedian", age: "Child (5-8 yrs)", location: "Late-Night TV Comedy Show Stage 📺", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Suit & Bowtie", prop: "Show Desk & Mic 🎙️", customDialogue: "Breaking news! Doctor ne kaha subah jaldi uthna chahiye... lekin doctor khud kab uthta hai? 📺🤣" },
+      { icon: "🔥", title: "Small Theater Comedy Star", age: "Child (5-8 yrs)", location: "Cosy Small Theater Stage 🎭", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Glittery Dress & Mic", prop: "Red Velvet Curtain Backdrop 🎭", customDialogue: "Main school nahi gayi toh teacher ne kaha parent ko lao... main Dadi ko le aayi! 🎭🤣" },
+      { icon: "⚡", title: "Comedy Roast Arena Star", age: "Child (5-8 yrs)", location: "Comedy Roast Arena & Spotlight Stage 🔥", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Leather Jacket & Cool Sneakers", prop: "Spotlight & Condenser Mic 🎙️", customDialogue: "Mummy bolti hain mobile chhor do... toh mummy khud kis se baatein karti hain? 🔥😂" },
+    ]
+  },
+  {
     groupName: "👦 Boy Professions & Roles",
     presets: [
       { icon: "💈", title: "Boy Barber", age: "Child (5-8 yrs)", location: "Barber Shop Salon", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Barber Apron & Scissors", prop: "Toy Scissors & Comb ✂️" },
@@ -3155,6 +3165,16 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "🎤 Stand-Up Comedy & Stage Venues",
+    options: [
+      { value: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", label: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", desc: "Classic stand-up comedy club with exposed red brick wall backdrop, vintage microphone on chrome stand, high wooden bar stool, and warm theatrical spotlight." },
+      { value: "Underground Open-Mic Pub Stage 🍻", label: "Underground Open-Mic Pub Stage 🍻", desc: "Cozy underground open-mic venue with glowing neon comedy sign, wooden bar stools, soft amber stage lighting, and intimate audience table silhouettes." },
+      { value: "Cosy Small Theater Stage 🎭", label: "Cosy Small Theater Stage 🎭", desc: "Charming small theater stage featuring a rich red velvet curtain backdrop, polished wooden stage floor, and dramatic warm spotlight bokeh." },
+      { value: "Comedy Roast Arena & Spotlight Stage 🔥", label: "Comedy Roast Arena & Spotlight Stage 🔥", desc: "High-energy comedy roast venue with dramatic blue & purple rim lights, crowd silhouettes, and vintage condenser microphone on stand." },
+      { value: "Late-Night TV Comedy Show Stage 📺", label: "Late-Night TV Comedy Show Stage 📺", desc: "Glitzy late-night TV comedy show set with studio desk, warm volumetric studio lights, city skyline backdrop, and studio audience seating." },
+    ],
+  },
+  {
     category: "📜 Mushaira Mehfil & Poetic Settings",
     options: [
       { value: "Traditional Urdu Mushaira Stage", label: "Traditional Urdu Mushaira Stage 📜", desc: "A traditional Urdu Mushaira stage with a small decorated platform, warm lighting, floor cushions, a poetic backdrop, and an intimate audience setting." },
@@ -4773,6 +4793,18 @@ function getPresetSuggestedDialogueScript(
 
   const isMatch = (...keywords: string[]) =>
     keywords.some((kw) => title.includes(kw) || text.includes(kw));
+
+  // 0. STAND-UP COMEDY PRESETS
+  if (isMatch("stand-up", "comedy", "open-mic", "roast", "shaadi ke baad", "doctor ne kaha", "teacher ne kaha", "mummy bolti hai")) {
+    const alts = [
+      { urduText: "لڑکا: سنو بھائی! شادی کے بعد بندے کی لائف میں کیا ہوتا ہے؟ پتا ہے؟ 🎤😂\n(Crowd Laughter & Cheering)", translation: "Boy: Listen brother! Do you know what happens in a guy's life after marriage? 🎤😂\n(Crowd Laughter)", speaker1: "Stand-Up Comedian" },
+      { urduText: "لڑکی: آج میں آپ کو میرے پاپا کی فنی عادتیں بتاؤں گی! 📜😂\n(Crowd Cheering)", translation: "Girl: Today I'm going to tell you about my dad's funniest habits! 📜😂\n(Crowd Cheering)", speaker1: "Stand-Up Comedian" },
+      { urduText: "لڑکا: بریکنگ نیوز! ڈاکٹر نے کہا صبح جلدی اٹھنا چاہیے... لیکن ڈاکٹر خود کب اٹھتا ہے؟ 📺🤣", translation: "Boy: Breaking news! The doctor says wake up early... but when does the doctor wake up himself? 📺🤣", speaker1: "Stand-Up Comedian" },
+      { urduText: "لڑکی: میں اسکول نہیں گئی تو ٹیچر نے کہا پیرنٹ کو لاؤ... میں دادی کو لے آئی! 🎭🤣", translation: "Girl: When I missed school, teacher said bring your parent... so I brought my Grandma! 🎭🤣", speaker1: "Stand-Up Comedian" },
+      { urduText: "لڑکا: ممی بولتی ہیں موبائل چھوڑ دو... تو ممی خود کس سے باتیں کرتی ہیں؟ 🔥😂", translation: "Boy: Mom says put down the phone... so who does Mom talk to all day? 🔥😂", speaker1: "Stand-Up Comedian" },
+    ];
+    return alts[altIndex % alts.length];
+  }
 
   // 1. ANGRY TODDLER GIRL
   if (isMatch("angry toddler girl", "angry girl", "100 saal", "katti")) {
