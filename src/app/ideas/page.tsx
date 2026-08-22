@@ -925,6 +925,9 @@ const CUTE_KIDS_PRESET_GROUPS = [
       { icon: "🐱👦", title: "Boy + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Cat & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
       { icon: "🐶👧", title: "Girl + Dog", age: "Toddler (2-4 yrs)", location: "Sunny Park & Green Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Talking Dog & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Dog 🐶" },
       { icon: "🐶👦", title: "Boy + Dog", age: "Toddler (2-4 yrs)", location: "Sunny Park & Green Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Talking Dog & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Dog 🐶" },
+      { icon: "🦜👧", title: "Girl + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Parrot & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Colorful Talking Parrot 🦜" },
+      { icon: "🦜👦", title: "Boy + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Parrot & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Colorful Talking Parrot 🦜" },
+      { icon: "🦜🦜", title: "Parrot + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Two Colorful Talking Parrots 🦜🦜" },
       { icon: "🚗👧", title: "Girl + Talking Car", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Magical Talking Toy Car 🚗" },
       { icon: "🚗👦", title: "Boy + Talking Car", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Magical Talking Toy Car 🚗" },
       { icon: "🐱🐱", title: "Cat + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Two Talking Cats 🐱🐱" },
@@ -3461,6 +3464,8 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Talking Cat & Boy", label: "Talking Cat & Boy 🐱👦", desc: "A little boy talking to a magical talking cat that naturally interacts with him.", tag: "🐱 Best for Boys" },
       { value: "Talking Dog & Girl", label: "Talking Dog & Girl 🐶👧", desc: "A little girl having a fun conversation with her talking pet dog.", tag: "🐶 Pets" },
       { value: "Talking Dog & Boy", label: "Talking Dog & Boy 🐶👦", desc: "A little boy talking and playing with his talking pet dog.", tag: "🐶 Pets" },
+      { value: "Talking Parrot & Girl", label: "Talking Parrot & Girl 🦜👧", desc: "A cute little girl having a funny conversation with a colorful talking parrot on a perch.", tag: "🦜 Pets" },
+      { value: "Talking Parrot & Boy", label: "Talking Parrot & Boy 🦜👦", desc: "A little boy talking and mimicking words with a vibrant talking pet parrot.", tag: "🦜 Pets" },
     ]
   },
   {
