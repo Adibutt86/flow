@@ -12,6 +12,7 @@ import {
   generateFullStoryboardFromPipeline,
   validateStoryboard,
   ValidationError,
+  cleanSceneDialoguePrefixes,
 } from "./gemini";
 import { getCategoryConfig } from "../categories/index";
 
@@ -182,6 +183,9 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
 5. DIALOGUE RULES (MAX 8 WORDS PER DIALOGUE LINE):
+   - DIALOGUE SEQUENCING LOCK: You must strictly follow the provided dialogue sequence. Each dialogue line must be spoken ONLY ONCE, by the correct character, in the exact order provided.
+   - DO NOT repeat, duplicate, skip, or randomly change any dialogue. Before generating the video, mentally validate the dialogue sequence to maintain strict character-to-dialogue mapping throughout the entire video.
+   - CHARACTER PREFIX REMOVAL MANDATE (CRITICAL): Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابو:", "بلی:", "کار:" at the start of dialogue lines indicate WHO is speaking. You MUST use them to identify the character speaker, but REMOVE the prefix ("لڑکی:", "💬 لڑکی:") completely from the output "dialogue" field! The "dialogue" field MUST contain ONLY the spoken dialogue words themselves.
    - Natural conversational Desi style without textbook or cringe language.
    - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": 
      * You are an expert Punjabi comedy writer and dialogue coach.
@@ -282,7 +286,8 @@ Return ONLY valid JSON matching this exact structure:
       });
 
       const responseText = response.content[0].type === "text" ? response.content[0].text : "";
-      const parsed = safeJsonParse(responseText, ProjectStoryOutputSchema, "Project Story Generator");
+      let parsed = safeJsonParse(responseText, ProjectStoryOutputSchema, "Project Story Generator");
+      parsed = cleanSceneDialoguePrefixes(parsed, input.customDialogue);
       const val = validateStoryboard(ctx, parsed);
       if (val.valid) {
         return {
@@ -1314,6 +1319,8 @@ export async function generateDialogueSuggestionWithClaude(input: {
   outroEffects?: string;
   songCrowdFx?: string;
   characterFaceType?: string;
+  generateNew?: boolean;
+  scriptFormat?: "2-line" | "4-line";
 }): Promise<string> {
   const isEnglish = input.language === "English";
   const isPunjabi = input.language === "Punjabi" || input.category === "PUNJABI_JOKE";
@@ -1336,24 +1343,38 @@ export async function generateDialogueSuggestionWithClaude(input: {
   for (const modelName of modelsToTry) {
     try {
       const anthropic = new Anthropic({ apiKey });
-      const response = await anthropic.messages.create({
-        model: modelName,
-        max_tokens: 256,
-        messages: [
-          {
-            role: "user",
-            content: `You are an expert Urdu and Punjabi script corrector and editor specializing in viral short video scripts (Google Flow).
+      
+      const lineCountStr = input.scriptFormat === "2-line" ? "EXACTLY 2 lines of dialogue" : "EXACTLY 4 lines of dialogue";
+      const promptText = input.generateNew
+        ? `You are an expert Pakistani Urdu comedy scriptwriter for cute kids viral 10-second Shorts & TikToks.
+Write a BRAND NEW short, ultra-funny, and engaging dialogue script (${lineCountStr}) designed STRICTLY for a 10-second video clip.
+
+TARGET CHARACTERS: ${input.characterSetup || "Boy & Girl"}
+THEME/PRESET: ${input.customIdea || "Cute Comedy"}
+SITUATION/SCENE: "${input.customSceneDescription || input.existingDialogue || ""}"
+
+CRITICAL MANDATES FOR 10-SECOND SHORTS DIALOGUE:
+1. STRICT MAX WORD COUNT (MUST FIT IN 10 SECONDS): Each line MUST be short (MAXIMUM 4 to 6 words per line!). Total script MUST be under 12 to 14 words total so it fits naturally in a 10-second video without rushing!
+2. ACCURATE PAKISTANI URDU GENDER & PRONOUNS:
+   - Use authentic, natural Pakistani Urdu spoken by kids in Pakistan (Nastaliq script اردو).
+   - NEVER use Hindi words (Do NOT use "آرے", "پاپا", "ماما"). Use "ارے", "امی", "ابو".
+   - CRITICAL GENDER ACCURACY: A Boy addressing a Girl MUST use "آپی:", "باجی:", "سسٹر:", or "سنو!". NEVER call a girl "بھیا"! A Girl addressing a Boy uses "بھائی:" or "سنو!".
+3. ULTRA-FUNNY & CUTE PUNCHLINE: Make it genuine cute kids banter with a quick funny twist or joke.
+4. FORMAT:
+   - Format line-by-line using natural character names matching ${input.characterSetup || "Characters"}.
+   - Output ONLY the raw Urdu dialogue script (e.g. "لڑکا: ... \n لڑکی: ..."), with NO titles, NO headers (no "# ..."), no hashtags, no English intros, and no explanations.`
+        : `You are an expert Urdu and Punjabi script corrector and editor specializing in viral short video scripts (Google Flow).
 Your SOLE TASK is to automatically correct and refine Urdu and Punjabi scripts.
 
 Text to fix: "${input.existingDialogue || input.customIdea || ""}"
 
 STRICT SCRIPT CORRECTION & DIALOGUE RULES:
-1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi).
+1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi). Ensure accurate gender pronouns (e.g. Boy addressing Girl uses "آپی/باجی", never "بھیا").
 2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
 3. PRESERVE MEANING & DIALOGUE: For CUTE_KIDS, POETRY, and SONG categories, keep original spoken dialogue 100% intact. Do NOT change, rewrite, or paraphrase user's original words or lines.
 4. PAKISTANI PUNJABI MANDATE: For CUTE_KIDS, POETRY, and SONG categories, whenever Punjabi language is requested or generated, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ).
 5. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Pakistani Punjabi dialogue matching the category "${input.category}".
-6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown quotes.
+6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, markdown headers (no # ...), or markdown quotes.
 ${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}
 ${
   (input.category === "POETRY" || input.category === "SONG" || input.category === "CUTE_KIDS")
@@ -1363,14 +1384,23 @@ POETRY, SONG & CUTE KIDS — STRICT 10-SECOND SCRIPT RULES (CRITICAL):
 9. FIT IN 10 SECONDS: The entire script must be readable/speakable in a natural, expressive 10-second delivery. Max 2-3 lines or 1 complete Shayari sher (couplet) only.
 10. COMPLETE THOUGHT: The script must have a clear opening line, a middle build, and a final climactic word or line — all within the 10-second window.`
     : ""
-}`,
-          },
+}`;
 
-        ],
+      const response = await anthropic.messages.create({
+        model: modelName,
+        max_tokens: 256,
+        messages: [
+          {
+            role: "user",
+            content: promptText
+          }
+        ]
       });
 
       const text = response.content[0].type === "text" ? response.content[0].text : "";
-      const cleaned = text.trim().replace(/^["']|["']$/g, "").trim();
+      let cleaned = text.trim();
+      cleaned = cleaned.replace(/^#+.*$/gm, "").replace(/^\*\*.*?\*\*\s*$/gm, "").trim();
+      cleaned = cleaned.replace(/^["']|["']$/g, "").trim();
       if (cleaned) {
         return cleaned;
       }

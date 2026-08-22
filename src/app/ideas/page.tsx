@@ -8,6 +8,8 @@ import { useTheme } from "@/context/ThemeContext";
 import { safeJsonResponse } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryId } from "@/lib/categories/types";
+import { getRandomDialogueForPreset, getDialogueByPresetIndex, saveGeneratedDialogueToPreset } from "@/lib/data/cuteKidsDialogues";
+import { getRandomBoyOutfit } from "@/lib/ai/gemini";
 import {
   Sparkles,
   Loader2,
@@ -845,7 +847,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
       },
       {
         icon: "👨‍👦",
-        title: "Abu & Baita",
+        title: "Boy + Father",
         age: "Toddler (2-4 yrs)",
         location: "Cozy Home Living Room",
         health: "Healthy",
@@ -853,6 +855,33 @@ const CUTE_KIDS_PRESET_GROUPS = [
         setup: "Father & Son (Abu & Baita)",
         perScene: "2 Characters",
         nationality: "Global / Any",
+        dialogueStyle: "Normal / Natural (1.0x)",
+      },
+      {
+        icon: "🐱👧",
+        title: "Cat + Girl (Talking)",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "Talking Cat & Girl",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        dialogueStyle: "Fast & Energetic (1.25x)",
+        prop: "Talking Pet Cat 🐱",
+      },
+      {
+        icon: "🚗👧",
+        title: "Girl + Talking Car",
+        age: "Toddler (2-4 yrs)",
+        location: "Sunny Outdoor Garden & Lawn",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "Custom",
+        perScene: "2 Characters",
+        nationality: "Global / Any",
+        dialogueStyle: "Normal / Natural (1.0x)",
+        prop: "Magical Talking Toy Car 🚗",
       },
       {
         icon: "👩‍👧",
@@ -889,16 +918,68 @@ const CUTE_KIDS_PRESET_GROUPS = [
         prop: "Cute Plush Kitten / Puppy 🐱",
       },
       {
-        icon: "📞",
-        title: "Wife & Husband (Phone)",
-        age: "Adults (25-35 yrs)",
-        location: "Miya Biwi in Car",
+        icon: "📱",
+        title: "Kids Mobile Conversation",
+        age: "Child (5-8 yrs)",
+        location: "Cozy Home Living Room",
         health: "Healthy",
         vibe: "Funny & Mischievous",
-        setup: "Wife & Husband (Phone Call)",
+        setup: "Boy & Girl Friends (Phone Call)",
         perScene: "2 Characters",
         nationality: "Global / Any",
       },
+    ],
+  },
+  {
+    groupName: "🎒 Kids & Toddler Scenes",
+    presets: [
+      { icon: "🏫", title: "School Friends", age: "Child (5-8 yrs)", location: "School Classroom & Courtyard", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Two Boy Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "💖", title: "Cozy Baby & Mom", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Mother & Daughter", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🍦", title: "Toddler Duo Ice Cream", age: "Toddler (2-4 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Toddler Friends", perScene: "2 Characters", nationality: "Global / Any", food: "Ice Cream Cone 🍦" },
+      { icon: "🐱", title: "Toddler & Kitten", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Talking Cat & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
+      { icon: "🐮", title: "Boy Singer & Calf", age: "Child (5-8 yrs)", location: "Rustic Pakistani Village Farm", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Solo Boy Singing Song", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🕌", title: "Eid Celebration", age: "Toddler (2-4 yrs)", location: "Decorated Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Father & Son (Abu & Baita)", perScene: "2 Characters", nationality: "Global / Any" },
+    ],
+  },
+  {
+    groupName: "🎤 Performances & Couples",
+    presets: [
+      { icon: "🎤", title: "Cute Qawwal Duo", age: "Child (5-8 yrs)", location: "Decorated Stage", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Boy & Girl Duet Singing", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🎵", title: "Qawali Night", age: "Child (5-8 yrs)", location: "Decorated Stage", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Kids Music Band", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "🎤", title: "Shayari Mehfil", age: "Child (5-8 yrs)", location: "Decorated Stage", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Boy & Girl Shayari Duet", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🎸", title: "Coke Studio Jam", age: "Child (5-8 yrs)", location: "Modern Music Studio", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Kids Music Band", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "❤️", title: "Miya Biwi", age: "Adults", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Husband & Wife", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "👰‍♀️", title: "Dulha & Dulhan", age: "Adults", location: "Decorated Wedding Hall", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Dulhan Girl / Desi Bride", perScene: "2 Characters", nationality: "Global / Any" },
+    ],
+  },
+  {
+    groupName: "🗣️ Dialogue Presets",
+    presets: [
+      { icon: "🗣️", title: "Two Boys Dialogue", age: "Child (5-8 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Boy Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Two Girls Dialogue", age: "Child (5-8 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Two Girl Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Boy & Girl Dialogue", age: "Child (5-8 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Funny & Mischievous", setup: "Boy & Girl Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Three Boys Dialogue", age: "Child (5-8 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Funny & Mischievous", setup: "Three Boy Friends", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Three Girls Dialogue", age: "Child (5-8 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Three Girl Friends", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Two Boys & One Girl", age: "Child (5-8 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Boys & One Girl", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Two Girls & One Boy", age: "Child (5-8 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Girls & One Boy", perScene: "3+ Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Brother & Sister Dialogue", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Friends Dialogue", age: "Child (5-8 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Two Boy Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+      { icon: "🗣️", title: "Classmates Dialogue", age: "Child (5-8 yrs)", location: "School Classroom & Courtyard", health: "Healthy", vibe: "Funny & Mischievous", setup: "Two Boy Friends (Speaker & Listener)", perScene: "2 Characters", nationality: "Global / Any" },
+    ],
+  },
+  {
+    groupName: "🐾 Talking Animal Duos",
+    presets: [
+      { icon: "🐱👧", title: "Girl + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Cat & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
+      { icon: "🐱👦", title: "Boy + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Cat & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
+      { icon: "🐶👧", title: "Girl + Dog", age: "Toddler (2-4 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Talking Dog & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Dog 🐶" },
+      { icon: "🐶👦", title: "Boy + Dog", age: "Toddler (2-4 yrs)", location: "Sunny Playground", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Talking Dog & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Dog 🐶" },
+      { icon: "🐱🐱", title: "Cat + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Two Talking Cats 🐱🐱" },
+      { icon: "🐶🐱", title: "Dog + Cat", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Dog & Cat 🐶🐱" },
+      { icon: "🐈‍⬛🐱", title: "Mother Cat + Kitten", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Mother Cat & Kitten 🐈" },
+      { icon: "🐱🐾", title: "Father Cat + Kitten", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Father Cat & Kitten 🐱" },
+      { icon: "🐕🐶", title: "Mother Dog + Puppy", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Mother Dog & Puppy 🐕" },
+      { icon: "🐶🐾", title: "Father Dog + Puppy", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Father Dog & Puppy 🐶" },
     ],
   },
   {
@@ -3387,6 +3468,9 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Two Boy Friends (Speaker & Listener)", label: "Two Boy Friends (Speaker & Listener) 👦👦", desc: "Two boys chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👦 Best for Boys" },
       { value: "Two Girl Friends (Speaker & Listener)", label: "Two Girl Friends (Speaker & Listener) 👧👧", desc: "Two girls chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👧 Best for Girls" },
       { value: "Boy & Girl Friends (Speaker & Listener)", label: "Boy & Girl Friends (Speaker & Listener) 👦👧", desc: "A boy and a girl chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👨‍👩‍👧 Mix" },
+      { value: "Two Boy Friends (Phone Call)", label: "Two Boy Friends (Phone Call) 📱👦👦", desc: "Two boys chatting on a mobile phone call.", tag: "👦 Best for Boys" },
+      { value: "Two Girl Friends (Phone Call)", label: "Two Girl Friends (Phone Call) 📱👧👧", desc: "Two girls chatting on a mobile phone call.", tag: "👧 Best for Girls" },
+      { value: "Boy & Girl Friends (Phone Call)", label: "Boy & Girl Friends (Phone Call) 📱👦👧", desc: "A boy and a girl chatting on a mobile phone call.", tag: "👨‍👩‍👧 Mix" },
     ]
   },
   {
@@ -3396,6 +3480,15 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Solo Girl Singing Song", label: "Solo Girl Singing Song 👧🎤", desc: "Cute little girl holding a microphone and singing a sweet song. Visuals should show her performing playfully.", tag: "👧 Best for Girls" },
       { value: "Boy & Girl Duet Singing", label: "Boy & Girl Duet Singing 👦👧🎤", desc: "A boy and a girl singing together playfully, acting as a cute musical duet.", tag: "👨‍👩‍👧 Mix" },
       { value: "Kids Music Band", label: "Kids Music Band 🥁🎸", desc: "A group of cute kids playing toy instruments (like ukulele, toy drums) and singing together.", tag: "🧸 Cute Favorite" },
+    ]
+  },
+  {
+    category: "🐾 Talking Animal & Kid Duos",
+    options: [
+      { value: "Talking Cat & Girl", label: "Talking Cat & Girl 🐱👧", desc: "A cute little girl chatting with a magical talking cat. Both can speak and interact naturally.", tag: "🐱 Best for Girls" },
+      { value: "Talking Cat & Boy", label: "Talking Cat & Boy 🐱👦", desc: "A little boy talking to a magical talking cat that naturally interacts with him.", tag: "🐱 Best for Boys" },
+      { value: "Talking Dog & Girl", label: "Talking Dog & Girl 🐶👧", desc: "A little girl having a fun conversation with her talking pet dog.", tag: "🐶 Pets" },
+      { value: "Talking Dog & Boy", label: "Talking Dog & Boy 🐶👦", desc: "A little boy talking and playing with his talking pet dog.", tag: "🐶 Pets" },
     ]
   },
   {
@@ -3914,6 +4007,7 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "👕 Boys — Everyday & Casual",
     options: [
+      { value: "🎲 Auto Random Outfit (Boy)", label: "🎲 Auto Random Outfit (Boy)", desc: "AI automatically picks a unique, stylish, color-coordinated outfit combination for each new video." },
       { value: "Boy — Casual T-shirt & Shorts", label: "Casual T-shirt & Shorts", desc: "Simple graphic t-shirt with cargo or jogger shorts." },
       { value: "Boy — Hoodie & Sweatpants", label: "Hoodie & Sweatpants", desc: "Comfy hoodie with matching sweatpants and sneakers." },
       { value: "Boy — Denim Jacket & Jeans", label: "Denim Jacket & Jeans", desc: "Cool double denim look with graphic tee underneath." },
@@ -5734,6 +5828,12 @@ export default function IdeasPage() {
   const [isListening, setIsListening] = useState(false);
   const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("rtl");
   const [showUrduKeyboard, setShowUrduKeyboard] = useState(false);
+  const [showVoiceOptions, setShowVoiceOptions] = useState(false);
+  const [scriptFormat, setScriptFormat] = useState<"2-line" | "4-line">("2-line");
+  const [activePresetTitle, setActivePresetTitle] = useState<string>("Boy + Father");
+  const [presetDialogueIndex, setPresetDialogueIndex] = useState<number>(0);
+  const [presetSearchQuery, setPresetSearchQuery] = useState<string>("");
+  const [previewImageModal, setPreviewImageModal] = useState<{ url: string; label: string } | null>(null);
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
@@ -6082,6 +6182,80 @@ export default function IdeasPage() {
       setIsSuggestingDialogue(false);
     }
   };
+
+  const handleSuggestClaudeDialogue = async () => {
+    if (category === "CARBOX") return;
+    setIsSuggestingDialogue(true);
+    try {
+      const res = await fetch("/api/suggest-dialogue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+          category,
+          language,
+          customIdea,
+          existingDialogue: customDialogue,
+          kidsAge: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
+          kidsLocation: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
+          kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
+          kidsClothing: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsVibe: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
+          characterSetup: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
+          charactersPerScene: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
+          aiModel,
+          seriousDialogueStyle,
+          customSceneDescription,
+          generateNew: true,
+          scriptFormat,
+        }),
+      });
+      const data = await safeJsonResponse(res);
+      if (data && data.success && data.dialogue) {
+        setCustomDialogue(data.dialogue);
+        saveGeneratedDialogueToPreset(activePresetTitle || "Boy + Father", data.dialogue);
+        showToast("Generated & saved new Claude script!", "success");
+      } else {
+        throw new Error(data?.error || "Failed to generate new script");
+      }
+    } catch (err: any) {
+      console.error("Suggest dialogue error:", err);
+      showToast(err.message || "Failed to generate new script.", "error");
+    } finally {
+      setIsSuggestingDialogue(false);
+    }
+  };
+
+  const handleGetFromDatabase = () => {
+    const title = activePresetTitle || "Boy + Father";
+    const dialogue = getRandomDialogueForPreset(title);
+    if (dialogue) {
+      setCustomDialogue(dialogue);
+      showToast(`📁 Random script loaded for "${title}"`, "success", 1800);
+    } else {
+      showToast(`Generating script for "${title}"...`, "info", 1800);
+      handleSuggestClaudeDialogue();
+    }
+  };
+
+  const handleTryMore = () => {
+    const title = activePresetTitle || "Boy + Father";
+    const nextIndex = presetDialogueIndex + 1;
+    setPresetDialogueIndex(nextIndex);
+    const dialogue = getDialogueByPresetIndex(title, nextIndex);
+    if (dialogue) {
+      setCustomDialogue(dialogue);
+      showToast(`🔄 Next idea for "${title}"`, "success", 1800);
+    } else {
+      const randomDialogue = getRandomDialogueForPreset(title);
+      if (randomDialogue) {
+        setCustomDialogue(randomDialogue);
+        showToast(`✨ Fresh idea for "${title}"`, "success", 1800);
+      } else {
+        handleSuggestClaudeDialogue();
+      }
+    }
+  };
   
 
 
@@ -6205,9 +6379,36 @@ export default function IdeasPage() {
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
+    
+    // Reset defaults first so we start clean
     resetNonLocationSettingsToAIDefault();
+
+    // Now apply all specific settings from the preset
+    if (preset.age) setKidsAge(preset.age);
+    if (preset.health) setKidsHealth(preset.health);
+    if (preset.vibe) setKidsVibe(preset.vibe);
+    if (preset.nationality) setKidsNationality(preset.nationality);
+    if (preset.prop) setKidsProp(preset.prop);
+    if (preset.dialogueStyle) setSeriousDialogueStyle(preset.dialogueStyle);
+    if (preset.food) setKidsFood(preset.food);
+    if (preset.expression) setKidsExpression(preset.expression);
+    if (preset.musicType) setMusicType(preset.musicType);
+    if (preset.performance) setCharPerformance(preset.performance);
+    if (preset.clothing) setKidsClothing(preset.clothing);
+
+    setActivePresetTitle(preset.title);
+    setPresetDialogueIndex(0);
+
+    // Apply Random Dialogue
+    const generatedDialogue = getRandomDialogueForPreset(preset.title);
+    if (generatedDialogue) {
+      setCustomDialogue(generatedDialogue);
+    } else {
+      setCustomDialogue("");
+    }
+
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" preset (Location & Characters set, all else AI Default)!`, "success");
+    showToast(`✅ Applied "${preset.title}" preset with recommended settings and dialogue!`, "success");
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
@@ -7929,8 +8130,102 @@ export default function IdeasPage() {
                       )}
                       {isSuggestingDialogue ? "Fixing Script..." : "✨ Fix Urdu & Punjabi Script"}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowVoiceOptions(!showVoiceOptions)}
+                      className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200"
+                      }`}
+                      title="Show more script & voice options"
+                    >
+                      <span>🎙️ More Options</span>
+                    </button>
                   </div>
                 </div>
+
+                {/* More Voice / AI Options Panel */}
+                {showVoiceOptions && (
+                  <div className={`mt-2 mb-3 p-3 rounded-xl border space-y-3 shadow-inner ${
+                    isLight ? "bg-amber-50 border-amber-200" : "bg-black/50 border-amber-500/30"
+                  }`}>
+                    <h4 className={`text-xs font-black uppercase tracking-wider ${isLight ? "text-amber-800" : "text-amber-400"}`}>
+                      🎙️ Additional Script & Voice Options
+                    </h4>
+                    
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3">
+                        <span className={`text-xs font-bold ${isLight ? "text-zinc-800" : "text-slate-300"}`}>Script Format Length:</span>
+                        <div className="flex items-center gap-1.5">
+                          {(["2-line", "4-line"] as const).map((fmt) => (
+                            <button
+                              key={fmt}
+                              type="button"
+                              onClick={() => setScriptFormat(fmt)}
+                              className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer ${
+                                scriptFormat === fmt
+                                  ? (isLight ? "bg-amber-500 text-white border-amber-600 shadow-sm" : "bg-amber-500 text-black border-amber-400 font-extrabold")
+                                  : (isLight ? "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-100" : "bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700")
+                              }`}
+                            >
+                              {fmt === "2-line" ? "📜 2-Line Script" : "📜 4-Line Script"}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={handleGetFromDatabase}
+                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isLight
+                              ? "bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700 shadow-emerald-600/20"
+                              : "bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
+                          }`}
+                          title="Get dialogue idea from database for currently selected preset"
+                        >
+                          📁 Get from Database
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleTryMore}
+                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                            isLight
+                              ? "bg-purple-600 text-white border-purple-700 hover:bg-purple-700 shadow-purple-600/20"
+                              : "bg-purple-700 hover:bg-purple-600 border-purple-500 text-white"
+                          }`}
+                          title="Cycle to the next non-repetitive script idea for this preset"
+                        >
+                          🔄 Try More
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleSuggestClaudeDialogue}
+                          disabled={isSuggestingDialogue}
+                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm ${
+                            isLight
+                              ? "bg-indigo-500 text-white border-indigo-600 hover:bg-indigo-600 shadow-indigo-500/20"
+                              : "bg-indigo-600 hover:bg-indigo-500 border-indigo-400 text-white"
+                          }`}
+                          title="Generate a brand new script suggestion based on your current concept/example using Claude AI"
+                        >
+                          {isSuggestingDialogue ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+                          ) : (
+                            <Sparkles className="w-3.5 h-3.5 text-white" />
+                          )}
+                          🤖 Claude Suggestion AI
+                        </button>
+                      </div>
+
+                      <div className={`text-[10px] flex items-center italic ${isLight ? "text-slate-600" : "text-slate-400"}`}>
+                        Select "Get from Database" to load preset script, "Try More" to cycle next script, or "Claude Suggestion AI" to generate a fresh {scriptFormat} script.
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Character Label Quick-Insert + Direction + Voice Input */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
@@ -8662,16 +8957,36 @@ export default function IdeasPage() {
                 </div>
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    {/* Search bar for Mobile Presets */}
+                    <div className="mb-3">
+                      <input
+                        type="text"
+                        value={presetSearchQuery}
+                        onChange={(e) => setPresetSearchQuery(e.target.value)}
+                        placeholder="🔍 Search presets (e.g. Cat, School, Qawwal, Dog)..."
+                        className={`w-full px-3.5 py-2 rounded-xl border text-xs font-bold shadow-inner ${
+                          isLight ? "bg-white border-indigo-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
+                        }`}
+                      />
+                    </div>
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
-                      {CUTE_KIDS_PRESET_GROUPS.map((group) => (
-                        <div key={group.groupName} className="space-y-2">
-                          <h4 className={`text-[11px] font-black uppercase tracking-wider px-1 ${
-                            isLight ? "text-indigo-950" : "text-indigo-300/80"
-                          }`}>
-                            {group.groupName}
-                          </h4>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                            {group.presets.map((preset: any) => {
+                      {CUTE_KIDS_PRESET_GROUPS.map((group) => {
+                        const filteredPresets = group.presets.filter((p: any) =>
+                          !presetSearchQuery.trim() ||
+                          p.title.toLowerCase().includes(presetSearchQuery.toLowerCase()) ||
+                          (p.setup && p.setup.toLowerCase().includes(presetSearchQuery.toLowerCase()))
+                        );
+                        if (filteredPresets.length === 0) return null;
+
+                        return (
+                          <div key={group.groupName} className="space-y-2">
+                            <h4 className={`text-[11px] font-black uppercase tracking-wider px-1 ${
+                              isLight ? "text-indigo-950" : "text-indigo-300/80"
+                            }`}>
+                              {group.groupName}
+                            </h4>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                              {filteredPresets.map((preset: any) => {
                               const isActive = 
                                 kidsAge === preset.age &&
                                 kidsLocation === preset.location &&
@@ -8701,7 +9016,8 @@ export default function IdeasPage() {
                             })}
                           </div>
                         </div>
-                      ))}
+                      );
+                    })}
                     </div>
                   </div>
                 )}
@@ -8848,15 +9164,36 @@ export default function IdeasPage() {
 
                 {/* 4.5 Kids Clothing / Outfit Style */}
                 {matchesParamFilter(["clothing", "outfit", "kids clothing", "dress", "kurta", "frock"]) && (
-                  <CustomSelect
-                    label="Kids Clothing / Outfit"
-                    icon="👕"
-                    value={kidsClothing}
-                    onChange={setKidsClothing}
-                    groups={KIDS_CLOTHING_GROUPS}
-                    keepOpenOnSelect={true}
-                    isLight={isLight}
-                  />
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className={`text-xs uppercase tracking-wider font-extrabold flex items-center gap-1.5 ${isLight ? "text-zinc-950" : "text-slate-200"}`}>
+                        <span>👕 Kids Clothing / Outfit</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newOutfit = getRandomBoyOutfit();
+                          setKidsClothing(newOutfit);
+                          showToast(`🎲 Generated: ${newOutfit}`, "info", 1800);
+                        }}
+                        className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
+                          isLight ? "bg-amber-100 hover:bg-amber-200 text-amber-950 border-amber-300" : "bg-amber-950/60 hover:bg-amber-900 border-amber-500/40 text-amber-300"
+                        }`}
+                        title="Generate a fresh, unique, color-coordinated random outfit for the Boy character"
+                      >
+                        <span>🎲 Random Outfit</span>
+                      </button>
+                    </div>
+                    <CustomSelect
+                      label="Kids Clothing / Outfit"
+                      icon="👕"
+                      value={kidsClothing}
+                      onChange={setKidsClothing}
+                      groups={KIDS_CLOTHING_GROUPS}
+                      keepOpenOnSelect={true}
+                      isLight={isLight}
+                    />
+                  </div>
                 )}
 
                 {/* 4.6 Voice & Audio Style */}
@@ -9036,6 +9373,80 @@ export default function IdeasPage() {
                         </div>
                       )}
                     </div>
+                  </div>
+                )}
+
+                {/* Predefined Character Images */}
+                {matchesParamFilter(["reference", "character reference image", "predefined", "character", "boy", "girl"]) && (
+                  <div className="space-y-2 mt-4 mb-6">
+                    <label className={`text-xs uppercase tracking-wider font-black ${
+                      isLight ? "text-zinc-950" : "text-slate-300"
+                    }`}>
+                      Predefined Character Options
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                      {[
+                        { id: "boy_fair", label: "Fair Boy (Cute)", url: "/characters/boy/fair_boy.jpg" },
+                        { id: "boy_school", label: "Boy (School)", url: "/characters/boy/school_uniform.jpg" },
+                        { id: "boy_sports", label: "Boy (Sports)", url: "/characters/boy/sports_outfit.jpg" },
+                        { id: "girl_fair", label: "Fair Girl (Cute)", url: "/characters/girl/fair_girl.jpg" },
+                        { id: "girl_shalwar", label: "Girl (Shalwar)", url: "/characters/girl/shalwar_kameez.jpg" },
+                        { id: "girl_princess", label: "Girl (Princess)", url: "/characters/girl/princess_dress.jpg" },
+                        { id: "mother_a", label: "Mother", url: "/characters/mother/mother_a.jpg" },
+                        { id: "father_a", label: "Father", url: "/characters/father/father_a.jpg" },
+                        { id: "shopkeeper_a", label: "Shopkeeper", url: "/characters/shopkeeper/shopkeeper_a.jpg" },
+                        { id: "white_cat", label: "Talking White Cat 🐱", url: "/characters/animals/white_cat.jpg" },
+                        { id: "ginger_cat", label: "Talking Ginger Cat 🐱", url: "/characters/animals/ginger_cat.jpg" },
+                        { id: "golden_dog", label: "Talking Golden Dog 🐶", url: "/characters/animals/golden_dog.jpg" },
+                        { id: "mother_cat", label: "Mother Cat 🐈‍⬛", url: "/characters/animals/mother_cat.jpg" }
+                      ].map((char) => (
+                        <div 
+                          key={char.id} 
+                          className={`relative group/char rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 shadow-md ${
+                            referenceImages.includes(char.url) 
+                              ? "border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" 
+                              : (isLight ? "border-slate-200" : "border-slate-800 hover:border-indigo-500")
+                          }`}
+                        >
+                          <img 
+                            src={char.url} 
+                            alt={char.label} 
+                            onClick={() => {
+                              if (!referenceImages.includes(char.url)) {
+                                setReferenceImages((prev) => [...prev, char.url]);
+                                showToast(`Added ${char.label} to reference images`, "success");
+                              }
+                            }}
+                            className="w-full aspect-square object-cover cursor-pointer" 
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPreviewImageModal({ url: char.url, label: char.label });
+                            }}
+                            className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-black/70 hover:bg-black text-white text-xs opacity-80 hover:opacity-100 transition-all shadow-md cursor-pointer"
+                            title="Preview larger image"
+                          >
+                            🔍
+                          </button>
+                          <div 
+                            onClick={() => {
+                              if (!referenceImages.includes(char.url)) {
+                                setReferenceImages((prev) => [...prev, char.url]);
+                                showToast(`Added ${char.label} to reference images`, "success");
+                              }
+                            }}
+                            className={`text-[10px] text-center font-bold p-1.5 cursor-pointer ${isLight ? "bg-slate-100 text-slate-800" : "bg-slate-900 text-slate-300"}`}
+                          >
+                            {char.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className={`text-[10px] font-medium italic mt-1.5 ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                      Click any character to select, or click 🔍 to view in large preview lightbox.
+                    </p>
                   </div>
                 )}
 
@@ -11629,6 +12040,66 @@ export default function IdeasPage() {
                 }`}
               >
                 Close Popup Modal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🔍 Character Preview Lightbox Modal */}
+      {previewImageModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn"
+          onClick={() => setPreviewImageModal(null)}
+        >
+          <div 
+            className={`relative max-w-lg w-full p-4 rounded-3xl border-2 shadow-2xl space-y-4 ${
+              isLight ? "bg-white border-indigo-300 text-zinc-900" : "bg-zinc-900 border-indigo-500/50 text-white"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with Close X */}
+            <div className="flex items-center justify-between border-b pb-2 border-slate-700/30">
+              <h3 className="text-base font-black flex items-center gap-2">
+                <span>🔍 Character Preview:</span>
+                <span className="text-indigo-500">{previewImageModal.label}</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setPreviewImageModal(null)}
+                className="w-8 h-8 rounded-full bg-rose-500/20 hover:bg-rose-500/40 text-rose-500 flex items-center justify-center font-bold text-lg transition-all cursor-pointer"
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Image Preview */}
+            <div className="relative rounded-2xl overflow-hidden border-2 border-indigo-500/40 shadow-inner bg-black">
+              <img 
+                src={previewImageModal.url} 
+                alt={previewImageModal.label} 
+                className="w-full aspect-square object-contain"
+              />
+            </div>
+
+            {/* Action Footer */}
+            <div className="flex items-center justify-between pt-2">
+              <span className={`text-xs font-semibold italic ${isLight ? "text-zinc-500" : "text-slate-400"}`}>
+                High-quality 3D Chroma Key Render
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!referenceImages.includes(previewImageModal.url)) {
+                    setReferenceImages((prev) => [...prev, previewImageModal.url]);
+                    showToast(`Selected ${previewImageModal.label}`, "success");
+                  }
+                  setPreviewImageModal(null);
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-black bg-emerald-600 hover:bg-emerald-500 text-white shadow-md transition-all cursor-pointer active:scale-95"
+              >
+                ✅ Select Character
               </button>
             </div>
           </div>

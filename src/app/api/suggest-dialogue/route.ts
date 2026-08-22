@@ -31,6 +31,8 @@ export async function POST(request: Request) {
       outroEffects,
       songCrowdFx,
       characterFaceType,
+      generateNew,
+      scriptFormat,
     } = body;
 
     if (category === "CARBOX") {
@@ -67,6 +69,8 @@ export async function POST(request: Request) {
       outroEffects,
       songCrowdFx,
       characterFaceType,
+      generateNew,
+      scriptFormat,
     });
 
     return NextResponse.json({ success: true, dialogue });

@@ -24,7 +24,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
 
-    const timeout = customDuration || (type === "error" ? 10000 : 7000);
+    const timeout = customDuration || (type === "error" ? 6000 : 2500);
 
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));

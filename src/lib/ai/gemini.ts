@@ -543,6 +543,13 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     ending = `The scene resolves with a memorable final pose.`;
   }
 
+  let resolvedClothing = charClothing;
+  if (input.kidsClothing && input.kidsClothing.trim() && !/Any|Auto Random|AI Decides/i.test(input.kidsClothing)) {
+    resolvedClothing = input.kidsClothing;
+  } else if (/boy|human/i.test(charSpecies) || /boy|chintu|pappu|leo/i.test(charName)) {
+    resolvedClothing = getRandomBoyOutfit();
+  }
+
   return {
     concept: fullConcept,
     category: input.category,
@@ -555,7 +562,7 @@ export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
     mainCharacterSpecies: charSpecies,
     mainCharacterAppearance: charAppearance,
     mainCharacterPersonality: "Energetic, expressive, witty",
-    mainCharacterClothing: charClothing,
+    mainCharacterClothing: resolvedClothing,
     location,
     secondaryObjects: ["Key environment props"],
     setup,
@@ -999,7 +1006,10 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - Physical visual comedy must tell half the joke!
 5. DIALOGUE & SCRIPT RULES:
    - For CUTE_KIDS, POETRY, and SONG categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
-   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (ਪੰਜਾਬੀ).
+   - DIALOGUE SEQUENCING LOCK: You must strictly follow the provided dialogue sequence. Each dialogue line must be spoken ONLY ONCE, by the correct character, in the exact order provided.
+   - DO NOT repeat, duplicate, skip, or randomly change any dialogue. Before generating the video, mentally validate the dialogue sequence to maintain strict character-to-dialogue mapping throughout the entire video.
+   - CHARACTER PREFIX REMOVAL MANDATE (CRITICAL): Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابo:", "بلی:", "کار:" at the start of dialogue lines indicate WHO is speaking. You MUST use them to identify the character speaker, but REMOVE the prefix ("لڑکی:", "💬 لڑکی:") completely from the output "dialogue" field! The "dialogue" field MUST contain ONLY the spoken dialogue words themselves.
+   - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (پنجابی).
    - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
    - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.
    - NEVER output English dialogue or English narration when Punjabi, Urdu, or Hindi is requested!
@@ -1078,7 +1088,8 @@ Return ONLY valid JSON matching:
       });
 
       const responseText = response.text || "";
-      const parsed = safeJsonParse(responseText, ProjectStoryOutputSchema);
+      let parsed = safeJsonParse(responseText, ProjectStoryOutputSchema);
+      parsed = cleanSceneDialoguePrefixes(parsed, input.customDialogue);
       const val = validateStoryboard(ctx, parsed);
       if (val.valid) {
         return {
@@ -1366,4 +1377,76 @@ Return ONLY a valid JSON array of 3 strings:
     `Option B: Unexpected comedic twist on ${input.idea}`,
     `Option C: Atmospheric slow-burn reveal for ${input.idea}`,
   ];
+}
+
+export function parseDialogueScriptLines(customDialogue?: string): { rawLine: string; speaker: string; cleanText: string }[] {
+  if (!customDialogue || !customDialogue.trim()) return [];
+  const lines = customDialogue.trim().split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  return lines.map(line => {
+    let speaker = "";
+    let cleanText = line.replace(/^💬\s*/, "");
+    const match = cleanText.match(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu);
+    if (match) {
+      speaker = match[0].replace(/:/g, "").trim();
+      cleanText = cleanText.substring(match[0].length).trim();
+    }
+    cleanText = cleanText.replace(/^["'«»“”]|["'«»“”]$/g, "").trim();
+    return { rawLine: line, speaker, cleanText };
+  });
+}
+
+export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string): any {
+  if (!parsed || !Array.isArray(parsed.scenes)) return parsed;
+  const scriptLines = parseDialogueScriptLines(customDialogue);
+
+  parsed.scenes = parsed.scenes.map((scene: any, idx: number) => {
+    if (scriptLines.length > 0) {
+      const scriptLine = scriptLines[idx % scriptLines.length];
+      if (scriptLine && scriptLine.cleanText) {
+        scene.dialogue = scriptLine.cleanText;
+        if (scriptLine.speaker) {
+          scene.speakingCharacter = scriptLine.speaker;
+          if (typeof scene.videoPrompt === "string" && !scene.videoPrompt.includes(scriptLine.speaker)) {
+            scene.videoPrompt = `[Character "${scriptLine.speaker}" speaks dialogue: "${scriptLine.cleanText}"] ${scene.videoPrompt}`;
+          }
+          if (typeof scene.imagePrompt === "string" && !scene.imagePrompt.includes(scriptLine.speaker)) {
+            scene.imagePrompt = scene.imagePrompt.replace(/(CHARACTER CONSISTENCY LOCK:)/i, `$1 Character "${scriptLine.speaker}" is actively speaking.`);
+          }
+        }
+      }
+    } else if (scene && typeof scene.dialogue === "string") {
+      let cleaned = scene.dialogue.trim();
+      cleaned = cleaned.replace(/^💬\s*/, "");
+      cleaned = cleaned.replace(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu, "").trim();
+      cleaned = cleaned.replace(/^["'«»“”]|["'«»“”]$/g, "").trim();
+      scene.dialogue = cleaned;
+    }
+    return scene;
+  });
+  return parsed;
+}
+
+export const BOY_OUTFIT_PARTS = [
+  { shirt: "Vibrant Yellow Graphic Dino T-shirt", pants: "Classic Blue Denim Jeans", shoes: "White Canvas Sneakers", extras: "Red Baseball Cap" },
+  { shirt: "Sky Blue Striped Polo Shirt", pants: "Khaki Chino Trousers", shoes: "Brown Loafers", extras: "Navy Blue Zip Hoodie" },
+  { shirt: "Mint Green Crewneck Sweatshirt", pants: "Charcoal Grey Jogger Pants", shoes: "Black Sporty Running Shoes", extras: "Cute Wristband" },
+  { shirt: "Navy Blue Denim Jacket over White Graphic Tee", pants: "Classic Blue Jeans", shoes: "Red High-Top Sneakers", extras: "Beanie Cap" },
+  { shirt: "Bright Red Pullover Hoodie", pants: "Dark Grey Cargo Shorts", shoes: "White & Blue Athletic Sneakers" },
+  { shirt: "Orange & White Striped Casual T-shirt", pants: "Olive Green Cargo Pants", shoes: "Black Slip-on Shoes" },
+  { shirt: "Pastel Yellow Knit Sweater", pants: "Dark Navy Blue Trousers", shoes: "Brown Loafers", extras: "Matching Scarf" },
+  { shirt: "Crisp White Silk Kurta", pants: "Matching White Shalwar", shoes: "Traditional Golden Khussa Shoes", extras: "Embroidered Waistcoat" },
+  { shirt: "Royal Blue Embroidered Kameez", pants: "White Shalwar", shoes: "Dark Brown Khussa Shoes" },
+  { shirt: "Emerald Green Kurta", pants: "Black Pajama Trousers", shoes: "Black Leather Shoes" },
+  { shirt: "Mustard Yellow Festive Kurta", pants: "White Pajama", shoes: "Tan Brown Khussa Shoes", extras: "Maroon Silk Waistcoat" },
+  { shirt: "Electric Blue Athletic Tracksuit Jacket", pants: "Matching Blue Track Pants", shoes: "Neon Yellow Sports Shoes" },
+  { shirt: "Cute Cartoon Bear Print T-shirt", pants: "Soft Denim Dungaree Overalls", shoes: "Red Canvas Sneakers" }
+];
+
+export function getRandomBoyOutfit(): string {
+  const item = BOY_OUTFIT_PARTS[Math.floor(Math.random() * BOY_OUTFIT_PARTS.length)];
+  const shirtStr = item.shirt;
+  const pantsStr = item.pants ? `, ${item.pants}` : "";
+  const shoesStr = item.shoes ? `, ${item.shoes}` : "";
+  const extrasStr = item.extras ? `, with ${item.extras}` : "";
+  return `Boy — ${shirtStr}${pantsStr}${shoesStr}${extrasStr}`;
 }
