@@ -3195,6 +3195,27 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "💈 Shops, Salons & Workplaces",
+    options: [
+      { value: "Barber Shop Salon", label: "Barber Shop & Salon 💈", desc: "Cozy barber shop with salon chairs, mirrors, and haircutting tools." },
+      { value: "Beauty Salon & Spa", label: "Beauty Salon & Spa 💇", desc: "Elegant beauty salon with hair styling chairs, mirrors, and hairdryers." },
+      { value: "Soapy Car Wash Station", label: "Soapy Car Wash Station 🚗", desc: "Outdoor car wash station with soapy bubbles, hoses, and sparkling clean cars." },
+      { value: "Fuel Pump Station", label: "Fuel Pump & Petrol Station ⛽", desc: "Sunny petrol pump gas station with fuel nozzles, oil cans, and cars." },
+      { value: "Grand Hotel Lobby Desk", label: "Grand Hotel Lobby Desk 🏨", desc: "Luxurious hotel reception desk with bellhop bell, luggage carts, and marble floor." },
+      { value: "Fast Food Counter", label: "Fast Food Restaurant & Counter 🍔", desc: "Vibrant fast food counter with burger menu boards, trays, and soda cups." },
+      { value: "Yellow School Bus Driver Seat", label: "Yellow School Bus Driver Seat 🚌", desc: "Front driver seat of a classic yellow school bus looking out the windshield." },
+      { value: "Desi Tailor Shop", label: "Desi Tailor Shop (درزی) ✂️", desc: "Traditional tailor shop with colorful fabric rolls, sewing machine, and measuring tapes." },
+      { value: "Airplane Cockpit Window", label: "Airplane Cockpit Window ✈️", desc: "Airplane pilot cockpit with control dials, steering yokes, and sky view." },
+      { value: "Green Farm & Wheat Field", label: "Green Farm & Wheat Field 🌾", desc: "Sunlit green farmland with wheat crops, tractor, and wooden fence." },
+      { value: "Kids Hospital Clinic", label: "Kids Hospital Clinic 🩺", desc: "Gentle pediatrician clinic with colorful wall murals, height chart, and examination bed." },
+      { value: "Dental Clinic Desk", label: "Dental Clinic Desk 🦷", desc: "Bright friendly dentist clinic with dental chair, mouth mirror, and toothbrush posters." },
+      { value: "Police Station Counter", label: "Police Station Counter 👮", desc: "Friendly neighborhood police station with blue patrol car, badge signs, and desk." },
+      { value: "TV News Studio Desk", label: "TV News Studio Desk 🎤", desc: "High-end television news broadcast studio with anchor desk and studio microphones." },
+      { value: "Kids Gym & Fitness Mat", label: "Kids Gym & Fitness Mat 🏋️", desc: "Energetic kids fitness gym with colorful exercise mats and mini dumbbells." },
+      { value: "Pet Animal Clinic Counter", label: "Pet Animal Clinic Counter 🐾", desc: "Cute pet clinic with stethoscope, examination table, and friendly puppy/kitten patients." },
+    ]
+  },
+  {
     category: "Shops, Places & City",
     options: [
       { value: "Ice Cream Shop", label: "Ice Cream Shop", desc: "Colorful sweet parlor with colorful scoops and ice cream cones." },
