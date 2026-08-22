@@ -6393,16 +6393,9 @@ export default function IdeasPage() {
     setActivePresetTitle(preset.title);
     setPresetDialogueIndex(0);
 
-    // Apply Random Dialogue
-    const generatedDialogue = getRandomDialogueForPreset(preset.title);
-    if (generatedDialogue) {
-      setCustomDialogue(generatedDialogue);
-    } else {
-      setCustomDialogue("");
-    }
-
+    // Dialogue remains unchanged until the user explicitly clicks "Generate Suggestion"
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" preset with recommended settings and dialogue!`, "success");
+    showToast(`✅ Applied "${preset.title}" preset with recommended settings!`, "success");
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
