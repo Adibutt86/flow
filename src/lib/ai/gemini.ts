@@ -1423,44 +1423,50 @@ export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string)
   if (!parsed || !Array.isArray(parsed.scenes)) return parsed;
   const scriptLines = parseDialogueScriptLines(customDialogue);
 
-  if (scriptLines.length > 0 && parsed.scenes.length > scriptLines.length) {
-    parsed.scenes = parsed.scenes.slice(0, scriptLines.length);
-  }
+  if (scriptLines.length > 0) {
+    const formattedDialogueBlock = scriptLines.map(sl => {
+      const norm = normalizeSpeaker(sl.speaker || "Character");
+      return `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${sl.cleanText}`;
+    }).join("\n\n");
 
-  parsed.scenes = parsed.scenes.map((scene: any, idx: number) => {
-    if (scriptLines.length > 0) {
-      const scriptLine = scriptLines[idx];
+    if (parsed.scenes.length > scriptLines.length) {
+      parsed.scenes = parsed.scenes.slice(0, scriptLines.length);
+    }
+
+    parsed.scenes = parsed.scenes.map((scene: any, idx: number) => {
+      const scriptLine = scriptLines[idx % scriptLines.length];
       if (scriptLine && scriptLine.cleanText) {
         scene.dialogue = scriptLine.cleanText;
-        if (scriptLine.speaker) {
-          const norm = normalizeSpeaker(scriptLine.speaker);
-          scene.speakingCharacter = norm.name;
+        const norm = normalizeSpeaker(scriptLine.speaker || "Character");
+        scene.speakingCharacter = norm.name;
 
-          if (typeof scene.videoPrompt === "string") {
-            let promptText = scene.videoPrompt;
+        if (typeof scene.videoPrompt === "string") {
+          let cleanedVisualPrompt = scene.videoPrompt
+            .split(/\r?\n/)
+            .filter((l: string) => !l.trim().startsWith("[Camera") && !l.trim().startsWith("💬"))
+            .join("\n")
+            .trim();
 
-            const cameraCutRegex = /\[Camera (?:shifts|cuts) (?:LEFT|RIGHT)[^\]]*\]\s*\n*\s*💬\s*[\w\s\(\)\u0600-\u06FF]+:\s*.*$/m;
-            const correctCameraCut = `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${scriptLine.cleanText}`;
-
-            if (cameraCutRegex.test(promptText)) {
-              promptText = promptText.replace(cameraCutRegex, correctCameraCut);
-            } else {
-              const singleDialogueRegex = /💬\s*[\w\s\(\)\u0600-\u06FF]+:\s*.*$/m;
-              if (singleDialogueRegex.test(promptText)) {
-                promptText = promptText.replace(singleDialogueRegex, correctCameraCut);
-              } else {
-                promptText = `${promptText}\n\n${correctCameraCut}`;
-              }
-            }
-            scene.videoPrompt = promptText;
-          }
-
-          if (typeof scene.imagePrompt === "string") {
-            scene.imagePrompt = scene.imagePrompt.replace(/(CHARACTER CONSISTENCY LOCK:)/i, `$1 Character "${norm.name}" on ${norm.side} frame is actively speaking.`);
+          if (parsed.scenes.length === 1) {
+            scene.videoPrompt = `${cleanedVisualPrompt}\n\n${formattedDialogueBlock}`;
+          } else {
+            const singleLineBlock = `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${scriptLine.cleanText}`;
+            scene.videoPrompt = `${cleanedVisualPrompt}\n\n${singleLineBlock}`;
           }
         }
+
+        if (typeof scene.imagePrompt === "string") {
+          scene.imagePrompt = scene.imagePrompt.replace(/(CHARACTER CONSISTENCY LOCK:)/i, `$1 Character "${norm.name}" on ${norm.side} frame is actively speaking.`);
+        }
       }
-    } else if (scene && typeof scene.dialogue === "string") {
+      return scene;
+    });
+
+    return parsed;
+  }
+
+  parsed.scenes = parsed.scenes.map((scene: any) => {
+    if (scene && typeof scene.dialogue === "string") {
       let cleaned = scene.dialogue.trim();
       cleaned = cleaned.replace(/^💬\s*/, "");
       cleaned = cleaned.replace(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu, "").trim();
