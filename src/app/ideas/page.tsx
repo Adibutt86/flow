@@ -6155,9 +6155,23 @@ export default function IdeasPage() {
     }
   };
 
+  const getActiveContextTitle = () => {
+    if (activePresetTitle && activePresetTitle !== "Custom") {
+      return activePresetTitle;
+    }
+    if (characterSetup && characterSetup !== "Any / AI Decides" && characterSetup !== "Custom") {
+      return characterSetup;
+    }
+    if (customCharacterSetup && customCharacterSetup.trim()) {
+      return customCharacterSetup.trim();
+    }
+    return "Boy + Father";
+  };
+
   const handleSuggestClaudeDialogue = async () => {
     if (category === "CARBOX") return;
     setIsSuggestingDialogue(true);
+    const contextTitle = getActiveContextTitle();
     try {
       const res = await fetch("/api/suggest-dialogue", {
         method: "POST",
@@ -6166,18 +6180,18 @@ export default function IdeasPage() {
         body: JSON.stringify({
           category,
           language,
-          customIdea,
+          customIdea: contextTitle,
           existingDialogue: customDialogue,
           kidsAge: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsAge : undefined,
           kidsLocation: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
           kidsVibe: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
-          characterSetup: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : characterSetup) : undefined,
+          characterSetup: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (characterSetup === "Custom" ? (customCharacterSetup || "Custom") : (characterSetup || contextTitle)) : undefined,
           charactersPerScene: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? (charactersPerScene === "Custom" ? (customCharactersPerScene || "Custom") : charactersPerScene) : undefined,
           aiModel,
           seriousDialogueStyle,
-          customSceneDescription,
+          customSceneDescription: customSceneDescription || kidsLocation,
           generateNew: true,
           scriptFormat,
         }),
@@ -6185,8 +6199,8 @@ export default function IdeasPage() {
       const data = await safeJsonResponse(res);
       if (data && data.success && data.dialogue) {
         setCustomDialogue(data.dialogue);
-        saveGeneratedDialogueToPreset(activePresetTitle || "Boy + Father", data.dialogue);
-        showToast("Generated & saved new Claude script!", "success");
+        saveGeneratedDialogueToPreset(contextTitle, data.dialogue);
+        showToast(`✨ Generated script for "${contextTitle}"!`, "success");
       } else {
         throw new Error(data?.error || "Failed to generate new script");
       }
@@ -6199,11 +6213,11 @@ export default function IdeasPage() {
   };
 
   const handleGetFromDatabase = () => {
-    const title = activePresetTitle || "Boy + Father";
+    const title = getActiveContextTitle();
     const dialogue = getRandomDialogueForPreset(title);
     if (dialogue) {
       setCustomDialogue(dialogue);
-      showToast(`📁 Random script loaded for "${title}"`, "success", 1800);
+      showToast(`📁 Loaded script for "${title}"`, "success", 1800);
     } else {
       showToast(`Generating script for "${title}"...`, "info", 1800);
       handleSuggestClaudeDialogue();
@@ -6211,7 +6225,7 @@ export default function IdeasPage() {
   };
 
   const handleTryMore = () => {
-    const title = activePresetTitle || "Boy + Father";
+    const title = getActiveContextTitle();
     const nextIndex = presetDialogueIndex + 1;
     setPresetDialogueIndex(nextIndex);
     const dialogue = getDialogueByPresetIndex(title, nextIndex);
@@ -6219,13 +6233,8 @@ export default function IdeasPage() {
       setCustomDialogue(dialogue);
       showToast(`🔄 Next idea for "${title}"`, "success", 1800);
     } else {
-      const randomDialogue = getRandomDialogueForPreset(title);
-      if (randomDialogue) {
-        setCustomDialogue(randomDialogue);
-        showToast(`✨ Fresh idea for "${title}"`, "success", 1800);
-      } else {
-        handleSuggestClaudeDialogue();
-      }
+      showToast(`Generating new script for "${title}"...`, "info", 1800);
+      handleSuggestClaudeDialogue();
     }
   };
   
@@ -8289,6 +8298,24 @@ export default function IdeasPage() {
                     >
                       <Mic className={`w-3.5 h-3.5 ${isListening ? "text-white animate-bounce" : (isLight ? "text-amber-900" : "text-slate-400")}`} />
                       <span>{isListening ? "Stop Mic" : "🎙️ Mic"}</span>
+                    </button>
+
+                    {/* Clear custom dialogue button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCustomDialogue("");
+                        showToast("Cleared custom dialogue", "info", 1500);
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight
+                          ? "bg-rose-100 border-rose-300 text-rose-950 hover:bg-rose-200"
+                          : "bg-rose-950/60 hover:bg-rose-900/80 border-rose-800/60 text-rose-300"
+                      }`}
+                      title="Clear current custom spoken dialogue text"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-rose-500" />
+                      <span>🗑️ Clear</span>
                     </button>
                   </div>
                 )}
