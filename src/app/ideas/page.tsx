@@ -6096,9 +6096,22 @@ export default function IdeasPage() {
     setIsListening(true);
     showToast("🎙️ Listening… speak now. Click Mic again to stop.", "info");
 
-    let initialDialogue = customDialogue;
-    if (initialDialogue && !initialDialogue.endsWith(" ") && !initialDialogue.endsWith("\n")) {
-      initialDialogue += " ";
+    const textarea = typeof document !== "undefined"
+      ? (document.getElementById("custom-dialogue-input") as HTMLTextAreaElement | null)
+      : null;
+    let cursorStart = customDialogue.length;
+    let cursorEnd = customDialogue.length;
+
+    if (textarea && typeof textarea.selectionStart === "number") {
+      cursorStart = textarea.selectionStart;
+      cursorEnd = textarea.selectionEnd;
+    }
+
+    let textBefore = customDialogue.substring(0, cursorStart);
+    let textAfter = customDialogue.substring(cursorEnd);
+
+    if (textBefore && !textBefore.endsWith(" ") && !textBefore.endsWith("\n") && textBefore.trim().length > 0) {
+      textBefore += " ";
     }
 
     recognition.onresult = (event: any) => {
@@ -6106,7 +6119,18 @@ export default function IdeasPage() {
       for (let i = 0; i < event.results.length; i++) {
         currentSessionText += event.results[i][0].transcript;
       }
-      setCustomDialogue(initialDialogue + currentSessionText);
+      const updatedText = textBefore + currentSessionText + textAfter;
+      setCustomDialogue(updatedText);
+
+      if (textarea) {
+        const newPos = textBefore.length + currentSessionText.length;
+        setTimeout(() => {
+          try {
+            textarea.focus();
+            textarea.setSelectionRange(newPos, newPos);
+          } catch (e) {}
+        }, 10);
+      }
     };
 
     recognition.onend = () => {
