@@ -3406,6 +3406,17 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "😢 Serious, Sad & Emotional Vibes",
+    options: [
+      { value: "Sad & Tearful (Rona / Udaas) 😢💧", label: "Sad & Tearful (Rona / Udaas) 😢💧", desc: "Emotional teary eyes, quivering lip, pouting face, looking down sadly." },
+      { value: "Heartbroken & Pouting (Katti / Naraz) 💔😠", label: "Heartbroken & Pouting (Katti / Naraz) 💔😠", desc: "Sitting in corner with arms crossed, sulking, turned away, upset mood." },
+      { value: "Serious & Thoughtful (Deep Vibe) 🧠🍂", label: "Serious & Thoughtful (Deep Vibe) 🧠🍂", desc: "Deep focused gaze, calm quiet intensity, serious cinematic demeanor." },
+      { value: "Lonely & Reflective (Moody) 🌧️🪟", label: "Lonely & Reflective (Moody) 🌧️🪟", desc: "Looking out misty rain window, quiet nostalgia, solemn reflective tone." },
+      { value: "Innocent Pleading / Forgiveness 🥺🤲", label: "Innocent Pleading / Forgiveness 🥺🤲", desc: "Big glossy pleading eyes, hands folded together asking for forgiveness or a favor." },
+      { value: "Emotional Drama (Ghamgin) 🥀🎬", label: "Emotional Drama (Ghamgin) 🥀🎬", desc: "Dramatic slow-motion emotional gaze, melancholic background atmosphere." },
+    ],
+  },
+  {
     category: "Outfits & Everyday Styles",
     options: [
       { value: "Colorful Casual", label: "Colorful Casual", desc: "Bright, everyday casual kids clothes." },
@@ -8654,10 +8665,12 @@ export default function IdeasPage() {
                     {[
                       { label: "👧 Solo Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Sweet & Wholesome" },
                       { label: "👦 Solo Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Playroom Carpet", vibe: "Cheerful & Energetic" },
+                      { label: "😭 Sad Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Window", vibe: "Sad & Tearful (Rona / Udaas) 😢💧" },
                       { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome" },
                       { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome" },
                       { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
                       { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
+                      { label: "🎤 Stand-Up", setup: "One Cute Little Boy", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
                     ].map((badge) => (
                       <button
