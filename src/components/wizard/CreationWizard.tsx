@@ -76,6 +76,8 @@ const LANGUAGES = [
 ];
 
 const VISUAL_STYLES = [
+  { id: "3D Disney Style Cartoon", label: "3D Disney Style Cartoon", desc: "Classic Disney magic cartoon style with expressive features & rich colors" },
+  { id: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & fairytale aesthetics" },
   { id: "3D Cartoon", label: "3D Cartoon", desc: "High-quality 3D animation style" },
   { id: "Cinematic 35mm", label: "Cinematic 35mm", desc: "High production value photorealistic film" },
   { id: "Anime", label: "Anime", desc: "Japanese anime animation artwork" },
@@ -118,6 +120,8 @@ export function CreationWizard({ isOpen, onClose, initialCategory }: CreationWiz
       if (initialCategory === "CARBOX") {
         setLanguage("ASMR Unboxing Effects");
         setVisualStyle("Realistic");
+      } else if (initialCategory === "CUTE_KIDS" || initialCategory === "KIDS_FUNNY") {
+        setVisualStyle("3D Disney Style Cartoon");
       } else if (initialCategory === "PUNJABI_JOKE") {
         setLanguage("Punjabi");
       } else if (initialCategory === "HINDI_JOKE") {

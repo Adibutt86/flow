@@ -134,6 +134,7 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     endingStyle: "Giggling character, cute reaction, or heartwarming mess",
     characterStyle: "Big-eyed cute kids, toddlers, or friendly cartoon companions",
     visualStyleSuggestions: [
+      "3D Disney Style Cartoon",
       "3D High-Quality Cartoon",
       "Soft Toy Animation",
       "Watercolor Dream",
@@ -248,8 +249,10 @@ export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
     endingStyle: "A sweet hug, a funny toddler logic conclusion, or a big adorable smile",
     characterStyle: "Cute little girl or two kids with expressive faces and playful outfits",
     visualStyleSuggestions: [
+      "3D Disney Style Cartoon",
+      "3D Disney Animation",
       "3D Cartoon",
-      "3D Animation",
+      "3D Pixar Animation",
       "Watercolor",
       "Cinematic Lighting (Soft)"
     ],

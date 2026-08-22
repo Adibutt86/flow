@@ -56,6 +56,7 @@ const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string 
   // ─── 3D Animation ───
   { value: "Realistic 3D Character (Natural Eyes)", label: "✨ Realistic 3D Character (Natural Eyes)", desc: "Polished 3D feature animation with natural human eyes, refined proportions & realistic lighting", tag: "🔥 NEW / Natural Eyes" },
   { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, natural expressive features & Pixar skin shaders — ideal for emotional storytelling", tag: "💡 Popular" },
+  { value: "3D Disney Style Cartoon", label: "✨ 3D Disney Style Cartoon", desc: "Classic Disney magic cartoon style with expressive features, rich vibrant colors & fairytale charm", tag: "🏆 Best for Cute Kids" },
   { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
   { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with natural expressive facial features & lively animation" },
   { value: "Claymation 3D", label: "Claymation 3D", desc: "Handcrafted clay-like textures with quirky charm — unique look for funny or whimsical stories" },
@@ -899,6 +900,41 @@ const CUTE_KIDS_PRESET_GROUPS = [
       { icon: "🍔", title: "Girl Fast Food Worker", age: "Child (5-8 yrs)", location: "Fast Food Counter", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Diner Uniform & Cap", prop: "Toy Burger & Fries 🍔" },
       { icon: "🚌", title: "Girl School Bus Driver", age: "Child (5-8 yrs)", location: "Yellow School Bus Driver Seat", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Bus Driver Cap & Shirt", prop: "Toy Steering Wheel 🚌" },
       { icon: "🎁", title: "Girl Toy Shopkeeper", age: "Child (5-8 yrs)", location: "Bright Toy Store Shelves", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Colorful Apron & Name Tag", prop: "Plush Teddy Bear 🎁" },
+    ]
+  },
+  {
+    groupName: "👧 Solo Girl Presets (💬 WITH DIALOGUE)",
+    presets: [
+      { icon: "🌹", title: "Rose Gift (With Dialogue)", customDialogue: "Ye aap ke liye!", age: "Toddler (2-4 yrs)", location: "Warm Cozy Doorway", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Traditional Embroidered Kameez", prop: "Fresh Red Rose 🌹" },
+      { icon: "👋", title: "Cute Greeting (With Dialogue)", customDialogue: "Suno! Kaise ho aap?", age: "Toddler (2-4 yrs)", location: "Bright Garden Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pastel Frock", prop: "Waving Hand 👋" },
+      { icon: "🍦", title: "Ice Cream Treat (With Dialogue)", customDialogue: "Mujhe nahi dena... yeh sab meri hai! 😋", age: "Toddler (2-4 yrs)", location: "Ice Cream Cart in Park", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Overall Dress", prop: "Ice Cream Cone 🍦" },
+      { icon: "🙈", title: "Shy Compliment (With Dialogue)", customDialogue: "Aap mujhe stubborn kyun kehte ho?", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cozy Knit Sweater", prop: "Dress Hem 🙈" },
+      { icon: "📚", title: "Storybook Reader (With Dialogue)", customDialogue: "Ek tha raja, ek thi rani... suno na!", age: "Child (5-8 yrs)", location: "Library Reading Nook", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cardigan & Glasses", prop: "Colorful Storybook 📚" },
+      { icon: "🛍️", title: "Toy Shopping (With Dialogue)", customDialogue: "Papa! Mujhe yeh wala doll chahiye!", age: "Child (5-8 yrs)", location: "Toy Store Aisle", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Shopping Outfit", prop: "Plush Teddy Bear 🧸" },
+      { icon: "😤", title: "Angry Toddler Girl", customDialogue: "Mujhse baat mat karo... main tumse 100 saal tak katti hoon! 😤", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Oversized Hoodie & Pouting Face", prop: "Folded Arms & Pouting Cheeks 😤" },
+      { icon: "🍫", title: "Angry Girl Candy Tantrum", customDialogue: "Mera chocolate kisne khaya? Sach batao! 🍫😤", age: "Toddler (2-4 yrs)", location: "Kitchen Counter", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Polka Dot Dress", prop: "Empty Candy Wrapper 🍫" },
+    ]
+  },
+  {
+    groupName: "😡 Angry Toddler Boy Presets (💬 FUNNY DIALOGUE)",
+    presets: [
+      { icon: "😠", title: "Angry Toddler Boy", customDialogue: "Mujhe khana nahi khana! Pehle mera khiloona do! 😠", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Dinosaur Onesie & Pouting Face", prop: "Toy Spoon & Stomping Feet 👣" },
+      { icon: "🛌", title: "Angry Boy Bedtime Protest", customDialogue: "Main nahi sounga! Abhi toh shaam hui hai! 🛌😠", age: "Toddler (2-4 yrs)", location: "Bedroom Bed Cushion", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Superhero Pajamas", prop: "Plush Pillow 🛌" },
+      { icon: "🚗", title: "Angry Boy Toy Fight", customDialogue: "Yeh car meri hai! Main kisi ko nahi doonga! 🚗😤", age: "Toddler (2-4 yrs)", location: "Playroom Rug", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Sporty Tracksuit", prop: "Red Toy Racecar 🏎️" },
+    ]
+  },
+  {
+    groupName: "🎀 Solo Girl Presets (🤫 WITHOUT DIALOGUE - SILENT VISUAL)",
+    isSilentPink: true,
+    presets: [
+      { icon: "🧘", title: "Silent Innocent Sitting (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Child-Sized Wooden Desk", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cozy Floral Dress", prop: "Wooden Table & Chair 🪑" },
+      { icon: "🧸", title: "Toddler Toy Floor Play (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Playroom Carpet", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Soft Toddler Onesie", prop: "Building Blocks & Teddy 🧸" },
+      { icon: "🌸", title: "Smelling Flower Petals (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Sunlit Flower Garden", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "White Cotton Sun Dress", prop: "Fresh Flower Petals 🌸" },
+      { icon: "📖", title: "Quiet Book Reader (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Quiet Window Bench", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Knit Sweater & Skirt", prop: "Open Picture Book 📖" },
+      { icon: "🛍️", title: "Supermarket Stroll (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Colorful Candy Supermarket", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Trendy Kid Jacket", prop: "Shopping Basket 🧺" },
+      { icon: "😃", title: "Bubble Giggles (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Grassy Park Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Playtime Dungarees", prop: "Floating Soap Bubbles 🫧" },
+      { icon: "😲", title: "Wide-Eyed Surprise (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom Desk", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pajama Set", prop: "Surprise Gift Box 🎁" },
+      { icon: "🚶‍♀️", title: "Happy Garden Walk (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Blooming Garden Pathway", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Pastel Spring Dress", prop: "Straw Sunhat 👒" },
     ]
   },
   {
@@ -3319,6 +3355,7 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Mood & Energy",
     options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best vibe automatically for your story." },
       { value: "Cheerful & Energetic", label: "Cheerful & Energetic", desc: "Bright smiles, joyful laughter, and high positive energy." },
       { value: "Excited", label: "Excited", desc: "Full of energy, enthusiasm, wide-eyed wonder, and eagerness." },
       { value: "Shy", label: "Shy", desc: "Quiet, hesitant, soft-spoken, bashful, and cute." },
@@ -3484,7 +3521,6 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     category: "Girl Characters",
     options: [
       { value: "One Cute Little Girl", label: "One Cute Little Girl", desc: "Single cute little girl protagonist." },
-      { value: "Little Girl & AI Robot", label: "Little Girl & AI Robot 🤖👧", desc: "Cute little girl playing with a friendly, glowing futuristic 3D AI companion robot." },
       { value: "Dulhan Girl / Desi Bride", label: "Dulhan Girl / Desi Bride (دلہن)", desc: "Beautiful Desi bride girl (Dulhan) in traditional bridal dress, heavy jewelry, and veil." },
       { value: "Mehndi / Mayun Bride Girl", label: "Mehndi / Mayun Bride Girl", desc: "Cute Mehndi bride girl in vibrant yellow outfit with floral jewelry." },
       { value: "Cute Hijabi Little Girl", label: "Cute Hijabi Little Girl", desc: "Adorable little girl wearing a neat cute hijab." },
@@ -4261,8 +4297,17 @@ const STORY_BEAT_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
-// 5.92 CAMERA SHOT STYLE
+// 5.92 CAMERA POSITION & SHOT STYLE
 const CAMERA_SHOT_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "👁️ POV & Perspective Positions",
+    options: [
+      { value: "First-Person POV (Inside Room — Face Out of Frame)", label: "First-Person POV (Inside Room — Face Out of Frame) 👁️", desc: "Camera inside room facing opening door, viewer POV, character head & face strictly cropped 100% out of frame." },
+      { value: "First-Person POV (Viewer Perspective)", label: "First-Person POV (Viewer Perspective) 👁️", desc: "Camera looks through viewer's eyes with hands/arms in foreground interacting with room/door." },
+      { value: "Over-the-Shoulder (OTS Viewer POV)", label: "Over-the-Shoulder (OTS Viewer POV) 👤", desc: "Camera positioned behind viewer's shoulder looking at doorway and room entry." },
+      { value: "Chest-Height Crop (Head Out of Frame)", label: "Chest-Height Crop (Head Out of Frame) 📏", desc: "Lens locked at chest/waist level, character face and head strictly cropped out of top frame." },
+    ]
+  },
   {
     category: "Fixed & Locked Camera",
     options: [
@@ -4274,17 +4319,18 @@ const CAMERA_SHOT_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Standard Shots",
     options: [
-      { value: "Close-Up Face Shot", label: "Close-Up Face Shot 🎥", desc: "Tight shot on the kid's face and expressions." },
+      { value: "Close-Up Face Shot", label: "Close-Up Face Shot 🎥", desc: "Tight shot on the character's face and expressions." },
       { value: "Full Body Wide Shot", label: "Full Body Wide Shot", desc: "Head-to-toe view with environment clearly visible." },
       { value: "Medium Shot (Waist Up)", label: "Medium Shot (Waist Up)", desc: "Mid-body shot from the waist up." },
     ]
   },
   {
-    category: "Cinematic & Creative",
+    category: "Cinematic & Angles",
     options: [
       { value: "Over-Shoulder Shot", label: "Over-Shoulder Shot", desc: "Camera behind one character looking at another." },
-      { value: "Low Angle (Kid Hero POV)", label: "Low Angle / Kid Hero POV", desc: "Camera at kid's eye level, makes them look heroic." },
-      { value: "Bird's Eye Top-Down", label: "Bird's Eye / Top-Down View", desc: "Overhead aerial view of the kid and scene." },
+      { value: "Low Angle (Kid Hero POV)", label: "Low Angle / Kid Hero POV 📐", desc: "Camera near ground level tilting upward, making character look heroic." },
+      { value: "Bird's Eye Top-Down", label: "Bird's Eye / Top-Down View 🚁", desc: "Overhead aerial view looking straight down at room and scene." },
+      { value: "Dutch Angle (Comedic Tilt)", label: "Dutch Angle (Comedic Tilt) 📐", desc: "Dynamic tilted camera angle creating humor or suspense." },
       { value: "Slow Motion Reaction", label: "Slow Motion Reaction ✨", desc: "Slow-motion capture of an expression change or action." },
       { value: "Zoom-In Reveal", label: "Zoom-In Reveal", desc: "Camera slowly zooms in to reveal a reaction or detail." },
       { value: "Any / AI Decides", label: "Any / AI Decides", desc: "Let the AI pick the most cinematic shot style." },
@@ -4613,6 +4659,438 @@ function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "R
   if (/بلی|cat/i.test(s)) return { name: "Cat", side: "LEFT" };
   if (/کتا|dog/i.test(s)) return { name: "Dog", side: "LEFT" };
   return { name: rawSpeaker.trim(), side: "LEFT" };
+}
+
+function getRecommendedTalkingSpeed(dialogue: string): {
+  recommendedValue: string;
+  recommendedLabel: string;
+  reason: string;
+  badgeStyle: string;
+  maxWords: number;
+  avgWords: number;
+  totalWords: number;
+  lineCount: number;
+} {
+  if (!dialogue || !dialogue.trim()) {
+    return {
+      recommendedValue: "Any / AI Decides",
+      recommendedLabel: "AI Decides (Auto)",
+      reason: "No custom script typed yet",
+      badgeStyle: "bg-slate-100 text-slate-700 border-slate-300",
+      maxWords: 0,
+      avgWords: 0,
+      totalWords: 0,
+      lineCount: 0,
+    };
+  }
+
+  const lines = dialogue.split("\n").map((l) => l.trim()).filter(Boolean);
+  if (lines.length === 0) {
+    return {
+      recommendedValue: "Any / AI Decides",
+      recommendedLabel: "AI Decides (Auto)",
+      reason: "Empty script lines",
+      badgeStyle: "bg-slate-100 text-slate-700 border-slate-300",
+      maxWords: 0,
+      avgWords: 0,
+      totalWords: 0,
+      lineCount: 0,
+    };
+  }
+
+  let totalWords = 0;
+  let maxWords = 0;
+
+  for (const line of lines) {
+    const colonIdx = line.indexOf(":");
+    const cleanText = colonIdx !== -1 && colonIdx < 35 ? line.substring(colonIdx + 1).trim() : line;
+    const words = cleanText.split(/\s+/).filter(Boolean).length;
+    totalWords += words;
+    if (words > maxWords) maxWords = words;
+  }
+
+  const avgWords = Math.round(totalWords / lines.length);
+
+  if (maxWords > 32 || avgWords > 26) {
+    return {
+      recommendedValue: "Super Fast / Rapid Rant (10s Burst)",
+      recommendedLabel: "⚡ Super Fast / Rapid Rant (1.5x)",
+      reason: `Long script (${maxWords} words max/line) → Recommended 1.5x Rapid Rant to fit 10s clip`,
+      badgeStyle: "bg-rose-100 text-rose-950 border-rose-300",
+      maxWords,
+      avgWords,
+      totalWords,
+      lineCount: lines.length,
+    };
+  } else if (maxWords >= 21 || avgWords >= 16) {
+    return {
+      recommendedValue: "Fast & Energetic (1.25x)",
+      recommendedLabel: "🏎️ Fast & Energetic (1.25x)",
+      reason: `Detailed script (${maxWords} words max/line) → Recommended 1.25x Fast pace`,
+      badgeStyle: "bg-amber-100 text-amber-950 border-amber-300",
+      maxWords,
+      avgWords,
+      totalWords,
+      lineCount: lines.length,
+    };
+  } else if (maxWords >= 11 || avgWords >= 8) {
+    return {
+      recommendedValue: "Normal / Natural (1.0x)",
+      recommendedLabel: "🗣️ Normal / Natural (1.0x)",
+      reason: `Balanced script (${avgWords} words/line) → Recommended Normal 1.0x pace`,
+      badgeStyle: "bg-emerald-100 text-emerald-950 border-emerald-300",
+      maxWords,
+      avgWords,
+      totalWords,
+      lineCount: lines.length,
+    };
+  } else {
+    return {
+      recommendedValue: "Slow & Dramatic / Toddler Pause (0.75x)",
+      recommendedLabel: "🐢 Slow & Cute Toddler (0.75x)",
+      reason: `Short cute script (${avgWords} words/line) → Recommended 0.75x Slow Toddler speed`,
+      badgeStyle: "bg-sky-100 text-sky-950 border-sky-300",
+      maxWords,
+      avgWords,
+      totalWords,
+      lineCount: lines.length,
+    };
+  }
+}
+
+function getPresetSuggestedDialogueScript(
+  presetTitle: string,
+  altIndex: number = 0,
+  currentDialogueText: string = ""
+): {
+  urduText: string;
+  translation: string;
+  speaker1: string;
+  speaker2?: string;
+} {
+  const title = (presetTitle || "").toLowerCase();
+  const text = (currentDialogueText || "").toLowerCase();
+
+  const isMatch = (...keywords: string[]) =>
+    keywords.some((kw) => title.includes(kw) || text.includes(kw));
+
+  // 1. ANGRY TODDLER GIRL
+  if (isMatch("angry toddler girl", "angry girl", "100 saal", "katti")) {
+    const alts = [
+      { urduText: "لڑکی: مجھ سے بات مت کرو... میں تم سے 100 سال تک کٹی ہوں! 😤", translation: "Girl: Don't talk to me... I'm mad at you for 100 years!", speaker1: "Girl" },
+      { urduText: "لڑکی: میرا چاکلیٹ کس نے کھایا؟ سچ بتاؤ! 🍫😤", translation: "Girl: Who ate my chocolate? Tell the truth!", speaker1: "Girl" },
+      { urduText: "لڑکی: پاپا! میں آپ سے سخت ناراض ہوں، کھلونا کیوں نہیں لائے؟ 😠", translation: "Girl: Papa! I'm very angry with you, why didn't you bring my toy?", speaker1: "Girl" },
+    ];
+    return alts[altIndex % alts.length];
+  }
+
+  // 2. ANGRY TODDLER BOY
+  if (isMatch("angry toddler boy", "angry boy", "khana nahi khana", "khiloona do")) {
+    const alts = [
+      { urduText: "لڑکا: مجھے کھانا نہیں کھانا! پہلے میرا کھلونا دو! 😠", translation: "Boy: I don't want food! Give me my toy first!", speaker1: "Boy" },
+      { urduText: "لڑکا: میں نہیں سوؤں گا! ابھی تو شام ہوئی ہے! 🛌😠", translation: "Boy: I won't sleep! It's still evening!", speaker1: "Boy" },
+      { urduText: "لڑکا: یہ کار میری ہے! میں کسی کو نہیں دوں گا! 🏎️😤", translation: "Boy: This car is mine! I won't give it to anyone!", speaker1: "Boy" },
+    ];
+    return alts[altIndex % alts.length];
+  }
+
+  // 3. ROSE GIFT
+  if (isMatch("rose gift", "rose", "ye aap ke liye")) {
+    return {
+      urduText: "لڑکی: یہ آپ کے لیے! 🌹✨\nابو: ارے واہ! اتنی خوبصورت روز کس کے لیے؟",
+      translation: "Girl: This is for you!\nAbu: Wow! Who is this beautiful rose for?",
+      speaker1: "Girl",
+      speaker2: "Abu"
+    };
+  }
+
+  // 4. CUTE GREETING
+  if (isMatch("cute greeting", "kaise ho aap", "suno")) {
+    return {
+      urduText: "لڑکی: سنو! کیسے ہو آپ؟ 🌸✨\nبیٹا: میں بالکل ٹھیک ہوں، تم سناؤ!",
+      translation: "Girl: Listen! How are you?\nBaita: I am totally fine, how about you?",
+      speaker1: "Girl",
+      speaker2: "Baita"
+    };
+  }
+
+  // 5. ICE CREAM TREAT
+  if (isMatch("ice cream", "mujhe nahi dena")) {
+    return {
+      urduText: "لڑکی: مجھے نہیں دینا... یہ سب میری ہے! 🍦😋\nبیٹا: ارے تھوڑی سی آئس کریم مجھے بھی دو!",
+      translation: "Girl: I won't give you... this is all mine!\nBaita: Hey give me a little ice cream too!",
+      speaker1: "Girl",
+      speaker2: "Baita"
+    };
+  }
+
+  // 6. SHY COMPLIMENT
+  if (isMatch("shy compliment", "stubborn")) {
+    return {
+      urduText: "لڑکی: آپ مجھے ضدی کیوں کہتے ہو؟ 🙈\nامی: کیونکہ تم اپنی بات منوا کر ہی رہتی ہو!",
+      translation: "Girl: Why do you call me stubborn?\nAmma: Because you always get your way!",
+      speaker1: "Girl",
+      speaker2: "Amma"
+    };
+  }
+
+  // 7. STORYBOOK READER
+  if (isMatch("storybook", "ek tha raja", "raja")) {
+    return {
+      urduText: "لڑکی: ایک تھا راجہ، ایک تھی رانی... سنو نا! 📖✨\nامی: شاباش! آگے کیا ہوا شاہزادی؟",
+      translation: "Girl: Once there was a king, once there was a queen... listen!\nAmma: Well done! What happened next princess?",
+      speaker1: "Girl",
+      speaker2: "Amma"
+    };
+  }
+
+  // 8. TOY SHOPPING
+  if (isMatch("toy shopping", "doll", "mujhe yeh wala")) {
+    return {
+      urduText: "لڑکی: پاپا! مجھے یہ والا ڈول چاہیے! 🧸🛍️\nابو: ٹھیک ہے بیٹا، چلو لے لیتے ہیں!",
+      translation: "Girl: Papa! I want this doll!\nAbu: Okay daughter, let me buy it!",
+      speaker1: "Girl",
+      speaker2: "Abu"
+    };
+  }
+
+  // 1. ANGRY TODDLER GIRL
+  if (title.includes("angry toddler girl") || title.includes("angry girl")) {
+    const alts = [
+      { urduText: "لڑکی: مجھ سے بات مت کرو... میں تم سے 100 سال تک کٹی ہوں! 😤", translation: "Girl: Don't talk to me... I'm mad at you for 100 years!", speaker1: "Girl" },
+      { urduText: "لڑکی: میرا چاکلیٹ کس نے کھایا؟ سچ بتاؤ! 🍫😤", translation: "Girl: Who ate my chocolate? Tell the truth!", speaker1: "Girl" },
+      { urduText: "لڑکی: پاپا! میں آپ سے سخت ناراض ہوں، کھلونا کیوں نہیں لائے؟ 😠", translation: "Girl: Papa! I'm very angry with you, why didn't you bring my toy?", speaker1: "Girl" },
+    ];
+    return alts[altIndex % alts.length];
+  }
+
+  // 2. ANGRY TODDLER BOY
+  if (title.includes("angry toddler boy") || title.includes("angry boy")) {
+    const alts = [
+      { urduText: "لڑکا: مجھے کھانا نہیں کھانا! پہلے میرا کھلونا دو! 😠", translation: "Boy: I don't want food! Give me my toy first!", speaker1: "Boy" },
+      { urduText: "لڑکا: میں نہیں سوؤں گا! ابھی تو شام ہوئی ہے! 🛌😠", translation: "Boy: I won't sleep! It's still evening!", speaker1: "Boy" },
+      { urduText: "لڑکا: یہ کار میری ہے! میں کسی کو نہیں دوں گا! 🏎️😤", translation: "Boy: This car is mine! I won't give it to anyone!", speaker1: "Boy" },
+    ];
+    return alts[altIndex % alts.length];
+  }
+
+  // 3. MAKEUP DISASTER
+  if (title.includes("makeup") || title.includes("lipstick")) {
+    return {
+      urduText: "لڑکی: میں تو صرف بیس لائن میک اپ کر رہی تھی! 💄✨\nامی: ارے میرا لپ اسٹک تباہ کر دیا!",
+      translation: "Girl: I was just doing baseline makeup!\nAmma: Oh no, you ruined my lipstick!",
+      speaker1: "Girl",
+      speaker2: "Amma"
+    };
+  }
+
+  // 4. PHONE THIEF
+  if (title.includes("phone") || title.includes("mobile")) {
+    return {
+      urduText: "بیٹا: اب یہ میرا فون ہے، بائے بائے! 📱💨\nابو: ارے بیٹا رکو! میرا میسج جا رہا ہے!",
+      translation: "Baita: Now this is my phone, bye bye!\nAbu: Wait son! My message is sending!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 5. COOKIE BURGLAR
+  if (title.includes("cookie") || title.includes("burglar")) {
+    return {
+      urduText: "بیٹا: یہ کوکی خود مجھ سے بات کر رہی تھی! 🍪\nامی: اور تم نے رات 2 بجے ساری کوکیز کھا لیں؟",
+      translation: "Baita: This cookie was talking to me itself!\nAmma: And you ate all cookies at 2 AM?",
+      speaker1: "Baita",
+      speaker2: "Amma"
+    };
+  }
+
+  // 6. DIY HAIRCUT
+  if (title.includes("haircut") || title.includes("scissors")) {
+    return {
+      urduText: "لڑکی: اب میں پہلے سے زیادہ اسٹائلش لگ رہی ہوں! ✂️\nامی: یہ اپنے بال کیا کر دیے تم نے!",
+      translation: "Girl: Now I'm looking more stylish than before!\nAmma: What did you do to your hair!",
+      speaker1: "Girl",
+      speaker2: "Amma"
+    };
+  }
+
+  // 7. TEDDY DOCTOR
+  if (title.includes("teddy") || title.includes("hospital")) {
+    return {
+      urduText: "لڑکی: ٹیڈی کو بخار ہے، پہلے میڈیسن دو! 🩹\nبیٹا: ڈاکٹر صاحب، کیا یہ بچ جائے گا؟",
+      translation: "Girl: Teddy has a fever, give medicine first!\nBaita: Doctor, will he survive?",
+      speaker1: "Girl",
+      speaker2: "Baita"
+    };
+  }
+
+  // 8. DADI KITCHEN
+  if (title.includes("dadi") || title.includes("grandma") || title.includes("chef")) {
+    return {
+      urduText: "لڑکی: دادی! میں آپ کی سب سے بڑی شیف ہوں! 👩‍🍳\nدادی: شاباش میری بیٹی، آٹا ٹھیک سے گوندھو!",
+      translation: "Girl: Grandma! I am your biggest chef!\nGrandma: Well done my daughter, knead dough properly!",
+      speaker1: "Girl",
+      speaker2: "Grandma"
+    };
+  }
+
+  // 9. RAINY DAY
+  if (title.includes("rain") || title.includes("puddle")) {
+    return {
+      urduText: "بیٹا: بارش میں نہانے کا مزہ ہی الگ ہے! 🌧️\nابو: بیٹا اندر آؤ، زکام ہو جائے گا!",
+      translation: "Baita: Bathing in rain has a different fun!\nAbu: Son come inside, you will catch a cold!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 10. BOSS BABY / CEO
+  if (title.includes("boss") || title.includes("ceo") || title.includes("meeting")) {
+    return {
+      urduText: "بیٹا: میں امپورٹنٹ میٹنگ میں ہوں، ڈسٹرب مت کرو! 💼\nابو: ارے سر صاحب، پہلے دودھ تو پی لو!",
+      translation: "Baita: I am in an important meeting, don't disturb!\nAbu: Hey Mr. Boss, drink your milk first!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 11. DETECTIVE
+  if (title.includes("detective") || title.includes("investigation")) {
+    return {
+      urduText: "بیٹا: یہاں عجیب واقعہ ہوا ہے... انویسٹی گیشن شروع! 🔍\nابو: کیا ملا مسٹر ڈیٹیکٹو؟",
+      translation: "Baita: Strange event happened here... investigation start!\nAbu: What did you find Mr. Detective?",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 12. SINGER SUPERSTAR
+  if (title.includes("singer") || title.includes("concert")) {
+    return {
+      urduText: "لڑکی: میرا کنسرٹ اسٹارٹ ہو گیا ہے... کلیپ کرو! 🎤\nبیٹا: ونس مور! ونس مور!",
+      translation: "Girl: My concert has started... clap everyone!\nBaita: Once more! Once more!",
+      speaker1: "Girl",
+      speaker2: "Baita"
+    };
+  }
+
+  // 13. PIZZA INSPECTOR
+  if (title.includes("pizza") || title.includes("inspector")) {
+    return {
+      urduText: "بیٹا: پہلے میرا پورشن چیک ہوگا... پھر کھائیں! 🍕\nامی: سارا چیز تم ہی کھا جاؤ گے!",
+      translation: "Baita: My portion will be checked first... then eat!\nAmma: You will eat all the cheese yourself!",
+      speaker1: "Baita",
+      speaker2: "Amma"
+    };
+  }
+
+  // 14. SUPERHERO
+  if (title.includes("superhero") || title.includes("cape")) {
+    return {
+      urduText: "بیٹا: میں سپر بیٹا ہوں... سب کو بچاؤں گا! 🦸‍♂️\nابو: سوپے سے نیچے اترو سپر ہیرو!",
+      translation: "Baita: I am Super Baita... I will save everyone!\nAbu: Step down from sofa superhero!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 15. MAGICIAN
+  if (title.includes("magician") || title.includes("magic")) {
+    return {
+      urduText: "بیٹا: ابھی میں بروکلی کو آئس کریم بنا دوں گا! ابراکڈابرا! 🪄\nامی: اور اگر نہ بنی تو بروکلی کھانی پڑے گی!",
+      translation: "Baita: Now I will turn broccoli into ice cream! Abracadabra!\nAmma: And if it doesn't turn, you have to eat broccoli!",
+      speaker1: "Baita",
+      speaker2: "Amma"
+    };
+  }
+
+  // 16. ASTRONAUT
+  if (title.includes("astronaut") || title.includes("rocket") || title.includes("moon")) {
+    return {
+      urduText: "بیٹا: میں مون پہ جا رہا ہوں، بائے بائے ارتھ! 🚀\nابو: چاند سے واپسی پہ چاکلیٹ لیتے آنا!",
+      translation: "Baita: I'm going to the moon, bye bye Earth!\nAbu: Bring chocolate when returning from moon!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 17. VEGETABLE REJECTOR
+  if (title.includes("vegetable") || title.includes("broccoli")) {
+    return {
+      urduText: "بیٹا: یہ گرین ٹری کھانے کی چیز نہیں ہے! 🥦😤\nامی: یہ ہیلتھی سبزی ہے بیٹا، خاموشی سے کھاؤ!",
+      translation: "Baita: This green tree is not food to eat!\nAmma: It's healthy veggie son, eat quietly!",
+      speaker1: "Baita",
+      speaker2: "Amma"
+    };
+  }
+
+  // 18. SLEEP PRETENDER
+  if (title.includes("sleep") || title.includes("pretend")) {
+    return {
+      urduText: "بیٹا: میں سو رہا ہوں... آواز مت دو! 😴\nامی: ہوم ورک کا ٹائم ہو گیا ہے، آنکھیں کھولو!",
+      translation: "Baita: I'm sleeping... don't call me!\nAmma: Homework time is here, open your eyes!",
+      speaker1: "Baita",
+      speaker2: "Amma"
+    };
+  }
+
+  // 19. CARTOON DEFENDER / REMOTE
+  if (title.includes("remote") || title.includes("cartoon")) {
+    return {
+      urduText: "بیٹا: ریموٹ میرے پاس ہے، نیوز نہیں چلے گی! 📺🛑\nابو: ارے بیٹا، 5 منٹ کی خبریں دیکھنے دو!",
+      translation: "Baita: Remote is with me, news won't play!\nAbu: Son let me watch 5 minutes news!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 20. BOY BARBER
+  if (title.includes("barber")) {
+    return {
+      urduText: "بیٹا: ابو سیدھے بیٹھو! بال کٹوانے ہیں یا نہیں؟ ✂️\nابو: ارے یار، تھوڑا سا کان کٹ گیا تو کیا ہوا!",
+      translation: "Baita: Abu sit straight! Do you want a haircut or not?\nAbu: Oh boy, if ear cuts a bit so what!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 21. BOY DOCTOR / GIRL DOCTOR
+  if (title.includes("doctor")) {
+    return {
+      urduText: "بیٹا: سیدھے بیٹھو! منہ کھولو — آااا! 🩺\nابو: یہ لو دوائی، دن میں تین بار ٹافی کھانی ہے!",
+      translation: "Baita: Sit straight! Open mouth — Ahhh!\nAbu: Here is medicine, eat toffee 3 times a day!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 22. POLICE OFFICER
+  if (title.includes("police")) {
+    return {
+      urduText: "بیٹا: ہاتھ اوپر کرو! تم نے میری چاکلیٹ چوری کی ہے! 👮\nابو: ارے انسپکٹر صاحب، میں تو صرف دیکھ رہا تھا!",
+      translation: "Baita: Hands up! You stole my chocolate!\nAbu: Inspector, I was just looking!",
+      speaker1: "Baita",
+      speaker2: "Abu"
+    };
+  }
+
+  // 23. ROSE GIFT
+  if (title.includes("rose") || title.includes("flower")) {
+    return {
+      urduText: "لڑکی: یہ آپ کے لیے! 🌹✨\nابو: ارے واہ! اتنی خوبصورت روز کس کے لیے؟",
+      translation: "Girl: This is for you!\nAbu: Wow! Who is this beautiful rose for?",
+      speaker1: "Girl",
+      speaker2: "Abu"
+    };
+  }
+
+  // DEFAULT UNIVERSAL FALLBACK
+  return {
+    urduText: "بیٹا: ابو دیکھو! میں نے ایک نیا کھیل دریافت کر لیا ہے! 🎮\nابو: ارے یہ کیا ہو گیا! لیکن کتنا مزہ آیا!",
+    translation: "Baita: Abu look! I discovered a new game!\nAbu: Wow what happened! But it was so fun!",
+    speaker1: "Baita",
+    speaker2: "Abu"
+  };
 }
 
 function getPresetCharacterLabels(presetTitle: string): string {
@@ -5861,7 +6339,7 @@ export default function IdeasPage() {
   const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
-  const [isPresetsExpanded, setIsPresetsExpanded] = useState(false);
+  const [isPresetsExpanded, setIsPresetsExpanded] = useState(true);
   const [isListening, setIsListening] = useState(false);
   const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("rtl");
   const [showUrduKeyboard, setShowUrduKeyboard] = useState(false);
@@ -5892,6 +6370,7 @@ export default function IdeasPage() {
   const { theme, isLight, toggleTheme } = useTheme();
   const [isOptimizeSectionOpen, setIsOptimizeSectionOpen] = useState(false);
   const [isSituationSectionOpen, setIsSituationSectionOpen] = useState(false);
+  const [isUcpSectionOpen, setIsUcpSectionOpen] = useState(true);
 
 
 
@@ -6469,14 +6948,22 @@ export default function IdeasPage() {
     setActivePresetTitle(preset.title);
     setPresetDialogueIndex(0);
 
-    // Populate Custom Spoken Dialogue box with preset character labels (e.g. Boy: \n\n Barber:)
-    const labels = getPresetCharacterLabels(preset.title);
-    if (labels) {
-      setCustomDialogue(labels);
+    // Populate Custom Spoken Dialogue box
+    if (preset.customDialogue !== undefined) {
+      setCustomDialogue(preset.customDialogue);
+    } else {
+      const labels = getPresetCharacterLabels(preset.title);
+      if (labels) {
+        setCustomDialogue(labels);
+      }
     }
 
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" preset with character labels!`, "success");
+    if (preset.isSilent) {
+      showToast(`🎀 Applied Pink Silent Visual Mode: ${preset.title} (No Dialogue)`, "success", 2500);
+    } else {
+      showToast(`✅ Applied "${preset.title}" preset!`, "success");
+    }
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
@@ -6782,7 +7269,7 @@ export default function IdeasPage() {
   const handleResetSettings = () => {
     setCategory("CUTE_KIDS");
     setLanguage("Urdu");
-    setVisualStyle("3D Cartoon Style");
+    setVisualStyle("3D Disney Style Cartoon");
     setVideoDuration(10);
     setCustomDialogue("");
     setKidsAge("Toddler (2-4 yrs)");
@@ -7542,7 +8029,7 @@ export default function IdeasPage() {
       setKidsHealth("Healthy");
 
       if (cat === "CUTE_KIDS") {
-        setVisualStyle("3D Cartoon Style");
+        setVisualStyle("3D Disney Style Cartoon");
       } else if (cat === "CHARACTER_BIBLE") {
         setVisualStyle("Photorealistic 8K Cinematic");
       } else if (cat === "SONG" || cat === "POETRY") {
@@ -8122,8 +8609,129 @@ export default function IdeasPage() {
                   <label className={`text-xs uppercase flex items-center gap-2 ${
                     isLight ? "text-amber-950 font-black" : "text-amber-300 font-extrabold"
                   }`}>
-                    <span>💬 Custom Spoken Dialogue (Optional)</span>
+                    <span>💬 Custom Spoken Dialogue & Essential Controls (Optional)</span>
                   </label>
+
+                {/* ⚡ Quick Character & Scene Bar (All-in-One Dialogue Controls) */}
+                <div className={`p-3 rounded-xl border space-y-2.5 my-1 ${
+                  isLight ? "bg-amber-100/60 border-amber-300/80 text-amber-950" : "bg-black/50 border-amber-500/30 text-amber-100"
+                }`}>
+                  {/* Row 1: 1-Tap Quick Setup Badges Strip */}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-amber-950" : "text-amber-300"}`}>⚡ Quick Setups:</span>
+                    {[
+                      { label: "👧 Solo Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Sweet & Wholesome" },
+                      { label: "👦 Solo Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Playroom Carpet", vibe: "Cheerful & Energetic" },
+                      { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome" },
+                      { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome" },
+                      { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
+                      { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
+                      { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
+                    ].map((badge) => (
+                      <button
+                        key={badge.label}
+                        type="button"
+                        onClick={() => {
+                          setCharacterSetup(badge.setup);
+                          setKidsAge(badge.age);
+                          setKidsLocation(badge.location);
+                          setKidsVibe(badge.vibe);
+                          showToast(`⚡ Applied Quick Setup: "${badge.label}"`, "success", 2000);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg border text-[11px] font-extrabold transition-all cursor-pointer active:scale-95 shadow-xs ${
+                          isLight
+                            ? "bg-white hover:bg-amber-200 text-amber-950 border-amber-300"
+                            : "bg-amber-950/80 hover:bg-amber-900 border-amber-500/40 text-amber-200"
+                        }`}
+                      >
+                        {badge.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Row 2: 4 Essential Mini-Selectors (Setup, Age, Location, Vibe) */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    {/* Setup */}
+                    <div className="space-y-1">
+                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                        👤 Setup:
+                      </label>
+                      <select
+                        value={characterSetup}
+                        onChange={(e) => setCharacterSetup(e.target.value)}
+                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
+                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
+                        }`}
+                      >
+                        {CHARACTER_SETUP_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
+                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Age */}
+                    <div className="space-y-1">
+                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                        👶 Age:
+                      </label>
+                      <select
+                        value={kidsAge}
+                        onChange={(e) => setKidsAge(e.target.value)}
+                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
+                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
+                        }`}
+                      >
+                        {KIDS_AGE_GROUPS[0].options.map((opt, idx) => (
+                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Location */}
+                    <div className="space-y-1">
+                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                        🏡 Location:
+                      </label>
+                      <select
+                        value={kidsLocation}
+                        onChange={(e) => setKidsLocation(e.target.value)}
+                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
+                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
+                        }`}
+                      >
+                        {KIDS_LOCATION_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
+                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Vibe */}
+                    <div className="space-y-1">
+                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                        ✨ Vibe:
+                      </label>
+                      <select
+                        value={kidsVibe}
+                        onChange={(e) => setKidsVibe(e.target.value)}
+                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
+                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
+                        }`}
+                      >
+                        {KIDS_VIBE_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
+                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
                   <div className="flex items-center gap-2 flex-wrap">
                     {customDialogue && (
                       <>
@@ -8488,9 +9096,32 @@ export default function IdeasPage() {
                       }`}>
                         <span>💬 Visual Script Chat Preview:</span>
                       </span>
-                      <span className="text-[10px] text-slate-400 font-bold">
-                        {customDialogue.split("\n").filter((l) => l.trim()).length} Spoken Line(s)
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {(() => {
+                          const linesCount = customDialogue.split("\n").filter((l) => l.trim()).length;
+                          const calcDur = Math.max(10, Math.min(60, linesCount * 10));
+                          return (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setVideoDuration(calcDur);
+                                showToast(`⚡ Auto-fitted video duration to ${calcDur}s (${linesCount} line${linesCount > 1 ? "s" : ""} × 10s)`, "success");
+                              }}
+                              className={`px-2 py-0.5 rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 ${
+                                videoDuration === calcDur
+                                  ? (isLight ? "bg-emerald-200 text-emerald-950 border-emerald-400" : "bg-emerald-900/80 text-emerald-200 border-emerald-500/50")
+                                  : (isLight ? "bg-amber-200 hover:bg-amber-300 text-amber-950 border-amber-400" : "bg-amber-900/60 hover:bg-amber-800 text-amber-200 border-amber-500/50")
+                              }`}
+                              title="Automatically set video duration to 10 seconds per dialogue line"
+                            >
+                              <span>⚡ Auto-Fit Duration ({calcDur}s)</span>
+                            </button>
+                          );
+                        })()}
+                        <span className="text-[10px] text-slate-400 font-bold">
+                          {customDialogue.split("\n").filter((l) => l.trim()).length} Line(s)
+                        </span>
+                      </div>
                     </div>
                     <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                       {customDialogue.split("\n").filter((l) => l.trim()).map((line, idx) => {
@@ -8516,6 +9147,137 @@ export default function IdeasPage() {
                     </div>
                   </div>
                 )}
+
+                {/* ⚡ Script Talking Speed & AI Speed Recommendation according to Word Count */}
+                {(() => {
+                  const activeScriptText = customDialogue.trim() || [customDialogueSeq1, customDialogueSeq2, customDialogueSeq3].filter(Boolean).join("\n").trim();
+                  const speedRec = getRecommendedTalkingSpeed(activeScriptText);
+                  const hasText = Boolean(activeScriptText);
+                  return (
+                    <div className={`p-3.5 rounded-xl border space-y-2.5 mt-3 transition-all ${
+                      isLight ? "bg-amber-50/90 border-amber-300 shadow-sm" : "bg-black/70 border-amber-500/40"
+                    }`}>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs font-black flex items-center gap-1.5 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
+                            <span>⚡ Script / Talking Speed:</span>
+                          </span>
+                          {hasText && (
+                            <span className={`text-[11px] font-black px-2.5 py-0.5 rounded-md border shadow-xs ${speedRec.badgeStyle}`}>
+                              {speedRec.recommendedLabel}
+                            </span>
+                          )}
+                        </div>
+                        {hasText && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setKidsTalkingSpeed(speedRec.recommendedValue);
+                              showToast(`⚡ Applied AI recommended talking speed: ${speedRec.recommendedLabel}`, "success", 2200);
+                            }}
+                            className={`px-3 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1.5 shadow-xs ${
+                              kidsTalkingSpeed === speedRec.recommendedValue
+                                ? (isLight ? "bg-emerald-200 text-emerald-950 border-emerald-400" : "bg-emerald-950 text-emerald-300 border-emerald-500/60")
+                                : (isLight ? "bg-amber-200 hover:bg-amber-300 text-amber-950 border-amber-400" : "bg-amber-900/80 hover:bg-amber-800 text-amber-200 border-emerald-500/50")
+                            }`}
+                            title={speedRec.reason}
+                          >
+                            <span>💡 Auto-Recommend Speed</span>
+                          </button>
+                        )}
+                      </div>
+
+                      {hasText && (
+                        <div className="flex flex-wrap items-center justify-between text-[11px] font-extrabold gap-2 border-t pt-2 border-amber-200/50">
+                          <span className="text-slate-400">📊 Word Analysis: {speedRec.totalWords} words ({speedRec.maxWords} max words/line, ~{speedRec.avgWords} avg/line)</span>
+                          <span className={isLight ? "text-amber-950" : "text-amber-300"}>{speedRec.reason}</span>
+                        </div>
+                      )}
+
+                      <div>
+                        <select
+                          value={kidsTalkingSpeed}
+                          onChange={(e) => setKidsTalkingSpeed(e.target.value)}
+                          className={`w-full px-3.5 py-2.5 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
+                            isLight ? "bg-white border-amber-300 text-slate-900 shadow-sm" : "bg-slate-950 border-amber-500/50 text-amber-200"
+                          }`}
+                        >
+                          {KIDS_TALKING_SPEED_GROUPS[0].options.map((opt) => (
+                            <option key={opt.value} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
+                              {opt.label} — {opt.desc}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* 💡 Suggested Urdu Dialogue Script Box for Active Preset */}
+                {(() => {
+                  const suggested = getPresetSuggestedDialogueScript(activePresetTitle || "Boy + Father", presetDialogueIndex, customDialogue);
+                  return (
+                    <div className={`p-3.5 rounded-xl border space-y-2.5 mt-3 transition-all ${
+                      isLight ? "bg-emerald-50/90 border-emerald-300 shadow-sm" : "bg-emerald-950/40 border-emerald-500/40"
+                    }`}>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className={`text-xs font-black flex items-center gap-1.5 ${
+                          isLight ? "text-emerald-950" : "text-emerald-300"
+                        }`}>
+                          <Sparkles className="w-4 h-4 text-emerald-500" />
+                          <span>💡 Suggested Urdu Dialogue Script ({activePresetTitle || "Current Preset"}):</span>
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setPresetDialogueIndex((prev) => prev + 1)}
+                            className={`px-2.5 py-1 rounded-lg border text-[11px] font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 shadow-xs ${
+                              isLight ? "bg-white hover:bg-emerald-100 border-emerald-300 text-emerald-950" : "bg-emerald-900/60 hover:bg-emerald-800 border-emerald-500/50 text-emerald-200"
+                            }`}
+                            title="Cycle alternative Urdu dialogue lines"
+                          >
+                            <span>🎲 Cycle Line</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomDialogue(suggested.urduText);
+                              showToast(`✨ Applied suggested Urdu script for ${activePresetTitle || "Preset"}`, "success", 2500);
+                            }}
+                            className={`px-3 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 shadow-xs ${
+                              isLight ? "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-700 shadow-emerald-500/30" : "bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400"
+                            }`}
+                          >
+                            <span>✨ Use This Dialogue</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomDialogue((prev) => prev ? prev + "\n" + suggested.urduText : suggested.urduText);
+                              showToast(`➕ Appended suggested Urdu dialogue!`, "success", 2500);
+                            }}
+                            className={`px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 flex items-center gap-1 ${
+                              isLight ? "bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border-emerald-300" : "bg-emerald-900/40 hover:bg-emerald-800 text-emerald-200 border-emerald-500/40"
+                            }`}
+                          >
+                            <span>➕ Append</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className={`p-3 rounded-xl border text-sm sm:text-base font-extrabold leading-relaxed font-sans ${
+                        isLight ? "bg-white border-emerald-200 text-emerald-950 shadow-inner" : "bg-black/80 border-emerald-500/30 text-emerald-100"
+                      }`} dir="rtl">
+                        {suggested.urduText}
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-between text-[11px] font-bold text-slate-400 gap-2 pt-0.5 border-t border-emerald-200/40">
+                        <span>🇬🇧 English Meaning: "{suggested.translation}"</span>
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-black">Click "Use This Dialogue" to load into script box</span>
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 {/* Saved Dialogues Tag List */}
                 {savedDialogues.length > 0 && (
@@ -8570,325 +9332,8 @@ export default function IdeasPage() {
                 )}
               </div>
               )}
-
-              {/* Situation/Scene Description & Extra Settings Section */}
-              <div className={`space-y-3 p-4 rounded-2xl border transition-all ${
-                isLight
-                  ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
-                  : "bg-indigo-950/20 border border-indigo-500/30 text-white"
-              }`}>
-                <div className="flex flex-wrap items-center justify-between gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setIsSituationSectionOpen(!isSituationSectionOpen)}
-                    className={`text-sm sm:text-base font-black flex items-center gap-2 transition-all ${
-                      isLight ? "text-slate-900 hover:text-indigo-600" : "text-indigo-300 hover:text-indigo-100"
-                    }`}
-                  >
-                    <span>{isSituationSectionOpen ? "▼" : "▶"} 🎬 Situation / Scene Description & Extra Settings (Optional)</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={saveCurrentSettings}
-                    title="Save current selections as default"
-                    className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
-                      isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
-                    }`}
-                  >
-                    💾 Save Settings
-                  </button>
-                </div>
-
-                {isSituationSectionOpen && (
-                  <div className="pt-2 space-y-4">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {/* Situation Category Selector Dropdown */}
-                      <select
-                        value={selectedSituationCat}
-                        onChange={(e) => {
-                          setSelectedSituationCat(e.target.value);
-                          handleSuggestSituation(e.target.value);
-                        }}
-                        className={`px-3 py-1.5 rounded-lg border text-xs font-extrabold focus:outline-none cursor-pointer shadow-sm ${
-                          isLight
-                            ? "bg-white border-slate-300 text-slate-900"
-                            : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
-                        }`}
-                        title="Select a situation category to get AI scene suggestions"
-                      >
-                        {SITUATION_CATEGORIES.map((cat) => (
-                          <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
-                            {cat.label}
-                          </option>
-                        ))}
-                      </select>
-
-                      {/* AI Suggest Situation Button */}
-                      <button
-                        type="button"
-                        onClick={() => handleSuggestSituation()}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
-                        title="Suggest a new random scenario for the selected situation category"
-                      >
-                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                        <span>✨ AI Suggest Situation</span>
-                      </button>
-
-                      {customSceneDescription && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomSceneDescription("");
-                            showToast("Cleared situation description", "info");
-                          }}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm"
-                          title="Clear description"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                          <span>Clear</span>
-                        </button>
-                      )}
-                    </div>
-
-                    <textarea
-                      value={customSceneDescription}
-                      onChange={(e) => setCustomSceneDescription(e.target.value)}
-                      rows={3}
-                      placeholder={`e.g. A girl is running along the platform after a departing vintage steam train, looking deeply as her silk dupatta flutters in the misty wind.`}
-                      className={`w-full px-4.5 py-3.5 rounded-2xl border-2 text-base sm:text-lg lg:text-xl font-bold focus:outline-none transition-all resize-y overflow-y-auto custom-scrollbar shadow-inner leading-relaxed tracking-wide font-sans ${
-                        isLight
-                          ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20"
-                          : "bg-black/80 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/20"
-                      }`}
-                    />
-
-                    {/* One-Tap Quick Situation Suggestions Pills */}
-                    <div className="space-y-1.5 pt-1">
-                      <span className={`text-[10px] uppercase tracking-wider ${
-                        isLight ? "text-slate-900 font-black" : "text-slate-400 font-bold"
-                      }`}>⚡ One-Tap Quick Situations:</span>
-                      <div className="flex flex-wrap gap-2">
-                        {QUICK_SITUATION_PILLS.map((pill) => (
-                          <button
-                            key={pill.label}
-                            type="button"
-                            onClick={() => {
-                              setCustomSceneDescription(pill.text);
-                              showToast(`Applied situation: "${pill.label}"`, "info");
-                            }}
-                            className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm ${
-                              isLight
-                                ? "bg-white hover:bg-indigo-50 text-slate-900 border-slate-300"
-                                : "bg-slate-900/90 hover:bg-indigo-900/60 border-slate-800 text-slate-300 hover:text-indigo-200"
-                            }`}
-                          >
-                            {pill.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Include Microphone Toggle Switch */}
-            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
-              <label className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <Mic className="w-3.5 h-3.5 text-pink-400" />
-                  <span>Microphone (Mic)</span>
-                </span>
-                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${includeMic ? "bg-pink-500/20 text-pink-300 border border-pink-500/40" : "bg-slate-800 text-slate-400"}`}>
-                  {includeMic ? "ENABLED 🎙️" : "DISABLED (Default)"}
-                </span>
-              </label>
-              <button
-                type="button"
-                onClick={() => setIncludeMic(!includeMic)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer select-none ${
-                  includeMic
-                    ? "bg-pink-950/60 border-pink-500 text-pink-200 shadow-md shadow-pink-500/20"
-                    : "bg-black/60 border-slate-800 text-slate-400 hover:text-slate-200"
-                }`}
-              >
-                <span className="truncate">{includeMic ? "🎙️ Mic Included in Prompt" : "🚫 No Mic (Natural Voice)"}</span>
-                <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${includeMic ? "bg-pink-600" : "bg-slate-700"}`}>
-                  <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeMic ? "translate-x-4" : "translate-x-0"}`} />
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Universal Concept Options: Short Idea, Without Dialogue, Without Music */}
-          <div ref={ucpSectionRef} className={`p-4 sm:p-5 rounded-2xl border space-y-3.5 relative z-30 transition-all ${
-            isLight
-              ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
-              : "bg-indigo-950/30 border border-indigo-500/30 text-slate-100 shadow-lg"
-          }`}>
-            <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b pb-2.5 gap-1.5 ${
-              isLight ? "border-indigo-200" : "border-indigo-500/20"
-            }`}>
-              <span className={`text-xs font-black uppercase tracking-wider flex items-center gap-2 ${
-                isLight ? "text-slate-900" : "text-indigo-300"
-              }`}>
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-                Universal Concept Options (Applies to All Categories)
-              </span>
-              <span className={`text-[10px] font-extrabold ${isLight ? "text-slate-600" : "text-slate-400 font-medium"}`}>
-                All options OFF by default
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-              {/* 1. Short Idea Toggle */}
-              <div
-                onClick={() => setIsShortIdea(!isShortIdea)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  isShortIdea
-                    ? "bg-amber-500/10 border-amber-500 text-amber-900 dark:text-amber-200 shadow-md ring-2 ring-amber-500/40"
-                    : isLight
-                    ? "bg-white border-2 border-zinc-200 hover:border-amber-400 text-zinc-900 shadow-sm font-bold"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-xs font-black flex items-center gap-1.5 ${
-                    isShortIdea ? "text-amber-900 dark:text-amber-200" : isLight ? "text-zinc-950" : "text-white"
-                  }`}>
-                    <span className="text-base">⚡</span>
-                    <span>Short Idea</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${isShortIdea ? "bg-amber-500" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${isShortIdea ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
-                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
-                }`}>
-                  {isShortIdea ? "ON: Generates 3-4 clip short concept + Full Idea" : "OFF: Generates normal/full idea only"}
-                </p>
-              </div>
-
-              {/* 2. Without Dialogue Toggle */}
-              <div
-                onClick={() => setWithoutDialogue(!withoutDialogue)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  withoutDialogue
-                    ? "bg-purple-500/10 border-purple-500 text-purple-900 dark:text-purple-200 shadow-md ring-2 ring-purple-500/40"
-                    : isLight
-                    ? "bg-white border-2 border-zinc-200 hover:border-purple-400 text-zinc-900 shadow-sm font-bold"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-xs font-black flex items-center gap-1.5 ${
-                    withoutDialogue ? "text-purple-900 dark:text-purple-200" : isLight ? "text-zinc-950" : "text-white"
-                  }`}>
-                    <span className="text-base">🔇</span>
-                    <span>Without Dialogue</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutDialogue ? "bg-purple-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutDialogue ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
-                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
-                }`}>
-                  {withoutDialogue ? "ON: Dialogue & Spoken Script DISABLED (Silent Visual Storytelling)" : "OFF: Dialogue & Character Script ENABLED"}
-                </p>
-              </div>
-
-              {/* 3. Without Music Toggle */}
-              <div
-                onClick={() => setWithoutMusic(!withoutMusic)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  withoutMusic
-                    ? "bg-rose-500/10 border-rose-500 text-rose-900 dark:text-rose-200 shadow-md ring-2 ring-rose-500/40"
-                    : isLight
-                    ? "bg-white border-2 border-zinc-200 hover:border-rose-400 text-zinc-900 shadow-sm font-bold"
-                    : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-xs font-black flex items-center gap-1.5 ${
-                    withoutMusic ? "text-rose-900 dark:text-rose-200" : isLight ? "text-zinc-950" : "text-white"
-                  }`}>
-                    <span className="text-base">🚫🎵</span>
-                    <span>Without Music</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutMusic ? "bg-rose-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutMusic ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
-                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
-                }`}>
-                  {withoutMusic ? "ON: No background music. Diegetic SFX only" : "OFF: Can include background music"}
-                </p>
-              </div>
-
-              {/* 4. Character Continuity Bible Toggle */}
-              <div
-                onClick={() => setIncludeCharacterBible(!includeCharacterBible)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  includeCharacterBible
-                    ? "bg-indigo-500/10 border-indigo-500 text-indigo-900 dark:text-indigo-200 shadow-md ring-2 ring-indigo-500/40"
-                    : isLight
-                    ? "bg-white border-2 border-zinc-200 hover:border-indigo-400 text-zinc-900 shadow-sm font-bold"
-                    : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-xs font-black flex items-center gap-1.5 ${
-                    includeCharacterBible ? "text-indigo-900 dark:text-indigo-200" : isLight ? "text-zinc-950" : "text-white"
-                  }`}>
-                    <span className="text-base">📋🔒</span>
-                    <span>Continuity Bible</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${includeCharacterBible ? "bg-indigo-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeCharacterBible ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
-                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
-                }`}>
-                  {includeCharacterBible ? "ENABLED: Includes locked facial identity & outfit specs" : "DISABLED: Skips Bible header & outputs scene prompts directly"}
-                </p>
-              </div>
-
-              {/* 5. Compact 9:16 Prompt Only (Credit Saver) Toggle */}
-              <div
-                onClick={() => setCompactMode(!compactMode)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none ${
-                  compactMode
-                    ? "bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-emerald-200 shadow-md ring-2 ring-emerald-500/40"
-                    : isLight
-                    ? "bg-white border-2 border-zinc-200 hover:border-emerald-400 text-zinc-900 shadow-sm font-bold"
-                    : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-xs font-black flex items-center gap-1.5 ${
-                    compactMode ? "text-emerald-900 dark:text-emerald-200" : isLight ? "text-zinc-950" : "text-white"
-                  }`}>
-                    <span className="text-base">⚡📱</span>
-                    <span>9:16 Credit Saver</span>
-                  </span>
-                  <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${compactMode ? "bg-emerald-600" : "bg-slate-700"}`}>
-                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${compactMode ? "translate-x-4" : "translate-x-0"}`} />
-                  </div>
-                </div>
-                <p className={`text-[10px] font-semibold mt-1 leading-snug ${
-                  isLight ? "text-zinc-700" : "text-slate-400 font-medium"
-                }`}>
-                  {compactMode ? "ON: Generates lean 9:16 prompt only (Saves ~75% credits)" : "OFF: Generates extended detailed description"}
-                </p>
-              </div>
-            </div>
-          </div>
 
           {/* Cute Kids & News Options */}
           {(category === "CUTE_KIDS" || category === "LOCATION_NEWS") && (
@@ -8993,6 +9438,7 @@ export default function IdeasPage() {
                                 (!preset.musicType || musicType === preset.musicType) &&
                                 (!preset.dialogueStyle || seriousDialogueStyle === preset.dialogueStyle);
                               
+                              const isPink = group.isSilentPink || preset.isSilent;
                               return (
                                 <button
                                   key={preset.title}
@@ -9000,8 +9446,12 @@ export default function IdeasPage() {
                                   onClick={() => applyCuteKidsPreset(preset)}
                                   className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
                                     isActive 
-                                      ? (isLight ? "bg-indigo-600 text-white border-indigo-700 shadow-indigo-500/30 ring-2 ring-indigo-400" : "bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400")
-                                      : (isLight ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-950" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40 text-white")
+                                      ? (isPink 
+                                          ? "bg-pink-600 text-white border-pink-700 shadow-pink-500/40 ring-2 ring-pink-400" 
+                                          : (isLight ? "bg-indigo-600 text-white border-indigo-700 shadow-indigo-500/30 ring-2 ring-indigo-400" : "bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-500/40 ring-1 ring-indigo-400"))
+                                      : (isPink
+                                          ? (isLight ? "bg-pink-100/90 hover:bg-pink-200 border-pink-300 text-pink-950" : "bg-pink-950/70 hover:bg-pink-900/90 border-pink-500/50 text-pink-200")
+                                          : (isLight ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-950" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40 text-white"))
                                   }`}
                                 >
                                   <span className="text-base shrink-0">{preset.icon}</span>
@@ -9544,10 +9994,10 @@ export default function IdeasPage() {
                   />
                 )}
 
-                {/* 13. Camera Shot Style */}
-                {matchesParamFilter(["camera", "shot", "cinematic", "close up", "wide shot"]) && (
+                {/* 13. Camera Position & Shot Style */}
+                {matchesParamFilter(["camera", "shot", "cinematic", "close up", "wide shot", "pov", "position", "perspective"]) && (
                   <CustomSelect
-                    label="Camera Shot Style"
+                    label="Camera Position & Shot Style"
                     icon="🎥"
                     value={cameraShot}
                     onChange={setCameraShot}
@@ -10487,8 +10937,50 @@ export default function IdeasPage() {
             </div>
           )}
 
+          {/* Generator Action Footer */}
+          <div ref={generateButtonRef} className={`my-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t ${
+            isLight ? "border-slate-200" : "border-slate-800/80"
+          }`}>
+            <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-xs shadow-xs w-full sm:w-auto transition-all ${
+              isLight
+                ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold"
+                : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+            }`}>
+              <span className="text-sm">✨</span>
+              <span>
+                <strong className={isLight ? "text-emerald-950 font-black" : "text-white font-bold"}>Clean Video Mandate:</strong> Completely clean & unobstructed video (no text, logos, or UI overlays).
+                {category === "CARBOX" && " Model branding permitted for car videos."}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-500/30 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 w-full sm:w-auto"
+                title="Press Ctrl + Enter to generate concept"
+              >
+                {isGenerating ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Sparkles className="w-5 h-5" />
+                )}
+                <span>
+                  {isGenerating
+                    ? "Generating Concept..."
+                    : videoDuration === 20
+                    ? "🎬 Generate First Scene (0-10s)"
+                    : "✨ Generate 1 Idea"}
+                </span>
+                <span className="hidden lg:inline-block text-[10px] font-black opacity-80 bg-black/20 px-2 py-0.5 rounded-md border border-white/20 ml-1">
+                  Ctrl + ↵
+                </span>
+              </button>
+            </div>
+          </div>
+
           {/* Quick View Summary */}
-          <div className={`mt-8 mb-6 p-4 sm:p-6 rounded-2xl border shadow-sm relative z-10 transition-all ${
+          <div className={`mt-4 mb-6 p-4 sm:p-6 rounded-2xl border shadow-sm relative z-10 transition-all ${
             isLight
               ? "bg-slate-50 border-2 border-slate-300 text-slate-900"
               : "bg-zinc-900/60 border border-zinc-700/80 text-zinc-100"
@@ -10708,46 +11200,284 @@ export default function IdeasPage() {
             )}
           </div>
 
-          {/* Generator Action Footer */}
-          <div ref={generateButtonRef} className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t ${
-            isLight ? "border-slate-200" : "border-slate-800/80"
+          {/* 🌐 Universal Concept Options (Applies to All Categories) — Open by Default */}
+          <div ref={ucpSectionRef} className={`mt-4 p-3.5 sm:p-4 rounded-2xl border space-y-3 relative z-20 transition-all ${
+            isLight
+              ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
+              : "bg-indigo-950/20 border border-indigo-500/30 text-slate-100"
           }`}>
-            <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-xs shadow-xs w-full sm:w-auto transition-all ${
-              isLight
-                ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold"
-                : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-            }`}>
-              <span className="text-sm">✨</span>
-              <span>
-                <strong className={isLight ? "text-emerald-950 font-black" : "text-white font-bold"}>Clean Video Mandate:</strong> Completely clean & unobstructed video (no text, logos, or UI overlays).
-                {category === "CARBOX" && " Model branding permitted for car videos."}
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setIsUcpSectionOpen(!isUcpSectionOpen)}
+                className={`text-xs sm:text-sm font-black flex items-center gap-2 transition-all cursor-pointer ${
+                  isLight ? "text-slate-900 hover:text-indigo-600" : "text-indigo-300 hover:text-indigo-100"
+                }`}
+              >
+                <span>{isUcpSectionOpen ? "▼" : "▶"} 🌐 Universal Concept Options (Applies to All Categories)</span>
+              </button>
+              <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-md border ${
+                isLight ? "bg-white border-slate-300 text-slate-600" : "bg-black/60 border-slate-700 text-slate-400"
+              }`}>
+                {isUcpSectionOpen ? "Open by default" : "Collapsed"}
               </span>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            {isUcpSectionOpen && (
+              <div className="pt-2 space-y-3 border-t border-indigo-200/50">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+                  {/* 1. Short Idea Toggle */}
+                  <div
+                    onClick={() => setIsShortIdea(!isShortIdea)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer select-none ${
+                      isShortIdea
+                        ? "bg-amber-500/10 border-amber-500 text-amber-900 dark:text-amber-200 shadow-md ring-2 ring-amber-500/40"
+                        : isLight
+                        ? "bg-white border-2 border-zinc-200 hover:border-amber-400 text-zinc-900 shadow-sm font-bold"
+                        : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        isShortIdea ? "text-amber-900 dark:text-amber-200" : isLight ? "text-zinc-950" : "text-white"
+                      }`}>
+                        <span className="text-base">⚡</span>
+                        <span>Short Idea</span>
+                      </span>
+                      <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${isShortIdea ? "bg-amber-500" : "bg-slate-700"}`}>
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${isShortIdea ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                    </div>
+                    <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                      isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                    }`}>
+                      {isShortIdea ? "ON: Generates 3-4 clip short concept" : "OFF: Normal idea"}
+                    </p>
+                  </div>
+
+                  {/* 2. Without Dialogue Toggle */}
+                  <div
+                    onClick={() => setWithoutDialogue(!withoutDialogue)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer select-none ${
+                      withoutDialogue
+                        ? "bg-purple-500/10 border-purple-500 text-purple-900 dark:text-purple-200 shadow-md ring-2 ring-purple-500/40"
+                        : isLight
+                        ? "bg-white border-2 border-zinc-200 hover:border-purple-400 text-zinc-900 shadow-sm font-bold"
+                        : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        withoutDialogue ? "text-purple-900 dark:text-purple-200" : isLight ? "text-zinc-950" : "text-white"
+                      }`}>
+                        <span className="text-base">🔇</span>
+                        <span>Without Dialogue</span>
+                      </span>
+                      <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutDialogue ? "bg-purple-600" : "bg-slate-700"}`}>
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutDialogue ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                    </div>
+                    <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                      isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                    }`}>
+                      {withoutDialogue ? "ON: Excludes spoken lines" : "OFF: Normal dialogue"}
+                    </p>
+                  </div>
+
+                  {/* 3. Without Music Toggle */}
+                  <div
+                    onClick={() => setWithoutMusic(!withoutMusic)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer select-none ${
+                      withoutMusic
+                        ? "bg-rose-500/10 border-rose-500 text-rose-900 dark:text-rose-200 shadow-md ring-2 ring-rose-500/40"
+                        : isLight
+                        ? "bg-white border-2 border-zinc-200 hover:border-rose-400 text-zinc-900 shadow-sm font-bold"
+                        : "bg-black/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        withoutMusic ? "text-rose-900 dark:text-rose-200" : isLight ? "text-zinc-950" : "text-white"
+                      }`}>
+                        <span className="text-base">🎵❌</span>
+                        <span>Without Music</span>
+                      </span>
+                      <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${withoutMusic ? "bg-rose-600" : "bg-slate-700"}`}>
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${withoutMusic ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                    </div>
+                    <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                      isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                    }`}>
+                      {withoutMusic ? "ON: Pure SFX & voiceover" : "OFF: Normal music"}
+                    </p>
+                  </div>
+
+                  {/* 4. Continuity Bible Toggle */}
+                  <div
+                    onClick={() => setIncludeCharacterBible(!includeCharacterBible)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer select-none ${
+                      includeCharacterBible
+                        ? "bg-indigo-500/10 border-indigo-500 text-indigo-900 dark:text-indigo-200 shadow-md ring-2 ring-indigo-500/40"
+                        : isLight
+                        ? "bg-white border-2 border-zinc-200 hover:border-indigo-400 text-zinc-900 shadow-sm font-bold"
+                        : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        includeCharacterBible ? "text-indigo-900 dark:text-indigo-200" : isLight ? "text-zinc-950" : "text-white"
+                      }`}>
+                        <span className="text-base">📋🔒</span>
+                        <span>Continuity Bible</span>
+                      </span>
+                      <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${includeCharacterBible ? "bg-indigo-600" : "bg-slate-700"}`}>
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${includeCharacterBible ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                    </div>
+                    <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                      isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                    }`}>
+                      {includeCharacterBible ? "ENABLED: Identity specs" : "DISABLED: Direct prompts"}
+                    </p>
+                  </div>
+
+                  {/* 5. 9:16 Credit Saver Toggle */}
+                  <div
+                    onClick={() => setCompactMode(!compactMode)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer select-none ${
+                      compactMode
+                        ? "bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-emerald-200 shadow-md ring-2 ring-emerald-500/40"
+                        : isLight
+                        ? "bg-white border-2 border-zinc-200 hover:border-emerald-400 text-zinc-900 shadow-sm font-bold"
+                        : "bg-black/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-xs font-black flex items-center gap-1.5 ${
+                        compactMode ? "text-emerald-900 dark:text-emerald-200" : isLight ? "text-zinc-950" : "text-white"
+                      }`}>
+                        <span className="text-base">⚡📱</span>
+                        <span>9:16 Credit Saver</span>
+                      </span>
+                      <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${compactMode ? "bg-emerald-600" : "bg-slate-700"}`}>
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${compactMode ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                    </div>
+                    <p className={`text-[10px] font-semibold mt-1 leading-snug ${
+                      isLight ? "text-zinc-700" : "text-slate-400 font-medium"
+                    }`}>
+                      {compactMode ? "ON: Lean 9:16 prompt only" : "OFF: Full description"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 🎬 Situation/Scene Description & Extra Settings Section — Collapsed by Default */}
+          <div className={`mt-4 space-y-3 p-3.5 sm:p-4 rounded-2xl border transition-all relative z-10 ${
+            isLight
+              ? "bg-slate-50 border-2 border-indigo-200 text-slate-900 shadow-sm"
+              : "bg-indigo-950/20 border border-indigo-500/30 text-white"
+          }`}>
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
               <button
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-500/30 transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 w-full sm:w-auto"
-                title="Press Ctrl + Enter to generate concept"
+                type="button"
+                onClick={() => setIsSituationSectionOpen(!isSituationSectionOpen)}
+                className={`text-xs sm:text-sm font-black flex items-center gap-2 transition-all cursor-pointer ${
+                  isLight ? "text-slate-900 hover:text-indigo-600" : "text-indigo-300 hover:text-indigo-100"
+                }`}
               >
-                {isGenerating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <Sparkles className="w-5 h-5" />
-                )}
-                <span>
-                  {isGenerating
-                    ? "Generating Concept..."
-                    : videoDuration === 20
-                    ? "🎬 Generate First Scene (0-10s)"
-                    : "✨ Generate 1 Idea"}
-                </span>
-                <span className="hidden lg:inline-block text-[10px] font-black opacity-80 bg-black/20 px-2 py-0.5 rounded-md border border-white/20 ml-1">
-                  Ctrl + ↵
-                </span>
+                <span>{isSituationSectionOpen ? "▼" : "▶"} 🎬 Situation / Scene Description & Extra Settings (Optional)</span>
+              </button>
+              <button
+                type="button"
+                onClick={saveCurrentSettings}
+                title="Save current selections as default"
+                className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
+                  isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
+                }`}
+              >
+                💾 Save Settings
               </button>
             </div>
+
+            {isSituationSectionOpen && (
+              <div className="pt-2 space-y-4 border-t border-indigo-200/50">
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Situation Category Selector Dropdown */}
+                  <select
+                    value={selectedSituationCat}
+                    onChange={(e) => {
+                      setSelectedSituationCat(e.target.value);
+                      handleSuggestSituation(e.target.value);
+                    }}
+                    className={`px-3 py-1.5 rounded-lg border text-xs font-extrabold focus:outline-none cursor-pointer shadow-sm ${
+                      isLight
+                        ? "bg-white border-slate-300 text-slate-900"
+                        : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
+                    }`}
+                    title="Select a situation category to get AI scene suggestions"
+                  >
+                    {SITUATION_CATEGORIES.map((cat) => (
+                      <option key={cat.id} value={cat.id} className={isLight ? "bg-white text-slate-900" : "bg-slate-900 text-white"}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* AI Suggest Situation Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleSuggestSituation()}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-indigo-400/40 text-xs font-bold text-white transition-all cursor-pointer active:scale-95 shadow-sm"
+                    title="Suggest a new random scenario for the selected situation category"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <span>✨ AI Suggest Situation</span>
+                  </button>
+
+                  {customSceneDescription && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCustomSceneDescription("");
+                        showToast("Cleared situation description", "info");
+                      }}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-sm"
+                      title="Clear description"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Clear</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Situation Description Input */}
+                <div className="space-y-1.5">
+                  <label className={`text-xs font-black flex items-center justify-between ${
+                    isLight ? "text-slate-700" : "text-indigo-200"
+                  }`}>
+                    <span>Situation / Scene Description</span>
+                    <span className={`text-[10px] ${isLight ? "text-slate-600" : "text-indigo-300/80"}`}>
+                      Describe the scene/situation for the AI
+                    </span>
+                  </label>
+                  <textarea
+                    value={customSceneDescription}
+                    onChange={(e) => setCustomSceneDescription(e.target.value)}
+                    rows={3}
+                    placeholder="e.g.: A cute little boy in a traditional outfit playing near a village pond with a duckling on a sunny morning..."
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold focus:outline-none transition-all resize-y custom-scrollbar ${
+                      isLight
+                        ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                        : "bg-slate-900/90 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400"
+                    }`}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

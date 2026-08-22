@@ -15,6 +15,7 @@ const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string 
   { value: "Hyper-Realistic CGI", label: "Hyper-Realistic CGI", desc: "Near-photorealistic with extra visual punch — great for moonlit palaces & Mughal courtyards", tag: "🏆 Top Pick" },
   { value: "Realistic ASMR Commercial", label: "Realistic ASMR Commercial", desc: "Ultra-clean, polished look ideal for product unboxing & ASMR sensory content" },
   // ─── 3D Animation ───
+  { value: "3D Disney Style Cartoon", label: "✨ 3D Disney Style Cartoon", desc: "Classic Disney magic cartoon style with expressive features, rich vibrant colors & fairytale charm", tag: "🏆 Best for Cute Kids" },
   { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders — ideal for emotional storytelling & Poet+Listener duos", tag: "💡 Highly Recommended" },
   { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors & princely aesthetics — perfect for fairy-tale narratives" },
   { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions — great for comedy & kids' content" },
@@ -3039,6 +3040,7 @@ const VISUAL_STYLE_GROUPS = [
   {
     category: "3D Animation",
     options: [
+      { value: "3D Disney Style Cartoon", label: "3D Disney Style Cartoon", desc: "Classic Disney magic cartoon style with expressive features & fairytale charm", tag: "🏆 Best for Cute Kids" },
       { value: "3D Pixar Animation", label: "3D Pixar Animation", desc: "Warm lighting, expressive faces & Pixar skin shaders", tag: "💡 Recommended" },
       { value: "3D Disney Animation", label: "3D Disney Animation", desc: "Classic Disney magic with rich colors" },
       { value: "3D Cartoon Style", label: "3D Cartoon Style", desc: "Fun, vibrant 3D characters with exaggerated expressions" },

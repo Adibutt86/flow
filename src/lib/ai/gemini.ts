@@ -91,6 +91,10 @@ export interface GenerateProjectInput {
   characterSetup?: string;
   customDialogue?: string;
   kidsClothing?: string;
+  kidsTalkingSpeed?: string;
+  kidsAudioStyle?: string;
+  customSceneDescription?: string;
+  cameraShot?: string;
 }
 
 export interface SingleSceneRegenInput {
@@ -295,7 +299,9 @@ function safeJsonParse<T>(rawText: string, schema: z.ZodSchema<T>): T {
 export function parseStoryConcept(input: GenerateProjectInput): StoryContext {
   const fullConcept = input.idea.trim();
   const lower = fullConcept.toLowerCase();
-  const clipCount = Math.max(1, Math.floor(input.duration / 8));
+  const scriptLines = parseDialogueScriptLines(input.customDialogue);
+  const clipCount = scriptLines.length > 0 ? scriptLines.length : Math.max(1, Math.floor(input.duration / 8));
+  const autoDuration = scriptLines.length > 0 ? scriptLines.length * 10 : input.duration;
   const userChar = input.userCharacters ? input.userCharacters.split(" ")[0].replace(/[^a-zA-Z]/g, "") : null;
 
   // 0. CATEGORY IS CARBOX OR CONCEPT IS CAR UNBOXING (STRICT NO ANIMALS, NO DIALOGUE, ONLY VEHICLE UNBOXING)
@@ -980,6 +986,33 @@ export async function generateProjectContent(
   if (apiKey) {
     const ai = new GoogleGenAI({ apiKey });
 
+    const scriptLines = parseDialogueScriptLines(input.customDialogue);
+    const formattedScriptBlock = scriptLines.length > 0
+      ? `\nEXPLICIT SCRIPT DIALOGUE SEQUENCE MANDATE (STRICT ZERO-MIXING & 10s AUTO-FIT RULE):
+The user has provided an EXACT custom dialogue script (${scriptLines.length} line${scriptLines.length > 1 ? "s" : ""}). You MUST map each line to its exact corresponding 10-second scene beat and character:
+${scriptLines.map((sl, idx) => `  - Scene ${idx + 1} (0-${(idx + 1) * 10}s) [${sl.speaker || "Speaking Character"}]: "${sl.cleanText}"`).join("\n")}
+
+STRICT DIALOGUE MAPPING & 10s AUTO-FIT RULES:
+1. DO NOT SKIP ANY DIALOGUE LINE: Every dialogue line MUST be assigned to its respective 10-second scene beat in exact sequence.
+2. DO NOT MIX UP CHARACTERS: Character A's line MUST be spoken ONLY by Character A, and Character B's line MUST be spoken ONLY by Character B. Never attribute Character A's dialogue to Character B!
+3. KEEP DIALOGUE 100% UNCHANGED VERBATIM: Output exact dialogue words without adding, modifying, or removing words.
+4. STRICT 10-SECOND CLIP FIT: Dialogue line MUST finish lip-syncing completely between 2s and 8s of the 10-second clip window. If a line is long, accelerate speech delivery so it fits inside the 10-second clip without overflowing into the next scene.\n`
+      : "";
+
+    const speedInstruction = input.kidsTalkingSpeed && input.kidsTalkingSpeed !== "Any / AI Decides"
+      ? `\nSCRIPT TALKING / DELIVERY SPEED MANDATE:
+Delivery Speed Setting: "${input.kidsTalkingSpeed}"
+${
+  /super fast|rapid rant|10s burst|1.5x/i.test(input.kidsTalkingSpeed)
+    ? `- RAPID BURST PACING (1.5x): Character speaks continuous rapid-fire words (~35-45 words per scene) with zero long pauses, fast energetic mouth movements, and active gestures.`
+    : /fast & energetic|1.25x/i.test(input.kidsTalkingSpeed)
+    ? `- FAST & ENERGETIC PACING (1.25x): High-energy quick speaking pace (~25-30 words per scene) with brisk lip-sync movements.`
+    : /slow & dramatic|0.75x|toddler/i.test(input.kidsTalkingSpeed)
+    ? `- SLOW & CUTE TODDLER PACING (0.75x): Adorable slow baby/toddler speaking style (~8-12 words per scene) with cute deliberate pauses between phrases.`
+    : `- STANDARD CONVERSATIONAL PACING (1.0x): Natural spoken timing (~15-20 words per scene) with clear speech lip-sync.`
+}\n`
+      : "";
+
     const prompt = `
 You are a master short-form video director for Google Flow.
 Your task is to generate a 100% LOGICALLY CONSISTENT short video storyboard based STRICTLY on this CURRENT STORY CONTEXT:
@@ -993,7 +1026,28 @@ Location: ${ctx.location}
 Clip Count: ${ctx.clipCount} scenes (8 seconds per clip)
 Language: ${ctx.language}
 Visual Style: ${ctx.visualStyle}
-
+${
+  input.cameraShot && input.cameraShot !== "Any / AI Decides"
+    ? `\n🎥 CAMERA POSITION & SHOT MANDATE:
+Selected Camera Style: "${input.cameraShot}"
+${
+  /inside room|face out of frame|head out of frame|chest-height|waist-level|pov/i.test(input.cameraShot)
+    ? `- STRICT POV INSIDE ROOM & HEAD CROP MANDATE:
+  1. Position camera strictly inside the room looking outward through the opening door from first-person viewer POV.
+  2. Lock camera framing at chest/waist height so character's head and face remain 100% cropped out of the top frame at all times.
+  3. Include explicit negative prompts: (NO FACE VISIBLE, NO HEAD VISIBLE, HEAD CROPPED OUT OF TOP FRAME, NO EYE CONTACT).`
+    : `- Maintain camera shot style "${input.cameraShot}" consistently across all scenes.`
+}\n`
+    : ""
+}${
+  input.customSceneDescription && input.customSceneDescription.trim()
+    ? `\n🎬 SITUATION / SCENE DESCRIPTION MANDATE (USER-PROVIDED SCENE INSTRUCTIONS):
+The user provided a specific scene description. You MUST combine this visual scenario with the spoken dialogue:
+"${input.customSceneDescription.trim()}"
+1. Visual actions, camera angles, environment, and physical comedy MUST be directly based on this scene description.
+2. The spoken dialogue lines MUST be integrated smoothly into this exact visual scenario.\n`
+    : ""
+}${formattedScriptBlock}${speedInstruction}
 CRITICAL RULES & VIRAL COMEDY MANDATES:
 1. ABSOLUTELY NO PLACEHOLDERS OR GENERIC FILLER DIALOGUE:
    - FORBIDDEN DIALOGUE: Never output generic phrases like "Aap ye kya kar rahe hain?", "Arey wah!", "Ye toh kamaal ho gaya!", "Sammy", "Hero", "Operation is a go!", "Watch closely"! Every line MUST move the story forward and reveal character personality.
@@ -1006,7 +1060,8 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 4. VISUAL COMEDY & CAMERA MANDATE:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
-5. DIALOGUE & SCRIPT RULES:
+5. DIALOGUE & SCRIPT RULES (ZERO-MIXING & ZERO-SKIPPING):
+   - STRICT CHARACTER MAPPING: Maintain 100% character-to-dialogue isolation. Character A's line is spoken ONLY by Character A. Character B's line is spoken ONLY by Character B. Do NOT mix up or swap lines between characters under any circumstances!
    - For CUTE_KIDS, POETRY, and SONG categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
    - DIALOGUE SEQUENCING LOCK: You must strictly follow the provided dialogue sequence. Each dialogue line must be spoken ONLY ONCE, by the correct character, in the exact order provided.
    - DO NOT repeat, duplicate, skip, or randomly change any dialogue. Before generating the video, mentally validate the dialogue sequence to maintain strict character-to-dialogue mapping throughout the entire video.

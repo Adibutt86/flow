@@ -183,6 +183,7 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
 5. DIALOGUE RULES (MAX 8 WORDS PER DIALOGUE LINE):
+   - STRICT CHARACTER MAPPING: Character A's dialogue MUST be spoken ONLY by Character A, and Character B's dialogue MUST be spoken ONLY by Character B. Do NOT mix up, swap, reassign, or skip dialogue lines between characters under any circumstances!
    - DIALOGUE SEQUENCING LOCK: You must strictly follow the provided dialogue sequence. Each dialogue line must be spoken ONLY ONCE, by the correct character, in the exact order provided.
    - DO NOT repeat, duplicate, skip, or randomly change any dialogue. Before generating the video, mentally validate the dialogue sequence to maintain strict character-to-dialogue mapping throughout the entire video.
    - CHARACTER PREFIX REMOVAL MANDATE (CRITICAL): Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابو:", "بلی:", "کار:" at the start of dialogue lines indicate WHO is speaking. You MUST use them to identify the character speaker, but REMOVE the prefix ("لڑکی:", "💬 لڑکی:") completely from the output "dialogue" field! The "dialogue" field MUST contain ONLY the spoken dialogue words themselves.
