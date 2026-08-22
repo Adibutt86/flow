@@ -1391,6 +1391,10 @@ export function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEF
   if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT" };
   if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT" };
   if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT" };
+  if (/مادہ طوطا|female parrot/i.test(s)) return { name: "Female Parrot", side: "RIGHT" };
+  if (/توطا|طوطا|parrot|parrent/i.test(s)) return { name: "Parrot", side: "LEFT" };
+  if (/بلی|cat/i.test(s)) return { name: "Cat", side: "LEFT" };
+  if (/کتا|dog/i.test(s)) return { name: "Dog", side: "LEFT" };
   return { name: rawSpeaker.trim(), side: "LEFT" };
 }
 

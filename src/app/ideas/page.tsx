@@ -928,6 +928,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
       { icon: "🦜👧", title: "Girl + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Parrot & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Colorful Talking Parrot 🦜" },
       { icon: "🦜👦", title: "Boy + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Parrot & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Colorful Talking Parrot 🦜" },
       { icon: "🦜🦜", title: "Parrot + Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Two Colorful Talking Parrots 🦜🦜" },
+      { icon: "🦜🌸", title: "Parrot + Female Parrot", age: "Toddler (2-4 yrs)", location: "Cozy Living Room & Bird Perch", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Parrot & Female Parrot", perScene: "2 Characters", nationality: "Global / Any", prop: "Male & Female Talking Parrots 🦜🌸" },
       { icon: "🚗👧", title: "Girl + Talking Car", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Magical Talking Toy Car 🚗" },
       { icon: "🚗👦", title: "Boy + Talking Car", age: "Toddler (2-4 yrs)", location: "Sunny Outdoor Garden & Lawn", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Magical Talking Toy Car 🚗" },
       { icon: "🐱🐱", title: "Cat + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Custom", perScene: "2 Characters", nationality: "Global / Any", prop: "Two Talking Cats 🐱🐱" },
@@ -3466,6 +3467,7 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Talking Dog & Boy", label: "Talking Dog & Boy 🐶👦", desc: "A little boy talking and playing with his talking pet dog.", tag: "🐶 Pets" },
       { value: "Talking Parrot & Girl", label: "Talking Parrot & Girl 🦜👧", desc: "A cute little girl having a funny conversation with a colorful talking parrot on a perch.", tag: "🦜 Pets" },
       { value: "Talking Parrot & Boy", label: "Talking Parrot & Boy 🦜👦", desc: "A little boy talking and mimicking words with a vibrant talking pet parrot.", tag: "🦜 Pets" },
+      { value: "Talking Parrot & Female Parrot", label: "Talking Parrot & Female Parrot 🦜🌸", desc: "A funny interaction between a male talking parrot and a pretty female parrot.", tag: "🦜 Pets" },
     ]
   },
   {
@@ -4596,6 +4598,10 @@ function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "R
   if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT" };
   if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT" };
   if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT" };
+  if (/مادہ طوطا|female parrot/i.test(s)) return { name: "Female Parrot", side: "RIGHT" };
+  if (/توطا|طوطا|parrot|parrent/i.test(s)) return { name: "Parrot", side: "LEFT" };
+  if (/بلی|cat/i.test(s)) return { name: "Cat", side: "LEFT" };
+  if (/کتا|dog/i.test(s)) return { name: "Dog", side: "LEFT" };
   return { name: rawSpeaker.trim(), side: "LEFT" };
 }
 
@@ -4610,6 +4616,11 @@ function getPresetCharacterLabels(presetTitle: string): string {
     if (/mother|mom|amma/i.test(char2)) char2 = "Amma";
     if (/talking cat|cat/i.test(char2)) char2 = "Cat";
     if (/talking dog|dog/i.test(char2)) char2 = "Dog";
+    if (/female parrot/i.test(char2)) char2 = "Female Parrot";
+    else if (/talking parrot|parrot|parrent/i.test(char2)) char2 = "Parrot";
+
+    if (/female parrot/i.test(char1)) char1 = "Female Parrot";
+    else if (/talking parrot|parrot|parrent/i.test(char1)) char1 = "Parrot";
 
     return `${char1}:\n\n${char2}:\n`;
   } else if (parts.length === 1 && parts[0].trim()) {
@@ -9365,7 +9376,9 @@ export default function IdeasPage() {
                         { id: "white_cat", label: "Talking White Cat 🐱", url: "/characters/animals/white_cat.jpg" },
                         { id: "ginger_cat", label: "Talking Ginger Cat 🐱", url: "/characters/animals/ginger_cat.jpg" },
                         { id: "golden_dog", label: "Talking Golden Dog 🐶", url: "/characters/animals/golden_dog.jpg" },
-                        { id: "mother_cat", label: "Mother Cat 🐈‍⬛", url: "/characters/animals/mother_cat.jpg" }
+                        { id: "mother_cat", label: "Mother Cat 🐈‍⬛", url: "/characters/animals/mother_cat.jpg" },
+                        { id: "green_parrot", label: "Talking Parrot 🦜", url: "/characters/animals/green_parrot.jpg" },
+                        { id: "female_parrot", label: "Female Parrot 🦜🌸", url: "/characters/animals/female_parrot.jpg" }
                       ].map((char) => (
                         <div 
                           key={char.id} 
