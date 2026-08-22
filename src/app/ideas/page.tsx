@@ -4594,6 +4594,25 @@ function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "R
   return { name: rawSpeaker.trim(), side: "LEFT" };
 }
 
+function getPresetCharacterLabels(presetTitle: string): string {
+  if (!presetTitle) return "";
+  const parts = presetTitle.split(/\s*\+\s*/);
+  if (parts.length >= 2) {
+    let char1 = parts[0].trim();
+    let char2 = parts[1].trim();
+
+    if (/father|dad|abu/i.test(char2)) char2 = "Abu";
+    if (/mother|mom|amma/i.test(char2)) char2 = "Amma";
+    if (/talking cat|cat/i.test(char2)) char2 = "Cat";
+    if (/talking dog|dog/i.test(char2)) char2 = "Dog";
+
+    return `${char1}:\n\n${char2}:\n`;
+  } else if (parts.length === 1 && parts[0].trim()) {
+    return `${parts[0].trim()}:\n`;
+  }
+  return "";
+}
+
 function cleanPromptText(text: string): string {
   if (!text) return "";
   return text.replace(/\[FORMAT:[^\]]+\]\s*/gi, "").trim();
@@ -6393,9 +6412,14 @@ export default function IdeasPage() {
     setActivePresetTitle(preset.title);
     setPresetDialogueIndex(0);
 
-    // Dialogue remains unchanged until the user explicitly clicks "Generate Suggestion"
+    // Populate Custom Spoken Dialogue box with preset character labels (e.g. Boy: \n\n Barber:)
+    const labels = getPresetCharacterLabels(preset.title);
+    if (labels) {
+      setCustomDialogue(labels);
+    }
+
     setIncludeCharacterBible(true);
-    showToast(`✅ Applied "${preset.title}" preset with recommended settings!`, "success");
+    showToast(`✅ Applied "${preset.title}" preset with character labels!`, "success");
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
