@@ -8715,7 +8715,7 @@ export default function IdeasPage() {
                           isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
                         }`}
                       >
-                        {KIDS_AGE_GROUPS[0].options.map((opt, idx) => (
+                        {KIDS_AGE_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
                           <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
                             {opt.label}
                           </option>
