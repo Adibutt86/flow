@@ -89,6 +89,8 @@ export interface GenerateProjectInput {
   customInstructions?: string;
   userCharacters?: string;
   characterSetup?: string;
+  customDialogue?: string;
+  kidsClothing?: string;
 }
 
 export interface SingleSceneRegenInput {

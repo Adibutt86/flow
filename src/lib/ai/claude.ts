@@ -287,7 +287,7 @@ Return ONLY valid JSON matching this exact structure:
 
       const responseText = response.content[0].type === "text" ? response.content[0].text : "";
       let parsed = safeJsonParse(responseText, ProjectStoryOutputSchema, "Project Story Generator");
-      parsed = cleanSceneDialoguePrefixes(parsed, input.customDialogue);
+      parsed = cleanSceneDialoguePrefixes(parsed, input.customDialogue || input.idea);
       const val = validateStoryboard(ctx, parsed);
       if (val.valid) {
         return {
