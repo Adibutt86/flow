@@ -1513,7 +1513,7 @@ CRITICAL ROMAN URDU SOCIAL MEDIA MANDATE:
 6. "tiktokTitle": Energetic, relatable TikTok & IG Reels Roman Urdu title (e.g. "Desi parents be like... 😭💀").
 7. "description": SEO-friendly, short 2-line Roman Urdu video caption explaining the funny scenario.
 8. "hashtags": EXACTLY 4 to 5 core hashtags combining Roman Urdu and English (e.g. "#DesiKids #BachaParty #Shorts #Viral #DesiComedy").
-9. "trendingTags": 6 to 8 trending viral hashtags (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyReels #DesiMemes #ViralVideo").
+9. "trendingTags": EXACTLY 4 to 5 trending viral hashtags (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyReels #DesiMemes").
 10. DO NOT include any "Like & Share" or "Subscribe" CTAs in any title.
 
 OUTPUT MUST BE VALID JSON ONLY with this exact structure:
@@ -1524,7 +1524,7 @@ OUTPUT MUST BE VALID JSON ONLY with this exact structure:
   "tiktokTitle": "🎵 TikTok / IG: Title Here 💀✨",
   "description": "Short engaging Roman Urdu video description...",
   "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5",
-  "trendingTags": "#TrendingReels #ForyouPage #Shorts #ViralVideo #DesiHumor #ComedyReels"
+  "trendingTags": "#tag1 #tag2 #tag3 #tag4 #tag5"
 }`;
 
   for (const modelName of modelsToTry) {
