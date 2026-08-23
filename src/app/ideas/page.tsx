@@ -3186,12 +3186,12 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
-    category: "🛏️ Bedroom Poses & Bed Setups",
+    category: "🛋️ Lounge & Bedroom Poses",
     options: [
-      { value: "Couple Laying on Bed (Miya Biwi Bed Chat)", label: "Couple Laying on Bed (Miya Biwi Bed Chat) 🛏️❤️", desc: "Cozy master bedroom bed with soft pillows. A cute animated couple (Husband & Wife) lying side-by-side on a plush king-size bed chatting or relaxing." },
-      { value: "Funny Girl Laying Upside-Down on Bed", label: "Funny Girl Laying Upside-Down on Bed 🙃🛏️", desc: "Cozy bedroom setting. A funny little girl lying backwards on the bed in a silly pose—her head hanging upside-down over the edge of the mattress, feet resting up on the headboard, talking playfully." },
-      { value: "Boy Laying Lazy on Bed (Head Hanging off Edge)", label: "Boy Laying Lazy on Bed (Head Off Edge) 😴🛏️", desc: "Cute little boy sprawling lazily on a cozy bed with one arm over his forehead and head dangling upside-down over the bed edge while talking." },
-      { value: "Toddler Boy & Girl Playing on Bed", label: "Toddler Boy & Girl Bouncing on Bed 🧸🛏️", desc: "Two adorable toddlers (boy and girl) sitting and bouncing happily on a soft bedroom mattress with colorful pillows." },
+      { value: "Couple Laying on Bed (Miya Biwi Bed Chat)", label: "Couple Laying on Bed (Miya Biwi Bed Chat) 🛏️❤️", desc: "Cozy master bedroom with soft pillows. A cute animated couple (Husband & Wife) resting side-by-side on a plush king-size bed chatting or relaxing." },
+      { value: "Funny Girl Laying Upside-Down on Couch", label: "Funny Girl Laying Upside-Down on Couch 🙃🛋️", desc: "Cozy bright living room setting. A funny 3D animated girl resting playfully upside-down on a plush sofa cushion—her head hanging off the edge while talking cheerfully." },
+      { value: "Boy Laying Lazy on Sofa (Head Hanging off Edge)", label: "Boy Laying Lazy on Sofa (Head Off Edge) 😴🛋️", desc: "Cute little 3D animated boy sprawling lazily on a cozy living room couch with one arm over his forehead and head dangling upside-down over the sofa edge while talking." },
+      { value: "Toddler Boy & Girl Playing on Playmat", label: "Toddler Boy & Girl Bouncing on Playmat 🧸🛋️", desc: "Two adorable 3D animated toddlers (boy and girl) sitting and bouncing happily on a soft playmat with colorful pillows." },
     ],
   },
   {
@@ -5246,7 +5246,13 @@ function getPresetCharacterLabels(presetTitle: string): string {
 
 function cleanPromptText(text: string): string {
   if (!text) return "";
-  return text.replace(/\[FORMAT:[^\]]+\]\s*/gi, "").trim();
+  return text
+    .replace(/\[FORMAT:[^\]]+\]\s*/gi, "")
+    .replace(/skin\s*shaders/gi, "cartoon material shaders")
+    .replace(/toddler,\s*age\s*\d+(?:-\d+)?\s*years/gi, "3D animated cartoon character")
+    .replace(/lying\s*playfully\s*upside-down\s*on\s*a\s*cozy\s*bedroom\s*bed/gi, "resting playfully upside-down on a cozy plush sofa cushion")
+    .replace(/upside-down\s*on\s*a\s*cozy\s*bedroom\s*bed/gi, "upside-down on a cozy plush sofa cushion")
+    .trim();
 }
 
 function getIdeaDialogue(idea: SavedIdea): string {
@@ -8837,7 +8843,7 @@ export default function IdeasPage() {
                       { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
                       { label: "🎤 Stand-Up Comedy", setup: "Stand-Up Comedian (Boy/Girl/Adult on Stage)", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus" },
                       { label: "🛏️ Couple Bed Chat", setup: "Husband & Wife (Miya Biwi)", age: "Adult (20s-40s)", location: "Couple Laying on Bed (Miya Biwi Bed Chat)", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
-                      { label: "🙃 Upside-Down Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Funny Girl Laying Upside-Down on Bed", vibe: "Silly Kid / Funny", cameraShot: "Speaker Focus" },
+                      { label: "🙃 Upside-Down Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Funny Girl Laying Upside-Down on Couch", vibe: "Silly Kid / Funny", cameraShot: "Speaker Focus" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
                     ].map((badge) => (
                       <button
