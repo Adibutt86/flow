@@ -9090,7 +9090,7 @@ export default function IdeasPage() {
                       ) : (
                         <Sparkles className="w-3.5 h-3.5 text-white" />
                       )}
-                      {isSuggestingDialogue ? "Fixing Script..." : "✨ Fix Urdu & Punjabi Script"}
+                      {isSuggestingDialogue ? "Fixing Script..." : "✨ Urdu Fixer"}
                     </button>
                   </div>
                 </div>

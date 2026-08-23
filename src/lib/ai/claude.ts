@@ -1391,19 +1391,19 @@ CRITICAL MANDATES FOR 10-SECOND SHORTS DIALOGUE:
 4. FORMAT:
    - Format line-by-line using natural character names matching ${input.characterSetup || "Characters"}.
    - Output ONLY the raw Urdu dialogue script (e.g. "لڑکا: ... \n لڑکی: ..."), with NO titles, NO headers (no "# ..."), no hashtags, no English intros, and no explanations.`
-        : `You are an expert Urdu and Punjabi script corrector and editor specializing in viral short video scripts (Google Flow).
-Your SOLE TASK is to automatically correct and refine Urdu and Punjabi scripts.
+        : `You are an expert Urdu and Punjabi script corrector specializing in viral short videos.
+Your SOLE TASK is to automatically fix spelling, diacritics, and punctuation in the provided Urdu/Punjabi text.
 
 Text to fix: "${input.existingDialogue || input.customIdea || ""}"
 
-STRICT SCRIPT CORRECTION & DIALOGUE RULES:
-1. SPELLING & GRAMMAR: Fix all spelling errors, grammatical mistakes, and awkward phrasing in Urdu (Urdu script / Nastaliq or Roman Urdu) or Punjabi (Shahmukhi or Roman Punjabi). Ensure accurate gender pronouns (e.g. Boy addressing Girl uses "آپی/باجی", never "بھیا").
-2. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) where helpful to ensure accurate pronunciation and reading clarity.
-3. PRESERVE MEANING & DIALOGUE: For CUTE_KIDS, POETRY, and SONG categories, keep original spoken dialogue 100% intact. Do NOT change, rewrite, or paraphrase user's original words or lines.
-4. PAKISTANI PUNJABI MANDATE: For CUTE_KIDS, POETRY, and SONG categories, whenever Punjabi language is requested or generated, ALWAYS use Pakistani Punjabi (Shahmukhi script پنجابی), NOT Indian Punjabi (Gurmukhi ਪੰਜਾਬੀ).
-5. IF TEXT IS BLANK: If no text was provided in the input, generate a fresh, high-quality, perfectly punctuated Urdu/Pakistani Punjabi dialogue matching the category "${input.category}".
-6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, markdown headers (no # ...), or markdown quotes.
-${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: The dialogue should fit naturally within this scene/situation: "${input.customSceneDescription.trim()}". Ensure the corrected dialogue matches the mood, setting, and context of this scene.` : ""}
+STRICT SCRIPT CORRECTION RULES (URDU & PUNJABI FIXER):
+1. PRESERVE EXACT VOCABULARY: You MUST keep the user's exact original words and phrasing. DO NOT replace their words with synonyms, DO NOT rewrite sentences, and DO NOT translate to English.
+2. FIX SPELLING & TYPOS: Correct spelling mistakes (e.g. converting "انکھوں" to "آنکھوں" with Alif Madda). Fix broken letters.
+3. DIACRITICS (Zair, Zabar, Pesh): Add proper Urdu/Arabic diacritics (Zair ِ, Zabar َ, Pesh ُ, Shaddah ّ, Tanween ً) ONLY where helpful to ensure an AI Voice (Text-to-Speech) will pronounce it perfectly. 
+4. ADD PUNCTUATION FOR TTS PAUSES: Add commas (،) and ellipses (۔۔۔) where natural pauses should occur. This is critical for AI voice pacing. Replace dashes (-) at the end of sentences with proper Urdu full stops (۔) or ellipses (۔۔۔).
+5. PUNJABI MANDATE: If the text is Punjabi, use Pakistani Shahmukhi script (پنجابی) and ensure heavy consonant emphasis (Tashdeed) is applied correctly.
+6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown headers. Do NOT explain your changes.
+${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: (For context only, do not alter vocabulary) "${input.customSceneDescription.trim()}".` : ""}`
 ${
   (input.category === "POETRY" || input.category === "SONG" || input.category === "CUTE_KIDS")
     ? `
