@@ -1005,7 +1005,8 @@ STRICT DIALOGUE-LOCK RULES:
 6. Do NOT infer, reorder, merge, or redistribute dialogue based on scene, camera angle, or context.
 7. If camera cuts or shifts between characters, dialogue assignment remains strictly unchanged.
 8. Output exact dialogue text 100% verbatim without changing or duplicating it.
-9. Validate before generating that every line is assigned to its correct character exactly once in order.\n`
+9. Validate before generating that every line is assigned to its correct character exactly once in order.
+10. STRICT LIP-SYNC ISOLATION & SILENT LISTENER MANDATE: During each dialogue line, ONLY the designated speaking character moves their mouth and lips in lip-sync. The listening character MUST keep their mouth completely closed and silent with zero lip movement, reacting only through facial expression or eyes. NEVER render both characters moving their lips simultaneously!\n`
       : "";
 
     const speedInstruction = input.kidsTalkingSpeed && input.kidsTalkingSpeed !== "Any / AI Decides"
@@ -1096,6 +1097,7 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
    - RULE 8: Preserve exact dialogue text 100% verbatim from user input without adding extra words or modifying native script.
    - RULE 9: Perform a mandatory dialogue validation check before output: verify that every line in sequence matches its designated speaker.
    - RULE 10: Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابو:", "بیٹا:" indicate WHO speaks. Extract speaker for isolation, but keep "dialogue" field strictly matching verbatim speech text.
+   - RULE 11: STRICT LIP-SYNC ISOLATION & SILENT LISTENER MANDATE: During each dialogue line, ONLY the designated speaking character moves their mouth/lips in lip-sync. The listening character MUST keep their mouth completely closed and silent with zero lip movement, reacting only through facial expression or eyes. NEVER render both characters moving their lips simultaneously! In visual video prompts, explicitly tag mouth state: "[Speaker: mouth moving speaking assigned dialogue] [Listener: mouth closed, silent, listening attentively, NO lip-sync movement]".
    - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (پنجابی).
    - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
    - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.

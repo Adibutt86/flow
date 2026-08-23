@@ -440,9 +440,10 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
 8. Output exact dialogue text 100% verbatim from user input without adding extra words or modifying native script.
 9. Perform a mandatory dialogue validation check before output: confirm every line is assigned to its correct character exactly once.
 10. Do not alter character prefixes or dialogue order. Output ALL lines in EXACT user script order.
+11. STRICT LIP-SYNC ISOLATION & SILENT LISTENER MANDATE: During each dialogue line, ONLY the designated speaking character moves their mouth and lips in lip-sync. The listening character MUST keep their mouth completely closed and silent with zero lip movement, reacting only through facial expression or eyes. NEVER render both characters moving their lips simultaneously!
 5. VISUAL SCENE DIALOGUE MATCHING & EMOTION MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST accurately depict the action of each dialogue line matching its respective speaker!
-   - HOOK (0-3s): Must depict Line 1 speaker delivering Line 1 dialogue to listener.
-   - ESCALATION (3-7s): Must depict Line 2 speaker responding with Line 2 dialogue.
+   - HOOK (0-3s): Must depict Line 1 speaker delivering Line 1 dialogue to listener (speaker mouth moving in lip-sync, listener mouth closed silent).
+   - ESCALATION (3-7s): Must depict Line 2 speaker responding with Line 2 dialogue (speaker mouth moving in lip-sync, listener mouth closed silent).
    - PUNCHLINE (7-10s): Must depict Line 3 speaker delivering the punchline dialogue.
    - EMOTION OVERRIDE: The emotional tone of the user's custom dialogue ALWAYS OVERRIDES any preset vibe or default background music vibe!
    - If the user's script is ANGRY or UPSET (e.g. "ناراض ہوں", "کٹی ہوں", "angry", "katti", "100 saal", "نہیں کھانا", "ناراض"): The character MUST be rendered with an angry pouting face, crossed arms, dramatic upset glare, foot stomp, or pouting cheeks in HOOK, ESCALATION, and PUNCHLINE! NEVER describe a smiling, laughing, excited, joyful, or giggling scene!
@@ -450,7 +451,8 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
    - If Father asks for a TV remote and Son says it is in his hand, the visual prompt MUST describe Father searching the sofa for the remote and Son pointing at Father's own hand holding the remote.
 6. NO UNRELATED PROPS OR RANDOM ACTION: Do NOT introduce random, unrelated props (such as lemon slices, pet cat toys, water buckets, or random food) unless explicitly mentioned in the user's custom dialogue!
 7. EXACT LINE COUNT LOCK: Output ONLY the exact number of dialogue lines provided by the user. If the user provided 2 lines, output EXACTLY 2 lines of dialogue! Never add extra lines 3 or 4!
-8. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.`;
+8. The visual scene paragraph must explicitly mention that characters are spatially locked left/right throughout the entire clip to prevent character confusion.
+9. LIP-SYNC ISOLATION VISUAL TAG: In visual prompt descriptions, explicitly tag mouth states: "[Speaker: mouth moving naturally speaking assigned dialogue] [Listener: mouth closed, silent, listening attentively, NO lip-sync movement]".`;
         } else {
           return `🔴 CRITICAL MANDATE FOR USER CUSTOM DIALOGUE:
 The user typed/pasted EXACT custom spoken dialogue in Urdu/native script:
