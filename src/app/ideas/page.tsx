@@ -7454,6 +7454,23 @@ export default function IdeasPage() {
   // Copied state tracking
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Editable Saved Idea Card Text state
+  const [editingIdeaId, setEditingIdeaId] = useState<string | null>(null);
+  const [editingIdeaText, setEditingIdeaText] = useState<string>("");
+
+  const handleSaveEditedIdea = (id: string) => {
+    if (!editingIdeaText.trim()) {
+      showToast("Cannot save empty idea text", "error");
+      return;
+    }
+    setSavedIdeas((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, text: editingIdeaText.trim() } : item))
+    );
+    setEditingIdeaId(null);
+    setEditingIdeaText("");
+    showToast("✏️ Saved changes! All copy buttons now use updated text.", "success", 2500);
+  };
+
   // Editable Filename state
   const [editingFileNameId, setEditingFileNameId] = useState<string | null>(null);
   const [editingFileNameText, setEditingFileNameText] = useState("");
@@ -11884,6 +11901,29 @@ export default function IdeasPage() {
                         <span>Remake</span>
                       </button>
 
+                      <button
+                        onClick={() => {
+                          if (editingIdeaId === idea.id) {
+                            setEditingIdeaId(null);
+                            setEditingIdeaText("");
+                          } else {
+                            setEditingIdeaId(idea.id);
+                            setEditingIdeaText(idea.text);
+                          }
+                        }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                          editingIdeaId === idea.id
+                            ? "bg-amber-500 text-black border-amber-400 font-bold"
+                            : isLight
+                            ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200"
+                            : "bg-amber-950/60 border-amber-600/50 text-amber-300 hover:text-white"
+                        }`}
+                        title="Edit text of this saved idea card"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-amber-500" />
+                        <span>{editingIdeaId === idea.id ? "Cancel Edit" : "Edit Text"}</span>
+                      </button>
+
                       <div className="ml-auto flex items-center gap-1.5">
                         <button
                           onClick={() => handleToggleFavorite(idea.id)}
@@ -11954,28 +11994,70 @@ export default function IdeasPage() {
 
                     {/* Full Width Prompt Area */}
                     <div className="w-full space-y-3">
-                      <div className={`w-full p-3.5 sm:p-4 rounded-xl border text-xs sm:text-sm leading-relaxed font-sans select-text max-h-48 overflow-y-auto whitespace-pre-wrap space-y-1 transition-all ${
-                        isLight
-                          ? "bg-white border-slate-300 text-slate-900 shadow-sm"
-                          : "bg-black/30 border-slate-800/80 text-slate-100"
-                      }`}>
-                        {cleanPromptText(idea.text).split("\n").map((line, idx) => {
-                          const isUrduLine = /[\u0600-\u06FF]/.test(line);
-                          return (
-                            <div
-                              key={`line-${idx}-${line.slice(0, 8)}`}
-                              dir={isUrduLine ? "rtl" : "ltr"}
-                              className={
-                                isUrduLine
-                                  ? (isLight ? "text-right font-black text-amber-950 py-0.5 tracking-wide" : "text-right font-medium text-amber-200 py-0.5 tracking-wide")
-                                  : (isLight ? "text-left text-slate-900 font-bold" : "text-left text-slate-200")
-                              }
+                      {editingIdeaId === idea.id ? (
+                        <div className="space-y-2 p-3 rounded-xl border border-amber-500/50 bg-amber-950/20">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                              <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+                              <span>Edit Saved Idea Text & Dialogue</span>
+                            </span>
+                            <span className="text-[10px] text-slate-400 font-medium">Edits save to cache & update all copy actions</span>
+                          </div>
+                          <textarea
+                            value={editingIdeaText}
+                            onChange={(e) => setEditingIdeaText(e.target.value)}
+                            rows={8}
+                            className={`w-full p-3 rounded-lg border text-xs font-mono focus:outline-none focus:border-amber-500 transition-all ${
+                              isLight ? "bg-white border-amber-300 text-slate-900 shadow-inner" : "bg-black/80 border-amber-500/40 text-amber-100 font-medium"
+                            }`}
+                          />
+                          <div className="flex items-center gap-2 justify-end">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingIdeaId(null);
+                                setEditingIdeaText("");
+                              }}
+                              className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                                isLight ? "bg-slate-200 text-slate-800 border-slate-300 hover:bg-slate-300" : "bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700"
+                              }`}
                             >
-                              {line}
-                            </div>
-                          );
-                        })}
-                      </div>
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleSaveEditedIdea(idea.id)}
+                              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 border border-emerald-400 text-xs font-black text-white transition-all cursor-pointer shadow-sm active:scale-95"
+                            >
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Save Changes</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={`w-full p-3.5 sm:p-4 rounded-xl border text-xs sm:text-sm leading-relaxed font-sans select-text max-h-48 overflow-y-auto whitespace-pre-wrap space-y-1 transition-all ${
+                          isLight
+                            ? "bg-white border-slate-300 text-slate-900 shadow-sm"
+                            : "bg-black/30 border-slate-800/80 text-slate-100"
+                        }`}>
+                          {cleanPromptText(idea.text).split("\n").map((line, idx) => {
+                            const isUrduLine = /[\u0600-\u06FF]/.test(line);
+                            return (
+                              <div
+                                key={`line-${idx}-${line.slice(0, 8)}`}
+                                dir={isUrduLine ? "rtl" : "ltr"}
+                                className={
+                                  isUrduLine
+                                    ? (isLight ? "text-right font-black text-amber-950 py-0.5 tracking-wide" : "text-right font-medium text-amber-200 py-0.5 tracking-wide")
+                                    : (isLight ? "text-left text-slate-900 font-bold" : "text-left text-slate-200")
+                                }
+                              >
+                                {line}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                       
                       {/* Badges & Filename Toolbar */}
                       <div className="flex items-center justify-between gap-2 flex-wrap pt-1 w-full">
