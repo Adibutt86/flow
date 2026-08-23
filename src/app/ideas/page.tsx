@@ -3186,6 +3186,15 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "🛏️ Bedroom Poses & Bed Setups",
+    options: [
+      { value: "Couple Laying on Bed (Miya Biwi Bed Chat)", label: "Couple Laying on Bed (Miya Biwi Bed Chat) 🛏️❤️", desc: "Cozy master bedroom bed with soft pillows. A cute animated couple (Husband & Wife) lying side-by-side on a plush king-size bed chatting or relaxing." },
+      { value: "Funny Girl Laying Upside-Down on Bed", label: "Funny Girl Laying Upside-Down on Bed 🙃🛏️", desc: "Cozy bedroom setting. A funny little girl lying backwards on the bed in a silly pose—her head hanging upside-down over the edge of the mattress, feet resting up on the headboard, talking playfully." },
+      { value: "Boy Laying Lazy on Bed (Head Hanging off Edge)", label: "Boy Laying Lazy on Bed (Head Off Edge) 😴🛏️", desc: "Cute little boy sprawling lazily on a cozy bed with one arm over his forehead and head dangling upside-down over the bed edge while talking." },
+      { value: "Toddler Boy & Girl Playing on Bed", label: "Toddler Boy & Girl Bouncing on Bed 🧸🛏️", desc: "Two adorable toddlers (boy and girl) sitting and bouncing happily on a soft bedroom mattress with colorful pillows." },
+    ],
+  },
+  {
     category: "Indoor & Home Settings",
     options: [
       { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },
@@ -3579,6 +3588,14 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Talking Parrot & Boy", label: "Talking Parrot & Boy 🦜👦", desc: "A little boy talking and mimicking words with a vibrant talking pet parrot.", tag: "🦜 Pets" },
       { value: "Talking Parrot & Female Parrot", label: "Talking Parrot & Female Parrot 🦜🌸", desc: "A funny interaction between a male talking parrot and a pretty female parrot.", tag: "🦜 Pets" },
     ]
+  },
+  {
+    category: "👶 Toddlers & Baby Characters (Boy & Girl)",
+    options: [
+      { value: "Cute Toddler Boy (2-3 yrs, Chubby Cheeks & Big Eyes)", label: "Cute Toddler Boy (2-3 yrs) 👦👶", desc: "Adorable 3D Pixar-style 2-3 year old boy with soft chubby cheeks, big glossy expressive eyes, wobbly toddler stance, striped tee and shorts.", tag: "👦 Toddler" },
+      { value: "Cute Toddler Girl (2-3 yrs, Pigtails & Bow)", label: "Cute Toddler Girl (2-3 yrs) 👧👶", desc: "Adorable 3D Pixar-style 2-3 year old girl with cute pigtails, hair bow, big glossy eyes, wearing a sweet pastel frock.", tag: "👧 Toddler" },
+      { value: "Toddler Boy & Toddler Girl Playdate (2-3 yrs)", label: "Toddler Boy & Girl Playdate (2-3 yrs) 👶👫", desc: "Two cute 3D animated toddlers (boy and girl) sitting together playing with colorful blocks or soft plush toys.", tag: "🧸 Toddler Duo" },
+    ],
   },
   {
     category: "Girl Characters",
@@ -8794,6 +8811,8 @@ export default function IdeasPage() {
                       { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
                       { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
                       { label: "🎤 Stand-Up Comedy", setup: "Stand-Up Comedian (Boy/Girl/Adult on Stage)", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus" },
+                      { label: "🛏️ Couple Bed Chat", setup: "Husband & Wife (Miya Biwi)", age: "Adult (20s-40s)", location: "Couple Laying on Bed (Miya Biwi Bed Chat)", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
+                      { label: "🙃 Upside-Down Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Funny Girl Laying Upside-Down on Bed", vibe: "Silly Kid / Funny", cameraShot: "Speaker Focus" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
                     ].map((badge) => (
                       <button
