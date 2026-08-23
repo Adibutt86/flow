@@ -923,6 +923,15 @@ const CUTE_KIDS_PRESET_GROUPS = [
       { icon: "🛍️", title: "Toy Shopping (With Dialogue)", customDialogue: "Papa! Mujhe yeh wala doll chahiye!", age: "Child (5-8 yrs)", location: "Toy Store Aisle", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Shopping Outfit", prop: "Plush Teddy Bear 🧸" },
       { icon: "😤", title: "Angry Toddler Girl", customDialogue: "Mujhse baat mat karo... main tumse 100 saal tak katti hoon! 😤", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Oversized Hoodie & Pouting Face", prop: "Folded Arms & Pouting Cheeks 😤" },
       { icon: "🍫", title: "Angry Girl Candy Tantrum", customDialogue: "Mera chocolate kisne khaya? Sach batao! 🍫😤", age: "Toddler (2-4 yrs)", location: "Kitchen Counter", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Polka Dot Dress", prop: "Empty Candy Wrapper 🍫" },
+      { icon: "🌙", title: "Bedtime Prayer Girl", customDialogue: "Allah miyan, sabko khush rakhna... aur mujhe bhi chocolate dena! 🌙", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom Prayer Mat", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Pink Shalwar Kameez", prop: "Prayer Mat & Tasbeeh 🌙" },
+      { icon: "🎀", title: "Birthday Wish Girl", customDialogue: "Aaj mera birthday hai... sabse pehle gift kahan hai? 🎁😄", age: "Child (5-8 yrs)", location: "Decorated Birthday Party Room", health: "Healthy", vibe: "Excited", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Velvet Party Dress", prop: "Birthday Cake 🎂" },
+      { icon: "🍰", title: "Cake Thief Confession", customDialogue: "Main ne cake nahi khaya... theek hai, thora sa! 🍰😇", age: "Toddler (2-4 yrs)", location: "Kitchen Counter", health: "Healthy", vibe: "Innocent Mischief & Giggle 😇🤭", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Floral Dress & Sandals", prop: "Cake Slice & Guilty Smile 🍰" },
+      { icon: "🤗", title: "Mama's Little Helper", customDialogue: "Amma! Main bhi kaam karungi! Seedha watch karo mujhe! 🤗", age: "Toddler (2-4 yrs)", location: "Modern Kitchen", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Pink Shalwar Kameez", prop: "Toy Broom & Apron 🧹" },
+      { icon: "💤", title: "Sleepy Protest Girl", customDialogue: "Main bilkul neendh nahi aa rahi... *yawn* bilkul nahi! 😴", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom with Pillow", health: "Healthy", vibe: "Sleepy & Cozy", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Cozy Pajamas / Sleepwear", prop: "Fluffy Pillow & Blanket 💤" },
+      { icon: "🐣", title: "Chick Whisperer", customDialogue: "Yeh chota sa chooze mera friend hai, usse mat churao! 🐣", age: "Toddler (2-4 yrs)", location: "Green Farmyard", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Floral Dress & Sandals", prop: "Baby Chick in Hands 🐣" },
+      { icon: "🎒", title: "First Day School Protest", customDialogue: "Main school nahi jaungi... kyunke yahan mujhse bhi cute koi nahi! 🎒😂", age: "Child (5-8 yrs)", location: "School Gate Entrance", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Desi School Uniform (Pinafore)", prop: "School Bag & Water Bottle 🎒" },
+      { icon: "🦋", title: "Garden Butterfly Princess", customDialogue: "Yeh butterfly meri dost hai! Usne mujhe hi choose kiya! 🦋", age: "Toddler (2-4 yrs)", location: "Sunlit Flower Garden", health: "Healthy", vibe: "Girl Magical & Dreamy ✨", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Smocked Floral Sundress", prop: "Butterfly Net & Flowers 🦋" },
+      { icon: "👸", title: "Mirror Mirror Princess", customDialogue: "Mirror mirror on the wall... main hi sabse cute hoon, yeh batao sab ko! 👸", age: "Child (5-8 yrs)", location: "Princess Bedroom Vanity Mirror", health: "Healthy", vibe: "Girl Confident & Glam 💅", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Princess Castle Gown", prop: "Vanity Mirror & Crown 👑" },
     ]
   },
   {
@@ -945,6 +954,12 @@ const CUTE_KIDS_PRESET_GROUPS = [
       { icon: "😃", title: "Bubble Giggles (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Grassy Park Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Playtime Dungarees", prop: "Floating Soap Bubbles 🫧" },
       { icon: "😲", title: "Wide-Eyed Surprise (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom Desk", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pajama Set", prop: "Surprise Gift Box 🎁" },
       { icon: "🚶‍♀️", title: "Happy Garden Walk (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Blooming Garden Pathway", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Pastel Spring Dress", prop: "Straw Sunhat 👒" },
+      { icon: "🎨", title: "Painting on Canvas (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Art Studio Canvas Easel", health: "Healthy", vibe: "Girl Focused & Creative 🎨", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Paint Splattered Apron & Beret", prop: "Paintbrush & Palette 🎨" },
+      { icon: "🌧️", title: "Rainy Window Watching (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Cozy Window Seat on Rainy Day", health: "Healthy", vibe: "Lonely & Reflective (Moody) 🌧️🪟", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Knit Cardigan & Pinafore", prop: "Hot Cocoa Mug & Rain Drops 🌧️" },
+      { icon: "🧁", title: "Decorating Cupcakes (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Bright Kitchen Counter", health: "Healthy", vibe: "Girl Focused & Creative 🎨", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Pink Baker Apron & Chef Hat", prop: "Icing Bag & Colorful Cupcakes 🧁" },
+      { icon: "🩰", title: "Mirror Dance Practice (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Ballet Studio Mirror Wall", health: "Healthy", vibe: "Girl Graceful & Elegant 🩰", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Ballet Tutu & Leotard", prop: "Ballet Barre & Dance Mirror 🩰" },
+      { icon: "🌙", title: "Stargazing on Rooftop (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "House Rooftop Night Sky", health: "Healthy", vibe: "Girl Magical & Dreamy ✨", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Cozy Hoodie & Soft Blanket", prop: "Telescope & Twinkling Stars 🌙" },
+      { icon: "🦢", title: "Graceful Twirl in Garden (No Dialogue)", isSilent: true, customDialogue: "", age: "Child (5-8 yrs)", location: "Blooming Garden Pathway", health: "Healthy", vibe: "Girl Graceful & Elegant 🩰", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Elegant Striped Midi Dress", prop: "Flower Petals in Air 🌸" },
     ]
   },
   {
@@ -3456,6 +3471,19 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Crunchy Food", label: "Crunchy Food", desc: "Satisfying crunching sounds while eating snacks." },
     ],
   },
+  {
+    category: "💕 Girls — Mood & Vibe",
+    options: [
+      { value: "Girl Magical & Dreamy ✨", label: "Magical & Dreamy ✨", desc: "Soft dreamy expression, sparkly eyes, wonder-filled gaze — as if living in a fairy tale world.", tag: "👧 Best for Girls" },
+      { value: "Girl Graceful & Elegant 🩰", label: "Graceful & Elegant 🩰", desc: "Poised, refined, ballet-like movements with a calm and beautiful demeanor.", tag: "👧 Best for Girls" },
+      { value: "Girl Confident & Glam 💅", label: "Confident & Glam 💅", desc: "Bold, stylish, head-held-high attitude with a playful confident smile and a fashionable presence.", tag: "👧 Best for Girls" },
+      { value: "Girl Focused & Creative 🎨", label: "Focused & Creative 🎨", desc: "Deep in concentration, tongue slightly out, totally absorbed in painting, crafting, or creating something.", tag: "👧 Best for Girls" },
+      { value: "Girl Nurturing & Caring 🤗", label: "Nurturing & Caring 🤗", desc: "Gentle, loving, caring attitude — hugging toys, helping others, or tending to plants and animals.", tag: "👧 Best for Girls" },
+      { value: "Girl Giggly & Bubbly 🫧", label: "Giggly & Bubbly 🫧", desc: "Unstoppable giggles, rosy cheeks, irresistible smile — pure infectious joy and happy energy.", tag: "👧 Best for Girls" },
+      { value: "Girl Bold & Brave 🦁", label: "Bold & Brave 🦁", desc: "Fearless, determined, hands on hips — a tiny superhero ready to take on the world.", tag: "👧 Best for Girls" },
+      { value: "Girl Sweet & Tender 🌸", label: "Sweet & Tender 🌸", desc: "Soft, gentle, warm-hearted expression with delicate movements and a kind, loving smile.", tag: "👧 Best for Girls" },
+    ],
+  },
 ];
 
 export interface AnimalCompanionDef {
@@ -4092,6 +4120,12 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
       { value: "Girl — Sporty Tracksuit", label: "Sporty Tracksuit", desc: "Athletic tracksuit in bright colors with sporty sneakers." },
       { value: "Girl — Winter Sweater & Boots", label: "Winter Sweater & Boots", desc: "Fluffy chunky sweater, warm leggings, and ankle boots." },
       { value: "Girl — Denim Jacket & Skirt", label: "Denim Jacket & Skirt", desc: "Cool denim jacket over a floral skirt." },
+      { value: "Girl — Cute Hoodie & Shorts", label: "Cute Hoodie & Shorts 🌸", desc: "Oversized pastel hoodie with matching shorts and cute sneakers — perfect cozy-casual look." },
+      { value: "Girl — Rainbow Puffer Jacket & Jeans", label: "Rainbow Puffer Jacket & Jeans 🌈", desc: "Colorful puffy jacket with straight jeans and ankle boots for a playful winter style." },
+      { value: "Girl — Smocked Floral Sundress", label: "Smocked Floral Sundress 🌼", desc: "Vintage-style smocked bodice sundress with puff sleeves and a floral print." },
+      { value: "Girl — Knit Cardigan & Pinafore", label: "Knit Cardigan & Pinafore 🎀", desc: "Soft knit cardigan layered over a plaid pinafore dress with white collar shirt." },
+      { value: "Girl — Velvet Party Dress", label: "Velvet Party Dress 💜", desc: "Rich velvet party dress with lace collar, bow sash, and shiny Mary Jane shoes." },
+      { value: "Girl — Elegant Striped Midi Dress", label: "Elegant Striped Midi Dress 🌸", desc: "Soft pastel striped midi dress with puff sleeves and classic Mary Jane flats." },
     ]
   },
   {
@@ -4109,6 +4143,11 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
       { value: "Girl — Desi School Uniform (Pinafore)", label: "Desi School Uniform (Pinafore)", desc: "Neat white shirt with dark pinafore dress and white socks." },
       { value: "Girl — Princess Gown (Desi Style)", label: "Princess Gown (Desi Style)", desc: "Glittery Cinderella-style princess gown with tiara and heels." },
       { value: "Girl — Ghagra Choli", label: "Ghagra Choli (Indian Folk)", desc: "Colorful traditional Ghagra Choli with lehenga and dupatta." },
+      { value: "Girl — Orange/Peach Shalwar Kameez", label: "Orange / Peach Shalwar Kameez 🍊", desc: "Warm orange or peach traditional kameez with embroidered border and dupatta." },
+      { value: "Girl — Purple Shalwar Kameez", label: "Purple Shalwar Kameez (بنفشی) 💜", desc: "Rich purple traditional kameez with golden gota border and dupatta." },
+      { value: "Girl — Bridal Lehenga (Flower Girl)", label: "Bridal Lehenga / Flower Girl 🌹", desc: "Mini bridal lehenga in red & gold — perfect for shaadi or walima flower girl scenes." },
+      { value: "Girl — Sharara Suit", label: "Sharara Suit (شرارہ) ✨", desc: "Traditional festive sharara suit with embroidered kameez and dupatta." },
+      { value: "Girl — Anarkali Frock / Peshwas", label: "Anarkali / Peshwas Frock 🌺", desc: "Flowing floor-length Anarkali frock with churidar — elegant festive look." },
     ]
   },
   {
@@ -4120,6 +4159,11 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
       { value: "Girl — Ballet Tutu & Leotard", label: "Ballet Tutu & Leotard", desc: "Classic pink ballet tutu with matching leotard and ballet flats." },
       { value: "Girl — Doctor Coat & Stethoscope", label: "Tiny Doctor Coat", desc: "Mini white doctor coat with stethoscope toy." },
       { value: "Girl — Chef Apron & Hat", label: "Chef Apron & Hat", desc: "Miniature chef apron and tall white chef hat." },
+      { value: "Girl — Mermaid Costume", label: "Mermaid Costume 🧜‍♀️", desc: "Shimmery green & blue mermaid tail dress with sparkly seashell accessories." },
+      { value: "Girl — Princess Castle Gown", label: "Princess Castle Gown 👸", desc: "Full sparkly ball gown in pastel pink/blue with tiara, gloves, and glass slippers." },
+      { value: "Girl — Witch Hat & Sparkle Cape", label: "Witch Hat & Sparkle Cape 🧙‍♀️", desc: "Cute pointed witch hat with a glittery purple cape and star wand — playful not scary." },
+      { value: "Girl — Nurse Apron & Cap", label: "Tiny Nurse Apron & Cap 💉", desc: "Cute white nurse uniform with red cross apron, nurse cap, and toy kit bag." },
+      { value: "Girl — Butterfly Wings & Dress", label: "Butterfly Wings & Matching Dress 🦋", desc: "Delicate iridescent butterfly wing costume with a matching pastel tulle dress." },
     ]
   },
   {
