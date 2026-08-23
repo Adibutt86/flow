@@ -1494,8 +1494,8 @@ export async function generateSocialContentWithClaude(input: {
     ...CLAUDE_MODELS,
   ]));
 
-  const prompt = `You are a world-class viral social media strategist for YouTube Shorts, Facebook Reels, TikTok, and Instagram Reels.
-Generate platform-optimized, professional ENGLISH social media content (titles, description, and hashtags) for the following video concept.
+  const prompt = `You are a world-class viral social media strategist for YouTube Shorts, Facebook Reels, TikTok, and Instagram Reels targeting the Pakistani and Indian audience.
+Generate platform-optimized, professional ROMAN URDU / HINGLISH social media content (titles, description, and hashtags) for the following video concept.
 
 Video Concept:
 "${input.ideaText}"
@@ -1504,25 +1504,25 @@ Category: ${input.category}
 Original Dialogue/Script Language: ${input.language}
 Visual Style: ${input.visualStyle || "Standard 3D"}
 
-CRITICAL ENGLISH-ONLY SOCIAL MEDIA MANDATE:
-1. ALL TITLES, DESCRIPTIONS, AND HASHTAGS MUST BE 100% IN HIGHLY ENGAGING, PROFESSIONAL ENGLISH regardless of the video's spoken language (Urdu, Punjabi, Hindi, etc.).
-2. DO NOT translate the video's original dialogue word-for-word into English; instead, analyze the core story/humor/action and write engaging, viral English copy.
-3. "title": Highly engaging, universal main English title (clean, short, catchy, no call-to-actions).
-4. "shortsTitle": Catchy, emoji-rich YouTube Shorts English title with high-curiosity hook (e.g. "Wait for the ending! 😱🔥 #Shorts").
-5. "reelsTitle": Engaging, viral English Facebook Reels title (e.g. "Toddler's sneaky plan caught on camera! 🤣👇").
-6. "tiktokTitle": Energetic, relatable TikTok & Instagram Reels English title (e.g. "When your toddler takes over the house... 😭💀").
-7. "description": SEO-friendly, short 2-line English video caption/description explaining the fun scenario.
-8. "hashtags": EXACTLY 4 to 5 core English hashtags (e.g. "#FunnyKids #3DAnimation #Shorts #Viral #DesiComedy").
-9. "trendingTags": 6 to 8 trending viral hashtags in English (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyShorts #Relatable #ViralVideo").
+CRITICAL ROMAN URDU SOCIAL MEDIA MANDATE:
+1. ALL TITLES AND DESCRIPTIONS MUST BE 100% IN HIGHLY ENGAGING ROMAN URDU / HINGLISH (e.g., "Jab bache ki farmaish khatam na ho... 😂").
+2. DO NOT output English titles. The target audience is India and Pakistan. The titles must feel natural, funny, and viral in Roman Urdu.
+3. "title": Highly engaging, universal main Roman Urdu title (clean, short, catchy, no call-to-actions).
+4. "shortsTitle": Catchy, emoji-rich YouTube Shorts Roman Urdu title with high-curiosity hook (e.g. "End lazmi dekhna! 😱🔥 #Shorts").
+5. "reelsTitle": Engaging, viral Roman Urdu FB Reels title (e.g. "Bache ki acting check karo 🤣👇").
+6. "tiktokTitle": Energetic, relatable TikTok & IG Reels Roman Urdu title (e.g. "Desi parents be like... 😭💀").
+7. "description": SEO-friendly, short 2-line Roman Urdu video caption explaining the funny scenario.
+8. "hashtags": EXACTLY 4 to 5 core hashtags combining Roman Urdu and English (e.g. "#DesiKids #BachaParty #Shorts #Viral #DesiComedy").
+9. "trendingTags": 6 to 8 trending viral hashtags (e.g. "#TrendingReels #ForyouPage #ShortsViral #ComedyReels #DesiMemes #ViralVideo").
 10. DO NOT include any "Like & Share" or "Subscribe" CTAs in any title.
 
 OUTPUT MUST BE VALID JSON ONLY with this exact structure:
 {
-  "title": "Universal Main Video Title",
+  "title": "Universal Main Video Title in Roman Urdu",
   "shortsTitle": "🔴 YouTube Shorts: Title Here 😱🔥",
   "reelsTitle": "📘 FB Reels: Title Here 🤣😭",
   "tiktokTitle": "🎵 TikTok / IG: Title Here 💀✨",
-  "description": "Short engaging video description...",
+  "description": "Short engaging Roman Urdu video description...",
   "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5",
   "trendingTags": "#TrendingReels #ForyouPage #Shorts #ViralVideo #DesiHumor #ComedyReels"
 }`;
