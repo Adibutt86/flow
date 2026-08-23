@@ -506,6 +506,8 @@ ${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING
 ${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsLocation ? `Scene Location: ${input.kidsLocation}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsHealth ? `Kids Health: ${input.kidsHealth}` : ""}
 ${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsClothing ? `Clothing/Outfit Style: ${input.kidsClothing}` : ""}
+${input.kidsClothingBoy && input.kidsClothingBoy !== "Any / AI Decides" ? `Locked Boy Clothing: ${input.kidsClothingBoy} (BOY OUTFIT MANDATE: The Boy character MUST be rendered wearing ${input.kidsClothingBoy} throughout all scenes).` : ""}
+${input.kidsClothingGirl && input.kidsClothingGirl !== "Any / AI Decides" ? `Locked Girl Clothing: ${input.kidsClothingGirl} (GIRL OUTFIT MANDATE: The Girl character MUST be rendered wearing ${input.kidsClothingGirl} throughout all scenes).` : ""}
 ${input.fatherClothing && input.fatherClothing !== "AI Decides" ? `Locked Father Clothing: ${input.fatherClothing} (FATHER OUTFIT MANDATE: Father MUST be rendered wearing ${input.fatherClothing} throughout all scenes).` : ""}
 ${input.motherClothing && input.motherClothing !== "AI Decides" ? `Locked Mother Clothing: ${input.motherClothing} (MOTHER OUTFIT MANDATE: Mother MUST be rendered wearing ${input.motherClothing} throughout all scenes).` : ""}
 ${["CUTE_KIDS", "LOCATION_NEWS", "SONG", "POETRY", "SHORT_CLIP", "ANIMAL_DANCING", "FRUIT_DANCING"].includes(input.category) && input.kidsVibe ? `Vibe/Mood: ${input.kidsVibe}` : ""}
@@ -1325,6 +1327,8 @@ export async function generateDialogueSuggestionWithClaude(input: {
   kidsLocation?: string;
   kidsHealth?: string;
   kidsClothing?: string;
+  kidsClothingBoy?: string;
+  kidsClothingGirl?: string;
   kidsExpression?: string;
   kidsFood?: string;
   kidsProp?: string;

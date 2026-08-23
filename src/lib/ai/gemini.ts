@@ -91,6 +91,8 @@ export interface GenerateProjectInput {
   characterSetup?: string;
   customDialogue?: string;
   kidsClothing?: string;
+  kidsClothingBoy?: string;
+  kidsClothingGirl?: string;
   kidsTalkingSpeed?: string;
   kidsAudioStyle?: string;
   customSceneDescription?: string;
@@ -143,6 +145,8 @@ export interface SuggestIdeasInput {
   kidsHealth?: string;
   kidsVibe?: string;
   kidsClothing?: string;
+  kidsClothingBoy?: string;
+  kidsClothingGirl?: string;
   fatherClothing?: string;
   motherClothing?: string;
   kidsExpression?: string;

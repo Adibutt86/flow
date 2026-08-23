@@ -4137,6 +4137,14 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   },
 ];
 
+export const KIDS_CLOTHING_BOY_GROUPS: OptionGroupWithDesc[] = KIDS_CLOTHING_GROUPS.filter(
+  (g) => g.category.includes("Boys") || g.category.includes("Korean")
+);
+
+export const KIDS_CLOTHING_GIRL_GROUPS: OptionGroupWithDesc[] = KIDS_CLOTHING_GROUPS.filter(
+  (g) => g.category.includes("Girls") || g.category.includes("Korean")
+);
+
 // 5.6 KIDS EXPRESSION / REACTION STYLE
 const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
   {
@@ -5964,6 +5972,8 @@ interface IdeasPageSettings {
   kidsHealth?: string;
   kidsVibe?: string;
   kidsClothing?: string;
+  kidsClothingBoy?: string;
+  kidsClothingGirl?: string;
   kidsExpression?: string;
   kidsFood?: string;
   kidsProp?: string;
@@ -6904,6 +6914,8 @@ export default function IdeasPage() {
   const [kidsHealth, setKidsHealth] = useState(initialSettings.kidsHealth || "Any / AI Decides");
   const [kidsVibe, setKidsVibe] = useState(initialSettings.kidsVibe || "Cheerful & Energetic");
   const [kidsClothing, setKidsClothing] = useState(initialSettings.kidsClothing || "Any / AI Decides");
+  const [kidsClothingBoy, setKidsClothingBoy] = useState(initialSettings.kidsClothingBoy || "Any / AI Decides");
+  const [kidsClothingGirl, setKidsClothingGirl] = useState(initialSettings.kidsClothingGirl || "Any / AI Decides");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "Any / AI Decides");
   const [customCharacterSetup, setCustomCharacterSetup] = useState(initialSettings.customCharacterSetup || "");
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
@@ -7424,6 +7436,8 @@ export default function IdeasPage() {
     setKidsFood("Any / AI Decides");
     setKidsProp("Any / AI Decides");
     setKidsClothing("Any / AI Decides");
+    setKidsClothingBoy("Any / AI Decides");
+    setKidsClothingGirl("Any / AI Decides");
     setKidsNationality("Any / AI Decides");
     setCharPerformance("Any / AI Decides");
     setStoryBeat("Any / AI Decides");
@@ -7734,6 +7748,8 @@ export default function IdeasPage() {
           kidsLocation: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsLocation : undefined,
           kidsHealth: category === "CUTE_KIDS" ? kidsHealth : undefined,
           kidsClothing: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsClothing : undefined,
+          kidsClothingBoy: kidsClothingBoy && kidsClothingBoy !== "Any / AI Decides" ? kidsClothingBoy : undefined,
+          kidsClothingGirl: kidsClothingGirl && kidsClothingGirl !== "Any / AI Decides" ? kidsClothingGirl : undefined,
           fatherClothing: fatherClothing === "Custom" ? (customFatherClothing || "Custom") : (fatherClothing !== "AI Decides" ? fatherClothing : undefined),
           motherClothing: motherClothing === "Custom" ? (customMotherClothing || "Custom") : (motherClothing !== "AI Decides" ? motherClothing : undefined),
           kidsVibe: (category === "LOCATION_NEWS" || category === "CUTE_KIDS" || (category as string) === "SONG" || category === "POETRY") ? kidsVibe : undefined,
@@ -9626,28 +9642,50 @@ export default function IdeasPage() {
 
                 {/* 4.5 Kids Clothing / Outfit Style */}
                 {matchesParamFilter(["clothing", "outfit", "kids clothing", "dress", "kurta", "frock"]) && (
-                  <div className="space-y-1.5">
+                  <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
                       <label className={`text-xs uppercase tracking-wider font-extrabold flex items-center gap-1.5 ${isLight ? "text-zinc-950" : "text-slate-200"}`}>
-                        <span>👕 Kids Clothing / Outfit</span>
+                        <span>👕 Kids Clothing / Outfits (Boy & Girl)</span>
                       </label>
                       <button
                         type="button"
                         onClick={() => {
                           const newOutfit = getRandomBoyOutfit();
-                          setKidsClothing(newOutfit);
-                          showToast(`🎲 Generated: ${newOutfit}`, "info", 1800);
+                          setKidsClothingBoy(newOutfit);
+                          showToast(`🎲 Generated Boy Outfit: ${newOutfit}`, "info", 1800);
                         }}
                         className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
                           isLight ? "bg-amber-100 hover:bg-amber-200 text-amber-950 border-amber-300" : "bg-amber-950/60 hover:bg-amber-900 border-amber-500/40 text-amber-300"
                         }`}
                         title="Generate a fresh, unique, color-coordinated random outfit for the Boy character"
                       >
-                        <span>🎲 Random Outfit</span>
+                        <span>🎲 Random Boy Outfit</span>
                       </button>
                     </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                      <CustomSelect
+                        label="👦 Boy Character Outfit"
+                        icon="👦"
+                        value={kidsClothingBoy}
+                        onChange={setKidsClothingBoy}
+                        groups={KIDS_CLOTHING_BOY_GROUPS}
+                        keepOpenOnSelect={true}
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="👧 Girl Character Outfit"
+                        icon="👧"
+                        value={kidsClothingGirl}
+                        onChange={setKidsClothingGirl}
+                        groups={KIDS_CLOTHING_GIRL_GROUPS}
+                        keepOpenOnSelect={true}
+                        isLight={isLight}
+                      />
+                    </div>
+
                     <CustomSelect
-                      label="Kids Clothing / Outfit"
+                      label="👕 General / Primary Clothing"
                       icon="👕"
                       value={kidsClothing}
                       onChange={setKidsClothing}
