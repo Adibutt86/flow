@@ -3575,6 +3575,8 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background.", tag: "📺 News Studio" },
       { value: "Funny News Caster Female Solo", label: "Funny News Caster Female Solo 📰🎙️", desc: "Hilarious solo female news anchor sitting at a professional news studio desk delivering comedic breaking news with witty expressions. Modern news studio background.", tag: "📺 News Studio" },
       { value: "Combine Boy & Girl News Caster", label: "Combine Boy & Girl News Caster 📰👫", desc: "Co-anchor duo featuring a boy and girl news caster sitting together at a high-end TV news desk delivering funny banter. Professional TV news studio background.", tag: "📺 News Studio" },
+      { value: "Girl News Reporter with Mic (Field Reporter)", label: "Girl News Reporter with Mic 🎤👧📺", desc: "Cute little girl standing in the field holding a reporter microphone, dressed in a smart blazer & news badge, delivering a live breaking news report with confident expressions.", tag: "📺 Girl Reporter" },
+      { value: "Adult News Reporter & Little Girl (Duo)", label: "News Reporter with Girl (Reporter + Girl Duo) 🎤👨📺👧", desc: "A professional adult news reporter holding a mic interviewing or standing alongside a cute little girl who reacts and responds adorably. Perfect for funny on-field interview clips.", tag: "📺 Reporter Duo" },
     ],
   },
   {
@@ -8942,6 +8944,8 @@ export default function IdeasPage() {
                       { label: "🛏️ Couple Bed Chat", setup: "Husband & Wife (Miya Biwi)", age: "Adult (20s-40s)", location: "Couple Laying on Bed (Miya Biwi Bed Chat)", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
                       { label: "🙃 Upside-Down Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Funny Girl Laying Upside-Down on Couch", vibe: "Silly Kid / Funny", cameraShot: "Speaker Focus" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
+                       { label: "🎤👧 Girl Reporter", setup: "Girl News Reporter with Mic (Field Reporter)", age: "Child (5-8 yrs)", location: "Modern TV News Broadcast Studio", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus", clothingGirl: "Girl — Smart Blazer & News Badge" },
+                       { label: "🎤👨👧 Reporter+Girl", setup: "Adult News Reporter & Little Girl (Duo)", age: "Child (5-8 yrs)", location: "Modern TV News Broadcast Studio", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
                     ].map((badge) => (
                       <button
                         key={badge.label}
