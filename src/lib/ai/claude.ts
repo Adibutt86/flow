@@ -429,19 +429,17 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
   }
   (Apply this pattern for EVERY line in the user's script in exact order, matching each line to its actual speaker!)
 
-━━━ STRICT CHARACTER-TO-DIALOGUE MATCHING RULES (CRITICAL MANDATE) ━━━
-1. READ THE LEADING SPEAKER PREFIX (e.g. "لڑکا:", "ابو:", "بیٹا:", "لڑکی:", "امی:", "Boy:", "Father:", "Son:", "Dad:", "Girl:", "Abu:", "Baita:") ON EACH LINE OF THE USER'S SCRIPT TO IDENTIFY WHO SPEAKS THAT SPECIFIC LINE:
-   - Line starts with "لڑکا:" / "بیٹا:" / "Baita:" / "Boy:" / "Son:" ➔ Speaker is Baita (Boy) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [exact verbatim dialogue without speaker label]"
-   - Line starts with "ابو:" / "Abu:" / "Father:" / "Dad:" / "Papa:" ➔ Speaker is Abu (Father) on the LEFT side frame. Use: "[Camera shifts LEFT — Father (Abu) speaks] 💬 Abu: [exact verbatim dialogue without speaker label]"
-   - Line starts with "لڑکی:" / "Beti:" / "Girl:" / "Daughter:" ➔ Speaker is Girl on the RIGHT side frame. Use: "[Camera shifts RIGHT — Girl speaks] 💬 Girl: [exact verbatim dialogue without speaker label]"
-   - Line starts with "امی:" / "Amma:" / "Mother:" / "Mom:" ➔ Speaker is Amma (Mother) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Amma (Mother) speaks] 💬 Amma: [exact verbatim dialogue without speaker label]"
-   - Line starts with "دکاندار:" / "Shopkeeper:" ➔ Speaker is Shopkeeper on the LEFT side frame. Use: "[Camera shifts LEFT — Shopkeeper speaks] 💬 Shopkeeper: [exact verbatim dialogue without speaker label]"
-   - Line starts with "شوهر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [exact verbatim dialogue without speaker label]"
-   - Line starts with "بیوی:" / "Wife:" ➔ Speaker is Wife on the RIGHT side frame. Use: "[Camera shifts RIGHT — Wife speaks] 💬 Wife: [exact verbatim dialogue without speaker label]"
-
-2. ABSOLUTELY DO NOT SWAP SPEAKERS OR DIALOGUE! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Boy:" OR "Baita:" OR "Son:" TO ABU / FATHER! DO NOT ASSIGN A LINE STARTING WITH "ابو:" OR "Abu:" TO BOY / BAITA! Each dialogue MUST remain strictly assigned to the character tagged in the script.
-3. Output ALL lines in EXACT user order — do NOT reorder, skip, or swap speaker lines.
-4. NEVER translate, rephrase, expand, or modify any Urdu/native script text. Output 100% UNCHANGED verbatim.
+━━━ STRICT 10-POINT DIALOGUE-LOCK MECHANISM (NON-NEGOTIABLE) ━━━
+1. Every dialogue line MUST be permanently assigned to the character named before it in the user script.
+2. NEVER SWAP DIALOGUE BETWEEN CHARACTERS! Son's dialogue must ALWAYS be spoken by the Son (Baita), and Father's dialogue must ALWAYS be spoken by Father (Abu).
+3. NEVER REPEAT ANOTHER CHARACTER'S DIALOGUE! Do not duplicate, echo, or re-assign lines.
+4. Each character MUST speak ONLY their own assigned lines.
+5. Keep character names directly attached to each dialogue line throughout the generated prompt ("💬 [CharacterName]: [ExactText]").
+6. Do NOT infer, reorder, merge, or redistribute dialogue based on scene, camera angle, or context.
+7. If camera cuts or shifts between characters, dialogue assignment MUST remain strictly unchanged.
+8. Output exact dialogue text 100% verbatim from user input without adding extra words or modifying native script.
+9. Perform a mandatory dialogue validation check before output: confirm every line is assigned to its correct character exactly once.
+10. Do not alter character prefixes or dialogue order. Output ALL lines in EXACT user script order.
 5. VISUAL SCENE DIALOGUE MATCHING & EMOTION MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST accurately depict the action of each dialogue line matching its respective speaker!
    - HOOK (0-3s): Must depict Line 1 speaker delivering Line 1 dialogue to listener.
    - ESCALATION (3-7s): Must depict Line 2 speaker responding with Line 2 dialogue.

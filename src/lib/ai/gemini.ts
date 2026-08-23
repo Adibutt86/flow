@@ -988,15 +988,20 @@ export async function generateProjectContent(
 
     const scriptLines = parseDialogueScriptLines(input.customDialogue);
     const formattedScriptBlock = scriptLines.length > 0
-      ? `\nEXPLICIT SCRIPT DIALOGUE SEQUENCE MANDATE (STRICT ZERO-MIXING & 10s AUTO-FIT RULE):
-The user has provided an EXACT custom dialogue script (${scriptLines.length} line${scriptLines.length > 1 ? "s" : ""}). You MUST map each line to its exact corresponding 10-second scene beat and character:
-${scriptLines.map((sl, idx) => `  - Scene ${idx + 1} (0-${(idx + 1) * 10}s) [${sl.speaker || "Speaking Character"}]: "${sl.cleanText}"`).join("\n")}
+      ? `\n🔴 STRICT 10-POINT DIALOGUE-LOCK MECHANISM & SCRIPT MAPPING (NON-NEGOTIABLE):
+The user has provided an EXACT custom dialogue script with ${scriptLines.length} line${scriptLines.length > 1 ? "s" : ""}:
+${scriptLines.map((sl, idx) => `  - Line ${idx + 1} [Speaker: ${sl.speaker || "Character"}]: "${sl.cleanText}"`).join("\n")}
 
-STRICT DIALOGUE MAPPING & 10s AUTO-FIT RULES:
-1. DO NOT SKIP ANY DIALOGUE LINE: Every dialogue line MUST be assigned to its respective 10-second scene beat in exact sequence.
-2. DO NOT MIX UP CHARACTERS: Character A's line MUST be spoken ONLY by Character A, and Character B's line MUST be spoken ONLY by Character B. Never attribute Character A's dialogue to Character B!
-3. KEEP DIALOGUE 100% UNCHANGED VERBATIM: Output exact dialogue words without adding, modifying, or removing words.
-4. STRICT 10-SECOND CLIP FIT: Dialogue line MUST finish lip-syncing completely between 2s and 8s of the 10-second clip window. If a line is long, accelerate speech delivery so it fits inside the 10-second clip without overflowing into the next scene.\n`
+STRICT DIALOGUE-LOCK RULES:
+1. Every dialogue line is PERMANENTLY assigned to the character named before it.
+2. NEVER swap dialogue between characters (Son speaks ONLY Son's lines, Father speaks ONLY Father's lines).
+3. NEVER repeat another character's dialogue line.
+4. Characters speak ONLY their own assigned lines.
+5. Keep character name directly attached to each dialogue line ("💬 [CharacterName]: [Text]").
+6. Do NOT infer, reorder, merge, or redistribute dialogue based on scene, camera angle, or context.
+7. If camera cuts or shifts between characters, dialogue assignment remains strictly unchanged.
+8. Output exact dialogue text 100% verbatim without changing or duplicating it.
+9. Validate before generating that every line is assigned to its correct character exactly once in order.\n`
       : "";
 
     const speedInstruction = input.kidsTalkingSpeed && input.kidsTalkingSpeed !== "Any / AI Decides"
@@ -1076,12 +1081,17 @@ CRITICAL RULES & VIRAL COMEDY MANDATES:
 4. VISUAL COMEDY & CAMERA MANDATE:
    - Every camera movement MUST elevate the joke (e.g., rapid whip-pan, low-angle push-in, comedic Dutch tilt).
    - Physical visual comedy must tell half the joke!
-5. DIALOGUE & SCRIPT RULES (ZERO-MIXING & ZERO-SKIPPING):
-   - STRICT CHARACTER MAPPING: Maintain 100% character-to-dialogue isolation. Character A's line is spoken ONLY by Character A. Character B's line is spoken ONLY by Character B. Do NOT mix up or swap lines between characters under any circumstances!
-   - For CUTE_KIDS, POETRY, and SONG categories: NEVER change, edit, summarize, translate, or rewrite the spoken script dialogue! Keep the script dialogue 100% UNCHANGED verbatim.
-   - DIALOGUE SEQUENCING LOCK: You must strictly follow the provided dialogue sequence. Each dialogue line must be spoken ONLY ONCE, by the correct character, in the exact order provided.
-   - DO NOT repeat, duplicate, skip, or randomly change any dialogue. Before generating the video, mentally validate the dialogue sequence to maintain strict character-to-dialogue mapping throughout the entire video.
-   - CHARACTER PREFIX REMOVAL MANDATE (CRITICAL): Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابo:", "بلی:", "کار:" at the start of dialogue lines indicate WHO is speaking. You MUST use them to identify the character speaker, but REMOVE the prefix ("لڑکی:", "💬 لڑکی:") completely from the output "dialogue" field! The "dialogue" field MUST contain ONLY the spoken dialogue words themselves.
+5. DIALOGUE & SCRIPT RULES (STRICT 10-POINT DIALOGUE-LOCK MECHANISM):
+   - RULE 1: Every dialogue line MUST be permanently assigned to the character named before it in the user script.
+   - RULE 2: NEVER SWAP DIALOGUE BETWEEN CHARACTERS! Son's dialogue must ALWAYS be spoken by the Son (Baita), and Father's dialogue must ALWAYS be spoken by Father (Abu).
+   - RULE 3: NEVER REPEAT ANOTHER CHARACTER'S DIALOGUE! Do not duplicate, echo, or re-assign lines.
+   - RULE 4: Each character MUST speak ONLY their own assigned lines.
+   - RULE 5: Keep character names directly attached to each dialogue line throughout the generated storyboard ("💬 [CharacterName]: [ExactText]").
+   - RULE 6: Do NOT infer, reorder, merge, or redistribute dialogue based on scene, camera angle, or context.
+   - RULE 7: If camera cuts or shifts between characters, dialogue assignment MUST remain strictly unchanged.
+   - RULE 8: Preserve exact dialogue text 100% verbatim from user input without adding extra words or modifying native script.
+   - RULE 9: Perform a mandatory dialogue validation check before output: verify that every line in sequence matches its designated speaker.
+   - RULE 10: Prefixes like "لڑکی:", "💬 لڑکی:", "Boy:", "Girl:", "ابو:", "بیٹا:" indicate WHO speaks. Extract speaker for isolation, but keep "dialogue" field strictly matching verbatim speech text.
    - If Language is "Punjabi" OR Category is "PUNJABI_JOKE": Dialogue & narration MUST be in authentic Pakistani Punjabi (Shahmukhi script پنجابی / Roman Punjabi). DO NOT use Indian Punjabi or Gurmukhi script (پنجابی).
    - If Language is "Urdu" OR "Roman Urdu": Dialogue & narration MUST be in authentic Pakistani Urdu / Roman Urdu.
    - If Language is "Hindi" OR Category is "HINDI_JOKE": Dialogue & narration MUST be in authentic Desi Hindi / Roman Hindi.
