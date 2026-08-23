@@ -9371,6 +9371,29 @@ export default function IdeasPage() {
                   />
                 )}
 
+                {/* 🚀 Quick Generate Button (Before Preview) */}
+                <div className="flex items-center gap-2 w-full mt-3 mb-1">
+                  <button
+                    type="button"
+                    onClick={handleGenerate}
+                    disabled={isGenerating}
+                    className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-500/30 transition-all active:scale-95 cursor-pointer disabled:opacity-50 w-full"
+                  >
+                    {isGenerating ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-5 h-5" />
+                    )}
+                    <span>
+                      {isGenerating
+                        ? "Generating Concept..."
+                        : videoDuration === 20
+                        ? "🎬 Generate First Scene (0-10s)"
+                        : "✨ Generate 1 Idea"}
+                    </span>
+                  </button>
+                </div>
+
                 {/* 💬 Interactive Visual Chat Script Preview */}
                 {customDialogue && customDialogue.trim() && (
                   <div className={`p-3.5 rounded-xl border space-y-2 mt-2 ${
