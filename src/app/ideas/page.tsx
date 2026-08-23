@@ -6464,6 +6464,42 @@ function VisualStyleDropdown({
 }
 // ────────────────────────────────────────────────────────────────────────────
 
+// ────────────────────────────────────────────────────────────────────────────
+// Safe localStorage writer — handles QuotaExceededError by progressively
+// trimming the array. Array items are assumed to be sorted newest-first so
+// slicing from the front keeps the most recent entries.
+// ────────────────────────────────────────────────────────────────────────────
+function safeLocalStorageSet(key: string, items: unknown[]): void {
+  if (typeof window === "undefined") return;
+  const LIMITS = [items.length, 100, 50, 20]; // try full, then trimmed sizes
+  for (const limit of LIMITS) {
+    try {
+      const payload = limit >= items.length ? items : items.slice(0, limit);
+      localStorage.setItem(key, JSON.stringify(payload));
+      if (limit < items.length) {
+        console.warn(
+          `[safeLocalStorageSet] localStorage quota hit — stored only the most recent ${limit} of ${items.length} items for key "${key}".`
+        );
+      }
+      return; // success — stop trying
+    } catch (e) {
+      if (
+        e instanceof DOMException &&
+        (e.name === "QuotaExceededError" || e.name === "NS_ERROR_DOM_QUOTA_REACHED")
+      ) {
+        if (limit === LIMITS[LIMITS.length - 1]) {
+          // All fallbacks exhausted — silently skip (data lives on the server)
+          console.warn(`[safeLocalStorageSet] Could not store "${key}" even at ${limit} items — skipping local cache.`);
+        }
+        continue; // try next smaller limit
+      }
+      // Non-quota error — log and bail
+      console.error(`[safeLocalStorageSet] Unexpected error writing "${key}":`, e);
+      return;
+    }
+  }
+}
+
 export default function IdeasPage() {
   const { showToast } = useToast();
   const { currentUser, isLoggedIn, setIsAuthModalOpen } = useUser();
@@ -7293,11 +7329,7 @@ export default function IdeasPage() {
         if (data && data.success && Array.isArray(data.ideas)) {
           setSavedIdeas(data.ideas);
           if (typeof window !== "undefined") {
-            try {
-              localStorage.setItem(cacheKey, JSON.stringify(data.ideas));
-            } catch (e) {
-              console.error("Failed to update saved ideas cache", e);
-            }
+            safeLocalStorageSet(cacheKey, data.ideas);
           }
         }
         setIsLoadingIdeas(false);
@@ -7311,11 +7343,7 @@ export default function IdeasPage() {
   // Sync savedIdeas to localStorage whenever savedIdeas state changes
   useEffect(() => {
     if (typeof window !== "undefined" && savedIdeas.length > 0) {
-      try {
-        localStorage.setItem(`flow-saved-ideas-cache_${currentUser.id}`, JSON.stringify(savedIdeas));
-      } catch (e) {
-        console.error("Failed to sync savedIdeas to localStorage", e);
-      }
+      safeLocalStorageSet(`flow-saved-ideas-cache_${currentUser.id}`, savedIdeas);
     }
   }, [savedIdeas, currentUser.id]);
 
