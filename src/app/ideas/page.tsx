@@ -3406,6 +3406,16 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "😂 Comedic Twist, Shock & Reaction Vibes",
+    options: [
+      { value: "Comedic Shock & Smile 😲😁", label: "Comedic Shock & Smile 😲😁", desc: "Wide-eyed shock or open-mouth surprise on line 3 punchline, followed by a mischievous grin or warm chuckle." },
+      { value: "Deadpan Twist & Side-Eye 😳😼", label: "Deadpan Twist & Side-Eye 😳😼", desc: "Innocent delivery during setup, sudden dramatic wide-eyed shock and side-eye glance on punchline, ending with giggling facepalm." },
+      { value: "Innocent Mischief & Giggle 😇🤭", label: "Innocent Mischief & Giggle 😇🤭", desc: "Delivers a shocking line with cute innocent head-tilt, covering mouth with both hands and giggling uncontrollably." },
+      { value: "Dramatic Double-Take ⚡😯", label: "Dramatic Double-Take ⚡😯", desc: "Quick energetic head turn, eyes popping wide in realization/shock, followed by a relieved wide smile and head shake." },
+      { value: "Unexpected Joke Twist 🎁🤣", label: "Unexpected Joke Twist 🎁🤣", desc: "Starts as a serious conversation, delivers a hilarious 3-line twist ending that leaves characters laughing in surprise." },
+    ],
+  },
+  {
     category: "😢 Serious, Sad & Emotional Vibes",
     options: [
       { value: "Sad & Tearful (Rona / Udaas) 😢💧", label: "Sad & Tearful (Rona / Udaas) 😢💧", desc: "Emotional teary eyes, quivering lip, pouting face, looking down sadly." },
@@ -3500,6 +3510,14 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "🎤 Stand-Up Comedy & Stage Performers",
+    options: [
+      { value: "Stand-Up Comedian (Boy/Girl/Adult on Stage)", label: "Stand-Up Comedy Stage 🎤🎭", desc: "A solo stand-up comedian standing under a warm spotlight on a brick-wall comedy stage delivering funny joke lines.", tag: "🎤 Comedy Stage" },
+      { value: "Funny Boy Stand-Up Comedian", label: "Funny Boy Stand-Up Comedian 👦🎤", desc: "Cute little boy standing on stage with a spotlight delivering comedic punchlines into a microphone.", tag: "👦 Comedy" },
+      { value: "Funny Girl Stand-Up Comedian", label: "Funny Girl Stand-Up Comedian 👧🎤", desc: "Cute little girl standing on stage with a spotlight delivering hilarious jokes into a microphone.", tag: "👧 Comedy" },
+    ],
+  },
+  {
     category: "📺 News Caster & Studio Anchors",
     options: [
       { value: "Funny News Caster Male Solo", label: "Funny News Caster Male Solo 📰🎤", desc: "Hilarious solo male news anchor sitting at a professional news studio desk delivering funny comedic news with expressive gestures. Modern news studio background.", tag: "📺 News Studio" },
@@ -3517,8 +3535,22 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     ],
   },
   {
+    category: "📱 Phone Call & Split View Conversational Duos",
+    options: [
+      { value: "Husband & Wife (Phone Call Split View)", label: "Husband & Wife Phone Call (Split View) 📱🚗🏠", desc: "Husband driving car / at office, Wife at home in living room talking on smartphone with camera cuts between separate locations.", tag: "📱 Split View" },
+      { value: "Two Boy Friends (Phone Call Split View)", label: "Two Boy Friends Phone Call (Split View) 📱👦👦", desc: "Two boy friends chatting on mobile phones from separate bedrooms/houses with split location framing.", tag: "👦 Split View" },
+      { value: "Two Girl Friends (Phone Call Split View)", label: "Two Girl Friends Phone Call (Split View) 📱👧👧", desc: "Two girl friends talking on mobile phones from separate locations with split location camera cuts.", tag: "👧 Split View" },
+      { value: "Boy & Girl Friends (Phone Call Split View)", label: "Boy & Girl Friends Phone Call (Split View) 📱👦👧", desc: "A boy and a girl having a phone conversation from separate locations with split camera cuts.", tag: "👨‍👩‍👧 Split View" },
+      { value: "Mother & Daughter (Phone Call Split View)", label: "Mother & Daughter Phone Call (Split View) 📱👩👧", desc: "Amma calling her daughter on mobile phone from separate locations.", tag: "👩‍👧 Split View" },
+      { value: "Father & Son (Phone Call Split View)", label: "Father & Son Phone Call (Split View) 📱👨👦", desc: "Abu calling his son on smartphone from office/car to home.", tag: "👨‍👦 Split View" },
+      { value: "Doctor & Patient (Phone Call Split View)", label: "Doctor & Patient Phone Call (Split View) 📱👨‍⚕️👦", desc: "Doctor in clinic talking with patient/parent on phone call.", tag: "👨‍⚕️ Split View" },
+      { value: "Shopkeeper & Customer (Phone Call Split View)", label: "Shopkeeper & Customer Phone Call (Split View) 📱🏪👨", desc: "Customer calling a shopkeeper on phone for funny delivery order.", tag: "🏪 Split View" },
+    ],
+  },
+  {
     category: "👫 Friends & Conversational Duos",
     options: [
+      { value: "Phone Call (Husband & Wife / Friends / Separate Locations)", label: "Phone Call Setup 📱📞", desc: "Two characters chatting on a phone call from separate locations (e.g. Husband in car & Wife in living room, or friends calling each other).", tag: "📱 Phone Call" },
       { value: "Two Boy Friends (Speaker & Listener)", label: "Two Boy Friends (Speaker & Listener) 👦👦", desc: "Two boys chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👦 Best for Boys" },
       { value: "Two Girl Friends (Speaker & Listener)", label: "Two Girl Friends (Speaker & Listener) 👧👧", desc: "Two girls chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👧 Best for Girls" },
       { value: "Boy & Girl Friends (Speaker & Listener)", label: "Boy & Girl Friends (Speaker & Listener) 👦👧", desc: "A boy and a girl chatting. Character 1 speaks the dialogue while Character 2 only listens and reacts naturally. Visual consistency maintained across clips.", tag: "👨‍👩‍👧 Mix" },
@@ -4330,6 +4362,19 @@ const STORY_BEAT_GROUPS: OptionGroupWithDesc[] = [
 
 // 5.92 CAMERA POSITION & SHOT STYLE
 const CAMERA_SHOT_GROUPS: OptionGroupWithDesc[] = [
+  {
+    category: "🎬 Character Framing & Multi-Character Cuts",
+    options: [
+      { value: "One Screen Cut", label: "One Screen Cut (Both Characters Locked) 📌", desc: "Keep both characters permanently locked left/right in the same frame throughout the clip." },
+      { value: "Separate Character Shots", label: "Separate Character Shots 🎬", desc: "Show each character in their own dedicated camera shot instead of forcing both into one frame." },
+      { value: "Speaker Focus", label: "Speaker Focus 🎙️", desc: "Switch camera framing directly to the character who is currently speaking their dialogue." },
+      { value: "Over-the-Shoulder", label: "Over-the-Shoulder 👤", desc: "Show the listener from behind while focusing cleanly on the active speaking character's face." },
+      { value: "Alternating Close-Ups", label: "Alternating Close-Ups 🔍", desc: "Cut back and forth between close-up shots of each character during dialogue." },
+      { value: "Two-Shot", label: "Two-Shot 👫", desc: "Show both characters framed together in a balanced medium shot when appropriate." },
+      { value: "Reaction Shots", label: "Reaction Shots 😲", desc: "Cut to the listening character to capture their facial reaction during or after dialogue lines." },
+      { value: "Phone Call Split View", label: "Phone Call Split View 📱", desc: "Show both characters separately in their own locations during a phone conversation." },
+    ]
+  },
   {
     category: "👁️ POV & Perspective Positions",
     options: [
@@ -8669,9 +8714,11 @@ export default function IdeasPage() {
                       { label: "😭 Sad Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Window", vibe: "Sad & Tearful (Rona / Udaas) 😢💧" },
                       { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome" },
                       { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome" },
+                      { label: "👦+👧 Boy Teasing Sister", setup: "Brother & Sister (Bhahi & Behan)", age: "Child (5-8 yrs)", location: "Living Room Sofa", vibe: "Innocent Mischief & Giggle 😇🤭", cameraShot: "Alternating Close-Ups" },
+                      { label: "📱 Phone Call", setup: "Phone Call (Husband & Wife / Friends / Separate Locations)", age: "Adult (20s-40s)", location: "Split Locations (Office & Living Room)", vibe: "Funny & Mischievous", cameraShot: "Phone Call Split View" },
                       { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
                       { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
-                      { label: "🎤 Stand-Up", setup: "One Cute Little Boy", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous" },
+                      { label: "🎤 Stand-Up Comedy", setup: "Stand-Up Comedian (Boy/Girl/Adult on Stage)", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
                     ].map((badge) => (
                       <button
@@ -8682,6 +8729,7 @@ export default function IdeasPage() {
                           setKidsAge(badge.age);
                           setKidsLocation(badge.location);
                           setKidsVibe(badge.vibe);
+                          if (badge.cameraShot) setCameraShot(badge.cameraShot);
                           showToast(`⚡ Applied Quick Setup: "${badge.label}"`, "success", 2000);
                         }}
                         className={`px-2.5 py-1 rounded-lg border text-[11px] font-extrabold transition-all cursor-pointer active:scale-95 shadow-xs ${
@@ -8695,87 +8743,40 @@ export default function IdeasPage() {
                     ))}
                   </div>
 
-                  {/* Row 2: 4 Essential Mini-Selectors (Setup, Age, Location, Vibe) */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    {/* Setup */}
-                    <div className="space-y-1">
-                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
-                        👤 Setup:
-                      </label>
-                      <select
-                        value={characterSetup}
-                        onChange={(e) => setCharacterSetup(e.target.value)}
-                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
-                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
-                        }`}
-                      >
-                        {CHARACTER_SETUP_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
-                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Age */}
-                    <div className="space-y-1">
-                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
-                        👶 Age:
-                      </label>
-                      <select
-                        value={kidsAge}
-                        onChange={(e) => setKidsAge(e.target.value)}
-                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
-                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
-                        }`}
-                      >
-                        {KIDS_AGE_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
-                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Location */}
-                    <div className="space-y-1">
-                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
-                        🏡 Location:
-                      </label>
-                      <select
-                        value={kidsLocation}
-                        onChange={(e) => setKidsLocation(e.target.value)}
-                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
-                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
-                        }`}
-                      >
-                        {KIDS_LOCATION_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
-                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Vibe */}
-                    <div className="space-y-1">
-                      <label className={`text-[10px] font-black uppercase flex items-center gap-1 ${isLight ? "text-amber-950" : "text-amber-300"}`}>
-                        ✨ Vibe:
-                      </label>
-                      <select
-                        value={kidsVibe}
-                        onChange={(e) => setKidsVibe(e.target.value)}
-                        className={`w-full px-2 py-1.5 rounded-lg border text-[11px] font-bold focus:outline-none cursor-pointer ${
-                          isLight ? "bg-white border-amber-300 text-slate-900 shadow-xs" : "bg-slate-950 border-amber-500/40 text-amber-200"
-                        }`}
-                      >
-                        {KIDS_VIBE_GROUPS.flatMap((g) => g.options).map((opt, idx) => (
-                          <option key={`${opt.value}-${idx}`} value={opt.value} className={isLight ? "bg-white text-slate-900 font-bold" : "bg-slate-950 text-white"}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  {/* Row 2: 4 Searchable Selectors (Setup, Age, Location, Vibe) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+                    <CustomSelect
+                      label="Setup"
+                      icon="👤"
+                      value={characterSetup}
+                      onChange={setCharacterSetup}
+                      groups={CHARACTER_SETUP_GROUPS}
+                      isLight={isLight}
+                    />
+                    <CustomSelect
+                      label="Age"
+                      icon="👶"
+                      value={kidsAge}
+                      onChange={setKidsAge}
+                      groups={KIDS_AGE_GROUPS}
+                      isLight={isLight}
+                    />
+                    <CustomSelect
+                      label="Location"
+                      icon="🏡"
+                      value={kidsLocation}
+                      onChange={setKidsLocation}
+                      groups={KIDS_LOCATION_GROUPS}
+                      isLight={isLight}
+                    />
+                    <CustomSelect
+                      label="Vibe"
+                      icon="✨"
+                      value={kidsVibe}
+                      onChange={setKidsVibe}
+                      groups={KIDS_VIBE_GROUPS}
+                      isLight={isLight}
+                    />
                   </div>
                 </div>
                   <div className="flex items-center gap-2 flex-wrap">

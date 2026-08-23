@@ -1036,6 +1036,22 @@ ${
   1. Position camera strictly inside the room looking outward through the opening door from first-person viewer POV.
   2. Lock camera framing at chest/waist height so character's head and face remain 100% cropped out of the top frame at all times.
   3. Include explicit negative prompts: (NO FACE VISIBLE, NO HEAD VISIBLE, HEAD CROPPED OUT OF TOP FRAME, NO EYE CONTACT).`
+    : /one screen cut|both characters locked/i.test(input.cameraShot)
+    ? `- STRICT ONE SCREEN CUT MANDATE: Both characters are permanently locked left/right in the same frame throughout the clip.`
+    : /separate character shots/i.test(input.cameraShot)
+    ? `- SEPARATE CHARACTER SHOTS MANDATE: Frame each character in their own dedicated camera shot without forcing both characters into the same frame.`
+    : /speaker focus/i.test(input.cameraShot)
+    ? `- SPEAKER FOCUS MANDATE: Dynamically cut and switch the camera framing directly to the character who is actively speaking their dialogue.`
+    : /over-the-shoulder|over shoulder|ots/i.test(input.cameraShot)
+    ? `- OVER-THE-SHOULDER MANDATE: Frame the camera over the listener's shoulder focusing on the active speaking character's face.`
+    : /alternating close-ups/i.test(input.cameraShot)
+    ? `- ALTERNATING CLOSE-UPS MANDATE: Cut back and forth between tight close-up facial shots of each character during the dialogue.`
+    : /two-shot/i.test(input.cameraShot)
+    ? `- TWO-SHOT MANDATE: Frame both characters together in a balanced medium shot when appropriate.`
+    : /reaction shots/i.test(input.cameraShot)
+    ? `- REACTION SHOTS MANDATE: Cut to the listening character to capture their facial reaction during or immediately after dialogue lines.`
+    : /phone call split view/i.test(input.cameraShot)
+    ? `- PHONE CALL SPLIT VIEW MANDATE: Show both characters separately in their respective locations during phone conversation cuts.`
     : `- Maintain camera shot style "${input.cameraShot}" consistently across all scenes.`
 }\n`
     : ""
@@ -1436,21 +1452,21 @@ Return ONLY a valid JSON array of 3 strings:
   ];
 }
 
-export function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "RIGHT" } {
+export function normalizeSpeaker(rawSpeaker: string): { name: string; side: "LEFT" | "RIGHT"; label: string } {
   const s = rawSpeaker.trim().toLowerCase();
-  if (/لڑکا|بیٹا|baita|boy|son/i.test(s)) return { name: "Baita", side: "RIGHT" };
-  if (/ابو|father|abu|dad/i.test(s)) return { name: "Abu", side: "LEFT" };
-  if (/لڑکی|girl|beti|daughter/i.test(s)) return { name: "Girl", side: "RIGHT" };
-  if (/امی|mother|amma|mom/i.test(s)) return { name: "Amma", side: "RIGHT" };
-  if (/شوہر|میاں|husband/i.test(s)) return { name: "Husband", side: "LEFT" };
-  if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT" };
-  if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT" };
-  if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT" };
-  if (/مادہ طوطا|female parrot/i.test(s)) return { name: "Female Parrot", side: "RIGHT" };
-  if (/توطا|طوطا|parrot|parrent/i.test(s)) return { name: "Parrot", side: "LEFT" };
-  if (/بلی|cat/i.test(s)) return { name: "Cat", side: "LEFT" };
-  if (/کتا|dog/i.test(s)) return { name: "Dog", side: "LEFT" };
-  return { name: rawSpeaker.trim(), side: "LEFT" };
+  if (/لڑکا|بیٹا|baita|boy|son/i.test(s)) return { name: "Baita", side: "RIGHT", label: "Boy (Baita)" };
+  if (/ابو|father|abu|dad|papa|پاپا/i.test(s)) return { name: "Abu", side: "LEFT", label: "Father (Abu)" };
+  if (/لڑکی|girl|beti|daughter/i.test(s)) return { name: "Girl", side: "RIGHT", label: "Girl" };
+  if (/امی|mother|amma|mom/i.test(s)) return { name: "Amma", side: "RIGHT", label: "Amma (Mother)" };
+  if (/شوہر|میاں|husband/i.test(s)) return { name: "Husband", side: "LEFT", label: "Husband" };
+  if (/بیوی|wife/i.test(s)) return { name: "Wife", side: "RIGHT", label: "Wife" };
+  if (/دکاندار|shopkeeper/i.test(s)) return { name: "Shopkeeper", side: "LEFT", label: "Shopkeeper" };
+  if (/انکل|uncle/i.test(s)) return { name: "Uncle", side: "LEFT", label: "Uncle" };
+  if (/مادہ طوطا|female parrot/i.test(s)) return { name: "Female Parrot", side: "RIGHT", label: "Female Parrot" };
+  if (/توطا|طوطا|parrot|parrent/i.test(s)) return { name: "Parrot", side: "LEFT", label: "Parrot" };
+  if (/بلی|cat/i.test(s)) return { name: "Cat", side: "LEFT", label: "Cat" };
+  if (/کتا|dog/i.test(s)) return { name: "Dog", side: "LEFT", label: "Dog" };
+  return { name: rawSpeaker.trim() || "Character", side: "LEFT", label: rawSpeaker.trim() || "Character" };
 }
 
 export function parseDialogueScriptLines(customDialogue?: string): { rawLine: string; speaker: string; cleanText: string }[] {
@@ -1466,7 +1482,7 @@ export function parseDialogueScriptLines(customDialogue?: string): { rawLine: st
       speaker = cleanText.substring(0, colonIdx).trim();
       cleanText = cleanText.substring(colonIdx + 1).trim();
     } else {
-      const match = cleanText.match(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بلی|کار|صاحب|دولہا|دلہن|دوست|قوال|شاعر|لڑکا\s*\d+|لڑکی\s*\d+)\s*:\s*)/iu);
+      const match = cleanText.match(/^(?:[\u0600-\u06FF\w\s\d]+:|\b(?:Girl|Boy|Abu|Baita|Amma|Uncle|Shopkeeper|Wife|Husband|Cat|Dog|Mother|Father|لڑکا|لڑکی|ابو|بیٹا|امی|انکل|دکاندار|بیوی|شوہر|میاں|بلی|کتا|طوطا)\s*:\s*)/iu);
       if (match) {
         speaker = match[0].replace(/:/g, "").trim();
         cleanText = cleanText.substring(match[0].length).trim();
@@ -1485,7 +1501,7 @@ export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string)
   if (scriptLines.length > 0) {
     const formattedDialogueBlock = scriptLines.map(sl => {
       const norm = normalizeSpeaker(sl.speaker || "Character");
-      return `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${sl.cleanText}`;
+      return `[Camera shifts ${norm.side} — ${norm.label} speaks] 💬 ${norm.name}: ${sl.cleanText}`;
     }).join("\n\n");
 
     if (parsed.scenes.length > scriptLines.length) {
@@ -1509,7 +1525,7 @@ export function cleanSceneDialoguePrefixes(parsed: any, customDialogue?: string)
           if (parsed.scenes.length === 1) {
             scene.videoPrompt = `${cleanedVisualPrompt}\n\n${formattedDialogueBlock}`;
           } else {
-            const singleLineBlock = `[Camera shifts ${norm.side} — ${norm.name} speaks] 💬 ${norm.name}: ${scriptLine.cleanText}`;
+            const singleLineBlock = `[Camera shifts ${norm.side} — ${norm.label} speaks] 💬 ${norm.name}: ${scriptLine.cleanText}`;
             scene.videoPrompt = `${cleanedVisualPrompt}\n\n${singleLineBlock}`;
           }
         }

@@ -418,14 +418,16 @@ To prevent the video generator from mixing up characters, you MUST lock each cha
 - Both characters are VISUALLY DISTINCT with clearly different appearance, clothing color, and hairstyle so the video generator never confuses them.
 
 ━━━ PER-LINE VISUAL CUE FORMAT ━━━
-For EACH dialogue line in the script, the generated video prompt MUST include an explicit visual camera instruction immediately before the 💬 dialogue line:
+For EACH dialogue line in the script, the generated video prompt MUST include an explicit visual camera instruction immediately before the 💬 dialogue line, matching the EXACT speaker of that line in user script order:
   ${isPhoneCall 
     ? `[Camera cuts to RIGHT — Wife holding smartphone to ear in living room] 💬 Wife: [verbatim text]
   [Camera cuts to LEFT — Husband driving car holding steering wheel, talking on speaker 📱🚗] 💬 Husband: [verbatim text]`
-    : `[Camera shifts LEFT — Father / Abu speaks] 💬 Abu: [verbatim text]
-  [Camera shifts RIGHT — Boy / Baita speaks] 💬 Baita: [verbatim text]`
+    : `(Dynamic Example: If Line 1 is Boy, Line 2 is Abu, Line 3 is Boy)
+  [Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [Line 1 verbatim text]
+  [Camera shifts LEFT — Father (Abu) speaks] 💬 Abu: [Line 2 verbatim text]
+  [Camera shifts RIGHT — Boy (Baita) speaks] 💬 Baita: [Line 3 verbatim text]`
   }
-  (Apply this pattern for EVERY line in the user's script, in order)
+  (Apply this pattern for EVERY line in the user's script in exact order, matching each line to its actual speaker!)
 
 ━━━ STRICT CHARACTER-TO-DIALOGUE MATCHING RULES (CRITICAL MANDATE) ━━━
 1. READ THE LEADING SPEAKER PREFIX (e.g. "لڑکا:", "ابو:", "بیٹا:", "لڑکی:", "امی:", "Boy:", "Father:", "Son:", "Dad:", "Girl:", "Abu:", "Baita:") ON EACH LINE OF THE USER'S SCRIPT TO IDENTIFY WHO SPEAKS THAT SPECIFIC LINE:
@@ -434,13 +436,16 @@ For EACH dialogue line in the script, the generated video prompt MUST include an
    - Line starts with "لڑکی:" / "Beti:" / "Girl:" / "Daughter:" ➔ Speaker is Girl on the RIGHT side frame. Use: "[Camera shifts RIGHT — Girl speaks] 💬 Girl: [exact verbatim dialogue without speaker label]"
    - Line starts with "امی:" / "Amma:" / "Mother:" / "Mom:" ➔ Speaker is Amma (Mother) on the RIGHT side frame. Use: "[Camera shifts RIGHT — Amma (Mother) speaks] 💬 Amma: [exact verbatim dialogue without speaker label]"
    - Line starts with "دکاندار:" / "Shopkeeper:" ➔ Speaker is Shopkeeper on the LEFT side frame. Use: "[Camera shifts LEFT — Shopkeeper speaks] 💬 Shopkeeper: [exact verbatim dialogue without speaker label]"
-   - Line starts with "شوہر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [exact verbatim dialogue without speaker label]"
+   - Line starts with "شوهر:" / "میاں:" / "Husband:" ➔ Speaker is Husband on the LEFT side frame. Use: "[Camera shifts LEFT — Husband speaks] 💬 Husband: [exact verbatim dialogue without speaker label]"
    - Line starts with "بیوی:" / "Wife:" ➔ Speaker is Wife on the RIGHT side frame. Use: "[Camera shifts RIGHT — Wife speaks] 💬 Wife: [exact verbatim dialogue without speaker label]"
 
-2. ABSOLUTELY DO NOT SWAP SPEAKERS! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Baita:" OR "Son:" TO ABU / FATHER!
+2. ABSOLUTELY DO NOT SWAP SPEAKERS OR DIALOGUE! DO NOT ASSIGN A LINE STARTING WITH "لڑکا:" OR "Boy:" OR "Baita:" OR "Son:" TO ABU / FATHER! DO NOT ASSIGN A LINE STARTING WITH "ابو:" OR "Abu:" TO BOY / BAITA! Each dialogue MUST remain strictly assigned to the character tagged in the script.
 3. Output ALL lines in EXACT user order — do NOT reorder, skip, or swap speaker lines.
 4. NEVER translate, rephrase, expand, or modify any Urdu/native script text. Output 100% UNCHANGED verbatim.
-5. VISUAL SCENE DIALOGUE MATCHING & EMOTION MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST describe the EXACT visual actions, emotional reaction, props, and comedic situation of the user's spoken dialogue!
+5. VISUAL SCENE DIALOGUE MATCHING & EMOTION MANDATE: The visual scene description (HOOK 0-3s, ESCALATION 3-7s, PUNCHLINE 7-10s) MUST accurately depict the action of each dialogue line matching its respective speaker!
+   - HOOK (0-3s): Must depict Line 1 speaker delivering Line 1 dialogue to listener.
+   - ESCALATION (3-7s): Must depict Line 2 speaker responding with Line 2 dialogue.
+   - PUNCHLINE (7-10s): Must depict Line 3 speaker delivering the punchline dialogue.
    - EMOTION OVERRIDE: The emotional tone of the user's custom dialogue ALWAYS OVERRIDES any preset vibe or default background music vibe!
    - If the user's script is ANGRY or UPSET (e.g. "ناراض ہوں", "کٹی ہوں", "angry", "katti", "100 saal", "نہیں کھانا", "ناراض"): The character MUST be rendered with an angry pouting face, crossed arms, dramatic upset glare, foot stomp, or pouting cheeks in HOOK, ESCALATION, and PUNCHLINE! NEVER describe a smiling, laughing, excited, joyful, or giggling scene!
    - If the user's script is SAD or TEARFUL (e.g. "رو رہی ہوں", "sad", "cry"): Describe a tearful, pouting, sad expression.
@@ -550,6 +555,14 @@ ${(input.category === "CUTE_KIDS" || input.category === "SONG" || input.category
 ${input.timeOfDay && input.timeOfDay !== "Any / AI Decides" ? `Time of Day/Lighting: ${input.timeOfDay}` : ""}
 ${input.storyBeat && input.storyBeat !== "Any / AI Decides" ? `Story Beat/Narrative Moment: ${input.storyBeat}` : ""}
 ${input.cameraShot && input.cameraShot !== "Any / AI Decides" ? `Camera Shot Style: ${input.cameraShot}` : ""}
+${input.cameraShot && /one screen cut|both characters locked/i.test(input.cameraShot) ? `STRICT ONE SCREEN CUT MANDATE: Both characters are permanently locked left/right in the same frame throughout the clip.` : ""}
+${input.cameraShot && /separate character shots/i.test(input.cameraShot) ? `SEPARATE CHARACTER SHOTS MANDATE: Frame each character in their own dedicated camera shot without forcing both characters into the same frame.` : ""}
+${input.cameraShot && /speaker focus/i.test(input.cameraShot) ? `SPEAKER FOCUS MANDATE: Dynamically cut and switch the camera framing directly to the character who is actively speaking their dialogue.` : ""}
+${input.cameraShot && /over-the-shoulder|over shoulder|ots/i.test(input.cameraShot) ? `OVER-THE-SHOULDER MANDATE: Frame the camera over the listener's shoulder focusing on the active speaking character's face.` : ""}
+${input.cameraShot && /alternating close-ups/i.test(input.cameraShot) ? `ALTERNATING CLOSE-UPS MANDATE: Cut back and forth between tight close-up facial shots of each character during the dialogue.` : ""}
+${input.cameraShot && /two-shot/i.test(input.cameraShot) ? `TWO-SHOT MANDATE: Frame both characters together in a balanced medium shot when appropriate.` : ""}
+${input.cameraShot && /reaction shots/i.test(input.cameraShot) ? `REACTION SHOTS MANDATE: Cut to the listening character to capture their facial reaction during or immediately after dialogue lines.` : ""}
+${input.cameraShot && /phone call split view/i.test(input.cameraShot) ? `PHONE CALL SPLIT VIEW MANDATE: Show both characters separately in their respective locations during phone conversation cuts.` : ""}
 ${input.cameraShot && /fixed|static|lock/i.test(input.cameraShot) ? `STRICT CAMERA LOCK MANDATE: The camera MUST stay 100% stationary and locked on the speaking character throughout the entire 10-second clip. NO camera panning, NO wild zooms, NO background cuts, NO camera rotation. The speaking character remains centered in frame from start to finish.` : ""}
 ${input.charPerformance && input.charPerformance !== "Any / AI Decides" ? `Character Performance Mode: ${input.charPerformance}` : ""}
 ${input.charPerformance && /off-screen|no lip-sync|narration|voiceover/i.test(input.charPerformance) ? `STRICT NO LIP-SYNC MANDATE: The voiceover / narration / poem / song audio is played OFF-SCREEN. The character on camera MUST NOT move their lips or speak on camera. Render silent, expressive facial acting (smiles, gaze, deep emotional reactions, or dancing) while the background voiceover plays.` : ""}
