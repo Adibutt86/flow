@@ -3553,6 +3553,7 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Mother & Daughter (Phone Call Split View)", label: "Mother & Daughter Phone Call (Split View) 📱👩👧", desc: "Amma calling her daughter on mobile phone from separate locations.", tag: "👩‍👧 Split View" },
       { value: "Father & Son (Phone Call Split View)", label: "Father & Son Phone Call (Split View) 📱👨👦", desc: "Abu calling his son on smartphone from office/car to home.", tag: "👨‍👦 Split View" },
       { value: "Doctor & Patient (Phone Call Split View)", label: "Doctor & Patient Phone Call (Split View) 📱👨‍⚕️👦", desc: "Doctor in clinic talking with patient/parent on phone call.", tag: "👨‍⚕️ Split View" },
+      { value: "Pakistani Fair Toddler Boy & Girl (Phone Call Split View)", label: "Pakistani Fair Toddler Boy & Girl Phone Call (Split View) 📱👶👦👧", desc: "Two fair-complexioned Pakistani 3D toddlers (boy and girl) in traditional Shalwar Kameez having a funny smartphone conversation between two separate rooms.", tag: "📱 Toddler Split View" },
       { value: "Shopkeeper & Customer (Phone Call Split View)", label: "Shopkeeper & Customer Phone Call (Split View) 📱🏪👨", desc: "Customer calling a shopkeeper on phone for funny delivery order.", tag: "🏪 Split View" },
     ],
   },
@@ -3594,6 +3595,9 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
     options: [
       { value: "Cute Toddler Boy (2-3 yrs, Chubby Cheeks & Big Eyes)", label: "Cute Toddler Boy (2-3 yrs) 👦👶", desc: "Adorable 3D Pixar-style 2-3 year old boy with soft chubby cheeks, big glossy expressive eyes, wobbly toddler stance, striped tee and shorts.", tag: "👦 Toddler" },
       { value: "Cute Toddler Girl (2-3 yrs, Pigtails & Bow)", label: "Cute Toddler Girl (2-3 yrs) 👧👶", desc: "Adorable 3D Pixar-style 2-3 year old girl with cute pigtails, hair bow, big glossy eyes, wearing a sweet pastel frock.", tag: "👧 Toddler" },
+      { value: "Pakistani Fair Toddler Boy with Smartphone", label: "Pakistani Fair Toddler Boy with Phone 📱👦", desc: "Adorable 3D Pixar-style fair-complexioned Pakistani toddler boy (2-3 yrs) in white Shalwar Kameez, holding smartphone to ear and talking animatedly.", tag: "📱 Boy Phone" },
+      { value: "Pakistani Fair Toddler Girl with Smartphone", label: "Pakistani Fair Toddler Girl with Phone 📱👧", desc: "Adorable 3D Pixar-style fair-complexioned Pakistani toddler girl (2-3 yrs) with hair bow, pink embroidered Shalwar Kameez suit, holding smartphone to ear.", tag: "📱 Girl Phone" },
+      { value: "Pakistani Fair Toddler Boy & Girl Phone Call", label: "Pakistani Fair Toddler Boy & Girl Phone Call 📱👦👧", desc: "Two cute fair-complexioned Pakistani 3D toddlers (boy and girl) in Shalwar Kameez chatting on mobile phones from separate rooms.", tag: "📱 Toddler Duet" },
       { value: "Toddler Boy & Toddler Girl Playdate (2-3 yrs)", label: "Toddler Boy & Girl Playdate (2-3 yrs) 👶👫", desc: "Two cute 3D animated toddlers (boy and girl) sitting together playing with colorful blocks or soft plush toys.", tag: "🧸 Toddler Duo" },
     ],
   },
