@@ -3554,6 +3554,8 @@ const CHARACTER_SETUP_GROUPS: OptionGroupWithDesc[] = [
       { value: "Father & Son (Phone Call Split View)", label: "Father & Son Phone Call (Split View) 📱👨👦", desc: "Abu calling his son on smartphone from office/car to home.", tag: "👨‍👦 Split View" },
       { value: "Doctor & Patient (Phone Call Split View)", label: "Doctor & Patient Phone Call (Split View) 📱👨‍⚕️👦", desc: "Doctor in clinic talking with patient/parent on phone call.", tag: "👨‍⚕️ Split View" },
       { value: "Pakistani Fair Toddler Boy & Girl (Phone Call Split View)", label: "Pakistani Fair Toddler Boy & Girl Phone Call (Split View) 📱👶👦👧", desc: "Two fair-complexioned Pakistani 3D toddlers (boy and girl) in traditional Shalwar Kameez having a funny smartphone conversation between two separate rooms.", tag: "📱 Toddler Split View" },
+      { value: "Pakistani Fair Toddler Boy & Girl (Phone Call Same Screen)", label: "Pakistani Fair Toddlers Phone Call (Same Screen) 📱👶👦👧📌", desc: "Two fair-complexioned Pakistani 3D toddlers (boy and girl) shown side-by-side on the SAME screen talking on phones.", tag: "📱 Same Screen Call" },
+      { value: "Two Characters Phone Call (Same Screen)", label: "Two Characters Phone Call (Same Screen / Side-by-Side) 📱👫📌", desc: "Both characters framed together side-by-side on the exact same screen chatting on mobile phones.", tag: "📱 Same Screen Call" },
       { value: "Shopkeeper & Customer (Phone Call Split View)", label: "Shopkeeper & Customer Phone Call (Split View) 📱🏪👨", desc: "Customer calling a shopkeeper on phone for funny delivery order.", tag: "🏪 Split View" },
     ],
   },
@@ -4409,6 +4411,7 @@ const CAMERA_SHOT_GROUPS: OptionGroupWithDesc[] = [
       { value: "Two-Shot", label: "Two-Shot 👫", desc: "Show both characters framed together in a balanced medium shot when appropriate." },
       { value: "Reaction Shots", label: "Reaction Shots 😲", desc: "Cut to the listening character to capture their facial reaction during or after dialogue lines." },
       { value: "Phone Call Split View", label: "Phone Call Split View 📱", desc: "Show both characters separately in their own locations during a phone conversation." },
+      { value: "Phone Call Same Screen", label: "Phone Call Same Screen (Both Locked in One Frame) 📱📌", desc: "Show both phone-calling characters side-by-side on the exact same screen/frame throughout the clip." },
     ]
   },
   {
@@ -8843,6 +8846,7 @@ export default function IdeasPage() {
                       { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome", clothingGirl: "Girl — Pink Shalwar Kameez", motherClothing: "Floral Lawn Shalwar Kameez" },
                       { label: "👦+👧 Boy Teasing Sister", setup: "Brother & Sister (Bhahi & Behan)", age: "Child (5-8 yrs)", location: "Living Room Sofa", vibe: "Innocent Mischief & Giggle 😇🤭", cameraShot: "Alternating Close-Ups" },
                       { label: "📱 Phone Call", setup: "Phone Call (Husband & Wife / Friends / Separate Locations)", age: "Adult (20s-40s)", location: "Split Locations (Office & Living Room)", vibe: "Funny & Mischievous", cameraShot: "Phone Call Split View" },
+                      { label: "📱 Same Screen Call", setup: "Pakistani Fair Toddler Boy & Girl (Phone Call Same Screen)", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", vibe: "Funny & Mischievous", cameraShot: "Phone Call Same Screen" },
                       { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
                       { label: "😠 Angry Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", vibe: "Funny & Mischievous" },
                       { label: "🎤 Stand-Up Comedy", setup: "Stand-Up Comedian (Boy/Girl/Adult on Stage)", age: "Child (5-8 yrs)", location: "Dimly Lit Brick-Wall Comedy Club Stage 🎤", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus" },
