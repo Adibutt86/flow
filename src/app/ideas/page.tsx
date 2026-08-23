@@ -3484,6 +3484,21 @@ const KIDS_VIBE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Girl Sweet & Tender 🌸", label: "Sweet & Tender 🌸", desc: "Soft, gentle, warm-hearted expression with delicate movements and a kind, loving smile.", tag: "👧 Best for Girls" },
     ],
   },
+  {
+    category: "😤 Angry & Tantrum Vibes",
+    options: [
+      { value: "Angry & Fuming 😠", label: "Angry & Fuming 😠", desc: "Full-on angry mode — arms crossed, eyebrows furrowed, face red, steam practically coming out of ears." },
+      { value: "Toddler Tantrum 😭😤", label: "Toddler Tantrum 😭😤", desc: "Classic meltdown — stomping feet, flopping on the floor, wailing and flailing uncontrollably.", tag: "🔥 Viral Trend" },
+      { value: "Katti Mode 😒💔", label: "Katti Mode 😒💔", desc: "Silent treatment activated — turned away, arms crossed, refusing to look or speak. 100% katti.", tag: "👧 Best for Girls" },
+      { value: "Stubborn Protest 😤🙅", label: "Stubborn Protest 😤🙅", desc: "Digging heels in, shaking head vigorously, absolutely refusing to budge no matter what." },
+      { value: "Dramatic Sulking 😔💢", label: "Dramatic Sulking 😔💢", desc: "Sitting in the corner pouting, chin on knees, dramatically sad about a tiny problem." },
+      { value: "Bossy Commander 😠👆", label: "Bossy Commander 😠👆", desc: "Wagging finger, giving stern orders, demanding everyone listen RIGHT NOW with full toddler authority." },
+      { value: "Jealous Rage 😤😡", label: "Jealous Rage 😤😡", desc: "Narrowed jealous eyes, clenched fists — extremely not okay with someone else getting attention or treats.", tag: "👦 Best for Boys" },
+      { value: "Crying Mad (Rona Dhona) 😢😠", label: "Crying Mad (Rona Dhona) 😢😠", desc: "Furious tears — crying AND angry at the same time, the ultimate emotional combo.", tag: "🔥 Viral Trend" },
+      { value: "Cold Silent Treatment 😶🧊", label: "Cold Silent Treatment 😶🧊", desc: "Ice cold stare, zero expression, deliberately ignoring everyone with maximum passive-aggressive energy." },
+      { value: "Mini Explosive Meltdown ⚡😤", label: "Mini Explosive Meltdown ⚡😤", desc: "Sudden burst of pure rage over something tiny — a missing snack, wrong cup color, anything. Maximum drama.", tag: "🔥 Viral Trend" },
+    ],
+  },
 ];
 
 export interface AnimalCompanionDef {
