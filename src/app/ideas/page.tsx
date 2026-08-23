@@ -5612,9 +5612,11 @@ interface CustomSelectProps {
   badgeTitle?: string;
   keepOpenOnSelect?: boolean;
   isLight?: boolean;
+  isHighlighted?: boolean;
+  highlightBadge?: string;
 }
 
-function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = true, isLight = false }: CustomSelectProps) {
+function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect = true, isLight = false, isHighlighted = false, highlightBadge }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
@@ -5719,6 +5721,12 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
           {icon && <span>{icon}</span>}
           <span>{label}</span>
         </span>
+        {isHighlighted && (
+          <span className="text-[9px] font-black text-amber-500 flex items-center gap-1">
+            <Sparkles className="w-2.5 h-2.5 text-amber-400 animate-pulse" />
+            <span>Setup Active</span>
+          </span>
+        )}
       </label>
 
       {/* Main Touch-Friendly Field Trigger Card */}
@@ -5726,18 +5734,29 @@ function CustomSelect({ label, icon, value, onChange, groups, keepOpenOnSelect =
         type="button"
         onClick={() => setIsOpen(true)}
         className={`w-full p-3 sm:p-3.5 rounded-2xl border text-left transition-all shadow-md touch-manipulation active:scale-[0.98] group flex flex-col justify-between gap-1 min-h-[58px] ${
-          isLight
+          isHighlighted
+            ? isLight
+              ? "bg-amber-50/90 border-2 border-amber-500 ring-2 ring-amber-400/30 text-slate-900 shadow-md shadow-amber-500/10"
+              : "bg-amber-950/30 border-2 border-amber-400/80 ring-2 ring-amber-400/30 text-white shadow-lg shadow-amber-500/20"
+            : isLight
             ? "bg-white border-slate-300 hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-900 shadow-sm"
             : "bg-slate-900/90 border-indigo-500/30 hover:border-indigo-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 text-white"
         }`}
       >
         <div className="flex items-center justify-between gap-2 w-full">
           <span className={`text-xs sm:text-sm truncate transition-colors ${
-            isLight ? "font-extrabold text-slate-900 group-hover:text-indigo-700" : "font-bold text-white group-hover:text-indigo-300"
+            isHighlighted
+              ? isLight ? "font-black text-amber-950" : "font-black text-amber-300"
+              : isLight ? "font-extrabold text-slate-900 group-hover:text-indigo-700" : "font-bold text-white group-hover:text-indigo-300"
           }`}>
             {selectedLabel}
           </span>
           <div className="flex items-center gap-1.5 shrink-0">
+            {isHighlighted && (
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 border border-amber-300 shadow-xs animate-pulse">
+                {highlightBadge || "✨ Active"}
+              </span>
+            )}
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
               isLight ? "bg-indigo-50 border-indigo-200 text-indigo-800" : "bg-indigo-950/80 border-indigo-500/30 text-indigo-300"
             }`}>
@@ -6941,6 +6960,12 @@ export default function IdeasPage() {
   const [kidsClothingBoy, setKidsClothingBoy] = useState(initialSettings.kidsClothingBoy || "Any / AI Decides");
   const [kidsClothingGirl, setKidsClothingGirl] = useState(initialSettings.kidsClothingGirl || "Any / AI Decides");
   const [characterSetup, setCharacterSetup] = useState(initialSettings.characterSetup || "Any / AI Decides");
+
+  // Dynamic Character Setup highlighting flags
+  const isBoyInSetup = /boy|brother|son|bhai|male|husband|father|dulha|man|guy/i.test(characterSetup);
+  const isGirlInSetup = /girl|sister|daughter|behan|female|wife|mother|dulhan|woman|lady/i.test(characterSetup);
+  const isFatherInSetup = /father|abu|dad|husband|miya|parents|family/i.test(characterSetup);
+  const isMotherInSetup = /mother|amma|mom|wife|biwi|parents|family/i.test(characterSetup);
   const [customCharacterSetup, setCustomCharacterSetup] = useState(initialSettings.customCharacterSetup || "");
   const [charactersPerScene, setCharactersPerScene] = useState(initialSettings.charactersPerScene || "1 Character");
   const [customCharactersPerScene, setCustomCharactersPerScene] = useState(initialSettings.customCharactersPerScene || "");
@@ -9648,109 +9673,113 @@ export default function IdeasPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* 1. Characters Age */}
-                {matchesParamFilter(["age", "characters age", "kids age", "toddler", "child"]) && (
-                  <CustomSelect
-                    label="Characters Age"
-                    icon="👶"
-                    value={kidsAge}
-                    onChange={setKidsAge}
-                    groups={KIDS_AGE_GROUPS}
-                    isLight={isLight}
-                  />
-                )}
-
-                {/* 2. Scene Location */}
-                {matchesParamFilter(["location", "scene location", "place", "setting", "room", "park", "kitchen"]) && (
-                  <CustomSelect
-                    label="Scene Location"
-                    icon="📍"
-                    value={kidsLocation}
-                    onChange={setKidsLocation}
-                    groups={category === "LOCATION_NEWS" ? NEWS_LOCATION_GROUPS : KIDS_LOCATION_GROUPS}
-                    isLight={isLight}
-                  />
-                )}
-
-                {/* 3. Kids Health */}
-                {matchesParamFilter(["health", "kids health", "active", "chubby"]) && (
-                  <CustomSelect
-                    label="Kids Health"
-                    icon="❤️"
-                    value={kidsHealth}
-                    onChange={setKidsHealth}
-                    groups={KIDS_HEALTH_GROUPS}
-                    isLight={isLight}
-                  />
-                )}
-
-                {/* 4. Kids Vibe */}
-                {matchesParamFilter(["vibe", "mood", "feeling", "kids vibe"]) && (
-                  <CustomSelect
-                    label="Kids Vibe"
-                    icon="✨"
-                    value={kidsVibe}
-                    onChange={setKidsVibe}
-                    groups={KIDS_VIBE_GROUPS}
-                    isLight={isLight}
-                  />
-                )}
-
-                {/* 4.5 Kids Clothing / Outfit Style */}
-                {matchesParamFilter(["clothing", "outfit", "kids clothing", "dress", "kurta", "frock"]) && (
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <label className={`text-xs uppercase tracking-wider font-extrabold flex items-center gap-1.5 ${isLight ? "text-zinc-950" : "text-slate-200"}`}>
-                        <span>👕 Kids Clothing / Outfits (Boy & Girl)</span>
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newOutfit = getRandomBoyOutfit();
-                          setKidsClothingBoy(newOutfit);
-                          showToast(`🎲 Generated Boy Outfit: ${newOutfit}`, "info", 1800);
-                        }}
-                        className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
-                          isLight ? "bg-amber-100 hover:bg-amber-200 text-amber-950 border-amber-300" : "bg-amber-950/60 hover:bg-amber-900 border-amber-500/40 text-amber-300"
-                        }`}
-                        title="Generate a fresh, unique, color-coordinated random outfit for the Boy character"
-                      >
-                        <span>🎲 Random Boy Outfit</span>
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {/* 1. Characters Age */}
+                    {matchesParamFilter(["age", "characters age", "kids age", "toddler", "child"]) && (
                       <CustomSelect
-                        label="👦 Boy Character Outfit"
-                        icon="👦"
-                        value={kidsClothingBoy}
-                        onChange={setKidsClothingBoy}
-                        groups={KIDS_CLOTHING_BOY_GROUPS}
-                        keepOpenOnSelect={true}
+                        label="Characters Age"
+                        icon="👶"
+                        value={kidsAge}
+                        onChange={setKidsAge}
+                        groups={KIDS_AGE_GROUPS}
                         isLight={isLight}
                       />
+                    )}
+
+                    {/* 2. Scene Location */}
+                    {matchesParamFilter(["location", "scene location", "place", "setting", "room", "park", "kitchen"]) && (
                       <CustomSelect
-                        label="👧 Girl Character Outfit"
-                        icon="👧"
-                        value={kidsClothingGirl}
-                        onChange={setKidsClothingGirl}
-                        groups={KIDS_CLOTHING_GIRL_GROUPS}
-                        keepOpenOnSelect={true}
+                        label="Scene Location"
+                        icon="📍"
+                        value={kidsLocation}
+                        onChange={setKidsLocation}
+                        groups={category === "LOCATION_NEWS" ? NEWS_LOCATION_GROUPS : KIDS_LOCATION_GROUPS}
                         isLight={isLight}
                       />
-                    </div>
+                    )}
 
-                    <CustomSelect
-                      label="👕 General / Primary Clothing"
-                      icon="👕"
-                      value={kidsClothing}
-                      onChange={setKidsClothing}
-                      groups={KIDS_CLOTHING_GROUPS}
-                      keepOpenOnSelect={true}
-                      isLight={isLight}
-                    />
-                  </div>
-                )}
+                    {/* 3. Kids Health */}
+                    {matchesParamFilter(["health", "kids health", "active", "chubby"]) && (
+                      <CustomSelect
+                        label="Kids Health"
+                        icon="❤️"
+                        value={kidsHealth}
+                        onChange={setKidsHealth}
+                        groups={KIDS_HEALTH_GROUPS}
+                        isLight={isLight}
+                      />
+                    )}
+
+                    {/* 4. Kids Vibe */}
+                    {matchesParamFilter(["vibe", "mood", "feeling", "kids vibe"]) && (
+                      <CustomSelect
+                        label="Kids Vibe"
+                        icon="✨"
+                        value={kidsVibe}
+                        onChange={setKidsVibe}
+                        groups={KIDS_VIBE_GROUPS}
+                        isLight={isLight}
+                      />
+                    )}
+
+                    {/* 4.5 Kids Clothing / Outfit Style */}
+                    {matchesParamFilter(["clothing", "outfit", "kids clothing", "dress", "kurta", "frock"]) && (
+                      <div className="space-y-2.5">
+                        <div className="flex items-center justify-between">
+                          <label className={`text-xs uppercase tracking-wider font-extrabold flex items-center gap-1.5 ${isLight ? "text-zinc-950" : "text-slate-200"}`}>
+                            <span>👕 Kids Clothing / Outfits (Boy & Girl)</span>
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newOutfit = getRandomBoyOutfit();
+                              setKidsClothingBoy(newOutfit);
+                              showToast(`🎲 Generated Boy Outfit: ${newOutfit}`, "info", 1800);
+                            }}
+                            className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-95 shadow-xs ${
+                              isLight ? "bg-amber-100 hover:bg-amber-200 text-amber-950 border-amber-300" : "bg-amber-950/60 hover:bg-amber-900 border-amber-500/40 text-amber-300"
+                            }`}
+                            title="Generate a fresh, unique, color-coordinated random outfit for the Boy character"
+                          >
+                            <span>🎲 Random Boy Outfit</span>
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                          <CustomSelect
+                            label="👦 Boy Character Outfit"
+                            icon="👦"
+                            value={kidsClothingBoy}
+                            onChange={setKidsClothingBoy}
+                            groups={KIDS_CLOTHING_BOY_GROUPS}
+                            keepOpenOnSelect={true}
+                            isLight={isLight}
+                            isHighlighted={isBoyInSetup}
+                            highlightBadge="✨ Active for Boy"
+                          />
+                          <CustomSelect
+                            label="👧 Girl Character Outfit"
+                            icon="👧"
+                            value={kidsClothingGirl}
+                            onChange={setKidsClothingGirl}
+                            groups={KIDS_CLOTHING_GIRL_GROUPS}
+                            keepOpenOnSelect={true}
+                            isLight={isLight}
+                            isHighlighted={isGirlInSetup}
+                            highlightBadge="✨ Active for Girl"
+                          />
+                        </div>
+
+                        <CustomSelect
+                          label="👕 General / Primary Clothing"
+                          icon="👕"
+                          value={kidsClothing}
+                          onChange={setKidsClothing}
+                          groups={KIDS_CLOTHING_GROUPS}
+                          keepOpenOnSelect={true}
+                          isLight={isLight}
+                        />
+                      </div>
+                    )}
 
                 {/* 4.6 Voice & Audio Style */}
                 {matchesParamFilter(["voice", "audio", "sound", "music", "dubbing", "audio style"]) && (
