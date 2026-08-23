@@ -7409,6 +7409,27 @@ export default function IdeasPage() {
     showToast("Reset search, filters, & options to default!", "info");
   };
 
+  const handleResetAllDialogueSettings = () => {
+    setCustomDialogue("");
+    setCustomDialogueSeq1("");
+    setCustomDialogueSeq2("");
+    setCustomDialogueSeq3("");
+    setCharacterSetup("Any / AI Decides");
+    setCustomCharacterSetup("");
+    setKidsAge("Any / AI Decides");
+    setKidsLocation("Any / AI Decides");
+    setKidsVibe("Any / AI Decides");
+    setCameraShot("Any / AI Decides");
+    setKidsTalkingSpeed("Any / AI Decides");
+    setKidsFood("Any / AI Decides");
+    setKidsProp("Any / AI Decides");
+    setKidsClothing("Any / AI Decides");
+    setKidsNationality("Any / AI Decides");
+    setCharPerformance("Any / AI Decides");
+    setStoryBeat("Any / AI Decides");
+    showToast("🎙️ Reset all dialogue & scene settings to defaults!", "info", 2500);
+  };
+
   // Copied state tracking
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -8700,6 +8721,19 @@ export default function IdeasPage() {
                   }`}>
                     <span>💬 Custom Spoken Dialogue & Essential Controls (Optional)</span>
                   </label>
+                  <button
+                    type="button"
+                    onClick={handleResetAllDialogueSettings}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                      isLight
+                        ? "bg-amber-200/90 hover:bg-amber-300 border-amber-400 text-amber-950"
+                        : "bg-amber-950/90 hover:bg-amber-900 border-amber-500/50 text-amber-200"
+                    }`}
+                    title="Reset dialogue text, character setup, age, location, vibe & camera shot settings to defaults"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span>🎙️ Reset All Settings</span>
+                  </button>
 
                 {/* ⚡ Quick Character & Scene Bar (All-in-One Dialogue Controls) */}
                 <div className={`p-3 rounded-xl border space-y-2.5 my-1 ${
