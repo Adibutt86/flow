@@ -1403,7 +1403,7 @@ STRICT SCRIPT CORRECTION RULES (URDU & PUNJABI FIXER):
 4. ADD PUNCTUATION FOR TTS PAUSES: Add commas (،) and ellipses (۔۔۔) where natural pauses should occur. This is critical for AI voice pacing. Replace dashes (-) at the end of sentences with proper Urdu full stops (۔) or ellipses (۔۔۔).
 5. PUNJABI MANDATE: If the text is Punjabi, use Pakistani Shahmukhi script (پنجابی) and ensure heavy consonant emphasis (Tashdeed) is applied correctly.
 6. Output Format: Return ONLY the corrected, clean dialogue text with NO extra intro, outro explanations, or markdown headers. Do NOT explain your changes.
-${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: (For context only, do not alter vocabulary) "${input.customSceneDescription.trim()}".` : ""}`
+${input.customSceneDescription && input.customSceneDescription.trim() ? `7. SCENE CONTEXT: (For context only, do not alter vocabulary) "${input.customSceneDescription.trim()}".` : ""}
 ${
   (input.category === "POETRY" || input.category === "SONG" || input.category === "CUTE_KIDS")
     ? `
