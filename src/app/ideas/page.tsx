@@ -8805,8 +8805,8 @@ export default function IdeasPage() {
                     ))}
                   </div>
 
-                  {/* Row 2: 4 Searchable Selectors (Setup, Age, Location, Vibe) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+                  {/* Row 2: 5 Searchable Selectors (Setup, Age, Location, Vibe, Clothing) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-xs">
                     <CustomSelect
                       label="Setup"
                       icon="👤"
@@ -8837,6 +8837,14 @@ export default function IdeasPage() {
                       value={kidsVibe}
                       onChange={setKidsVibe}
                       groups={KIDS_VIBE_GROUPS}
+                      isLight={isLight}
+                    />
+                    <CustomSelect
+                      label="Clothing"
+                      icon="👕"
+                      value={kidsClothing}
+                      onChange={setKidsClothing}
+                      groups={KIDS_CLOTHING_GROUPS}
                       isLight={isLight}
                     />
                   </div>
