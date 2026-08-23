@@ -4042,6 +4042,13 @@ const CHARACTERS_PER_SCENE_GROUPS: OptionGroupWithDesc[] = [
 // 5.5 KIDS CLOTHING OPTIONS — Separated by Girl & Boy
 const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
   {
+    category: "🤖 Default & Auto Selectors",
+    options: [
+      { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the best outfit automatically based on scene context and location." },
+      { value: "Custom", label: "Custom (Write-in Outfit)", desc: "Specify a custom outfit description for your character." },
+    ],
+  },
+  {
     category: "🇰🇷 Korean Fashion & Hanbok Outfits",
     options: [
       { value: "Korean Pastel Oversized Knit Sweater & Beanie 🇰🇷", label: "Korean Oversized Knit & Beanie 🇰🇷", desc: "Cozy Korean pastel oversized sweater, bucket hat/beanie, dark trousers, and cute sneakers." },
@@ -4138,11 +4145,11 @@ const KIDS_CLOTHING_GROUPS: OptionGroupWithDesc[] = [
 ];
 
 export const KIDS_CLOTHING_BOY_GROUPS: OptionGroupWithDesc[] = KIDS_CLOTHING_GROUPS.filter(
-  (g) => g.category.includes("Boys") || g.category.includes("Korean")
+  (g) => g.category.includes("Boys") || g.category.includes("Korean") || g.category.includes("Default")
 );
 
 export const KIDS_CLOTHING_GIRL_GROUPS: OptionGroupWithDesc[] = KIDS_CLOTHING_GROUPS.filter(
-  (g) => g.category.includes("Girls") || g.category.includes("Korean")
+  (g) => g.category.includes("Girls") || g.category.includes("Korean") || g.category.includes("Default")
 );
 
 // 5.6 KIDS EXPRESSION / REACTION STYLE
@@ -8762,8 +8769,9 @@ export default function IdeasPage() {
                       { label: "👧 Solo Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Sweet & Wholesome" },
                       { label: "👦 Solo Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Playroom Carpet", vibe: "Cheerful & Energetic" },
                       { label: "😭 Sad Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Window", vibe: "Sad & Tearful (Rona / Udaas) 😢💧" },
-                      { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome" },
-                      { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome" },
+                      { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome", clothingBoy: "Boy — White Shalwar Kameez", fatherClothing: "White Kameez Shalwar" },
+                      { label: "👧+👨 Girl & Abu", setup: "Father + Daughter (Girl + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome", clothingGirl: "Girl — Pink Shalwar Kameez", fatherClothing: "White Kameez Shalwar" },
+                      { label: "👧+👩 Girl & Amma", setup: "Mother + Daughter (Girl + Amma)", age: "Child (5-8 yrs)", location: "Home Kitchen Counter", vibe: "Sweet & Wholesome", clothingGirl: "Girl — Pink Shalwar Kameez", motherClothing: "Floral Lawn Shalwar Kameez" },
                       { label: "👦+👧 Boy Teasing Sister", setup: "Brother & Sister (Bhahi & Behan)", age: "Child (5-8 yrs)", location: "Living Room Sofa", vibe: "Innocent Mischief & Giggle 😇🤭", cameraShot: "Alternating Close-Ups" },
                       { label: "📱 Phone Call", setup: "Phone Call (Husband & Wife / Friends / Separate Locations)", age: "Adult (20s-40s)", location: "Split Locations (Office & Living Room)", vibe: "Funny & Mischievous", cameraShot: "Phone Call Split View" },
                       { label: "😤 Angry Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Funny & Mischievous" },
@@ -8779,6 +8787,10 @@ export default function IdeasPage() {
                           setKidsAge(badge.age);
                           setKidsLocation(badge.location);
                           setKidsVibe(badge.vibe);
+                          if (badge.clothingBoy) setKidsClothingBoy(badge.clothingBoy);
+                          if (badge.clothingGirl) setKidsClothingGirl(badge.clothingGirl);
+                          if (badge.fatherClothing) setFatherClothing(badge.fatherClothing);
+                          if (badge.motherClothing) setMotherClothing(badge.motherClothing);
                           if (badge.cameraShot) setCameraShot(badge.cameraShot);
                           showToast(`⚡ Applied Quick Setup: "${badge.label}"`, "success", 2000);
                         }}
