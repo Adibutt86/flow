@@ -7538,7 +7538,7 @@ export default function IdeasPage() {
     const catToReset = targetCat || category;
 
     // Set ALL parameter options to "Any / AI Decides" so AI chooses what is best by default
-    setKidsAge("Any / AI Decides");
+    setKidsAge("Toddler (2-4 yrs)");
     setKidsLocation("Any / AI Decides");
     setKidsVibe("Any / AI Decides");
     setKidsClothing("Any / AI Decides");
@@ -7655,7 +7655,7 @@ export default function IdeasPage() {
     setCustomDialogueSeq3("");
     setCharacterSetup("Any / AI Decides");
     setCustomCharacterSetup("");
-    setKidsAge("Any / AI Decides");
+    setKidsAge("Toddler (2-4 yrs)");
     setKidsLocation("Any / AI Decides");
     setKidsVibe("Any / AI Decides");
     setCameraShot("Any / AI Decides");
