@@ -4253,6 +4253,7 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Wide-Eyed Cartoon Pop-Out", label: "Wide-Eyed Cartoon Pop-Out 👁️", desc: "Oversized bulging wide eyes in hilarious cartoon-style shock.", tag: "🔥 Viral Trend" },
       { value: "Wink & Cheeky Tongue Out", label: "Wink & Cheeky Tongue Out 😉", desc: "One-eye wink with a playful mischievous grin.", tag: "👧 Best for Girls" },
       { value: "Confused Blink", label: "Confused Blink 😑", desc: "Slow double blink with a deeply puzzled, blank expression.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Dizzy Starry Eyes", label: "Dizzy Starry Eyes 😵‍💫", desc: "Spinning dizzy eyes after running around or eating too much sugar.", tag: "🔥 Viral Trend" },
     ]
   },
   {
@@ -4269,6 +4270,9 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Disgusted Face", label: "Disgusted Face 🤢", desc: "Dramatic disgusted face at broccoli or something they dislike.", tag: "👦 Best for Boys" },
       { value: "Mini Lecture Mode", label: "Mini Lecture Mode ☝️", desc: "Wagging finger seriously, explaining something with cute authority.", tag: "👧 Best for Girls" },
       { value: "Dramatic Gasp", label: "Dramatic Gasp 😮", desc: "Over-the-top shocked gasp with hand on cheek.", tag: "👧 Best for Girls" },
+      { value: "Mind Blown Explosion", label: "Mind Blown Explosion 🤯", desc: "Exaggerated mind-blown expression grasping their head in awe.", tag: "🔥 Viral Trend" },
+      { value: "Savage Side Smirk", label: "Savage Side Smirk 😏", desc: "A confident and sassy smirk after delivering a funny punchline.", tag: "🔥 Viral Trend" },
+      { value: "Fake Crying Tantrum", label: "Fake Crying Tantrum 😭", desc: "Overdramatic loud crying with arms flailing for comedic effect.", tag: "👦 Best for Boys" },
     ]
   },
   {
@@ -4279,6 +4283,8 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Sunshine Beam Smile", label: "Sunshine Beam Smile 😁", desc: "Ear-to-ear heart-melting beam of pure joy.", tag: "👧 Best for Girls" },
       { value: "Shy Hide Face", label: "Shy Hide Face 🙈", desc: "Hiding face in hands or looking away with rosy cheeks.", tag: "👧 Best for Girls" },
       { value: "Adorable Head Tilt", label: "Adorable Head Tilt 🥺", desc: "Cute tilted head with a puzzled or wondering expression.", tag: "👧 Best for Girls" },
+      { value: "Angry Pout / Folded Arms", label: "Angry Pout & Folded Arms 😤", desc: "Cute angry pout with puffed cheeks and arms crossed tightly.", tag: "👦 Best for Boys" },
+      { value: "Sleeping / Snoring", label: "Sleeping & Snoring 😴", desc: "Peaceful sleeping face with a little snot bubble or soft snoring.", tag: "👨‍👩‍👧 Adults & Family" },
     ]
   },
   {
