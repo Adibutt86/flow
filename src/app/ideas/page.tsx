@@ -7209,13 +7209,8 @@ export default function IdeasPage() {
 
     // Populate Custom Spoken Dialogue box (preserve user's active custom dialogue script if already typed)
     const hasActiveUserDialogue = customDialogue && customDialogue.trim() && !/^(Boy|Girl|Abu|Amma|Larka|Larki|Son|Father|Mother):\s*$/i.test(customDialogue.trim());
-    if (preset.customDialogue !== undefined) {
-      setCustomDialogue(preset.customDialogue);
-    } else if (!hasActiveUserDialogue) {
-      const labels = getPresetCharacterLabels(preset.title);
-      if (labels) {
-        setCustomDialogue(labels);
-      }
+    if (!hasActiveUserDialogue) {
+      setCustomDialogue("");
     }
 
     setIncludeCharacterBible(true);
@@ -7904,9 +7899,9 @@ export default function IdeasPage() {
           includeCharacterBible,
           compactMode,
           kids20sStep: (videoDuration === 20 || videoDuration === 30) ? "SCENE_1_ONLY" : undefined,
-          customDialogue: withoutDialogue ? undefined : ((videoDuration === 20 || videoDuration === 30)
-            ? (customDialogueSeq1 || customDialogueSeq2 || customDialogueSeq3 ? `First Sequence (0-10s): "${customDialogueSeq1.trim()}"\nSecond Sequence (10-20s): "${customDialogueSeq2.trim()}"${videoDuration === 30 ? `\nThird Sequence (20-30s): "${customDialogueSeq3.trim()}"` : ""}` : customDialogue)
-            : customDialogue),
+          customDialogue: (customDialogue && customDialogue.trim() || customDialogueSeq1 || customDialogueSeq2 || customDialogueSeq3) ? ((videoDuration === 20 || videoDuration === 30)
+            ? (customDialogueSeq1 || customDialogueSeq2 || customDialogueSeq3 ? `First Sequence (0-10s): "${customDialogueSeq1?.trim() || ''}"\nSecond Sequence (10-20s): "${customDialogueSeq2?.trim() || ''}"${videoDuration === 30 ? `\nThird Sequence (20-30s): "${customDialogueSeq3?.trim() || ''}"` : ""}` : customDialogue)
+            : customDialogue) : undefined,
           customDialogueSeq1: customDialogueSeq1 && customDialogueSeq1.trim() ? customDialogueSeq1.trim() : undefined,
           customDialogueSeq2: customDialogueSeq2 && customDialogueSeq2.trim() ? customDialogueSeq2.trim() : undefined,
           customDialogueSeq3: customDialogueSeq3 && customDialogueSeq3.trim() ? customDialogueSeq3.trim() : undefined,
