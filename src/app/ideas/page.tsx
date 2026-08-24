@@ -7901,6 +7901,28 @@ export default function IdeasPage() {
     }
   };
 
+  const saveCurrentSettingsDefault = () => {
+    const settings: IdeasPageSettings = {
+      category, language, visualStyle, videoDuration, customDialogue,
+      kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
+      kidsVibe, kidsClothing, kidsExpression, kidsFood, kidsProp, timeOfDay,
+      storyBeat, cameraShot, charPerformance, characterSetup, customCharacterSetup,
+      charactersPerScene, customCharactersPerScene, kidsNationality, carboxBrand,
+      carboxColor, carboxPackaging, carboxBackground, customIdea, aiModel, musicType,
+      seriousDialogueStyle, customSceneDescription, outroEffects, includeMic,
+      audiencePerspective, stageEnvironment, initialPerformer, triggerAction, targetEntity,
+      lightingFx, performerAge, stageLocation, songCrowdFx, characterFaceType,
+      isShortIdea, withoutDialogue, withoutMusic
+    };
+    try {
+      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
+      showToast("Your current configuration has been saved as default.", "success");
+    } catch (e) {
+      console.error(e);
+      showToast("Failed to save settings.", "error");
+    }
+  };
+
   const matchesParamFilter = (terms: string[]) => {
     if (!paramSearchQuery.trim()) return true;
     const q = paramSearchQuery.trim().toLowerCase();
@@ -10174,70 +10196,60 @@ export default function IdeasPage() {
                     }`}>
                       Predefined Character Options
                     </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                      {[
-                        { id: "boy_fair", label: "Fair Boy (Cute)", url: "/characters/boy/fair_boy.jpg" },
-                        { id: "boy_school", label: "Boy (School)", url: "/characters/boy/school_uniform.jpg" },
-                        { id: "boy_sports", label: "Boy (Sports)", url: "/characters/boy/sports_outfit.jpg" },
-                        { id: "girl_fair", label: "Fair Girl (Cute)", url: "/characters/girl/fair_girl.jpg" },
-                        { id: "girl_shalwar", label: "Girl (Shalwar)", url: "/characters/girl/shalwar_kameez.jpg" },
-                        { id: "girl_princess", label: "Girl (Princess)", url: "/characters/girl/princess_dress.jpg" },
-                        { id: "mother_a", label: "Mother", url: "/characters/mother/mother_a.jpg" },
-                        { id: "father_a", label: "Father", url: "/characters/father/father_a.jpg" },
-                        { id: "shopkeeper_a", label: "Shopkeeper", url: "/characters/shopkeeper/shopkeeper_a.jpg" },
-                        { id: "white_cat", label: "Talking White Cat 🐱", url: "/characters/animals/white_cat.jpg" },
-                        { id: "ginger_cat", label: "Talking Ginger Cat 🐱", url: "/characters/animals/ginger_cat.jpg" },
-                        { id: "golden_dog", label: "Talking Golden Dog 🐶", url: "/characters/animals/golden_dog.jpg" },
-                        { id: "mother_cat", label: "Mother Cat 🐈‍⬛", url: "/characters/animals/mother_cat.jpg" },
-                        { id: "green_parrot", label: "Talking Parrot 🦜", url: "/characters/animals/green_parrot.jpg" },
-                        { id: "female_parrot", label: "Female Parrot 🦜🌸", url: "/characters/animals/female_parrot.jpg" }
-                      ].map((char) => (
-                        <div 
-                          key={char.id} 
-                          className={`relative group/char rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 shadow-md ${
-                            referenceImages.includes(char.url) 
-                              ? "border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" 
-                              : (isLight ? "border-slate-200" : "border-slate-800 hover:border-indigo-500")
-                          }`}
-                        >
-                          <img 
-                            src={char.url} 
-                            alt={char.label} 
-                            onClick={() => {
-                              if (!referenceImages.includes(char.url)) {
-                                setReferenceImages((prev) => [...prev, char.url]);
-                                showToast(`Added ${char.label} to reference images`, "success");
-                              }
-                            }}
-                            className="w-full aspect-square object-cover cursor-pointer" 
-                          />
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPreviewImageModal({ url: char.url, label: char.label });
-                            }}
-                            className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-black/70 hover:bg-black text-white text-xs opacity-80 hover:opacity-100 transition-all shadow-md cursor-pointer"
-                            title="Preview larger image"
-                          >
-                            🔍
-                          </button>
-                          <div 
-                            onClick={() => {
-                              if (!referenceImages.includes(char.url)) {
-                                setReferenceImages((prev) => [...prev, char.url]);
-                                showToast(`Added ${char.label} to reference images`, "success");
-                              }
-                            }}
-                            className={`text-[10px] text-center font-bold p-1.5 cursor-pointer ${isLight ? "bg-slate-100 text-slate-800" : "bg-slate-900 text-slate-300"}`}
-                          >
-                            {char.label}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex items-center gap-2">
+                      <select
+                        onChange={(e) => {
+                          const url = e.target.value;
+                          if (!url) return;
+                          if (!referenceImages.includes(url)) {
+                            setReferenceImages((prev) => [...prev, url]);
+                            const label = e.target.options[e.target.selectedIndex].text;
+                            showToast(`Added ${label} to reference images`, "success");
+                          } else {
+                            showToast("Image already added", "info");
+                          }
+                          e.target.value = ""; // reset dropdown
+                        }}
+                        className={`px-3 py-2 rounded-lg border text-sm font-semibold focus:outline-none cursor-pointer shadow-sm w-full max-w-sm ${
+                          isLight
+                            ? "bg-white border-slate-300 text-slate-900"
+                            : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
+                        }`}
+                      >
+                        <option value="">➕ Select a Character Image...</option>
+                        <optgroup label="Kids (Boys)">
+                          <option value="/characters/boy/fair_boy.jpg">Fair Boy (Cute)</option>
+                          <option value="/characters/boy/school_uniform.jpg">Boy (School)</option>
+                          <option value="/characters/boy/sports_outfit.jpg">Boy (Sports)</option>
+                          <option value="/characters/boy/comedy_star_toddler.jpg">Comedy Start Toddler</option>
+                          <option value="/characters/boy/boy.jpg">Boy</option>
+                          <option value="/characters/boy/funny_boy.jpg">Funny Boy</option>
+                        </optgroup>
+                        <optgroup label="Kids (Girls)">
+                          <option value="/characters/girl/fair_girl.jpg">Fair Girl (Cute)</option>
+                          <option value="/characters/girl/shalwar_kameez.jpg">Girl (Shalwar)</option>
+                          <option value="/characters/girl/princess_dress.jpg">Girl (Princess)</option>
+                          <option value="/characters/girl/girl.jpg">Girl</option>
+                          <option value="/characters/girl/funny_girl.jpg">Funny Girl</option>
+                        </optgroup>
+                        <optgroup label="Adults">
+                          <option value="/characters/mother/mother_a.jpg">Mother</option>
+                          <option value="/characters/father/father_a.jpg">Father</option>
+                          <option value="/characters/shopkeeper/shopkeeper_a.jpg">Shopkeeper</option>
+                        </optgroup>
+                        <optgroup label="Animals">
+                          <option value="/characters/animals/white_cat.jpg">Talking White Cat 🐱</option>
+                          <option value="/characters/animals/ginger_cat.jpg">Talking Ginger Cat 🐱</option>
+                          <option value="/characters/animals/golden_dog.jpg">Talking Golden Dog 🐶</option>
+                          <option value="/characters/animals/mother_cat.jpg">Mother Cat 🐈‍⬛</option>
+                          <option value="/characters/animals/green_parrot.jpg">Talking Parrot 🦜</option>
+                          <option value="/characters/animals/female_parrot.jpg">Female Parrot 🦜🌸</option>
+                          <option value="/characters/animals/funny_parrot.jpg">Funny Parrot</option>
+                        </optgroup>
+                      </select>
                     </div>
                     <p className={`text-[10px] font-medium italic mt-1.5 ${isLight ? "text-slate-500" : "text-slate-400"}`}>
-                      Click any character to select, or click 🔍 to view in large preview lightbox.
+                      Select a character from the dropdown to add it to your reference images.
                     </p>
                   </div>
                 )}
@@ -11763,13 +11775,23 @@ export default function IdeasPage() {
                 )}
                 <button
                   type="button"
-                  onClick={saveCurrentSettings}
-                  title="Save current selections as a new custom setup"
+                  onClick={saveCurrentSettingsDefault}
+                  title="Save current selections as default"
                   className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
                     isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
                   }`}
                 >
-                  💾 Save Settings
+                  💾 Save Default
+                </button>
+                <button
+                  type="button"
+                  onClick={saveCurrentSettings}
+                  title="Save current selections as a new custom setup"
+                  className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
+                    isLight ? "bg-teal-600 hover:bg-teal-500 text-white" : "bg-teal-500 hover:bg-teal-400 text-white"
+                  }`}
+                >
+                  💾 Save As...
                 </button>
               </div>
             </div>
