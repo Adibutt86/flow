@@ -7125,6 +7125,7 @@ export default function IdeasPage() {
 
 
   const applyStageMetamorphosisPreset = (preset: typeof STAGE_METAMORPHOSIS_PRESETS[0]) => {
+    handleResetCategorySettings("LIVE_STAGE_METAMORPHOSIS", true);
     setPerformerAge(preset.performerAge);
     setStageLocation(preset.stageLocation);
     setAudiencePerspective(preset.audiencePerspective);
@@ -7133,6 +7134,7 @@ export default function IdeasPage() {
     setTriggerAction(preset.triggerAction);
     setTargetEntity(preset.targetEntity);
     setLightingFx(preset.lightingFx);
+    setActivePresetTitle(preset.title || preset.name);
     setIncludeCharacterBible(true);
     showToast(`Applied preset: ${preset.name}`, "success");
   };
@@ -7184,13 +7186,13 @@ export default function IdeasPage() {
   };
 
   const applyCuteKidsPreset = (preset: any) => {
+    // Reset defaults first so we start clean
+    handleResetCategorySettings(category, true);
+
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
     
-    // Reset defaults first so we start clean
-    resetNonLocationSettingsToAIDefault();
-
     // Now apply all specific settings from the preset
     if (preset.age) setKidsAge(preset.age);
     if (preset.health) setKidsHealth(preset.health);
@@ -7222,40 +7224,43 @@ export default function IdeasPage() {
   };
 
   const applySongPreset = (preset: typeof SONG_PRESETS[0] & { clothing?: string; crowdFx?: string; faceType?: string }) => {
+    handleResetCategorySettings("SONG", true);
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
-    resetNonLocationSettingsToAIDefault();
+    setActivePresetTitle(preset.title);
     setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Song preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyPoetryPreset = (preset: typeof POETRY_PRESETS[0] & { clothing?: string; faceType?: string }) => {
+    handleResetCategorySettings("POETRY", true);
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
-    resetNonLocationSettingsToAIDefault();
+    setActivePresetTitle(preset.title);
     setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Poetry preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyShortClipPreset = (preset: typeof SHORT_CLIP_PRESETS[0]) => {
+    handleResetCategorySettings("SHORT_CLIP", true);
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
-    resetNonLocationSettingsToAIDefault();
     setWithoutMusic(preset.withoutMusic !== undefined ? preset.withoutMusic : false);
     setWithoutDialogue(preset.withoutDialogue !== undefined ? preset.withoutDialogue : false);
     if (preset.isShortIdea !== undefined) setIsShortIdea(preset.isShortIdea);
+    setActivePresetTitle(preset.title);
     setIncludeCharacterBible(true);
     showToast(`✅ Applied "${preset.title}" Short Clip preset (Location & Characters set, all else AI Default)!`, "success");
   };
 
   const applyCommercialAdPreset = (preset: typeof COMMERCIAL_AD_PRESETS[0]) => {
+    handleResetCategorySettings("COMMERCIAL_AD", true);
     if (preset.location) setKidsLocation(preset.location);
     if (preset.perScene) setCharactersPerScene(preset.perScene);
     if (preset.setup) setCharacterSetup(preset.setup);
-    resetNonLocationSettingsToAIDefault();
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     if (preset.customSceneDescription) setCustomSceneDescription(preset.customSceneDescription);
     setWithoutMusic(false);
@@ -7265,6 +7270,7 @@ export default function IdeasPage() {
   };
 
   const applyFruitDancingPreset = (preset: typeof FRUIT_DANCING_PRESETS[0]) => {
+    handleResetCategorySettings("FRUIT_DANCING", true);
     setKidsAge("Toddler (2-4 yrs)");
     setKidsLocation(preset.location);
     setKidsVibe(preset.vibe);
@@ -7275,11 +7281,13 @@ export default function IdeasPage() {
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     setWithoutDialogue(true);
     setWithoutMusic(false);
+    setActivePresetTitle(preset.title);
     setIncludeCharacterBible(true);
     showToast(`🍓 Applied "${preset.title}" Fruit Dancing preset!`, "success");
   };
 
   const applyAnimalDancingPreset = (preset: typeof ANIMAL_DANCING_PRESETS[0]) => {
+    handleResetCategorySettings("ANIMAL_DANCING", true);
     setKidsAge(preset.age);
     setKidsLocation(preset.location);
     setKidsVibe(preset.vibe);
@@ -7290,6 +7298,7 @@ export default function IdeasPage() {
     if (preset.visualStyle) setVisualStyle(preset.visualStyle);
     setWithoutDialogue(true);
     setWithoutMusic(false);
+    setActivePresetTitle(preset.title);
     setIncludeCharacterBible(true);
     showToast(`🐱 Applied "${preset.title}" Animal Dancing preset!`, "success");
   };
@@ -7454,7 +7463,7 @@ export default function IdeasPage() {
     withoutMusic,
   ]);
 
-  const handleResetCategorySettings = (targetCat?: CategoryId) => {
+  const handleResetCategorySettings = (targetCat?: CategoryId, suppressToast = false) => {
     const catToReset = targetCat || category;
 
     // Set ALL parameter options to "Any / AI Decides" so AI chooses what is best by default
@@ -7478,6 +7487,7 @@ export default function IdeasPage() {
     setMusicType("AI Decides");
     setSongCrowdFx("AI Decides");
     setCustomSceneDescription("");
+    setActivePresetTitle("");
 
     if (catToReset === "SHORT_CLIP") {
       setWithoutMusic(true);
@@ -7510,7 +7520,7 @@ export default function IdeasPage() {
       applyAnimalDancingPreset(ANIMAL_DANCING_PRESETS[0]);
     }
 
-    showToast(`Reset parameters to AI Default (AI will choose what is best)!`, "info");
+    if (!suppressToast) showToast(`Reset parameters to AI Default (AI will choose what is best)!`, "info");
   };
 
   const handleResetSettings = () => {
@@ -7587,6 +7597,7 @@ export default function IdeasPage() {
     setKidsNationality("Any / AI Decides");
     setCharPerformance("Any / AI Decides");
     setStoryBeat("Any / AI Decides");
+    setActivePresetTitle("");
     showToast("🎙️ Reset all dialogue & scene settings to defaults!", "info", 2500);
   };
 
