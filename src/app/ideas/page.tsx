@@ -7134,7 +7134,7 @@ export default function IdeasPage() {
     setTriggerAction(preset.triggerAction);
     setTargetEntity(preset.targetEntity);
     setLightingFx(preset.lightingFx);
-    setActivePresetTitle(preset.title || preset.name);
+    setActivePresetTitle(preset.name);
     setIncludeCharacterBible(true);
     showToast(`Applied preset: ${preset.name}`, "success");
   };
