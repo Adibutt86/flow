@@ -6622,6 +6622,68 @@ export default function IdeasPage() {
   const [isOptimizeSectionOpen, setIsOptimizeSectionOpen] = useState(false);
   const [isSituationSectionOpen, setIsSituationSectionOpen] = useState(false);
   const [isUcpSectionOpen, setIsUcpSectionOpen] = useState(true);
+  
+  const [customSettingsList, setCustomSettingsList] = useState<{id: string, name: string, settings: IdeasPageSettings}[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("flow-custom-settings-list");
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+    }
+    return [];
+  });
+  
+  const applySettings = (saved: IdeasPageSettings) => {
+    if (saved.category) setCategory(saved.category);
+    if (saved.language) setLanguage(saved.language);
+    if (saved.visualStyle) setVisualStyle(saved.visualStyle);
+    if (saved.videoDuration) setVideoDuration(saved.videoDuration);
+    if (saved.customDialogue !== undefined) setCustomDialogue(saved.customDialogue);
+    if (saved.kidsAge) setKidsAge(saved.kidsAge);
+    if (saved.kidsAudioStyle) setKidsAudioStyle(saved.kidsAudioStyle);
+    if (saved.kidsTalkingSpeed) setKidsTalkingSpeed(saved.kidsTalkingSpeed);
+    if (saved.kidsLocation) setKidsLocation(saved.kidsLocation);
+    if (saved.kidsHealth) setKidsHealth(saved.kidsHealth);
+    if (saved.kidsVibe) setKidsVibe(saved.kidsVibe);
+    if (saved.kidsClothing) setKidsClothing(saved.kidsClothing);
+    if (saved.kidsExpression) setKidsExpression(saved.kidsExpression);
+    if (saved.kidsFood) setKidsFood(saved.kidsFood);
+    if (saved.kidsProp) setKidsProp(saved.kidsProp);
+    if (saved.timeOfDay) setTimeOfDay(saved.timeOfDay);
+    if (saved.storyBeat) setStoryBeat(saved.storyBeat);
+    if (saved.cameraShot) setCameraShot(saved.cameraShot);
+    if (saved.charPerformance) setCharPerformance(saved.charPerformance);
+    if (saved.characterSetup) setCharacterSetup(saved.characterSetup);
+    if (saved.customCharacterSetup) setCustomCharacterSetup(saved.customCharacterSetup);
+    if (saved.charactersPerScene) setCharactersPerScene(saved.charactersPerScene);
+    if (saved.customCharactersPerScene) setCustomCharactersPerScene(saved.customCharactersPerScene);
+    if (saved.kidsNationality) setKidsNationality(saved.kidsNationality);
+    if (saved.carboxBrand) setCarboxBrand(saved.carboxBrand);
+    if (saved.carboxColor) setCarboxColor(saved.carboxColor);
+    if (saved.carboxPackaging) setCarboxPackaging(saved.carboxPackaging);
+    if (saved.carboxBackground) setCarboxBackground(saved.carboxBackground);
+    if (saved.customIdea) setCustomIdea(saved.customIdea);
+    if (saved.aiModel) setAiModel(saved.aiModel);
+    if (saved.musicType) setMusicType(saved.musicType);
+    if (saved.seriousDialogueStyle) setSeriousDialogueStyle(saved.seriousDialogueStyle);
+    if (saved.customSceneDescription) setCustomSceneDescription(saved.customSceneDescription);
+    if (saved.outroEffects) setOutroEffects(saved.outroEffects);
+    if (saved.includeMic !== undefined) setIncludeMic(saved.includeMic);
+    if (saved.audiencePerspective) setAudiencePerspective(saved.audiencePerspective);
+    if (saved.stageEnvironment) setStageEnvironment(saved.stageEnvironment);
+    if (saved.initialPerformer) setInitialPerformer(saved.initialPerformer);
+    if (saved.triggerAction) setTriggerAction(saved.triggerAction);
+    if (saved.targetEntity) setTargetEntity(saved.targetEntity);
+    if (saved.lightingFx) setLightingFx(saved.lightingFx);
+    if (saved.performerAge) setPerformerAge(saved.performerAge);
+    if (saved.stageLocation) setStageLocation(saved.stageLocation);
+    if (saved.songCrowdFx) setSongCrowdFx(saved.songCrowdFx);
+    if (saved.characterFaceType) setCharacterFaceType(saved.characterFaceType);
+    if (saved.isShortIdea !== undefined) setIsShortIdea(saved.isShortIdea);
+    if (saved.withoutDialogue !== undefined) setWithoutDialogue(saved.withoutDialogue);
+    if (saved.withoutMusic !== undefined) setWithoutMusic(saved.withoutMusic);
+    showToast("Settings applied!", "success");
+  };
 
 
 
@@ -7812,6 +7874,9 @@ export default function IdeasPage() {
   };
 
   const saveCurrentSettings = () => {
+    const name = window.prompt("Enter a name for this custom setup:", "My Custom Setup");
+    if (!name || !name.trim()) return;
+
     const settings: IdeasPageSettings = {
       category, language, visualStyle, videoDuration, customDialogue,
       kidsAge, kidsAudioStyle, kidsTalkingSpeed, kidsLocation, kidsHealth,
@@ -7825,11 +7890,14 @@ export default function IdeasPage() {
       isShortIdea, withoutDialogue, withoutMusic
     };
     try {
-      localStorage.setItem("flow-ideas-page-settings", JSON.stringify(settings));
-      showToast("Your current configuration has been saved as default.", "success");
+      const newItem = { id: Date.now().toString(), name: name.trim(), settings };
+      const updatedList = [...customSettingsList, newItem];
+      setCustomSettingsList(updatedList);
+      localStorage.setItem("flow-custom-settings-list", JSON.stringify(updatedList));
+      showToast(`Saved setup "${name.trim()}"!`, "success");
     } catch (e) {
       console.error(e);
-      showToast("Failed to save settings.", "error");
+      showToast("Failed to save custom settings.", "error");
     }
   };
 
@@ -11668,16 +11736,42 @@ export default function IdeasPage() {
               >
                 <span>{isSituationSectionOpen ? "▼" : "▶"} 🎬 Situation / Scene Description & Extra Settings (Optional)</span>
               </button>
-              <button
-                type="button"
-                onClick={saveCurrentSettings}
-                title="Save current selections as default"
-                className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
-                  isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
-                }`}
-              >
-                💾 Save Settings
-              </button>
+              <div className="flex items-center gap-2">
+                {customSettingsList.length > 0 && (
+                  <select
+                    onChange={(e) => {
+                      const selectedId = e.target.value;
+                      if (!selectedId) return;
+                      const found = customSettingsList.find((item) => item.id === selectedId);
+                      if (found) {
+                        applySettings(found.settings);
+                      }
+                      e.target.value = ""; // reset
+                    }}
+                    className={`px-3 py-1.5 rounded-lg border text-xs font-black focus:outline-none cursor-pointer shadow-sm ${
+                      isLight
+                        ? "bg-white border-indigo-300 text-indigo-900"
+                        : "bg-indigo-950/80 border-indigo-500/40 text-indigo-200"
+                    }`}
+                    title="Load a saved setup"
+                  >
+                    <option value="">📂 Load Settings...</option>
+                    {customSettingsList.map(item => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
+                )}
+                <button
+                  type="button"
+                  onClick={saveCurrentSettings}
+                  title="Save current selections as a new custom setup"
+                  className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg transition-all cursor-pointer active:scale-95 shadow-sm ${
+                    isLight ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-400 text-white"
+                  }`}
+                >
+                  💾 Save Settings
+                </button>
+              </div>
             </div>
 
             {isSituationSectionOpen && (
