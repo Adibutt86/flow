@@ -3833,6 +3833,8 @@ export default function NanoProGenerator() {
   const [fbDisableImage, setFbDisableImage] = useState(false);
   const [fbPostTitle, setFbPostTitle] = useState("");
   const [fbPostTags, setFbPostTags] = useState<string[]>([]);
+  const [fbMusic, setFbMusic] = useState("Any / No Music");
+  const [customFbMusic, setCustomFbMusic] = useState("");
 
   // Shayari / Song Post Settings
   const [shyQuoteText, setShyQuoteText] = useState("");
