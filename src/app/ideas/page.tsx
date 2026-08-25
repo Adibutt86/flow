@@ -815,6 +815,16 @@ const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
       { value: "Cute Kid Singing & Humming", label: "🎤 Cute Kid Singing & Humming", desc: "Adorable child singing a song, humming a sweet melody, or doing vocal runs." },
       { value: "Soft Mother/Father Narration", label: "🎙️ Soft Parent Narration (Voiceover)", desc: "Warm, loving parent story narration overlay with silent kid acting." },
     ]
+  },
+  {
+    category: "🎵 10-Sec Background Music & Beats",
+    options: [
+      { value: "Viral TikTok Dance Beat (10s)", label: "🎧 Viral TikTok Dance Beat (10s)", desc: "Trendy, upbeat, bass-heavy background track perfect for viral dance moves." },
+      { value: "Funny Goofy Comedy Track (10s)", label: "🤡 Funny Goofy Comedy Track (10s)", desc: "Quirky, silly tuba and xylophone comedy track with boing sound effects." },
+      { value: "Lo-Fi Chill Hip-Hop Beat (10s)", label: "🎵 Lo-Fi Chill Hip-Hop Beat (10s)", desc: "Relaxing, aesthetic lo-fi beat for chill or moody videos." },
+      { value: "Cute Baby Lullaby Melody (10s)", label: "🧸 Cute Baby Lullaby Melody (10s)", desc: "Soft, tinkling music box lullaby for sweet and wholesome baby videos." },
+      { value: "Suspenseful Sneaky Mission (10s)", label: "🕵️ Suspenseful Sneaky Mission (10s)", desc: "Tip-toe spy music for when toddlers are sneaking around the house." },
+    ]
   }
 ];
 
@@ -9063,6 +9073,8 @@ export default function IdeasPage() {
                       { label: "🛏️ Couple Bed Chat", setup: "Husband & Wife (Miya Biwi)", age: "Adult (20s-40s)", location: "Couple Laying on Bed (Miya Biwi Bed Chat)", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
                       { label: "🙃 Upside-Down Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Funny Girl Laying Upside-Down on Couch", vibe: "Silly Kid / Funny", cameraShot: "Speaker Focus" },
                       { label: "🛍️ Toy Shopping", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Toy Store Aisle", vibe: "Funny & Mischievous" },
+                      { label: "💃 Viral TikTok Dance", setup: "One Cute Little Girl", age: "Child (5-8 yrs)", location: "Neon Glow Disco Dance Studio & Balloons", vibe: "Adorable Twirl & Giggle Dance", cameraShot: "Full Body Shot" },
+                      { label: "🕺 Breakdance Boy", setup: "One Cute Little Boy", age: "Child (5-8 yrs)", location: "Vibrant Neighborhood Park", vibe: "Swag Toddler Dance & Head Bop", cameraShot: "Full Body Shot" },
                        { label: "🎤👧 Girl Reporter", setup: "Girl News Reporter with Mic (Field Reporter)", age: "Child (5-8 yrs)", location: "Modern TV News Broadcast Studio", vibe: "Funny & Mischievous", cameraShot: "Speaker Focus", clothingGirl: "Girl — Smart Blazer & News Badge" },
                        { label: "🎤👨👧 Reporter+Girl", setup: "Adult News Reporter & Little Girl (Duo)", age: "Child (5-8 yrs)", location: "Modern TV News Broadcast Studio", vibe: "Funny & Mischievous", cameraShot: "Two-Shot" },
                     ].map((badge) => (
