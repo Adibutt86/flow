@@ -3217,6 +3217,21 @@ const FB_FORMAT_GROUPS = [
   },
 ];
 
+const FB_MUSIC_GROUPS = [
+  {
+    category: "🎵 Background Music",
+    options: [
+      { value: "Any / No Music", label: "🔇 Any / No Music", desc: "No specific background music instruction." },
+      { value: "Trending Lofi Chill Beat", label: "🎧 Trending Lofi Chill Beat", desc: "Relaxing aesthetic lo-fi beat." },
+      { value: "Epic Sigma Grindset Trap Beat", label: "🔥 Epic Sigma Grindset Trap Beat", desc: "Aggressive bass-heavy trap beat." },
+      { value: "Cute Upbeat Pop Song", label: "🎀 Cute Upbeat Pop Song", desc: "Happy, bouncy, and cute pop music." },
+      { value: "Emotional Sad Violin / Piano", label: "🎻 Emotional Sad Violin / Piano", desc: "Deep melancholic sad music." },
+      { value: "Peaceful Islamic Nasheed", label: "🌙 Peaceful Islamic Nasheed", desc: "Calming vocal nasheed without instruments." },
+      { value: "Sassy Badass Walk Beat", label: "💅 Sassy Badass Walk Beat", desc: "Fashion runway confidence track." },
+    ],
+  },
+];
+
 const FB_BACKGROUND_GROUPS = [
   {
     category: "Background Patterns",
@@ -4168,6 +4183,7 @@ export default function NanoProGenerator() {
           age: fbAge === "Custom" ? customFbAge : fbAge,
           nationality: fbNationality === "Custom" ? customFbNationality : fbNationality,
           complexion: fbComplexion === "Custom" ? customFbComplexion : fbComplexion,
+          music: fbMusic === "Custom" ? customFbMusic : fbMusic,
           disableQuote: fbDisableQuote,
           disableImage: fbDisableImage,
         };
@@ -4901,6 +4917,17 @@ export default function NanoProGenerator() {
                         customValue={customFbComplexion}
                         onCustomChange={setCustomFbComplexion}
                         customPlaceholder="e.g. Tanned skin..."
+                        isLight={isLight}
+                      />
+                      <CustomSelect
+                        label="Background Music"
+                        icon="🎵"
+                        value={fbMusic}
+                        onChange={setFbMusic}
+                        groups={FB_MUSIC_GROUPS}
+                        customValue={customFbMusic}
+                        onCustomChange={setCustomFbMusic}
+                        customPlaceholder="e.g. Trending TikTok violin beat..."
                         isLight={isLight}
                       />
                       <CustomSelect
