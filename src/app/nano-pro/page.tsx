@@ -4702,6 +4702,74 @@ export default function NanoProGenerator() {
                         >
                           💡 Neon Vibe
                         </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Sad Boy in Hood");
+                            setFbMood("Melancholic & Sad");
+                            setFbColorTheme("Dark Aesthetic (Black & Grey)");
+                            setFbTextStyle("Elegant Classic Serif (Vogue Style)");
+                            setFbLayout("Character Centered, Text Overlay Bottom");
+                            setFbBackground("Rainy Window / Wet Glass");
+                            setFbDecorations("Tears & Raindrops");
+                            setFbQuoteText("Mohabbat thi is liye jaane diya... 💔🌧️");
+                            showToast("💔 Applied 'Broken Shayar' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-slate-600 to-slate-800 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          💔 Broken Shayar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Cute Hijabi Girl");
+                            setFbMood("Peaceful & Spiritual");
+                            setFbColorTheme("Pastel & Neutral Tones");
+                            setFbTextStyle("Clean Minimalist Sans-Serif");
+                            setFbLayout("Character Left, Text Right");
+                            setFbBackground("Soft Pastel Studio Background");
+                            setFbDecorations("Flowers & Butterflies");
+                            setFbQuoteText("Sabr is the most beautiful poetry. 🌸✨");
+                            showToast("🌸 Applied 'Modest Hijabi' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-rose-400 to-pink-500 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🌸 Modest Hijabi
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Muscular Gym Bro");
+                            setFbMood("Aggressive & Motivated");
+                            setFbColorTheme("Black & Red");
+                            setFbTextStyle("Distressed / Grunge Font");
+                            setFbLayout("Character Right, Text Left");
+                            setFbBackground("Dark Gym Studio");
+                            setFbDecorations("Fire & Sparks");
+                            setFbQuoteText("Work until your idols become your rivals. 💯🔥");
+                            showToast("🏋️ Applied 'Sigma Grindset' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-red-600 to-red-800 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🏋️ Sigma Grindset
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Cute Boy in Kurta & Kufi");
+                            setFbMood("Peaceful & Spiritual");
+                            setFbColorTheme("Teal & White");
+                            setFbTextStyle("Elegant Calligraphy / Serif");
+                            setFbLayout("Character Centered, Text Overlay Bottom");
+                            setFbBackground("Moonlit Starry Night Sky");
+                            setFbDecorations("Lanterns & Glowing Stars");
+                            setFbQuoteText("Jumma Mubarak! Keep me in your prayers. 🌙🕌");
+                            showToast("🌙 Applied 'Islamic Vibe' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🌙 Islamic Vibe
+                        </button>
                       </div>
                     </div>
 
