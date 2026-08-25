@@ -802,6 +802,7 @@ const KIDS_AUDIO_STYLE_GROUPS: OptionGroupWithDesc[] = [
     category: "Voice & Audio Atmosphere",
     options: [
       { value: "Any / AI Decides", label: "Any / AI Decides (Default)", desc: "Let the AI choose the most fitting audio style for the scene." },
+      { value: "No Audio / Silent Video", label: "🔇 No Audio / Silent Video", desc: "Explicitly tell the AI to generate a silent video with absolutely no music or sound." },
       { value: "Toddler Snoring & Sleep Noises", label: "💤 Toddler Snoring & Sleep Noises (خررر... 💤)", desc: "Cute open-mouth toddler snoring, sleeping coos, and startled wake-up gasps." },
       { value: "Water Splash & Sputtering SFX", label: "🌊 Water Splash & Sputtering (🌊💦)", desc: "Realistic water splashing, choking/gasping on water, wet towel slaps." },
       { value: "Cute Baby Giggles & Babble SFX", label: "👶 Cute Baby Giggles & Babble", desc: "Adorable baby laughters, coos, giggles, and innocent babble sound FX." },
