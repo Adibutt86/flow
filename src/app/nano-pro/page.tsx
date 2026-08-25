@@ -4705,19 +4705,53 @@ export default function NanoProGenerator() {
                         <button
                           type="button"
                           onClick={() => {
-                            setFbCharacterStyle("Sad Boy in Hood");
-                            setFbMood("Melancholic & Sad");
-                            setFbColorTheme("Dark Aesthetic (Black & Grey)");
+                            setFbCharacterStyle("Luxury CEO in Tailored Suit");
+                            setFbMood("Classy & Ambitious");
+                            setFbColorTheme("Black & Gold");
                             setFbTextStyle("Elegant Classic Serif (Vogue Style)");
-                            setFbLayout("Character Centered, Text Overlay Bottom");
-                            setFbBackground("Rainy Window / Wet Glass");
-                            setFbDecorations("Tears & Raindrops");
-                            setFbQuoteText("Mohabbat thi is liye jaane diya... 💔🌧️");
-                            showToast("💔 Applied 'Broken Shayar' Preset!", "success");
+                            setFbLayout("Character Left, Text Right");
+                            setFbBackground("High-End Penthouse Night View");
+                            setFbDecorations("Sparkles & Light Leaks");
+                            setFbQuoteText("They watch, I work. We are not the same. 💼🚀");
+                            showToast("💼 Applied 'CEO Grind' Preset!", "success");
                           }}
-                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-slate-600 to-slate-800 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-gray-800 to-black text-amber-400 shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer border border-amber-500/50"
                         >
-                          💔 Broken Shayar
+                          💼 CEO Grind
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Aesthetic Lo-Fi Anime Girl");
+                            setFbMood("Chill & Unbothered");
+                            setFbColorTheme("Purple & Pink (Vaporwave)");
+                            setFbTextStyle("Modern Minimalist Sans-Serif");
+                            setFbLayout("Character Right, Text Left");
+                            setFbBackground("Cozy Neon Bedroom");
+                            setFbDecorations("Glowing Musical Notes & Feathers");
+                            setFbQuoteText("Protecting my peace and stacking my wins. 🎧✨");
+                            showToast("🎧 Applied 'Lo-Fi Chill' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-400 to-indigo-400 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🎧 Lo-Fi Chill
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Edgy Biker Boy in Leather Jacket");
+                            setFbMood("Mysterious & Cool");
+                            setFbColorTheme("Dark Aesthetic (Black & Grey)");
+                            setFbTextStyle("Distressed / Grunge Font");
+                            setFbLayout("Character Centered, Text Overlay Bottom");
+                            setFbBackground("Cyberpunk Neon City Street");
+                            setFbDecorations("Lightning Bolts & Fire");
+                            setFbQuoteText("Born to be wild, built to be free. 🏍️💨");
+                            showToast("🏍️ Applied 'Midnight Rider' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-slate-700 to-slate-900 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          🏍️ Midnight Rider
                         </button>
                         <button
                           type="button"
