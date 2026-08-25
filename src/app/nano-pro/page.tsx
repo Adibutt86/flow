@@ -3131,6 +3131,19 @@ const FB_CHARACTER_STYLE_GROUPS = [
       { value: "No Character - Text Only", label: "No Character – Text Only", desc: "Typography only without character artwork" },
     ],
   },
+  {
+    category: "Pakistani & Desi",
+    options: [
+      { value: "3D Cartoon Pakistani Girl (Shalwar Kameez)", label: "3D Cartoon Pakistani Girl", desc: "Traditional Pakistani girl in Shalwar Kameez" },
+      { value: "3D Cartoon Pakistani Boy (Kurta & Waistcoat)", label: "3D Cartoon Pakistani Boy", desc: "Traditional Pakistani boy in Kurta with Waistcoat" },
+      { value: "3D Cartoon Pakistani Bride", label: "3D Cartoon Pakistani Bride", desc: "Pakistani bride in traditional red Lehenga" },
+      { value: "3D Cartoon Pakistani Groom", label: "3D Cartoon Pakistani Groom", desc: "Pakistani groom in Sherwani and Turban" },
+      { value: "3D Cartoon Pakistani Groom and Bride", label: "3D Cartoon Pakistani Groom & Bride", desc: "Pakistani couple together in wedding attire" },
+      { value: "3D Cartoon Pathan Boy", label: "3D Cartoon Pathan Boy", desc: "Pathan boy wearing traditional Peshawari turban" },
+      { value: "3D Cartoon Sindhi Boy", label: "3D Cartoon Sindhi Boy", desc: "Sindhi boy wearing Ajrak and Sindhi Topi" },
+      { value: "3D Cartoon Funny Desi Chacha", label: "3D Cartoon Funny Desi Chacha", desc: "Funny middle-aged Desi uncle with a mustache" },
+    ],
+  },
 ];
 
 const FB_MOOD_GROUPS = [
@@ -4770,6 +4783,24 @@ export default function NanoProGenerator() {
                           className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-slate-700 to-slate-900 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
                         >
                           🏍️ Midnight Rider
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("3D Character Dancing Seamlessly in a 10-second Loop");
+                            setFbMood("Energetic & Fun");
+                            setFbColorTheme("Neon & Vibrant");
+                            setFbTextStyle("Bold Chunky Display + Handwritten Mix");
+                            setFbLayout("Character Centered, Text Overlay Bottom");
+                            setFbBackground("Disco Club Party Lights");
+                            setFbDecorations("Glowing Musical Notes & Feathers");
+                            setFbQuoteText("Dancing through life on loop! 💃🕺🎶");
+                            setFbMusic("Trending Lofi Chill Beat");
+                            showToast("💃 Applied 'Loop Dance' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          💃 Loop Dance
                         </button>
                         <button
                           type="button"
