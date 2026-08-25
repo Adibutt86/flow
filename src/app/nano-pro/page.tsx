@@ -4756,6 +4756,40 @@ export default function NanoProGenerator() {
                         <button
                           type="button"
                           onClick={() => {
+                            setFbCharacterStyle("High-Fashion Runway Model");
+                            setFbMood("Classy & Ambitious");
+                            setFbColorTheme("Pink & Black");
+                            setFbTextStyle("Elegant Classic Serif (Vogue Style)");
+                            setFbLayout("Magazine Cover Editorial Layout");
+                            setFbBackground("Paparazzi Flashes & Red Carpet");
+                            setFbDecorations("Stars & Crowns");
+                            setFbQuoteText("Life isn't perfect, but my outfit is. 📸✨");
+                            showToast("📸 Applied 'Fashion Icon' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-fuchsia-500 to-pink-600 text-white shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer"
+                        >
+                          📸 Fashion Icon
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFbCharacterStyle("Old Money Vintage Gentleman");
+                            setFbMood("Mysterious & Cool");
+                            setFbColorTheme("Dark Aesthetic (Black & Grey)");
+                            setFbTextStyle("Elegant Classic Serif (Vogue Style)");
+                            setFbLayout("Character Right, Text Left");
+                            setFbBackground("Classic Vintage Library");
+                            setFbDecorations("Sparkles & Light Leaks");
+                            setFbQuoteText("Speak less, observe more. 🕰️🍷");
+                            showToast("🍷 Applied 'Old Money' Preset!", "success");
+                          }}
+                          className="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-stone-600 to-stone-800 text-amber-100 shadow-md hover:scale-105 transition-all shrink-0 cursor-pointer border border-stone-500"
+                        >
+                          🍷 Old Money
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
                             setFbCharacterStyle("Cute Hijabi Girl");
                             setFbMood("Peaceful & Spiritual");
                             setFbColorTheme("Pastel & Neutral Tones");
