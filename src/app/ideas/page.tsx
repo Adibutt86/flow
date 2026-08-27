@@ -9557,7 +9557,7 @@ export default function IdeasPage() {
 
                 {/* 🎭 Character Selector Builder */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
-                  <div ref={builderSectionRef} className={`rounded-xl border transition-all overflow-hidden ${
+                  <div ref={builderSectionRef} className={`rounded-xl border transition-all ${
                     isLight ? "bg-indigo-50/80 border-indigo-300" : "bg-indigo-950/30 border-indigo-500/30"
                   }`}>
                     {/* Collapsible header */}
@@ -9565,28 +9565,33 @@ export default function IdeasPage() {
                       type="button"
                       onClick={() => setShowDialogueBuilder((v) => !v)}
                       className={`w-full flex items-center justify-between px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
-                        isLight ? "hover:bg-indigo-100/60" : "hover:bg-indigo-900/30"
+                        isLight ? "hover:bg-indigo-100/60 rounded-t-xl" : "hover:bg-indigo-900/30 rounded-t-xl"
                       }`}
                     >
-                      <span className={`text-xs font-black flex items-center gap-2 ${isLight ? "text-indigo-950" : "text-indigo-300"}`}>
-                        <span>🎭 Character Selector Builder</span>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                          isLight ? "bg-indigo-100 border-indigo-300 text-indigo-700" : "bg-indigo-900/60 border-indigo-500/40 text-indigo-300"
-                        }`}>
-                          {dialogueBuilderLines.filter(l => l.text.trim()).length} line{dialogueBuilderLines.filter(l => l.text.trim()).length !== 1 ? "s" : ""}
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs font-black flex items-center gap-1.5 ${isLight ? "text-indigo-900" : "text-indigo-200"}`}>
+                          <span>🎭 Character Selector Builder</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                            isLight ? "bg-indigo-100 border-indigo-300 text-indigo-700" : "bg-indigo-900/60 border-indigo-500/40 text-indigo-300"
+                          }`}>
+                            {dialogueBuilderLines.filter(l => l.text.trim()).length} line{dialogueBuilderLines.filter(l => l.text.trim()).length !== 1 ? "s" : ""}
+                          </span>
+                          <span className={`text-[10px] font-medium ${isLight ? "text-indigo-600" : "text-indigo-400"}`}>
+                            — assign each dialogue line to a specific character
+                          </span>
                         </span>
-                        <span className={`text-[10px] font-medium ${isLight ? "text-indigo-600" : "text-indigo-400"}`}>
-                          — assign each dialogue line to a specific character
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[10px] font-black ${isLight ? "text-indigo-700" : "text-indigo-400"}`}>
+                          {showDialogueBuilder ? "▲ Collapse" : "▼ Expand"}
                         </span>
-                      </span>
-                      <span className={`text-[10px] font-black ${isLight ? "text-indigo-700" : "text-indigo-400"}`}>
-                        {showDialogueBuilder ? "▲ Collapse" : "▼ Open Builder"}
-                      </span>
+                      </div>
                     </button>
 
+                    {/* Builder content */}
                     {showDialogueBuilder && (
-                      <div className="px-3.5 pb-4 space-y-3">
-                        {/* Column headers */}
+                      <div className={`p-3 sm:p-4 border-t ${isLight ? "border-indigo-200" : "border-indigo-500/30"}`}>
+                        {/* Desktop Header */}
                         <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Emotion</span>
@@ -9597,7 +9602,11 @@ export default function IdeasPage() {
 
                         {/* Dialogue rows */}
                         {dialogueBuilderLines.map((row, idx) => (
-                          <div key={row.id} className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}>
+                          <div 
+                            key={row.id} 
+                            style={{ zIndex: 100 - idx }}
+                            className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}
+                          >
                             {/* Mobile Top Row: Character & Emotion */}
                             <div className="flex flex-col sm:flex-row gap-2 md:contents">
                               {/* Character Combobox */}
