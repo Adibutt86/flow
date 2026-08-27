@@ -6616,6 +6616,12 @@ export default function IdeasPage() {
   const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
+  const [showDialogueBuilder, setShowDialogueBuilder] = useState(false);
+  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; emotion: string; text: string }[]>([
+    { id: "1", character: "", emotion: "", text: "" },
+  ]);
+  const [listeningRowId, setListeningRowId] = useState<string | null>(null);
+  const builderVoiceRef = useRef<any>(null);
   const [isPresetsExpanded, setIsPresetsExpanded] = useState(true);
   const [isListening, setIsListening] = useState(false);
   const [dialogueDir, setDialogueDir] = useState<"ltr" | "rtl">("rtl");
@@ -6890,6 +6896,114 @@ export default function IdeasPage() {
       }, 50);
     } else {
       setCustomDialogue((prev) => (prev ? prev + " " + emoji + " " : emoji + " "));
+    }
+  };
+
+  // Derive character name options from the current characterSetup string for the dialogue builder
+  const getCharactersFromSetup = (): string[] => {
+    const base: string[] = [];
+    const s = (characterSetup || "").toLowerCase();
+    if (/boy|son|bhai|brother/.test(s)) base.push("Boy");
+    if (/girl|daughter|behan|sister/.test(s)) base.push("Girl");
+    if (/father|abu|dad/.test(s)) base.push("Abu");
+    if (/mother|amma|mom/.test(s)) base.push("Amma");
+    if (/husband|miya/.test(s)) base.push("Husband");
+    if (/wife|biwi/.test(s)) base.push("Wife");
+    if (/uncle/.test(s)) base.push("Uncle");
+    if (/reporter/.test(s)) base.push("Reporter");
+    if (/robot/.test(s)) base.push("Robot");
+    // Always include common fallbacks
+    const defaults = ["Boy", "Girl", "Abu", "Amma", "Husband", "Wife", "Uncle", "Shopkeeper", "Baita"];
+    const merged = [...new Set([...base, ...defaults])];
+    return merged;
+  };
+
+  const handleBuildDialogueFromRows = () => {
+    const validLines = dialogueBuilderLines.filter((l) => l.text.trim());
+    if (!validLines.length) {
+      showToast("Add at least one dialogue line first.", "error");
+      return;
+    }
+    const built = validLines.map((l) => {
+      const charLabel = l.character || "Character";
+      const emotionPart = l.emotion.trim() ? ` [${l.emotion.trim()}]` : "";
+      return `${charLabel}:${emotionPart} ${l.text.trim()}`;
+    }).join("\n");
+    setCustomDialogue((prev) => (prev.trim() ? prev.trim() + "\n" + built : built));
+    showToast(`✅ ${validLines.length} line${validLines.length > 1 ? "s" : ""} added to dialogue!`, "success", 2000);
+  };
+
+  const handleBuilderVoiceInput = (rowId: string) => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      showToast("🚫 Voice input needs Chrome browser (PC or Android).", "error");
+      return;
+    }
+    // If already listening on this row — stop
+    if (listeningRowId === rowId) {
+      if (builderVoiceRef.current) {
+        try { builderVoiceRef.current.stop(); } catch (e) {}
+      }
+      setListeningRowId(null);
+      showToast("⏹️ Voice recording stopped", "info");
+      return;
+    }
+    // Stop any existing recognition first
+    if (builderVoiceRef.current) {
+      try { builderVoiceRef.current.stop(); } catch (e) {}
+    }
+
+    const recognition = new SpeechRecognition();
+    builderVoiceRef.current = recognition;
+
+    recognition.lang =
+      language === "Urdu" || language === "Roman Urdu" ? "ur-PK" :
+      language?.includes("Punjabi") ? "pa-PK" :
+      language === "English" ? "en-US" : "ur-PK";
+
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    setListeningRowId(rowId);
+    showToast("🎙️ Listening… speak the dialogue line now.", "info");
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0]?.[0]?.transcript || "";
+      if (transcript.trim()) {
+        setDialogueBuilderLines((prev) =>
+          prev.map((row) =>
+            row.id === rowId
+              ? { ...row, text: (row.text.trim() ? row.text.trim() + " " : "") + transcript.trim() }
+              : row
+          )
+        );
+      }
+    };
+
+    recognition.onend = () => {
+      setListeningRowId(null);
+    };
+
+    recognition.onerror = (event: any) => {
+      const friendlyErrors: Record<string, string> = {
+        "no-speech":           "🔇 No speech detected — speak clearly near the mic.",
+        "audio-capture":       "🎤 Mic not found — check your microphone.",
+        "not-allowed":         "🚫 Mic access denied — allow microphone in browser.",
+        "network":             "🌐 Network error — check your internet connection.",
+        "aborted":             "⏹️ Recording stopped.",
+        "service-not-allowed": "🚫 Speech service not allowed — try Chrome.",
+      };
+      const msg = friendlyErrors[event.error] || `Voice error: ${event.error}`;
+      if (event.error !== "aborted" && event.error !== "no-speech") showToast(msg, "error");
+      setListeningRowId(null);
+    };
+
+    try {
+      recognition.start();
+    } catch (err) {
+      setListeningRowId(null);
     }
   };
 
@@ -9225,6 +9339,218 @@ export default function IdeasPage() {
                     </button>
                   </div>
                 </div>
+
+                {/* 🎭 Character Selector Builder */}
+                {(videoDuration !== 20 && videoDuration !== 30) && (
+                  <div className={`rounded-xl border transition-all overflow-hidden ${
+                    isLight ? "bg-indigo-50/80 border-indigo-300" : "bg-indigo-950/30 border-indigo-500/30"
+                  }`}>
+                    {/* Collapsible header */}
+                    <button
+                      type="button"
+                      onClick={() => setShowDialogueBuilder((v) => !v)}
+                      className={`w-full flex items-center justify-between px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
+                        isLight ? "hover:bg-indigo-100/60" : "hover:bg-indigo-900/30"
+                      }`}
+                    >
+                      <span className={`text-xs font-black flex items-center gap-2 ${isLight ? "text-indigo-950" : "text-indigo-300"}`}>
+                        <span>🎭 Character Selector Builder</span>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                          isLight ? "bg-indigo-100 border-indigo-300 text-indigo-700" : "bg-indigo-900/60 border-indigo-500/40 text-indigo-300"
+                        }`}>
+                          {dialogueBuilderLines.filter(l => l.text.trim()).length} line{dialogueBuilderLines.filter(l => l.text.trim()).length !== 1 ? "s" : ""}
+                        </span>
+                        <span className={`text-[10px] font-medium ${isLight ? "text-indigo-600" : "text-indigo-400"}`}>
+                          — assign each dialogue line to a specific character
+                        </span>
+                      </span>
+                      <span className={`text-[10px] font-black ${isLight ? "text-indigo-700" : "text-indigo-400"}`}>
+                        {showDialogueBuilder ? "▲ Collapse" : "▼ Open Builder"}
+                      </span>
+                    </button>
+
+                    {showDialogueBuilder && (
+                      <div className="px-3.5 pb-4 space-y-3">
+                        {/* Column headers */}
+                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Emotion</span>
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Dialogue Line</span>
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Mic</span>
+                          <span className="w-7" />
+                        </div>
+
+                        {/* Dialogue rows */}
+                        {dialogueBuilderLines.map((row, idx) => (
+                          <div key={row.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
+                            {/* Character dropdown */}
+                            <select
+                              value={row.character}
+                              onChange={(e) => {
+                                const next = [...dialogueBuilderLines];
+                                next[idx] = { ...next[idx], character: e.target.value };
+                                setDialogueBuilderLines(next);
+                              }}
+                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
+                                isLight
+                                  ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
+                                  : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
+                              }`}
+                            >
+                              <option value="">— Select —</option>
+                              {getCharactersFromSetup().map((name) => (
+                                <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
+                                  {name}
+                                </option>
+                              ))}
+                            </select>
+
+                            {/* Emotion input */}
+                            <input
+                              type="text"
+                              value={row.emotion}
+                              onChange={(e) => {
+                                const next = [...dialogueBuilderLines];
+                                next[idx] = { ...next[idx], emotion: e.target.value };
+                                setDialogueBuilderLines(next);
+                              }}
+                              placeholder="Excited, Sad…"
+                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                isLight
+                                  ? "bg-white border-indigo-200 text-slate-900 placeholder-slate-400 focus:border-indigo-400"
+                                  : "bg-slate-950 border-indigo-500/30 text-white placeholder-slate-500 focus:border-indigo-400"
+                              }`}
+                            />
+
+                            {/* Dialogue text */}
+                            <input
+                              type="text"
+                              value={row.text}
+                              onChange={(e) => {
+                                const next = [...dialogueBuilderLines];
+                                next[idx] = { ...next[idx], text: e.target.value };
+                                setDialogueBuilderLines(next);
+                              }}
+                              placeholder={`Line ${idx + 1} — e.g. I want ice cream!`}
+                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                listeningRowId === row.id
+                                  ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
+                                  : isLight
+                                    ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/20"
+                                    : "bg-slate-950 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                              }`}
+                            />
+
+                            {/* Mic button */}
+                            <button
+                              type="button"
+                              onClick={() => handleBuilderVoiceInput(row.id)}
+                              className={`w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
+                                listeningRowId === row.id
+                                  ? "bg-rose-600 border-rose-400 text-white animate-pulse"
+                                  : isLight
+                                    ? "bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200"
+                                    : "bg-slate-800 border-slate-600/50 text-slate-300 hover:bg-slate-700"
+                              }`}
+                              title={listeningRowId === row.id ? "Listening — click to stop" : "Speak this dialogue line (Chrome/Android)"}
+                            >
+                              {listeningRowId === row.id ? "⏹" : "🎙️"}
+                            </button>
+
+                            {/* Delete row */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (dialogueBuilderLines.length === 1) {
+                                  setDialogueBuilderLines([{ id: Date.now().toString(), character: "", emotion: "", text: "" }]);
+                                } else {
+                                  setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
+                                }
+                              }}
+                              className={`w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
+                                isLight
+                                  ? "bg-rose-100 border-rose-300 text-rose-700 hover:bg-rose-200"
+                                  : "bg-rose-950/60 border-rose-800/50 text-rose-400 hover:bg-rose-900/80"
+                              }`}
+                              title="Remove this line"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+
+                        {/* Row preview chips */}
+                        {dialogueBuilderLines.some(l => l.text.trim()) && (
+                          <div className={`p-2.5 rounded-xl border space-y-1 ${
+                            isLight ? "bg-white/80 border-indigo-200" : "bg-black/40 border-indigo-500/20"
+                          }`}>
+                            <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-700" : "text-indigo-400"}`}>Preview:</span>
+                            {dialogueBuilderLines.filter(l => l.text.trim()).map((l, i) => (
+                              <div key={l.id} className="flex items-start gap-1.5 text-[11px] font-bold">
+                                <span className={`shrink-0 px-1.5 py-0.5 rounded-md border ${
+                                  isLight ? "bg-indigo-100 border-indigo-300 text-indigo-800" : "bg-indigo-900/70 border-indigo-500/40 text-indigo-200"
+                                }`}>
+                                  {l.character || "—"}
+                                </span>
+                                {l.emotion.trim() && (
+                                  <span className={`shrink-0 px-1.5 py-0.5 rounded-md border italic ${
+                                    isLight ? "bg-amber-50 border-amber-300 text-amber-800" : "bg-amber-950/50 border-amber-500/30 text-amber-300"
+                                  }`}>
+                                    {l.emotion}
+                                  </span>
+                                )}
+                                <span className={isLight ? "text-slate-700" : "text-slate-300"}>"{l.text}"</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Action buttons */}
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setDialogueBuilderLines((prev) => [
+                              ...prev,
+                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", emotion: "", text: "" },
+                            ])}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                              isLight
+                                ? "bg-indigo-100 border-indigo-300 text-indigo-950 hover:bg-indigo-200"
+                                : "bg-indigo-950/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-900/80"
+                            }`}
+                            title="Add another dialogue line row"
+                          >
+                            <span>＋ Add Line</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", emotion: "", text: "" }])}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                              isLight
+                                ? "bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200"
+                                : "bg-slate-800/80 border-slate-600/50 text-slate-300 hover:bg-slate-700"
+                            }`}
+                            title="Clear all builder rows"
+                          >
+                            🗑 Clear Rows
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleBuildDialogueFromRows}
+                            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ml-auto ${
+                              isLight
+                                ? "bg-indigo-600 border-indigo-700 text-white hover:bg-indigo-700 shadow-indigo-500/20"
+                                : "bg-indigo-600 border-indigo-500 text-white hover:bg-indigo-500"
+                            }`}
+                            title="Compile builder rows into the dialogue script"
+                          >
+                            📋 Build Script →
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Character Label Quick-Insert + Direction + Voice Input */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
