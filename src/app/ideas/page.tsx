@@ -6718,8 +6718,8 @@ export default function IdeasPage() {
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [showDialogueBuilder, setShowDialogueBuilder] = useState(false);
-  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; text: string; dir: "ltr" | "rtl" }[]>([
-    { id: "1", character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" },
+  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; voiceAge: string; text: string; dir: "ltr" | "rtl" }[]>([
+    { id: "1", character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" },
   ]);
   const [listeningRowId, setListeningRowId] = useState<string | null>(null);
   const builderVoiceRef = useRef<any>(null);
@@ -7040,6 +7040,28 @@ export default function IdeasPage() {
     },
   ];
 
+  const BUILDER_VOICE_AGE_GROUPS = [
+    {
+      group: "👶 Kids & Teens",
+      items: [
+        { value: "3-year-old voice", label: "3-year-old" },
+        { value: "5-year-old voice", label: "5-year-old" },
+        { value: "7-year-old voice", label: "7-year-old" },
+        { value: "10-year-old voice", label: "10-year-old" },
+        { value: "Teenager voice", label: "Teenager" },
+      ],
+    },
+    {
+      group: "🧑 Adults & Elderly",
+      items: [
+        { value: "Young Adult voice", label: "Young Adult" },
+        { value: "Adult voice", label: "Adult" },
+        { value: "Middle-aged voice", label: "Middle-aged" },
+        { value: "Elderly voice", label: "Elderly" },
+      ],
+    },
+  ];
+
   const BUILDER_EMOTION_GROUPS = [
     {
       group: "😊 Happy / Positive",
@@ -7129,8 +7151,9 @@ export default function IdeasPage() {
         ? (l.customChar.trim() || "Character")
         : (l.character || "Character");
       const emotionPart = l.emotion.trim() ? ` [${l.emotion.trim()}]` : "";
+      const voicePart = l.voiceAge.trim() ? ` [${l.voiceAge.trim()}]` : "";
       const actionPart = l.action.trim() ? ` (${l.action.trim()})` : "";
-      return `${charLabel}:${emotionPart}${actionPart} ${l.text.trim()}`;
+      return `${charLabel}:${emotionPart}${voicePart}${actionPart} ${l.text.trim()}`;
     }).join("\n");
     setCustomDialogue((prev) => (prev.trim() ? prev.trim() + "\n" + built : built));
     showToast(`✅ ${validLines.length} line${validLines.length > 1 ? "s" : ""} added to dialogue!`, "success", 2000);
@@ -9593,8 +9616,9 @@ export default function IdeasPage() {
                     {showDialogueBuilder && (
                       <div className={`p-3 sm:p-4 border-t ${isLight ? "border-indigo-200" : "border-indigo-500/30"}`}>
                         {/* Desktop Header */}
-                        <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
+                        <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Voice Age</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Emotion</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Action</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Dialogue Line</span>
@@ -9607,9 +9631,9 @@ export default function IdeasPage() {
                           <div 
                             key={row.id} 
                             style={{ zIndex: 100 - idx }}
-                            className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}
+                            className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}
                           >
-                            {/* Mobile Top Row: Character, Emotion & Action */}
+                            {/* Mobile Top Row: Character, Emotion, Voice Age & Action */}
                             <div className="flex flex-col sm:flex-row gap-2 md:contents">
                               {/* Character Combobox */}
                               <div className="flex-1 space-y-1 relative">
@@ -9625,6 +9649,22 @@ export default function IdeasPage() {
                                     items: g.chars.map((c) => ({ value: c, label: c })),
                                   }))}
                                   placeholder="Search / Type character"
+                                  isLight={isLight}
+                                  allowCustom={true}
+                                />
+                              </div>
+
+                              {/* Voice Age Combobox */}
+                              <div className="flex-1 space-y-1 relative">
+                                <SearchableCombobox
+                                  value={row.voiceAge}
+                                  onChange={(val) => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], voiceAge: val };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  groups={BUILDER_VOICE_AGE_GROUPS}
+                                  placeholder="Voice / Age"
                                   isLight={isLight}
                                   allowCustom={true}
                                 />
@@ -9728,7 +9768,7 @@ export default function IdeasPage() {
                                 type="button"
                                 onClick={() => {
                                   if (dialogueBuilderLines.length === 1) {
-                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" }]);
+                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" }]);
                                   } else {
                                     setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
                                   }
@@ -9763,10 +9803,26 @@ export default function IdeasPage() {
                                   <span className={`shrink-0 px-1.5 py-0.5 rounded-md border italic ${
                                     isLight ? "bg-amber-50 border-amber-300 text-amber-800" : "bg-amber-950/50 border-amber-500/30 text-amber-300"
                                   }`}>
-                                    {l.emotion}
+                                    [{l.emotion.trim()}]
                                   </span>
                                 )}
-                                <span className={isLight ? "text-slate-700" : "text-slate-300"}>"{l.text}"</span>
+                                {l.voiceAge.trim() && (
+                                  <span className={`shrink-0 px-1.5 py-0.5 rounded-md border italic ${
+                                    isLight ? "bg-purple-50 border-purple-300 text-purple-800" : "bg-purple-950/50 border-purple-500/30 text-purple-300"
+                                  }`}>
+                                    [{l.voiceAge.trim()}]
+                                  </span>
+                                )}
+                                {l.action.trim() && (
+                                  <span className={`shrink-0 px-1.5 py-0.5 rounded-md border italic ${
+                                    isLight ? "bg-emerald-50 border-emerald-300 text-emerald-800" : "bg-emerald-950/50 border-emerald-500/30 text-emerald-300"
+                                  }`}>
+                                    ({l.action.trim()})
+                                  </span>
+                                )}
+                                <span className={`break-all ${isLight ? "text-slate-700" : "text-slate-300"}`} dir={l.dir}>
+                                  "{l.text}"
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -9778,7 +9834,7 @@ export default function IdeasPage() {
                             type="button"
                             onClick={() => setDialogueBuilderLines((prev) => [
                               ...prev,
-                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", action: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
+                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
                             ])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
@@ -9791,7 +9847,7 @@ export default function IdeasPage() {
                           </button>
                           <button
                             type="button"
-                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" }])}
+                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" }])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
                                 ? "bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200"
