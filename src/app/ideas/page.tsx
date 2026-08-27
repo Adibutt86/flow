@@ -9697,10 +9697,9 @@ export default function IdeasPage() {
                               </div>
                             </div>
 
-                            {/* Mobile Bottom Row: Dialogue & Actions */}
-                            <div className="flex gap-2 items-center md:contents mt-1 md:mt-0">
-                              {/* Dialogue text + RTL/LTR toggle */}
-                              <div className="flex-1 flex items-start gap-1">
+                            {/* Mobile Middle Row: Dialogue text + RTL */}
+                            <div className="flex flex-col md:contents mt-2 md:mt-0">
+                              <div className="w-full flex items-start gap-1">
                                 <textarea
                                   rows={2}
                                   value={row.text}
@@ -9710,7 +9709,7 @@ export default function IdeasPage() {
                                     next[idx] = { ...next[idx], text: e.target.value };
                                     setDialogueBuilderLines(next);
                                   }}
-                                  placeholder={row.dir === "rtl" ? `لائن ${idx + 1} — مثلاً آئس کریم چاہیے!` : `Line ${idx + 1} — e.g. I want ice cream!`}
+                                  placeholder={row.dir === "rtl" ? `لائن ${idx + 1}` : `Line ${idx + 1}`}
                                   className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none resize-y custom-scrollbar ${
                                     listeningRowId === row.id
                                       ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
@@ -9734,10 +9733,13 @@ export default function IdeasPage() {
                                   }`}
                                   title={row.dir === "rtl" ? "Switch to LTR (English)" : "Switch to RTL (Urdu)"}
                                 >
-                                  {row.dir === "rtl" ? "⇐" : "⇒"}
+                                  {row.dir === "rtl" ? "ا ب" : "AB"}
                                 </button>
                               </div>
+                            </div>
 
+                            {/* Mobile Bottom Row: Mic & Actions */}
+                            <div className="flex justify-end gap-2 items-center md:contents mt-2 md:mt-0">
                               {/* Mic button */}
                               <button
                                 type="button"
