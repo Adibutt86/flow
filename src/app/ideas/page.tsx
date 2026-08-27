@@ -9669,9 +9669,9 @@ export default function IdeasPage() {
                             {/* Mobile Bottom Row: Dialogue & Actions */}
                             <div className="flex gap-2 items-center md:contents mt-1 md:mt-0">
                               {/* Dialogue text + RTL/LTR toggle */}
-                              <div className="flex-1 flex items-center gap-1">
-                                <input
-                                  type="text"
+                              <div className="flex-1 flex items-start gap-1">
+                                <textarea
+                                  rows={2}
                                   value={row.text}
                                   dir={row.dir}
                                   onChange={(e) => {
@@ -9680,7 +9680,7 @@ export default function IdeasPage() {
                                     setDialogueBuilderLines(next);
                                   }}
                                   placeholder={row.dir === "rtl" ? `لائن ${idx + 1} — مثلاً آئس کریم چاہیے!` : `Line ${idx + 1} — e.g. I want ice cream!`}
-                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none resize-y custom-scrollbar ${
                                     listeningRowId === row.id
                                       ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
                                       : isLight
