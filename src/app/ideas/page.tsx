@@ -6717,7 +6717,6 @@ export default function IdeasPage() {
   const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
-  const [showDialogueBuilder, setShowDialogueBuilder] = useState(false);
   const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; voiceAge: string; text: string; dir: "ltr" | "rtl" }[]>([
     { id: "1", character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" },
   ]);
@@ -9584,12 +9583,10 @@ export default function IdeasPage() {
                   <div ref={builderSectionRef} className={`rounded-xl border transition-all ${
                     isLight ? "bg-indigo-50/80 border-indigo-300" : "bg-indigo-950/30 border-indigo-500/30"
                   }`}>
-                    {/* Collapsible header */}
-                    <button
-                      type="button"
-                      onClick={() => setShowDialogueBuilder((v) => !v)}
-                      className={`w-full flex items-center justify-between px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
-                        isLight ? "hover:bg-indigo-100/60 rounded-t-xl" : "hover:bg-indigo-900/30 rounded-t-xl"
+                    {/* Header */}
+                    <div
+                      className={`w-full flex items-center justify-between px-3.5 py-2.5 text-left ${
+                        isLight ? "bg-indigo-50/50 rounded-t-xl" : "bg-indigo-900/10 rounded-t-xl"
                       }`}
                     >
                       <div className="flex items-center gap-2">
@@ -9605,16 +9602,10 @@ export default function IdeasPage() {
                           </span>
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className={`text-[10px] font-black ${isLight ? "text-indigo-700" : "text-indigo-400"}`}>
-                          {showDialogueBuilder ? "▲ Collapse" : "▼ Expand"}
-                        </span>
-                      </div>
-                    </button>
+                    </div>
 
                     {/* Builder content */}
-                    {showDialogueBuilder && (
-                      <div className={`p-3 sm:p-4 border-t ${isLight ? "border-indigo-200" : "border-indigo-500/30"}`}>
+                    <div className={`p-3 sm:p-4 border-t ${isLight ? "border-indigo-200" : "border-indigo-500/30"}`}>
                         {/* Desktop Header */}
                         <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
@@ -9867,11 +9858,10 @@ export default function IdeasPage() {
                             }`}
                             title="Compile builder rows into the dialogue script"
                           >
-                            📋 Build Script →
+                            📋 ✨ Build Script →
                           </button>
                         </div>
                       </div>
-                    )}
                   </div>
                 )}
 
