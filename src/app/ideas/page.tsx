@@ -6718,7 +6718,7 @@ export default function IdeasPage() {
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; voiceAge: string; text: string; dir: "ltr" | "rtl" }[]>([
-    { id: "1", character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" },
+    { id: "1", character: "", customChar: "", emotion: "", action: "", voiceAge: "AI", text: "", dir: "rtl" },
   ]);
   const [listeningRowId, setListeningRowId] = useState<string | null>(null);
   const builderVoiceRef = useRef<any>(null);
@@ -7040,6 +7040,12 @@ export default function IdeasPage() {
   ];
 
   const BUILDER_VOICE_AGE_GROUPS = [
+    {
+      group: "🤖 Default",
+      items: [
+        { value: "AI", label: "AI Auto" },
+      ],
+    },
     {
       group: "👶 Kids & Teens",
       items: [
@@ -9761,7 +9767,7 @@ export default function IdeasPage() {
                                 type="button"
                                 onClick={() => {
                                   if (dialogueBuilderLines.length === 1) {
-                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" }]);
+                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "AI", text: "", dir: "rtl" }]);
                                   } else {
                                     setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
                                   }
@@ -9827,7 +9833,7 @@ export default function IdeasPage() {
                             type="button"
                             onClick={() => setDialogueBuilderLines((prev) => [
                               ...prev,
-                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
+                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", action: "", voiceAge: "AI", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
                             ])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
@@ -9840,7 +9846,7 @@ export default function IdeasPage() {
                           </button>
                           <button
                             type="button"
-                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "", text: "", dir: "rtl" }])}
+                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", voiceAge: "AI", text: "", dir: "rtl" }])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
                                 ? "bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200"
