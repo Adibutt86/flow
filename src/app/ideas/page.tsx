@@ -9585,7 +9585,7 @@ export default function IdeasPage() {
                 </div>
 
                 {/* 🎭 Character Selector Builder */}
-                {(videoDuration !== 20 && videoDuration !== 30) && (
+                {true && (
                   <div ref={builderSectionRef} className={`rounded-xl border transition-all ${
                     isLight ? "bg-indigo-50/80 border-indigo-300" : "bg-indigo-950/30 border-indigo-500/30"
                   }`}>
@@ -9874,7 +9874,7 @@ export default function IdeasPage() {
                 )}
 
                 {/* Character Label Quick-Insert + Direction + Voice Input */}
-                {(videoDuration !== 20 && videoDuration !== 30) && (
+                {true && (
                   <div className="flex flex-wrap items-center gap-2 py-2">
                     <span className={`text-[10px] font-black uppercase tracking-wider ${isLight ? "text-slate-900" : "text-slate-400"}`}>👤 Add Label:</span>
                     {[
