@@ -6617,8 +6617,8 @@ export default function IdeasPage() {
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [showDialogueBuilder, setShowDialogueBuilder] = useState(false);
-  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; emotion: string; text: string }[]>([
-    { id: "1", character: "", emotion: "", text: "" },
+  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; text: string; dir: "ltr" | "rtl" }[]>([
+    { id: "1", character: "", customChar: "", emotion: "", text: "", dir: "rtl" },
   ]);
   const [listeningRowId, setListeningRowId] = useState<string | null>(null);
   const builderVoiceRef = useRef<any>(null);
@@ -6899,23 +6899,67 @@ export default function IdeasPage() {
     }
   };
 
-  // Derive character name options from the current characterSetup string for the dialogue builder
-  const getCharactersFromSetup = (): string[] => {
-    const base: string[] = [];
+  // All character options grouped by role — covers every cute kids category setup
+  const BUILDER_CHARACTER_GROUPS: { group: string; chars: string[] }[] = [
+    {
+      group: "👶 Kids (Core)",
+      chars: ["Boy", "Girl", "Baby Boy", "Baby Girl", "Toddler Boy", "Toddler Girl"],
+    },
+    {
+      group: "👨‍👩‍👦 Family — Parents",
+      chars: ["Abu (Father)", "Amma (Mother)", "Baba (Dad)", "Mama (Mom)", "Dada (Grandfather)", "Dadi (Grandmother)", "Nana (Grandfather)", "Nani (Grandmother)"],
+    },
+    {
+      group: "👦 Family — Siblings",
+      chars: ["Baita (Son)", "Beti (Daughter)", "Bhai (Brother)", "Behan (Sister)", "Chota Bhai (Little Brother)", "Choti Behan (Little Sister)"],
+    },
+    {
+      group: "💑 Couple / Family",
+      chars: ["Husband", "Wife", "Miya (Husband)", "Biwi (Wife)", "Dulha (Groom)", "Dulhan (Bride)"],
+    },
+    {
+      group: "👔 Extended Family",
+      chars: ["Uncle (Chacha)", "Uncle (Mama)", "Aunty (Chachi)", "Aunty (Maami)", "Cousin (Boy)", "Cousin (Girl)"],
+    },
+    {
+      group: "🏫 School / Community",
+      chars: ["Teacher", "Student", "Classmate (Boy)", "Classmate (Girl)", "Principal", "Friend (Boy)", "Friend (Girl)"],
+    },
+    {
+      group: "🏥 Professionals",
+      chars: ["Doctor", "Nurse", "Shopkeeper", "Pharmacist", "Police Officer", "Driver"],
+    },
+    {
+      group: "📺 Media / Performance",
+      chars: ["Reporter", "News Anchor", "Comedian", "Narrator", "Host", "Singer"],
+    },
+    {
+      group: "🤖 Special",
+      chars: ["Robot", "AI Assistant", "Parrot (Tota)", "Animal Friend"],
+    },
+  ];
+
+  const getCharactersFromSetup = (): { group: string; chars: string[] }[] => {
     const s = (characterSetup || "").toLowerCase();
-    if (/boy|son|bhai|brother/.test(s)) base.push("Boy");
-    if (/girl|daughter|behan|sister/.test(s)) base.push("Girl");
-    if (/father|abu|dad/.test(s)) base.push("Abu");
-    if (/mother|amma|mom/.test(s)) base.push("Amma");
-    if (/husband|miya/.test(s)) base.push("Husband");
-    if (/wife|biwi/.test(s)) base.push("Wife");
-    if (/uncle/.test(s)) base.push("Uncle");
-    if (/reporter/.test(s)) base.push("Reporter");
-    if (/robot/.test(s)) base.push("Robot");
-    // Always include common fallbacks
-    const defaults = ["Boy", "Girl", "Abu", "Amma", "Husband", "Wife", "Uncle", "Shopkeeper", "Baita"];
-    const merged = [...new Set([...base, ...defaults])];
-    return merged;
+    // Build a smart "Suggested from Setup" group based on active setup
+    const suggested: string[] = [];
+    if (/boy|son|bhai|brother/.test(s)) suggested.push("Boy");
+    if (/girl|daughter|behan|sister/.test(s)) suggested.push("Girl");
+    if (/father|abu|dad/.test(s)) suggested.push("Abu (Father)");
+    if (/mother|amma|mom/.test(s)) suggested.push("Amma (Mother)");
+    if (/husband|miya/.test(s)) suggested.push("Husband");
+    if (/wife|biwi/.test(s)) suggested.push("Wife");
+    if (/uncle/.test(s)) suggested.push("Uncle (Chacha)");
+    if (/reporter/.test(s)) suggested.push("Reporter");
+    if (/robot/.test(s)) suggested.push("Robot");
+    if (/baby/.test(s)) suggested.push("Baby Boy", "Baby Girl");
+    if (/teacher/.test(s)) suggested.push("Teacher");
+    if (/doctor/.test(s)) suggested.push("Doctor");
+    if (/friend/.test(s)) suggested.push("Friend (Boy)", "Friend (Girl)");
+    const result = suggested.length > 0
+      ? [{ group: "⚡ Suggested from Setup", chars: [...new Set(suggested)] }, ...BUILDER_CHARACTER_GROUPS]
+      : BUILDER_CHARACTER_GROUPS;
+    return result;
   };
 
   const handleBuildDialogueFromRows = () => {
@@ -6925,7 +6969,9 @@ export default function IdeasPage() {
       return;
     }
     const built = validLines.map((l) => {
-      const charLabel = l.character || "Character";
+      const charLabel = l.character === "__custom__"
+        ? (l.customChar.trim() || "Character")
+        : (l.character || "Character");
       const emotionPart = l.emotion.trim() ? ` [${l.emotion.trim()}]` : "";
       return `${charLabel}:${emotionPart} ${l.text.trim()}`;
     }).join("\n");
@@ -9383,63 +9429,148 @@ export default function IdeasPage() {
                         {/* Dialogue rows */}
                         {dialogueBuilderLines.map((row, idx) => (
                           <div key={row.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
-                            {/* Character dropdown */}
-                            <select
-                              value={row.character}
-                              onChange={(e) => {
-                                const next = [...dialogueBuilderLines];
-                                next[idx] = { ...next[idx], character: e.target.value };
-                                setDialogueBuilderLines(next);
-                              }}
-                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
-                                isLight
-                                  ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
-                                  : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
-                              }`}
-                            >
-                              <option value="">— Select —</option>
-                              {getCharactersFromSetup().map((name) => (
-                                <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
-                                  {name}
-                                </option>
-                              ))}
-                            </select>
+                            {/* Character dropdown + optional custom input */}
+                            <div className="space-y-1">
+                              <select
+                                value={row.character}
+                                onChange={(e) => {
+                                  const next = [...dialogueBuilderLines];
+                                  next[idx] = { ...next[idx], character: e.target.value, customChar: "" };
+                                  setDialogueBuilderLines(next);
+                                }}
+                                className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
+                                  isLight
+                                    ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
+                                    : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
+                                }`}
+                              >
+                                <option value="">— Select Character —</option>
+                                {getCharactersFromSetup().map((grp) => (
+                                  <optgroup key={grp.group} label={grp.group}>
+                                    {grp.chars.map((name) => (
+                                      <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
+                                        {name}
+                                      </option>
+                                    ))}
+                                  </optgroup>
+                                ))}
+                                <optgroup label="✏️ Other">
+                                  <option value="__custom__">✏️ Custom Name...</option>
+                                </optgroup>
+                              </select>
+                              {/* Custom character text input — shown only when Custom is selected */}
+                              {row.character === "__custom__" && (
+                                <input
+                                  type="text"
+                                  value={row.customChar}
+                                  onChange={(e) => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], customChar: e.target.value };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  placeholder="Type character name…"
+                                  autoFocus
+                                  className={`w-full px-2.5 py-1.5 rounded-xl border text-xs font-bold focus:outline-none ${
+                                    isLight
+                                      ? "bg-indigo-50 border-indigo-400 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-400/20"
+                                      : "bg-indigo-950/60 border-indigo-500/60 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                  }`}
+                                />
+                              )}
+                            </div>
 
-                            {/* Emotion input */}
-                            <input
-                              type="text"
+                            {/* Emotion dropdown */}
+                            <select
                               value={row.emotion}
                               onChange={(e) => {
                                 const next = [...dialogueBuilderLines];
                                 next[idx] = { ...next[idx], emotion: e.target.value };
                                 setDialogueBuilderLines(next);
                               }}
-                              placeholder="Excited, Sad…"
-                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
                                 isLight
-                                  ? "bg-white border-indigo-200 text-slate-900 placeholder-slate-400 focus:border-indigo-400"
-                                  : "bg-slate-950 border-indigo-500/30 text-white placeholder-slate-500 focus:border-indigo-400"
+                                  ? "bg-white border-indigo-200 text-slate-900 focus:border-indigo-400"
+                                  : "bg-slate-950 border-indigo-500/30 text-white focus:border-indigo-400"
                               }`}
-                            />
+                            >
+                              <option value="">— Emotion —</option>
+                              <optgroup label="😊 Happy / Positive">
+                                <option value="Excited">😆 Excited</option>
+                                <option value="Happy">😊 Happy</option>
+                                <option value="Cheerful">🌟 Cheerful</option>
+                                <option value="Proud">😎 Proud</option>
+                                <option value="Loving">🤗 Loving / Warm</option>
+                                <option value="Confident">😏 Confident</option>
+                                <option value="Playful">🤭 Playful</option>
+                              </optgroup>
+                              <optgroup label="😂 Funny / Silly">
+                                <option value="Funny">😂 Funny / Laughing</option>
+                                <option value="Mischievous">😈 Mischievous</option>
+                                <option value="Teasing">😜 Teasing</option>
+                                <option value="Silly">🤪 Silly</option>
+                                <option value="Sarcastic">🙃 Sarcastic</option>
+                                <option value="Deadpan">😐 Deadpan / Dry</option>
+                              </optgroup>
+                              <optgroup label="😢 Sad / Emotional">
+                                <option value="Sad">😢 Sad</option>
+                                <option value="Crying">😭 Crying / Upset</option>
+                                <option value="Pleading">🥺 Pleading / Innocent</option>
+                                <option value="Lonely">😔 Lonely</option>
+                                <option value="Worried">😟 Worried</option>
+                              </optgroup>
+                              <optgroup label="😠 Angry / Frustrated">
+                                <option value="Angry">😠 Angry</option>
+                                <option value="Annoyed">😤 Annoyed / Stubborn</option>
+                                <option value="Frustrated">🙁 Frustrated</option>
+                                <option value="Shocked">😮 Shocked / Surprised</option>
+                              </optgroup>
+                              <optgroup label="😴 Other">
+                                <option value="Shy">😳 Shy / Embarrassed</option>
+                                <option value="Confused">😕 Confused</option>
+                                <option value="Sleepy">😴 Sleepy / Tired</option>
+                                <option value="Curious">🤔 Curious</option>
+                                <option value="Brave">💪 Brave / Determined</option>
+                              </optgroup>
+                            </select>
 
-                            {/* Dialogue text */}
-                            <input
-                              type="text"
-                              value={row.text}
-                              onChange={(e) => {
-                                const next = [...dialogueBuilderLines];
-                                next[idx] = { ...next[idx], text: e.target.value };
-                                setDialogueBuilderLines(next);
-                              }}
-                              placeholder={`Line ${idx + 1} — e.g. I want ice cream!`}
-                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
-                                listeningRowId === row.id
-                                  ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
-                                  : isLight
-                                    ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/20"
-                                    : "bg-slate-950 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
-                              }`}
-                            />
+                            {/* Dialogue text + RTL/LTR toggle */}
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="text"
+                                value={row.text}
+                                dir={row.dir}
+                                onChange={(e) => {
+                                  const next = [...dialogueBuilderLines];
+                                  next[idx] = { ...next[idx], text: e.target.value };
+                                  setDialogueBuilderLines(next);
+                                }}
+                                placeholder={row.dir === "rtl" ? `لائن ${idx + 1} — مثلاً آئس کریم چاہیے!` : `Line ${idx + 1} — e.g. I want ice cream!`}
+                                className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                  listeningRowId === row.id
+                                    ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
+                                    : isLight
+                                      ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/20"
+                                      : "bg-slate-950 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                }`}
+                              />
+                              {/* Per-row RTL/LTR toggle */}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const next = [...dialogueBuilderLines];
+                                  next[idx] = { ...next[idx], dir: row.dir === "rtl" ? "ltr" : "rtl" };
+                                  setDialogueBuilderLines(next);
+                                }}
+                                className={`shrink-0 w-9 h-7 flex items-center justify-center rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-90 ${
+                                  row.dir === "rtl"
+                                    ? isLight ? "bg-teal-100 border-teal-400 text-teal-900" : "bg-teal-900/60 border-teal-500/50 text-teal-200"
+                                    : isLight ? "bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200" : "bg-slate-800 border-slate-600/50 text-slate-400 hover:bg-slate-700"
+                                }`}
+                                title={row.dir === "rtl" ? "Switch to LTR (English)" : "Switch to RTL (Urdu)"}
+                              >
+                                {row.dir === "rtl" ? "⇐" : "⇒"}
+                              </button>
+                            </div>
 
                             {/* Mic button */}
                             <button
@@ -9462,7 +9593,7 @@ export default function IdeasPage() {
                               type="button"
                               onClick={() => {
                                 if (dialogueBuilderLines.length === 1) {
-                                  setDialogueBuilderLines([{ id: Date.now().toString(), character: "", emotion: "", text: "" }]);
+                                  setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }]);
                                 } else {
                                   setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
                                 }
@@ -9490,7 +9621,7 @@ export default function IdeasPage() {
                                 <span className={`shrink-0 px-1.5 py-0.5 rounded-md border ${
                                   isLight ? "bg-indigo-100 border-indigo-300 text-indigo-800" : "bg-indigo-900/70 border-indigo-500/40 text-indigo-200"
                                 }`}>
-                                  {l.character || "—"}
+                                  {l.character === "__custom__" ? (l.customChar.trim() || "Custom…") : (l.character || "—")}
                                 </span>
                                 {l.emotion.trim() && (
                                   <span className={`shrink-0 px-1.5 py-0.5 rounded-md border italic ${
@@ -9511,7 +9642,7 @@ export default function IdeasPage() {
                             type="button"
                             onClick={() => setDialogueBuilderLines((prev) => [
                               ...prev,
-                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", emotion: "", text: "" },
+                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
                             ])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
@@ -9524,7 +9655,7 @@ export default function IdeasPage() {
                           </button>
                           <button
                             type="button"
-                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", emotion: "", text: "" }])}
+                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
                                 ? "bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200"
