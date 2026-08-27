@@ -6718,8 +6718,8 @@ export default function IdeasPage() {
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [showDialogueBuilder, setShowDialogueBuilder] = useState(false);
-  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; text: string; dir: "ltr" | "rtl" }[]>([
-    { id: "1", character: "", customChar: "", emotion: "", text: "", dir: "rtl" },
+  const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; text: string; dir: "ltr" | "rtl" }[]>([
+    { id: "1", character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" },
   ]);
   const [listeningRowId, setListeningRowId] = useState<string | null>(null);
   const builderVoiceRef = useRef<any>(null);
@@ -7129,7 +7129,8 @@ export default function IdeasPage() {
         ? (l.customChar.trim() || "Character")
         : (l.character || "Character");
       const emotionPart = l.emotion.trim() ? ` [${l.emotion.trim()}]` : "";
-      return `${charLabel}:${emotionPart} ${l.text.trim()}`;
+      const actionPart = l.action.trim() ? ` (${l.action.trim()})` : "";
+      return `${charLabel}:${emotionPart}${actionPart} ${l.text.trim()}`;
     }).join("\n");
     setCustomDialogue((prev) => (prev.trim() ? prev.trim() + "\n" + built : built));
     showToast(`✅ ${validLines.length} line${validLines.length > 1 ? "s" : ""} added to dialogue!`, "success", 2000);
@@ -9592,22 +9593,23 @@ export default function IdeasPage() {
                     {showDialogueBuilder && (
                       <div className={`p-3 sm:p-4 border-t ${isLight ? "border-indigo-200" : "border-indigo-500/30"}`}>
                         {/* Desktop Header */}
-                        <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
+                        <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Emotion</span>
+                          <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Action</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Dialogue Line</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Mic</span>
                           <span className="w-7" />
                         </div>
 
-                        {/* Dialogue rows */}
+                          {/* Dialogue rows */}
                         {dialogueBuilderLines.map((row, idx) => (
                           <div 
                             key={row.id} 
                             style={{ zIndex: 100 - idx }}
-                            className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}
+                            className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}
                           >
-                            {/* Mobile Top Row: Character & Emotion */}
+                            {/* Mobile Top Row: Character, Emotion & Action */}
                             <div className="flex flex-col sm:flex-row gap-2 md:contents">
                               {/* Character Combobox */}
                               <div className="flex-1 space-y-1 relative">
@@ -9641,6 +9643,25 @@ export default function IdeasPage() {
                                   placeholder="Search / Type emotion"
                                   isLight={isLight}
                                   allowCustom={true}
+                                />
+                              </div>
+
+                              {/* Action Text Input */}
+                              <div className="flex-1 space-y-1 relative">
+                                <input
+                                  type="text"
+                                  value={row.action || ""}
+                                  onChange={(e) => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], action: e.target.value };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  placeholder="e.g. touching cheeks..."
+                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                    isLight
+                                      ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500"
+                                      : "bg-slate-950 border-indigo-500/50 text-white placeholder-slate-500 focus:border-indigo-400"
+                                  }`}
                                 />
                               </div>
                             </div>
@@ -9707,7 +9728,7 @@ export default function IdeasPage() {
                                 type="button"
                                 onClick={() => {
                                   if (dialogueBuilderLines.length === 1) {
-                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }]);
+                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" }]);
                                   } else {
                                     setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
                                   }
@@ -9757,7 +9778,7 @@ export default function IdeasPage() {
                             type="button"
                             onClick={() => setDialogueBuilderLines((prev) => [
                               ...prev,
-                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
+                              { id: Date.now().toString(), character: prev[prev.length - 1]?.character || "", customChar: "", emotion: "", action: "", text: "", dir: prev[prev.length - 1]?.dir ?? "rtl" },
                             ])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
@@ -9770,7 +9791,7 @@ export default function IdeasPage() {
                           </button>
                           <button
                             type="button"
-                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }])}
+                            onClick={() => setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", action: "", text: "", dir: "rtl" }])}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
                               isLight
                                 ? "bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200"
