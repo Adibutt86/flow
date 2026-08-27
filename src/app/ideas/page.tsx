@@ -9418,7 +9418,7 @@ export default function IdeasPage() {
                     {showDialogueBuilder && (
                       <div className="px-3.5 pb-4 space-y-3">
                         {/* Column headers */}
-                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
+                        <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Character</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Emotion</span>
                           <span className={`text-[10px] font-black uppercase tracking-wide ${isLight ? "text-indigo-800" : "text-indigo-400"}`}>Dialogue Line</span>
@@ -9428,185 +9428,191 @@ export default function IdeasPage() {
 
                         {/* Dialogue rows */}
                         {dialogueBuilderLines.map((row, idx) => (
-                          <div key={row.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 items-center">
-                            {/* Character dropdown + optional custom input */}
-                            <div className="space-y-1">
-                              <select
-                                value={row.character}
-                                onChange={(e) => {
-                                  const next = [...dialogueBuilderLines];
-                                  next[idx] = { ...next[idx], character: e.target.value, customChar: "" };
-                                  setDialogueBuilderLines(next);
-                                }}
-                                className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
-                                  isLight
-                                    ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
-                                    : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
-                                }`}
-                              >
-                                <option value="">— Select Character —</option>
-                                {getCharactersFromSetup().map((grp) => (
-                                  <optgroup key={grp.group} label={grp.group}>
-                                    {grp.chars.map((name) => (
-                                      <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
-                                        {name}
-                                      </option>
-                                    ))}
-                                  </optgroup>
-                                ))}
-                                <optgroup label="✏️ Other">
-                                  <option value="__custom__">✏️ Custom Name...</option>
-                                </optgroup>
-                              </select>
-                              {/* Custom character text input — shown only when Custom is selected */}
-                              {row.character === "__custom__" && (
-                                <input
-                                  type="text"
-                                  value={row.customChar}
+                          <div key={row.id} className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}>
+                            {/* Mobile Top Row: Character & Emotion */}
+                            <div className="flex flex-col sm:flex-row gap-2 md:contents">
+                              {/* Character dropdown + optional custom input */}
+                              <div className="flex-1 space-y-1">
+                                <select
+                                  value={row.character}
                                   onChange={(e) => {
                                     const next = [...dialogueBuilderLines];
-                                    next[idx] = { ...next[idx], customChar: e.target.value };
+                                    next[idx] = { ...next[idx], character: e.target.value, customChar: "" };
                                     setDialogueBuilderLines(next);
                                   }}
-                                  placeholder="Type character name…"
-                                  autoFocus
-                                  className={`w-full px-2.5 py-1.5 rounded-xl border text-xs font-bold focus:outline-none ${
+                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
                                     isLight
-                                      ? "bg-indigo-50 border-indigo-400 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-400/20"
-                                      : "bg-indigo-950/60 border-indigo-500/60 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                      ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
+                                      : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
                                   }`}
-                                />
-                              )}
-                            </div>
+                                >
+                                  <option value="">— Select Character —</option>
+                                  {getCharactersFromSetup().map((grp) => (
+                                    <optgroup key={grp.group} label={grp.group}>
+                                      {grp.chars.map((name) => (
+                                        <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
+                                          {name}
+                                        </option>
+                                      ))}
+                                    </optgroup>
+                                  ))}
+                                  <optgroup label="✏️ Other">
+                                    <option value="__custom__">✏️ Custom Name...</option>
+                                  </optgroup>
+                                </select>
+                                {/* Custom character text input — shown only when Custom is selected */}
+                                {row.character === "__custom__" && (
+                                  <input
+                                    type="text"
+                                    value={row.customChar}
+                                    onChange={(e) => {
+                                      const next = [...dialogueBuilderLines];
+                                      next[idx] = { ...next[idx], customChar: e.target.value };
+                                      setDialogueBuilderLines(next);
+                                    }}
+                                    placeholder="Type character name…"
+                                    autoFocus
+                                    className={`w-full px-2.5 py-1.5 rounded-xl border text-xs font-bold focus:outline-none ${
+                                      isLight
+                                        ? "bg-indigo-50 border-indigo-400 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-400/20"
+                                        : "bg-indigo-950/60 border-indigo-500/60 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                    }`}
+                                  />
+                                )}
+                              </div>
 
-                            {/* Emotion dropdown */}
-                            <select
-                              value={row.emotion}
-                              onChange={(e) => {
-                                const next = [...dialogueBuilderLines];
-                                next[idx] = { ...next[idx], emotion: e.target.value };
-                                setDialogueBuilderLines(next);
-                              }}
-                              className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
-                                isLight
-                                  ? "bg-white border-indigo-200 text-slate-900 focus:border-indigo-400"
-                                  : "bg-slate-950 border-indigo-500/30 text-white focus:border-indigo-400"
-                              }`}
-                            >
-                              <option value="">— Emotion —</option>
-                              <optgroup label="😊 Happy / Positive">
-                                <option value="Excited">😆 Excited</option>
-                                <option value="Happy">😊 Happy</option>
-                                <option value="Cheerful">🌟 Cheerful</option>
-                                <option value="Proud">😎 Proud</option>
-                                <option value="Loving">🤗 Loving / Warm</option>
-                                <option value="Confident">😏 Confident</option>
-                                <option value="Playful">🤭 Playful</option>
-                              </optgroup>
-                              <optgroup label="😂 Funny / Silly">
-                                <option value="Funny">😂 Funny / Laughing</option>
-                                <option value="Mischievous">😈 Mischievous</option>
-                                <option value="Teasing">😜 Teasing</option>
-                                <option value="Silly">🤪 Silly</option>
-                                <option value="Sarcastic">🙃 Sarcastic</option>
-                                <option value="Deadpan">😐 Deadpan / Dry</option>
-                              </optgroup>
-                              <optgroup label="😢 Sad / Emotional">
-                                <option value="Sad">😢 Sad</option>
-                                <option value="Crying">😭 Crying / Upset</option>
-                                <option value="Pleading">🥺 Pleading / Innocent</option>
-                                <option value="Lonely">😔 Lonely</option>
-                                <option value="Worried">😟 Worried</option>
-                              </optgroup>
-                              <optgroup label="😠 Angry / Frustrated">
-                                <option value="Angry">😠 Angry</option>
-                                <option value="Annoyed">😤 Annoyed / Stubborn</option>
-                                <option value="Frustrated">🙁 Frustrated</option>
-                                <option value="Shocked">😮 Shocked / Surprised</option>
-                              </optgroup>
-                              <optgroup label="😴 Other">
-                                <option value="Shy">😳 Shy / Embarrassed</option>
-                                <option value="Confused">😕 Confused</option>
-                                <option value="Sleepy">😴 Sleepy / Tired</option>
-                                <option value="Curious">🤔 Curious</option>
-                                <option value="Brave">💪 Brave / Determined</option>
-                              </optgroup>
-                            </select>
-
-                            {/* Dialogue text + RTL/LTR toggle */}
-                            <div className="flex items-center gap-1">
-                              <input
-                                type="text"
-                                value={row.text}
-                                dir={row.dir}
+                              {/* Emotion dropdown */}
+                              <select
+                                value={row.emotion}
                                 onChange={(e) => {
                                   const next = [...dialogueBuilderLines];
-                                  next[idx] = { ...next[idx], text: e.target.value };
+                                  next[idx] = { ...next[idx], emotion: e.target.value };
                                   setDialogueBuilderLines(next);
                                 }}
-                                placeholder={row.dir === "rtl" ? `لائن ${idx + 1} — مثلاً آئس کریم چاہیے!` : `Line ${idx + 1} — e.g. I want ice cream!`}
-                                className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
-                                  listeningRowId === row.id
-                                    ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
-                                    : isLight
-                                      ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/20"
-                                      : "bg-slate-950 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                className={`flex-1 w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
+                                  isLight
+                                    ? "bg-white border-indigo-200 text-slate-900 focus:border-indigo-400"
+                                    : "bg-slate-950 border-indigo-500/30 text-white focus:border-indigo-400"
                                 }`}
-                              />
-                              {/* Per-row RTL/LTR toggle */}
+                              >
+                                <option value="">— Emotion —</option>
+                                <optgroup label="😊 Happy / Positive">
+                                  <option value="Excited">😆 Excited</option>
+                                  <option value="Happy">😊 Happy</option>
+                                  <option value="Cheerful">🌟 Cheerful</option>
+                                  <option value="Proud">😎 Proud</option>
+                                  <option value="Loving">🤗 Loving / Warm</option>
+                                  <option value="Confident">😏 Confident</option>
+                                  <option value="Playful">🤭 Playful</option>
+                                </optgroup>
+                                <optgroup label="😂 Funny / Silly">
+                                  <option value="Funny">😂 Funny / Laughing</option>
+                                  <option value="Mischievous">😈 Mischievous</option>
+                                  <option value="Teasing">😜 Teasing</option>
+                                  <option value="Silly">🤪 Silly</option>
+                                  <option value="Sarcastic">🙃 Sarcastic</option>
+                                  <option value="Deadpan">😐 Deadpan / Dry</option>
+                                </optgroup>
+                                <optgroup label="😢 Sad / Emotional">
+                                  <option value="Sad">😢 Sad</option>
+                                  <option value="Crying">😭 Crying / Upset</option>
+                                  <option value="Pleading">🥺 Pleading / Innocent</option>
+                                  <option value="Lonely">😔 Lonely</option>
+                                  <option value="Worried">😟 Worried</option>
+                                </optgroup>
+                                <optgroup label="😠 Angry / Frustrated">
+                                  <option value="Angry">😠 Angry</option>
+                                  <option value="Annoyed">😤 Annoyed / Stubborn</option>
+                                  <option value="Frustrated">🙁 Frustrated</option>
+                                  <option value="Shocked">😮 Shocked / Surprised</option>
+                                </optgroup>
+                                <optgroup label="😴 Other">
+                                  <option value="Shy">😳 Shy / Embarrassed</option>
+                                  <option value="Confused">😕 Confused</option>
+                                  <option value="Sleepy">😴 Sleepy / Tired</option>
+                                  <option value="Curious">🤔 Curious</option>
+                                  <option value="Brave">💪 Brave / Determined</option>
+                                </optgroup>
+                              </select>
+                            </div>
+
+                            {/* Mobile Bottom Row: Dialogue & Actions */}
+                            <div className="flex gap-2 items-center md:contents mt-1 md:mt-0">
+                              {/* Dialogue text + RTL/LTR toggle */}
+                              <div className="flex-1 flex items-center gap-1">
+                                <input
+                                  type="text"
+                                  value={row.text}
+                                  dir={row.dir}
+                                  onChange={(e) => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], text: e.target.value };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  placeholder={row.dir === "rtl" ? `لائن ${idx + 1} — مثلاً آئس کریم چاہیے!` : `Line ${idx + 1} — e.g. I want ice cream!`}
+                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+                                    listeningRowId === row.id
+                                      ? "border-rose-500 ring-2 ring-rose-400/30 bg-rose-50/10"
+                                      : isLight
+                                        ? "bg-white border-indigo-300 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/20"
+                                        : "bg-slate-950 border-indigo-500/40 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+                                  }`}
+                                />
+                                {/* Per-row RTL/LTR toggle */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], dir: row.dir === "rtl" ? "ltr" : "rtl" };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  className={`shrink-0 w-9 h-7 flex items-center justify-center rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-90 ${
+                                    row.dir === "rtl"
+                                      ? isLight ? "bg-teal-100 border-teal-400 text-teal-900" : "bg-teal-900/60 border-teal-500/50 text-teal-200"
+                                      : isLight ? "bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200" : "bg-slate-800 border-slate-600/50 text-slate-400 hover:bg-slate-700"
+                                  }`}
+                                  title={row.dir === "rtl" ? "Switch to LTR (English)" : "Switch to RTL (Urdu)"}
+                                >
+                                  {row.dir === "rtl" ? "⇐" : "⇒"}
+                                </button>
+                              </div>
+
+                              {/* Mic button */}
+                              <button
+                                type="button"
+                                onClick={() => handleBuilderVoiceInput(row.id)}
+                                className={`shrink-0 w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
+                                  listeningRowId === row.id
+                                    ? "bg-rose-600 border-rose-400 text-white animate-pulse"
+                                    : isLight
+                                      ? "bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200"
+                                      : "bg-slate-800 border-slate-600/50 text-slate-300 hover:bg-slate-700"
+                                }`}
+                                title={listeningRowId === row.id ? "Listening — click to stop" : "Speak this dialogue line (Chrome/Android)"}
+                              >
+                                {listeningRowId === row.id ? "⏹" : "🎙️"}
+                              </button>
+
+                              {/* Delete row */}
                               <button
                                 type="button"
                                 onClick={() => {
-                                  const next = [...dialogueBuilderLines];
-                                  next[idx] = { ...next[idx], dir: row.dir === "rtl" ? "ltr" : "rtl" };
-                                  setDialogueBuilderLines(next);
+                                  if (dialogueBuilderLines.length === 1) {
+                                    setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }]);
+                                  } else {
+                                    setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
+                                  }
                                 }}
-                                className={`shrink-0 w-9 h-7 flex items-center justify-center rounded-lg border text-[10px] font-black transition-all cursor-pointer active:scale-90 ${
-                                  row.dir === "rtl"
-                                    ? isLight ? "bg-teal-100 border-teal-400 text-teal-900" : "bg-teal-900/60 border-teal-500/50 text-teal-200"
-                                    : isLight ? "bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200" : "bg-slate-800 border-slate-600/50 text-slate-400 hover:bg-slate-700"
+                                className={`shrink-0 w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
+                                  isLight
+                                    ? "bg-rose-100 border-rose-300 text-rose-700 hover:bg-rose-200"
+                                    : "bg-rose-950/60 border-rose-800/50 text-rose-400 hover:bg-rose-900/80"
                                 }`}
-                                title={row.dir === "rtl" ? "Switch to LTR (English)" : "Switch to RTL (Urdu)"}
+                                title="Remove this line"
                               >
-                                {row.dir === "rtl" ? "⇐" : "⇒"}
+                                ✕
                               </button>
                             </div>
-
-                            {/* Mic button */}
-                            <button
-                              type="button"
-                              onClick={() => handleBuilderVoiceInput(row.id)}
-                              className={`w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
-                                listeningRowId === row.id
-                                  ? "bg-rose-600 border-rose-400 text-white animate-pulse"
-                                  : isLight
-                                    ? "bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200"
-                                    : "bg-slate-800 border-slate-600/50 text-slate-300 hover:bg-slate-700"
-                              }`}
-                              title={listeningRowId === row.id ? "Listening — click to stop" : "Speak this dialogue line (Chrome/Android)"}
-                            >
-                              {listeningRowId === row.id ? "⏹" : "🎙️"}
-                            </button>
-
-                            {/* Delete row */}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (dialogueBuilderLines.length === 1) {
-                                  setDialogueBuilderLines([{ id: Date.now().toString(), character: "", customChar: "", emotion: "", text: "", dir: "rtl" }]);
-                                } else {
-                                  setDialogueBuilderLines(dialogueBuilderLines.filter((_, i) => i !== idx));
-                                }
-                              }}
-                              className={`w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-90 ${
-                                isLight
-                                  ? "bg-rose-100 border-rose-300 text-rose-700 hover:bg-rose-200"
-                                  : "bg-rose-950/60 border-rose-800/50 text-rose-400 hover:bg-rose-900/80"
-                              }`}
-                              title="Remove this line"
-                            >
-                              ✕
-                            </button>
                           </div>
                         ))}
 
