@@ -6543,6 +6543,106 @@ function safeLocalStorageSet(key: string, items: unknown[]): void {
   }
 }
 
+interface SearchableComboboxProps {
+  value: string;
+  onChange: (val: string) => void;
+  groups: { group: string; items: { value: string; label: string }[] }[];
+  placeholder: string;
+  isLight: boolean;
+  allowCustom?: boolean;
+}
+
+function SearchableCombobox({ value, onChange, groups, placeholder, isLight, allowCustom }: SearchableComboboxProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sync search with value when closed
+  useEffect(() => {
+    if (!isOpen) setSearch(value);
+  }, [isOpen, value]);
+
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
+
+  const filtered = groups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter(
+        (i) =>
+          i.label.toLowerCase().includes(search.toLowerCase()) ||
+          i.value.toLowerCase().includes(search.toLowerCase())
+      ),
+    }))
+    .filter((g) => g.items.length > 0);
+
+  return (
+    <div className="relative w-full" ref={containerRef}>
+      <input
+        type="text"
+        value={isOpen ? search : value}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          if (allowCustom) onChange(e.target.value);
+        }}
+        onFocus={() => setIsOpen(true)}
+        placeholder={placeholder}
+        className={`w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none ${
+          isLight
+            ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
+            : "bg-slate-950 border-indigo-500/50 text-indigo-100 focus:border-indigo-400"
+        }`}
+      />
+      {isOpen && (
+        <div
+          className={`absolute z-50 w-full mt-1 max-h-56 overflow-y-auto rounded-xl border shadow-xl ${
+            isLight ? "bg-white border-slate-200" : "bg-slate-900 border-slate-700"
+          } `}
+        >
+          {filtered.length === 0 ? (
+            <div className="p-3 text-xs text-center text-slate-500">No matches found</div>
+          ) : (
+            filtered.map((g) => (
+              <div key={g.group}>
+                <div
+                  className={`px-2 py-1.5 text-[10px] font-black uppercase tracking-wider sticky top-0 ${
+                    isLight ? "bg-slate-100/95 text-slate-500" : "bg-slate-800/95 text-slate-400"
+                  }`}
+                >
+                  {g.group}
+                </div>
+                {g.items.map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => {
+                      onChange(item.value);
+                      setSearch(item.value);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-2 text-xs font-semibold cursor-pointer transition-colors ${
+                      isLight ? "hover:bg-indigo-50 text-slate-800" : "hover:bg-indigo-900/50 text-slate-200"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function IdeasPage() {
   const { showToast } = useToast();
   const { currentUser, isLoggedIn, setIsAuthModalOpen } = useUser();
@@ -6552,6 +6652,7 @@ export default function IdeasPage() {
   const categoryControlsRef = useRef<HTMLDivElement>(null);
   const generatorParametersRef = useRef<HTMLDivElement>(null);
   const dialogueSectionRef = useRef<HTMLDivElement>(null);
+  const builderSectionRef = useRef<HTMLDivElement>(null);
   const generateButtonRef = useRef<HTMLDivElement>(null);
   const presetsSectionRef = useRef<HTMLDivElement>(null);
   const ucpSectionRef = useRef<HTMLDivElement>(null);
@@ -6936,6 +7037,61 @@ export default function IdeasPage() {
     {
       group: "🤖 Special",
       chars: ["Robot", "AI Assistant", "Parrot (Tota)", "Animal Friend"],
+    },
+  ];
+
+  const BUILDER_EMOTION_GROUPS = [
+    {
+      group: "😊 Happy / Positive",
+      items: [
+        { value: "Excited", label: "😆 Excited" },
+        { value: "Happy", label: "😊 Happy" },
+        { value: "Cheerful", label: "🌟 Cheerful" },
+        { value: "Proud", label: "😎 Proud" },
+        { value: "Loving", label: "🤗 Loving / Warm" },
+        { value: "Confident", label: "😏 Confident" },
+        { value: "Playful", label: "🤭 Playful" },
+      ],
+    },
+    {
+      group: "😂 Funny / Silly",
+      items: [
+        { value: "Funny", label: "😂 Funny / Laughing" },
+        { value: "Mischievous", label: "😈 Mischievous" },
+        { value: "Teasing", label: "😜 Teasing" },
+        { value: "Silly", label: "🤪 Silly" },
+        { value: "Sarcastic", label: "🙃 Sarcastic" },
+        { value: "Deadpan", label: "😐 Deadpan / Dry" },
+      ],
+    },
+    {
+      group: "😢 Sad / Emotional",
+      items: [
+        { value: "Sad", label: "😢 Sad" },
+        { value: "Crying", label: "😭 Crying / Upset" },
+        { value: "Pleading", label: "🥺 Pleading / Innocent" },
+        { value: "Lonely", label: "😔 Lonely" },
+        { value: "Worried", label: "😟 Worried" },
+      ],
+    },
+    {
+      group: "😠 Angry / Frustrated",
+      items: [
+        { value: "Angry", label: "😠 Angry" },
+        { value: "Annoyed", label: "😤 Annoyed / Stubborn" },
+        { value: "Frustrated", label: "🙁 Frustrated" },
+        { value: "Shocked", label: "😮 Shocked / Surprised" },
+      ],
+    },
+    {
+      group: "😴 Other",
+      items: [
+        { value: "Shy", label: "😳 Shy / Embarrassed" },
+        { value: "Confused", label: "😕 Confused" },
+        { value: "Sleepy", label: "😴 Sleepy / Tired" },
+        { value: "Curious", label: "🤔 Curious" },
+        { value: "Brave", label: "💪 Brave / Determined" },
+      ],
     },
   ];
 
@@ -9013,8 +9169,21 @@ export default function IdeasPage() {
                 }`}
                 title="Jump to Custom Spoken Dialogue & Script"
               >
-                <span>💬</span>
+                <span>🎙️</span>
                 <span className="hidden sm:inline">Script</span>
+              </button>
+
+              {/* 🎭 Builder */}
+              <button
+                type="button"
+                onClick={() => scrollToSection(builderSectionRef)}
+                className={`px-2 sm:px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1 shrink-0 ${
+                  isLight ? "bg-indigo-100 hover:bg-indigo-200 border-indigo-300 text-indigo-950" : "bg-indigo-950/60 hover:bg-indigo-900/60 border-indigo-500/40 text-indigo-300"
+                }`}
+                title="Jump to Character Selector Builder"
+              >
+                <span>🎭</span>
+                <span className="hidden sm:inline">Builder</span>
               </button>
 
               {/* ✨ Generate */}
@@ -9388,7 +9557,7 @@ export default function IdeasPage() {
 
                 {/* 🎭 Character Selector Builder */}
                 {(videoDuration !== 20 && videoDuration !== 30) && (
-                  <div className={`rounded-xl border transition-all overflow-hidden ${
+                  <div ref={builderSectionRef} className={`rounded-xl border transition-all overflow-hidden ${
                     isLight ? "bg-indigo-50/80 border-indigo-300" : "bg-indigo-950/30 border-indigo-500/30"
                   }`}>
                     {/* Collapsible header */}
@@ -9431,109 +9600,40 @@ export default function IdeasPage() {
                           <div key={row.id} className={`flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_auto_auto] gap-2 md:items-center relative p-3 md:p-0 rounded-xl md:rounded-none border md:border-0 mb-3 md:mb-0 ${isLight ? "bg-slate-50 border-slate-200 md:bg-transparent" : "bg-slate-900/30 border-slate-800 md:bg-transparent"}`}>
                             {/* Mobile Top Row: Character & Emotion */}
                             <div className="flex flex-col sm:flex-row gap-2 md:contents">
-                              {/* Character dropdown + optional custom input */}
-                              <div className="flex-1 space-y-1">
-                                <select
-                                  value={row.character}
-                                  onChange={(e) => {
+                              {/* Character Combobox */}
+                              <div className="flex-1 space-y-1 relative">
+                                <SearchableCombobox
+                                  value={row.character === "__custom__" ? row.customChar : row.character}
+                                  onChange={(val) => {
                                     const next = [...dialogueBuilderLines];
-                                    next[idx] = { ...next[idx], character: e.target.value, customChar: "" };
+                                    next[idx] = { ...next[idx], character: val, customChar: "" };
                                     setDialogueBuilderLines(next);
                                   }}
-                                  className={`w-full px-2.5 py-2 rounded-xl border text-xs font-extrabold focus:outline-none cursor-pointer ${
-                                    isLight
-                                      ? "bg-white border-indigo-300 text-slate-900 focus:border-indigo-500"
-                                      : "bg-slate-950 border-indigo-500/50 text-indigo-200 focus:border-indigo-400"
-                                  }`}
-                                >
-                                  <option value="">— Select Character —</option>
-                                  {getCharactersFromSetup().map((grp) => (
-                                    <optgroup key={grp.group} label={grp.group}>
-                                      {grp.chars.map((name) => (
-                                        <option key={name} value={name} className={isLight ? "bg-white text-slate-900" : "bg-slate-950 text-white"}>
-                                          {name}
-                                        </option>
-                                      ))}
-                                    </optgroup>
-                                  ))}
-                                  <optgroup label="✏️ Other">
-                                    <option value="__custom__">✏️ Custom Name...</option>
-                                  </optgroup>
-                                </select>
-                                {/* Custom character text input — shown only when Custom is selected */}
-                                {row.character === "__custom__" && (
-                                  <input
-                                    type="text"
-                                    value={row.customChar}
-                                    onChange={(e) => {
-                                      const next = [...dialogueBuilderLines];
-                                      next[idx] = { ...next[idx], customChar: e.target.value };
-                                      setDialogueBuilderLines(next);
-                                    }}
-                                    placeholder="Type character name…"
-                                    autoFocus
-                                    className={`w-full px-2.5 py-1.5 rounded-xl border text-xs font-bold focus:outline-none ${
-                                      isLight
-                                        ? "bg-indigo-50 border-indigo-400 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-400/20"
-                                        : "bg-indigo-950/60 border-indigo-500/60 text-white placeholder-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
-                                    }`}
-                                  />
-                                )}
+                                  groups={getCharactersFromSetup().map((g) => ({
+                                    group: g.group,
+                                    items: g.chars.map((c) => ({ value: c, label: c })),
+                                  }))}
+                                  placeholder="Search / Type character"
+                                  isLight={isLight}
+                                  allowCustom={true}
+                                />
                               </div>
 
-                              {/* Emotion dropdown */}
-                              <select
-                                value={row.emotion}
-                                onChange={(e) => {
-                                  const next = [...dialogueBuilderLines];
-                                  next[idx] = { ...next[idx], emotion: e.target.value };
-                                  setDialogueBuilderLines(next);
-                                }}
-                                className={`flex-1 w-full px-2.5 py-2 rounded-xl border text-xs font-bold focus:outline-none cursor-pointer ${
-                                  isLight
-                                    ? "bg-white border-indigo-200 text-slate-900 focus:border-indigo-400"
-                                    : "bg-slate-950 border-indigo-500/30 text-white focus:border-indigo-400"
-                                }`}
-                              >
-                                <option value="">— Emotion —</option>
-                                <optgroup label="😊 Happy / Positive">
-                                  <option value="Excited">😆 Excited</option>
-                                  <option value="Happy">😊 Happy</option>
-                                  <option value="Cheerful">🌟 Cheerful</option>
-                                  <option value="Proud">😎 Proud</option>
-                                  <option value="Loving">🤗 Loving / Warm</option>
-                                  <option value="Confident">😏 Confident</option>
-                                  <option value="Playful">🤭 Playful</option>
-                                </optgroup>
-                                <optgroup label="😂 Funny / Silly">
-                                  <option value="Funny">😂 Funny / Laughing</option>
-                                  <option value="Mischievous">😈 Mischievous</option>
-                                  <option value="Teasing">😜 Teasing</option>
-                                  <option value="Silly">🤪 Silly</option>
-                                  <option value="Sarcastic">🙃 Sarcastic</option>
-                                  <option value="Deadpan">😐 Deadpan / Dry</option>
-                                </optgroup>
-                                <optgroup label="😢 Sad / Emotional">
-                                  <option value="Sad">😢 Sad</option>
-                                  <option value="Crying">😭 Crying / Upset</option>
-                                  <option value="Pleading">🥺 Pleading / Innocent</option>
-                                  <option value="Lonely">😔 Lonely</option>
-                                  <option value="Worried">😟 Worried</option>
-                                </optgroup>
-                                <optgroup label="😠 Angry / Frustrated">
-                                  <option value="Angry">😠 Angry</option>
-                                  <option value="Annoyed">😤 Annoyed / Stubborn</option>
-                                  <option value="Frustrated">🙁 Frustrated</option>
-                                  <option value="Shocked">😮 Shocked / Surprised</option>
-                                </optgroup>
-                                <optgroup label="😴 Other">
-                                  <option value="Shy">😳 Shy / Embarrassed</option>
-                                  <option value="Confused">😕 Confused</option>
-                                  <option value="Sleepy">😴 Sleepy / Tired</option>
-                                  <option value="Curious">🤔 Curious</option>
-                                  <option value="Brave">💪 Brave / Determined</option>
-                                </optgroup>
-                              </select>
+                              {/* Emotion Combobox */}
+                              <div className="flex-1 space-y-1 relative">
+                                <SearchableCombobox
+                                  value={row.emotion}
+                                  onChange={(val) => {
+                                    const next = [...dialogueBuilderLines];
+                                    next[idx] = { ...next[idx], emotion: val };
+                                    setDialogueBuilderLines(next);
+                                  }}
+                                  groups={BUILDER_EMOTION_GROUPS}
+                                  placeholder="Search / Type emotion"
+                                  isLight={isLight}
+                                  allowCustom={true}
+                                />
+                              </div>
                             </div>
 
                             {/* Mobile Bottom Row: Dialogue & Actions */}
