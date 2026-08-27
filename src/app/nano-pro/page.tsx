@@ -7,6 +7,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useToast } from "@/components/ui/Toast";
 import { safeJsonResponse } from "@/lib/utils";
 import { FB_POST_QUOTES } from "@/lib/data/fb-quotes";
+import { KIDS_POST_QUOTES } from "@/lib/data/kids-quotes";
 import { SHAYARI_QUOTES } from "@/lib/data/shayari-quotes";
 
 const VISUAL_STYLES: { value: string; label: string; desc: string; tag?: string }[] = [
@@ -3146,6 +3147,17 @@ const FB_CHARACTER_STYLE_GROUPS = [
   },
 ];
 
+const FB_LANGUAGE_GROUPS = [
+  {
+    category: "Languages",
+    options: [
+      { value: "English", label: "English", desc: "Standard English quote" },
+      { value: "Roman Urdu", label: "Roman Urdu", desc: "Urdu written in English letters (e.g. 'Zindagi')" },
+      { value: "Urdu Script", label: "Urdu Script", desc: "Proper Urdu text (اردو)" }
+    ]
+  }
+];
+
 const FB_MOOD_GROUPS = [
   {
     category: "Attitude & Vibe",
@@ -3830,6 +3842,9 @@ export default function NanoProGenerator() {
   const [customAspectRatio, setCustomAspectRatio] = useState("");
 
   // FB Post Settings
+  const [kidsQuoteText, setKidsQuoteText] = useState("");
+  const [kidsDisableQuote, setKidsDisableQuote] = useState(false);
+  const [kidsDisableImage, setKidsDisableImage] = useState(false);
   const [fbQuoteText, setFbQuoteText] = useState("");
   const [fbCharacterStyle, setFbCharacterStyle] = useState("Chibi Anime Girl");
   const [fbColorTheme, setFbColorTheme] = useState("Pink & Black");
@@ -3839,6 +3854,7 @@ export default function NanoProGenerator() {
   const [fbDecorations, setFbDecorations] = useState("Hearts & Sparkles");
   const [fbBackground, setFbBackground] = useState("Soft Gradient");
   const [fbMood, setFbMood] = useState("Sassy & Confident");
+  const [fbLanguage, setFbLanguage] = useState("English");
   const [fbAge, setFbAge] = useState("Child (6-10 yrs)");
   const [fbNationality, setFbNationality] = useState("Pakistani");
   const [fbComplexion, setFbComplexion] = useState("Fair");
@@ -3885,6 +3901,11 @@ export default function NanoProGenerator() {
   const [promptHistory, setPromptHistory] = useState<any[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
   const itemsPerPage = 5;
+
+  const handleRandomKidsQuote = () => {
+    const randomIndex = Math.floor(Math.random() * KIDS_POST_QUOTES.length);
+    setFbQuoteText(KIDS_POST_QUOTES[randomIndex]);
+  };
 
   const handleRandomFbQuote = () => {
     const randomIndex = Math.floor(Math.random() * FB_POST_QUOTES.length);
@@ -3951,6 +3972,7 @@ export default function NanoProGenerator() {
         if (parsed.fbDecorations) setFbDecorations(parsed.fbDecorations);
         if (parsed.fbBackground) setFbBackground(parsed.fbBackground);
         if (parsed.fbMood) setFbMood(parsed.fbMood);
+        if (parsed.fbLanguage) setFbLanguage(parsed.fbLanguage);
         if (parsed.fbAge) setFbAge(parsed.fbAge);
         if (parsed.fbNationality) setFbNationality(parsed.fbNationality);
         if (parsed.fbComplexion) setFbComplexion(parsed.fbComplexion);
@@ -3970,6 +3992,9 @@ export default function NanoProGenerator() {
         if (parsed.shyDisableImage !== undefined) setShyDisableImage(parsed.shyDisableImage);
         if (parsed.shyTextStyle) setShyTextStyle(parsed.shyTextStyle);
         if (parsed.shyMood) setShyMood(parsed.shyMood);
+        if (parsed.kidsQuoteText !== undefined) setKidsQuoteText(parsed.kidsQuoteText);
+        if (parsed.kidsDisableQuote !== undefined) setKidsDisableQuote(parsed.kidsDisableQuote);
+        if (parsed.kidsDisableImage !== undefined) setKidsDisableImage(parsed.kidsDisableImage);
 
       } catch (e) {
         console.error("Failed to parse nanoProState", e);
@@ -4146,7 +4171,7 @@ export default function NanoProGenerator() {
     if (!generatedPrompt) return;
     try {
       let textToCopy = generatedPrompt;
-      if (activeTab === "fb-post" || activeTab === "shayari-post") {
+      if (activeTab === "kids-post" || activeTab === "fb-post" || activeTab === "shayari-post") {
         // For FB post and Shayari: copy title + tags + prompt together
         const parts: string[] = [];
         if (fbPostTitle) parts.push(fbPostTitle);
@@ -4184,7 +4209,37 @@ export default function NanoProGenerator() {
       let res: Response;
       let parameters: Record<string, any>;
 
-      if (activeTab === "fb-post") {
+      if (activeTab === "kids-post") {
+        parameters = {
+          category: "CUTE_KIDS",
+          characterType: characterType || "One Cute Little Girl",
+          clothing: clothing || "Casual",
+          visualStyle: visualStyle || "3D Disney Style Cartoon",
+          aspectRatio,
+          backgroundStyle: backgroundStyle || "Sunny Playground",
+          quoteText: fbDisableQuote ? "" : (fbQuoteText || "Funny Kids Moment"),
+          characterStyle: fbCharacterStyle === "Custom" ? customFbCharacterStyle : fbCharacterStyle,
+          colorTheme: fbColorTheme === "Custom" ? customFbColorTheme : fbColorTheme,
+          layout: fbLayout === "Custom" ? customFbLayout : fbLayout,
+          format: fbFormat === "Custom" ? customFbFormat : fbFormat,
+          textStyle: fbTextStyle === "Custom" ? customFbTextStyle : fbTextStyle,
+          decorations: fbDecorations === "Custom" ? customFbDecorations : fbDecorations,
+          background: fbBackground === "Custom" ? customFbBackground : fbBackground,
+          mood: fbMood === "Custom" ? customFbMood : fbMood,
+          language: fbLanguage,
+          age: fbAge === "Custom" ? customFbAge : fbAge,
+          nationality: fbNationality === "Custom" ? customFbNationality : fbNationality,
+          complexion: fbComplexion === "Custom" ? customFbComplexion : fbComplexion,
+          music: fbMusic === "Custom" ? customFbMusic : fbMusic,
+          disableQuote: fbDisableQuote,
+          disableImage: fbDisableImage,
+        };
+        res = await fetch("/api/generate-fb-post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ aiModel, referenceCharacterInfo, ...parameters }),
+        });
+      } else if (activeTab === "fb-post") {
         parameters = {
           quoteText: fbQuoteText,
           characterStyle: fbCharacterStyle === "Custom" ? customFbCharacterStyle : fbCharacterStyle,
@@ -4195,6 +4250,7 @@ export default function NanoProGenerator() {
           decorations: fbDecorations === "Custom" ? customFbDecorations : fbDecorations,
           background: fbBackground === "Custom" ? customFbBackground : fbBackground,
           mood: fbMood === "Custom" ? customFbMood : fbMood,
+          language: fbLanguage,
           age: fbAge === "Custom" ? customFbAge : fbAge,
           nationality: fbNationality === "Custom" ? customFbNationality : fbNationality,
           complexion: fbComplexion === "Custom" ? customFbComplexion : fbComplexion,
@@ -4252,7 +4308,7 @@ export default function NanoProGenerator() {
       if (data && data.prompt) {
         setGeneratedPrompt(data.prompt);
         // Store FB/Shayari specific fields if present
-        if (activeTab === "fb-post" || activeTab === "shayari-post") {
+        if (activeTab === "kids-post" || activeTab === "fb-post" || activeTab === "shayari-post") {
           setFbPostTitle(data.title || "");
           setFbPostTags(Array.isArray(data.tags) ? data.tags : []);
         } else {
@@ -4333,9 +4389,21 @@ export default function NanoProGenerator() {
                   <span>👤</span> Character Builder
                 </button>
                 <button
+                  onClick={() => setActiveTab("kids-post")}
+                  className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    activeTab === "kids-post"
+                      ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg shadow-orange-500/30"
+                      : isLight ? "bg-slate-100 text-slate-500 hover:bg-slate-200" : "bg-white/5 text-slate-400 hover:bg-white/10"
+                  }`}
+                >
+                  🧸 Kids Memes
+                </button>
+                <button
                   onClick={() => setActiveTab("fb-post")}
                   className={`flex-1 min-w-[130px] py-2.5 px-4 rounded-lg text-sm font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                    activeTab === "fb-post"
+                    activeTab === "kids-post"
+                    ? "bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 shadow-orange-500/25 border-orange-400/40 text-white"
+                    : activeTab === "fb-post"
                       ? (generateVideo ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30" : "bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg shadow-pink-500/30")
                       : (isLight ? "text-slate-700 hover:bg-slate-200 hover:text-slate-950 font-bold" : "text-slate-400 hover:bg-slate-800 hover:text-slate-200")
                   }`}
@@ -4526,7 +4594,7 @@ export default function NanoProGenerator() {
                       />
                     </div>
                   </div>
-                ) : activeTab === "fb-post" ? (
+                ) : (activeTab === "fb-post" || activeTab === "kids-post") ? (
                   <div className="space-y-5">
 
                     {/* Quote / Message Text */}
@@ -5421,7 +5489,7 @@ export default function NanoProGenerator() {
                 ) : (
                   <Sparkles className="w-5 h-5 text-white" />
                 )}
-                {isGenerating ? "Synthesizing Prompt..." : activeTab === "fb-post" ? "Generate FB Post Prompt" : activeTab === "shayari-post" ? "Generate Poetry Art Prompt" : "Generate Prompt"}
+                {isGenerating ? "Synthesizing Prompt..." : activeTab === "kids-post" ? "Generate Kids Meme Prompt" : activeTab === "fb-post" ? "Generate FB Post Prompt" : activeTab === "shayari-post" ? "Generate Poetry Art Prompt" : "Generate Prompt"}
               </button>
 
               <div className={`rounded-2xl p-5 shadow-xl relative overflow-hidden group border transition-all ${
@@ -5452,7 +5520,7 @@ export default function NanoProGenerator() {
                           }`}
                         >
                           <Copy className="w-3.5 h-3.5" />
-                          {isCopied ? "✓ Copied!" : (activeTab === "fb-post" || activeTab === "shayari-post") ? "Copy All" : "Copy Prompt"}
+                          {isCopied ? "✓ Copied!" : (activeTab === "kids-post" || activeTab === "fb-post" || activeTab === "shayari-post") ? "Copy All" : "Copy Prompt"}
                         </button>
                         
                         <button
@@ -5487,7 +5555,7 @@ export default function NanoProGenerator() {
                 </div>
 
                 {/* FB Post / Shayari: Social Title & Tags */}
-                {(activeTab === "fb-post" || activeTab === "shayari-post") && (fbPostTitle || fbPostTags.length > 0) && (
+                {(activeTab === "kids-post" || activeTab === "fb-post" || activeTab === "shayari-post") && (fbPostTitle || fbPostTags.length > 0) && (
                   <div className={`mb-3 p-3.5 rounded-xl border space-y-2.5 relative ${
                     activeTab === "shayari-post" 
                       ? (isLight ? "bg-rose-50/80 border-rose-200 text-slate-900" : "bg-rose-950/30 border-rose-500/20")

@@ -16,6 +16,7 @@ export async function POST(req: Request) {
       decorations = "Hearts & Sparkles",
       background = "Soft Gradient",
       mood = "Sassy & Confident",
+      language = "English",
       age = "Child (6-10 yrs)",
       nationality = "Pakistani",
       complexion = "Fair",
@@ -97,7 +98,7 @@ LAYOUT: ${layout}
 FORMAT: ${format} (aspect ratio --ar ${arParam})
 BACKGROUND: ${background}
 DECORATIVE ELEMENTS: ${decorations}
-${disableQuote ? "QUOTE / MESSAGE TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT/TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `QUOTE / MESSAGE TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "QUOTE / MESSAGE TEXT: Create a fitting sassy/motivational/cute quote that matches the mood — MUST BE WRITTEN IN ROMAN/ENGLISH SCRIPT (e.g. 'zindagi', not 'ज़िंदगी'). NEVER USE HINDI/DEVANAGARI SCRIPTS.")}
+${disableQuote ? "QUOTE / MESSAGE TEXT TO INCLUDE: NONE (DO NOT INCLUDE ANY TEXT/TYPOGRAPHY IN THE IMAGE)" : (quoteText ? `QUOTE / MESSAGE TEXT TO INCLUDE: "${quoteText}" (If it's in Urdu/Arabic script, keep it EXACTLY as written with perfect spelling. NEVER use Hindi/Devanagari script.)` : "QUOTE / MESSAGE TEXT: Create a fitting sassy/motivational/cute quote that matches the mood.\n${language === 'Roman Urdu' ? 'MUST BE WRITTEN IN ROMAN URDU SCRIPT (English letters but Urdu language, e.g. \'Mera attitude meri marzi\'). Do not use proper Urdu or Hindi scripts.' : language === 'Urdu Script' ? 'MUST BE WRITTEN IN PROPER URDU SCRIPT (e.g. \'میرا انداز\').' : 'MUST BE WRITTEN IN ENGLISH SCRIPT.'}")}
 
 OUTPUT FORMAT — respond with ONLY this exact JSON structure (if disableImage is true, set the 'prompt' field to an empty string), no extra text before or after:
 {
@@ -124,7 +125,7 @@ TITLE REQUIREMENTS:
 - Use 1-2 relevant emojis naturally
 - Match the mood: ${mood}
 - Written as if a real person is posting this (not marketing speak)
-- If the quote is provided in Urdu script, you may write the title in flawless Urdu. Otherwise, MUST ALWAYS BE IN ENGLISH SCRIPT (Roman/Latin letters only). NEVER write in Hindi (Devanagari) script.
+- If language is 'Urdu Script' or quote is in Urdu, write the title in flawless Urdu (اردو). If language is 'Roman Urdu', write title in Roman Urdu. Otherwise, MUST ALWAYS BE IN ENGLISH SCRIPT. NEVER write in Hindi (Devanagari).
 
 TAGS REQUIREMENTS:
 - Exactly 3 hashtags
