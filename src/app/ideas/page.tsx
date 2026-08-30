@@ -926,6 +926,8 @@ const CUTE_KIDS_PRESET_GROUPS = [
   {
     groupName: "👧 Solo Girl Presets (💬 WITH DIALOGUE)",
     presets: [
+      { icon: "🗣️", title: "Fast Talking Cute Girl", customDialogue: "Amma dekho main kitni jaldi jaldi bol sakti hoon, mujhe park jana hai aur bohot saari chocolate khani hai aur... aur bhi bohot kuch!", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pastel Frock", prop: "None" },
+      { icon: "🎀", title: "Sweet Cute Girl", customDialogue: "Aap kaise ho? Main toh bilkul theek hoon!", age: "Child (5-8 yrs)", location: "Bright Garden Lawn", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Floral Summer Dress", prop: "None" },
       { icon: "🌹", title: "Rose Gift (With Dialogue)", customDialogue: "Ye aap ke liye!", age: "Toddler (2-4 yrs)", location: "Warm Cozy Doorway", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Traditional Embroidered Kameez", prop: "Fresh Red Rose 🌹" },
       { icon: "👋", title: "Cute Greeting (With Dialogue)", customDialogue: "Suno! Kaise ho aap?", age: "Toddler (2-4 yrs)", location: "Bright Garden Lawn", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pastel Frock", prop: "Waving Hand 👋" },
       { icon: "🍦", title: "Ice Cream Treat (With Dialogue)", customDialogue: "Mujhe nahi dena... yeh sab meri hai! 😋", age: "Toddler (2-4 yrs)", location: "Ice Cream Cart in Park", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Overall Dress", prop: "Ice Cream Cone 🍦" },
@@ -1754,6 +1756,315 @@ const CUTE_KIDS_PRESET_GROUPS = [
         musicType: "None",
         dialogueStyle: "None",
       },
+    ]
+  },
+  {
+    groupName: "🎤 Boy Singer Presets (Solo & Group)",
+    presets: [
+      // ─── Solo Boy Singer ───
+      {
+        icon: "🎙️",
+        title: "Solo Boy Singer (Acapella / No Music)",
+        age: "Child (5-8 yrs)",
+        location: "Quiet Acoustic Studio Room 🎙️",
+        health: "Healthy",
+        vibe: "Peaceful & Calm",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Boy — Casual Hoodie & Jeans",
+        prop: "Studio Condenser Mic 🎙️",
+        musicType: "None",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Meri awaaz hi meri pehchaan hai, bina music bhi gaunga main aaj! 🎙️",
+      },
+      {
+        icon: "🎤",
+        title: "Solo Boy Singer (Stage Spotlight)",
+        age: "Child (5-8 yrs)",
+        location: "Grand Concert Stage with Spotlight 🎤",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Boy — Stage Outfit: Shiny Blazer & Smart Trousers",
+        prop: "Handheld Microphone 🎤",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Suno suno sab meri baat, main hun yahan ek choti si awaaz! 🎤",
+      },
+      {
+        icon: "🌟",
+        title: "Solo Boy Singer (Desi Courtyard)",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        clothing: "Boy — White Kurta & Traditional Cap",
+        prop: "Traditional Mic & Harmonium Stand 🎵",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
+        dialogueStyle: "Poetic/Shayari",
+        customDialogue: "Dil ki baat sun lo mere doston, geet gata hun main apna aaj! 🎵",
+      },
+      {
+        icon: "🪕",
+        title: "Solo Boy Folk Singer (Mustard Fields)",
+        age: "Child (5-8 yrs)",
+        location: "Golden Mustard & Wheat Fields 🌾",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani Punjabi",
+        clothing: "Boy — Desi Shalwar Kameez & Khussa",
+        prop: "Mini Sitar / Ektara 🪕",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
+        dialogueStyle: "Poetic/Shayari",
+        customDialogue: "Boldi boldi hai dharti meri, jugni jugni geet sunao! 🪕",
+      },
+      {
+        icon: "🎧",
+        title: "Solo Boy Pop Singer (Modern Studio)",
+        age: "Child (5-8 yrs)",
+        location: "Modern Recording Studio & Mixing Console 🎧",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Boy — Trendy Hoodie & Headphones",
+        prop: "Studio Microphone & Headphones 🎧",
+        musicType: "Cute Kids Bollywood Clap",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Aaj ki raat, teri baat, mera dil kehta hai nonstop! 🎧",
+      },
+      {
+        icon: "🕌",
+        title: "Solo Boy Nasheed Singer (Islamic)",
+        age: "Child (5-8 yrs)",
+        location: "Beautiful Mosque Courtyard 🕌",
+        health: "Healthy",
+        vibe: "Peaceful & Calm",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        clothing: "Boy — White Thobe & Taqiyah Cap",
+        prop: "Prayer Beads & Mic 📿",
+        musicType: "Nasheed / Vocal Only",
+        dialogueStyle: "Poetic/Shayari",
+        customDialogue: "Teri raah mein meri awaaz, Ya Allah sun le meri namaaz! 📿",
+      },
+      // ─── Boy Singer with Group / Band ───
+      {
+        icon: "🎸",
+        title: "Boy Singer + Kids Band (School Concert)",
+        age: "Child (5-8 yrs)",
+        location: "Kids School Annual Concert Stage 🎪",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy Singer with Kids Band Group",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        clothing: "Boy — Matching Band Costume & Cap",
+        prop: "Stage Microphone & Guitar 🎸",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Saath mera dena mere yaar, geet ek gao dil se aaj! 🎸",
+      },
+      {
+        icon: "🥁",
+        title: "Boy Singer + Dhol Group (Bhangra Mela)",
+        age: "Child (5-8 yrs)",
+        location: "Vibrant Punjabi Village Fair & Mela 🎊",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy Singer + Dhol Group (Bhangra Party)",
+        perScene: "3 Characters",
+        nationality: "Pakistani Punjabi",
+        clothing: "Boy — Colorful Bhangra Costume & Phulkari",
+        prop: "Dhol Drums & Mic 🥁",
+        musicType: "Cute Kids Punjabi",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🎺",
+        title: "Boy Singer + Qawwali Group",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy Qawwali Group (Qawwal Party)",
+        perScene: "3 Characters",
+        nationality: "Pakistani (General / Desi)",
+        clothing: "Boy — White Kurta Shalwar & Topi",
+        prop: "Harmonium & Tabla 🎵",
+        musicType: "Sufi Qawwali & Harmonium",
+        dialogueStyle: "Poetic/Shayari",
+        customDialogue: "Mere dil ki baat sun le tu, aaj qawwali ka rang bikhar de! 🎵",
+      },
+      {
+        icon: "🌟",
+        title: "Boy Lead Singer + Girl Backup Singers",
+        age: "Child (5-8 yrs)",
+        location: "Grand Concert Stage with Spotlight 🎤",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Boy Lead Singer + Girl Backup Singers",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        clothing: "Boy — Shiny Stage Blazer; Girls — Matching Sparkle Dresses",
+        prop: "Stage Microphones & Spotlights 🌟",
+        musicType: "Cute Kids Bollywood Clap",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Aa jao mere saath, gao dil ki baat! La la la la la! 🌟",
+      },
+      {
+        icon: "🎙️",
+        title: "Boy Singer + Coke Studio Kids Band",
+        age: "Child (5-8 yrs)",
+        location: "Coke Studio Fusion Stage 🎸",
+        health: "Healthy",
+        vibe: "Positive Energy",
+        setup: "Boy Lead Singer + Coke Studio Kids Band",
+        perScene: "3 Characters",
+        nationality: "Pakistani Punjabi",
+        clothing: "Boy — Casual Denim & Stylish Sneakers",
+        prop: "Electric Guitar & Studio Mic 🎸",
+        musicType: "Coke Studio Style Fusion",
+        dialogueStyle: "Poetic/Shayari",
+        customDialogue: "Yeh lamha hai mera, yeh awaaz hai meri, Coke Studio mein gaye dil ki kahani! 🎸",
+      },
+      {
+        icon: "🎪",
+        title: "Boy Street Singer (Desi Bazaar)",
+        age: "Child (5-8 yrs)",
+        location: "Bustling Desi Bazaar & Colorful Street 🛒",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani (General / Desi)",
+        clothing: "Boy — Casual Kameez & Topi",
+        prop: "Dholki & Small Mic 🎵",
+        musicType: "Cute Desi Kids Melody (Tabla & Dholak)",
+        dialogueStyle: "Monologue",
+        customDialogue: "Sun lo sun lo, yahan ek gaanewala aaya hai! Sunao sab ko! 🎪",
+      },
+      {
+        icon: "🏆",
+        title: "Boy Singer Talent Show Winner",
+        age: "Child (5-8 yrs)",
+        location: "Kids Talent Show Grand Finale Stage 🏆",
+        health: "Healthy",
+        vibe: "Excited",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Boy — Blazer with Trophy & Winners Sash",
+        prop: "Golden Trophy & Mic 🏆",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Main jeet gaya! Main jeet gaya! Shukriya mere dost, shukriya mere yaar! 🏆🎤",
+      },
+    ]
+  },
+  {
+    groupName: "💃 Dance & Party Presets",
+    presets: [
+      {
+        icon: "🤪",
+        title: "Cute Kid Funny Dance",
+        age: "Toddler (2-4 yrs)",
+        location: "Cozy Home Living Room",
+        health: "Healthy",
+        vibe: "Funny & Mischievous",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Funny Cartoon Onesie",
+        prop: "None",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🕺",
+        title: "Fat Kid Dancing with Friends",
+        age: "Child (5-8 yrs)",
+        location: "Sunny Park & Green Lawn",
+        health: "Chubby & Cute",
+        vibe: "Cheerful & Energetic",
+        setup: "Group of Friends",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        clothing: "Casual Playtime Clothes",
+        prop: "Boombox Radio 📻",
+        musicType: "Cute Kids Bollywood Clap",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🩰",
+        title: "Cute Girl Princess Dance",
+        age: "Child (5-8 yrs)",
+        location: "Decorated Birthday Party Room",
+        health: "Healthy",
+        vibe: "Sweet & Wholesome",
+        setup: "One Cute Little Girl",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Princess Castle Gown",
+        prop: "Magic Wand ✨",
+        musicType: "Acoustic Guitar & Whistling",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🎉",
+        title: "Toddlers Group Dance Party",
+        age: "Toddler (2-4 yrs)",
+        location: "Colorful Playroom",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "Two Boys & One Girl",
+        perScene: "3 Characters",
+        nationality: "Global / Any",
+        clothing: "Cute Pajama Sets",
+        prop: "Colorful Balloons 🎈",
+        musicType: "Cute Kids Melody (Ukulele & Toy Bells)",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🥁",
+        title: "Desi Bhangra Dance (Boy)",
+        age: "Child (5-8 yrs)",
+        location: "Traditional Desi Courtyard & Vehra",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Pakistani Punjabi",
+        clothing: "Boy — Colorful Bhangra Costume & Phulkari",
+        prop: "Dhol Drums 🥁",
+        musicType: "Punjabi Beats & Bhangra",
+        dialogueStyle: "None",
+      },
+      {
+        icon: "🧢",
+        title: "Street Hip-Hop Kid",
+        age: "Child (5-8 yrs)",
+        location: "Cool Urban Street & Graffiti Wall",
+        health: "Healthy",
+        vibe: "Cool & Swag",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Global / Any",
+        clothing: "Oversized Hoodie & Baggy Pants",
+        prop: "Skateboard 🛹",
+        musicType: "Lo-Fi Chill & Chillhop",
+        dialogueStyle: "None",
+      }
     ]
   }
 ];
@@ -8046,6 +8357,13 @@ export default function IdeasPage() {
   // Copied state tracking
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Saved Ideas view mode: full cards, dialogue list, or title search
+  const [savedIdeasView, setSavedIdeasView] = useState<"FULL_CARDS" | "DIALOGUE_LIST" | "TITLE_SEARCH">("FULL_CARDS");
+  // Which dialogue-list row is expanded
+  const [expandedDialogueId, setExpandedDialogueId] = useState<string | null>(null);
+  // Title search query (separate from main search)
+  const [titleSearchQuery, setTitleSearchQuery] = useState<string>("");
+
   // Editable Saved Idea Card Text state
   const [editingIdeaId, setEditingIdeaId] = useState<string | null>(null);
   const [editingIdeaText, setEditingIdeaText] = useState<string>("");
@@ -9572,24 +9890,6 @@ export default function IdeasPage() {
                       {isDialogueExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
                       <span>{isDialogueExpanded ? "Collapse" : "Expand"}</span>
                     </button>
-                    <button
-                      type="button"
-                      onClick={handleSuggestDialogue}
-                      disabled={isSuggestingDialogue}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-black transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm ${
-                        isLight
-                          ? "bg-amber-500 text-white border-amber-600 hover:bg-amber-600 shadow-amber-500/20"
-                          : "bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border-amber-500/40 text-amber-300"
-                      }`}
-                      title="Automatically fix Urdu/Punjabi spelling, grammar, and Zair/Zabar/Pesh diacritics while preserving exact meaning"
-                    >
-                      {isSuggestingDialogue ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
-                      ) : (
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
-                      )}
-                      {isSuggestingDialogue ? "Fixing Script..." : "✨ Urdu Fixer"}
-                    </button>
                   </div>
                 </div>
 
@@ -9957,6 +10257,26 @@ export default function IdeasPage() {
                       title="Toggle On-Screen Soft Urdu Keyboard"
                     >
                       <span>⌨️ Urdu Keyboard</span>
+                    </button>
+
+                    {/* Urdu Fixer Button */}
+                    <button
+                      type="button"
+                      onClick={handleSuggestDialogue}
+                      disabled={isSuggestingDialogue}
+                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer disabled:opacity-50 active:scale-95 shadow-sm ${
+                        isLight
+                          ? "bg-amber-500 text-white border-amber-600 hover:bg-amber-600 shadow-amber-500/20"
+                          : "bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border-amber-500/40 text-amber-300"
+                      }`}
+                      title="Automatically fix Urdu/Punjabi spelling, grammar, and Zair/Zabar/Pesh diacritics while preserving exact meaning"
+                    >
+                      {isSuggestingDialogue ? (
+                        <Loader2 className="w-3 h-3 animate-spin text-white" />
+                      ) : (
+                        <Sparkles className="w-3 h-3 text-white" />
+                      )}
+                      {isSuggestingDialogue ? "Fixing Script..." : "✨ Urdu Fixer"}
                     </button>
 
                     {/* Voice mic button */}
@@ -12625,6 +12945,54 @@ export default function IdeasPage() {
             </div>
           </div>
 
+          {/* 🗂️ View Mode Tabs: Full Cards / Dialogue List / Title Search */}
+          <div className={`flex items-center gap-1.5 flex-wrap border-b pb-3 ${isLight ? "border-slate-200" : "border-slate-800"}`}>
+            <button
+              onClick={() => setSavedIdeasView("FULL_CARDS")}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer active:scale-95 ${
+                savedIdeasView === "FULL_CARDS"
+                  ? "bg-indigo-600 border-indigo-400 text-white shadow-md"
+                  : isLight
+                  ? "bg-white border-slate-200 text-slate-700 hover:bg-indigo-50 hover:text-indigo-900"
+                  : "bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800"
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Full Cards</span>
+            </button>
+            <button
+              onClick={() => { setSavedIdeasView("DIALOGUE_LIST"); setExpandedDialogueId(null); }}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer active:scale-95 ${
+                savedIdeasView === "DIALOGUE_LIST"
+                  ? "bg-amber-500 border-amber-400 text-black shadow-md"
+                  : isLight
+                  ? "bg-white border-slate-200 text-slate-700 hover:bg-amber-50 hover:text-amber-900"
+                  : "bg-slate-900 border-slate-700 text-slate-400 hover:text-amber-300 hover:bg-slate-800"
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Dialogue List</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${savedIdeasView === "DIALOGUE_LIST" ? "bg-black/20 text-black" : isLight ? "bg-amber-100 text-amber-800" : "bg-amber-950/60 text-amber-300"}`}>{sortedIdeas.length}</span>
+            </button>
+            <button
+              onClick={() => { setSavedIdeasView("TITLE_SEARCH"); setTitleSearchQuery(""); }}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black border transition-all cursor-pointer active:scale-95 ${
+                savedIdeasView === "TITLE_SEARCH"
+                  ? "bg-blue-600 border-blue-400 text-white shadow-md"
+                  : isLight
+                  ? "bg-white border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-blue-900"
+                  : "bg-slate-900 border-slate-700 text-slate-400 hover:text-blue-300 hover:bg-slate-800"
+              }`}
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span>Title Ideas Search</span>
+            </button>
+          </div>
+
+
+          {/* ── FULL CARDS VIEW ─────────────────────────────────────────────── */}
+          {savedIdeasView === "FULL_CARDS" && (<>
+
           {/* Category Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
@@ -13497,6 +13865,297 @@ export default function IdeasPage() {
               </button>
             </div>
           )}
+          </>)}
+
+          {/* ── DIALOGUE LIST VIEW ──────────────────────────────────────────── */}
+          {savedIdeasView === "DIALOGUE_LIST" && (
+            <div className="space-y-2">
+              {sortedIdeas.length === 0 ? (
+                <div className={`text-center py-10 text-sm font-medium ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                  No saved ideas yet. Generate your first video concept above!
+                </div>
+              ) : (
+                sortedIdeas.map((idea, idx) => {
+                  const dialogue = getIdeaDialogue(idea);
+                  const isExpanded = expandedDialogueId === idea.id;
+                  const isRtlDlg = idea.language === "Urdu" || /Punjabi/i.test(idea.language || "");
+                  return (
+                    <div key={idea.id} className={`rounded-2xl border transition-all ${isLight ? "bg-slate-50 border-slate-200 hover:border-amber-300" : "bg-black/40 border-slate-800 hover:border-amber-500/30"}`}>
+                      {/* Compact row — always visible */}
+                      <div className="flex items-start gap-3 p-3.5">
+                        {/* Index + Category badge */}
+                        <span className={`shrink-0 text-[10px] font-black px-2 py-1 rounded-xl border mt-0.5 ${isLight ? "bg-indigo-50 border-indigo-200 text-indigo-700" : "bg-indigo-950/60 border-indigo-500/30 text-indigo-300"}`}>
+                          #{idx + 1}
+                        </span>
+
+                        {/* Dialogue text */}
+                        <div className="flex-1 min-w-0">
+                          {dialogue ? (
+                            <p
+                              dir={isRtlDlg ? "rtl" : "ltr"}
+                              className={`text-sm font-bold leading-snug break-words line-clamp-2 ${isRtlDlg ? "text-right" : "text-left"} ${isLight ? "text-slate-900" : "text-amber-100"}`}
+                            >
+                              💬 {dialogue}
+                            </p>
+                          ) : (
+                            <p className={`text-xs italic ${isLight ? "text-slate-400" : "text-slate-500"}`}>
+                              No dialogue — {idea.withoutDialogue ? "Silent Video" : "No script extracted"}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
+                            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isLight ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-indigo-950/60 text-indigo-300 border-indigo-500/30"}`}>
+                              {CATEGORIES[idea.category]?.name || idea.category}
+                            </span>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isLight ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-emerald-950/60 text-emerald-300 border-emerald-500/30"}`}>
+                              {idea.language}
+                            </span>
+                            <span className={`text-[10px] text-slate-400`}>
+                              {new Date(idea.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action buttons */}
+                        <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+                          {dialogue && (
+                            <button
+                              onClick={() => handleCopy(dialogue, `dlg-list-${idea.id}`)}
+                              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/60 border-amber-500/40 text-amber-300 hover:text-white"}`}
+                              title="Copy Dialogue"
+                            >
+                              {copiedId === `dlg-list-${idea.id}` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+                              <span>Copy</span>
+                            </button>
+                          )}
+                          <button
+                            onClick={() => handleRemake(idea)}
+                            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/60 border-purple-600/50 text-purple-300 hover:text-white"}`}
+                            title="Load settings to remake this video"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                            <span>Remake</span>
+                          </button>
+                          <button
+                            onClick={() => setExpandedDialogueId(isExpanded ? null : idea.id)}
+                            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${
+                              isExpanded
+                                ? isLight ? "bg-slate-200 border-slate-400 text-slate-900" : "bg-slate-700 border-slate-500 text-white"
+                                : isLight ? "bg-white border-slate-300 text-slate-700 hover:bg-slate-100" : "bg-slate-900 border-slate-700 text-slate-400 hover:text-white"
+                            }`}
+                            title={isExpanded ? "Collapse details" : "Expand full details"}
+                          >
+                            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                            <span>{isExpanded ? "Hide" : "Details"}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Expanded: full prompt, filename, dialogue, social assets */}
+                      {isExpanded && (
+                        <div className={`border-t px-4 pb-4 pt-3 space-y-3 ${isLight ? "border-slate-200" : "border-slate-800"}`}>
+                          {/* Action toolbar (same as full cards) */}
+                          <div className={`flex items-center gap-1.5 flex-wrap pb-2 border-b ${isLight ? "border-slate-200" : "border-slate-800/80"}`}>
+                            <button
+                              onClick={() => handleCopy(getIdeaDialogue(idea), `${idea.id}-action-dialogue`)}
+                              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/60 border-amber-500/40 text-amber-300 hover:text-white"}`}
+                            >
+                              {copiedId === `${idea.id}-action-dialogue` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+                              <span>Copy Dialogue</span>
+                            </button>
+                            <button
+                              onClick={() => handleCopy(cleanPromptText(idea.text), `${idea.id}-action-prompt`)}
+                              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${isLight ? "bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200" : "bg-slate-900 border-slate-700 text-slate-200 hover:text-white"}`}
+                            >
+                              {copiedId === `${idea.id}-action-prompt` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
+                              <span>Copy Prompt</span>
+                            </button>
+                            <button
+                              onClick={() => handleCopy(getIdeaTitle(idea), `${idea.id}-action-title`)}
+                              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${isLight ? "bg-blue-50 border-blue-200 text-blue-950 hover:bg-blue-100" : "bg-blue-950/40 border-blue-500/40 text-blue-300 hover:text-white"}`}
+                            >
+                              {copiedId === `${idea.id}-action-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
+                              <span>Copy Title</span>
+                            </button>
+                            <button
+                              onClick={() => handleRemake(idea)}
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/60 border-purple-600/50 text-purple-300 hover:text-white"}`}
+                            >
+                              <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                              <span>Remake</span>
+                            </button>
+                            <button
+                              onClick={() => handleOpenScriptModal(idea)}
+                              className={`flex items-center gap-1 text-[11px] font-black transition-colors cursor-pointer px-2.5 py-1 rounded-lg border shadow-sm ${isLight ? "bg-indigo-100 text-indigo-950 border-indigo-300 hover:bg-indigo-200" : "bg-indigo-950/80 text-indigo-300 border-indigo-500/40 hover:text-white"}`}
+                            >
+                              <MessageSquare className="w-3 h-3 text-indigo-500" />
+                              <span>Open Dialog Box</span>
+                            </button>
+                            <div className="ml-auto flex items-center gap-1.5">
+                              <button
+                                onClick={() => handleToggleFavorite(idea.id)}
+                                className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${idea.isFavorite ? "bg-rose-950/60 border-rose-500/50 text-rose-400" : "bg-slate-900 border-slate-700 text-slate-400 hover:text-rose-400"}`}
+                              >
+                                <Heart className={`w-4 h-4 ${idea.isFavorite ? "fill-current" : ""}`} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteIdea(idea.id)}
+                                className="p-2 rounded-xl bg-slate-900 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 transition-all cursor-pointer active:scale-95"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Full Prompt Text */}
+                          <div className={`p-3.5 rounded-xl border text-xs leading-relaxed font-mono max-h-40 overflow-y-auto whitespace-pre-wrap ${isLight ? "bg-white border-slate-300 text-slate-900" : "bg-black/30 border-slate-800 text-slate-200"}`}>
+                            {cleanPromptText(idea.text)}
+                          </div>
+
+                          {/* Badges */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${isLight ? "bg-indigo-50 text-indigo-950 border-indigo-200" : "bg-indigo-950 text-indigo-300 border-indigo-500/30"}`}>{CATEGORIES[idea.category]?.name || idea.category}</span>
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${isLight ? "bg-emerald-50 text-emerald-950 border-emerald-200" : "bg-emerald-950 text-emerald-300 border-emerald-500/30"}`}>{idea.language}</span>
+                            <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${isLight ? "bg-purple-50 text-purple-950 border-purple-200" : "bg-purple-950 text-purple-300 border-purple-500/30"}`}>{idea.visualStyle}</span>
+                            {idea.musicType && <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${isLight ? "bg-rose-50 text-rose-950 border-rose-200" : "bg-rose-950/80 text-rose-300 border-rose-500/30"}`}>🎵 {idea.musicType}</span>}
+                          </div>
+
+                          {/* Social title if available */}
+                          {idea.socialContent?.title && (
+                            <div className={`p-3 rounded-xl border text-xs font-bold ${isLight ? "bg-blue-50 border-blue-200 text-blue-900" : "bg-blue-950/40 border-blue-500/40 text-blue-200"}`}>
+                              🎬 <span className="font-black">Title:</span> {idea.socialContent.title}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* ── TITLE IDEAS SEARCH VIEW ──────────────────────────────────────── */}
+          {savedIdeasView === "TITLE_SEARCH" && (
+            <div className="space-y-4">
+              {/* Search Input */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-blue-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={titleSearchQuery}
+                  onChange={(e) => setTitleSearchQuery(e.target.value)}
+                  placeholder="Search video titles, social content, or prompts..."
+                  autoFocus
+                  className={`w-full pl-10 pr-8 py-3 rounded-2xl border text-sm font-semibold shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all ${
+                    isLight
+                      ? "bg-slate-100 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-500"
+                      : "bg-black/60 border-blue-500/40 text-blue-100 placeholder-slate-500 focus:border-blue-400"
+                  }`}
+                />
+                {titleSearchQuery && (
+                  <button
+                    onClick={() => setTitleSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold p-1"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Info hint */}
+              {!titleSearchQuery && (
+                <p className={`text-xs font-medium text-center py-2 ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                  🔍 Type above to search {savedIdeas.length} saved idea titles, dialogues, and prompts
+                </p>
+              )}
+
+              {/* Results */}
+              {titleSearchQuery && (() => {
+                const q = titleSearchQuery.trim().toLowerCase();
+                const matches = sortedIdeas.filter(idea => {
+                  const title = getIdeaTitle(idea).toLowerCase();
+                  const dialogue = getIdeaDialogue(idea).toLowerCase();
+                  const text = idea.text.toLowerCase();
+                  const shortsTitle = getIdeaShortsTitle(idea).toLowerCase();
+                  return title.includes(q) || dialogue.includes(q) || text.includes(q) || shortsTitle.includes(q);
+                });
+
+                if (matches.length === 0) {
+                  return (
+                    <div className={`text-center py-8 text-sm font-medium ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                      No ideas match &quot;{titleSearchQuery}&quot;
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="space-y-2">
+                    <p className={`text-xs font-bold ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                      {matches.length} result{matches.length !== 1 ? "s" : ""} found
+                    </p>
+                    {matches.map((idea, idx) => {
+                      const title = getIdeaTitle(idea);
+                      const dialogue = getIdeaDialogue(idea);
+                      const isRtlT = idea.language === "Urdu" || /Punjabi/i.test(idea.language || "");
+                      return (
+                        <div key={idea.id} className={`p-4 rounded-2xl border transition-all ${isLight ? "bg-white border-slate-200 hover:border-blue-300 shadow-sm" : "bg-black/40 border-slate-800 hover:border-blue-500/30"}`}>
+                          <div className="flex items-start gap-3">
+                            <span className={`shrink-0 text-[10px] font-black px-2 py-1 rounded-xl border mt-0.5 ${isLight ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-blue-950/60 border-blue-500/30 text-blue-300"}`}>
+                              #{idx + 1}
+                            </span>
+                            <div className="flex-1 min-w-0 space-y-1.5">
+                              {/* Title */}
+                              <p dir={isRtlT ? "rtl" : "ltr"} className={`text-sm font-extrabold leading-snug break-words ${isRtlT ? "text-right" : "text-left"} ${isLight ? "text-slate-900" : "text-white"}`}>
+                                🎬 {title}
+                              </p>
+                              {/* Dialogue preview */}
+                              {dialogue && (
+                                <p dir={isRtlT ? "rtl" : "ltr"} className={`text-xs font-bold leading-snug break-words ${isRtlT ? "text-right" : "text-left"} ${isLight ? "text-amber-800" : "text-amber-300"}`}>
+                                  💬 {dialogue}
+                                </p>
+                              )}
+                              {/* Badges */}
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isLight ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-indigo-950/60 text-indigo-300 border-indigo-500/30"}`}>{CATEGORIES[idea.category]?.name || idea.category}</span>
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isLight ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-emerald-950/60 text-emerald-300 border-emerald-500/30"}`}>{idea.language}</span>
+                              </div>
+                            </div>
+                            {/* Quick actions */}
+                            <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+                              <button
+                                onClick={() => handleCopy(title, `title-search-${idea.id}-title`)}
+                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${isLight ? "bg-blue-100 border-blue-300 text-blue-950 hover:bg-blue-200" : "bg-blue-950/60 border-blue-500/40 text-blue-300 hover:text-white"}`}
+                              >
+                                {copiedId === `title-search-${idea.id}-title` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-blue-400" />}
+                                <span>Copy Title</span>
+                              </button>
+                              {dialogue && (
+                                <button
+                                  onClick={() => handleCopy(dialogue, `title-search-${idea.id}-dlg`)}
+                                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${isLight ? "bg-amber-100 border-amber-300 text-amber-950 hover:bg-amber-200" : "bg-amber-950/60 border-amber-500/40 text-amber-300 hover:text-white"}`}
+                                >
+                                  {copiedId === `title-search-${idea.id}-dlg` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+                                  <span>Copy Dialogue</span>
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleRemake(idea)}
+                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-black transition-all cursor-pointer active:scale-95 ${isLight ? "bg-purple-100 border-purple-300 text-purple-950 hover:bg-purple-200" : "bg-purple-950/60 border-purple-600/50 text-purple-300 hover:text-white"}`}
+                              >
+                                <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                                <span>Remake</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
         </div>
       </main>
 
