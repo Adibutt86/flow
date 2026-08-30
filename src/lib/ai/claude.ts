@@ -378,8 +378,9 @@ ${input.compactMode !== false ? "\n─── COMPACT 9:16 MOBILE PROMPT MANDATE:
 4. CLEAN TIME FORMATTING: Always use hyphenated time formats like "(0-3s)" or "(3-7s)", never unhyphenated digits like "03s" or "37s".
 5. SAFE CLOTHING DESCRIPTIONS: Describe outfits safely (e.g. "open linen shirt over an inner shirt") to pass AI model safety policies 100%.
 6. 100% VERBATIM CUSTOM DIALOGUE PRESERVATION (ALL CATEGORIES): If custom spoken dialogue or script is provided in Urdu, Roman Urdu, Hindi, Punjabi, or English, you MUST output that text EXACTLY VERBATIM as provided by the user on the "💬 Spoken Dialogue:" line across ALL categories. NEVER translate user custom dialogue to English! NEVER rewrite, translate, or alter native Urdu text in any category! DO NOT ADD A SINGLE EXTRA WORD, EXCLAMATION, OR FILLER TO THE DIALOGUE!
-7. ZERO WORD REPETITION & NATURAL LIP-SYNC: Ensure video generation prompts mandate smooth natural lip-sync, zero word repetition, zero word stutter, and fluid mouth motion so characters never repeat words or loop mouth movements.
-8. 8-SECOND DIALOGUE TIMING & NATURAL PAUSES: All spoken Shayari/dialogue lines MUST be paced with natural pauses (using '...') and finish completely within 8 seconds (0-8s), leaving 8-10s for lingering silent reaction.
+7. FLAWLESS CONTINUOUS LIP-SYNC TO THE VERY END: Ensure the video generation prompt EXPLICITLY mandates that the character must maintain perfect, continuous lip-sync from the first frame to the very last frame of the video. The mouth must move naturally in perfect sync with the spoken audio until the end, with zero dead frames, zero word repetition, and no freezing.
+8. NATURAL DIALOGUE PACING: All spoken dialogue MUST be paced with natural pauses (using '...'). Ensure the script allows the character to continue speaking and expressing emotion until the end of the clip without cutting off early.
+9. SIKH CHARACTER TURBAN RULE: If the prompt includes Sikh characters (or a Sikh boy/girl), ONLY Men and Boys wear the Sikh turban (Pagri). Sikh Girls and Women NEVER wear a turban. Girls must wear traditional Punjabi suits with a dupatta/scarf.
 ───────────────────────────────────────────────────────────────────────────────────────────
 ${
   input.withoutDialogue

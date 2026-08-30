@@ -854,6 +854,27 @@ const CUTE_KIDS_PRESET_GROUPS = [
     ]
   },
   {
+    groupName: "👳‍♂️ Solo Sikh & Punjabi Boy Presets",
+    presets: [
+      {
+        icon: "👳‍♂️",
+        title: "Solo Sikh Boy (Turban)",
+        age: "Child (5-8 yrs)",
+        location: "Golden Mustard Field (Sarson Ka Khet)",
+        health: "Healthy",
+        vibe: "Cheerful & Energetic",
+        setup: "One Cute Little Boy",
+        perScene: "1 Character",
+        nationality: "Indian Punjabi Sikh",
+        clothing: "Traditional Punjabi Turban & Kurta Pajama",
+        prop: "None",
+        musicType: "Punjabi Beats & Bhangra",
+        dialogueStyle: "Song Performance",
+        customDialogue: "Oye Balle Balle! Main haan Punjab da sher! 👳‍♂️✨",
+      }
+    ]
+  },
+  {
     groupName: "👦 Boy Professions & Roles",
     presets: [
       { icon: "💈", title: "Boy Barber", age: "Child (5-8 yrs)", location: "Barber Shop Salon", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Barber Apron & Scissors", prop: "Toy Scissors & Comb ✂️" },
@@ -8351,7 +8372,8 @@ export default function IdeasPage() {
     setCharPerformance("Any / AI Decides");
     setStoryBeat("Any / AI Decides");
     setActivePresetTitle("");
-    showToast("🎙️ Reset all dialogue & scene settings to defaults!", "info", 2500);
+    setReferenceImages([]);
+    showToast("🎙️ Reset all dialogue, scene & reference images to defaults!", "info", 2500);
   };
 
   // Copied state tracking
@@ -10277,6 +10299,21 @@ export default function IdeasPage() {
                         <Sparkles className="w-3 h-3 text-white" />
                       )}
                       {isSuggestingDialogue ? "Fixing Script..." : "✨ Urdu Fixer"}
+                    </button>
+
+                    {/* 1-Tap Preset Reset Button */}
+                    <button
+                      type="button"
+                      onClick={handleResetAllDialogueSettings}
+                      className={`ml-4 flex items-center gap-1.5 px-3 py-1 rounded-lg border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm ${
+                        isLight
+                          ? "bg-rose-100 hover:bg-rose-200 border-rose-300 text-rose-950"
+                          : "bg-rose-950/60 hover:bg-rose-900/80 border-rose-800/60 text-rose-300"
+                      }`}
+                      title="Reset all dialogue, presets, and clear reference images"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 text-rose-500" />
+                      <span>🔄 Reset Preset & Images</span>
                     </button>
 
                     {/* Voice mic button */}
