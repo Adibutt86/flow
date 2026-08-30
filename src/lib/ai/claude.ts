@@ -381,6 +381,7 @@ ${input.compactMode !== false ? "\n─── COMPACT 9:16 MOBILE PROMPT MANDATE:
 7. FLAWLESS CONTINUOUS LIP-SYNC TO THE VERY END: Ensure the video generation prompt EXPLICITLY mandates that the character must maintain perfect, continuous lip-sync from the first frame to the very last frame of the video. The mouth must move naturally in perfect sync with the spoken audio until the end, with zero dead frames, zero word repetition, and no freezing.
 8. NATURAL DIALOGUE PACING: All spoken dialogue MUST be paced with natural pauses (using '...'). Ensure the script allows the character to continue speaking and expressing emotion until the end of the clip without cutting off early.
 9. SIKH CHARACTER TURBAN RULE: If the prompt includes Sikh characters (or a Sikh boy/girl), ONLY Men and Boys wear the Sikh turban (Pagri). Sikh Girls and Women NEVER wear a turban. Girls must wear traditional Punjabi suits with a dupatta/scarf.
+10. NO WATERMARKS OR LOGOS: Explicitly mandate in the visual prompt that the generated video must have NO watermarks, NO TikTok logos, NO usernames, and NO text overlays of any kind.
 ───────────────────────────────────────────────────────────────────────────────────────────
 ${
   input.withoutDialogue
