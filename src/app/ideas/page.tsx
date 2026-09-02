@@ -2101,7 +2101,182 @@ const CUTE_KIDS_PRESET_GROUPS = [
         dialogueStyle: "None",
       }
     ]
-  }
+  },
+  // ─── NEW LOCATIONS ───────────────────────────────────────────────────────────
+  {
+    groupName: "🏪 Desi Location Presets (Solo Girl)",
+    tab: "solo-girl",
+    presets: [
+      { icon: "🥟", title: "Samosa Shop Girl", age: "Toddler (2-4 yrs)", location: "Authentic Desi Samosa Shop Street Stall 🥟", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Casual Frock & Sandals", prop: "Hot Samosa in Hand 🥟", customDialogue: "Yeh samosa mera hai... bilkul! 🥟😋" },
+      { icon: "🛺", title: "Auto Rickshaw Girl", age: "Child (5-8 yrs)", location: "Colorful Auto Rickshaw Ride 🛺", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Breezy Shalwar Kameez", prop: "Wind in Hair 💨", customDialogue: "Amma! Hawa kitni achi lag rahi hai! 🛺💨" },
+      { icon: "🏠", title: "Rooftop Kite Girl", age: "Child (5-8 yrs)", location: "House Rooftop Sunset (Kotha) 🪁", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Casual Kameez & Dupatta", prop: "Kite String 🪁" },
+      { icon: "🥦", title: "Vegetable Market Girl", age: "Child (5-8 yrs)", location: "Busy Fruit & Vegetable Market 🥦", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Everyday Casual Suit", prop: "Giant Watermelon 🍉", customDialogue: "Yeh tarbuz main khud uthaungi! 💪😂" },
+      { icon: "📚", title: "Stationary Shop Girl", age: "Child (5-8 yrs)", location: "Bright Stationary & Book Shop 📚", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — School Uniform", prop: "Oversized Giant Pencil ✏️" },
+      { icon: "👵", title: "Dadi Ki Rasoi Girl", age: "Toddler (2-4 yrs)", location: "Traditional Dadi's Kitchen Clay Stove 🫕", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani Punjabi (پنجابی)", clothing: "Girl — Tiny Traditional Shalwar Kameez", prop: "Roti Rolling Pin & Dough 🫓" },
+      { icon: "🕌", title: "Masjid Steps Girl", age: "Child (5-8 yrs)", location: "Beautiful Masjid Entrance Steps 🕌", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — White Dupatta & Embroidered Kameez", prop: "Prayer Beads Tasbeeh 📿" },
+    ]
+  },
+  {
+    groupName: "🏪 Desi Location Presets (Solo Boy)",
+    tab: "solo-boy",
+    presets: [
+      { icon: "🥟", title: "Samosa Shop Boy", age: "Toddler (2-4 yrs)", location: "Authentic Desi Samosa Shop Street Stall 🥟", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual Shalwar Kameez & Chappal", prop: "Hot Samosa in Hand 🥟", customDialogue: "Ek aur samosa! Amma ko mat batana! 🥟🤫" },
+      { icon: "✂️", title: "Barber Shop Boy", age: "Child (5-8 yrs)", location: "Classic Desi Barber Shop 💈", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual T-shirt", prop: "Oversized Cape in Barber Chair 💈", customDialogue: "Kaan mat katna! Bas thore se! 😂✂️" },
+      { icon: "🛺", title: "Auto Rickshaw Boy", age: "Child (5-8 yrs)", location: "Colorful Auto Rickshaw Ride 🛺", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual T-shirt & Shorts", prop: "Arms Out Window 💨" },
+      { icon: "🏏", title: "Street Cricket Boy", age: "Child (5-8 yrs)", location: "Gali Cricket Street (Narrow Lane) 🏏", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Cricket Jersey", prop: "Tiny Cricket Bat 🏏" },
+      { icon: "🏠", title: "Rooftop Pigeon Boy", age: "Child (5-8 yrs)", location: "House Rooftop Pigeon Coop (Kotha) 🕊️", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Shalwar Kameez & Topi", prop: "Pigeon in Hands 🕊️" },
+      { icon: "🪆", title: "Toy Shop Window Boy", age: "Toddler (2-4 yrs)", location: "Colorful Toy Shop Window Display 🪆", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Cute Casual Outfit", prop: "Hands on Glass Window 🪟", customDialogue: "Amma yeh wala chahiye! Please please please! 🙏😭" },
+    ]
+  },
+  // ─── NEW MOODS / VIBES ───────────────────────────────────────────────────────
+  {
+    groupName: "😎 New Moods & Vibes (Solo Girl)",
+    tab: "solo-girl",
+    presets: [
+      { icon: "👑", title: "Little Boss Girl", age: "Child (5-8 yrs)", location: "Home Living Room Sofa 🛋️", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Tiny Blazer & Mini Skirt", prop: "Arms Crossed 🤜🤛", customDialogue: "Main kehti hoon aur wahi hoga! 👑💅" },
+      { icon: "🙈", title: "Shy Peek Camera Girl", age: "Toddler (2-4 yrs)", location: "Cozy Home Doorway 🚪", health: "Healthy", vibe: "Shy & Peek-a-Boo 🙈", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Soft Cotton Frock", prop: "Hiding Behind Door & Peeking 🙈" },
+      { icon: "😎", title: "Too Cool Girl", age: "Child (5-8 yrs)", location: "Park Pathway 🌳", health: "Healthy", vibe: "Too Cool & Unbothered 😎", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Tiny Oversized Sunglasses & Trendy Outfit", prop: "Mini Sunglasses 🕶️" },
+      { icon: "🎭", title: "Drama Queen Cry Laugh Girl", age: "Toddler (2-4 yrs)", location: "Home Living Room Carpet 🏠", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Cute Pastel Frock", prop: "Fake Tears then Big Smile 😢😂" },
+      { icon: "😴", title: "Sleepy Fighter Girl", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom 🛏️", health: "Healthy", vibe: "Sleepy & Cozy", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Cozy Pajamas", prop: "Droopy Eyes & Pillow 😴", customDialogue: "Main bilkul jaag rahi hoon... *yawn* bilkul! 😴" },
+      { icon: "🧓", title: "Confused Old Soul Girl", age: "Toddler (2-4 yrs)", location: "Home Sofa 🛋️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Casual Dress", prop: "Chai Mug ☕", customDialogue: "Yeh duniya mein kya ho raha hai... haaye haaye! 🤦‍♀️" },
+      { icon: "🤭", title: "Mischief Mode Girl", age: "Toddler (2-4 yrs)", location: "Kitchen Counter 🍴", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Casual Playsuit", prop: "Cookie Jar 🍪", customDialogue: "Koi nahi dekh raha... abhi mauka hai! 🤭🍪" },
+    ]
+  },
+  {
+    groupName: "😎 New Moods & Vibes (Solo Boy)",
+    tab: "solo-boy",
+    presets: [
+      { icon: "👑", title: "Little Boss Boy", age: "Child (5-8 yrs)", location: "Home Living Room Sofa 🛋️", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Tiny Blazer & Chinos", prop: "Arms Crossed & Serious Face 😤", customDialogue: "Yahan sab meri marzi se chalega! 👑" },
+      { icon: "😎", title: "Too Cool Boy", age: "Child (5-8 yrs)", location: "Park Pathway 🌳", health: "Healthy", vibe: "Too Cool & Unbothered 😎", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Cap Backwards & Cool Streetwear", prop: "Mini Sunglasses 🕶️" },
+      { icon: "🎭", title: "Drama King Cry Laugh Boy", age: "Toddler (2-4 yrs)", location: "Home Living Room Carpet 🏠", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Cute Casual Outfit", prop: "Fake Tears then Big Smile 😢😂" },
+      { icon: "🍽️", title: "Hungry Grumpy Boy", age: "Toddler (2-4 yrs)", location: "Dining Table 🍽️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual Pajamas", prop: "Empty Plate then Full Plate 😤➡️😊", customDialogue: "Mujhe abhi khana chahiye! ABHI! 😤🍽️" },
+      { icon: "😴", title: "Sleepy Fighter Boy", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom 🛏️", health: "Healthy", vibe: "Sleepy & Cozy", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Superhero Pajamas", prop: "Droopy Eyes & Toy Car 🏎️", customDialogue: "Main neend nahi kar raha... *yawn* main jaag raha hoon! 😴" },
+      { icon: "🤭", title: "Mischief Mode Boy", age: "Toddler (2-4 yrs)", location: "Kitchen Counter 🍴", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Casual T-shirt", prop: "Cookie Jar 🍪", customDialogue: "Koi dekh toh nahi raha... chalo chori karte hain! 🤭🍪" },
+    ]
+  },
+  // ─── NEW BOY + GIRL COMBOS ────────────────────────────────────────────────────
+  {
+    groupName: "👫 New Boy + Girl Moments",
+    tab: "boy-girl",
+    presets: [
+      { icon: "🍦", title: "Sharing Ice Cream", age: "Toddler (2-4 yrs)", location: "Colorful Ice Cream Cart in Park 🍦", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Single Ice Cream Cone (Sharing) 🍦", customDialogue: "لڑکا: تھوڑی سی مجھے بھی دو!\nلڑکی: نہیں! پہلے گال صاف کرو! 😂" },
+      { icon: "☂️", title: "Umbrella Gentleman", age: "Child (5-8 yrs)", location: "Light Rainy Street ☔", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", prop: "Umbrella (Boy Holding for Girl) ☂️" },
+      { icon: "🪀", title: "Tug of War Toy Fight", age: "Toddler (2-4 yrs)", location: "Colorful Playroom 🧸", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Toy (Both Pulling Opposite Sides) 🪀", customDialogue: "لڑکی: یہ میری گڑیا ہے!\nلڑکا: نہیں یہ میرا روبوٹ ہے! 😤" },
+      { icon: "🌹", title: "First Love Flower Gift", age: "Toddler (2-4 yrs)", location: "Sunlit Garden Pathway 🌹", health: "Healthy", vibe: "Shy & Peek-a-Boo 🙈", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Small Flower Gift (Boy Gives Girl) 🌹", customDialogue: "لڑکا: یہ... یہ آپ کے لیے ہے!\nلڑکی: *shyly looks away* 🥹🌸" },
+      { icon: "🎒", title: "Matching School Bag Walk", age: "Child (5-8 yrs)", location: "Colorful School Corridor 🏫", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", clothing: "Both — Matching Desi School Uniforms", prop: "Matching Lunch Boxes 🍱" },
+    ]
+  },
+  // ─── GIRL + BOY SIBLING COMBOS ────────────────────────────────────────────────
+  {
+    groupName: "👧👦 Girl + Boy Sibling Moments",
+    tab: "girl-boy",
+    presets: [
+      { icon: "🍫", title: "Sibling Rivalry Snack", age: "Toddler (2-4 yrs)", location: "Home Kitchen Counter 🍫", health: "Healthy", vibe: "Funny & Mischievous", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", prop: "One Chocolate Bar (Both Grabbing) 🍫", customDialogue: "بہن: یہ میری چاکلیٹ ہے!\nبھائی: نہیں آدھی میری ہے!\nبہن: چلو پھر... ابو کو بلاؤ! 😂" },
+      { icon: "📺", title: "TV Remote Battle", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room Sofa 📺", health: "Healthy", vibe: "Funny & Mischievous", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", prop: "TV Remote (Both Fighting Over) 📺", customDialogue: "بھائی: میں کارٹون دیکھوں گا!\nبہن: نہیں! میری ٹائم ہے! 😤" },
+      { icon: "🤗", title: "Sudden Hug Makeup", age: "Toddler (2-4 yrs)", location: "Home Living Room 🏠", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", prop: "Hug After Fight 🤗", customDialogue: "بھائی: سوری آپی!\nبہن: ٹھیک ہے... لیکن میری چاکلیٹ دینی ہوگی! 🤗🍫" },
+      { icon: "🎮", title: "Gaming War Siblings", age: "Child (5-8 yrs)", location: "Playroom Gaming Setup 🎮", health: "Healthy", vibe: "Funny & Mischievous", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Global / Any", prop: "Game Controllers 🎮" },
+      { icon: "👒", title: "Dress-Up Role Swap", age: "Child (5-8 yrs)", location: "Bedroom Wardrobe Mirror 👗", health: "Healthy", vibe: "Funny & Mischievous", setup: "Brother & Sister", perScene: "2 Characters", nationality: "Global / Any", prop: "Mummy's Dupatta & Abbu's Cap 🎩" },
+    ]
+  },
+  // ─── NEW PROPS ─────────────────────────────────────────────────────────────
+  {
+    groupName: "🎒 Special Props — Solo Girl",
+    tab: "solo-girl",
+    presets: [
+      { icon: "💄", title: "Mummy Lipstick Mirror Girl", age: "Toddler (2-4 yrs)", location: "Mummy's Dressing Table Mirror 💄", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Casual Frock", prop: "Mummy's Oversized Lipstick 💄", customDialogue: "Amma dekho main kitni sundar hoon! 💄😂" },
+      { icon: "💍", title: "Giant Jhumka Earrings Girl", age: "Toddler (2-4 yrs)", location: "Home Dressing Room Mirror ✨", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Traditional Dress", prop: "Oversized Jhumka Earrings 💍" },
+      { icon: "🧹", title: "Tiny Broom Cleaner Girl", age: "Toddler (2-4 yrs)", location: "Home Kitchen Floor 🧹", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Apron & Frock", prop: "Mini Toy Broom 🧹", customDialogue: "Amma main bhi kaam karti hoon! Dekho! 🤗🧹" },
+      { icon: "☕", title: "Tiny Chai Tray Girl", age: "Child (5-8 yrs)", location: "Kitchen Counter 🍳", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Pink Chef Apron & Hat", prop: "Tray of Chai Cups ☕" },
+    ]
+  },
+  {
+    groupName: "🎒 Special Props — Solo Boy",
+    tab: "solo-boy",
+    presets: [
+      { icon: "🗞️", title: "Newspaper Chacha Boy", age: "Child (5-8 yrs)", location: "Home Living Room Sofa 🛋️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Traditional Kurta & Topi", prop: "Newspaper 🗞️" },
+      { icon: "🔧", title: "Tiny Mechanic Boy", age: "Child (5-8 yrs)", location: "Home Garden Garage 🔧", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Overalls & Dirty Hands", prop: "Toy Screwdriver & Wrench 🔧", customDialogue: "Ye main ne theek kar diya! Abbu se mat puchna! 😂🔧" },
+      { icon: "⛑️", title: "Giant Helmet Boy", age: "Toddler (2-4 yrs)", location: "Home Garden Driveway 🏍️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual Clothes", prop: "Abbu's Oversized Motorbike Helmet ⛑️" },
+      { icon: "🏏", title: "Serious Cricket Boy", age: "Child (5-8 yrs)", location: "Home Garden Lawn 🏏", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Cricket Jersey", prop: "Tiny Cricket Bat & Serious Face 🏏" },
+    ]
+  },
+  // ─── iPHONE / PHONE PROPS ──────────────────────────────────────────────────
+  {
+    groupName: "📱 Phone & iPhone Props (Solo Girl)",
+    tab: "solo-girl",
+    presets: [
+      { icon: "📱", title: "iPhone Selfie Girl", age: "Child (5-8 yrs)", location: "Bright Colorful Bedroom 🌈", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Trendy Casual Dress", prop: "iPhone (Taking Selfie) 🤳", customDialogue: "Ek aur selfie! Filter lagao! 🤳😂" },
+      { icon: "🤳", title: "Reels Girl Creator", age: "Child (5-8 yrs)", location: "Home Room Ring Light Setup 💡", health: "Healthy", vibe: "Too Cool & Unbothered 😎", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Trendy Influencer Outfit", prop: "iPhone on Selfie Stick (Recording Reel) 📱✨" },
+      { icon: "☎️", title: "Serious Phone Call Girl", age: "Toddler (2-4 yrs)", location: "Home Sofa 🛋️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Casual Frock", prop: "iPhone (Holding Upside Down) 📱😂", customDialogue: "Haan Haan main samajh rahi hoon bilkul... 📱😤" },
+      { icon: "🎮", title: "Mobile Gamer Girl", age: "Child (5-8 yrs)", location: "Cozy Bedroom Bean Bag 🎮", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Gamer Hoodie & Headphones", prop: "iPhone (Playing Game) 🎮📱" },
+      { icon: "🎵", title: "Singing to Phone Girl", age: "Toddler (2-4 yrs)", location: "Home Living Room 🏠", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Cute Frock", prop: "iPhone (Singing Into Like a Mic) 🎵📱" },
+      { icon: "📸", title: "Mini Photographer Girl", age: "Child (5-8 yrs)", location: "Sunlit Garden 🌸", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Pastel Overalls", prop: "Mini Digital Camera 📷" },
+    ]
+  },
+  {
+    groupName: "📱 Phone & iPhone Props (Solo Boy)",
+    tab: "solo-boy",
+    presets: [
+      { icon: "📱", title: "iPhone Selfie Boy", age: "Child (5-8 yrs)", location: "Bright Colorful Room 🌈", health: "Healthy", vibe: "Too Cool & Unbothered 😎", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Cool Streetwear & Cap", prop: "iPhone (Taking Selfie) 🤳", customDialogue: "Yaar ye mera best angle hai! 🤳😎" },
+      { icon: "🎮", title: "Mobile Gamer Boy", age: "Child (5-8 yrs)", location: "Cozy Bedroom Floor 🎮", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Gamer Hoodie", prop: "iPhone (Gaming Intensely) 🎮📱", customDialogue: "Mujhe disturb mat karo! Main boss level par hoon! 🎮😤" },
+      { icon: "☎️", title: "Boss Phone Call Boy", age: "Toddler (2-4 yrs)", location: "Home Office Chair 🪑", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Tiny Blazer & Kurta", prop: "iPhone (Pretend Business Call) 📱💼", customDialogue: "Haan deal confirm karo... warna deal cancel! 📱😤" },
+      { icon: "🎥", title: "Vlogger Boy", age: "Child (5-8 yrs)", location: "Home Room Ring Light Setup 💡", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual Trendy Outfit", prop: "iPhone on Selfie Stick (Vlogging) 📱🎥" },
+      { icon: "😂", title: "Meme Reaction Boy", age: "Child (5-8 yrs)", location: "Home Couch 🛋️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual T-shirt", prop: "iPhone (Showing Screen & Laughing) 😂📱" },
+      { icon: "📸", title: "Mini Photographer Boy", age: "Child (5-8 yrs)", location: "Outdoor Park 🌳", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Photographer Vest & Cap", prop: "Mini Camera with Strap 📷" },
+    ]
+  },
+  // ─── MORE MISSING PROPS ────────────────────────────────────────────────────
+  {
+    groupName: "🍭 Food & Candy Props (Solo Girl)",
+    tab: "solo-girl",
+    presets: [
+      { icon: "🍭", title: "Giant Lollipop Girl", age: "Toddler (2-4 yrs)", location: "Colorful Candy Land Set 🍭", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Candy-Themed Dress", prop: "Giant Swirling Lollipop 🍭", customDialogue: "Yeh lollipop bilkul meri tarah hai... meetha! 🍭😋" },
+      { icon: "🍬", title: "Candy Floss Girl", age: "Child (5-8 yrs)", location: "Colorful Carnival Fair 🎡", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Cute Skirt & Ribbons", prop: "Pink Candy Floss on Stick 🍬" },
+      { icon: "🧁", title: "Cupcake Gift Girl", age: "Child (5-8 yrs)", location: "Pastel Bakery Counter 🧁", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Bakery Apron & Hat", prop: "Decorated Cupcake Box 🧁🎀" },
+      { icon: "🍰", title: "Tiny Fork Cake Girl", age: "Toddler (2-4 yrs)", location: "Birthday Party Table 🎂", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Girl — Party Dress", prop: "Cake Slice on Plate & Fork 🍰", customDialogue: "Yeh sirf mera piece hai! Koi nahi aayega! 🍰😤" },
+    ]
+  },
+  {
+    groupName: "🍭 Food & Candy Props (Solo Boy)",
+    tab: "solo-boy",
+    presets: [
+      { icon: "🍭", title: "Giant Lollipop Boy", age: "Toddler (2-4 yrs)", location: "Colorful Candy Land Set 🍭", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Casual Outfit", prop: "Giant Swirling Lollipop 🍭" },
+      { icon: "🌽", title: "Corn on the Cob Boy", age: "Toddler (2-4 yrs)", location: "Desi Street Corn Stall 🌽", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Casual Shalwar Kameez", prop: "Roasted Corn on the Cob 🌽", customDialogue: "Masala wala chahiye! Aur lemon bhi! 🌽😋" },
+      { icon: "🍟", title: "Fries Muncher Boy", age: "Child (5-8 yrs)", location: "Fast Food Restaurant Table 🍟", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Casual T-shirt", prop: "Large Box of Fries 🍟", customDialogue: "Sharing nahi kar raha! Yeh sab mere hain! 🍟😤" },
+    ]
+  },
+  {
+    groupName: "🔭 Fun Object Props (Solo Girl)",
+    tab: "solo-girl",
+    presets: [
+      { icon: "🔭", title: "Binoculars Explorer Girl", age: "Child (5-8 yrs)", location: "Rooftop or Garden 🔭", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Explorer Outfit & Hat", prop: "Big Binoculars 🔭" },
+      { icon: "🔦", title: "Flashlight Adventure Girl", age: "Toddler (2-4 yrs)", location: "Cozy Dark Bedroom Fort 🏕️", health: "Healthy", vibe: "Mischief Mode (Looks Around Before Doing Something Naughty) 😈", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Pajamas", prop: "Big Flashlight 🔦" },
+      { icon: "🎀", title: "Gift Box Surprise Girl", age: "Toddler (2-4 yrs)", location: "Decorated Birthday Room 🎁", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Birthday Dress", prop: "Giant Ribbon Gift Box 🎁" },
+      { icon: "🪄", title: "Magic Wand Princess", age: "Child (5-8 yrs)", location: "Fantasy Enchanted Garden ✨", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Princess Gown & Tiara", prop: "Glowing Magic Wand & Sparkles 🪄✨" },
+      { icon: "🌂", title: "Mini Umbrella Twirl Girl", age: "Child (5-8 yrs)", location: "Light Rainy Cobblestone Street ☔", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Rain Boots & Raincoat", prop: "Colorful Mini Umbrella 🌂" },
+      { icon: "🐻", title: "Oversized Teddy Girl", age: "Toddler (2-4 yrs)", location: "Cozy Bedroom 🛏️", health: "Healthy", vibe: "Sleepy & Cozy", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Fluffy Pajamas", prop: "Giant Teddy Bear (Bigger than Her) 🐻" },
+    ]
+  },
+  {
+    groupName: "🔭 Fun Object Props (Solo Boy)",
+    tab: "solo-boy",
+    presets: [
+      { icon: "🔭", title: "Binoculars Explorer Boy", age: "Child (5-8 yrs)", location: "Rooftop or Mountain View 🔭", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Explorer Vest & Hat", prop: "Big Binoculars 🔭" },
+      { icon: "🔦", title: "Flashlight Spy Boy", age: "Toddler (2-4 yrs)", location: "Dark Room or Under Blanket Fort 🏕️", health: "Healthy", vibe: "Mischief Mode (Looks Around Before Doing Something Naughty) 😈", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Pajamas", prop: "Big Flashlight 🔦" },
+      { icon: "🔬", title: "Tiny Scientist Boy", age: "Child (5-8 yrs)", location: "Kid Science Lab Table 🧪", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Lab Coat & Safety Goggles", prop: "Magnifying Glass & Test Tube 🔬🧪" },
+      { icon: "💰", title: "Piggy Bank Boss Boy", age: "Toddler (2-4 yrs)", location: "Home Bedroom Desk 🏠", health: "Healthy", vibe: "Little Boss & Sassy 👑", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Tiny Suit", prop: "Giant Piggy Bank 🐷💰", customDialogue: "Meri savings mat chuno! Main serious hoon! 💰😤" },
+      { icon: "🏆", title: "Trophy Winner Boy", age: "Child (5-8 yrs)", location: "Sports Field or Home Shelf 🏆", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Pakistani (General / Desi)", clothing: "Boy — Sports Jersey", prop: "Golden Trophy (Way Too Big) 🏆" },
+      { icon: "🎒", title: "Lost Traveler Boy", age: "Child (5-8 yrs)", location: "Airport Terminal or Train Station 🚉", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Casual Travel Outfit", prop: "Tiny Luggage Suitcase & Passport 🎒✈️" },
+    ]
+  },
+  {
+    groupName: "📱 iPhone Props (Boy + Girl Together)",
+    tab: "boy-girl",
+    presets: [
+      { icon: "📱", title: "Selfie Together (Boy + Girl)", age: "Child (5-8 yrs)", location: "Colorful Flower Garden 🌸", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Single iPhone (Taking Selfie Together) 🤳", customDialogue: "لڑکی: Smile karo!\nلڑکا: Main kar raha hoon! 😂📱" },
+      { icon: "🎮", title: "Mobile Game Battle (Boy + Girl)", age: "Child (5-8 yrs)", location: "Home Sofa 🛋️", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", prop: "Two iPhones (Playing Game vs Each Other) 🎮📱📱", customDialogue: "لڑکا: Main jeeta!\nلڑکی: Nahi! Cheating ki tune! 😤🎮" },
+      { icon: "📹", title: "Vlog Duo (Boy + Girl)", age: "Child (5-8 yrs)", location: "Park Outdoor 🌳", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Girl & One Boy", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", clothing: "Both — Casual Trendy Outfits", prop: "iPhone on Selfie Stick (Vlogging Together) 📹📱" },
+    ]
+  },
 ];
 
 const FATHER_CLOTHING_OPTIONS = [
@@ -4671,7 +4846,41 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
       { value: "None / Natural", label: "None / Natural (AI decides)", desc: "Let the AI choose the most fitting natural expression.", tag: "👨‍👩‍👧 Adults & Family" },
     ]
   },
+  {
+    category: "🎬 Dialogue Ending Reactions (After Last Line)",
+    options: [
+      { value: "Wink to Camera", label: "Wink to Camera 😉", desc: "Looks directly at camera and winks cheekily — perfect viral ending.", tag: "🔥 Viral Ending" },
+      { value: "Blow Kiss to Camera", label: "Blow Kiss to Camera 😘", desc: "Blows a cute kiss straight at the viewer — sweet & charming close.", tag: "👧 Best for Girls" },
+      { value: "Mic Drop Swagger", label: "Mic Drop Swagger 🎤", desc: "Drops imaginary mic with a smug satisfied grin — boss exit.", tag: "🔥 Viral Ending" },
+      { value: "Freeze Frame Pose", label: "Freeze Frame Pose 📸", desc: "Strikes a cute confident pose and freezes like a photo snap ending.", tag: "🔥 Viral Ending" },
+      { value: "Slow-Mo Walk Away", label: "Slow-Mo Walk Away 🚶", desc: "Walks away from camera in slow motion — cinematic cool exit.", tag: "👦 Best for Boys" },
+      { value: "Double Thumbs Up Grin", label: "Double Thumbs Up Grin 👍👍", desc: "Both thumbs up with a big ear-to-ear grin at camera.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "Sneaky Side-Eye Smirk & Walk", label: "Side-Eye Smirk & Walk Away 😏", desc: "Delivers punchline, throws a side-eye smirk over the shoulder, then walks away coolly.", tag: "🔥 Viral Ending" },
+      { value: "Finger Guns Click", label: "Finger Guns Click 🔫😎", desc: "Points finger guns at camera and clicks — smooth confident ending.", tag: "👦 Best for Boys" },
+      { value: "Hair Flip Slay", label: "Hair Flip Slay 💅", desc: "Flips hair dramatically with a confident glam smirk.", tag: "👧 Best for Girls" },
+      { value: "Giggle Burst Cover Mouth", label: "Giggle Burst (Cover Mouth) 🤭", desc: "Bursts into adorable giggles and covers mouth with both hands.", tag: "👧 Best for Girls" },
+      { value: "Slow Confident Nod & Cross Arms", label: "Slow Nod & Arm Cross 😤", desc: "Slow firm nod while crossing arms — 'I told you so' boss energy.", tag: "👦 Best for Boys" },
+      { value: "Shocked Freeze Then Smile", label: "Shocked Freeze Then Smile 😱😁", desc: "Freezes in shock for 1 second, then melts into a huge laugh.", tag: "🔥 Viral Ending" },
+      { value: "Shy Peek & Wave", label: "Shy Peek & Tiny Wave 👋", desc: "Peeks from behind hands and gives a tiny shy wave goodbye.", tag: "👧 Best for Girls" },
+      { value: "Cool Glasses On Exit", label: "Cool Glasses On & Walk 🕶️", desc: "Puts on sunglasses confidently and strides away from camera.", tag: "🔥 Viral Ending" },
+      { value: "Point at Viewer & Wink", label: "Point at Viewer & Wink 👉😉", desc: "Points finger directly at viewer, then winks — breaks the fourth wall.", tag: "🔥 Viral Ending" },
+    ]
+  },
+  {
+    category: "🕺 Body Language Endings",
+    options: [
+      { value: "Bow Gracefully", label: "Bow Gracefully 🎭", desc: "Cute little bow at the end like a stage performer.", tag: "👧 Best for Girls" },
+      { value: "Jump & Cheer", label: "Jump & Cheer 🎉", desc: "Happy little jump with arms raised in celebration.", tag: "👦 Best for Boys" },
+      { value: "Spin & Freeze", label: "Spin & Freeze 🌀", desc: "Spins around once and freezes in a cute pose.", tag: "👧 Best for Girls" },
+      { value: "Fold Arms & Look Away Sassily", label: "Fold Arms & Look Away 💅", desc: "Crosses arms and looks away with maximum sass.", tag: "👧 Best for Girls" },
+      { value: "Shrug & Smile", label: "Shrug & Smile 🤷", desc: "Cute shoulder shrug with an innocent 'I dunno!' smile.", tag: "👨‍👩‍👧 Adults & Family" },
+      { value: "High Five the Air", label: "High Five the Air ✋", desc: "Gives a high five to the camera viewer.", tag: "👦 Best for Boys" },
+      { value: "Peace Sign & Smile", label: "Peace Sign ✌️😊", desc: "Classic peace sign held up with a cheerful smile.", tag: "🔥 Viral Ending" },
+      { value: "Heart Hands to Camera", label: "Heart Hands to Camera 🫶", desc: "Makes a heart shape with both hands and holds it toward the camera.", tag: "👧 Best for Girls" },
+    ]
+  },
 ];
+
 
 // 5.7 FOOD / SNACK IN SCENE
 const KIDS_FOOD_GROUPS: OptionGroupWithDesc[] = [
@@ -4698,7 +4907,6 @@ const KIDS_FOOD_GROUPS: OptionGroupWithDesc[] = [
       { value: "Ice Cream Cone", label: "Ice Cream Cone 🍦", desc: "Single or double scoop cone with rainbow sprinkles." },
       { value: "Birthday Cake Slice", label: "Birthday Cake Slice 🎂", desc: "A colourful birthday cake slice with candles." },
       { value: "Lollipop", label: "Big Round Lollipop 🍭", desc: "Oversized colourful spiral lollipop." },
-      { value: "Chocolate Bar", label: "Chocolate Bar 🍫", desc: "Unwrapped or half-bitten chocolate bar." },
       { value: "Cupcake", label: "Cupcake 🧁", desc: "Frosted cupcake with sprinkles on top." },
       { value: "Cotton Candy", label: "Cotton Candy (Pashmak) 🩷", desc: "Fluffy pink cotton candy on a stick." },
     ]
@@ -4722,7 +4930,45 @@ const KIDS_FOOD_GROUPS: OptionGroupWithDesc[] = [
       { value: "None / No Food", label: "None / No Food", desc: "No food in the scene." },
     ]
   },
+  {
+    category: "🍫 Chocolate & Sweets",
+    options: [
+      { value: "Chocolate Bar", label: "Chocolate Bar 🍫", desc: "Unwrapped or half-bitten chocolate bar held in tiny hands." },
+      { value: "Kit Kat Bar", label: "Kit Kat Bar 🍫", desc: "Snapping a Kit Kat bar — 'Have a break!' moment." },
+      { value: "Kinder Joy / Ferrero", label: "Kinder Joy / Ferrero 🥚", desc: "Cute Kinder Joy egg or golden Ferrero Rocher." },
+      { value: "Nutella Jar", label: "Nutella Jar 🍫", desc: "Giant Nutella jar, kid eating directly with a spoon." },
+      { value: "Chocolate Melt Face", label: "Chocolate All Over Face 😋", desc: "Face smeared with chocolate after sneaking a bar." },
+      { value: "Choco Milk Bottle", label: "Choco Milk Bottle 🍼", desc: "Toddler drinking chocolate milk from a big bottle." },
+    ]
+  },
+  {
+    category: "🍬 Desi Sweets & Street Food",
+    options: [
+      { value: "Jalebi (Hot Crispy)", label: "Jalebi (جلیبی) 🌀", desc: "Bright orange hot crispy jalebi dripping sugar syrup." },
+      { value: "Gol Gappa / Pani Puri", label: "Gol Gappa / Pani Puri 💧", desc: "Tiny mouth stuffed with pani puri — eyes watering!" },
+      { value: "Chaat Plate", label: "Chaat Plate (چاٹ) 🍛", desc: "Colourful desi chaat plate with chutneys and sev." },
+      { value: "Barfi / Mithai Box", label: "Barfi / Mithai Box 🍬", desc: "Fancy mithai box open with colourful barfis inside." },
+      { value: "Gajar Halwa (Carrot Halwa)", label: "Gajar Halwa (گاجر حلوہ) 🥕", desc: "Warm bowl of golden gajar halwa with cream on top." },
+      { value: "Rabri / Malai", label: "Rabri / Malai (رابڑی) 🥛", desc: "Thick creamy rabri in a clay bowl with pistachios." },
+      { value: "Rooh Afza Drink", label: "Rooh Afza Glass (روح افزا) 🌹", desc: "Tall glass of pink Rooh Afza with ice cubes." },
+      { value: "Lassi Glass (Dahi)", label: "Lassi Glass (لسی) 🥛", desc: "Frothy thick lassi in a tall desi glass." },
+    ]
+  },
+  {
+    category: "🍕 International Kids Favourites",
+    options: [
+      { value: "Chicken Nuggets", label: "Chicken Nuggets 🍗", desc: "Plate of golden crispy nuggets with ketchup for dipping." },
+      { value: "Donut / Doughnut", label: "Donut 🍩", desc: "Giant glazed pink donut with sprinkles." },
+      { value: "Oreo Cookies", label: "Oreo Cookies 🍪", desc: "Stack of Oreo biscuits, twisting apart for the cream." },
+      { value: "Gummy Bears / Jelly Beans", label: "Gummy Bears / Jelly Beans 🐻", desc: "Handful of colourful gummy bears or jelly beans." },
+      { value: "Juice Box", label: "Juice Box 🧃", desc: "Kids' juice box with a straw, squeezed too hard." },
+      { value: "Hot Chocolate Mug", label: "Hot Chocolate Mug ☕", desc: "Steaming mug of hot chocolate with marshmallows." },
+      { value: "Pancakes with Syrup", label: "Pancakes with Maple Syrup 🥞", desc: "Stack of fluffy pancakes drowning in golden maple syrup." },
+    ]
+  },
 ];
+
+
 
 // 5.8 PROPS / OBJECT IN HAND
 const KIDS_PROP_GROUPS: OptionGroupWithDesc[] = [
@@ -4763,13 +5009,51 @@ const KIDS_PROP_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Tech & Instruments",
     options: [
+      { value: "iPhone / Smartphone", label: "iPhone / Smartphone 📱", desc: "A real iPhone or modern smartphone — selfie, gaming, or business call pose." },
+      { value: "iPhone (Selfie Mode)", label: "iPhone Selfie Mode 🤳", desc: "Holding iPhone in selfie mode, taking a photo with a big smile." },
+      { value: "iPhone on Selfie Stick", label: "iPhone on Selfie Stick 📱🔭", desc: "iPhone mounted on a selfie stick for vlogging or content creation." },
       { value: "Tablet / Smartphone", label: "Tablet / Smartphone 📱", desc: "Kids-sized tablet or smartphone." },
       { value: "Toy Microphone", label: "Toy Microphone 🎤", desc: "Bright colourful toy microphone singing into." },
+      { value: "Mini Camera / DSLR", label: "Mini Camera / DSLR 📷", desc: "Tiny digital camera or mini DSLR with a strap around the neck." },
       { value: "Dholki / Mini Drum", label: "Dholki / Mini Drum 🥁", desc: "Desi dholki or mini toy drum." },
+      { value: "Toy Guitar", label: "Toy Guitar 🎸", desc: "Colourful mini guitar strummed cutely." },
       { value: "None / No Prop", label: "None / No Prop", desc: "No prop — natural empty hands." },
     ]
   },
+  {
+    category: "🕵️ Adventure & Explorer Props",
+    options: [
+      { value: "Binoculars", label: "Big Binoculars 🔭", desc: "Giant binoculars held up to tiny eyes — explorer/spy look." },
+      { value: "Flashlight / Torch", label: "Flashlight / Torch 🔦", desc: "Big flashlight pointed ahead in a dark room or blanket fort." },
+      { value: "Magnifying Glass", label: "Magnifying Glass 🔍", desc: "Tiny detective holding a magnifying glass up to one eye." },
+      { value: "Map & Compass", label: "Map & Compass 🗺️", desc: "Unrolled treasure map and a compass — tiny explorer mode." },
+      { value: "Toy Telescope", label: "Toy Telescope 🔭", desc: "Pointing a toy telescope at the stars or the horizon." },
+    ]
+  },
+  {
+    category: "💰 Fun Everyday Props",
+    options: [
+      { value: "Piggy Bank", label: "Giant Piggy Bank 🐷💰", desc: "Huge piggy bank — trying to put in coins or carrying it proudly." },
+      { value: "Golden Trophy", label: "Golden Trophy 🏆", desc: "Oversized trophy — way too big for tiny arms, but holding it proudly." },
+      { value: "Mini Suitcase / Luggage", label: "Mini Luggage Suitcase 🧳", desc: "Tiny rolling suitcase — ready for adventure." },
+      { value: "Newspaper (Chacha Style)", label: "Newspaper (Chacha Style) 🗞️", desc: "Holding a newspaper wide open like a serious uncle." },
+      { value: "Oversized Adult Glasses", label: "Oversized Adult Glasses 👓", desc: "Huge adult spectacles perched on a tiny nose — old soul vibes." },
+      { value: "Bouquet of Flowers", label: "Bouquet of Flowers 💐", desc: "Holding a beautiful flower bouquet like giving a gift." },
+    ]
+  },
+  {
+    category: "👗 Dress-Up Props",
+    options: [
+      { value: "Mummy's High Heels", label: "Mummy's High Heels 👠", desc: "Toddler clumsily walking in Mummy's oversized heels." },
+      { value: "Abbu's Oversized Helmet", label: "Abbu's Motorbike Helmet ⛑️", desc: "Giant motorbike helmet swallowing a tiny head — barely visible face." },
+      { value: "Abbu's Oversized Cap", label: "Abbu's Cap (Backwards) 🧢", desc: "Dad's big cap worn backwards, way too large." },
+      { value: "Mummy's Oversized Dupatta", label: "Mummy's Dupatta as Cape 🧣", desc: "Draped in Mummy's long dupatta like a royal robe or superhero cape." },
+      { value: "Tiny Tie & Blazer", label: "Tiny Tie & Blazer 👔", desc: "Dressed up in a comically small suit and tie — mini businessman." },
+    ]
+  },
 ];
+
+
 
 // 5.9 TIME OF DAY / LIGHTING MOOD
 const TIME_OF_DAY_GROUPS: OptionGroupWithDesc[] = [
@@ -7086,8 +7370,11 @@ export default function IdeasPage() {
   const [activePresetTitle, setActivePresetTitle] = useState<string>("Boy + Father");
   const [presetDialogueIndex, setPresetDialogueIndex] = useState<number>(0);
   const [presetSearchQuery, setPresetSearchQuery] = useState<string>("");
+  const [presetTabFilter, setPresetTabFilter] = useState<"all" | "solo-girl" | "solo-boy" | "boy-girl" | "girl-boy">("all");
+
   const [previewImageModal, setPreviewImageModal] = useState<{ url: string; label: string } | null>(null);
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const lastCursorPosRef = useRef<number | null>(null);
   const voiceRecognitionRef = useRef<any>(null);
   const [aiModel, setAiModel] = useState<string>(
     initialSettings.aiModel && ["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219", "claude-sonnet-4-5-20250929", "claude-sonnet-4-6", "claude-haiku-4-5-20251001", "claude-opus-4-6", "gemini-2.0-flash", "gemini-1.5-pro"].includes(initialSettings.aiModel)
@@ -7097,7 +7384,7 @@ export default function IdeasPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingDialogue, setIsSuggestingDialogue] = useState(false);
   const [loadingSceneStepId, setLoadingSceneStepId] = useState<string | null>(null);
-  const [includeCharacterBible, setIncludeCharacterBible] = useState<boolean>(true);
+  const [includeCharacterBible, setIncludeCharacterBible] = useState<boolean>(false);
   const [compactMode, setCompactMode] = useState<boolean>(true);
   const [fatherClothing, setFatherClothing] = useState<string>("AI Decides");
   const [customFatherClothing, setCustomFatherClothing] = useState<string>("");
@@ -7322,7 +7609,8 @@ export default function IdeasPage() {
       const end = textarea.selectionEnd || 0;
       const text = customDialogue;
       const needsNewLine = start > 0 && text[start - 1] !== "\n";
-      const insertion = (needsNewLine ? "\n" : "") + label + " ";
+      // Add LRM (\u200E) to prevent RTL bidi issues when numbers are spoken right after the label!
+      const insertion = (needsNewLine ? "\n" : "") + label + " \u200E";
       const newText = text.substring(0, start) + insertion + text.substring(end);
       setCustomDialogue(newText);
       setTimeout(() => {
@@ -7647,15 +7935,18 @@ export default function IdeasPage() {
     setIsListening(true);
     showToast("🎙️ Listening… speak now. Click Mic again to stop.", "info");
 
-    const textarea = typeof document !== "undefined"
-      ? (document.getElementById("custom-dialogue-input") as HTMLTextAreaElement | null)
-      : null;
+    const textarea = dialogueTextareaRef.current;
     let cursorStart = customDialogue.length;
     let cursorEnd = customDialogue.length;
 
-    if (textarea && typeof textarea.selectionStart === "number") {
-      cursorStart = textarea.selectionStart;
-      cursorEnd = textarea.selectionEnd;
+    if (textarea) {
+      if (lastCursorPosRef.current !== null) {
+        cursorStart = lastCursorPosRef.current;
+        cursorEnd = lastCursorPosRef.current;
+      } else if (typeof textarea.selectionStart === "number") {
+        cursorStart = textarea.selectionStart;
+        cursorEnd = textarea.selectionEnd;
+      }
     }
 
     let textBefore = customDialogue.substring(0, cursorStart);
@@ -9772,6 +10063,7 @@ export default function IdeasPage() {
                     {[
                       { label: "👧 Solo Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Blanket Fortress", vibe: "Sweet & Wholesome" },
                       { label: "👦 Solo Boy", setup: "One Cute Little Boy", age: "Toddler (2-4 yrs)", location: "Playroom Carpet", vibe: "Cheerful & Energetic" },
+                      { label: "👧+👦 Girl & Boy", setup: "One Girl & One Boy", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", vibe: "Sweet & Wholesome", cameraShot: "Two-Shot" },
                       { label: "😭 Sad Girl", setup: "One Cute Little Girl", age: "Toddler (2-4 yrs)", location: "Living Room Window", vibe: "Sad & Tearful (Rona / Udaas) 😢💧" },
                       { label: "👦+👨 Boy & Abu", setup: "Father + Son (Boy + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome", clothingBoy: "Boy — White Shalwar Kameez", fatherClothing: "White Kameez Shalwar" },
                       { label: "👧+👨 Girl & Abu", setup: "Father + Daughter (Girl + Abu)", age: "Toddler (2-4 yrs)", location: "Living Room Sofa", vibe: "Sweet & Wholesome", clothingGirl: "Girl — Pink Shalwar Kameez", fatherClothing: "White Kameez Shalwar" },
@@ -10515,6 +10807,10 @@ export default function IdeasPage() {
                     ref={dialogueTextareaRef}
                     value={customDialogue}
                     onChange={(e) => setCustomDialogue(e.target.value)}
+                    onBlur={(e) => { lastCursorPosRef.current = e.target.selectionStart; }}
+                    onSelect={(e: any) => { lastCursorPosRef.current = e.target.selectionStart; }}
+                    onMouseUp={(e: any) => { lastCursorPosRef.current = e.target.selectionStart; }}
+                    onKeyUp={(e: any) => { lastCursorPosRef.current = e.target.selectionStart; }}
                     dir={dialogueDir}
                     rows={isDialogueExpanded ? 8 : 4}
                     placeholder={dialogueDir === "ltr"
@@ -10800,13 +11096,36 @@ export default function IdeasPage() {
                 </div>
                 {isPresetsExpanded && (
                   <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+                    {/* ── Tab Bar ── */}
+                    <div className="mb-3 flex gap-1.5 flex-wrap">
+                      {([
+                        { key: "all", label: "⚡ All" },
+                        { key: "solo-girl", label: "👧 Solo Girl" },
+                        { key: "solo-boy", label: "👦 Solo Boy" },
+                        { key: "boy-girl", label: "👫 Boy+Girl" },
+                        { key: "girl-boy", label: "👧👦 Girl+Boy" },
+                      ] as const).map((tab) => (
+                        <button
+                          key={tab.key}
+                          type="button"
+                          onClick={() => setPresetTabFilter(tab.key)}
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-black border transition-all cursor-pointer active:scale-95 touch-manipulation whitespace-nowrap ${
+                            presetTabFilter === tab.key
+                              ? (isLight ? "bg-indigo-600 text-white border-indigo-700 shadow-md shadow-indigo-500/30" : "bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-500/40")
+                              : (isLight ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-950" : "bg-indigo-900/60 hover:bg-indigo-800 border-indigo-500/40 text-white")
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
                     {/* Search bar for Mobile Presets */}
                     <div className="mb-3">
                       <input
                         type="text"
                         value={presetSearchQuery}
                         onChange={(e) => setPresetSearchQuery(e.target.value)}
-                        placeholder="🔍 Search presets (e.g. Cat, School, Qawwal, Dog)..."
+                        placeholder="🔍 Search presets (e.g. Cat, School, Samosa, Boss)..."
                         className={`w-full px-3.5 py-2 rounded-xl border text-xs font-bold shadow-inner ${
                           isLight ? "bg-white border-indigo-300 text-zinc-900 placeholder-zinc-400" : "bg-black/80 border-indigo-500/40 text-white placeholder-slate-500"
                         }`}
@@ -10814,6 +11133,10 @@ export default function IdeasPage() {
                     </div>
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
                       {CUTE_KIDS_PRESET_GROUPS.map((group) => {
+                        // Tab filter: if not "all", only show groups whose tab matches OR groups with no tab (legacy)
+                        const groupTab = (group as any).tab;
+                        if (presetTabFilter !== "all" && groupTab && groupTab !== presetTabFilter) return null;
+
                         const filteredPresets = group.presets.filter((p: any) =>
                           !presetSearchQuery.trim() ||
                           p.title.toLowerCase().includes(presetSearchQuery.toLowerCase()) ||
