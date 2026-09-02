@@ -855,6 +855,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "👳‍♂️ Solo Sikh & Punjabi Boy Presets",
+    tab: "solo-boy",
     presets: [
       {
         icon: "👳‍♂️",
@@ -876,6 +877,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "👦 Boy Professions & Roles",
+    tab: "solo-boy",
     presets: [
       { icon: "💈", title: "Boy Barber", age: "Child (5-8 yrs)", location: "Barber Shop Salon", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Barber Apron & Scissors", prop: "Toy Scissors & Comb ✂️" },
       { icon: "💇", title: "Boy Hairstylist", age: "Child (5-8 yrs)", location: "Beauty Salon & Spa", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Boy — Hairstylist Smock", prop: "Hair Dryer & Comb 💇" },
@@ -925,6 +927,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "👧 Girl Professions & Roles",
+    tab: "solo-girl",
     presets: [
       { icon: "💈", title: "Girl Barber", age: "Child (5-8 yrs)", location: "Barber Shop Salon", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Barber Apron & Scissors", prop: "Toy Scissors & Comb ✂️" },
       { icon: "💇", title: "Girl Hairstylist", age: "Child (5-8 yrs)", location: "Beauty Salon & Spa", health: "Healthy", vibe: "Cheerful & Energetic", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Girl — Hairstylist Smock", prop: "Hair Dryer & Mirror 💇" },
@@ -960,6 +963,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "👧 Solo Girl Presets (💬 WITH DIALOGUE)",
+    tab: "solo-girl",
     presets: [
       { icon: "🗣️", title: "Fast Talking Cute Girl", customDialogue: "Amma dekho main kitni jaldi jaldi bol sakti hoon, mujhe park jana hai aur bohot saari chocolate khani hai aur... aur bhi bohot kuch!", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cute Pastel Frock", prop: "None" },
       { icon: "🎀", title: "Sweet Cute Girl", customDialogue: "Aap kaise ho? Main toh bilkul theek hoon!", age: "Child (5-8 yrs)", location: "Bright Garden Lawn", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Floral Summer Dress", prop: "None" },
@@ -984,6 +988,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "😡 Angry Toddler Boy Presets (💬 FUNNY DIALOGUE)",
+    tab: "solo-boy",
     presets: [
       { icon: "😠", title: "Angry Toddler Boy", customDialogue: "Mujhe khana nahi khana! Pehle mera khiloona do! 😠", age: "Toddler (2-4 yrs)", location: "Dining Table High Chair", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Dinosaur Onesie & Pouting Face", prop: "Toy Spoon & Stomping Feet 👣" },
       { icon: "🛌", title: "Angry Boy Bedtime Protest", customDialogue: "Main nahi sounga! Abhi toh shaam hui hai! 🛌😠", age: "Toddler (2-4 yrs)", location: "Bedroom Bed Cushion", health: "Healthy", vibe: "Funny & Mischievous", setup: "One Cute Little Boy", perScene: "1 Character", nationality: "Global / Any", clothing: "Superhero Pajamas", prop: "Plush Pillow 🛌" },
@@ -992,6 +997,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "🎀 Solo Girl Presets (🤫 WITHOUT DIALOGUE - SILENT VISUAL)",
+    tab: "solo-girl",
     isSilentPink: true,
     presets: [
       { icon: "🧘", title: "Silent Innocent Sitting (No Dialogue)", isSilent: true, customDialogue: "", age: "Toddler (2-4 yrs)", location: "Child-Sized Wooden Desk", health: "Healthy", vibe: "Sweet & Wholesome", setup: "One Cute Little Girl", perScene: "1 Character", nationality: "Global / Any", clothing: "Cozy Floral Dress", prop: "Wooden Table & Chair 🪑" },
@@ -1012,6 +1018,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "🏡 Family & Everyday Scenarios (Boy & Girl)",
+    tab: "boy-girl",
     presets: [
       { icon: "👨‍👦", title: "Boy + Father", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Father & Son (Abu & Baita)", perScene: "2 Characters", nationality: "Global / Any" },
       { icon: "👩‍👧", title: "Girl + Mother (Amma & Beti)", age: "Toddler (2-4 yrs)", location: "Modern Kitchen", health: "Healthy", vibe: "Sweet & Wholesome", setup: "Mother & Daughter", perScene: "2 Characters", nationality: "Global / Any" },
@@ -1029,6 +1036,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "🐾 Animal & Pet Duos (Boy & Girl)",
+    tab: "boy-girl",
     presets: [
       { icon: "🐱👧", title: "Girl + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Cat & Girl", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
       { icon: "🐱👦", title: "Boy + Cat", age: "Toddler (2-4 yrs)", location: "Cozy Home Living Room", health: "Healthy", vibe: "Funny & Mischievous", setup: "Talking Cat & Boy", perScene: "2 Characters", nationality: "Global / Any", prop: "Talking Pet Cat 🐱" },
@@ -1795,6 +1803,7 @@ const CUTE_KIDS_PRESET_GROUPS = [
   },
   {
     groupName: "🎤 Boy Singer Presets (Solo & Group)",
+    tab: "solo-boy",
     presets: [
       // ─── Solo Boy Singer ───
       {
@@ -11132,7 +11141,7 @@ export default function IdeasPage() {
                       />
                     </div>
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
-                      {CUTE_KIDS_PRESET_GROUPS.map((group) => {
+                      {CUTE_KIDS_PRESET_GROUPS.slice().sort((a, b) => { if (presetTabFilter === "all") return 0; const aTab = (a).tab; const bTab = (b).tab; if (aTab === presetTabFilter && bTab !== presetTabFilter) return -1; if (bTab === presetTabFilter && aTab !== presetTabFilter) return 1; return 0; }).map((group) => {
                         // Tab filter: if not "all", only show groups whose tab matches OR groups with no tab (legacy)
                         const groupTab = (group as any).tab;
                         if (presetTabFilter !== "all" && groupTab && groupTab !== presetTabFilter) return null;
