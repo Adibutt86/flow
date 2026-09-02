@@ -14265,41 +14265,43 @@ export default function IdeasPage() {
                   return (
                     <div key={idea.id} className={`rounded-2xl border transition-all ${isLight ? "bg-slate-50 border-slate-200 hover:border-amber-300" : "bg-black/40 border-slate-800 hover:border-amber-500/30"}`}>
                       {/* Compact row — always visible */}
-                      <div className="flex items-start gap-3 p-3.5">
-                        {/* Index + Category badge */}
-                        <span className={`shrink-0 text-[10px] font-black px-2 py-1 rounded-xl border mt-0.5 ${isLight ? "bg-indigo-50 border-indigo-200 text-indigo-700" : "bg-indigo-950/60 border-indigo-500/30 text-indigo-300"}`}>
-                          #{idx + 1}
-                        </span>
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3 p-3.5">
+                        <div className="flex items-start gap-3 flex-1 min-w-0 w-full">
+                          {/* Index + Category badge */}
+                          <span className={`shrink-0 text-[10px] font-black px-2 py-1 rounded-xl border mt-0.5 ${isLight ? "bg-indigo-50 border-indigo-200 text-indigo-700" : "bg-indigo-950/60 border-indigo-500/30 text-indigo-300"}`}>
+                            #{idx + 1}
+                          </span>
 
-                        {/* Dialogue text */}
-                        <div className="flex-1 min-w-0">
-                          {dialogue ? (
-                            <p
-                              dir={isRtlDlg ? "rtl" : "ltr"}
-                              className={`text-sm font-bold leading-snug break-words line-clamp-2 ${isRtlDlg ? "text-right" : "text-left"} ${isLight ? "text-slate-900" : "text-amber-100"}`}
-                            >
-                              💬 {dialogue}
-                            </p>
-                          ) : (
-                            <p className={`text-xs italic ${isLight ? "text-slate-400" : "text-slate-500"}`}>
-                              No dialogue — {idea.withoutDialogue ? "Silent Video" : "No script extracted"}
-                            </p>
-                          )}
-                          <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
-                            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isLight ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-indigo-950/60 text-indigo-300 border-indigo-500/30"}`}>
-                              {CATEGORIES[idea.category]?.name || idea.category}
-                            </span>
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isLight ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-emerald-950/60 text-emerald-300 border-emerald-500/30"}`}>
-                              {idea.language}
-                            </span>
-                            <span className={`text-[10px] text-slate-400`}>
-                              {new Date(idea.createdAt).toLocaleDateString()}
-                            </span>
+                          {/* Dialogue text */}
+                          <div className="flex-1 min-w-0">
+                            {dialogue ? (
+                              <p
+                                dir={isRtlDlg ? "rtl" : "ltr"}
+                                className={`text-sm font-bold leading-snug break-words ${isRtlDlg ? "text-right" : "text-left"} ${isLight ? "text-slate-900" : "text-amber-100"}`}
+                              >
+                                💬 {dialogue}
+                              </p>
+                            ) : (
+                              <p className={`text-xs italic ${isLight ? "text-slate-400" : "text-slate-500"}`}>
+                                No dialogue — {idea.withoutDialogue ? "Silent Video" : "No script extracted"}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
+                              <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isLight ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-indigo-950/60 text-indigo-300 border-indigo-500/30"}`}>
+                                {CATEGORIES[idea.category]?.name || idea.category}
+                              </span>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isLight ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-emerald-950/60 text-emerald-300 border-emerald-500/30"}`}>
+                                {idea.language}
+                              </span>
+                              <span className={`text-[10px] text-slate-400`}>
+                                {new Date(idea.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
                         {/* Action buttons */}
-                        <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+                        <div className="flex items-center gap-1.5 shrink-0 flex-wrap sm:justify-end self-end sm:self-auto">
                           {dialogue && (
                             <button
                               onClick={() => handleCopy(dialogue, `dlg-list-${idea.id}`)}
