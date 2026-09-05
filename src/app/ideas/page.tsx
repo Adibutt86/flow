@@ -3758,6 +3758,7 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
     category: "Indoor & Home Settings",
     options: [
       { value: "Cozy Home Living Room", label: "Cozy Home / Living Room 🛋️", desc: "Warm indoor family home setting with plush sofa, rug, and coffee table." },
+      { value: "Home Entrance & Front Gate", label: "Home Entrance & Front Gate 🚪", desc: "The front gate and main entrance of a beautiful cozy home." },
       { value: "Sunlit Home Balcony & Patio", label: "Sunlit Home Balcony / Patio 🪴", desc: "A peaceful outdoor home balcony or patio with potted plants and warm sunlight." },
       { value: "Warm Cozy Study & Home Office", label: "Cozy Study / Home Office 📚", desc: "A quiet and warm home study room with bookshelves, desk, and reading lamp." },
       { value: "Cozy Home TV Lounge", label: "Cozy Home TV Lounge 📺", desc: "A relaxing home TV lounge with big comfortable bean bags, cushions, and warm lighting." },
