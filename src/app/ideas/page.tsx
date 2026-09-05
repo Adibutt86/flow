@@ -3712,6 +3712,7 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Miya Biwi Husband & Wife on Motorbike", label: "🏍️ Miya Biwi (Husband & Wife) on Motorbike / Scooter", desc: "Cute little husband driving a scooter / motorbike with his little wife sitting behind him on a sunny street." },
       { value: "Friend Riding Bicycle on Street", label: "🚲 Friend riding Bicycle / Bike in Park", desc: "Cute kid friend riding a colorful bicycle with a basket through a sunny park path or neighborhood street." },
       { value: "Desi Auto-Rickshaw Ride", label: "🛺 Desi Auto-Rickshaw Ride in Market", desc: "Fun colorful auto-rickshaw ride through a vibrant street market with wind in their hair." },
+      { value: "Classic Railway Station Platform", label: "🚂 Classic Railway Station Platform", desc: "A bustling railway station platform with a classic train, luggage carts, and soft atmospheric lighting." },
     ],
   },
   {
