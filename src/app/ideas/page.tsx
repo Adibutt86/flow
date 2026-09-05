@@ -3757,9 +3757,14 @@ const KIDS_LOCATION_GROUPS: OptionGroupWithDesc[] = [
   {
     category: "Indoor & Home Settings",
     options: [
-      { value: "Cozy Home Living Room", label: "Cozy Home / Living Room", desc: "Warm indoor family home setting with sofa, rug, and toys." },
-      { value: "Modern Kitchen", label: "Kitchen & Dining", desc: "Clean kitchen with dining table, breakfast snacks, and fruits." },
-      { value: "Colorful Kids Bedroom", label: "Kids Bedroom / Playroom", desc: "Vibrant bedroom with bed, stuffed animals, and storybooks." },
+      { value: "Cozy Home Living Room", label: "Cozy Home / Living Room 🛋️", desc: "Warm indoor family home setting with plush sofa, rug, and coffee table." },
+      { value: "Sunlit Home Balcony & Patio", label: "Sunlit Home Balcony / Patio 🪴", desc: "A peaceful outdoor home balcony or patio with potted plants and warm sunlight." },
+      { value: "Warm Cozy Study & Home Office", label: "Cozy Study / Home Office 📚", desc: "A quiet and warm home study room with bookshelves, desk, and reading lamp." },
+      { value: "Cozy Home TV Lounge", label: "Cozy Home TV Lounge 📺", desc: "A relaxing home TV lounge with big comfortable bean bags, cushions, and warm lighting." },
+      { value: "Classic Dining Room & Family Table", label: "Classic Dining Room 🍽️", desc: "A beautifully set classic dining room with a large family table and warm chandelier." },
+      { value: "Luxurious Grand Master Bedroom", label: "Luxurious Master Bedroom 🛏️", desc: "An elegant and large master bedroom with a king-size bed, soft linens, and grand windows." },
+      { value: "Modern Kitchen", label: "Kitchen & Dining 🍳", desc: "Clean modern kitchen with dining table, breakfast snacks, and fruits." },
+      { value: "Colorful Kids Bedroom", label: "Kids Bedroom / Playroom 🧸", desc: "Vibrant bedroom with bed, stuffed animals, and storybooks." },
       { value: "Cozy Library & Book Nook", label: "Library & Reading Nook", desc: "Quiet library with tall wooden bookshelves, cozy reading chairs, and books." },
       { value: "School Classroom", label: "School Classroom", desc: "Learning environment with tiny desks, colorful charts, and chalkboard." },
       { value: "Daycare & Nursery", label: "Daycare & Nursery", desc: "Safe activity playroom with soft foam blocks and play mats." },
