@@ -735,7 +735,7 @@ Do NOT generate Clip 2 Prompt yet (the user will review/approve Scene 1 first be
 ${input.customDialogueSeq1 ? `User Sequence 1 Spoken Dialogue (First 10s Clip): "${input.customDialogueSeq1}"` : ""}
 
 REQUIRED OUTPUT FORMAT STRUCTURE:
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 🎬 20-SECOND CONNECTED STORY (STEP 1: FIRST 10s SCENE & CHARACTER BIBLE)
 
@@ -765,7 +765,7 @@ ${input.scene1Clothing ? `LOCKED SCENE 1 CLOTHING SPECIFICATION: "${input.scene1
 In Clip 2 Prompt (10-20s), you MUST repeat the EXACT SAME clothing/outfit description verbatim from Scene 1 for both Character 1 and Character 2! Do NOT change, modify, or invent different clothes or outfit colors for any character in Scene 2.
 
 REQUIRED OUTPUT FORMAT STRUCTURE:
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 ${(input.scene1Text || "").replace(/⏳\s*STEP 2 STATUS:[\s\S]*$/i, "").trim()}
 
@@ -791,7 +791,7 @@ ${input.scene1Clothing ? `LOCKED SCENE 1&2 CLOTHING SPECIFICATION: "${input.scen
 In Clip 3 Prompt (20-30s), you MUST repeat the EXACT SAME clothing/outfit description verbatim from Scene 1 and Scene 2 for both Character 1 and Character 2! Do NOT change, modify, or invent different clothes or outfit colors for any character in Scene 3.
 
 REQUIRED OUTPUT FORMAT STRUCTURE:
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 ${(input.scene2Text || "").replace(/⏳\s*STEP 3 STATUS:[\s\S]*$/i, "").trim()}
 
@@ -808,7 +808,7 @@ ${input.customDialogueSeq1 ? `User Sequence 1 Spoken Dialogue (First 10s Clip): 
 ${input.customDialogueSeq2 ? `User Sequence 2 Spoken Dialogue (Second 10s Clip): "${input.customDialogueSeq2}"` : ""}
 
 REQUIRED OUTPUT FORMAT STRUCTURE:
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 🎬 20-SECOND CONNECTED STORY (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI)
 
@@ -894,7 +894,7 @@ The generated output text MUST strictly use this EXACT format structure:
 [Provide a concise version of the overall story concept structured into 3-4 separate clips/scenes (Clip 1, Clip 2, Clip 3, Clip 4) that can serve as the foundation for creating a complete short video. Describe the overall story/concept and visual progression across the 3-4 clips rather than just summarizing dialogue.]
 
 🎬 FULL DETAILED IDEA:
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 ${
   input.category === "SONG"
@@ -908,11 +908,11 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. Absolutely NO watermarks, NO logos, NO text overlays, NO social media UI, NO usernames, clean cinematic video only.`
     : `STRICT 9:16 PROMPT FORMAT MANDATE:
 The generated prompt string MUST follow this EXACT structure:
 
-[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]
+[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]
 
 ${
   input.category === "SONG"
@@ -926,7 +926,7 @@ ${
     : input.category === "CHARACTER_BIBLE"
     ? `Comprehensive Character & World Bible (locked character appearance, outfit, facial features, personality, and visual rules)`
     : `10-second ${input.visualStyle || "high-quality 3D cartoon animation"} (Pixar & Illumination 3D render quality, soft PBR fabric & skin shaders, subsurface scattering, warm volumetric rim lighting, shallow depth of field with creamy background bokeh)`
-}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. No text, no logos, no overlays.`
+}, [Detailed setting, lighting, environment, character setup, age, outfit, and props]. HOOK (0-3s): [Opening action ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "(NO SPOKEN DIALOGUE)" : "& dialogue"}]. ESCALATION (3-7s): [Camera movement & action escalation]. PUNCHLINE (7-10s): [Visual reaction/gag ending, freeze frame, sound effects, music]. Absolutely NO watermarks, NO logos, NO text overlays, NO social media UI, NO usernames, clean cinematic video only.`
 }
 ${input.withoutDialogue || input.category === "FRUIT_DANCING" || input.category === "ANIMAL_DANCING" ? "CRITICAL FORMAT RULE: Because Without Dialogue is enabled, DO NOT output any 'Spoken Dialogue:' label, script paragraph, or spoken monologue anywhere in the prompt text. Keep the generated concept concise and visual-only." : ""}
 
@@ -947,7 +947,7 @@ ${
 
 Return ONLY a valid JSON array of 1 string containing the full prompt:
 [
-  "[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\\n\\n10-second high-quality 3D cartoon animation..."
+  "[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]\\n\\n10-second high-quality 3D cartoon animation..."
 ]`,
           },
         ],
@@ -1047,7 +1047,7 @@ function generateFallbackIdeaPrompt(input: any): string[] {
 
     if (input.kids20sStep === "SCENE_1_ONLY") {
       return [
-        `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+        `[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]\n\n` +
         `🎬 20-SECOND CONNECTED KIDS STORY (STEP 1: FIRST 10s SCENE & CHARACTER BIBLE)\n\n` +
         `📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:\n` +
         `• Character 1: 6yo Pakistani boy, dark brown eyes, chubby cheeks, wearing bright turquoise polo shirt & beige shorts.\n` +
@@ -1072,7 +1072,7 @@ function generateFallbackIdeaPrompt(input: any): string[] {
     }
 
     return [
-      `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+      `[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]\n\n` +
       `🎬 20-SECOND CONNECTED KIDS STORY (2 SEPARATE 10s PROMPTS FOR GOOGLE FLOW / GEMINI)\n\n` +
       `📋 LOCKED CHARACTER & ENVIRONMENT CONTINUITY BIBLE:\n` +
       `• Character 1: 6yo Pakistani boy, dark brown eyes, chubby cheeks, wearing bright turquoise polo shirt & beige shorts.\n` +
@@ -1110,7 +1110,7 @@ function generateFallbackIdeaPrompt(input: any): string[] {
     : "";
 
   return [
-    `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n` +
+    `[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action. Clean cinematic video, NO UI overlays, NO icons.]\n\n` +
     `10-second ${style} concept set in ${loc}.\n` +
     `Setting: ${loc} with ${vibe} atmosphere.\n` +
     `Character Setup: ${setup} wearing ${outfit}.\n` +
