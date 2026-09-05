@@ -4824,7 +4824,7 @@ const KIDS_EXPRESSION_GROUPS: OptionGroupWithDesc[] = [
       { value: "Fake Serious Boss Face", label: "Fake Serious Boss Face 🥸", desc: "Trying to look super tough and serious while fighting back a giggle.", tag: "👦 Best for Boys" },
       { value: "Drooling Food Craving Face", label: "Drooling Food Craving Face 🤤", desc: "Starry-eyed gaze with tongue out anticipating chocolate or cake.", tag: "👨‍👩‍👧 Adults & Family" },
       { value: "Mischievous Evil Genius Smirk", label: "Mischievous Evil Genius Smirk 😈", desc: "Rubbing tiny hands together with a sly plotting smile.", tag: "👦 Best for Boys" },
-      { value: "Pouty Lip About to Cry", label: "Pouty Lip / About to Cry 🥺", desc: "Quivering lip and glistening eyes — maximum cute drama.", tag: "👧 Best for Girls" },
+      { value: "Quivering Lip About to Cry", label: "Quivering Lip / About to Cry 🥺", desc: "Quivering lip and glistening eyes — maximum cute drama.", tag: "👧 Best for Girls" },
       { value: "Sneaky Side-Eye", label: "Sneaky Side-Eye 👀", desc: "Mischievous glance sideways, clearly plotting something sneaky.", tag: "👨‍👩‍👧 Adults & Family" },
       { value: "Disgusted Face", label: "Disgusted Face 🤢", desc: "Dramatic disgusted face at broccoli or something they dislike.", tag: "👦 Best for Boys" },
       { value: "Mini Lecture Mode", label: "Mini Lecture Mode ☝️", desc: "Wagging finger seriously, explaining something with cute authority.", tag: "👧 Best for Girls" },
