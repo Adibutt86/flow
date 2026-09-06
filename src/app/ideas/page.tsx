@@ -6361,7 +6361,7 @@ function getIdeaTrendingTags(idea: SavedIdea): string {
 
 function getPrompt916(text: string): string {
   const cleaned = cleanPromptText(text);
-  return `[FORMAT: 9:16 Vertical Aspect Ratio optimized for TikTok/Shorts/Reels. Center all main action.]\n\n${cleaned}`;
+  return `[FORMAT: 9:16 Vertical Aspect Ratio. Center all main action.]\n\n${cleaned}`;
 }
 
 function getPrompt169(text: string): string {
