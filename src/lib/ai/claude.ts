@@ -372,7 +372,7 @@ All spoken dialogue, character script lines, and voiceover text MUST be written 
 - If Language is "English": Output spoken script in English.
 ${input.compactMode !== false ? "\n─── COMPACT 9:16 MOBILE PROMPT MANDATE: Output ONLY the 9:16 vertical video prompt and spoken script line. STRICTLY SKIP ALL social titles, video descriptions, core hashtags, trending tags, and extra metadata fluff to save credits. ───\n" : ""}
 ─── STRICT AI VIDEO GENERATOR PROMPT MANDATE (GOOGLE FLOW / GEMINI / VEO 2 / SORA / RUNWAY): ───
-1. 100% ENGLISH VISUAL PROMPT: The visual scene prompt block MUST be 100% clean English describing ONLY 9:16 framing, lighting, setting, character specs, camera motion, and action beat.
+1. 100% ENGLISH VISUAL PROMPT: The visual scene prompt block MUST be 100% clean English describing ONLY 9:16 framing, lighting, setting, character specs, camera motion, and action beat. IT MUST ALWAYS START EXACTLY WITH: "Clean cinematic shot, NO watermarks, NO UI, NO logos, NO text...".
 2. DEDICATED DIALOGUE LINES: NEVER embed Urdu script lines inside the visual video prompt block! All spoken dialogue MUST be placed on a separate dedicated line starting with "💬 Spoken Dialogue:".
 3. POSITIVE STATEMENTS: Do NOT write negative words like "NO cartoons" or "NO kids" inside positive visual prompts. State visual style positively (e.g. "Live-action photorealistic 8K cinema").
 4. CLEAN TIME FORMATTING: Always use hyphenated time formats like "(0-3s)" or "(3-7s)", never unhyphenated digits like "03s" or "37s".
@@ -381,7 +381,7 @@ ${input.compactMode !== false ? "\n─── COMPACT 9:16 MOBILE PROMPT MANDATE:
 7. FLAWLESS CONTINUOUS LIP-SYNC TO THE VERY END: Ensure the video generation prompt EXPLICITLY mandates that the character must maintain perfect, continuous lip-sync from the first frame to the very last frame of the video. The mouth must move naturally in perfect sync with the spoken audio until the end, with zero dead frames, zero word repetition, and no freezing.
 8. NATURAL DIALOGUE PACING: All spoken dialogue MUST be paced with natural pauses (using '...'). Ensure the script allows the character to continue speaking and expressing emotion until the end of the clip without cutting off early.
 9. SIKH CHARACTER TURBAN RULE: If the prompt includes Sikh characters (or a Sikh boy/girl), ONLY Men and Boys wear the Sikh turban (Pagri). Sikh Girls and Women NEVER wear a turban. Girls must wear traditional Punjabi suits with a dupatta/scarf.
-10. NO WATERMARKS OR LOGOS: Explicitly mandate in the visual prompt that the generated video must have NO watermarks, NO TikTok logos, NO usernames, and NO text overlays of any kind.
+10. NO WATERMARKS OR LOGOS (CRITICAL AI VIDEO FIX): Video models tend to hallucinate TikTok logos and usernames on 9:16 videos. You MUST begin the visual prompt with "Clean cinematic shot, NO watermarks, NO UI, NO logos, NO text..." and also END the prompt with "Absolutely NO watermarks, NO TikTok logos, NO usernames, NO text overlays, clean cinematic video only." to force the AI to keep it clean.
 ───────────────────────────────────────────────────────────────────────────────────────────
 ${
   input.withoutDialogue
