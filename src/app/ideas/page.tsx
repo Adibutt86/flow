@@ -8315,16 +8315,21 @@ export default function IdeasPage() {
     setActivePresetTitle(preset.title);
     setPresetDialogueIndex(0);
 
-    // Populate Custom Spoken Dialogue box (preserve user's active custom dialogue script if already typed)
-    const hasActiveUserDialogue = customDialogue && customDialogue.trim() && !/^(Boy|Girl|Abu|Amma|Larka|Larki|Son|Father|Mother):\s*$/i.test(customDialogue.trim());
-    if (!hasActiveUserDialogue) {
+    // Apply preset's custom dialogue or clear it so previous presets don't leak
+    if (preset.customDialogue !== undefined) {
+      setCustomDialogue(preset.customDialogue);
+    } else {
       setCustomDialogue("");
     }
 
     setIncludeCharacterBible(true);
+    
+    // Ensure the Without Dialogue toggle matches the preset's silent mode
     if (preset.isSilent) {
+      setWithoutDialogue(true);
       showToast(`🎀 Applied Pink Silent Visual Mode: ${preset.title} (No Dialogue)`, "success", 2500);
     } else {
+      setWithoutDialogue(false);
       showToast(`✅ Applied "${preset.title}" preset!`, "success");
     }
   };
@@ -8593,6 +8598,10 @@ export default function IdeasPage() {
     setMusicType("AI Decides");
     setSongCrowdFx("AI Decides");
     setCustomSceneDescription("");
+    setCustomDialogue("");
+    setCustomDialogueSeq1("");
+    setCustomDialogueSeq2("");
+    setCustomDialogueSeq3("");
     setActivePresetTitle("");
 
     if (catToReset === "SHORT_CLIP") {
