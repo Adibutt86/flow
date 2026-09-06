@@ -1017,6 +1017,17 @@ const CUTE_KIDS_PRESET_GROUPS = [
     ]
   },
   {
+    groupName: "🕺 Boy & Girl (🤫 WITHOUT DIALOGUE - SILENT VISUAL)",
+    tab: "boy-girl",
+    isSilentPink: true,
+    presets: [
+      { icon: "🕺", title: "Indian Fast Dance (No Dialogue)", isSilent: true, customDialogue: "", age: "Young Adult (18-24 yrs)", location: "Traditional Desi Courtyard & Vehra", health: "Healthy", vibe: "Cheerful & Energetic", setup: "Boy & Girl Couple", perScene: "2 Characters", nationality: "Pakistani (General / Desi)", clothing: "Traditional Desi Wear" },
+      { icon: "🧢", title: "Hip-Hop Breakdance (No Dialogue)", isSilent: true, customDialogue: "", age: "Teenager (13-17 yrs)", location: "Urban City Street & Graffiti Wall", health: "Healthy", vibe: "Cool & Swag", setup: "Boy & Girl Couple", perScene: "2 Characters", nationality: "Global / Any", clothing: "Baggy Streetwear & Caps" },
+      { icon: "🌹", title: "Romantic Flower & Hug (No Dialogue)", isSilent: true, customDialogue: "", age: "Young Adult (18-24 yrs)", location: "Sunlit Home Balcony & Patio", health: "Healthy", vibe: "Romantic", setup: "Boy & Girl Couple", perScene: "2 Characters", nationality: "Global / Any", clothing: "Elegant Casual Wear" },
+      { icon: "💔", title: "Sad Boy & Ignoring Girl (No Dialogue)", isSilent: true, customDialogue: "", age: "Young Adult (18-24 yrs)", location: "Cozy Window Seat on Rainy Day", health: "Healthy", vibe: "Sad & Dramatic", setup: "Boy & Girl Couple", perScene: "2 Characters", nationality: "Global / Any", clothing: "Casual Everyday Outfits" },
+    ]
+  },
+  {
     groupName: "🏡 Family & Everyday Scenarios (Boy & Girl)",
     tab: "boy-girl",
     presets: [
