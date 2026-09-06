@@ -63,6 +63,7 @@ export async function POST(request: Request) {
       includeCharacterBible = false,
       compactMode = true,
       referenceCharacterInfo,
+      customNegativePrompt,
     } = body;
 
     const ideas = await generateIdeaSuggestionsWithClaude({
@@ -124,6 +125,7 @@ export async function POST(request: Request) {
       songCrowdFx,
       characterFaceType,
       referenceCharacterInfo,
+      customNegativePrompt,
     });
 
     return NextResponse.json({ success: true, ideas });
@@ -135,3 +137,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

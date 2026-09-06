@@ -7382,6 +7382,7 @@ export default function IdeasPage() {
   const [customDialogueSeq1, setCustomDialogueSeq1] = useState("");
   const [customDialogueSeq2, setCustomDialogueSeq2] = useState("");
   const [customDialogueSeq3, setCustomDialogueSeq3] = useState("");
+  const [customNegativePrompt, setCustomNegativePrompt] = useState("");
   const [isDialogueExpanded, setIsDialogueExpanded] = useState(false);
   const [dialogueBuilderLines, setDialogueBuilderLines] = useState<{ id: string; character: string; customChar: string; emotion: string; action: string; voiceAge: string; text: string; dir: "ltr" | "rtl" }[]>([
     { id: "1", character: "", customChar: "", emotion: "", action: "", voiceAge: "AI", text: "", dir: "rtl" },
@@ -7397,7 +7398,7 @@ export default function IdeasPage() {
   const [activePresetTitle, setActivePresetTitle] = useState<string>("Boy + Father");
   const [presetDialogueIndex, setPresetDialogueIndex] = useState<number>(0);
   const [presetSearchQuery, setPresetSearchQuery] = useState<string>("");
-  const [presetTabFilter, setPresetTabFilter] = useState<"all" | "solo-girl" | "solo-boy" | "boy-girl" | "girl-boy">("all");
+  const [presetTabFilter, setPresetTabFilter] = useState<"all" | "solo-girl" | "solo-boy" | "boy-girl" | "girl-boy" | "my-presets">("all");
 
   const [previewImageModal, setPreviewImageModal] = useState<{ url: string; label: string } | null>(null);
   const dialogueTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -8638,6 +8639,55 @@ export default function IdeasPage() {
     if (!suppressToast) showToast(`Reset parameters to AI Default (AI will choose what is best)!`, "info");
   };
 
+  const [myPresets, setMyPresets] = useState<any[]>([]);
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("flow-my-presets");
+      if (saved) setMyPresets(JSON.parse(saved));
+    } catch (e) {}
+  }, []);
+
+  const handleSavePreset = () => {
+    const title = prompt("Enter a name for your custom preset:");
+    if (!title) return;
+    const newPreset = {
+      title,
+      icon: "⭐",
+      category,
+      kidsLocation,
+      kidsClothing,
+      kidsVibe,
+      kidsAge,
+      kidsHealth,
+      kidsExpression,
+      kidsProp,
+      customDialogue,
+      isSilent: withoutDialogue
+    };
+    const updated = [...myPresets, newPreset];
+    setMyPresets(updated);
+    localStorage.setItem("flow-my-presets", JSON.stringify(updated));
+    showToast(`Preset "${title}" saved to My Presets!`, "success");
+  };
+
+  const handleRandomize = () => {
+    setCategory("CUTE_KIDS");
+    const r = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)];
+    const rOpt = (groups: any[]) => {
+      const allOpts = groups.flatMap((g: any) => g.options.map((o: any) => o.value)).filter((v: string) => !v.includes("AI Decides") && !v.includes("Auto Random"));
+      return allOpts.length > 0 ? r(allOpts) : "Any / AI Decides";
+    };
+    
+    setKidsLocation(rOpt(KIDS_LOCATION_GROUPS));
+    setKidsClothing(rOpt(KIDS_CLOTHING_GROUPS));
+    setKidsVibe(rOpt(KIDS_VIBE_GROUPS));
+    setKidsExpression(rOpt(KIDS_EXPRESSION_GROUPS));
+    setKidsProp(rOpt(KIDS_PROP_GROUPS));
+    setKidsAge(r(["Baby (1-2 yrs)", "Early Toddler (1.5-2.5 yrs)", "Toddler (2-4 yrs)", "Child (5-8 yrs)"]));
+    
+    showToast("🎲 Randomizer applied! Unique scene generated.", "success");
+  };
+
   const handleResetSettings = () => {
     setCategory("CUTE_KIDS");
     setLanguage("Urdu");
@@ -9690,6 +9740,19 @@ export default function IdeasPage() {
               {/* Reset Defaults Button */}
               <button
                 type="button"
+              <button
+                onClick={handleRandomize}
+                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
+                  isLight
+                    ? "bg-fuchsia-100 hover:bg-fuchsia-200 border-fuchsia-300 text-fuchsia-900"
+                    : "bg-fuchsia-900/40 hover:bg-fuchsia-800 border-fuchsia-500/40 text-fuchsia-100 hover:text-white"
+                }`}
+                title="Randomly pick unique settings for a surprise video"
+              >
+                <span className="text-base">🎲</span>
+                <span>Surprise Me</span>
+              </button>
+              <button
                 onClick={handleResetSettings}
                 className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
                   isLight
@@ -10861,8 +10924,57 @@ export default function IdeasPage() {
                   />
                 )}
 
+                {/* Dialogue Tool Buttons */}
+                <div className="flex items-center justify-end mt-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!customDialogue.trim()) return showToast("Please type some dialogue first!", "error");
+                      showToast("Translating dialogue...", "info");
+                      try {
+                        const res = await fetch("/api/translate", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ text: customDialogue }),
+                        });
+                        const data = await res.json();
+                        if (data.translated) {
+                          setCustomDialogue(data.translated);
+                          showToast("Translated successfully!", "success");
+                        } else {
+                          showToast("Failed to translate.", "error");
+                        }
+                      } catch (e) {
+                        showToast("Failed to translate.", "error");
+                      }
+                    }}
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95 ${
+                      isLight
+                        ? "bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700"
+                        : "bg-indigo-900/40 hover:bg-indigo-800/60 border-indigo-500/30 text-indigo-300"
+                    }`}
+                  >
+                    <span>🌐</span>
+                    <span>Translate to Roman Urdu</span>
+                  </button>
+                </div>
+
                 {/* 🚀 Quick Generate Button (Before Preview) */}
-                <div className="flex items-center gap-2 w-full mt-3 mb-1">
+                <div className="flex items-center gap-2 justify-end mb-2">
+                  <button
+                    type="button"
+                    onClick={handleSavePreset}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95 ${
+                      isLight
+                        ? "bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-700"
+                        : "bg-emerald-900/40 hover:bg-emerald-800/60 border-emerald-500/30 text-emerald-300"
+                    }`}
+                  >
+                    <span>💾</span>
+                    <span>Save My Preset</span>
+                  </button>
+                </div>
+                <div className="flex items-center gap-2 w-full mt-1 mb-1">
                   <button
                     type="button"
                     onClick={handleGenerate}
@@ -11135,11 +11247,12 @@ export default function IdeasPage() {
                     {/* ── Tab Bar ── */}
                     <div className="mb-3 flex gap-1.5 flex-wrap">
                       {([
-                        { key: "all", label: "⚡ All" },
+                        { key: "all", label: "🌟 All" },
                         { key: "solo-girl", label: "👧 Solo Girl" },
                         { key: "solo-boy", label: "👦 Solo Boy" },
                         { key: "boy-girl", label: "👫 Boy+Girl" },
-                        { key: "girl-boy", label: "👧👦 Girl+Boy" },
+                        { key: "girl-boy", label: "👭 Girl+Boy" },
+                        { key: "my-presets", label: "⭐ My Presets" },
                       ] as const).map((tab) => (
                         <button
                           key={tab.key}
@@ -11168,7 +11281,31 @@ export default function IdeasPage() {
                       />
                     </div>
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 pb-2 custom-scrollbar">
-                      {CUTE_KIDS_PRESET_GROUPS.slice().sort((a, b) => { if (presetTabFilter === "all") return 0; const aTab = (a).tab; const bTab = (b).tab; if (aTab === presetTabFilter && bTab !== presetTabFilter) return -1; if (bTab === presetTabFilter && aTab !== presetTabFilter) return 1; return 0; }).map((group) => {
+                      {presetTabFilter === "my-presets" ? (
+                        myPresets.length === 0 ? (
+                          <div className="text-center text-sm py-4 opacity-70 font-bold">No saved presets yet! Create a setup and click "Save My Preset" below.</div>
+                        ) : (
+                          <div className="space-y-2">
+                            <h4 className="text-[11px] font-black uppercase tracking-wider px-1 text-emerald-500">My Saved Presets</h4>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                              {myPresets.map((preset: any, idx: number) => (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => applyCuteKidsPreset(preset)}
+                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-black transition-all cursor-pointer active:scale-95 shadow-sm touch-manipulation w-full text-left ${
+                                    isLight ? "bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-950" : "bg-emerald-900/60 hover:bg-emerald-800 border-emerald-500/40 text-emerald-100"
+                                  }`}
+                                >
+                                  <span className="text-base shrink-0">⭐</span>
+                                  <span className="truncate">{preset.title}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )
+                      ) : (
+                        CUTE_KIDS_PRESET_GROUPS.slice().sort((a, b) => { if (presetTabFilter === "all") return 0; const aTab = (a).tab; const bTab = (b).tab; if (aTab === presetTabFilter && bTab !== presetTabFilter) return -1; if (bTab === presetTabFilter && aTab !== presetTabFilter) return 1; return 0; }).map((group) => {
                         // Tab filter: if not "all", only show groups whose tab matches OR groups with no tab (legacy)
                         const groupTab = (group as any).tab;
                         if (presetTabFilter !== "all" && groupTab && groupTab !== presetTabFilter) return null;
@@ -11224,7 +11361,7 @@ export default function IdeasPage() {
                           </div>
                         </div>
                       );
-                    })}
+                    }))}
                     </div>
                   </div>
                 )}
@@ -13290,6 +13427,29 @@ export default function IdeasPage() {
                     }`}
                   />
                 </div>
+                
+                {/* Custom Negative Prompt */}
+                <div className="space-y-1.5 mt-4">
+                  <label className={`text-xs font-black flex items-center justify-between ${
+                    isLight ? "text-slate-700" : "text-indigo-200"
+                  }`}>
+                    <span className="text-rose-500">🚫 Negative Prompt (What to Avoid)</span>
+                    <span className={`text-[10px] ${isLight ? "text-slate-600" : "text-indigo-300/80"}`}>
+                      Advanced
+                    </span>
+                  </label>
+                  <textarea
+                    value={customNegativePrompt}
+                    onChange={(e) => setCustomNegativePrompt(e.target.value)}
+                    rows={2}
+                    placeholder="e.g.: no hats, no red colors, no sunny weather, no animals..."
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold focus:outline-none transition-all resize-y custom-scrollbar ${
+                      isLight
+                        ? "bg-rose-50 border-rose-200 text-rose-900 placeholder-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-rose-950/20 border-rose-900/50 text-rose-100 placeholder-rose-700 focus:border-rose-500"
+                    }`}
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -15055,3 +15215,4 @@ export default function IdeasPage() {
     </div>
   );
 }
+

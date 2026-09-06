@@ -545,6 +545,11 @@ STRICT RULES:
 2. Incorporate the described situation, actions, environment, and emotional context into the visual storytelling.
 3. Do NOT ignore, override, or replace this scene with a random unrelated scenario.
 4. All other settings (character setup, clothing, vibe, location) should enhance and complement this scene description, not contradict it.` : ""}
+${input.customNegativePrompt && input.customNegativePrompt.trim() ? `
+🚫 STRICT NEGATIVE PROMPT (USER MANDATE - WHAT TO AVOID):
+The user explicitly DO NOT WANT the following elements in the scene. You MUST strictly avoid describing, suggesting, or including these in the video prompt:
+"${input.customNegativePrompt.trim()}"
+CRITICAL: Ensure the visual prompt completely excludes these items or characteristics.` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsExpression && input.kidsExpression !== "Any / AI Decides" ? `Kids Expression/Reaction Style: ${input.kidsExpression}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsAudioStyle && input.kidsAudioStyle !== "Any / AI Decides" ? `Voice & Audio Style: ${input.kidsAudioStyle}` : ""}
 ${input.category === "CUTE_KIDS" && input.kidsTalkingSpeed && input.kidsTalkingSpeed !== "Any / AI Decides" ? `Script Talking / Delivery Speed: ${input.kidsTalkingSpeed}` : ""}
@@ -1562,4 +1567,17 @@ OUTPUT MUST BE VALID JSON ONLY with this exact structure:
     stage: "Social Content Generator",
     reason: "API is not working. Please check your API key or model permissions.",
   });
+}
+export async function translateDialogueWithClaude(text: string): Promise<string> {
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const msg = await anthropic.messages.create({
+    model: "claude-3-5-sonnet-20240620",
+    max_tokens: 500,
+    temperature: 0.7,
+    system: "You are an expert translator. Translate the given text to natural, casual Roman Urdu (or Roman Hindi) as it is spoken by native speakers in everyday life. Keep the formatting and character prefixes intact if present. ONLY return the translated text without any explanation.",
+    messages: [
+      { role: "user", content: "Translate this to Roman Urdu:\n\n" + text }
+    ]
+  });
+  return ((msg.content[0] as any)?.text || text).trim();
 }

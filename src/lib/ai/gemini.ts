@@ -160,6 +160,7 @@ export interface SuggestIdeasInput {
   charactersPerScene?: string;
   kidsNationality?: string;
   referenceCharacterInfo?: string;
+  customNegativePrompt?: string;
   carboxBrand?: string;
   carboxColor?: string;
   carboxPackaging?: string;
@@ -1593,3 +1594,4 @@ export function getRandomBoyOutfit(): string {
   const extrasStr = item.extras ? `, with ${item.extras}` : "";
   return `Boy — ${shirtStr}${pantsStr}${shoesStr}${extrasStr}`;
 }
+
