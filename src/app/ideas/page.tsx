@@ -9740,7 +9740,6 @@ export default function IdeasPage() {
               {/* Reset Defaults Button */}
               <button
                 type="button"
-              <button
                 onClick={handleRandomize}
                 className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
                   isLight
